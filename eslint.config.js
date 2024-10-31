@@ -22,7 +22,10 @@ export default tseslint.config(
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true }
-      ]
+      ],
+      'no-var': 'error',
+      'no-unused-vars': 'error',
+      'no-console': ['error', { allow: ['warn', 'error', 'info'] }]
     }
   }
 );
