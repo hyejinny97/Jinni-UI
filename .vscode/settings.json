@@ -1,0 +1,80 @@
+{
+  "gitmoji.onlyUseCustomEmoji": true,
+  "gitmoji.addCustomEmoji": [
+    {
+      "emoji": "✨ Feat : ",
+      "code": "✨",
+      "description": "새로운 기능 추가, 기존의 기능을 요구 사항에 맞추어 수정"
+    },
+    {
+      "emoji": "🐛 Fix : ",
+      "code": "🐛",
+      "description": "기능에 대한 버그 수정"
+    },
+    {
+      "emoji": "👷 Build : ",
+      "code": "👷",
+      "description": "빌드 관련 수정"
+    },
+    {
+      "emoji": "📦️ Chore : ",
+      "code": "📦",
+      "description": "패키지 매니저 수정, 그 외 기타 수정 ex) .gitignore"
+    },
+    {
+      "emoji": "📝 Docs : ",
+      "code": "📝",
+      "description": " 문서(주석) 수정"
+    },
+    {
+      "emoji": "🎨 Style : ",
+      "code": "🎨",
+      "description": "코드 스타일, 포맷팅에 대한 수정"
+    },
+    {
+      "emoji": "♻️ Refactor : ",
+      "code": "♻️",
+      "description": "기능의 변화가 아닌 코드 리팩터링 ex) 변수 이름 변경"
+    },
+    {
+      "emoji": "🔖 Release : ",
+      "code": "🔖",
+      "description": "버전 릴리즈"
+    },
+    {
+      "emoji": "🧪Test : ",
+      "code": "🧪",
+      "description": "테스트 코드관련"
+    },
+    {
+      "emoji": "💄 Design: ",
+      "code": "💄",
+      "description": "CSS 수정"
+    },
+    {
+      "emoji": "🚑️ Hotfix: ",
+      "code": "🚑",
+      "description": "급하게 치명적인 버그를 고치는 경우"
+    },
+    {
+      "emoji": "🔨 Modify: ",
+      "code": "🔨",
+      "description": "정말 단순한 코드 수정(ex.오타, 문자열 변경 등)"
+    },
+    {
+      "emoji": "🚚 Rename: ",
+      "code": "🚚",
+      "description": "파일 및 폴더 구조 변경"
+    },
+    {
+      "emoji": "➖ Remove: ",
+      "code": "➖",
+      "description": "파일 삭제"
+    },
+    {
+      "emoji": "📖 Storybook: ",
+      "code": "📖",
+      "description": "스토리북 생성"
+    }
+  ]
+}
