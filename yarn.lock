@@ -1474,7 +1474,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^22.8.6":
   version: 22.8.6
   resolution: "@types/node@npm:22.8.6"
   dependencies:
@@ -3185,6 +3185,7 @@ __metadata:
     "@storybook/react": "npm:8.4.0"
     "@storybook/react-vite": "npm:8.4.0"
     "@storybook/test": "npm:8.4.0"
+    "@types/node": "npm:^22.8.6"
     "@types/react": "npm:^18.3.11"
     "@types/react-dom": "npm:^18.3.1"
     "@vitejs/plugin-react": "npm:^4.3.3"
