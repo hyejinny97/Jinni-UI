@@ -36,6 +36,8 @@ const RAW_RUNTIME_STATE =
           ["@storybook/react", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
           ["@storybook/react-vite", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
           ["@storybook/test", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
+          ["@testing-library/dom", "npm:10.4.0"],\
+          ["@testing-library/react", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:16.0.1"],\
           ["@types/node", "npm:22.8.6"],\
           ["@types/react", "npm:18.3.12"],\
           ["@types/react-dom", "npm:18.3.1"],\
@@ -2124,6 +2126,37 @@ const RAW_RUNTIME_STATE =
           ["dom-accessibility-api", "npm:0.6.3"],\
           ["lodash", "npm:4.17.21"],\
           ["redent", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@testing-library/react", [\
+      ["npm:16.0.1", {\
+        "packageLocation": "../../AppData/Local/Yarn/Berry/cache/@testing-library-react-npm-16.0.1-3939518263-10c0.zip/node_modules/@testing-library/react/",\
+        "packageDependencies": [\
+          ["@testing-library/react", "npm:16.0.1"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:16.0.1", {\
+        "packageLocation": "./.yarn/__virtual__/@testing-library-react-virtual-78cb802ee8/3/AppData/Local/Yarn/Berry/cache/@testing-library-react-npm-16.0.1-3939518263-10c0.zip/node_modules/@testing-library/react/",\
+        "packageDependencies": [\
+          ["@testing-library/react", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:16.0.1"],\
+          ["@babel/runtime", "npm:7.26.0"],\
+          ["@testing-library/dom", "npm:10.4.0"],\
+          ["@types/react", "npm:18.3.12"],\
+          ["@types/react-dom", "npm:18.3.1"],\
+          ["@types/testing-library__dom", null],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@testing-library/dom",\
+          "@types/react-dom",\
+          "@types/react",\
+          "@types/testing-library__dom",\
+          "react-dom",\
+          "react"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4336,6 +4369,8 @@ const RAW_RUNTIME_STATE =
           ["@storybook/react", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
           ["@storybook/react-vite", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
           ["@storybook/test", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
+          ["@testing-library/dom", "npm:10.4.0"],\
+          ["@testing-library/react", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:16.0.1"],\
           ["@types/node", "npm:22.8.6"],\
           ["@types/react", "npm:18.3.12"],\
           ["@types/react-dom", "npm:18.3.1"],\
