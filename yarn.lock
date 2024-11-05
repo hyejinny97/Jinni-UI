@@ -183,7 +183,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.17.8":
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.26.0":
   version: 7.26.0
   resolution: "@babel/runtime@npm:7.26.0"
   dependencies:
@@ -762,6 +762,22 @@ __metadata:
     "@types/react": ">=16"
     react: ">=16"
   checksum: 10c0/381ed1211ba2b8491bf0ad9ef0d8d1badcdd114e1931d55d44019d4b827cc2752586708f9c7d2f9c3244150ed81f1f671a6ca95fae0edd5797fb47a22e06ceca
+  languageName: node
+  linkType: hard
+
+"@mui/icons-material@npm:^6.1.6":
+  version: 6.1.6
+  resolution: "@mui/icons-material@npm:6.1.6"
+  dependencies:
+    "@babel/runtime": "npm:^7.26.0"
+  peerDependencies:
+    "@mui/material": ^6.1.6
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/a6eb10be3cc356fd404febf29a3b26fa63b6b09d3148736fb05279954905186e9804869ff18220840ae92dbdeddfd407c2d0c72b9e165e01fd6bbc620b6b39d7
   languageName: node
   linkType: hard
 
@@ -3273,6 +3289,7 @@ __metadata:
   dependencies:
     "@chromatic-com/storybook": "npm:3.2.2"
     "@eslint/js": "npm:^9.13.0"
+    "@mui/icons-material": "npm:^6.1.6"
     "@storybook/addon-essentials": "npm:8.4.0"
     "@storybook/addon-interactions": "npm:8.4.0"
     "@storybook/addon-onboarding": "npm:8.4.0"

@@ -29,6 +29,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chromatic-com/storybook", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:3.2.2"],\
           ["@eslint/js", "npm:9.13.0"],\
+          ["@mui/icons-material", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:6.1.6"],\
           ["@storybook/addon-essentials", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
           ["@storybook/addon-interactions", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
           ["@storybook/addon-onboarding", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
@@ -1017,6 +1018,33 @@ const RAW_RUNTIME_STATE =
           ["react", "npm:18.3.1"]\
         ],\
         "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@mui/icons-material", [\
+      ["npm:6.1.6", {\
+        "packageLocation": "../../AppData/Local/Yarn/Berry/cache/@mui-icons-material-npm-6.1.6-d2fed2768b-10c0.zip/node_modules/@mui/icons-material/",\
+        "packageDependencies": [\
+          ["@mui/icons-material", "npm:6.1.6"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:6.1.6", {\
+        "packageLocation": "./.yarn/__virtual__/@mui-icons-material-virtual-489d28b1a3/3/AppData/Local/Yarn/Berry/cache/@mui-icons-material-npm-6.1.6-d2fed2768b-10c0.zip/node_modules/@mui/icons-material/",\
+        "packageDependencies": [\
+          ["@mui/icons-material", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:6.1.6"],\
+          ["@babel/runtime", "npm:7.26.0"],\
+          ["@mui/material", null],\
+          ["@types/mui__material", null],\
+          ["@types/react", "npm:18.3.12"],\
+          ["react", "npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@mui/material",\
+          "@types/mui__material",\
           "@types/react",\
           "react"\
         ],\
@@ -4362,6 +4390,7 @@ const RAW_RUNTIME_STATE =
           ["jinni-ui", "workspace:."],\
           ["@chromatic-com/storybook", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:3.2.2"],\
           ["@eslint/js", "npm:9.13.0"],\
+          ["@mui/icons-material", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:6.1.6"],\
           ["@storybook/addon-essentials", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
           ["@storybook/addon-interactions", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
           ["@storybook/addon-onboarding", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:8.4.0"],\
