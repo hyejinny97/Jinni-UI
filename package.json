@@ -8,11 +8,15 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "prepare": "husky",
-    "lint": "eslint --cache .",
-    "prettier": "prettier --cache --write .",
     "type-check": "tsc -p tsconfig.json --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write",
+      "eslint"
+    ]
   },
   "dependencies": {
     "@mui/icons-material": "^6.1.6",
