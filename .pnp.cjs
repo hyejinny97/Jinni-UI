@@ -43,6 +43,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react", "npm:18.3.12"],\
           ["@types/react-dom", "npm:18.3.1"],\
           ["@vitejs/plugin-react", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:4.3.3"],\
+          ["classnames", "npm:2.5.1"],\
           ["eslint", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:9.13.0"],\
           ["eslint-plugin-react-hooks", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:5.0.0"],\
           ["eslint-plugin-react-refresh", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:0.4.14"],\
@@ -3178,6 +3179,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["classnames", [\
+      ["npm:2.5.1", {\
+        "packageLocation": "../../AppData/Local/Yarn/Berry/cache/classnames-npm-2.5.1-c7273f3423-10c0.zip/node_modules/classnames/",\
+        "packageDependencies": [\
+          ["classnames", "npm:2.5.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["clean-stack", [\
       ["npm:2.2.0", {\
         "packageLocation": "../../AppData/Local/Yarn/Berry/cache/clean-stack-npm-2.2.0-a8ce435a5c-10c0.zip/node_modules/clean-stack/",\
@@ -4592,6 +4602,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react", "npm:18.3.12"],\
           ["@types/react-dom", "npm:18.3.1"],\
           ["@vitejs/plugin-react", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:4.3.3"],\
+          ["classnames", "npm:2.5.1"],\
           ["eslint", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:9.13.0"],\
           ["eslint-plugin-react-hooks", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:5.0.0"],\
           ["eslint-plugin-react-refresh", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:0.4.14"],\
