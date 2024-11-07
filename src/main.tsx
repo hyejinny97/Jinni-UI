@@ -1,10 +1,13 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
 import App from './App.tsx';
+import '@/styles/color.scss';
+import JinniColorProvider from '@/components/JinniColorProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <JinniColorProvider>
+      <App />
+    </JinniColorProvider>
   </StrictMode>
 );
