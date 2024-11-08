@@ -1,7 +1,7 @@
 import './Avatar.scss';
 import cn from 'classnames';
 import { useState } from 'react';
-import useCssStyle from '@/hooks/useCssStyle';
+import { editColorStyle } from '@/utils/editColorStyle';
 import PersonIcon from '@/components/icons/PersonIcon';
 
 interface AvatarProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
@@ -25,9 +25,9 @@ const Avatar = (props: AvatarProps) => {
     shape = 'circle',
     children,
     className,
-    style = {}
+    style
   } = props;
-  let newStyle = useCssStyle(style);
+  let newStyle = editColorStyle(style);
   const [isImageAvatar, setIsImageAvatar] = useState(!!src);
   const hasNumberTypeSize = typeof size === 'number';
 
