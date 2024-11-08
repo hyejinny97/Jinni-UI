@@ -12,9 +12,7 @@ const COLOR_PROPERTIES = [
   'stroke'
 ];
 
-const editColor = (color: React.CSSProperties[keyof React.CSSProperties]) => {
-  if (typeof color !== 'string') return color;
-
+export const editColor = (color: string) => {
   try {
     const jinniColorValue = getJinniColorValue(color);
     return jinniColorValue;
@@ -32,9 +30,11 @@ export const editColorStyle = (
     const propName = key as keyof React.CSSProperties;
     const propValue = style[propName];
     const isColorProperty = COLOR_PROPERTIES.includes(propName);
+    const isStringType = typeof propValue === 'string';
     return {
       ...rst,
-      [propName]: isColorProperty ? editColor(propValue) : propValue
+      [propName]:
+        isColorProperty && isStringType ? editColor(propValue) : propValue
     };
   }, {} as React.CSSProperties);
 
