@@ -15,7 +15,7 @@ const withStyle = <P extends object>(Component: React.ComponentType<P>) => {
     return <Component {...(props as P)} />;
   };
 
-  ComponentWithStyle.displayName = `withStyle(${Component.displayName || Component.name})`;
+  ComponentWithStyle.displayName = Component.displayName || Component.name;
 
   return ComponentWithStyle;
 };
