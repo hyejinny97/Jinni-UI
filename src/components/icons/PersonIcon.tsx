@@ -1,8 +1,9 @@
 import { editColor } from '@/utils/editColorStyle';
+import { ColorType } from '@/types/color';
 
 interface PersonIconProps {
   size?: number;
-  color?: string;
+  color?: ColorType;
 }
 
 const PersonIcon = ({ size = 44, color = 'white' }: PersonIconProps) => {
