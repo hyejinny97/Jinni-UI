@@ -1,0 +1,82 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+import { COLOR, THEME_SUB_CATEGORIES } from '../constants/color';
+
+<Meta title="Design System/Color" />
+
+# Jinni Color
+
+## Color Theme
+
+### Light + Standard
+
+<br />
+<ColorPalette>
+  {THEME_SUB_CATEGORIES.map((name, values) => (
+    <ColorItem
+      title={name}
+      colors={COLOR.theme.light['standard-contrast'][name]}
+    />
+  ))}
+</ColorPalette>
+
+### Light + Medium
+
+<br />
+<ColorPalette>
+  {THEME_SUB_CATEGORIES.map((name, values) => (
+    <ColorItem
+      title={name}
+      colors={COLOR.theme.light['medium-contrast'][name]}
+    />
+  ))}
+</ColorPalette>
+
+### Light + High
+
+<br />
+<ColorPalette>
+  {THEME_SUB_CATEGORIES.map((name, values) => (
+    <ColorItem title={name} colors={COLOR.theme.light['high-contrast'][name]} />
+  ))}
+</ColorPalette>
+
+### Dark + Standard
+
+<br />
+<ColorPalette>
+  {THEME_SUB_CATEGORIES.map((name, values) => (
+    <ColorItem
+      title={name}
+      colors={COLOR.theme.dark['standard-contrast'][name]}
+    />
+  ))}
+</ColorPalette>
+
+### Dark + Medium
+
+<br />
+<ColorPalette>
+  {THEME_SUB_CATEGORIES.map((name, values) => (
+    <ColorItem
+      title={name}
+      colors={COLOR.theme.dark['medium-contrast'][name]}
+    />
+  ))}
+</ColorPalette>
+
+### Dark + High
+
+<br />
+<ColorPalette>
+  {THEME_SUB_CATEGORIES.map((name, values) => (
+    <ColorItem title={name} colors={COLOR.theme.dark['high-contrast'][name]} />
+  ))}
+</ColorPalette>
+
+## Color Palette
+
+<br />
+<ColorPalette>
+  <ColorItem title="yellow" colors={COLOR.palette.yellow} />
+  <ColorItem title="gray" colors={COLOR.palette.gray} />
+</ColorPalette>

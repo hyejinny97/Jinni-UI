@@ -1,3 +1,2 @@
-yarn prettier
-yarn lint
+yarn lint-staged
 yarn type-check
