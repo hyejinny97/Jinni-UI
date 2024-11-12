@@ -155,7 +155,7 @@ type JinniColorTheme =
   | 'on-secondary'
   | 'tertiary'
   | 'on-tertiary';
-type JinniColorPalette = 'yellow-50' | 'yellow-400';
+type JinniColorPalette = 'yellow-50' | 'yellow-400' | 'gray-50' | 'gray-400';
 type JinniColor = JinniColorTheme | JinniColorPalette;
 
 export type ColorType =
