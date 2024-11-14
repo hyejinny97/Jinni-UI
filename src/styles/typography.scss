@@ -1,0 +1,99 @@
+@use 'sass:map';
+@use '@/styles/variables' as var;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+$typo-font-size: (
+  'display-large': 57px,
+  'display-medium': 45px,
+  'display-small': 36px,
+  'headline-large': 32px,
+  'headline-medium': 28px,
+  'headline-small': 24px,
+  'title-large': 22px,
+  'title-medium': 16px,
+  'title-small': 14px,
+  'label-large': 14px,
+  'label-medium': 12px,
+  'label-small': 11px,
+  'body-large': 16px,
+  'body-medium': 14px,
+  'body-small': 12px
+);
+
+$typo-line-height: (
+  'display-large': 64px,
+  'display-medium': 52px,
+  'display-small': 44px,
+  'headline-large': 40px,
+  'headline-medium': 36px,
+  'headline-small': 32px,
+  'title-large': 28px,
+  'title-medium': 24px,
+  'title-small': 20px,
+  'label-large': 20px,
+  'label-medium': 16px,
+  'label-small': 16px,
+  'body-large': 24px,
+  'body-medium': 20px,
+  'body-small': 16px
+);
+
+$typo-letter-spacing: (
+  'display-large': -0.25px,
+  'display-medium': 0px,
+  'display-small': 0px,
+  'headline-large': 0px,
+  'headline-medium': 0px,
+  'headline-small': 0px,
+  'title-large': 0px,
+  'title-medium': 0.15px,
+  'title-small': 0.1px,
+  'label-large': 0.1px,
+  'label-medium': 0.5px,
+  'label-small': 0.5px,
+  'body-large': 0.5px,
+  'body-medium': 0.25px,
+  'body-small': 0.4px
+);
+
+$typo-font-weight: (
+  'display-large': var.$font-weight-regular,
+  'display-medium': var.$font-weight-regular,
+  'display-small': var.$font-weight-regular,
+  'headline-large': var.$font-weight-regular,
+  'headline-medium': var.$font-weight-regular,
+  'headline-small': var.$font-weight-regular,
+  'title-large': var.$font-weight-regular,
+  'title-medium': var.$font-weight-medium,
+  'title-small': var.$font-weight-medium,
+  'label-large': var.$font-weight-medium,
+  'label-medium': var.$font-weight-medium,
+  'label-small': var.$font-weight-medium,
+  'body-large': var.$font-weight-regular,
+  'body-medium': var.$font-weight-regular,
+  'body-small': var.$font-weight-regular
+);
+
+$typo-types: 'display-large', 'display-medium', 'display-small',
+  'headline-large', 'headline-medium', 'headline-small', 'title-large',
+  'title-medium', 'title-small', 'label-large', 'label-medium', 'label-small',
+  'body-large', 'body-medium', 'body-small';
+
+@mixin typography($type) {
+  font-family: 'Noto Sans KR', serif;
+  font-style: normal;
+  font-size: map.get($typo-font-size, $type);
+  line-height: map.get($typo-line-height, $type);
+  letter-spacing: map.get($typo-letter-spacing, $type);
+  font-weight: map.get($typo-font-weight, $type);
+}
+
+* {
+  @include typography('body-medium');
+}
+
+@each $type in $typo-types {
+  .typo-#{$type} {
+    @include typography($type);
+  }
+}
