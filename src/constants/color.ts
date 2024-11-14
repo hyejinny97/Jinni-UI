@@ -478,19 +478,3 @@ export const COLOR = {
     }
   }
 };
-
-export const THEME_SUB_CATEGORIES = [
-  'primary',
-  'secondary',
-  'tertiary',
-  'error',
-  'background',
-  'surface',
-  'outline',
-  'inverse',
-  'primaryFixed',
-  'secondaryFixed',
-  'tertiaryFixed',
-  'surfaceDim',
-  'surfaceContainer'
-];
