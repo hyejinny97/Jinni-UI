@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '@/styles/variables' as var;
 
 $avatar-size: (
@@ -33,14 +34,14 @@ $avatar-shape: (
 @mixin avatarSize {
   @each $size in 'xs', 'sm', 'md', 'lg', 'xl' {
     &.#{$size} {
-      width: map-get($avatar-size, $size);
-      height: map-get($avatar-size, $size);
-      font-size: map-get($font-size, $size);
-      font-weight: map-get($font-weight, $size);
+      width: map.get($avatar-size, $size);
+      height: map.get($avatar-size, $size);
+      font-size: map.get($font-size, $size);
+      font-weight: map.get($font-weight, $size);
 
       svg {
-        width: map-get($font-size, $size);
-        height: map-get($font-size, $size);
+        width: map.get($font-size, $size);
+        height: map.get($font-size, $size);
       }
     }
   }

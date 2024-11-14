@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { useState } from 'react';
 import { editColorStyle } from '@/utils/editColorStyle';
 import { PersonIcon } from '@/components/icons/PersonIcon';
-import withStyle from '@/components/withStyle';
+import type { CustomStyleType } from '@/types/style';
 
 export interface AvatarProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
   src?: string;
@@ -13,6 +13,7 @@ export interface AvatarProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
   shape?: 'circle' | 'square' | 'rounded';
   children?: React.ReactNode;
   className?: string;
+  style?: CustomStyleType;
 }
 
 const DefaultAvatarIcon = () => <PersonIcon />;
@@ -60,5 +61,4 @@ const Avatar = (props: AvatarProps) => {
   );
 };
 
-const AvatarWithStyle = withStyle(Avatar);
-export default AvatarWithStyle;
+export default Avatar;

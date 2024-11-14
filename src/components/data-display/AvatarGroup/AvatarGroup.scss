@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 $avatar-size: (
   xs: 24px,
   sm: 32px,
@@ -34,7 +36,7 @@ $avatar-spacing: (
       &.spacing-#{$spacing}.size-#{$size} {
         .JinniAvatar + .JinniAvatar {
           margin-right: calc(
-            map-get($avatar-size, $size) * map-get($avatar-spacing, $spacing)
+            map.get($avatar-size, $size) * map.get($avatar-spacing, $spacing)
           );
         }
       }
@@ -52,9 +54,9 @@ $avatar-spacing: (
 
     @each $size in 'xs', 'sm', 'md', 'lg', 'xl' {
       &.#{$size} {
-        border: solid map-get($border-width, $size) white;
+        border: solid map.get($border-width, $size) white;
         &.surplus-avatar {
-          letter-spacing: map-get($letter-spacing, $size);
+          letter-spacing: map.get($letter-spacing, $size);
         }
       }
     }

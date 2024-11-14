@@ -4,7 +4,7 @@ import React from 'react';
 import { Avatar } from '@/components/data-display/Avatar';
 import type { AvatarProps } from '@/components/data-display/Avatar';
 import { insertProps } from './AvatarGroup.utils';
-import withStyle from '@/components/withStyle';
+import type { CustomStyleType } from '@/types/style';
 
 export interface AvatarGroupProps
   extends React.HtmlHTMLAttributes<HTMLSpanElement> {
@@ -16,6 +16,7 @@ export interface AvatarGroupProps
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   shape?: 'circle' | 'square' | 'rounded';
   className?: string;
+  style?: CustomStyleType;
 }
 
 const AvatarGroup = (props: AvatarGroupProps) => {
@@ -59,5 +60,4 @@ const AvatarGroup = (props: AvatarGroupProps) => {
   );
 };
 
-const AvatarGroupWithStyle = withStyle(AvatarGroup);
-export default AvatarGroupWithStyle;
+export default AvatarGroup;
