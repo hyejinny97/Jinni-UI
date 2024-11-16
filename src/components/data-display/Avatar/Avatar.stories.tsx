@@ -34,7 +34,9 @@ const meta: Meta<typeof Avatar> = {
     size: {
       description: 'image의 사이즈',
       table: { type: { summary: 'xs | sm | md | lg | xl | number' } },
-      defaultValue: { summary: 'md' }
+      defaultValue: { summary: 'md' },
+      control: 'select',
+      options: ['xs', 'sm', 'md', 'lg', 'xl']
     },
     src: {
       description: 'image 주소',
@@ -64,10 +66,10 @@ export default meta;
 type Story = StoryObj<typeof Avatar>;
 
 export const ImageAvatars: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <>
-        <Avatar src={dogImage1} alt="강아지 사진1" />
+        <Avatar src={dogImage1} alt="강아지 사진1" {...args} />
         <Avatar
           src={dogImage2}
           alt="강아지 사진2"
@@ -75,6 +77,7 @@ export const ImageAvatars: Story = {
             width: 100,
             height: 100
           }}
+          {...args}
         />
       </>
     );
@@ -82,30 +85,36 @@ export const ImageAvatars: Story = {
 };
 
 export const LetterAvatars: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <>
-        <Avatar>N</Avatar>
-        <Avatar style={{ backgroundColor: 'yellow-400', color: 'yellow-50' }}>
+        <Avatar {...args}>N</Avatar>
+        <Avatar
+          style={{ backgroundColor: 'yellow-400', color: 'yellow-50' }}
+          {...args}
+        >
           N
         </Avatar>
-        <Avatar style={{ fontSize: '12px' }}>Name</Avatar>
+        <Avatar style={{ fontSize: '12px' }} {...args}>
+          Name
+        </Avatar>
       </>
     );
   }
 };
 
 export const IconAvatars: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <>
-        <Avatar>
+        <Avatar {...args}>
           <PersonIcon />
         </Avatar>
         <Avatar
           style={{
             backgroundColor: 'yellow-400'
           }}
+          {...args}
         >
           <PersonIcon color="yellow-50" />
         </Avatar>
@@ -115,36 +124,48 @@ export const IconAvatars: Story = {
 };
 
 export const Sizes: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div style={{ display: 'flex', gap: '10px' }}>
-          <Avatar size="xs">N</Avatar>
-          <Avatar size="sm">N</Avatar>
+          <Avatar size="xs" {...args}>
+            N
+          </Avatar>
+          <Avatar size="sm" {...args}>
+            N
+          </Avatar>
           <Avatar>N</Avatar>
-          <Avatar size="lg">N</Avatar>
-          <Avatar size="xl">N</Avatar>
-          <Avatar size={200} style={{ fontSize: '100px', fontWeight: 900 }}>
+          <Avatar size="lg" {...args}>
+            N
+          </Avatar>
+          <Avatar size="xl" {...args}>
+            N
+          </Avatar>
+          <Avatar
+            size={200}
+            style={{ fontSize: '100px', fontWeight: 900 }}
+            {...args}
+          >
             N
           </Avatar>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
-          <Avatar size="xs">
+          <Avatar size="xs" {...args}>
             <PersonIcon />
           </Avatar>
-          <Avatar size="sm">
+          <Avatar size="sm" {...args}>
             <PersonIcon />
           </Avatar>
-          <Avatar>
+          <Avatar {...args}>
             <PersonIcon />
           </Avatar>
-          <Avatar size="lg">
+          <Avatar size="lg" {...args}>
             <PersonIcon />
           </Avatar>
-          <Avatar size="xl">
+          <Avatar size="xl" {...args}>
             <PersonIcon />
           </Avatar>
-          <Avatar size={200}>
+          <Avatar size={200} {...args}>
             <PersonIcon size={100} />
           </Avatar>
         </div>
@@ -154,27 +175,32 @@ export const Sizes: Story = {
 };
 
 export const Shape: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <>
-        <Avatar>N</Avatar>
-        <Avatar shape="square">N</Avatar>
-        <Avatar shape="rounded">N</Avatar>
+        <Avatar {...args}>N</Avatar>
+        <Avatar shape="square" {...args}>
+          N
+        </Avatar>
+        <Avatar shape="rounded" {...args}>
+          N
+        </Avatar>
       </>
     );
   }
 };
 
 export const Color: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <>
-        <Avatar>N</Avatar>
+        <Avatar {...args}>N</Avatar>
         <Avatar
           style={{
             backgroundColor: 'secondary',
             color: 'on-secondary'
           }}
+          {...args}
         >
           N
         </Avatar>
@@ -183,6 +209,7 @@ export const Color: Story = {
             backgroundColor: 'tertiary',
             color: 'on-tertiary'
           }}
+          {...args}
         >
           N
         </Avatar>
@@ -190,6 +217,7 @@ export const Color: Story = {
           style={{
             backgroundColor: 'green'
           }}
+          {...args}
         >
           N
         </Avatar>
@@ -197,6 +225,7 @@ export const Color: Story = {
           style={{
             backgroundColor: '#123'
           }}
+          {...args}
         >
           N
         </Avatar>
@@ -204,6 +233,7 @@ export const Color: Story = {
           style={{
             backgroundColor: 'rgb(100,100,100)'
           }}
+          {...args}
         >
           N
         </Avatar>
@@ -211,6 +241,7 @@ export const Color: Story = {
           style={{
             backgroundColor: 'rgba(100,100,100, 0.5)'
           }}
+          {...args}
         >
           N
         </Avatar>
@@ -220,18 +251,24 @@ export const Color: Story = {
 };
 
 export const AvatarFallbacks: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <>
-        <Avatar src="./broken-image.png" alt="alt" style={{ fontSize: '10px' }}>
+        <Avatar
+          src="./broken-image.png"
+          alt="alt"
+          style={{ fontSize: '10px' }}
+          {...args}
+        >
           children
         </Avatar>
         <Avatar
           src="./broken-image.png"
           alt="alt"
           style={{ fontSize: '15px' }}
+          {...args}
         />
-        <Avatar src="./broken-image.png" />
+        <Avatar src="./broken-image.png" {...args} />
       </>
     );
   }

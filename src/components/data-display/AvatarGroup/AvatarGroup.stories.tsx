@@ -68,9 +68,9 @@ export default meta;
 type Story = StoryObj<typeof AvatarGroup>;
 
 export const MaxAvatarNumber: Story = {
-  render: () => {
+  render: (args) => {
     return (
-      <AvatarGroup max={2}>
+      <AvatarGroup max={2} {...args}>
         <Avatar />
         <Avatar />
         <Avatar />
@@ -80,15 +80,15 @@ export const MaxAvatarNumber: Story = {
 };
 
 export const TotalAvatarNumber: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <div style={{ display: 'flex', columnGap: '20px' }}>
-        <AvatarGroup total={5}>
+        <AvatarGroup total={5} {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
         </AvatarGroup>
-        <AvatarGroup max={2} total={5}>
+        <AvatarGroup max={2} total={5} {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
@@ -99,13 +99,14 @@ export const TotalAvatarNumber: Story = {
 };
 
 export const CustomSurplusAvatar: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <AvatarGroup
         renderSurplus={(surplus) => (
           <span style={{ fontSize: '20px' }}>+{surplus.toString()[0]}k</span>
         )}
         total={4251}
+        {...args}
       >
         <Avatar />
         <Avatar />
@@ -116,20 +117,20 @@ export const CustomSurplusAvatar: Story = {
 };
 
 export const Spacing: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <div style={{ display: 'flex', columnGap: '20px' }}>
-        <AvatarGroup spacing="sm">
+        <AvatarGroup spacing="sm" {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
         </AvatarGroup>
-        <AvatarGroup>
+        <AvatarGroup {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
         </AvatarGroup>
-        <AvatarGroup spacing="lg">
+        <AvatarGroup spacing="lg" {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
@@ -140,58 +141,58 @@ export const Spacing: Story = {
 };
 
 export const Sizes: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', rowGap: '20px' }}>
         <section style={{ display: 'flex', columnGap: '20px' }}>
-          <AvatarGroup size="xs">
+          <AvatarGroup size="xs" {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
           </AvatarGroup>
-          <AvatarGroup size="sm">
+          <AvatarGroup size="sm" {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
           </AvatarGroup>
-          <AvatarGroup>
+          <AvatarGroup {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
           </AvatarGroup>
-          <AvatarGroup size="lg">
+          <AvatarGroup size="lg" {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
           </AvatarGroup>
-          <AvatarGroup size="xl">
+          <AvatarGroup size="xl" {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
           </AvatarGroup>
         </section>
         <section style={{ display: 'flex', columnGap: '20px' }}>
-          <AvatarGroup size="xs" max={2}>
+          <AvatarGroup size="xs" max={2} {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
           </AvatarGroup>
-          <AvatarGroup size="sm" max={2}>
+          <AvatarGroup size="sm" max={2} {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
           </AvatarGroup>
-          <AvatarGroup max={2}>
+          <AvatarGroup max={2} {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
           </AvatarGroup>
-          <AvatarGroup size="lg" max={2}>
+          <AvatarGroup size="lg" max={2} {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
           </AvatarGroup>
-          <AvatarGroup size="xl" max={2}>
+          <AvatarGroup size="xl" max={2} {...args}>
             <Avatar />
             <Avatar />
             <Avatar />
@@ -203,20 +204,20 @@ export const Sizes: Story = {
 };
 
 export const Shape: Story = {
-  render: () => {
+  render: (args) => {
     return (
       <div style={{ display: 'flex', columnGap: '20px' }}>
-        <AvatarGroup shape="circle">
+        <AvatarGroup shape="circle" {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
         </AvatarGroup>
-        <AvatarGroup shape="square">
+        <AvatarGroup shape="square" {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
         </AvatarGroup>
-        <AvatarGroup shape="rounded">
+        <AvatarGroup shape="rounded" {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
@@ -227,9 +228,9 @@ export const Shape: Story = {
 };
 
 export const Color: Story = {
-  render: () => {
+  render: (args) => {
     return (
-      <AvatarGroup style={{ backgroundColor: 'yellow-400' }}>
+      <AvatarGroup style={{ backgroundColor: 'yellow-400' }} {...args}>
         <Avatar />
         <Avatar />
         <Avatar />
