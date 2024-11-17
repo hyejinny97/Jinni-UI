@@ -1,0 +1,97 @@
+@use 'sass:map';
+@use '@/styles/variables' as var;
+
+$standard-badge-size: (
+  sm: 16px,
+  md: 20px,
+  lg: 24px
+);
+
+$dot-badge-size: (
+  sm: 4px,
+  md: 8px,
+  lg: 12px
+);
+
+$font-size: (
+  sm: 10px,
+  md: 12px,
+  lg: 16px
+);
+
+$badge-padding: (
+  sm: 0 4.5px,
+  md: 0 6px,
+  lg: 0 7px
+);
+
+$border-radius: (
+  sm: 10px,
+  md: 10px,
+  lg: 12px
+);
+
+$badge-transformX: (
+  left: -50%,
+  right: 50%
+);
+
+$badge-transformY: (
+  top: -50%,
+  bottom: 50%
+);
+
+@mixin badgeSize($variant) {
+  @each $size in 'sm', 'md', 'lg' {
+    &.#{$variant}.#{$size} .badge {
+      @if $variant == 'standard' {
+        padding: map.get($badge-padding, $size);
+        min-width: map.get($standard-badge-size, $size);
+        height: map.get($standard-badge-size, $size);
+        border-radius: map.get($border-radius, $size);
+        font-size: map.get($font-size, $size);
+      }
+      @if $variant == 'dot' {
+        padding: 0;
+        width: map.get($dot-badge-size, $size);
+        height: map.get($dot-badge-size, $size);
+        border-radius: 100%;
+      }
+    }
+  }
+}
+
+@mixin badgeOrigin {
+  @each $vertical in 'top', 'bottom' {
+    @each $horizontal in 'left', 'right' {
+      &.#{$vertical}.#{$horizontal} .badge {
+        #{$vertical}: 0;
+        #{$horizontal}: 0;
+        transform: translate(
+          map.get($badge-transformX, $horizontal),
+          map.get($badge-transformY, $vertical)
+        );
+      }
+    }
+  }
+}
+
+.JinniBadge {
+  display: inline-block;
+  position: relative;
+
+  .badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    box-sizing: border-box;
+    background-color: var(--jinni-color-primary);
+    color: white;
+    font-weight: var.$font-weight-medium;
+  }
+
+  @include badgeSize('standard');
+  @include badgeSize('dot');
+  @include badgeOrigin;
+}
