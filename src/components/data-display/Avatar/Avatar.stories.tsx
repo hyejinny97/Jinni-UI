@@ -108,7 +108,7 @@ export const IconAvatars: Story = {
     return (
       <>
         <Avatar {...args}>
-          <PersonIcon />
+          <PersonIcon color="white" />
         </Avatar>
         <Avatar
           style={{
@@ -151,22 +151,22 @@ export const Sizes: Story = {
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Avatar size="xs" {...args}>
-            <PersonIcon />
+            <PersonIcon color="white" />
           </Avatar>
           <Avatar size="sm" {...args}>
-            <PersonIcon />
+            <PersonIcon color="white" />
           </Avatar>
           <Avatar {...args}>
-            <PersonIcon />
+            <PersonIcon color="white" />
           </Avatar>
           <Avatar size="lg" {...args}>
-            <PersonIcon />
+            <PersonIcon color="white" />
           </Avatar>
           <Avatar size="xl" {...args}>
-            <PersonIcon />
+            <PersonIcon color="white" />
           </Avatar>
           <Avatar size={200} {...args}>
-            <PersonIcon size={100} />
+            <PersonIcon color="white" size={100} />
           </Avatar>
         </div>
       </div>

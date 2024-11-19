@@ -136,7 +136,7 @@ export const BasicBadge: Story = {
           <Square />
         </Badge>
         <Badge
-          badgeContent={<MailIcon size={20} />}
+          badgeContent={<MailIcon color="primary" size={20} />}
           {...args}
           color="rgba(0,0,0,0)"
         >

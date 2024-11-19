@@ -6,19 +6,26 @@ interface PersonIconProps {
   color?: ColorType;
 }
 
-const PersonIcon = ({ size = 44, color = 'white' }: PersonIconProps) => {
+const PersonIcon = ({ size = 24, color = 'black' }: PersonIconProps) => {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 44 44"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
-        d="M22 22C28.0775 22 33 17.0775 33 11C33 4.9225 28.0775 0 22 0C15.9225 0 11 4.9225 11 11C11 17.0775 15.9225 22 22 22ZM22 27.5C14.6575 27.5 0 31.185 0 38.5V44H44V38.5C44 31.185 29.3425 27.5 22 27.5Z"
-        fill={editColor(color)}
-      />
+      <g clip-path="url(#clip0_86_149)">
+        <path
+          d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+          fill={editColor(color)}
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_86_149">
+          <rect width="24" height="24" fill="white" />
+        </clipPath>
+      </defs>
     </svg>
   );
 };

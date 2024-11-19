@@ -16,7 +16,7 @@ export interface AvatarProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
   style?: StyleType;
 }
 
-const DefaultAvatarIcon = () => <PersonIcon />;
+const DefaultAvatarIcon = () => <PersonIcon color="white" />;
 
 const Avatar = (props: AvatarProps) => {
   const {
