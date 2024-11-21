@@ -1,16 +1,16 @@
 import { editColor } from '@/utils/editColorStyle';
 import { ColorType } from '@/types/color';
 
-interface PersonIconProps extends React.HTMLAttributes<SVGElement> {
+interface TrashcanIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
   color?: ColorType;
 }
 
-const PersonIcon = ({
+const TrashcanIcon = ({
   size = 24,
   color = 'black',
   ...rest
-}: PersonIconProps) => {
+}: TrashcanIconProps) => {
   return (
     <svg
       width={size}
@@ -20,14 +20,14 @@ const PersonIcon = ({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clipPath="url(#clip0_86_149)">
+      <g clipPath="url(#clip0_132_158)">
         <path
-          d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+          d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
           fill={editColor(color)}
         />
       </g>
       <defs>
-        <clipPath id="clip0_86_149">
+        <clipPath id="clip0_132_158">
           <rect width="24" height="24" fill="white" />
         </clipPath>
       </defs>
@@ -35,4 +35,4 @@ const PersonIcon = ({
   );
 };
 
-export default PersonIcon;
+export default TrashcanIcon;

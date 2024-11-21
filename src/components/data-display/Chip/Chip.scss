@@ -1,0 +1,189 @@
+@use 'sass:map';
+@use '@/styles/variables' as var;
+
+$chip-height: (
+  sm: 18px,
+  md: 22px,
+  lg: 30px
+);
+
+$label-font-size: (
+  sm: 12px,
+  md: 14px,
+  lg: 16px
+);
+
+$label-margin: (
+  sm: 8px,
+  md: 10px,
+  lg: 12px
+);
+
+$avatar-size: (
+  sm: 14px,
+  md: 16px,
+  lg: 18px
+);
+
+$avatar-margin: (
+  sm: 4px,
+  md: 5px,
+  lg: 6px
+);
+
+$avatar-font-size: (
+  sm: 10px,
+  md: 12px,
+  lg: 14px
+);
+
+@mixin chipSize {
+  @each $size in 'sm', 'md', 'lg' {
+    &.#{$size} {
+      height: map.get($chip-height, $size);
+    }
+  }
+}
+
+@mixin chipShape {
+  &.pill {
+    border-radius: 16px;
+  }
+  &.rounded {
+    border-radius: 4px;
+  }
+}
+
+@mixin chipContent {
+  .JinniChipLabel,
+  .JinniChipAvatar,
+  .JinniChipIcon {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@mixin chipLabel {
+  @each $size in 'sm', 'md', 'lg' {
+    &.#{$size} .JinniChipLabel {
+      margin-left: map.get($label-margin, $size);
+      margin-right: map.get($label-margin, $size);
+      font-size: map.get($label-font-size, $size);
+      font-weight: var.$font-weight-medium;
+    }
+  }
+}
+
+@mixin chipLeft($chip-size) {
+  &.left {
+    margin-left: map.get($avatar-margin, $chip-size);
+    margin-right: - map.get($avatar-margin, $chip-size);
+  }
+}
+
+@mixin chipRight($chip-size) {
+  &.right {
+    margin-left: - map.get($avatar-margin, $chip-size);
+    margin-right: map.get($avatar-margin, $chip-size);
+  }
+}
+
+@mixin chipAvatar {
+  @each $size in 'sm', 'md', 'lg' {
+    &.#{$size} .JinniChipAvatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      .JinniAvatar {
+        width: map.get($avatar-size, $size);
+        height: map.get($avatar-size, $size);
+        font-size: map.get($avatar-font-size, $size);
+        font-weight: var.$font-weight-medium;
+
+        svg,
+        svg path {
+          fill: inherit;
+        }
+      }
+
+      @include chipLeft($size);
+      @include chipRight($size);
+    }
+  }
+}
+
+@mixin chipIcon {
+  @each $size in 'sm', 'md', 'lg' {
+    &.#{$size} .JinniChipIcon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: map.get($avatar-size, $size);
+        height: map.get($avatar-size, $size);
+        fill: inherit;
+        path {
+          fill: inherit;
+        }
+      }
+
+      @include chipLeft($size);
+      @include chipRight($size);
+    }
+  }
+}
+
+@mixin clickable {
+  &.clickable {
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background-color: rgb(0, 0, 0, 0.1);
+      outline: 1px solid rgb(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+      z-index: 0;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin deleteButton {
+  .delete-button {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
+
+.JinniChip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+
+  @include chipSize;
+  @include chipShape;
+
+  @include chipContent;
+  @include chipLabel;
+  @include chipAvatar;
+  @include chipIcon;
+
+  @include clickable;
+  @include deleteButton;
+}

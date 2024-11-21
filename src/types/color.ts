@@ -1,4 +1,4 @@
-type CSSColorKeywords =
+export type CSSColorKeywords =
   | 'aliceblue'
   | 'antiquewhite'
   | 'aqua'
@@ -147,6 +147,9 @@ type CSSColorKeywords =
   | 'whitesmoke'
   | 'yellow'
   | 'yellowgreen';
+export type HEX = `#${string}`;
+export type RGB = `rgb(${number},${number},${number})`;
+export type RGBA = `rgba(${number},${number},${number},${number})`;
 
 type JinniColorTheme =
   | 'primary'
@@ -158,9 +161,4 @@ type JinniColorTheme =
 type JinniColorPalette = 'yellow-50' | 'yellow-400' | 'gray-50' | 'gray-400';
 type JinniColor = JinniColorTheme | JinniColorPalette;
 
-export type ColorType =
-  | CSSColorKeywords
-  | JinniColor
-  | `#${string}`
-  | `rgb(${number},${number},${number})`
-  | `rgba(${number},${number},${number},${number})`;
+export type ColorType = CSSColorKeywords | HEX | RGB | RGBA | JinniColor;
