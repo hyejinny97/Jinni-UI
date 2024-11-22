@@ -4,8 +4,9 @@ import React from 'react';
 import type { ColorType } from '@/types/color';
 import type { StyleType } from '@/types/style';
 import { editColorStyle } from '@/utils/editColorStyle';
-import { getColorStyle } from './Chip.utils';
 import { RippleContainer } from '@/components/_share/RippleContainer';
+import { CloseIcon } from '@/components/icons/CloseIcon';
+import { getColorStyle } from './Chip.utils';
 import { ChipLeftAvatar, ChipRightAvatar } from './ChipAvatar';
 import { ChipLeftIcon, ChipRightIcon } from './ChipIcon';
 import { ChipLabel } from './ChipLabel';
@@ -28,6 +29,7 @@ interface ChipProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
   size?: 'sm' | 'md' | 'lg';
   color?: ColorType;
   style?: StyleType;
+  className?: string;
 }
 
 const Chip = (props: ChipProps) => {
@@ -39,13 +41,14 @@ const Chip = (props: ChipProps) => {
     rightAvatar,
     leftIcon,
     rightIcon,
-    deleteIcon,
+    deleteIcon = <CloseIcon />,
     onClick,
     onDelete,
     clickable = false,
     size = 'md',
     color = 'primary',
-    style
+    style,
+    className
   } = props;
   const isClickable = !!onClick || clickable;
   const isDeletable = !!onDelete;
@@ -62,9 +65,16 @@ const Chip = (props: ChipProps) => {
 
   return (
     <RippleContainer
-      className={cn('JinniChip', variant, shape, size, {
-        clickable: isClickable
-      })}
+      className={cn(
+        'JinniChip',
+        variant,
+        shape,
+        size,
+        {
+          clickable: isClickable
+        },
+        className
+      )}
       onClick={onClick}
       role={isClickable ? 'button' : 'chip'}
       style={editColorStyle(newChipStyle)}

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { CloseIcon } from '@/components/icons/CloseIcon';
 
 interface DeleteButtonProps {
   deleteIcon?: JSX.Element;
@@ -34,7 +33,7 @@ export const DeleteButton = ({
         opacity: hovered ? opacity + 0.2 : opacity
       }}
     >
-      {deleteIcon || <CloseIcon />}
+      {deleteIcon}
     </button>
   );
 };
