@@ -1,16 +1,17 @@
 import { editColor } from '@/utils/editColorStyle';
 import { ColorType } from '@/types/color';
 
-interface MailIconProps {
+interface MailIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
   color?: ColorType;
 }
 
-const MailIcon = ({ size = 24, color = 'black' }: MailIconProps) => {
+const MailIcon = ({ size = 24, color = 'black', ...rest }: MailIconProps) => {
   return (
     <svg
       width={size}
       height={size}
+      {...rest}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

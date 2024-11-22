@@ -1,0 +1,120 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ChipStories from './Chip.stories';
+
+<Meta of={ChipStories} />
+
+# Chip
+
+(사용자의 관심을 끌고 한눈에 알기 쉽게) 정보 제공, 콘텐츠 선택, 액션 유발하기 위해 사용됨
+
+## Import
+
+```js
+import { Chip } from '@/components/data-display/Chip';
+```
+
+## Usage
+
+### Basic Chip
+
+- `label`: chip 내부 내용 (text 등)
+
+<Canvas of={ChipStories.BasicChip} />
+
+### Chip Variant
+
+- `variant`: chip 종류
+  - `filled`: background에 색상 반영
+  - `subtle-filled`: background에 lightened 색상 반영
+  - `outlined`: 테두리와 텍스트에만 색상 반영
+  - `text`: 텍스트에만 색상 반영
+
+<Canvas of={ChipStories.ChipVariant} />
+
+### Chip Shape
+
+- `shape`: chip 모양
+  - `pill`: 모서리가 완전히 둥근 모양
+  - `rounded`: 모서리가 살짝 둥근 모양
+
+<Canvas of={ChipStories.ChipShape} />
+
+### Avatar Chip
+
+- `leftAvatar`: chip label의 왼쪽에 위치한 아바타
+- `rightAvatar`: chip label의 오른쪽에 위치한 아바타
+
+#### 1) Left Avatar Chip
+
+<Canvas of={ChipStories.LeftAvatarChip} />
+
+#### 2) Right Avatar Chip
+
+<Canvas of={ChipStories.RightAvatarChip} />
+
+### Icon Chip
+
+- `leftIcon`: chip label의 왼쪽에 위치한 아이콘
+- `rightIcon`: chip label의 오른쪽에 위치한 아이콘
+
+#### 1) Left Icon Chip
+
+<Canvas of={ChipStories.LeftIconChip} />
+
+#### 2) Right Icon Chip
+
+<Canvas of={ChipStories.RightIconChip} />
+
+### Clickable Chip
+
+- `onClick`: 클릭 이벤트가 일어났을 때 호출되는 함수
+- `Chip`에 ripple 애니메이션이 추가됨
+
+<Canvas of={ChipStories.ClickableChip} />
+
+### Deletable Chip
+
+- `onDelete`: 삭제 이벤트가 일어났을 때 호출되는 함수
+- `deleteIcon`: 삭제 아이콘 설정
+
+#### 1) Default Delete Icon
+
+<Canvas of={ChipStories.DefaultDeletableChip} />
+
+#### 2) Custom Delete Icon
+
+<Canvas of={ChipStories.CustomDeletableChip} />
+
+### Clickable and Deletable Chip
+
+<Canvas of={ChipStories.ClickableAndDeletableChip} />
+
+### Clickable Link Chip
+
+- `Chip` 컴포넌트의 label prop에 a 태그를 넣거나, `Chip` 컴포넌트를 a 태그로 감싸도 됨
+- `clickable`: true이면 `Chip`에 ripple 애니메이션이 추가됨 (단, onDelete prop을 추가하지 않는 경우에 한함)
+
+#### 1) 내부 Link
+
+<Canvas of={ChipStories.ClickableInnerLinkChip} />
+
+#### 2) 외부 Link
+
+<Canvas of={ChipStories.ClickableOuterLinkChip} />
+
+### Color
+
+- `color`: chip 색상 (color theme/palette 포함)
+
+<Canvas of={ChipStories.Color} />
+
+### Size
+
+- `size`: chip 크기
+  - `sm` | `md` | `lg`: 순서대로 높이 20px, 24px, 32px
+
+<Canvas of={ChipStories.Size} />
+
+## Props
+
+<ArgTypes of={ChipStories} sort="alpha" />
