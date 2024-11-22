@@ -175,6 +175,7 @@ $avatar-font-size: (
   align-items: center;
   justify-content: center;
   border: 1px solid;
+  user-select: none;
 
   @include chipSize;
   @include chipShape;

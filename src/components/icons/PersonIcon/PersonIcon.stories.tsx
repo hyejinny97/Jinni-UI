@@ -3,16 +3,9 @@ import { PersonIcon } from '.';
 
 const meta: Meta<typeof PersonIcon> = {
   component: PersonIcon,
-  args: {
-    color: 'black'
-  },
   argTypes: {
-    size: {
-      control: 'number'
-    },
     color: {
-      control: 'select',
-      options: ['primary', 'secondary', 'tertiary', 'black', 'yellow-400']
+      control: { type: 'color' }
     }
   }
 };

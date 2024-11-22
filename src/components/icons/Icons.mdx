@@ -1,6 +1,8 @@
 import { Meta, Title, IconGallery, IconItem, Canvas } from '@storybook/blocks';
 import { PersonIcon } from './PersonIcon';
 import { MailIcon } from './MailIcon';
+import { CloseIcon } from './CloseIcon';
+import { TrashcanIcon } from './TrashcanIcon';
 
 <Meta />
 
@@ -9,9 +11,15 @@ import { MailIcon } from './MailIcon';
 <br />
 <IconGallery>
   <IconItem name="person">
-    <PersonIcon color="black" />
+    <PersonIcon />
   </IconItem>
   <IconItem name="mail">
-    <MailIcon color="black" />
+    <MailIcon />
+  </IconItem>
+  <IconItem name="close">
+    <CloseIcon />
+  </IconItem>
+  <IconItem name="trashcan">
+    <TrashcanIcon />
   </IconItem>
 </IconGallery>
