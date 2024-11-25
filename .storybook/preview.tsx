@@ -1,6 +1,9 @@
+import React from 'react';
 import type { Preview } from '@storybook/react';
+import { JinniProvider } from '../src/components/_share/JinniProvider';
 import '@/styles/color.scss';
 import '@/styles/typography.scss';
+import '@/styles/breakpoint.scss';
 
 const preview: Preview = {
   parameters: {
@@ -20,7 +23,14 @@ const preview: Preview = {
         order: ['Design System', 'Components']
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <JinniProvider>
+        <Story />
+      </JinniProvider>
+    )
+  ]
 };
 
 export default preview;

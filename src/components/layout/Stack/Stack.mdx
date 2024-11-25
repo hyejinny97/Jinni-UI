@@ -1,0 +1,58 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as StackStories from './Stack.stories';
+
+<Meta of={StackStories} />
+
+# Stack
+
+1차원의 수직/수평 축으로 items를 정렬시키는 컴포넌트
+
+## Import
+
+```js
+import { Stack } from '@/components/layout/Stack';
+```
+
+## Usage
+
+### Basic Stack
+
+- `spacing`: item 사이의 간격
+
+<Canvas of={StackStories.BasicStack} />
+
+### Direction
+
+- `direction`: 정렬 방향
+  - `row` | `row-reverse` | `column`(default) | `column-reverse`
+
+<Canvas of={StackStories.Direction} />
+
+### Dividers
+
+- `divider`: item 사이의 구분선
+
+<Canvas of={StackStories.Dividers} />
+
+### Responsive values
+
+- breakpoints마다 `direction`, `spacing` 설정 가능
+
+#### 1) Responsive Spacing
+
+<Canvas of={StackStories.ResponsiveSpacing} />
+
+#### 2) Responsive Direction
+
+<Canvas of={StackStories.ResponsiveDirection} />
+
+### Customization
+
+- `style` prop을 사용해 alignment, distribution 조절 가능
+  - `align-items`, `align-content`, `justify-content`, `flex-wrap` 등
+
+<Canvas of={StackStories.Customization} />
+
+## Props
+
+<ArgTypes of={StackStories} sort="alpha" />

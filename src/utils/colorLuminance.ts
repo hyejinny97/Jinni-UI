@@ -1,5 +1,5 @@
 import { ColorType, CSSColorKeywords, HEX, RGB, RGBA } from '@/types/color';
-import { CSS_COLOR_KEYWORDS } from '@/utils/cssColorKeywords';
+import { CSS_COLOR_KEYWORDS } from '@/constants/css-color-keywords';
 import { editColor } from './editColorStyle';
 
 type RgbObject = { r: number; g: number; b: number };
