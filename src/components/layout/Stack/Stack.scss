@@ -1,0 +1,13 @@
+@mixin flexDirection {
+  @each $direction in row, row-reverse, column, column-reverse {
+    &.#{$direction} {
+      flex-direction: $direction;
+    }
+  }
+}
+
+.JinniStack {
+  display: flex;
+
+  @include flexDirection;
+}
