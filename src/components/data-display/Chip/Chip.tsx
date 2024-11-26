@@ -14,7 +14,8 @@ import { DeleteButton } from './DeleteButton';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 
-interface ChipProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
+interface ChipProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'style'> {
   label: React.ReactNode;
   variant?: VariantType;
   shape?: 'pill' | 'rounded';

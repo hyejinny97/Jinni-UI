@@ -5,7 +5,8 @@ import { editColorStyle } from '@/utils/editColorStyle';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import type { StyleType } from '@/types/style';
 
-export interface AvatarProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
+export interface AvatarProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'style'> {
   src?: string;
   alt?: string;
   imgProps?: Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt'>;

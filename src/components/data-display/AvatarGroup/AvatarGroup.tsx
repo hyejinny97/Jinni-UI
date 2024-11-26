@@ -7,7 +7,7 @@ import { insertProps } from './AvatarGroup.utils';
 import type { StyleType } from '@/types/style';
 
 export interface AvatarGroupProps
-  extends React.HtmlHTMLAttributes<HTMLSpanElement> {
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'style'> {
   children: Array<React.ReactElement<AvatarProps>>;
   max?: number;
   total?: number;

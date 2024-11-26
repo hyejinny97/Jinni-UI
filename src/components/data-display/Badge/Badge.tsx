@@ -4,7 +4,8 @@ import { editColorStyle, editColor } from '@/utils/editColorStyle';
 import type { StyleType } from '@/types/style';
 import type { ColorType } from '@/types/color';
 
-interface BadgeProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
+interface BadgeProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'style'> {
   badgeContent?: React.ReactNode;
   children: React.ReactNode;
   max?: number;

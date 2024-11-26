@@ -10,8 +10,8 @@ export const getColorStyle = ({
   variant: VariantType;
 }) => {
   const subtleColor = lighten(color, 0.8);
-  const WHITE = 'white';
-  const BLACK = 'black';
+  const WHITE: ColorType = 'white';
+  const BLACK: ColorType = 'black';
 
   let chipColorStyle, avatarColorStyle, iconColorStyle, deleteButtonColorStyle;
   switch (variant) {

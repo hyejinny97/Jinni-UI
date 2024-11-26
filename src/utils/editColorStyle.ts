@@ -1,3 +1,4 @@
+import { StyleType } from '@/types/style';
 import { CSS_COLOR_PROPERTIES } from '@/constants/css-color-properties';
 
 const getJinniColorValue = (color: string) => {
@@ -21,7 +22,7 @@ export const editColor = (color: string) => {
 };
 
 export const editColorStyle = (
-  style: React.CSSProperties | undefined
+  style: StyleType | undefined
 ): React.CSSProperties | undefined => {
   if (!style) return;
 

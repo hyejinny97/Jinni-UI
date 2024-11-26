@@ -7,7 +7,8 @@ import useStyle from '@/hooks/useStyle';
 
 export type DirectionType = 'row' | 'row-reverse' | 'column' | 'column-reverse';
 
-interface StackProps {
+interface StackProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
   spacing?: number | Responsive<number>;
   direction?: DirectionType | Responsive<DirectionType>;
   divider?: React.ReactNode;
