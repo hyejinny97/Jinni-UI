@@ -25,7 +25,8 @@ const Avatar = (props: AvatarProps) => {
     shape = 'circle',
     children,
     className,
-    style
+    style,
+    ...rest
   } = props;
   let newStyle = editColorStyle(style);
   const [isImageAvatar, setIsImageAvatar] = useState(!!src);
@@ -53,6 +54,7 @@ const Avatar = (props: AvatarProps) => {
         className
       )}
       style={newStyle}
+      {...rest}
     >
       {content}
     </span>

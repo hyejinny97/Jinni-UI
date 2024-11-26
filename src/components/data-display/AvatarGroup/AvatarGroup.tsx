@@ -27,7 +27,8 @@ const AvatarGroup = (props: AvatarGroupProps) => {
     size = 'md',
     shape = 'circle',
     className,
-    style
+    style,
+    ...rest
   } = props;
   const surplusNum = total - max;
 
@@ -52,6 +53,7 @@ const AvatarGroup = (props: AvatarGroupProps) => {
         `size-${size}`,
         className
       )}
+      {...rest}
     >
       {insertProps(avatars, { size, shape, style }).reverse()}
     </span>

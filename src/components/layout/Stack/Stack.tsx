@@ -21,7 +21,8 @@ const Stack = (props: StackProps) => {
     divider,
     children,
     className,
-    style
+    style,
+    ...rest
   } = props;
   const newStyle = useStyle({
     flexDirection: direction,
@@ -30,7 +31,7 @@ const Stack = (props: StackProps) => {
   });
 
   return (
-    <div className={cn('JinniStack', className)} style={newStyle}>
+    <div className={cn('JinniStack', className)} style={newStyle} {...rest}>
       {divider ? insertDivider(children, divider) : children}
     </div>
   );

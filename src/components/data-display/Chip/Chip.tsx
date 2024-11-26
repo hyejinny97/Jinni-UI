@@ -46,7 +46,8 @@ const Chip = (props: ChipProps) => {
     size = 'md',
     color = 'primary',
     style,
-    className
+    className,
+    ...rest
   } = props;
   const isClickable = !!onClick || clickable;
   const isDeletable = !!onDelete;
@@ -78,6 +79,7 @@ const Chip = (props: ChipProps) => {
       style={editColorStyle(newChipStyle)}
       active={isClickable && !isDeletable}
       rippleColor={variant === 'filled' ? 'white' : 'black'}
+      {...rest}
     >
       {leftAvatar && (
         <ChipLeftAvatar colorStyle={avatarColorStyle}>

@@ -31,7 +31,8 @@ const Badge = (props: BadgeProps) => {
     size = 'md',
     origin = { vertical: 'top', horizontal: 'right' },
     className,
-    style
+    style,
+    ...rest
   } = props;
   const isNumberTypeContent = typeof badgeContent === 'number';
   const showBadge = !invisible && !(badgeContent === 0 && !showZero);
@@ -49,6 +50,7 @@ const Badge = (props: BadgeProps) => {
         origin.horizontal,
         className
       )}
+      {...rest}
     >
       {showBadge && (
         <span
