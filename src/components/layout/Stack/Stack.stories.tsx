@@ -171,7 +171,15 @@ export const Customization: Story = {
     <Section>
       <Stack
         direction="row"
-        style={{ justifyContent: 'space-between' }}
+        style={{
+          justifyContent: {
+            xs: 'flex-start',
+            sm: 'flex-end',
+            md: 'center',
+            lg: 'space-between',
+            xl: 'stretch'
+          }
+        }}
         {...args}
       >
         <Box order={1} />
