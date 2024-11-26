@@ -4,10 +4,10 @@ import React from 'react';
 import { Avatar } from '@/components/data-display/Avatar';
 import type { AvatarProps } from '@/components/data-display/Avatar';
 import { insertProps } from './AvatarGroup.utils';
-import type { StyleType } from '@/types/style';
+import { DefaultComponentProps } from '@/types/default-component-props';
 
 export interface AvatarGroupProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'style'> {
+  extends DefaultComponentProps<HTMLSpanElement> {
   children: Array<React.ReactElement<AvatarProps>>;
   max?: number;
   total?: number;
@@ -15,8 +15,6 @@ export interface AvatarGroupProps
   spacing?: 'sm' | 'md' | 'lg';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   shape?: 'circle' | 'square' | 'rounded';
-  className?: string;
-  style?: StyleType;
 }
 
 const AvatarGroup = (props: AvatarGroupProps) => {

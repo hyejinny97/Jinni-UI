@@ -3,18 +3,15 @@ import cn from 'classnames';
 import { useState } from 'react';
 import { editColorStyle } from '@/utils/editColorStyle';
 import { PersonIcon } from '@/components/icons/PersonIcon';
-import type { StyleType } from '@/types/style';
+import { DefaultComponentProps } from '@/types/default-component-props';
 
-export interface AvatarProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'style'> {
+export interface AvatarProps extends DefaultComponentProps<HTMLSpanElement> {
   src?: string;
   alt?: string;
   imgProps?: Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt'>;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
   shape?: 'circle' | 'square' | 'rounded';
   children?: React.ReactNode;
-  className?: string;
-  style?: StyleType;
 }
 
 const DefaultAvatarIcon = () => <PersonIcon color="white" />;

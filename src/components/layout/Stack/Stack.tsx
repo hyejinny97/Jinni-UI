@@ -1,20 +1,17 @@
 import './Stack.scss';
 import cn from 'classnames';
 import { Responsive } from '@/types/breakpoint';
-import { StyleType } from '@/types/style';
 import { insertDivider } from './Stack.utils';
 import useStyle from '@/hooks/useStyle';
+import { DefaultComponentProps } from '@/types/default-component-props';
 
 export type DirectionType = 'row' | 'row-reverse' | 'column' | 'column-reverse';
 
-interface StackProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
+interface StackProps extends DefaultComponentProps<HTMLDivElement> {
   spacing?: number | Responsive<number>;
   direction?: DirectionType | Responsive<DirectionType>;
   divider?: React.ReactNode;
   children: React.ReactNode;
-  className?: string;
-  style?: StyleType;
 }
 
 const Stack = (props: StackProps) => {

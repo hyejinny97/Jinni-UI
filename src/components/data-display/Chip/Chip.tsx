@@ -2,7 +2,6 @@ import './Chip.scss';
 import cn from 'classnames';
 import React from 'react';
 import type { ColorType } from '@/types/color';
-import type { StyleType } from '@/types/style';
 import { editColorStyle } from '@/utils/editColorStyle';
 import { RippleContainer } from '@/components/_share/RippleContainer';
 import { CloseIcon } from '@/components/icons/CloseIcon';
@@ -11,11 +10,11 @@ import { ChipLeftAvatar, ChipRightAvatar } from './ChipAvatar';
 import { ChipLeftIcon, ChipRightIcon } from './ChipIcon';
 import { ChipLabel } from './ChipLabel';
 import { DeleteButton } from './DeleteButton';
+import { DefaultComponentProps } from '@/types/default-component-props';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 
-interface ChipProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'style'> {
+interface ChipProps extends DefaultComponentProps<HTMLSpanElement> {
   label: React.ReactNode;
   variant?: VariantType;
   shape?: 'pill' | 'rounded';
@@ -29,8 +28,6 @@ interface ChipProps
   clickable?: boolean;
   size?: 'sm' | 'md' | 'lg';
   color?: ColorType;
-  style?: StyleType;
-  className?: string;
 }
 
 const Chip = (props: ChipProps) => {

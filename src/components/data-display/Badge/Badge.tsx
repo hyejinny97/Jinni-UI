@@ -1,11 +1,10 @@
 import './Badge.scss';
 import cn from 'classnames';
 import { editColorStyle, editColor } from '@/utils/editColorStyle';
-import type { StyleType } from '@/types/style';
 import type { ColorType } from '@/types/color';
+import { DefaultComponentProps } from '@/types/default-component-props';
 
-interface BadgeProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'style'> {
+interface BadgeProps extends DefaultComponentProps<HTMLSpanElement> {
   badgeContent?: React.ReactNode;
   children: React.ReactNode;
   max?: number;
@@ -18,8 +17,6 @@ interface BadgeProps
     vertical: 'top' | 'bottom';
     horizontal: 'left' | 'right';
   };
-  className?: string;
-  style?: StyleType;
 }
 
 const Badge = (props: BadgeProps) => {
