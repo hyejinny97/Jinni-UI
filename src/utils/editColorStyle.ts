@@ -1,6 +1,3 @@
-import { StyleType } from '@/types/style';
-import { CSS_COLOR_PROPERTIES } from '@/constants/color';
-
 export const getJinniColorValue = (color: string) => {
   const rootEl = document.querySelector(':root');
   if (!rootEl) throw Error('root element를 가져오지 못함');
@@ -19,26 +16,4 @@ export const editColor = (color: string) => {
   } catch {
     return color;
   }
-};
-
-export const editColorStyle = (
-  style: StyleType | undefined
-): React.CSSProperties | undefined => {
-  if (!style) return;
-
-  const editedStyle = Object.keys(style).reduce((rst, key) => {
-    const propName = key as keyof React.CSSProperties;
-    const propValue = style[propName];
-    const isColorProperty = CSS_COLOR_PROPERTIES.some(
-      (item) => item === propName
-    );
-    const isStringType = typeof propValue === 'string';
-    return {
-      ...rst,
-      [propName]:
-        isColorProperty && isStringType ? editColor(propValue) : propValue
-    };
-  }, {} as React.CSSProperties);
-
-  return editedStyle;
 };
