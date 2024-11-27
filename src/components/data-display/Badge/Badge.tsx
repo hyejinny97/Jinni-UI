@@ -1,10 +1,10 @@
 import './Badge.scss';
 import cn from 'classnames';
-import { editColorStyle, editColor } from '@/utils/editColorStyle';
-import type { StyleType } from '@/types/style';
 import type { ColorType } from '@/types/color';
+import { DefaultComponentProps } from '@/types/default-component-props';
+import useStyle from '@/hooks/useStyle';
 
-interface BadgeProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
+interface BadgeProps extends DefaultComponentProps<HTMLSpanElement> {
   badgeContent?: React.ReactNode;
   children: React.ReactNode;
   max?: number;
@@ -17,8 +17,6 @@ interface BadgeProps extends React.HtmlHTMLAttributes<HTMLSpanElement> {
     vertical: 'top' | 'bottom';
     horizontal: 'left' | 'right';
   };
-  className?: string;
-  style?: StyleType;
 }
 
 const Badge = (props: BadgeProps) => {
@@ -33,8 +31,10 @@ const Badge = (props: BadgeProps) => {
     size = 'md',
     origin = { vertical: 'top', horizontal: 'right' },
     className,
-    style
+    style,
+    ...rest
   } = props;
+  const newStyle = useStyle({ backgroundColor: color, ...style });
   const isNumberTypeContent = typeof badgeContent === 'number';
   const showBadge = !invisible && !(badgeContent === 0 && !showZero);
   const showContent = variant !== 'dot';
@@ -51,15 +51,10 @@ const Badge = (props: BadgeProps) => {
         origin.horizontal,
         className
       )}
+      {...rest}
     >
       {showBadge && (
-        <span
-          className="badge"
-          style={{
-            backgroundColor: editColor(color),
-            ...editColorStyle(style)
-          }}
-        >
+        <span className="badge" style={newStyle}>
           {showContent && newBadgeContent}
         </span>
       )}

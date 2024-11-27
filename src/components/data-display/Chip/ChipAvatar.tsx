@@ -1,22 +1,18 @@
-import type { ColorType } from '@/types/color';
 import { insertProps } from './Chip.utils';
 
 interface ChipAvatarProps {
   children: JSX.Element;
-  colorStyle: {
-    backgroundColor: ColorType | string;
-    color: ColorType | string;
-  };
+  style?: React.CSSProperties;
 }
 
-export const ChipLeftAvatar = ({ children, colorStyle }: ChipAvatarProps) => (
+export const ChipLeftAvatar = ({ children, style }: ChipAvatarProps) => (
   <span className="JinniChipAvatar left">
-    {insertProps(children, { colorStyle })}
+    {insertProps(children, { style })}
   </span>
 );
 
-export const ChipRightAvatar = ({ children, colorStyle }: ChipAvatarProps) => (
+export const ChipRightAvatar = ({ children, style }: ChipAvatarProps) => (
   <span className="JinniChipAvatar right">
-    {insertProps(children, { colorStyle })}
+    {insertProps(children, { style })}
   </span>
 );

@@ -4,10 +4,10 @@ import React from 'react';
 import { Avatar } from '@/components/data-display/Avatar';
 import type { AvatarProps } from '@/components/data-display/Avatar';
 import { insertProps } from './AvatarGroup.utils';
-import type { StyleType } from '@/types/style';
+import { DefaultComponentProps } from '@/types/default-component-props';
 
 export interface AvatarGroupProps
-  extends React.HtmlHTMLAttributes<HTMLSpanElement> {
+  extends DefaultComponentProps<HTMLSpanElement> {
   children: Array<React.ReactElement<AvatarProps>>;
   max?: number;
   total?: number;
@@ -15,8 +15,6 @@ export interface AvatarGroupProps
   spacing?: 'sm' | 'md' | 'lg';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   shape?: 'circle' | 'square' | 'rounded';
-  className?: string;
-  style?: StyleType;
 }
 
 const AvatarGroup = (props: AvatarGroupProps) => {
@@ -29,7 +27,8 @@ const AvatarGroup = (props: AvatarGroupProps) => {
     size = 'md',
     shape = 'circle',
     className,
-    style
+    style,
+    ...rest
   } = props;
   const surplusNum = total - max;
 
@@ -54,6 +53,7 @@ const AvatarGroup = (props: AvatarGroupProps) => {
         `size-${size}`,
         className
       )}
+      {...rest}
     >
       {insertProps(avatars, { size, shape, style }).reverse()}
     </span>
