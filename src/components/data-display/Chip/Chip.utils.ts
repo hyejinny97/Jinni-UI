@@ -104,17 +104,14 @@ export const getColorStyle = ({
 export const insertProps = (
   element: JSX.Element,
   props: {
-    colorStyle: {
-      backgroundColor: ColorType | string;
-      color: ColorType | string;
-    };
+    style?: React.CSSProperties;
   }
 ): JSX.Element => ({
   ...element,
   props: {
     ...element.props,
     style: {
-      ...props.colorStyle,
+      ...props.style,
       ...element.props.style
     }
   }

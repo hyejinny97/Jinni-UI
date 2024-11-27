@@ -1,9 +1,9 @@
 import './Avatar.scss';
 import cn from 'classnames';
 import { useState } from 'react';
-import { editColorStyle } from '@/utils/editColorStyle';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import { DefaultComponentProps } from '@/types/default-component-props';
+import useStyle from '@/hooks/useStyle';
 
 export interface AvatarProps extends DefaultComponentProps<HTMLSpanElement> {
   src?: string;
@@ -28,7 +28,7 @@ const Avatar = (props: AvatarProps) => {
     style,
     ...rest
   } = props;
-  let newStyle = editColorStyle(style);
+  let newStyle = useStyle(style);
   const [isImageAvatar, setIsImageAvatar] = useState(!!src);
   const hasNumberTypeSize = typeof size === 'number';
 

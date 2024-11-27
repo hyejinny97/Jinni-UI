@@ -2,7 +2,6 @@ import './Chip.scss';
 import cn from 'classnames';
 import React from 'react';
 import type { ColorType } from '@/types/color';
-import { editColorStyle } from '@/utils/editColorStyle';
 import { RippleContainer } from '@/components/_share/RippleContainer';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { getColorStyle } from './Chip.utils';
@@ -11,6 +10,7 @@ import { ChipLeftIcon, ChipRightIcon } from './ChipIcon';
 import { ChipLabel } from './ChipLabel';
 import { DeleteButton } from './DeleteButton';
 import { DefaultComponentProps } from '@/types/default-component-props';
+import useStyle from '@/hooks/useStyle';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 
@@ -60,7 +60,10 @@ const Chip = (props: ChipProps) => {
     color,
     variant
   });
-  const newChipStyle = { ...chipColorStyle, ...style };
+  const chipStyle = useStyle({ ...chipColorStyle, ...style });
+  const avatarStyle = useStyle({ ...avatarColorStyle });
+  const iconStyle = useStyle({ ...iconColorStyle });
+  const deleteButtonStyle = useStyle({ ...deleteButtonColorStyle });
 
   return (
     <RippleContainer
@@ -76,33 +79,27 @@ const Chip = (props: ChipProps) => {
       )}
       onClick={onClick}
       role={isClickable ? 'button' : 'chip'}
-      style={editColorStyle(newChipStyle)}
+      style={chipStyle}
       active={isClickable && !isDeletable}
       rippleColor={variant === 'filled' ? 'white' : 'black'}
       {...rest}
     >
       {leftAvatar && (
-        <ChipLeftAvatar colorStyle={avatarColorStyle}>
-          {leftAvatar}
-        </ChipLeftAvatar>
+        <ChipLeftAvatar style={avatarStyle}>{leftAvatar}</ChipLeftAvatar>
       )}
-      {leftIcon && (
-        <ChipLeftIcon colorStyle={iconColorStyle}>{leftIcon}</ChipLeftIcon>
-      )}
+      {leftIcon && <ChipLeftIcon style={iconStyle}>{leftIcon}</ChipLeftIcon>}
       <ChipLabel>{label}</ChipLabel>
       {rightAvatar && (
-        <ChipRightAvatar colorStyle={avatarColorStyle}>
-          {rightAvatar}
-        </ChipRightAvatar>
+        <ChipRightAvatar style={avatarStyle}>{rightAvatar}</ChipRightAvatar>
       )}
       {rightIcon && (
-        <ChipRightIcon colorStyle={iconColorStyle}>{rightIcon}</ChipRightIcon>
+        <ChipRightIcon style={iconStyle}>{rightIcon}</ChipRightIcon>
       )}
       {isDeletable && (
         <DeleteButton
           onDelete={onDelete}
           deleteIcon={deleteIcon}
-          colorStyle={deleteButtonColorStyle}
+          style={deleteButtonStyle}
         />
       )}
     </RippleContainer>

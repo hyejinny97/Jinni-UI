@@ -1,21 +1,16 @@
-import type { ColorType } from '@/types/color';
-import { editColorStyle } from '@/utils/editColorStyle';
-
 interface ChipIconProps {
   children: JSX.Element;
-  colorStyle: {
-    fill: ColorType | string;
-  };
+  style?: React.CSSProperties;
 }
 
-export const ChipLeftIcon = ({ children, colorStyle }: ChipIconProps) => (
-  <span className="JinniChipIcon left" style={editColorStyle(colorStyle)}>
+export const ChipLeftIcon = ({ children, style }: ChipIconProps) => (
+  <span className="JinniChipIcon left" style={style}>
     {children}
   </span>
 );
 
-export const ChipRightIcon = ({ children, colorStyle }: ChipIconProps) => (
-  <span className="JinniChipIcon right" style={editColorStyle(colorStyle)}>
+export const ChipRightIcon = ({ children, style }: ChipIconProps) => (
+  <span className="JinniChipIcon right" style={style}>
     {children}
   </span>
 );

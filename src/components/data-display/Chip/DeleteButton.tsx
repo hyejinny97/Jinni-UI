@@ -3,19 +3,19 @@ import React, { useState } from 'react';
 interface DeleteButtonProps {
   deleteIcon?: JSX.Element;
   onDelete: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-  colorStyle: {
-    opacity: number;
-    fill: string;
-  };
+  style?: React.CSSProperties;
 }
 
 export const DeleteButton = ({
   deleteIcon,
   onDelete,
-  colorStyle
+  style
 }: DeleteButtonProps) => {
   const [hovered, setHovered] = useState(false);
-  const { opacity } = colorStyle;
+  let opacity = style?.opacity;
+  if (opacity && typeof opacity === 'number' && hovered) {
+    opacity = opacity + 0.2;
+  }
 
   const handleDelete = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
@@ -29,8 +29,8 @@ export const DeleteButton = ({
       onMouseOver={() => setHovered(true)}
       onMouseOut={() => setHovered(false)}
       style={{
-        ...colorStyle,
-        opacity: hovered ? opacity + 0.2 : opacity
+        ...style,
+        opacity
       }}
     >
       {deleteIcon}
