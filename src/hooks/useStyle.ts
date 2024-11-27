@@ -1,6 +1,5 @@
 import { StyleType } from '@/types/style';
 import { JinniColorTheme, JinniColorPalette } from '@/types/color';
-import { isResponsive } from '@/utils/isResponsive';
 import useBreakpoint from '@/hooks/useBreakpoint';
 import useJinni from '@/hooks/useJinni';
 import { BREAKPOINTS } from '@/constants/breakpoint';
@@ -11,6 +10,12 @@ type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
 };
 
+const isResponsive = <T>(element: unknown): element is Responsive<T> => {
+  if (!element || typeof element !== 'object') return false;
+  return Object.keys(element).every((key) =>
+    BREAKPOINTS.some((bp) => bp === key)
+  );
+};
 const isThemeColor = (
   value: StyleType[keyof StyleType]
 ): value is JinniColorTheme => COLOR_THEME.some((color) => color === value);
