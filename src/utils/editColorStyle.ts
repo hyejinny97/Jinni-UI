@@ -1,7 +1,7 @@
 import { StyleType } from '@/types/style';
-import { CSS_COLOR_PROPERTIES } from '@/constants/css-color-properties';
+import { CSS_COLOR_PROPERTIES } from '@/constants/color';
 
-const getJinniColorValue = (color: string) => {
+export const getJinniColorValue = (color: string) => {
   const rootEl = document.querySelector(':root');
   if (!rootEl) throw Error('root element를 가져오지 못함');
 
