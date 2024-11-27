@@ -1,6 +1,6 @@
 import JinniContext, { JinniValueType } from '@/contexts/JinniContext';
 import { getJinniBreakPointValue } from '@/utils/breakpoint';
-import { getJinniColorValue } from '@/utils/editColorStyle';
+import { getJinniColorValue } from '@/utils/color';
 import { BREAKPOINTS } from '@/constants/breakpoint';
 import { COLOR_THEME, COLOR_PALETTE } from '@/constants/color';
 

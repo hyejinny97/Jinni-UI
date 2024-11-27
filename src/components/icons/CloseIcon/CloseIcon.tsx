@@ -1,4 +1,4 @@
-import { editColor } from '@/utils/editColorStyle';
+import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
 
 interface CloseIconProps extends React.HTMLAttributes<SVGElement> {
