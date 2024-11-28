@@ -1,91 +1,88 @@
 @use 'sass:map';
-@use '@/styles/variables' as var;
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
-
-$typo-font-size: (
-  'display-large': 57px,
-  'display-medium': 45px,
-  'display-small': 36px,
-  'headline-large': 32px,
-  'headline-medium': 28px,
-  'headline-small': 24px,
-  'title-large': 22px,
-  'title-medium': 16px,
-  'title-small': 14px,
-  'label-large': 14px,
-  'label-medium': 12px,
-  'label-small': 11px,
-  'body-large': 16px,
-  'body-medium': 14px,
-  'body-small': 12px
-);
-
-$typo-line-height: (
-  'display-large': 64px,
-  'display-medium': 52px,
-  'display-small': 44px,
-  'headline-large': 40px,
-  'headline-medium': 36px,
-  'headline-small': 32px,
-  'title-large': 28px,
-  'title-medium': 24px,
-  'title-small': 20px,
-  'label-large': 20px,
-  'label-medium': 16px,
-  'label-small': 16px,
-  'body-large': 24px,
-  'body-medium': 20px,
-  'body-small': 16px
-);
-
-$typo-letter-spacing: (
-  'display-large': -0.25px,
-  'display-medium': 0px,
-  'display-small': 0px,
-  'headline-large': 0px,
-  'headline-medium': 0px,
-  'headline-small': 0px,
-  'title-large': 0px,
-  'title-medium': 0.15px,
-  'title-small': 0.1px,
-  'label-large': 0.1px,
-  'label-medium': 0.5px,
-  'label-small': 0.5px,
-  'body-large': 0.5px,
-  'body-medium': 0.25px,
-  'body-small': 0.4px
-);
-
-$typo-font-weight: (
-  'display-large': var.$font-weight-regular,
-  'display-medium': var.$font-weight-regular,
-  'display-small': var.$font-weight-regular,
-  'headline-large': var.$font-weight-regular,
-  'headline-medium': var.$font-weight-regular,
-  'headline-small': var.$font-weight-regular,
-  'title-large': var.$font-weight-regular,
-  'title-medium': var.$font-weight-medium,
-  'title-small': var.$font-weight-medium,
-  'label-large': var.$font-weight-medium,
-  'label-medium': var.$font-weight-medium,
-  'label-small': var.$font-weight-medium,
-  'body-large': var.$font-weight-regular,
-  'body-medium': var.$font-weight-regular,
-  'body-small': var.$font-weight-regular
-);
 
 $typo-types: 'display-large', 'display-medium', 'display-small',
   'headline-large', 'headline-medium', 'headline-small', 'title-large',
   'title-medium', 'title-small', 'label-large', 'label-medium', 'label-small',
   'body-large', 'body-medium', 'body-small';
 
+:root {
+  // typo-font-size
+  --jinni-typo-font-size-display-large: 57px;
+  --jinni-typo-font-size-display-medium: 45px;
+  --jinni-typo-font-size-display-small: 36px;
+  --jinni-typo-font-size-headline-large: 32px;
+  --jinni-typo-font-size-headline-medium: 28px;
+  --jinni-typo-font-size-headline-small: 24px;
+  --jinni-typo-font-size-title-large: 22px;
+  --jinni-typo-font-size-title-medium: 16px;
+  --jinni-typo-font-size-title-small: 14px;
+  --jinni-typo-font-size-label-large: 14px;
+  --jinni-typo-font-size-label-medium: 12px;
+  --jinni-typo-font-size-label-small: 11px;
+  --jinni-typo-font-size-body-large: 16px;
+  --jinni-typo-font-size-body-medium: 14px;
+  --jinni-typo-font-size-body-small: 12px;
+
+  // typo-line-height
+  --jinni-typo-line-height-display-large: 64px;
+  --jinni-typo-line-height-display-medium: 52px;
+  --jinni-typo-line-height-display-small: 44px;
+  --jinni-typo-line-height-headline-large: 40px;
+  --jinni-typo-line-height-headline-medium: 36px;
+  --jinni-typo-line-height-headline-small: 32px;
+  --jinni-typo-line-height-title-large: 28px;
+  --jinni-typo-line-height-title-medium: 24px;
+  --jinni-typo-line-height-title-small: 20px;
+  --jinni-typo-line-height-label-large: 20px;
+  --jinni-typo-line-height-label-medium: 16px;
+  --jinni-typo-line-height-label-small: 16px;
+  --jinni-typo-line-height-body-large: 24px;
+  --jinni-typo-line-height-body-medium: 20px;
+  --jinni-typo-line-height-body-small: 16px;
+
+  // typo-letter-spacing
+  --jinni-typo-letter-spacing-display-large: -0.25px;
+  --jinni-typo-letter-spacing-display-medium: 0px;
+  --jinni-typo-letter-spacing-display-small: 0px;
+  --jinni-typo-letter-spacing-headline-large: 0px;
+  --jinni-typo-letter-spacing-headline-medium: 0px;
+  --jinni-typo-letter-spacing-headline-small: 0px;
+  --jinni-typo-letter-spacing-title-large: 0px;
+  --jinni-typo-letter-spacing-title-medium: 0.15px;
+  --jinni-typo-letter-spacing-title-small: 0.1px;
+  --jinni-typo-letter-spacing-label-large: 0.1px;
+  --jinni-typo-letter-spacing-label-medium: 0.5px;
+  --jinni-typo-letter-spacing-label-small: 0.5px;
+  --jinni-typo-letter-spacing-body-large: 0.5px;
+  --jinni-typo-letter-spacing-body-medium: 0.25px;
+  --jinni-typo-letter-spacing-body-small: 0.4px;
+
+  // typo-font-weight
+  --jinni-typo-font-weight-display-large: 400;
+  --jinni-typo-font-weight-display-medium: 400;
+  --jinni-typo-font-weight-display-small: 400;
+  --jinni-typo-font-weight-headline-large: 400;
+  --jinni-typo-font-weight-headline-medium: 400;
+  --jinni-typo-font-weight-headline-small: 400;
+  --jinni-typo-font-weight-title-large: 400;
+  --jinni-typo-font-weight-title-medium: 500;
+  --jinni-typo-font-weight-title-small: 500;
+  --jinni-typo-font-weight-label-large: 500;
+  --jinni-typo-font-weight-label-medium: 500;
+  --jinni-typo-font-weight-label-small: 500;
+  --jinni-typo-font-weight-body-large: 400;
+  --jinni-typo-font-weight-body-medium: 400;
+  --jinni-typo-font-weight-body-small: 400;
+}
+
 @mixin typography($type) {
   font-family: 'Noto Sans KR', serif;
   font-style: normal;
-  font-size: map.get($typo-font-size, $type);
-  line-height: map.get($typo-line-height, $type);
-  letter-spacing: map.get($typo-letter-spacing, $type);
-  font-weight: map.get($typo-font-weight, $type);
+  font-size: var(--jinni-typo-font-size-#{$type});
+  line-height: var(--jinni-typo-line-height-#{$type});
+  letter-spacing: var(--jinni-typo-letter-spacing-#{$type});
+  font-weight: var(--jinni-typo-font-weight-#{$type});
 }
 
 * {

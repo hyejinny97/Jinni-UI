@@ -4,7 +4,9 @@ import useBreakpoint from '@/hooks/useBreakpoint';
 import useJinni from '@/hooks/useJinni';
 import { BREAKPOINTS } from '@/constants/breakpoint';
 import { COLOR_THEME, COLOR_PALETTE } from '@/constants/color';
+import { TYPOGRAPHY } from '@/constants/typography';
 import { Responsive, BreakpointType } from '@/types/breakpoint';
+import { TypographyType } from '@/types/typography';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
@@ -22,6 +24,9 @@ const isThemeColor = (
 const isPaletteColor = (
   value: StyleType[keyof StyleType]
 ): value is JinniColorPalette => COLOR_PALETTE.some((color) => color === value);
+const isTypography = (
+  value: StyleType[keyof StyleType]
+): value is TypographyType => TYPOGRAPHY.some((typo) => typo === value);
 
 const editResponsive = <T>(
   value: Responsive<T>,
@@ -39,7 +44,8 @@ const useStyle = (
   style: StyleType | undefined
 ): DefaultStyleType | undefined => {
   const {
-    color: { theme, palette }
+    color: { theme, palette },
+    typography
   } = useJinni();
   const breakpoint = useBreakpoint();
 
@@ -58,6 +64,11 @@ const useStyle = (
     }
     if (isPaletteColor(editedValue)) {
       editedValue = palette[editedValue];
+    }
+    if (key === 'typography' && isTypography(editedValue)) {
+      const typographyStyle = typography[editedValue];
+      Object.assign(editedStyle, typographyStyle);
+      return;
     }
     editedStyle[key] = editedValue;
   });
