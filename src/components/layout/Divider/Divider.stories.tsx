@@ -58,7 +58,7 @@ const Container = ({
   );
 };
 
-export const DefaultDivider: Story = {
+export const BasicDivider: Story = {
   render: (args) => (
     <Container orientation={args.orientation || 'horizontal'}>
       <Divider {...args} />
