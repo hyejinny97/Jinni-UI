@@ -10,7 +10,7 @@
 
 @mixin dividerOrientation {
   &.horizontal {
-    max-width: 100%;
+    width: auto;
     border-top-width: 1px;
   }
   &.vertical {
