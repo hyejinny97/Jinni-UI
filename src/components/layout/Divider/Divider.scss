@@ -11,11 +11,9 @@
 @mixin dividerOrientation {
   &.horizontal {
     width: auto;
-    border-top-width: 1px;
   }
   &.vertical {
     height: auto;
-    border-left-width: 1px;
   }
 }
 

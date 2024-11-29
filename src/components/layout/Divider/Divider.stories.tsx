@@ -29,6 +29,11 @@ const meta: Meta<typeof Divider> = {
         type: { summary: 'solid | dotted | dashed' },
         defaultValue: { summary: 'solid' }
       }
+    },
+    thickness: {
+      description: '구분선 두께',
+      type: 'number',
+      defaultValue: { summary: '1' }
     }
   }
 };
@@ -49,6 +54,7 @@ const Container = ({
       spacing={30}
       direction={isHorizontal ? 'column' : 'row'}
       style={{
+        justifyContent: 'center',
         width: isHorizontal ? '500px' : '100px',
         height: isHorizontal ? '100px' : '500px'
       }}
@@ -58,7 +64,7 @@ const Container = ({
   );
 };
 
-export const DefaultDivider: Story = {
+export const BasicDivider: Story = {
   render: (args) => (
     <Container orientation={args.orientation || 'horizontal'}>
       <Divider {...args} />
@@ -104,6 +110,15 @@ export const WithContents: Story = {
     </Container>
   )
 };
+
+export const Thickness: Story = {
+  render: (args) => (
+    <Container orientation={args.orientation || 'horizontal'}>
+      <Divider thickness={3} {...args} />
+    </Container>
+  )
+};
+
 export const Customization: Story = {
   render: (args) => {
     const isHorizontal = !args.orientation || args.orientation === 'horizontal';
@@ -111,7 +126,6 @@ export const Customization: Story = {
       <Container orientation={args.orientation || 'horizontal'}>
         <Divider
           style={{
-            [isHorizontal ? 'borderTopWidth' : 'borderLeftWidth']: '2px',
             borderColor: 'error',
             color: 'error'
           }}
