@@ -9,9 +9,6 @@ import dogImage from '@/assets/images/dog-1.jpg';
 const meta: Meta<typeof Chip> = {
   component: Chip,
   argTypes: {
-    className: {
-      description: '추가 클래스'
-    },
     clickable: {
       description:
         'true이면 hover & ripple 애니메이션이 추가됨 (단, onDelete prop을 추가한 경우 hover 애니메이션만 추가됨)',
@@ -59,9 +56,6 @@ const meta: Meta<typeof Chip> = {
         type: { summary: 'sm | md | lg' },
         defaultValue: { summary: 'md' }
       }
-    },
-    style: {
-      description: '스타일'
     },
     variant: {
       description: 'chip 종류',

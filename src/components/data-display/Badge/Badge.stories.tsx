@@ -15,10 +15,6 @@ const meta: Meta<typeof Badge> = {
       description: '배지가 붙여질 anchor',
       table: { type: { summary: 'React.ReactNode' } }
     },
-    className: {
-      description: '추가 클래스',
-      type: 'string'
-    },
     color: {
       description: '배지 색상',
       table: {
@@ -73,10 +69,6 @@ horizontal: 'right';
         type: { summary: 'sm | md | lg' },
         defaultValue: { summary: 'md' }
       }
-    },
-    style: {
-      description: '스타일',
-      table: { type: { summary: 'StyleType' } }
     },
     variant: {
       description: '배지 모양',

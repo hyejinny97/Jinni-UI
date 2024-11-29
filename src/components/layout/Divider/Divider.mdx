@@ -1,0 +1,49 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as DividerStories from './Divider.stories';
+
+<Meta of={DividerStories} />
+
+# Divider
+
+section을 나누는 구분선
+
+## Import
+
+```js
+import { Divider } from '@/components/layout/Divider';
+```
+
+## Usage
+
+### Default Divider
+
+<Canvas of={DividerStories.DefaultDivider} />
+
+### Variant
+
+- `variant`: 구분선 스타일
+
+<Canvas of={DividerStories.Variant} />
+
+### Orientation
+
+- `orientation`: 구분선 방향
+
+<Canvas of={DividerStories.Orientation} />
+
+### With Contents
+
+- `children`을 통해 구분선 사이 콘텐츠 입력
+- `contentAlign`: 구분선 내 콘텐츠 위치
+
+<Canvas of={DividerStories.WithContents} />
+
+### Customization
+
+- `style` prop을 통해 color, margin, border-width, font-weight 등 변경 가능
+
+<Canvas of={DividerStories.Customization} />
+
+## Props
+
+<ArgTypes of={DividerStories} sort="alpha" />

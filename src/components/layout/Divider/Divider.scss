@@ -1,0 +1,79 @@
+@use '@/styles/variables' as var;
+
+@mixin dividerVariant {
+  @each $variant in solid, dotted, dashed {
+    &.#{$variant} {
+      border-style: $variant;
+    }
+  }
+}
+
+@mixin dividerOrientation {
+  &.horizontal {
+    width: auto;
+    border-top-width: 1px;
+  }
+  &.vertical {
+    height: auto;
+    border-left-width: 1px;
+  }
+}
+
+@mixin contentAlignment {
+  .content {
+    position: absolute;
+    padding: 0 10px;
+    background-color: white;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  &.horizontal .content {
+    top: 0;
+    &.center {
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &.left {
+      left: calc(100% * 0.1);
+      transform: translate(0, -50%);
+    }
+    &.right {
+      right: calc(100% * 0.1);
+      transform: translate(0, -50%);
+    }
+  }
+
+  &.vertical .content {
+    left: 0;
+    &.center {
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(-90deg);
+    }
+    &.left {
+      bottom: calc(100% * 0.1);
+      transform-origin: center left;
+      transform: rotate(-90deg);
+    }
+    &.right {
+      top: calc(100% * 0.1);
+      transform-origin: center right;
+      transform: translate(-100%, 0) rotate(-90deg);
+    }
+  }
+}
+
+.JinniDivider {
+  position: relative;
+  box-sizing: border-box;
+  border-width: 0;
+  border-color: var(--jinni-color-outline-variant);
+  color: var(--jinni-color-outline-variant);
+  font-size: 14px;
+  font-weight: var.$font-weight-regular;
+
+  @include dividerVariant;
+  @include dividerOrientation;
+  @include contentAlignment;
+}

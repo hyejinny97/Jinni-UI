@@ -52,14 +52,6 @@ const meta: Meta<typeof AvatarGroup> = {
         type: { summary: 'number' },
         defaultValue: { summary: 'children.length' }
       }
-    },
-    className: {
-      description: '추가 클래스',
-      type: 'string'
-    },
-    style: {
-      description: '스타일',
-      table: { type: { summary: 'StyleType' } }
     }
   }
 };
