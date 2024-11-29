@@ -41,14 +41,6 @@ const meta: Meta<typeof Avatar> = {
     src: {
       description: 'image 주소',
       type: 'string'
-    },
-    className: {
-      description: '추가 클래스',
-      type: 'string'
-    },
-    style: {
-      description: '스타일',
-      table: { type: { summary: 'StyleType' } }
     }
   },
   decorators: [

@@ -7,9 +7,6 @@ const meta: Meta<typeof Stack> = {
     children: {
       description: '레이아웃을 적용할 items'
     },
-    className: {
-      description: '클래스명'
-    },
     direction: {
       description: '정렬 방향',
       table: {
@@ -28,9 +25,6 @@ const meta: Meta<typeof Stack> = {
       table: {
         type: { summary: 'number | Responsive<number>' }
       }
-    },
-    style: {
-      description: '스타일'
     }
   }
 };
