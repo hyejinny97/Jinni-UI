@@ -13,7 +13,8 @@ export type SizeKeyword = 'sm' | 'md' | 'lg';
 export type SizeType = SizeKeyword | number;
 export type LineCapType = 'butt' | 'round';
 
-interface CircularProgressProps extends DefaultComponentProps<HTMLDivElement> {
+export interface CircularProgressProps
+  extends DefaultComponentProps<HTMLDivElement> {
   percent?: number;
   thickness?: number;
   progressColor?: ColorType;

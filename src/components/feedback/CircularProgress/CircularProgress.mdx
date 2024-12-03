@@ -1,0 +1,91 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as CircularProgressStories from './CircularProgress.stories';
+
+<Meta of={CircularProgressStories} />
+
+# CircularProgress
+
+명확하지 않은 대기 시간을 알려주거나 처리 정도를 나타내줌
+
+## Import
+
+```js
+import { CircularProgress } from '@/components/feedback/CircularProgress';
+```
+
+## Usage
+
+### Basic CircularProgress
+
+- 종류
+
+  - indeterminate: 명확하지 않은 대기 상태 (shrink animation이 있음)
+  - determinate: 명확한 대기 상태 (처리 정도를 나타내줌)
+
+- `percent`: 처리 정도
+  - `percent`가 있으면 determinate, 없으면 indeterminate
+
+#### 1. Indeterminate
+
+<Canvas of={CircularProgressStories.Indeterminate} />
+
+#### 2. Determinate
+
+<Canvas of={CircularProgressStories.Determinate} />
+
+### Progress Color
+
+- `progressColor`: progress 색상 (theme/palette 포함)
+
+<Canvas of={CircularProgressStories.ProgressColor} />
+
+### Trail Color
+
+- `trailColor`: progress 이외의 색상 (theme/palette 포함)
+
+<Canvas of={CircularProgressStories.TrailColor} />
+
+### Size
+
+- `size`: progress 크기
+
+<Canvas of={CircularProgressStories.Size} />
+
+### Thickness
+
+- `thickness`: progress 두께
+
+<Canvas of={CircularProgressStories.Thickness} />
+
+### LineCap
+
+- `lineCap`: progress line 끝 모양
+
+<Canvas of={CircularProgressStories.LineCap} />
+
+### Disable Shrink Animation
+
+- `disableShrink`: shrink animation 비활성화 (indeterminate 타입일 때만 적용됨)
+
+<Canvas of={CircularProgressStories.DisableShrinkAnimation} />
+
+### Speed
+
+- `speed`: 한번 회전하는데 걸리는 시간 (indeterminate 타입일 때만 적용됨)
+
+<Canvas of={CircularProgressStories.Speed} />
+
+### With Label
+
+#### showLabel
+
+- `showLabel`: true이면, progress percent를 나타냄 (determinate 타입일 때만 적용됨)
+  - `showLabel`=true일지라도, 특정 size(40px) 이상이어야 label이 나타남
+
+<Canvas of={CircularProgressStories.ShowLabel} />
+
+#### labelFormat
+
+- `labelFormat`: label을 커스텀하는 함수
+
+<Canvas of={CircularProgressStories.LabelFormat} />
