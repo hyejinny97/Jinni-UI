@@ -4,7 +4,54 @@ import CircularProgress, { CircularProgressProps } from './CircularProgress';
 import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof CircularProgress> = {
-  component: CircularProgress
+  component: CircularProgress,
+  argTypes: {
+    disableShrink: {
+      description: 'shrink animation 비활성화',
+      defaultValue: { summary: 'false' }
+    },
+    labelFormat: {
+      description: 'progress label 커스텀 함수',
+      defaultValue: { summary: '(percent: number) ⇒ ${percent}%' }
+    },
+    lineCap: {
+      description: 'progress line 끝 모양',
+      table: {
+        type: { summary: 'round | butt' },
+        defaultValue: { summary: 'round' }
+      }
+    },
+    percent: {
+      description: '처리 정도'
+    },
+    progressColor: {
+      description: 'progress 색상',
+      defaultValue: { summary: 'primary' }
+    },
+    showLabel: {
+      description: 'progress label(percent)을 나타냄',
+      defaultValue: { summary: 'false' }
+    },
+    size: {
+      description: 'progress 크기',
+      table: {
+        type: { summary: 'sm | md | lg | number' },
+        defaultValue: { summary: 'md' }
+      }
+    },
+    speed: {
+      description: '한번 회전하는데 걸리는 시간',
+      defaultValue: { summary: '1.5s' }
+    },
+    thickness: {
+      description: 'progress 두께',
+      defaultValue: { summary: '4px' }
+    },
+    trailColor: {
+      description: 'progress 이외의 색상',
+      defaultValue: { summary: 'transparent' }
+    }
+  }
 };
 
 export default meta;
