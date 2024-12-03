@@ -10,4 +10,10 @@ export type JinniColorTheme = (typeof COLOR_THEME)[number];
 export type JinniColorPalette = (typeof COLOR_PALETTE)[number];
 type JinniColor = JinniColorTheme | JinniColorPalette;
 
-export type ColorType = CSSColorKeywords | HEX | RGB | RGBA | JinniColor;
+export type ColorType =
+  | CSSColorKeywords
+  | HEX
+  | RGB
+  | RGBA
+  | JinniColor
+  | 'transparent';
