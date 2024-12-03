@@ -1,0 +1,43 @@
+@use '@/styles/animation';
+@use '@/styles/variables' as var;
+
+@mixin progress {
+  .progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(-90deg);
+  }
+
+  &.indeterminate .progress {
+    animation: 1.5s linear 0s infinite normal none running rotate;
+    circle {
+      stroke-dasharray: 80px, 200px;
+      stroke-dashoffset: 0;
+      animation: 1.5s ease-in-out 0s infinite normal none running shrink-stroke;
+    }
+  }
+
+  &.disableShrink .progress circle {
+    animation: none;
+  }
+}
+
+@mixin label {
+  .label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: inherit;
+    font-weight: var.$font-weight-medium;
+  }
+}
+
+.JinniCircularProgress {
+  display: inline-block;
+  position: relative;
+
+  @include progress;
+  @include label;
+}

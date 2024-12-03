@@ -684,9 +684,27 @@ export const COLOR_THEME = [
 
 export const COLOR_PALETTE = [
   'yellow-50',
+  'yellow-100',
+  'yellow-200',
+  'yellow-300',
   'yellow-400',
+  'yellow-500',
+  'yellow-600',
+  'yellow-700',
+  'yellow-800',
+  'yellow-900',
+  'yellow-950',
   'gray-50',
-  'gray-400'
+  'gray-100',
+  'gray-200',
+  'gray-300',
+  'gray-400',
+  'gray-500',
+  'gray-600',
+  'gray-700',
+  'gray-800',
+  'gray-900',
+  'gray-950'
 ] as const;
 
 export const CSS_COLOR_PROPERTIES = [
