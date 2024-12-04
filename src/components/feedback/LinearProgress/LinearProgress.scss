@@ -1,0 +1,51 @@
+@use '@/styles/animation';
+@use '@/styles/variables' as var;
+
+@mixin indeterminate {
+  &.indeterminate .trail .progress {
+    animation: move-left-to-right 2s ease-in-out infinite;
+  }
+}
+
+@mixin determinate {
+  &.determinate .trail .progress {
+    transition: width 0.2s linear;
+  }
+}
+
+@mixin linecap {
+  &.round .trail,
+  &.round .trail .progress {
+    border-radius: 10px;
+  }
+}
+
+.JinniLinearProgress {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  width: 100%;
+
+  .trail {
+    flex: 1;
+    position: relative;
+    height: inherit;
+    overflow: hidden;
+
+    .progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: inherit;
+    }
+  }
+
+  .label {
+    font-size: inherit;
+    font-weight: var.$font-weight-medium;
+  }
+
+  @include indeterminate;
+  @include determinate;
+  @include linecap;
+}
