@@ -14,7 +14,8 @@ export type ThicknessKeyword = 'sm' | 'md' | 'lg';
 export type ThicknessType = ThicknessKeyword | number;
 export type LineCapType = 'butt' | 'round';
 
-interface LinearProgressProps extends DefaultComponentProps<HTMLDivElement> {
+export interface LinearProgressProps
+  extends DefaultComponentProps<HTMLDivElement> {
   percent?: number;
   thickness?: ThicknessType;
   progressColor?: ColorType;
