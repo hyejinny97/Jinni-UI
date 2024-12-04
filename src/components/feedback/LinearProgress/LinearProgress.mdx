@@ -1,0 +1,83 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as LinearProgressStories from './LinearProgress.stories';
+
+<Meta of={LinearProgressStories} />
+
+# LinearProgress
+
+명확하지 않은 대기 시간을 알려주거나 처리 정도를 나타내줌
+
+## Import
+
+```js
+import { LinearProgress } from '@/components/feedback/LinearProgress';
+```
+
+## Usage
+
+### Basic LinearProgress
+
+- 종류
+
+  - indeterminate: 명확하지 않은 대기 상태
+  - determinate: 명확한 대기 상태 (처리 정도를 나타내줌)
+
+- `percent`: 처리 정도
+  - `percent`가 있으면 determinate, 없으면 indeterminate
+
+#### 1. Indeterminate
+
+<Canvas of={LinearProgressStories.Indeterminate} />
+
+#### 2. Determinate
+
+<Canvas of={LinearProgressStories.Determinate} />
+
+### Progress Color
+
+- `progressColor`: progress 색상 (theme/palette 포함)
+
+<Canvas of={LinearProgressStories.ProgressColor} />
+
+### Trail Color
+
+- `trailColor`: 바탕 색상 (theme/palette 포함)
+  - trailColor를 명시하지 않은 경우, progressColor에서 명도를 70% 높인(lightened) 색상을 가지게 됨
+
+<Canvas of={LinearProgressStories.TrailColor} />
+
+### Thickness
+
+- `thickness`: progress 두께
+
+<Canvas of={LinearProgressStories.Thickness} />
+
+### LineCap
+
+- `lineCap`: progress line 끝 모양
+
+<Canvas of={LinearProgressStories.LineCap} />
+
+### Speed
+
+- `speed`: 한번 회전하는데 걸리는 시간 (indeterminate 타입일 때만 적용됨)
+
+<Canvas of={LinearProgressStories.Speed} />
+
+### With Label
+
+#### showLabel
+
+- `showLabel`: true이면, progress percent를 나타냄 (determinate 타입일 때만 적용됨)
+
+<Canvas of={LinearProgressStories.ShowLabel} />
+
+#### labelFormat
+
+- `labelFormat`: label을 커스텀하는 함수
+
+<Canvas of={LinearProgressStories.LabelFormat} />
+
+## Props
+
+<ArgTypes of={LinearProgressStories} sort="alpha" />

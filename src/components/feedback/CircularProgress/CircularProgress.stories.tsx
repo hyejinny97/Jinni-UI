@@ -48,7 +48,7 @@ const meta: Meta<typeof CircularProgress> = {
       defaultValue: { summary: '4px' }
     },
     trailColor: {
-      description: 'progress 이외의 색상',
+      description: '바탕 색상',
       defaultValue: { summary: 'transparent' }
     }
   }
