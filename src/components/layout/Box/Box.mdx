@@ -18,9 +18,17 @@ import { Box } from '@/components/layout/Box';
 ### Basic Box
 
 - 기본적으로 `<div>` 요소로 렌더됨
-- `as` prop을 통해서 다른 html 요소로 변경 가능
+- `as` prop을 통해서 다른 HTML Element('section', 'span' 등)나 컴포넌트로 변경 가능
 
 <Canvas of={BoxStories.BasicBox} />
+
+#### 1) HTML Element로 변경
+
+<Canvas of={BoxStories.AsHtmlElement} />
+
+#### 2) Component로 변경
+
+<Canvas of={BoxStories.AsComponent} />
 
 ### Customization
 

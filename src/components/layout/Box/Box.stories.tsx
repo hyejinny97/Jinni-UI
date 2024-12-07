@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Box from './Box';
 import { Stack } from '@/components/layout/Stack';
-import { StyleType } from '@/types/style';
 
 const meta: Meta<typeof Box> = {
   component: Box,
@@ -36,7 +35,7 @@ const meta: Meta<typeof Box> = {
 export default meta;
 type Story = StoryObj<typeof Box>;
 
-const defaultStyle: StyleType = {
+const defaultStyle = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -44,8 +43,39 @@ const defaultStyle: StyleType = {
   height: '100px'
 };
 
+const CustomBox = ({
+  children,
+  style,
+  ...rest
+}: {
+  children: React.ReactNode;
+  style: React.CSSProperties;
+}) => {
+  return (
+    <div {...rest} style={{ ...style, color: 'yellowgreen' }}>
+      {children}
+    </div>
+  );
+};
+
 export const BasicBox: Story = {
   render: (args) => <Box {...args}>content</Box>
+};
+
+export const AsHtmlElement: Story = {
+  render: (args) => (
+    <Box as="section" {...args}>
+      content
+    </Box>
+  )
+};
+
+export const AsComponent: Story = {
+  render: (args) => (
+    <Box as={CustomBox} {...args}>
+      content
+    </Box>
+  )
 };
 
 export const Customization: Story = {
