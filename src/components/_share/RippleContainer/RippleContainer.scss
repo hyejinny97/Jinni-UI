@@ -1,6 +1,7 @@
 @use '@/styles/animation';
 
 .JinniRippleTarget {
+  display: flex;
   position: relative;
   overflow: hidden;
 
@@ -10,7 +11,7 @@
     z-index: 1;
     border-radius: 50%;
     pointer-events: none;
-    animation: ripple 1s linear;
+    animation: ripple 1.3s ease-in;
 
     &.white {
       background-color: rgba(white, 0.2);

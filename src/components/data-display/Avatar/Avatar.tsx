@@ -2,21 +2,22 @@ import './Avatar.scss';
 import cn from 'classnames';
 import { useState } from 'react';
 import { PersonIcon } from '@/components/icons/PersonIcon';
-import { DefaultComponentProps } from '@/types/default-component-props';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
-export interface AvatarProps extends DefaultComponentProps<HTMLSpanElement> {
-  src?: string;
-  alt?: string;
-  imgProps?: Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt'>;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
-  shape?: 'circle' | 'square' | 'rounded';
-  children?: React.ReactNode;
-}
+export type AvatarProps<T extends AsType = 'span'> =
+  DefaultComponentProps<T> & {
+    src?: string;
+    alt?: string;
+    imgProps?: Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt'>;
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
+    shape?: 'circle' | 'square' | 'rounded';
+    children?: React.ReactNode;
+  };
 
 const DefaultAvatarIcon = () => <PersonIcon color="white" />;
 
-const Avatar = (props: AvatarProps) => {
+const Avatar = <T extends AsType = 'span'>(props: AvatarProps<T>) => {
   const {
     src,
     alt,
@@ -26,6 +27,7 @@ const Avatar = (props: AvatarProps) => {
     children,
     className,
     style,
+    as: Component = 'span',
     ...rest
   } = props;
   let newStyle = useStyle(style);
@@ -45,7 +47,7 @@ const Avatar = (props: AvatarProps) => {
     );
 
   return (
-    <span
+    <Component
       className={cn(
         'JinniAvatar',
         { 'image-avatar': isImageAvatar },
@@ -57,7 +59,7 @@ const Avatar = (props: AvatarProps) => {
       {...rest}
     >
       {content}
-    </span>
+    </Component>
   );
 };
 

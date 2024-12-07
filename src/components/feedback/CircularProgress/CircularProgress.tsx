@@ -1,7 +1,7 @@
 import './CircularProgress.scss';
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';
-import { DefaultComponentProps } from '@/types/default-component-props';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { ColorType } from '@/types/color';
 import { isNumber } from '@/utils/isNumber';
 import { getComputedSize } from './CircularProgress.utils';
@@ -13,23 +13,25 @@ export type SizeKeyword = 'sm' | 'md' | 'lg';
 export type SizeType = SizeKeyword | number;
 export type LineCapType = 'butt' | 'round';
 
-export interface CircularProgressProps
-  extends DefaultComponentProps<HTMLDivElement> {
-  percent?: number;
-  thickness?: number;
-  progressColor?: ColorType;
-  trailColor?: ColorType;
-  size?: SizeType;
-  lineCap?: LineCapType;
-  disableShrink?: boolean;
-  speed?: number;
-  showLabel?: boolean;
-  labelFormat?: (percent: number) => string;
-}
+export type CircularProgressProps<T extends AsType = 'div'> =
+  DefaultComponentProps<T> & {
+    percent?: number;
+    thickness?: number;
+    progressColor?: ColorType;
+    trailColor?: ColorType;
+    size?: SizeType;
+    lineCap?: LineCapType;
+    disableShrink?: boolean;
+    speed?: number;
+    showLabel?: boolean;
+    labelFormat?: (percent: number) => string;
+  };
 
 const LIMIT_SIZE = 40;
 
-const CircularProgress = (props: CircularProgressProps) => {
+const CircularProgress = <T extends AsType = 'div'>(
+  props: CircularProgressProps<T>
+) => {
   const {
     percent,
     thickness = 4,
@@ -43,6 +45,7 @@ const CircularProgress = (props: CircularProgressProps) => {
     labelFormat = (percent) => `${percent}%`,
     className,
     style,
+    as: Component = 'div',
     ...rest
   } = props;
   const computedSize = getComputedSize(size);
@@ -53,7 +56,7 @@ const CircularProgress = (props: CircularProgressProps) => {
   const isMoreThanLimitSize = computedSize >= LIMIT_SIZE;
 
   return (
-    <div
+    <Component
       className={cn(
         'JinniCircularProgress',
         isDeterminate ? 'determinate' : 'indeterminate',
@@ -74,7 +77,7 @@ const CircularProgress = (props: CircularProgressProps) => {
       {isDeterminate && showLabel && isMoreThanLimitSize && (
         <Label value={labelFormat(percent)} />
       )}
-    </div>
+    </Component>
   );
 };
 

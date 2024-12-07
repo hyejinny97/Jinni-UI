@@ -1,24 +1,32 @@
 import './RippleContainer.scss';
 import cn from 'classnames';
 import { useState, useRef, useEffect } from 'react';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import useStyle from '@/hooks/useStyle';
 
-interface RippleContainerProps extends React.HtmlHTMLAttributes<HTMLElement> {
-  className?: string;
-  children?: React.ReactNode;
-  active?: boolean;
-  rippleColor?: 'white' | 'black';
-}
+type RippleContainerProps<T extends AsType = 'div'> =
+  DefaultComponentProps<T> & {
+    children?: React.ReactNode;
+    active?: boolean;
+    rippleColor?: 'white' | 'black';
+  };
 
-const RippleContainer = ({
-  className,
-  children,
-  active = true,
-  rippleColor = 'black',
-  ...rest
-}: RippleContainerProps) => {
+const RippleContainer = <T extends AsType = 'div'>(
+  props: RippleContainerProps<T>
+) => {
+  const {
+    children,
+    active = true,
+    rippleColor = 'black',
+    className,
+    style,
+    as: Component = 'div',
+    ...rest
+  } = props;
   const [showRipple, setShowRipple] = useState(false);
   const rippleTarget = useRef<HTMLDivElement>(null);
   const ripplePosition = useRef({ x: 0, y: 0 });
+  const newStyle = useStyle(style);
 
   useEffect(() => {
     const rippleTargetEl = rippleTarget.current;
@@ -38,13 +46,14 @@ const RippleContainer = ({
 
   useEffect(() => {
     if (!showRipple) return;
-    setTimeout(() => setShowRipple(false), 500);
+    setTimeout(() => setShowRipple(false), 1000);
   }, [showRipple]);
 
   return (
-    <div
+    <Component
       ref={rippleTarget}
-      className={cn(className, { JinniRippleTarget: active })}
+      className={cn('JinniRippleTarget', className)}
+      style={newStyle}
       {...rest}
     >
       {children}
@@ -57,7 +66,7 @@ const RippleContainer = ({
           }}
         />
       )}
-    </div>
+    </Component>
   );
 };
 

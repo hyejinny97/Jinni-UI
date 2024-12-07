@@ -1,7 +1,16 @@
 import type { StyleType } from '@/types/style';
 
-export interface DefaultComponentProps<T>
-  extends Omit<React.HTMLAttributes<T>, 'style'> {
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+export type AsType = keyof JSX.IntrinsicElements | React.ComponentType<any>;
+type DefaultProps<T extends AsType> = T extends keyof JSX.IntrinsicElements
+  ? React.HTMLAttributes<JSX.IntrinsicElements[T]>
+  : React.ComponentPropsWithoutRef<T>;
+
+export type DefaultComponentProps<T extends AsType> = Omit<
+  DefaultProps<T>,
+  'style'
+> & {
+  as?: T;
   className?: string;
   style?: StyleType;
-}
+};

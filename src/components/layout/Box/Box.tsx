@@ -1,6 +1,6 @@
 import './Box.scss';
 import cn from 'classnames';
-import { DefaultComponentProps } from '@/types/default-component-props';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ElevationLevelType } from '@/types/elevation';
 import { getComputedRound } from './Box.utils';
@@ -8,13 +8,13 @@ import { getComputedRound } from './Box.utils';
 export type RoundKeywordType = 'sm' | 'md' | 'lg';
 export type RoundType = RoundKeywordType | number;
 
-interface BoxProps extends DefaultComponentProps<HTMLDivElement> {
+type BoxProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   elevation?: ElevationLevelType;
   outlined?: boolean;
   round?: RoundType;
-}
+};
 
-const Box = (props: BoxProps) => {
+const Box = <T extends AsType = 'div'>(props: BoxProps<T>) => {
   const {
     elevation = 0,
     outlined = false,
@@ -22,6 +22,7 @@ const Box = (props: BoxProps) => {
     children,
     className,
     style,
+    as: Component = 'div',
     ...rest
   } = props;
   const computedRound = getComputedRound(round);
@@ -32,13 +33,13 @@ const Box = (props: BoxProps) => {
   });
 
   return (
-    <div
+    <Component
       className={cn('JinniBox', { outlined }, className)}
       style={newStyle}
       {...rest}
     >
       {children}
-    </div>
+    </Component>
   );
 };
 
