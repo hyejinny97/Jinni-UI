@@ -3,18 +3,18 @@ import cn from 'classnames';
 import { Responsive } from '@/types/breakpoint';
 import { insertDivider } from './Stack.utils';
 import useStyle from '@/hooks/useStyle';
-import { DefaultComponentProps } from '@/types/default-component-props';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 
 export type DirectionType = 'row' | 'row-reverse' | 'column' | 'column-reverse';
 
-interface StackProps extends DefaultComponentProps<HTMLDivElement> {
+type StackProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   spacing?: number | Responsive<number>;
   direction?: DirectionType | Responsive<DirectionType>;
   divider?: React.ReactNode;
   children: React.ReactNode;
-}
+};
 
-const Stack = (props: StackProps) => {
+const Stack = <T extends AsType = 'div'>(props: StackProps<T>) => {
   const {
     spacing,
     direction = 'column',
@@ -22,6 +22,7 @@ const Stack = (props: StackProps) => {
     children,
     className,
     style,
+    as: Component = 'div',
     ...rest
   } = props;
   const newStyle = useStyle({
@@ -31,9 +32,13 @@ const Stack = (props: StackProps) => {
   });
 
   return (
-    <div className={cn('JinniStack', className)} style={newStyle} {...rest}>
+    <Component
+      className={cn('JinniStack', className)}
+      style={newStyle}
+      {...rest}
+    >
       {divider ? insertDivider(children, divider) : children}
-    </div>
+    </Component>
   );
 };
 

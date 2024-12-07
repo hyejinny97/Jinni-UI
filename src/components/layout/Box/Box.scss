@@ -1,0 +1,9 @@
+@mixin outlined {
+  &.outlined {
+    border: 1px solid var(--jinni-color-outline-variant);
+  }
+}
+
+.JinniBox {
+  @include outlined;
+}

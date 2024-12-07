@@ -4,20 +4,20 @@ import React from 'react';
 import { Avatar } from '@/components/data-display/Avatar';
 import type { AvatarProps } from '@/components/data-display/Avatar';
 import { insertProps } from './AvatarGroup.utils';
-import { DefaultComponentProps } from '@/types/default-component-props';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 
-export interface AvatarGroupProps
-  extends DefaultComponentProps<HTMLSpanElement> {
-  children: Array<React.ReactElement<AvatarProps>>;
-  max?: number;
-  total?: number;
-  renderSurplus?: (surplus: number) => React.ReactElement<AvatarProps>;
-  spacing?: 'sm' | 'md' | 'lg';
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  shape?: 'circle' | 'square' | 'rounded';
-}
+export type AvatarGroupProps<T extends AsType = 'span'> =
+  DefaultComponentProps<T> & {
+    children: Array<React.ReactElement<AvatarProps>>;
+    max?: number;
+    total?: number;
+    renderSurplus?: (surplus: number) => React.ReactElement<AvatarProps>;
+    spacing?: 'sm' | 'md' | 'lg';
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    shape?: 'circle' | 'square' | 'rounded';
+  };
 
-const AvatarGroup = (props: AvatarGroupProps) => {
+const AvatarGroup = <T extends AsType = 'span'>(props: AvatarGroupProps<T>) => {
   const {
     children,
     max = children.length,
@@ -28,6 +28,7 @@ const AvatarGroup = (props: AvatarGroupProps) => {
     shape = 'circle',
     className,
     style,
+    as: Component = 'span',
     ...rest
   } = props;
   const surplusNum = total - max;
@@ -46,7 +47,7 @@ const AvatarGroup = (props: AvatarGroupProps) => {
     surplusNum > 0 ? [...displayedAvatars, surplusAvatar] : displayedAvatars;
 
   return (
-    <span
+    <Component
       className={cn(
         'JinniAvatarGroup',
         `spacing-${spacing}`,
@@ -56,7 +57,7 @@ const AvatarGroup = (props: AvatarGroupProps) => {
       {...rest}
     >
       {insertProps(avatars, { size, shape, style }).reverse()}
-    </span>
+    </Component>
   );
 };
 

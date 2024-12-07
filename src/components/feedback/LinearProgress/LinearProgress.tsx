@@ -1,7 +1,7 @@
 import './LinearProgress.scss';
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';
-import { DefaultComponentProps } from '@/types/default-component-props';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { ColorType } from '@/types/color';
 import { isNumber } from '@/utils/isNumber';
 import { lighten } from '@/utils/colorLuminance';
@@ -14,19 +14,21 @@ export type ThicknessKeyword = 'sm' | 'md' | 'lg';
 export type ThicknessType = ThicknessKeyword | number;
 export type LineCapType = 'butt' | 'round';
 
-export interface LinearProgressProps
-  extends DefaultComponentProps<HTMLDivElement> {
-  percent?: number;
-  thickness?: ThicknessType;
-  progressColor?: ColorType;
-  trailColor?: ColorType;
-  lineCap?: LineCapType;
-  speed?: number;
-  showLabel?: boolean;
-  labelFormat?: (percent: number) => string;
-}
+export type LinearProgressProps<T extends AsType = 'div'> =
+  DefaultComponentProps<T> & {
+    percent?: number;
+    thickness?: ThicknessType;
+    progressColor?: ColorType;
+    trailColor?: ColorType;
+    lineCap?: LineCapType;
+    speed?: number;
+    showLabel?: boolean;
+    labelFormat?: (percent: number) => string;
+  };
 
-const LinearProgress = (props: LinearProgressProps) => {
+const LinearProgress = <T extends AsType = 'div'>(
+  props: LinearProgressProps<T>
+) => {
   const {
     percent,
     thickness = 'md',
@@ -37,7 +39,9 @@ const LinearProgress = (props: LinearProgressProps) => {
     showLabel = false,
     labelFormat = (percent) => `${percent}%`,
     className,
-    style
+    style,
+    as: Component = 'div',
+    ...rest
   } = props;
   const computedThickness = getComputedThickness(thickness);
   const thicknessStyle = { height: `${computedThickness}px` };
@@ -46,7 +50,7 @@ const LinearProgress = (props: LinearProgressProps) => {
   const isDeterminate = isNumber(percent);
 
   return (
-    <div
+    <Component
       className={cn(
         'JinniLinearProgress',
         isDeterminate ? 'determinate' : 'indeterminate',
@@ -54,6 +58,7 @@ const LinearProgress = (props: LinearProgressProps) => {
         className
       )}
       style={newStyle}
+      {...rest}
     >
       <div className="trail" style={{ backgroundColor: editColor(trailColor) }}>
         <Progress
@@ -63,7 +68,7 @@ const LinearProgress = (props: LinearProgressProps) => {
         />
       </div>
       {isDeterminate && showLabel && <Label value={labelFormat(percent)} />}
-    </div>
+    </Component>
   );
 };
 

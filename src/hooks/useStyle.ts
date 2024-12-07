@@ -3,10 +3,13 @@ import { JinniColorTheme, JinniColorPalette } from '@/types/color';
 import useBreakpoint from '@/hooks/useBreakpoint';
 import useJinni from '@/hooks/useJinni';
 import { BREAKPOINTS } from '@/constants/breakpoint';
+import { CSS_COLOR_PROPERTIES } from '@/constants/color';
 import { COLOR_THEME, COLOR_PALETTE } from '@/constants/color';
 import { TYPOGRAPHY } from '@/constants/typography';
+import { ELEVATION_LEVELS } from '@/constants/elevation';
 import { Responsive, BreakpointType } from '@/types/breakpoint';
 import { TypographyType } from '@/types/typography';
+import { ElevationLevelType } from '@/types/elevation';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
@@ -18,6 +21,8 @@ const isResponsive = <T>(element: unknown): element is Responsive<T> => {
     BREAKPOINTS.some((bp) => bp === key)
   );
 };
+const isColorProperty = (key: string) =>
+  CSS_COLOR_PROPERTIES.some((propName) => propName === key);
 const isThemeColor = (
   value: StyleType[keyof StyleType]
 ): value is JinniColorTheme => COLOR_THEME.some((color) => color === value);
@@ -25,8 +30,17 @@ const isPaletteColor = (
   value: StyleType[keyof StyleType]
 ): value is JinniColorPalette => COLOR_PALETTE.some((color) => color === value);
 const isTypography = (
+  key: string,
   value: StyleType[keyof StyleType]
-): value is TypographyType => TYPOGRAPHY.some((typo) => typo === value);
+): value is TypographyType =>
+  key === 'typography' && TYPOGRAPHY.some((typo) => typo === value);
+const isBoxShadow = (key: string) => key === 'boxShadow';
+const isWhiteOverlay = (key: string) => key === 'whiteOverlay';
+const isElevation = (key: string) => key === 'elevation';
+const isElevationLevel = (
+  value: StyleType[keyof StyleType]
+): value is ElevationLevelType =>
+  ELEVATION_LEVELS.some((level) => level === value);
 
 const editResponsive = <T>(
   value: Responsive<T>,
@@ -45,7 +59,10 @@ const useStyle = (
 ): DefaultStyleType | undefined => {
   const {
     color: { theme, palette },
-    typography
+    typography,
+    boxShadow,
+    whiteOverlay,
+    getElevation
   } = useJinni();
   const breakpoint = useBreakpoint();
 
@@ -59,15 +76,31 @@ const useStyle = (
       if (!val) return;
       editedValue = val;
     }
-    if (isThemeColor(editedValue)) {
-      editedValue = theme[editedValue];
+    if (isColorProperty(key) && isThemeColor(editedValue)) {
+      editedStyle[key] = theme[editedValue];
+      return;
     }
-    if (isPaletteColor(editedValue)) {
-      editedValue = palette[editedValue];
+    if (isColorProperty(key) && isPaletteColor(editedValue)) {
+      editedStyle[key] = palette[editedValue];
+      return;
     }
-    if (key === 'typography' && isTypography(editedValue)) {
+    if (isTypography(key, editedValue)) {
       const typographyStyle = typography[editedValue];
       Object.assign(editedStyle, typographyStyle);
+      return;
+    }
+    if (isBoxShadow(key) && isElevationLevel(editedValue)) {
+      editedStyle[key] = boxShadow[editedValue];
+      return;
+    }
+    if (isWhiteOverlay(key) && isElevationLevel(editedValue)) {
+      const val = whiteOverlay[editedValue];
+      Object.assign(editedStyle, { backgroundImage: val });
+      return;
+    }
+    if (isElevation(key) && isElevationLevel(editedValue)) {
+      const elevationStyle = getElevation(editedValue);
+      Object.assign(editedStyle, elevationStyle);
       return;
     }
     editedStyle[key] = editedValue;

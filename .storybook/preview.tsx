@@ -4,6 +4,7 @@ import { JinniProvider } from '../src/components/_share/JinniProvider';
 import '@/styles/color.scss';
 import '@/styles/typography.scss';
 import '@/styles/breakpoint.scss';
+import '@/styles/elevation.scss';
 
 const preview: Preview = {
   parameters: {
@@ -39,6 +40,10 @@ const preview: Preview = {
     style: {
       description: '스타일',
       table: { type: { summary: 'StyleType' } }
+    },
+    as: {
+      description: 'root node (HTML Element, Component)',
+      table: { type: { summary: 'AsType' } }
     }
   }
 };

@@ -1,18 +1,19 @@
 import './Divider.scss';
 import cn from 'classnames';
-import { DefaultComponentProps } from '@/types/default-component-props';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { getBorderWidth } from './Divider.utils';
 
-export interface DividerProps extends DefaultComponentProps<HTMLDivElement> {
-  variant?: 'solid' | 'dotted' | 'dashed';
-  orientation?: 'horizontal' | 'vertical';
-  contentAlign?: 'left' | 'center' | 'right';
-  thickness?: number;
-  children?: React.ReactNode;
-}
+export type DividerProps<T extends AsType = 'div'> =
+  DefaultComponentProps<T> & {
+    variant?: 'solid' | 'dotted' | 'dashed';
+    orientation?: 'horizontal' | 'vertical';
+    contentAlign?: 'left' | 'center' | 'right';
+    thickness?: number;
+    children?: React.ReactNode;
+  };
 
-const Divider = (props: DividerProps) => {
+const Divider = <T extends AsType = 'div'>(props: DividerProps<T>) => {
   const {
     variant = 'solid',
     orientation = 'horizontal',
@@ -21,13 +22,14 @@ const Divider = (props: DividerProps) => {
     children,
     className,
     style,
+    as: Component = 'div',
     ...rest
   } = props;
   const borderWidth = getBorderWidth(orientation, thickness);
   const newStyle = useStyle({ ...borderWidth, ...style });
 
   return (
-    <div
+    <Component
       className={cn('JinniDivider', variant, orientation, className)}
       style={newStyle}
       role="separator"
@@ -35,7 +37,7 @@ const Divider = (props: DividerProps) => {
       {...rest}
     >
       <span className={cn('content', contentAlign)}>{children}</span>
-    </div>
+    </Component>
   );
 };
 

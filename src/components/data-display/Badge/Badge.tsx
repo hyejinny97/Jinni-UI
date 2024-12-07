@@ -1,10 +1,10 @@
 import './Badge.scss';
 import cn from 'classnames';
 import type { ColorType } from '@/types/color';
-import { DefaultComponentProps } from '@/types/default-component-props';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
-interface BadgeProps extends DefaultComponentProps<HTMLSpanElement> {
+type BadgeProps<T extends AsType = 'span'> = DefaultComponentProps<T> & {
   badgeContent?: React.ReactNode;
   children: React.ReactNode;
   max?: number;
@@ -17,9 +17,9 @@ interface BadgeProps extends DefaultComponentProps<HTMLSpanElement> {
     vertical: 'top' | 'bottom';
     horizontal: 'left' | 'right';
   };
-}
+};
 
-const Badge = (props: BadgeProps) => {
+const Badge = <T extends AsType = 'span'>(props: BadgeProps<T>) => {
   const {
     badgeContent,
     children,
@@ -32,6 +32,7 @@ const Badge = (props: BadgeProps) => {
     origin = { vertical: 'top', horizontal: 'right' },
     className,
     style,
+    as: Component = 'span',
     ...rest
   } = props;
   const newStyle = useStyle({ backgroundColor: color, ...style });
@@ -42,7 +43,7 @@ const Badge = (props: BadgeProps) => {
   const newBadgeContent =
     isNumberTypeContent && badgeContent > max ? `${max}+` : badgeContent;
   return (
-    <span
+    <Component
       className={cn(
         'JinniBadge',
         variant,
@@ -59,7 +60,7 @@ const Badge = (props: BadgeProps) => {
         </span>
       )}
       {children}
-    </span>
+    </Component>
   );
 };
 
