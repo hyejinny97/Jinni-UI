@@ -1,0 +1,56 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as BoxStories from './Box.stories';
+
+<Meta of={BoxStories} />
+
+# Box
+
+Jinni UI의 extend style을 사용할 수 있는 일반적인 컨테이너
+
+## Import
+
+```js
+import { Box } from '@/components/layout/Box';
+```
+
+## Usage
+
+### Basic Box
+
+- 기본적으로 `<div>` 요소로 렌더됨
+- `as` prop을 통해서 다른 html 요소로 변경 가능
+
+<Canvas of={BoxStories.BasicBox} />
+
+### Customization
+
+- `style` prop을 통해 너비, 색상(theme/palette 포함) 등 자유롭게 커스텀 가능
+
+<Canvas of={BoxStories.Customization} />
+
+### Elevation
+
+- `elevation`: box-shadow를 통해 계층(높낮이)을 나타냄
+  - 0 level ~ 24 level
+  - dark mode인 경우, box-shadow + overlay가 변경됨
+
+<Canvas of={BoxStories.Elevation} />
+
+### Outlined
+
+- `outlined`: border 존재 여부
+  - 기본적으로, border-color는 '—jinni-color-outline-variant'(theme color)을 갖게 됨
+  - `style` prop을 통해 border-color 등 변경 가능
+
+<Canvas of={BoxStories.Outlined} />
+
+### Round
+
+- `round`: border-radius 값
+  - `sm` | `md` | `lg`: 순서대로 8px, 12px, 16px
+
+<Canvas of={BoxStories.Round} />
+
+## Props
+
+<ArgTypes of={BoxStories} sort="alpha" />
