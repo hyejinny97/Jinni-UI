@@ -40,6 +40,10 @@ const preview: Preview = {
     style: {
       description: '스타일',
       table: { type: { summary: 'StyleType' } }
+    },
+    as: {
+      description: 'root node (HTML Element, Component)',
+      table: { type: { summary: 'AsType' } }
     }
   }
 };
