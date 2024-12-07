@@ -42,7 +42,8 @@ const CircularProgress = (props: CircularProgressProps) => {
     showLabel = false,
     labelFormat = (percent) => `${percent}%`,
     className,
-    style
+    style,
+    ...rest
   } = props;
   const computedSize = getComputedSize(size);
   const sizeStyle = { width: computedSize, height: computedSize };
@@ -60,6 +61,7 @@ const CircularProgress = (props: CircularProgressProps) => {
         className
       )}
       style={newStyle}
+      {...rest}
     >
       <Trail thickness={thickness} trailColor={trailColor} />
       <Progress

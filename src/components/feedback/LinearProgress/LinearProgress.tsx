@@ -37,7 +37,8 @@ const LinearProgress = (props: LinearProgressProps) => {
     showLabel = false,
     labelFormat = (percent) => `${percent}%`,
     className,
-    style
+    style,
+    ...rest
   } = props;
   const computedThickness = getComputedThickness(thickness);
   const thicknessStyle = { height: `${computedThickness}px` };
@@ -54,6 +55,7 @@ const LinearProgress = (props: LinearProgressProps) => {
         className
       )}
       style={newStyle}
+      {...rest}
     >
       <div className="trail" style={{ backgroundColor: editColor(trailColor) }}>
         <Progress
