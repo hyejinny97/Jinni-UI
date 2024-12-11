@@ -1,0 +1,25 @@
+@use '@/styles/animation';
+
+.JinniRippleContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  .JinniRipple {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: ripple 1.3s ease-in;
+
+    &.white {
+      background-image: var(--jinni-white-overlay-7);
+    }
+    &.black {
+      background-image: var(--jinni-black-overlay-5);
+    }
+  }
+}
