@@ -118,6 +118,6 @@ export const insertProps = (
 });
 
 export const getBorderRadius = (shape: ShapeType) => {
-  const shapeMap = { pill: '16px', rounded: '4px' };
+  const shapeMap = { pill: '9999px', rounded: '4px' };
   return shapeMap[shape];
 };
