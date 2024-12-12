@@ -1,0 +1,149 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+form을 제출하거나, 모달창을 여는 등 action이나 event를 유발/취소/삭제하기 위해서 사용됨
+
+## Import
+
+```js
+import { Button } from '@/components/general/Button';
+```
+
+## Usage
+
+### Basic Button
+
+- `children`: 버튼 내부 내용
+
+<Canvas of={ButtonStories.BasicButton} />
+
+### Button Variant
+
+- `variant`: 버튼 종류
+  - `filled`: background에 색상 반영
+  - `subtle-filled`: background에 lightened 색상 반영
+  - `outlined`: 테두리와 텍스트에만 색상 반영
+  - `text`: 텍스트에만 색상 반영
+
+<Canvas of={ButtonStories.ButtonVariant} />
+
+### Button Shape
+
+- `shape`: 버튼 모양
+  - `pill`: 모서리가 완전히 둥근 모양
+  - `rounded`: 모서리가 살짝 둥근 모양
+
+<Canvas of={ButtonStories.ButtonShape} />
+
+### Disabled
+
+- `disabled`: 버튼 비활성화
+
+<Canvas of={ButtonStories.Disabled} />
+
+### Link Button
+
+- `href`: 링크 url
+  - href prop이 있으면 기존 button에서 a 태그로 변환됨
+
+<Canvas of={ButtonStories.LinkButton} />
+
+### Icon Button
+
+#### 1) Left Icon Button
+
+- `leftIcon`: button label의 왼쪽에 위치한 아이콘
+
+<Canvas of={ButtonStories.LeftIconButton} />
+
+#### 2) Right Icon Button
+
+- `rightIcon`: button label의 오른쪽에 위치한 아이콘
+
+<Canvas of={ButtonStories.RightIconButton} />
+
+#### 3) Center Icon Button
+
+- `centerIcon`: 중앙에 위치한 아이콘
+  - children(label)이 있어도 표시되지 않음
+
+<Canvas of={ButtonStories.CenterIconButton} />
+
+#### 3) Multiple Icon Button
+
+<Canvas of={ButtonStories.MultipleIconButton} />
+
+### Loading Button
+
+#### 1) Default Loading Button
+
+- `loading`: loading state를 나타내줌
+  - loading=true일 때, Button은 disabled 처리됨
+
+<Canvas of={ButtonStories.DefaultLoadingButton} />
+
+#### 2) Custom Loading State
+
+- `loadingState`: 로딩 상태
+  - ex) CircularProgress, DotProgress, string 등
+
+<Canvas of={ButtonStories.CustomLoadingState} />
+
+#### 3) Loading State Position
+
+- `loadingStatePosition`: 로딩 상태 위치
+
+  - `left`인 경우, 라벨 왼쪽에 로딩 상태가 나타남
+    - `leftIcon`이 있는 경우, 아이콘 대신 로딩 상태가 나타남
+  - `right`인 경우, 라벨 오른쪽에 로딩 상태가 나타남
+    - `rightIcon`이 있는 경우, 아이콘 대신 로딩 상태가 나타남
+  - `center`인 경우, 중앙에 로딩 상태가 나타남
+    - `rightIcon`, `leftIcon`, `centerIcon`, children(label)은 있어도 표시되지 않음
+
+<Canvas of={ButtonStories.LoadingStatePosition} />
+
+### Full Width
+
+- `fullWidth`: 버튼 너비를 parent의 너비와 동일하게 맞춤
+
+<Canvas of={ButtonStories.FullWidth} />
+
+### Elevation
+
+- `elevation`: elevation(box-shadow) 정도
+
+<Canvas of={ButtonStories.Elevation} />
+
+### Color
+
+- `color`: 버튼 색상(theme/palette 포함)
+
+<Canvas of={ButtonStories.Color} />
+
+### Size
+
+- `size`: 버튼 크기
+
+<Canvas of={ButtonStories.Size} />
+
+### Square Size
+
+- `isSquareSize`: true인 경우, 가로 세로 크기가 동일해짐
+
+<Canvas of={ButtonStories.SquareSize} />
+
+### Custom Button
+
+- `style` prop을 사용해 color, border, background, padding, font-size 등 커스텀 가능
+- 기본 HTML button 요소 prop인 `type` prop을 사용해 버튼의 타입 설정 가능
+  - type: `button` | `submit` | `reset`
+
+<Canvas of={ButtonStories.CustomButton} />
+
+## Props
+
+<ArgTypes of={ButtonStories} sort="alpha" />

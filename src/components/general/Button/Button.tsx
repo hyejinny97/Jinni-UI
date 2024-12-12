@@ -23,6 +23,7 @@ export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 export type SizeType = 'sm' | 'md' | 'lg';
 
 type ButtonProps<T extends AsType = 'button'> = DefaultComponentProps<T> & {
+  children?: React.ReactNode;
   variant?: VariantType;
   shape?: 'pill' | 'rounded';
   href?: string;
