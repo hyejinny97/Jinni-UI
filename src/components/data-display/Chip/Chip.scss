@@ -45,12 +45,12 @@ $avatar-font-size: (
   }
 }
 
-@mixin chipContent {
-  .JinniChipLabel,
-  .JinniChipAvatar,
-  .JinniChipIcon {
-    position: relative;
-    z-index: 1;
+@mixin chipShape {
+  &.pill {
+    border-radius: 9999px;
+  }
+  &.rounded {
+    border-radius: 4px;
   }
 }
 
@@ -61,6 +61,7 @@ $avatar-font-size: (
       margin-right: map.get($label-margin, $size);
       font-size: map.get($label-font-size, $size);
       font-weight: var.$font-weight-medium;
+      z-index: 1;
     }
   }
 }
@@ -85,6 +86,7 @@ $avatar-font-size: (
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      z-index: 1;
 
       .JinniAvatar {
         width: map.get($avatar-size, $size);
@@ -110,6 +112,7 @@ $avatar-font-size: (
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      z-index: 1;
 
       svg {
         width: map.get($avatar-size, $size);
@@ -130,23 +133,11 @@ $avatar-font-size: (
   &.clickable {
     cursor: pointer;
 
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-      background-color: rgb(0, 0, 0, 0.1);
-      outline: 1px solid rgb(0, 0, 0, 0.1);
-      opacity: 0;
-      transition: opacity 0.3s ease-out;
-      z-index: 0;
+    &:hover {
+      background-image: var(--jinni-black-overlay-3);
     }
-
-    &:hover::after {
-      opacity: 1;
+    &.filled:hover {
+      background-image: var(--jinni-white-overlay-5);
     }
   }
 }
@@ -157,20 +148,20 @@ $avatar-font-size: (
     border: none;
     background-color: transparent;
     cursor: pointer;
+    z-index: 1;
   }
 }
 
 .JinniChip {
-  position: relative;
   display: inline-flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
   border: 1px solid;
   user-select: none;
 
   @include chipSize;
+  @include chipShape;
 
-  @include chipContent;
   @include chipLabel;
   @include chipAvatar;
   @include chipIcon;

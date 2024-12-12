@@ -1,12 +1,10 @@
 @keyframes ripple {
   0% {
-    width: 0px;
-    height: 0px;
+    transform: translate(-50%, -50%) scale(0);
     opacity: 1;
   }
   100% {
-    width: 500px;
-    height: 500px;
+    transform: translate(-50%, -50%) scale(4);
     opacity: 0;
   }
 }

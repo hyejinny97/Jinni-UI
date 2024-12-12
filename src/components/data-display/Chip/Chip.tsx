@@ -2,9 +2,9 @@ import './Chip.scss';
 import cn from 'classnames';
 import React from 'react';
 import type { ColorType } from '@/types/color';
-import { RippleContainer } from '@/components/_share/RippleContainer';
+import { useRipple } from '@/hooks/useRipple';
 import { CloseIcon } from '@/components/icons/CloseIcon';
-import { getColorStyle, getBorderRadius } from './Chip.utils';
+import { getColorStyle } from './Chip.utils';
 import { ChipLeftAvatar, ChipRightAvatar } from './ChipAvatar';
 import { ChipLeftIcon, ChipRightIcon } from './ChipIcon';
 import { ChipLabel } from './ChipLabel';
@@ -13,12 +13,11 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
-export type ShapeType = 'pill' | 'rounded';
 
 type ChipProps<T extends AsType = 'span'> = DefaultComponentProps<T> & {
   label: React.ReactNode;
   variant?: VariantType;
-  shape?: ShapeType;
+  shape?: 'pill' | 'rounded';
   leftAvatar?: JSX.Element;
   rightAvatar?: JSX.Element;
   leftIcon?: JSX.Element;
@@ -53,7 +52,7 @@ const Chip = <T extends AsType = 'span'>(props: ChipProps<T>) => {
   } = props;
   const isClickable = !!onClick || clickable;
   const isDeletable = !!onDelete;
-  const borderRadius = getBorderRadius(shape);
+  const showRipple = isClickable && !isDeletable;
   const {
     chipColorStyle,
     avatarColorStyle,
@@ -63,53 +62,52 @@ const Chip = <T extends AsType = 'span'>(props: ChipProps<T>) => {
     color,
     variant
   });
-  const chipStyle = useStyle({ borderRadius, ...chipColorStyle, ...style });
+  const chipStyle = useStyle({ ...chipColorStyle, ...style });
   const avatarStyle = useStyle({ ...avatarColorStyle });
   const iconStyle = useStyle({ ...iconColorStyle });
   const deleteButtonStyle = useStyle({ ...deleteButtonColorStyle });
+  const { rippleTargetRef, RippleContainer } = useRipple({
+    rippleColor: variant === 'filled' ? 'white' : 'black'
+  });
 
   return (
-    <RippleContainer
-      active={isClickable && !isDeletable}
-      rippleColor={variant === 'filled' ? 'white' : 'black'}
-      style={{ borderRadius }}
+    <Component
+      ref={rippleTargetRef}
+      className={cn(
+        'JinniChip',
+        variant,
+        shape,
+        size,
+        {
+          clickable: isClickable
+        },
+        className
+      )}
+      onClick={onClick}
+      role={isClickable ? 'button' : 'chip'}
+      style={chipStyle}
+      {...rest}
     >
-      <Component
-        className={cn(
-          'JinniChip',
-          variant,
-          shape,
-          size,
-          {
-            clickable: isClickable
-          },
-          className
-        )}
-        onClick={onClick}
-        role={isClickable ? 'button' : 'chip'}
-        style={chipStyle}
-        {...rest}
-      >
-        {leftAvatar && (
-          <ChipLeftAvatar style={avatarStyle}>{leftAvatar}</ChipLeftAvatar>
-        )}
-        {leftIcon && <ChipLeftIcon style={iconStyle}>{leftIcon}</ChipLeftIcon>}
-        <ChipLabel>{label}</ChipLabel>
-        {rightAvatar && (
-          <ChipRightAvatar style={avatarStyle}>{rightAvatar}</ChipRightAvatar>
-        )}
-        {rightIcon && (
-          <ChipRightIcon style={iconStyle}>{rightIcon}</ChipRightIcon>
-        )}
-        {isDeletable && (
-          <DeleteButton
-            onDelete={onDelete}
-            deleteIcon={deleteIcon}
-            style={deleteButtonStyle}
-          />
-        )}
-      </Component>
-    </RippleContainer>
+      {leftAvatar && (
+        <ChipLeftAvatar style={avatarStyle}>{leftAvatar}</ChipLeftAvatar>
+      )}
+      {leftIcon && <ChipLeftIcon style={iconStyle}>{leftIcon}</ChipLeftIcon>}
+      <ChipLabel>{label}</ChipLabel>
+      {rightAvatar && (
+        <ChipRightAvatar style={avatarStyle}>{rightAvatar}</ChipRightAvatar>
+      )}
+      {rightIcon && (
+        <ChipRightIcon style={iconStyle}>{rightIcon}</ChipRightIcon>
+      )}
+      {isDeletable && (
+        <DeleteButton
+          onDelete={onDelete}
+          deleteIcon={deleteIcon}
+          style={deleteButtonStyle}
+        />
+      )}
+      {showRipple && <RippleContainer />}
+    </Component>
   );
 };
 

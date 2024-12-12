@@ -1,0 +1,175 @@
+@use 'sass:map';
+@use '@/styles/variables' as var;
+
+$button-padding-y: (
+  sm: 4px,
+  md: 6px,
+  lg: 8px
+);
+
+$button-padding-x: (
+  sm: 10px,
+  md: 16px,
+  lg: 22px
+);
+
+$button-gap: (
+  sm: calc(map.get($button-padding-x, sm) * 1 / 2),
+  md: calc(map.get($button-padding-x, md) * 1 / 2),
+  lg: calc(map.get($button-padding-x, lg) * 1 / 2)
+);
+
+$label-font-size: (
+  sm: 13px,
+  md: 15px,
+  lg: 17px
+);
+
+$icon-size: (
+  sm: 18px,
+  md: 20px,
+  lg: 22px
+);
+
+$icon-margin: (
+  sm: calc(map.get($button-padding-x, sm) * 1 / 4),
+  md: calc(map.get($button-padding-x, md) * 1 / 4),
+  lg: calc(map.get($button-padding-x, lg) * 1 / 4)
+);
+
+@mixin buttonPadding($size) {
+  padding: map.get($button-padding-y, $size) map.get($button-padding-x, $size);
+}
+
+@mixin buttonSize {
+  @each $size in 'sm', 'md', 'lg' {
+    &.#{$size} {
+      @include buttonPadding($size);
+      column-gap: map.get($button-gap, $size);
+    }
+  }
+}
+
+@mixin buttonShape {
+  &.rounded {
+    border-radius: 4px;
+  }
+  &.pill {
+    border-radius: 9999px;
+  }
+}
+
+@mixin buttonLabel {
+  @each $size in 'sm', 'md', 'lg' {
+    &.#{$size} .JinniButtonLabel {
+      font-size: map.get($label-font-size, $size);
+      font-weight: var.$font-weight-medium;
+      z-index: 1;
+    }
+  }
+}
+
+@mixin buttonLeft($size) {
+  &.left {
+    margin-left: - map.get($icon-margin, $size);
+  }
+}
+
+@mixin buttonRight($size) {
+  &.right {
+    margin-right: - map.get($icon-margin, $size);
+  }
+}
+
+@mixin buttonIcon {
+  @each $size in 'sm', 'md', 'lg' {
+    &.#{$size} .JinniButtonIcon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+
+      svg {
+        width: map.get($icon-size, $size);
+        height: map.get($icon-size, $size);
+        fill: inherit;
+        path {
+          fill: inherit;
+        }
+      }
+
+      @include buttonLeft($size);
+      @include buttonRight($size);
+    }
+  }
+}
+
+@mixin buttonLoadingState {
+  @each $size in 'sm', 'md', 'lg' {
+    &.#{$size} .JinniButtonLoadingState {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+
+      @include buttonLeft($size);
+      @include buttonRight($size);
+    }
+  }
+}
+
+@mixin clickable {
+  cursor: pointer;
+  &:hover {
+    background-image: var(--jinni-black-overlay-3);
+  }
+  &.filled:hover {
+    background-image: var(--jinni-white-overlay-5);
+  }
+}
+
+@mixin disabled {
+  &.disabled {
+    cursor: default;
+    &:hover {
+      background-image: none;
+    }
+  }
+}
+
+@mixin fullWidth {
+  &.fullWidth {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@mixin squareSize {
+  @each $size in 'sm', 'md', 'lg' {
+    &.square-size.#{$size} {
+      padding: map.get($button-padding-y, $size);
+      aspect-ratio: 1 / 1;
+    }
+  }
+}
+
+.JinniButton {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  height: max-content;
+  border: 1px solid;
+  text-decoration: none;
+
+  @include buttonSize;
+  @include buttonShape;
+
+  @include buttonLabel;
+  @include buttonIcon;
+  @include buttonLoadingState;
+
+  @include clickable;
+  @include disabled;
+  @include fullWidth;
+  @include squareSize;
+}

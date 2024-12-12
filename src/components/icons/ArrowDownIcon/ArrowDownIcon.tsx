@@ -1,12 +1,16 @@
 import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
 
-interface MailIconProps extends React.HTMLAttributes<SVGElement> {
+interface ArrowDownIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
   color?: ColorType;
 }
 
-const MailIcon = ({ size = 24, color = 'black', ...rest }: MailIconProps) => {
+const ArrowDownIcon = ({
+  size = 24,
+  color = 'black',
+  ...rest
+}: ArrowDownIconProps) => {
   return (
     <svg
       width={size}
@@ -16,14 +20,14 @@ const MailIcon = ({ size = 24, color = 'black', ...rest }: MailIconProps) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clipPath="url(#clip0_86_145)">
+      <g clipPath="url(#clip0_182_182)">
         <path
-          d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z"
+          d="M7.41 8.59003L12 13.17L16.59 8.59003L18 10L12 16L6 10L7.41 8.59003Z"
           fill={editColor(color)}
         />
       </g>
       <defs>
-        <clipPath id="clip0_86_145">
+        <clipPath id="clip0_182_182">
           <rect width="24" height="24" fill="white" />
         </clipPath>
       </defs>
@@ -31,4 +35,4 @@ const MailIcon = ({ size = 24, color = 'black', ...rest }: MailIconProps) => {
   );
 };
 
-export default MailIcon;
+export default ArrowDownIcon;
