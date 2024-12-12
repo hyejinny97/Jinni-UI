@@ -2,7 +2,7 @@ import './Button.scss';
 import cn from 'classnames';
 import type { ColorType } from '@/types/color';
 import type { ElevationLevelType } from '@/types/elevation';
-import { RippleContainer } from '@/components/_share/RippleContainer';
+import { useRipple } from '@/hooks/useRipple';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
@@ -85,6 +85,10 @@ const Button = <T extends AsType = 'button'>(props: ButtonProps<T>) => {
     ...style
   });
   const iconStyle = useStyle({ ...iconColorStyle });
+  const { rippleTargetRef, RippleContainer } = useRipple({
+    rippleColor: variant === 'filled' ? 'white' : 'black'
+  });
+
   const newLoadingState = loadingState || (
     <CircularProgress
       progressColor={circularProgressColor}
@@ -136,32 +140,28 @@ const Button = <T extends AsType = 'button'>(props: ButtonProps<T>) => {
   }
 
   return (
-    <RippleContainer
-      active={!disabled}
-      rippleColor={variant === 'filled' ? 'white' : 'black'}
-      style={{ borderRadius }}
+    <Component
+      ref={rippleTargetRef}
+      className={cn(
+        'JinniButton',
+        variant,
+        size,
+        { 'square-size': isSquareSize },
+        { disabled },
+        { fullWidth },
+        className
+      )}
+      onClick={handleClick}
+      href={href}
+      disabled={disabled}
+      style={buttonStyle}
+      {...rest}
     >
-      <Component
-        className={cn(
-          'JinniButton',
-          variant,
-          size,
-          { 'square-size': isSquareSize },
-          { disabled },
-          { fullWidth },
-          className
-        )}
-        onClick={handleClick}
-        href={href}
-        disabled={disabled}
-        style={buttonStyle}
-        {...rest}
-      >
-        {leftContent}
-        {centerContent}
-        {rightContent}
-      </Component>
-    </RippleContainer>
+      {leftContent}
+      {centerContent}
+      {rightContent}
+      <RippleContainer />
+    </Component>
   );
 };
 
