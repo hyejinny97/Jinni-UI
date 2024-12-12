@@ -4,7 +4,7 @@ import React from 'react';
 import type { ColorType } from '@/types/color';
 import { useRipple } from '@/hooks/useRipple';
 import { CloseIcon } from '@/components/icons/CloseIcon';
-import { getColorStyle, getBorderRadius } from './Chip.utils';
+import { getColorStyle } from './Chip.utils';
 import { ChipLeftAvatar, ChipRightAvatar } from './ChipAvatar';
 import { ChipLeftIcon, ChipRightIcon } from './ChipIcon';
 import { ChipLabel } from './ChipLabel';
@@ -13,12 +13,11 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
-export type ShapeType = 'pill' | 'rounded';
 
 type ChipProps<T extends AsType = 'span'> = DefaultComponentProps<T> & {
   label: React.ReactNode;
   variant?: VariantType;
-  shape?: ShapeType;
+  shape?: 'pill' | 'rounded';
   leftAvatar?: JSX.Element;
   rightAvatar?: JSX.Element;
   leftIcon?: JSX.Element;
@@ -54,7 +53,6 @@ const Chip = <T extends AsType = 'span'>(props: ChipProps<T>) => {
   const isClickable = !!onClick || clickable;
   const isDeletable = !!onDelete;
   const showRipple = isClickable && !isDeletable;
-  const borderRadius = getBorderRadius(shape);
   const {
     chipColorStyle,
     avatarColorStyle,
@@ -64,7 +62,7 @@ const Chip = <T extends AsType = 'span'>(props: ChipProps<T>) => {
     color,
     variant
   });
-  const chipStyle = useStyle({ borderRadius, ...chipColorStyle, ...style });
+  const chipStyle = useStyle({ ...chipColorStyle, ...style });
   const avatarStyle = useStyle({ ...avatarColorStyle });
   const iconStyle = useStyle({ ...iconColorStyle });
   const deleteButtonStyle = useStyle({ ...deleteButtonColorStyle });

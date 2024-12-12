@@ -6,11 +6,7 @@ import { useRipple } from '@/hooks/useRipple';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
-import {
-  getColorStyle,
-  getBorderRadius,
-  getCircularProgressSize
-} from './Button.utils';
+import { getColorStyle, getCircularProgressSize } from './Button.utils';
 import { ButtonLabel } from './ButtonLabel';
 import {
   ButtonLeftIcon,
@@ -24,12 +20,11 @@ import {
 } from './ButtonLoadingState';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
-export type ShapeType = 'pill' | 'rounded';
 export type SizeType = 'sm' | 'md' | 'lg';
 
 type ButtonProps<T extends AsType = 'button'> = DefaultComponentProps<T> & {
   variant?: VariantType;
-  shape?: ShapeType;
+  shape?: 'pill' | 'rounded';
   href?: string;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
@@ -70,7 +65,6 @@ const Button = <T extends AsType = 'button'>(props: ButtonProps<T>) => {
     as: Component = href ? 'a' : 'button',
     ...rest
   } = props;
-  const borderRadius = getBorderRadius(shape);
   const circularProgressSize = getCircularProgressSize(size);
   const { buttonColorStyle, iconColorStyle, circularProgressColor } =
     getColorStyle({
@@ -79,7 +73,6 @@ const Button = <T extends AsType = 'button'>(props: ButtonProps<T>) => {
       disabled
     });
   const buttonStyle = useStyle({
-    borderRadius,
     elevation,
     ...buttonColorStyle,
     ...style
@@ -146,6 +139,7 @@ const Button = <T extends AsType = 'button'>(props: ButtonProps<T>) => {
         'JinniButton',
         variant,
         size,
+        shape,
         { 'square-size': isSquareSize },
         { disabled },
         { fullWidth },

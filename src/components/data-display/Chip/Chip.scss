@@ -45,6 +45,15 @@ $avatar-font-size: (
   }
 }
 
+@mixin chipShape {
+  &.pill {
+    border-radius: 9999px;
+  }
+  &.rounded {
+    border-radius: 4px;
+  }
+}
+
 @mixin chipLabel {
   @each $size in 'sm', 'md', 'lg' {
     &.#{$size} .JinniChipLabel {
@@ -151,6 +160,7 @@ $avatar-font-size: (
   user-select: none;
 
   @include chipSize;
+  @include chipShape;
 
   @include chipLabel;
   @include chipAvatar;

@@ -1,5 +1,5 @@
 import type { ColorType } from '@/types/color';
-import type { VariantType, ShapeType } from './Chip';
+import type { VariantType } from './Chip';
 import { lighten } from '@/utils/colorLuminance';
 
 export const getColorStyle = ({
@@ -116,8 +116,3 @@ export const insertProps = (
     }
   }
 });
-
-export const getBorderRadius = (shape: ShapeType) => {
-  const shapeMap = { pill: '9999px', rounded: '4px' };
-  return shapeMap[shape];
-};

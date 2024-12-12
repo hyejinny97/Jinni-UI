@@ -41,16 +41,21 @@ $icon-margin: (
   padding: map.get($button-padding-y, $size) map.get($button-padding-x, $size);
 }
 
-@mixin button {
+@mixin buttonSize {
   @each $size in 'sm', 'md', 'lg' {
     &.#{$size} {
       @include buttonPadding($size);
       column-gap: map.get($button-gap, $size);
     }
-    &.#{$size}.square-size {
-      padding: map.get($button-padding-y, $size);
-      aspect-ratio: 1 / 1;
-    }
+  }
+}
+
+@mixin buttonShape {
+  &.rounded {
+    border-radius: 4px;
+  }
+  &.pill {
+    border-radius: 9999px;
   }
 }
 
@@ -139,6 +144,15 @@ $icon-margin: (
   }
 }
 
+@mixin squareSize {
+  @each $size in 'sm', 'md', 'lg' {
+    &.square-size.#{$size} {
+      padding: map.get($button-padding-y, $size);
+      aspect-ratio: 1 / 1;
+    }
+  }
+}
+
 .JinniButton {
   display: inline-flex;
   justify-content: space-between;
@@ -147,7 +161,9 @@ $icon-margin: (
   border: 1px solid;
   text-decoration: none;
 
-  @include button;
+  @include buttonSize;
+  @include buttonShape;
+
   @include buttonLabel;
   @include buttonIcon;
   @include buttonLoadingState;
@@ -155,4 +171,5 @@ $icon-margin: (
   @include clickable;
   @include disabled;
   @include fullWidth;
+  @include squareSize;
 }

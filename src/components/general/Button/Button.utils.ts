@@ -1,5 +1,5 @@
 import type { ColorType } from '@/types/color';
-import type { VariantType, ShapeType, SizeType } from './Button';
+import type { VariantType, SizeType } from './Button';
 import { lighten } from '@/utils/colorLuminance';
 
 export const getColorStyle = ({
@@ -68,11 +68,6 @@ export const getColorStyle = ({
   }
 
   return { buttonColorStyle, iconColorStyle, circularProgressColor };
-};
-
-export const getBorderRadius = (shape: ShapeType) => {
-  const shapeMap = { pill: '9999px', rounded: '4px' };
-  return shapeMap[shape];
 };
 
 export const getCircularProgressSize = (size: SizeType) => {
