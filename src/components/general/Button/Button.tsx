@@ -65,12 +65,13 @@ const Button = <T extends AsType = 'button'>(props: ButtonProps<T>) => {
     as: Component = href ? 'a' : 'button',
     ...rest
   } = props;
+  const isDisabled = disabled || loading;
   const circularProgressSize = getCircularProgressSize(size);
   const { buttonColorStyle, iconColorStyle, circularProgressColor } =
     getColorStyle({
       color,
       variant,
-      disabled
+      disabled: isDisabled
     });
   const buttonStyle = useStyle({
     elevation,
@@ -141,13 +142,13 @@ const Button = <T extends AsType = 'button'>(props: ButtonProps<T>) => {
         size,
         shape,
         { 'square-size': isSquareSize },
-        { disabled },
+        { disabled: isDisabled },
         { fullWidth },
         className
       )}
       onClick={handleClick}
       href={href}
-      disabled={disabled}
+      disabled={isDisabled}
       style={buttonStyle}
       {...rest}
     >
