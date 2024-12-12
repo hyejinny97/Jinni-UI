@@ -1,53 +1,54 @@
 import './ripple.scss';
-import cn from 'classnames';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 
 interface useRippleProps {
   rippleColor: 'white' | 'black';
 }
 
 const useRipple = ({ rippleColor }: useRippleProps) => {
-  const [showRipple, setShowRipple] = useState(false);
   const rippleTargetRef = useRef<HTMLElement>(null);
-  const ripplePosition = useRef({ x: 0, y: 0 });
+  const rippleContainerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const rippleTargetEl = rippleTargetRef.current;
+    if (!rippleTargetEl) return;
+    rippleTargetEl.style.position = 'relative';
+  }, []);
 
   useEffect(() => {
     const rippleTargetEl = rippleTargetRef.current;
     if (!rippleTargetEl) return;
-    rippleTargetEl.style.position = 'relative';
 
     const handleClick = (e: MouseEvent) => {
-      const target = e.currentTarget as HTMLElement;
-      if (!target) return;
-      const x = e.clientX - target.getBoundingClientRect().left;
-      const y = e.clientY - target.getBoundingClientRect().top;
-      ripplePosition.current = { x, y };
-      setShowRipple(true);
+      const rippleContainerEl = rippleContainerRef.current;
+      if (!rippleContainerEl) return;
+
+      const { left, top, width, height } =
+        rippleTargetEl.getBoundingClientRect();
+      const size = Math.max(width, height);
+      const x = e.clientX - left;
+      const y = e.clientY - top;
+
+      const ripple = document.createElement('span');
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      ripple.className = `JinniRipple ${rippleColor}`;
+
+      rippleContainerEl.appendChild(ripple);
+      setTimeout(() => {
+        ripple.remove();
+      }, 500);
     };
     rippleTargetEl.addEventListener('click', handleClick);
     return () => rippleTargetEl.removeEventListener('click', handleClick);
-  }, []);
-
-  useEffect(() => {
-    if (!showRipple) return;
-    setTimeout(() => setShowRipple(false), 1000);
-  }, [showRipple]);
+  }, [rippleColor]);
 
   const RippleContainer = () => (
-    <div className="JinniRippleContainer">
-      {showRipple && (
-        <span
-          className={cn('JinniRipple', rippleColor)}
-          style={{
-            left: ripplePosition.current.x,
-            top: ripplePosition.current.y
-          }}
-        />
-      )}
-    </div>
+    <div ref={rippleContainerRef} className="JinniRippleContainer"></div>
   );
 
-  return { RippleContainer, rippleTargetRef };
+  return { rippleTargetRef, RippleContainer };
 };
 
 export default useRipple;
