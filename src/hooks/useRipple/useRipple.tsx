@@ -1,5 +1,5 @@
 import './ripple.scss';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 
 interface useRippleProps {
   rippleColor: 'white' | 'black';
@@ -44,8 +44,9 @@ const useRipple = ({ rippleColor }: useRippleProps) => {
     return () => rippleTargetEl.removeEventListener('click', handleClick);
   }, [rippleColor]);
 
-  const RippleContainer = () => (
-    <div ref={rippleContainerRef} className="JinniRippleContainer"></div>
+  const RippleContainer = useCallback(
+    () => <div ref={rippleContainerRef} className="JinniRippleContainer"></div>,
+    []
   );
 
   return { rippleTargetRef, RippleContainer };

@@ -1,0 +1,11 @@
+@use '@/styles/variables' as var;
+
+.JinniBackdrop {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: var.$z-index-backdrop;
+  background-color: transparent;
+}
