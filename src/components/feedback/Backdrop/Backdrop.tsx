@@ -13,9 +13,13 @@ const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
   const newStyle = useStyle(style);
 
   useEffect(() => {
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.removeProperty('overflow');
+      document.body.style.removeProperty('padding-right');
     };
   }, []);
 
