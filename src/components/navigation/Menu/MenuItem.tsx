@@ -4,13 +4,15 @@ import useStyle from '@/hooks/useStyle';
 import { useRipple } from '@/hooks/useRipple';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 
-type MenuItemProps<T extends AsType = 'li'> = DefaultComponentProps<T> & {
-  children: React.ReactNode;
-  dense?: boolean;
-  disabled?: boolean;
-  selected?: boolean;
-  href?: string;
-};
+export type MenuItemProps<T extends AsType = 'li'> =
+  DefaultComponentProps<T> & {
+    children: React.ReactNode;
+    dense?: boolean;
+    disabled?: boolean;
+    selected?: boolean;
+    href?: string;
+    focus?: boolean;
+  };
 
 const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
   const {
@@ -19,6 +21,7 @@ const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
     disabled = false,
     selected = false,
     href,
+    focus = false,
     className,
     style,
     as: Component = href ? 'a' : 'li',
@@ -37,6 +40,7 @@ const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
         { dense },
         { disabled },
         { selected },
+        { focus },
         className
       )}
       style={newStyle}

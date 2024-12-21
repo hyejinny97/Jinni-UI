@@ -19,6 +19,12 @@
   }
 }
 
+@mixin focus {
+  &.focus {
+    background-image: var(--jinni-black-overlay-5);
+  }
+}
+
 .JinniMenuItem {
   display: inline-block;
   padding: 6px 16px;
@@ -36,4 +42,5 @@
   @include dense;
   @include disabled;
   @include selected;
+  @include focus;
 }
