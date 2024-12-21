@@ -1,0 +1,47 @@
+@mixin dense {
+  &.dense {
+    padding: 4px 16px;
+    font-size: 14px;
+  }
+}
+
+@mixin disabled {
+  &.disabled {
+    color: var(--jinni-color-gray-400);
+    pointer-events: none;
+    cursor: default;
+  }
+}
+
+@mixin selected {
+  &.selected {
+    background-color: var(--jinni-color-primary-container);
+  }
+}
+
+@mixin focus {
+  &:focus {
+    outline: none;
+    background-image: var(--jinni-black-overlay-5);
+  }
+}
+
+.JinniMenuItem {
+  display: inline-block;
+  padding: 6px 16px;
+  color: black;
+  background-color: white;
+  font-size: 16px;
+  list-style: none;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    background-image: var(--jinni-black-overlay-1);
+  }
+
+  @include dense;
+  @include disabled;
+  @include selected;
+  @include focus;
+}
