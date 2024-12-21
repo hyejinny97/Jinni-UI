@@ -1,5 +1,6 @@
 import './MenuItem.scss';
 import cn from 'classnames';
+import { useEffect } from 'react';
 import useStyle from '@/hooks/useStyle';
 import { useRipple } from '@/hooks/useRipple';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
@@ -12,6 +13,7 @@ export type MenuItemProps<T extends AsType = 'li'> =
     selected?: boolean;
     href?: string;
     focus?: boolean;
+    onClick?: (event: MouseEvent) => void;
   };
 
 const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
@@ -22,6 +24,7 @@ const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
     selected = false,
     href,
     focus = false,
+    onClick,
     className,
     style,
     as: Component = href ? 'a' : 'li',
@@ -31,6 +34,19 @@ const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
   const { rippleTargetRef, RippleContainer } = useRipple({
     rippleColor: 'black'
   });
+
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.code === 'Enter' && focus && onClick) {
+        onClick(e);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeydown);
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, [onClick, focus]);
 
   return (
     <Component
@@ -45,6 +61,7 @@ const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
       )}
       style={newStyle}
       href={href}
+      onClick={onClick}
       {...rest}
     >
       {children}

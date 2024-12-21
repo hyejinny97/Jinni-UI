@@ -71,6 +71,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
 
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
+      e.preventDefault();
       if (e.key === 'Escape') {
         onClose(e, 'escapeKeydown');
       }
