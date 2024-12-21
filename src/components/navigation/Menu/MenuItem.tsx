@@ -46,16 +46,16 @@ const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
     if (!menuItemEl) return;
 
     const handleKeydown = (e: KeyboardEvent) => {
-      if (e.code === 'Enter' && focus && onClick) {
-        onClick(e);
-      }
+      if (!(e.code === 'Enter' && focus)) return;
+      if (onClick) onClick(e);
+      if (href) window.location.assign(href);
     };
 
     menuItemEl.addEventListener('keydown', handleKeydown);
     return () => {
       menuItemEl.removeEventListener('keydown', handleKeydown);
     };
-  }, [onClick, focus, rippleTargetRef]);
+  }, [onClick, focus, rippleTargetRef, href]);
 
   return (
     <Component
