@@ -16,40 +16,43 @@ const useKeyDown = ({ children }: Pick<MenuListProps, 'children'>) => {
   const [focusOrder, setFocusOrder] = useState(INIT_FOCUS_ITEM_ORDER);
 
   useEffect(() => {
-    const firstCharacters: Array<string | null> = children
-      .filter((element) => !element.props.disabled)
-      .map((element: JSX.Element) => findFirstCharacter(element));
+    const focusableItems = children.filter(
+      (element) => !element.props.disabled
+    );
+    const firstCharacters: Array<string | null> = focusableItems.map(
+      (element: JSX.Element) => findFirstCharacter(element)
+    );
 
     const handleKeydown = (e: KeyboardEvent) => {
       const pressedKey = e.key;
       if (pressedKey === 'ArrowDown')
-        return setFocusOrder((prevIdx) => (prevIdx + 1) % focusableItemsNum);
+        return setFocusOrder(
+          (prevOrder) => (prevOrder + 1) % focusableItemsNum
+        );
       if (pressedKey === 'ArrowUp')
-        return setFocusOrder((prevIdx) =>
-          prevIdx === -1
+        return setFocusOrder((prevOrder) =>
+          prevOrder === -1
             ? focusableItemsNum - 1
-            : (prevIdx - 1 + focusableItemsNum) % focusableItemsNum
+            : (prevOrder - 1 + focusableItemsNum) % focusableItemsNum
         );
       if (isAlphabet(pressedKey)) {
         const uppercaseKey = pressedKey.toUpperCase();
         const uppercaseCharacters = firstCharacters.map((character) =>
           typeof character === 'string' ? character.toUpperCase() : character
         );
-        const matchedCharactersIdx = uppercaseCharacters.reduce(
+        const matchedOrders = uppercaseCharacters.reduce(
           (cul: Array<number>, character, idx) =>
             character === uppercaseKey ? [...cul, idx] : cul,
           []
         );
-        if (matchedCharactersIdx.length === 0) {
+        if (matchedOrders.length === 0) {
           return setFocusOrder(INIT_FOCUS_ITEM_ORDER);
         }
-        return setFocusOrder((prevIdx) => {
-          const matchedIdx = matchedCharactersIdx.indexOf(prevIdx);
-          return matchedIdx === -1
-            ? matchedCharactersIdx[0]
-            : matchedCharactersIdx[
-                (matchedIdx + 1) % matchedCharactersIdx.length
-              ];
+        return setFocusOrder((prevOrder) => {
+          const order = matchedOrders.indexOf(prevOrder);
+          return order === -1
+            ? matchedOrders[0]
+            : matchedOrders[(order + 1) % matchedOrders.length];
         });
       }
     };
