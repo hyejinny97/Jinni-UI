@@ -1,0 +1,105 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as MenuStories from './Menu.stories';
+
+<Meta of={MenuStories} />
+
+# Menu
+
+특정 이벤트(클릭 등)에 의해 일시적으로 나타나는 선택 가능한 리스트
+
+## Import
+
+```js
+import { Menu } from '@/components/navigation/Menu';
+```
+
+## Usage
+
+### Basic Menu
+
+- `Menu`, `MenuList`, `MenuItem` 컴포넌트
+
+  - 내부적으로 `Menu` 컴포넌트 안에 `MenuList` 컴포넌트가 `children`을 감싸고 있음
+  - `Menu`의 `children`으로 `MenuItem`, `Divider` 등을 채워넣을 수 있음
+
+- `Menu` 컴포넌트
+
+  - `anchorEl`: anchor가 되는 HTML element로, 메뉴의 위치를 결정해줌
+  - `open`: true이면, 메뉴가 나타남
+  - `onClose`: 아래와 같은 이벤트 발생 시 호출되는 함수
+    - reason: `'escapeKeydown'`, `'backdropClick'`, `'tabKeyDown'`
+
+- `MenuList` 컴포넌트
+  - 아래/위 방향키 클릭 시, 위/아래 방향으로 메뉴 아이템이 포커스됨
+  - 사용자가 누른 알파벳 키가 메뉴 아이템의 첫 글자와 같은 경우 포커스됨
+
+<Canvas of={MenuStories.BasicMenu} />
+
+### Icon Menu
+
+<Canvas of={MenuStories.IconMenu} />
+
+### Dense Menu
+
+- `Menu` 컴포넌트
+
+  - `MenuListProps`: `MenuList` 컴포넌트에 적용되는 props
+
+- `MenuList` 컴포넌트
+  - `dense`: true이면, `MenuItem` 컴포넌트 내 padding과 font-size를 줄여줌
+
+<Canvas of={MenuStories.DenseMenu} />
+
+### Selected Menu
+
+- `MenuItem` 컴포넌트
+  - `disabled`: 비활성화된 메뉴 아이템
+  - `selected`: 선택된 메뉴 아이템
+
+<Canvas of={MenuStories.SelectedMenu} />
+
+### Group Menu
+
+<Canvas of={MenuStories.GroupMenu} />
+
+### Link Menu
+
+- `MenuItem` 컴포넌트
+  - `href`: 이동할 링크 url (`href`를 추가하면 기존 li → a 태그로 전환됨)
+
+<Canvas of={MenuStories.LinkMenu} />
+
+### Option Menu
+
+<Canvas of={MenuStories.OptionMenu} />
+
+### Menu Position
+
+- `Menu` 컴포넌트
+  - `menuOrigin`: anchor의 origin에 부착할 menu의 origin
+  - `anchorReference`: 메뉴의 위치를 설정할 때, 어떤 anchor prop을 참조할지 결정
+    - 'anchorEl'(default) | 'anchorPosition'
+  - `anchorOrigin`: menu의 origin이 부착될 anchorEl의 origin
+  - `anchorPosition`: client area에서 메뉴의 상대적인 위치
+
+#### 1) Menu Origin
+
+<Canvas of={MenuStories.MenuOrigin} />
+
+#### 2) Anchor Origin (anchorReference='anchorEl'인 경우)
+
+<Canvas of={MenuStories.AnchorOrigin} />
+
+#### 3) Anchor Position (anchorReference='anchorPosition'인 경우)
+
+<Canvas of={MenuStories.AnchorPosition} />
+
+### Customization
+
+- `style` prop을 통해 anchor와 메뉴 사이의 간격(margin), height 등 커스텀 가능
+
+<Canvas of={MenuStories.Customization} />
+
+## Props
+
+<ArgTypes of={MenuStories} sort="alpha" />

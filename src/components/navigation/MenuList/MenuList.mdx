@@ -1,0 +1,36 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as MenuListStories from './MenuList.stories';
+
+<Meta of={MenuListStories} />
+
+# MenuList
+
+메뉴의 목록
+
+## Import
+
+```js
+import { MenuList } from '@/components/navigation/MenuList';
+```
+
+## Usage
+
+### Basic MenuList
+
+<Canvas of={MenuListStories.BasicMenuList} />
+
+### Dense
+
+- `dense`: true이면, MenuItem 컴포넌트 내 padding과 font-size를 줄여줌
+
+<Canvas of={MenuListStories.Dense} />
+
+### Elevation
+
+- `elevation`: elevation(box-shadow) 정도 (0-24 level)
+
+<Canvas of={MenuListStories.Elevation} />
+
+## Props
+
+<ArgTypes of={MenuListStories} sort="alpha" />

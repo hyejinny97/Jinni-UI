@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
-import MenuList, { MenuListProps } from './MenuList';
+import { MenuList, MenuListProps } from '@/components/navigation/MenuList';
 import useMenuPosition from './Menu.hooks';
 
 export type OriginType = {
@@ -18,8 +18,8 @@ type CloseReason = 'escapeKeydown' | 'backdropClick' | 'tabKeyDown';
 export type MenuProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children: Array<JSX.Element>;
   open: boolean;
-  onClose: (event: object, reason: CloseReason) => void;
-  onClick?: (event: MouseEvent) => void;
+  onClose: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
+  onClick?: (event: MouseEvent | KeyboardEvent) => void;
   MenuListProps?: Omit<MenuListProps, 'children'>;
   anchorReference?: 'anchorEl' | 'anchorPosition';
   anchorEl?: HTMLElement | null;

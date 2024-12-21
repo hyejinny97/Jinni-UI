@@ -13,7 +13,7 @@ export type MenuItemProps<T extends AsType = 'li'> =
     selected?: boolean;
     href?: string;
     focus?: boolean;
-    onClick?: (event: MouseEvent) => void;
+    onClick?: (event: MouseEvent | KeyboardEvent) => void;
   };
 
 const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {

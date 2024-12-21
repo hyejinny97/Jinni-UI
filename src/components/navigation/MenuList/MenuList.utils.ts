@@ -1,4 +1,4 @@
-import type { MenuItemProps } from './MenuItem';
+import type { MenuItemProps } from '@/components/navigation/MenuItem';
 import { isValidElement } from 'react';
 
 export const insertProps = (

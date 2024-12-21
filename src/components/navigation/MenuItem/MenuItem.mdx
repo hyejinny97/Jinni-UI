@@ -1,0 +1,54 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as MenuItemStories from './MenuItem.stories';
+
+<Meta of={MenuItemStories} />
+
+# MenuItem
+
+메뉴의 아이템
+
+## Import
+
+```js
+import { MenuItem } from '@/components/navigation/MenuItem';
+```
+
+## Usage
+
+### Basic MenuItem
+
+<Canvas of={MenuItemStories.BasicMenuItem} />
+
+### Dense
+
+- `dense`: true이면, MenuItem 컴포넌트 내 padding과 font-size를 줄여줌
+
+<Canvas of={MenuItemStories.Dense} />
+
+### Selected
+
+- `selected`: true이면, 선택됨
+
+<Canvas of={MenuItemStories.Selected} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={MenuItemStories.Disabled} />
+
+### Focus
+
+- `focus`: true이면, focus 됨 (overlay가 씌워짐)
+
+<Canvas of={MenuItemStories.Focus} />
+
+### Link Menu Item
+
+- `href`: 이동할 링크 url
+
+<Canvas of={MenuItemStories.LinkMenuItem} />
+
+## Props
+
+<ArgTypes of={MenuItemStories} sort="alpha" />
