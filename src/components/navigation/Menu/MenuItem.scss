@@ -20,7 +20,8 @@
 }
 
 @mixin focus {
-  &.focus {
+  &:focus {
+    outline: none;
     background-image: var(--jinni-black-overlay-5);
   }
 }

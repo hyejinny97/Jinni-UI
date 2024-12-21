@@ -19,6 +19,7 @@ export type MenuProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children: Array<JSX.Element>;
   open: boolean;
   onClose: (event: object, reason: CloseReason) => void;
+  onClick?: (event: MouseEvent) => void;
   MenuListProps?: Omit<MenuListProps, 'children'>;
   anchorReference?: 'anchorEl' | 'anchorPosition';
   anchorEl?: HTMLElement | null;
@@ -32,6 +33,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
     children,
     open,
     onClose,
+    onClick,
     MenuListProps,
     anchorReference = 'anchorEl',
     anchorEl,
@@ -70,7 +72,10 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
   });
 
   useEffect(() => {
-    const handleKeydown = (e: KeyboardEvent) => {
+    const menuEl = menuRef.current;
+    if (!menuEl) return;
+
+    const handleEscapeAndTap = (e: KeyboardEvent) => {
       e.preventDefault();
       if (e.key === 'Escape') {
         onClose(e, 'escapeKeydown');
@@ -79,7 +84,11 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
         onClose(e, 'tabKeyDown');
       }
     };
-
+    const handleEnter = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && onClick) {
+        onClick(e);
+      }
+    };
     const handleClick = (e: MouseEvent) => {
       const clickedTarget = e.target as Node;
       const menuListEl = menuListRef.current;
@@ -88,13 +97,15 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
       onClose(e, 'backdropClick');
     };
 
-    document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keydown', handleEscapeAndTap);
+    menuEl.addEventListener('keydown', handleEnter);
     document.addEventListener('click', handleClick);
     return () => {
-      document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keydown', handleEscapeAndTap);
+      menuEl.removeEventListener('keydown', handleEnter);
       document.removeEventListener('click', handleClick);
     };
-  }, [onClose, anchorEl]);
+  }, [onClose, onClick, menuRef, anchorEl]);
 
   return (
     <>
@@ -105,6 +116,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
               ref={menuRef}
               className={cn('JinniMenu', className)}
               style={newStyle}
+              onClick={onClick}
               {...rest}
             >
               <MenuList ref={menuListRef} {...MenuListProps}>

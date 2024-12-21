@@ -36,17 +36,26 @@ const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
   });
 
   useEffect(() => {
+    const menuItemEl = rippleTargetRef.current;
+    if (!menuItemEl) return;
+    if (focus) menuItemEl.focus();
+  }, [rippleTargetRef, focus]);
+
+  useEffect(() => {
+    const menuItemEl = rippleTargetRef.current;
+    if (!menuItemEl) return;
+
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.code === 'Enter' && focus && onClick) {
         onClick(e);
       }
     };
 
-    document.addEventListener('keydown', handleKeydown);
+    menuItemEl.addEventListener('keydown', handleKeydown);
     return () => {
-      document.removeEventListener('keydown', handleKeydown);
+      menuItemEl.removeEventListener('keydown', handleKeydown);
     };
-  }, [onClick, focus]);
+  }, [onClick, focus, rippleTargetRef]);
 
   return (
     <Component
@@ -56,12 +65,12 @@ const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
         { dense },
         { disabled },
         { selected },
-        { focus },
         className
       )}
       style={newStyle}
       href={href}
       onClick={onClick}
+      tabIndex={focus ? 0 : -1}
       {...rest}
     >
       {children}
