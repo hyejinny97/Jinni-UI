@@ -1,9 +1,9 @@
 import './MenuItem.scss';
 import cn from 'classnames';
-import { useEffect } from 'react';
 import useStyle from '@/hooks/useStyle';
 import { useRipple } from '@/hooks/useRipple';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { useFocus, useKeydown } from './MenuItem.hooks';
 
 export type MenuItemProps<T extends AsType = 'li'> =
   DefaultComponentProps<T> & {
@@ -34,28 +34,13 @@ const MenuItem = <T extends AsType = 'li'>(props: MenuItemProps<T>) => {
   const { rippleTargetRef, RippleContainer } = useRipple({
     rippleColor: 'black'
   });
-
-  useEffect(() => {
-    const menuItemEl = rippleTargetRef.current;
-    if (!menuItemEl) return;
-    if (focus) menuItemEl.focus();
-  }, [rippleTargetRef, focus]);
-
-  useEffect(() => {
-    const menuItemEl = rippleTargetRef.current;
-    if (!menuItemEl) return;
-
-    const handleKeydown = (e: KeyboardEvent) => {
-      if (!(e.code === 'Enter' && focus)) return;
-      if (onClick) onClick(e);
-      if (href) window.location.assign(href);
-    };
-
-    menuItemEl.addEventListener('keydown', handleKeydown);
-    return () => {
-      menuItemEl.removeEventListener('keydown', handleKeydown);
-    };
-  }, [onClick, focus, rippleTargetRef, href]);
+  useFocus({ rippleTargetRef, focus });
+  useKeydown({
+    rippleTargetRef,
+    onClick,
+    href,
+    focus
+  });
 
   return (
     <Component
