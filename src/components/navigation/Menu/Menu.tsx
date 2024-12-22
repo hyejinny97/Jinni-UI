@@ -1,7 +1,6 @@
 import './Menu.scss';
 import cn from 'classnames';
 import { useMemo, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
@@ -89,44 +88,33 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
         onClick(e);
       }
     };
-    const handleClick = (e: MouseEvent) => {
-      const clickedTarget = e.target as Node;
-      const menuListEl = menuListRef.current;
-      if (!menuListEl || menuListEl.contains(clickedTarget)) return;
-      if (anchorEl && anchorEl.contains(clickedTarget)) return;
-      onClose(e, 'backdropClick');
-    };
 
     document.addEventListener('keydown', handleEscapeAndTap);
     menuEl.addEventListener('keydown', handleEnter);
-    document.addEventListener('click', handleClick);
     return () => {
       document.removeEventListener('keydown', handleEscapeAndTap);
       menuEl.removeEventListener('keydown', handleEnter);
-      document.removeEventListener('click', handleClick);
     };
   }, [onClose, onClick, menuRef, anchorEl]);
 
+  const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {
+    onClose(e.nativeEvent, 'backdropClick');
+  };
+
   return (
-    <>
-      {open &&
-        createPortal(
-          <Backdrop>
-            <Component
-              ref={menuRef}
-              className={cn('JinniMenu', className)}
-              style={newStyle}
-              onClick={onClick}
-              {...rest}
-            >
-              <MenuList ref={menuListRef} {...MenuListProps}>
-                {children}
-              </MenuList>
-            </Component>
-          </Backdrop>,
-          document.body
-        )}
-    </>
+    <Backdrop open={open} overlay={0} onClick={handleBackdropClick}>
+      <Component
+        ref={menuRef}
+        className={cn('JinniMenu', className)}
+        style={newStyle}
+        onClick={onClick}
+        {...rest}
+      >
+        <MenuList ref={menuListRef} {...MenuListProps}>
+          {children}
+        </MenuList>
+      </Component>
+    </Backdrop>
   );
 };
 
