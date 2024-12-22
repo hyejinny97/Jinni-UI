@@ -5,7 +5,10 @@ import JinniContext, {
 import { getJinniBreakPointValue } from '@/utils/breakpoint';
 import { getJinniColorValue } from '@/utils/color';
 import { getJinniTypographyValue } from '@/utils/typography';
-import { getJinniWhiteOverlayValue } from '@/utils/overlay';
+import {
+  getJinniWhiteOverlayValue,
+  getJinniBlackOverlayValue
+} from '@/utils/overlay';
 import { getJinniBoxShadowValue } from '@/utils/boxShadow';
 import { BREAKPOINTS } from '@/constants/breakpoint';
 import { COLOR_THEME, COLOR_PALETTE } from '@/constants/color';
@@ -52,6 +55,10 @@ const JinniProvider = ({ children }: JinniProviderProps) => {
     ),
     whiteOverlay: ELEVATION_LEVELS.reduce(
       (cul, level) => ({ ...cul, [level]: getJinniWhiteOverlayValue(level) }),
+      {}
+    ),
+    blackOverlay: ELEVATION_LEVELS.reduce(
+      (cul, level) => ({ ...cul, [level]: getJinniBlackOverlayValue(level) }),
       {}
     )
   } as DesignSystemType;
