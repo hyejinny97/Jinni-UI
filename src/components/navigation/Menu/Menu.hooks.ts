@@ -20,22 +20,30 @@ const useMenuPosition = ({
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
   useLayoutEffect(() => {
-    const menuEl = menuRef.current;
-    if (!menuEl || !open) return;
+    const handleMenuPosition = () => {
+      const menuEl = menuRef.current;
+      if (!menuEl || !open) return;
 
-    const anchorCoordinate = getAnchorCoordinate({
-      anchorReference,
-      anchorEl,
-      anchorOrigin,
-      anchorPosition
-    });
-    const menuCoordinate = getMenuCoordinate({
-      anchorCoordinate,
-      menuOrigin,
-      menuEl
-    });
+      const anchorCoordinate = getAnchorCoordinate({
+        anchorReference,
+        anchorEl,
+        anchorOrigin,
+        anchorPosition
+      });
+      const menuCoordinate = getMenuCoordinate({
+        anchorCoordinate,
+        menuOrigin,
+        menuEl
+      });
 
-    setMenuPosition(menuCoordinate);
+      setMenuPosition(menuCoordinate);
+    };
+
+    handleMenuPosition();
+    window.addEventListener('resize', handleMenuPosition);
+    return () => {
+      window.removeEventListener('resize', handleMenuPosition);
+    };
   }, [
     anchorEl,
     anchorOrigin,
