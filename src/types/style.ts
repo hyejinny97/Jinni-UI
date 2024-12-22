@@ -13,6 +13,7 @@ type BoxShadow = {
   boxShadow?: ElevationLevelType | React.CSSProperties['boxShadow'];
 };
 type WhiteOverlay = { whiteOverlay?: ElevationLevelType };
+type BlackOverlay = { blackOverlay?: ElevationLevelType };
 type Elevation = { elevation?: ElevationLevelType };
 
 type BaseCSSProperties = Omit<
@@ -23,6 +24,7 @@ type BaseCSSProperties = Omit<
   Typography &
   BoxShadow &
   WhiteOverlay &
+  BlackOverlay &
   Elevation;
 
 type ResponsiveCSSProperties = {

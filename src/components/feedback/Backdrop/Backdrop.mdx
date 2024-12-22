@@ -1,0 +1,36 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as BackdropStories from './Backdrop.stories';
+
+<Meta of={BackdropStories} />
+
+# Backdrop
+
+배경을 딤 처리해 화면 위의 특정 요소에 사용자의 시선을 집중 시킬 수 있도록 함
+
+## Import
+
+```js
+import { Backdrop } from '@/components/feedback/Backdrop';
+```
+
+## Usage
+
+### Basic Backdrop
+
+- `children`: backdrop 위에 위치할 콘텐츠
+- `open`: true이면, 배경이 딤 처리되면서 콘텐츠가 나타남
+  - light mode인 경우, black overlay가 덮여짐
+  - dark mode인 경우, white overlay가 덮여짐
+- `onClick`: backdrop을 클릭했을 때 호출되는 함수
+
+<Canvas of={BackdropStories.BasicBackdrop} />
+
+### Invisible
+
+- `invisible`: true인 경우, 배경이 딤 처리되지 않음
+
+<Canvas of={BackdropStories.Invisible} />
+
+## Props
+
+<ArgTypes of={BackdropStories} sort="alpha" />

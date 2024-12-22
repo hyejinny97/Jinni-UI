@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState } from 'react';
+import { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import { getAnchorCoordinate, getMenuCoordinate } from './Menu.utils';
 import { MenuProps } from './Menu';
 
@@ -8,7 +8,11 @@ type UseMenuPositionProps = Pick<
 > &
   Required<Pick<MenuProps, 'anchorReference' | 'anchorOrigin' | 'menuOrigin'>>;
 
-const useMenuPosition = ({
+type useKeydownProps = Pick<MenuProps, 'onClose' | 'onClick'> & {
+  menuRef: React.RefObject<HTMLElement>;
+};
+
+export const useMenuPosition = ({
   anchorReference,
   anchorEl,
   anchorOrigin,
@@ -56,4 +60,31 @@ const useMenuPosition = ({
   return { menuRef, menuPosition };
 };
 
-export default useMenuPosition;
+export const useKeydown = ({ menuRef, onClose, onClick }: useKeydownProps) => {
+  useEffect(() => {
+    const menuEl = menuRef.current;
+    if (!menuEl) return;
+
+    const handleEscapeAndTap = (e: KeyboardEvent) => {
+      e.preventDefault();
+      if (e.key === 'Escape') {
+        onClose(e, 'escapeKeydown');
+      }
+      if (e.key === 'Tab') {
+        onClose(e, 'tabKeyDown');
+      }
+    };
+    const handleEnter = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && onClick) {
+        onClick(e);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeAndTap);
+    menuEl.addEventListener('keydown', handleEnter);
+    return () => {
+      document.removeEventListener('keydown', handleEscapeAndTap);
+      menuEl.removeEventListener('keydown', handleEnter);
+    };
+  }, [onClose, onClick, menuRef]);
+};

@@ -36,6 +36,7 @@ const isTypography = (
   key === 'typography' && TYPOGRAPHY.some((typo) => typo === value);
 const isBoxShadow = (key: string) => key === 'boxShadow';
 const isWhiteOverlay = (key: string) => key === 'whiteOverlay';
+const isBlackOverlay = (key: string) => key === 'blackOverlay';
 const isElevation = (key: string) => key === 'elevation';
 const isElevationLevel = (
   value: StyleType[keyof StyleType]
@@ -62,6 +63,7 @@ const useStyle = (
     typography,
     boxShadow,
     whiteOverlay,
+    blackOverlay,
     getElevation
   } = useJinni();
   const breakpoint = useBreakpoint();
@@ -95,6 +97,11 @@ const useStyle = (
     }
     if (isWhiteOverlay(key) && isElevationLevel(editedValue)) {
       const val = whiteOverlay[editedValue];
+      Object.assign(editedStyle, { backgroundImage: val });
+      return;
+    }
+    if (isBlackOverlay(key) && isElevationLevel(editedValue)) {
+      const val = blackOverlay[editedValue];
       Object.assign(editedStyle, { backgroundImage: val });
       return;
     }

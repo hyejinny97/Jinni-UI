@@ -18,6 +18,7 @@ export type DesignSystemType = {
   typography: Record<TypographyType, TypographySpec>;
   boxShadow: Record<ElevationLevelType, string>;
   whiteOverlay: Record<ElevationLevelType, string>;
+  blackOverlay: Record<ElevationLevelType, string>;
 };
 
 type FunctionsType = {

@@ -1,36 +1,51 @@
 import './Backdrop.scss';
 import cn from 'classnames';
-import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { useOverflowHidden } from './Backdrop.hooks';
 
 type BackdropProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  open: boolean;
+  invisible?: boolean;
 };
 
 const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
-  const { children, className, style, as: Component = 'div', ...rest } = props;
+  const {
+    children,
+    open,
+    onClick,
+    invisible = false,
+    className,
+    style,
+    as: Component = 'div',
+    ...rest
+  } = props;
   const newStyle = useStyle(style);
+  useOverflowHidden({ open });
 
-  useEffect(() => {
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
-    return () => {
-      document.body.style.removeProperty('overflow');
-      document.body.style.removeProperty('padding-right');
-    };
-  }, []);
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    const { target, currentTarget } = e;
+    if (target !== currentTarget || !onClick) return;
+    onClick(e);
+  };
 
   return (
-    <Component
-      className={cn('JinniBackdrop', className)}
-      style={newStyle}
-      {...rest}
-    >
-      {children}
-    </Component>
+    <>
+      {open &&
+        createPortal(
+          <Component
+            className={cn('JinniBackdrop', { invisible }, className)}
+            style={newStyle}
+            onClick={handleBackdropClick}
+            {...rest}
+          >
+            {children}
+          </Component>,
+          document.body
+        )}
+    </>
   );
 };
 

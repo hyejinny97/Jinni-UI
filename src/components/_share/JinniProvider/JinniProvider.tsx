@@ -6,9 +6,10 @@ import { getJinniBreakPointValue } from '@/utils/breakpoint';
 import { getJinniColorValue } from '@/utils/color';
 import { getJinniTypographyValue } from '@/utils/typography';
 import {
-  getJinniBoxShadowValue,
-  getJinniWhiteOverlayValue
-} from '@/utils/elevation';
+  getJinniWhiteOverlayValue,
+  getJinniBlackOverlayValue
+} from '@/utils/overlay';
+import { getJinniBoxShadowValue } from '@/utils/boxShadow';
 import { BREAKPOINTS } from '@/constants/breakpoint';
 import { COLOR_THEME, COLOR_PALETTE } from '@/constants/color';
 import { TYPOGRAPHY } from '@/constants/typography';
@@ -55,20 +56,27 @@ const JinniProvider = ({ children }: JinniProviderProps) => {
     whiteOverlay: ELEVATION_LEVELS.reduce(
       (cul, level) => ({ ...cul, [level]: getJinniWhiteOverlayValue(level) }),
       {}
+    ),
+    blackOverlay: ELEVATION_LEVELS.reduce(
+      (cul, level) => ({ ...cul, [level]: getJinniBlackOverlayValue(level) }),
+      {}
     )
   } as DesignSystemType;
 
   const functions = {
     getElevation: (elevationLevel: ElevationLevelType) => {
       const { boxShadow, whiteOverlay } = designSystem;
-      if (themeMode === 'dark')
-        return {
-          boxShadow: boxShadow[elevationLevel],
-          backgroundImage: whiteOverlay[elevationLevel]
-        };
-      return {
-        boxShadow: boxShadow[elevationLevel]
-      };
+      switch (themeMode) {
+        case 'light':
+          return {
+            boxShadow: boxShadow[elevationLevel]
+          };
+        case 'dark':
+          return {
+            boxShadow: boxShadow[elevationLevel],
+            backgroundImage: whiteOverlay[elevationLevel]
+          };
+      }
     }
   };
 

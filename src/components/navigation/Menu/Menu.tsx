@@ -1,12 +1,11 @@
 import './Menu.scss';
 import cn from 'classnames';
-import { useMemo, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import { useRef } from 'react';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { MenuList, MenuListProps } from '@/components/navigation/MenuList';
-import useMenuPosition from './Menu.hooks';
+import { useMenuPosition, useKeydown } from './Menu.hooks';
 
 export type OriginType = {
   horizontal: 'center' | 'left' | 'right' | number;
@@ -28,6 +27,15 @@ export type MenuProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   menuOrigin?: OriginType;
 };
 
+const DEFAULT_ANCHOR_ORIGIN = {
+  horizontal: 'left',
+  vertical: 'bottom'
+} as OriginType;
+const DEFAULT_MENU_ORIGIN = {
+  horizontal: 'left',
+  vertical: 'top'
+} as OriginType;
+
 const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
   const {
     children,
@@ -37,26 +45,15 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
     MenuListProps,
     anchorReference = 'anchorEl',
     anchorEl,
-    anchorOrigin: anchorOriginProp,
+    anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
     anchorPosition,
-    menuOrigin: menuOriginProp,
+    menuOrigin = DEFAULT_MENU_ORIGIN,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
   const menuListRef = useRef<HTMLElement>(null);
-  const anchorOrigin = useMemo(
-    () =>
-      anchorOriginProp ||
-      ({ horizontal: 'left', vertical: 'bottom' } as OriginType),
-    [anchorOriginProp]
-  );
-  const menuOrigin = useMemo(
-    () =>
-      menuOriginProp || ({ horizontal: 'left', vertical: 'top' } as OriginType),
-    [menuOriginProp]
-  );
   const { menuRef, menuPosition } = useMenuPosition({
     anchorReference,
     anchorEl,
@@ -70,63 +67,26 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
     transformOrigin: `${menuOrigin.vertical} ${menuOrigin.horizontal}`,
     ...style
   });
+  useKeydown({ menuRef, onClose, onClick });
 
-  useEffect(() => {
-    const menuEl = menuRef.current;
-    if (!menuEl) return;
-
-    const handleEscapeAndTap = (e: KeyboardEvent) => {
-      e.preventDefault();
-      if (e.key === 'Escape') {
-        onClose(e, 'escapeKeydown');
-      }
-      if (e.key === 'Tab') {
-        onClose(e, 'tabKeyDown');
-      }
-    };
-    const handleEnter = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && onClick) {
-        onClick(e);
-      }
-    };
-    const handleClick = (e: MouseEvent) => {
-      const clickedTarget = e.target as Node;
-      const menuListEl = menuListRef.current;
-      if (!menuListEl || menuListEl.contains(clickedTarget)) return;
-      if (anchorEl && anchorEl.contains(clickedTarget)) return;
-      onClose(e, 'backdropClick');
-    };
-
-    document.addEventListener('keydown', handleEscapeAndTap);
-    menuEl.addEventListener('keydown', handleEnter);
-    document.addEventListener('click', handleClick);
-    return () => {
-      document.removeEventListener('keydown', handleEscapeAndTap);
-      menuEl.removeEventListener('keydown', handleEnter);
-      document.removeEventListener('click', handleClick);
-    };
-  }, [onClose, onClick, menuRef, anchorEl]);
+  const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {
+    onClose(e.nativeEvent, 'backdropClick');
+  };
 
   return (
-    <>
-      {open &&
-        createPortal(
-          <Backdrop>
-            <Component
-              ref={menuRef}
-              className={cn('JinniMenu', className)}
-              style={newStyle}
-              onClick={onClick}
-              {...rest}
-            >
-              <MenuList ref={menuListRef} {...MenuListProps}>
-                {children}
-              </MenuList>
-            </Component>
-          </Backdrop>,
-          document.body
-        )}
-    </>
+    <Backdrop open={open} invisible onClick={handleBackdropClick}>
+      <Component
+        ref={menuRef}
+        className={cn('JinniMenu', className)}
+        style={newStyle}
+        onClick={onClick}
+        {...rest}
+      >
+        <MenuList ref={menuListRef} {...MenuListProps}>
+          {children}
+        </MenuList>
+      </Component>
+    </Backdrop>
   );
 };
 
