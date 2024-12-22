@@ -74,7 +74,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
   };
 
   return (
-    <Backdrop open={open} overlay={0} onClick={handleBackdropClick}>
+    <Backdrop open={open} invisible onClick={handleBackdropClick}>
       <Component
         ref={menuRef}
         className={cn('JinniMenu', className)}

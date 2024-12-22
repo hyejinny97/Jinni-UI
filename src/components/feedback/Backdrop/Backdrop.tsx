@@ -4,14 +4,11 @@ import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { useOverflowHidden } from './Backdrop.hooks';
-import { ElevationLevelType } from '@/types/elevation';
-import useJinni from '@/hooks/useJinni';
-import { getOverlayType } from './Backdrop.utils';
 
 type BackdropProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children?: React.ReactNode;
   open: boolean;
-  overlay?: ElevationLevelType;
+  invisible?: boolean;
 };
 
 const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
@@ -19,15 +16,13 @@ const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
     children,
     open,
     onClick,
-    overlay = 24,
+    invisible = false,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
-  const { themeMode } = useJinni();
-  const overlayType = getOverlayType({ themeMode });
-  const newStyle = useStyle({ [overlayType]: overlay, ...style });
+  const newStyle = useStyle(style);
   useOverflowHidden({ open });
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -41,7 +36,7 @@ const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
       {open &&
         createPortal(
           <Component
-            className={cn('JinniBackdrop', className)}
+            className={cn('JinniBackdrop', { invisible }, className)}
             style={newStyle}
             onClick={handleBackdropClick}
             {...rest}

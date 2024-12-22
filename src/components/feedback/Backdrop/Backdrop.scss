@@ -1,5 +1,26 @@
 @use '@/styles/variables' as var;
 
+@mixin invisible {
+  &.invisible {
+    background-color: transparent;
+  }
+}
+
+:root {
+  &.light {
+    .JinniBackdrop {
+      background-color: rgba(0, 0, 0, 0.7);
+      @include invisible;
+    }
+  }
+  &.dark {
+    .JinniBackdrop {
+      background-color: rgba(255, 255, 255, 0.7);
+      @include invisible;
+    }
+  }
+}
+
 .JinniBackdrop {
   width: 100vw;
   height: 100vh;
