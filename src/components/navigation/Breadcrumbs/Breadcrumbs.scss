@@ -1,0 +1,16 @@
+ol.JinniBreadcrumbs {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  li {
+    display: inline-flex;
+    font-size: inherit;
+    font-weight: inherit;
+    &.JinniSeparator {
+      margin: 0 8px;
+    }
+  }
+}
