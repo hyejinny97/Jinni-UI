@@ -1,0 +1,62 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as BreadcrumbsStories from './Breadcrumbs.stories';
+
+<Meta of={BreadcrumbsStories} />
+
+# Breadcrumbs
+
+사이트의 계층적 구조에 따라 페이지를 시각화한 링크의 나열
+
+## Import
+
+```js
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+```
+
+## Usage
+
+### Basic Breadcrumbs
+
+- `children`: Breadcrumbs 콘텐츠
+
+<Canvas of={BreadcrumbsStories.BasicBreadcrumbs} />
+
+### Breadcrumbs With Icons
+
+<Canvas of={BreadcrumbsStories.BreadcrumbsWithIcons} />
+
+### Collapsed Breadcrumbs
+
+- `maxItems`: 화면 상에 나타나는 최대 Breadcrumbs 갯수 (default: 5)
+
+  - Breadcrumbs 개수가 `maxItems` 값 이상일 때, `itemsBeforeCollapse` 갯수 만큼의 초기 아이템들과 `itemsAfterCollapse` 갯수 만큼의 후기 아이템들만 나타나고 중간은 생략(ellipse)됨
+  - `itemsBeforeCollapse` + `itemsAfterCollapse` > `maxItems`인 경우, 내부적으로 `maxItems`는 `itemsBeforeCollapse` + `itemsAfterCollapse` 값으로 변경됨
+  - ellipse 버튼 클릭 시, 생략된 아이템들이 전부 나타남
+
+- `itemsBeforeCollapse`: ellipse 버튼 이전에 나타나는 아이템 개수 (default: 1)
+
+- `itemsAfterCollapse`: ellipse 버튼 이후에 나타나는 아이템 개수 (default: 1)
+
+#### 1) Max Items
+
+<Canvas of={BreadcrumbsStories.MaxItems} />
+
+#### 2) Items Before Collapse
+
+<Canvas of={BreadcrumbsStories.ItemsBeforeCollapse} />
+
+#### 3) Items After Collapse
+
+<Canvas of={BreadcrumbsStories.ItemsAfterCollapse} />
+
+### Condensed Breadcrumbs With Menu
+
+<Canvas of={BreadcrumbsStories.CondensedBreadcrumbsWithMenu} />
+
+### Separator
+
+<Canvas of={BreadcrumbsStories.Separator} />
+
+## Props
+
+<ArgTypes of={BreadcrumbsStories} sort="alpha" />
