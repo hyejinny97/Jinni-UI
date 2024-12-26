@@ -5,6 +5,7 @@ import { TypographyType } from '@/types/typography';
 import { ElevationLevelType } from '@/types/elevation';
 
 type CSSColorProperties = (typeof CSS_COLOR_PROPERTIES)[number];
+type CSSVariable = { [key: `--${string}`]: string | number };
 type Color = Partial<Record<CSSColorProperties, ColorType>>;
 type Typography = {
   typography?: TypographyType;
@@ -20,6 +21,7 @@ type BaseCSSProperties = Omit<
   React.CSSProperties,
   CSSColorProperties | 'boxShadow'
 > &
+  CSSVariable &
   Color &
   Typography &
   BoxShadow &

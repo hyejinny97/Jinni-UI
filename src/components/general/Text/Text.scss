@@ -1,0 +1,12 @@
+@mixin line-clamp {
+  &.lineClamp {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--line-clamp);
+  }
+}
+
+.JinniText {
+  @include line-clamp;
+}
