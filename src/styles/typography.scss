@@ -78,15 +78,10 @@ $typo-types: 'display-large', 'display-medium', 'display-small',
 
 @mixin typography($type) {
   font-family: 'Noto Sans KR', serif;
-  font-style: normal;
-  font-size: var(--jinni-typo-font-size-#{$type});
-  line-height: var(--jinni-typo-line-height-#{$type});
-  letter-spacing: var(--jinni-typo-letter-spacing-#{$type});
-  font-weight: var(--jinni-typo-font-weight-#{$type});
-}
-
-* {
-  @include typography('body-medium');
+  font-size: var(--jinni-typo-font-size-#{$type}, initial);
+  line-height: var(--jinni-typo-line-height-#{$type}, initial);
+  letter-spacing: var(--jinni-typo-letter-spacing-#{$type}, initial);
+  font-weight: var(--jinni-typo-font-weight-#{$type}, initial);
 }
 
 @each $type in $typo-types {
