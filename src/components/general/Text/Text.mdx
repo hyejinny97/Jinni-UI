@@ -1,0 +1,57 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TextStories from './Text.stories';
+
+<Meta of={TextStories} />
+
+# Text
+
+Jinni typography, color(theme/palette) 적용이 가능한 글자
+
+## Import
+
+```js
+import { Text } from '@/components/general/Text';
+```
+
+## Usage
+
+### Basic Text
+
+- `children`: 텍스트
+
+<Canvas of={TextStories.BasicText} />
+
+### HTML Semantic Element
+
+- `as` prop을 통해 root node 변경 가능
+
+<Canvas of={TextStories.HTMLSemanticElement} />
+
+### Typography
+
+- `className`을 통해 타이포그래피(15종류) 적용 가능
+
+<Canvas of={TextStories.Typography} />
+
+### Color
+
+- `style` prop을 통해 color theme/palette 접근 가능
+
+<Canvas of={TextStories.Color} />
+
+### Line Clamp
+
+- `lineClamp`: 보여지는 라인 수
+  - 라인 수가 `lineClamp` 이상인 경우, 말줄임 표시됨
+
+<Canvas of={TextStories.LineClamp} />
+
+### Customization
+
+- `style` prop을 통해 text-align, text-transform, text-decoration, wrap, padding, margin 등 커스텀 가능
+
+<Canvas of={TextStories.Customization} />
+
+## Props
+
+<ArgTypes of={TextStories} sort="alpha" />
