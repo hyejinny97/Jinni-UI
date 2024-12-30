@@ -1,0 +1,46 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as SkeletonStories from './Skeleton.stories';
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+데이터 로드 전 콘텐츠의 placeholder preview를 나타냄
+
+## Import
+
+```js
+import { Skeleton } from '@/components/feedback/Skeleton';
+```
+
+## Usage
+
+### Basic Skeleton
+
+- light mode일 땐 black skeleton, dark mode일 땐 white skeleton이 나타남
+- `width`: Skeleton 너비
+- `height`: Skeleton 높이
+
+<Canvas of={SkeletonStories.BasicSkeleton} />
+
+### Variants
+
+- `variant`: Skeleton 모양(border-radius 결정)
+
+<Canvas of={SkeletonStories.Variants} />
+
+### Color
+
+- `style`의 background-color를 통해 Skeleton 색상 변경 가능
+
+<Canvas of={SkeletonStories.Color} />
+
+### Animations
+
+- `animation`: 애니메이션 타입
+
+<Canvas of={SkeletonStories.Animations} />
+
+## Props
+
+<ArgTypes of={SkeletonStories} sort="alpha" />
