@@ -1,9 +1,7 @@
-@use '@/styles/variables' as var;
 @use '@/styles/animation';
 
 .JinniMenu {
   display: inline-block;
   position: fixed;
-  z-index: var.$z-index-menu;
   animation: appear 0.1s ease-out;
 }
