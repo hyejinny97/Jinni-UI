@@ -19,7 +19,7 @@ export type MenuProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   MenuPopperType & {
     children: Array<JSX.Element>;
     open: boolean;
-    onClose: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
+    onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
     onClick?: (event: MouseEvent | KeyboardEvent) => void;
     MenuListProps?: Omit<MenuListProps, 'children'>;
   };
@@ -68,6 +68,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
   useKeydown({ menuRef, onClose, onClick });
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (!onClose) return;
     onClose(e.nativeEvent, 'backdropClick');
   };
 

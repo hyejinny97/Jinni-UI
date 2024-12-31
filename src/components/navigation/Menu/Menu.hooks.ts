@@ -12,6 +12,7 @@ export const useKeydown = ({ menuRef, onClose, onClick }: useKeydownProps) => {
 
     const handleEscapeAndTap = (e: KeyboardEvent) => {
       e.preventDefault();
+      if (!onClose) return;
       if (e.key === 'Escape') {
         onClose(e, 'escapeKeydown');
       }

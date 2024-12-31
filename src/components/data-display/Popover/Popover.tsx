@@ -10,7 +10,7 @@ import usePopperPosition from '@/hooks/usePopperPosition';
 
 type CloseReason = 'escapeKeydown' | 'backdropClick';
 
-type PopoverPopperType = Omit<Partial<PopperType>, 'popperOrigin'> & {
+export type PopoverPopperType = Omit<Partial<PopperType>, 'popperOrigin'> & {
   popoverOrigin?: PopperType['popperOrigin'];
 };
 
@@ -18,7 +18,7 @@ export type PopoverProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   PopoverPopperType & {
     children: React.ReactNode;
     open: boolean;
-    onClose: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
+    onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
     BoxProps?: BoxProps;
   };
 
@@ -31,7 +31,7 @@ const DEFAULT_POPOVER_ORIGIN = {
   vertical: 'top'
 } as OriginType;
 
-const Menu = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
+const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
   const {
     children,
     open,
@@ -64,6 +64,7 @@ const Menu = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
   useKeydown({ onClose });
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (!onClose) return;
     onClose(e.nativeEvent, 'backdropClick');
   };
 
@@ -83,4 +84,4 @@ const Menu = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
   );
 };
 
-export default Menu;
+export default Popover;
