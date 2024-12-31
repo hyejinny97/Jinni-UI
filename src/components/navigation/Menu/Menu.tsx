@@ -5,27 +5,24 @@ import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { MenuList, MenuListProps } from '@/components/navigation/MenuList';
-import { useMenuPosition, useKeydown } from './Menu.hooks';
-
-export type OriginType = {
-  horizontal: 'center' | 'left' | 'right' | number;
-  vertical: 'bottom' | 'center' | 'top' | number;
-};
+import { useKeydown } from './Menu.hooks';
+import { PopperType, OriginType } from '@/types/popper';
+import usePopperPosition from '@/hooks/usePopperPosition';
 
 type CloseReason = 'escapeKeydown' | 'backdropClick' | 'tabKeyDown';
 
-export type MenuProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
-  children: Array<JSX.Element>;
-  open: boolean;
-  onClose: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
-  onClick?: (event: MouseEvent | KeyboardEvent) => void;
-  MenuListProps?: Omit<MenuListProps, 'children'>;
-  anchorReference?: 'anchorEl' | 'anchorPosition';
-  anchorEl?: HTMLElement | null;
-  anchorOrigin?: OriginType;
-  anchorPosition?: { left: number; top: number };
-  menuOrigin?: OriginType;
+type MenuPopperType = Omit<Partial<PopperType>, 'popperOrigin'> & {
+  menuOrigin?: PopperType['popperOrigin'];
 };
+
+export type MenuProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
+  MenuPopperType & {
+    children: Array<JSX.Element>;
+    open: boolean;
+    onClose: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
+    onClick?: (event: MouseEvent | KeyboardEvent) => void;
+    MenuListProps?: Omit<MenuListProps, 'children'>;
+  };
 
 const DEFAULT_ANCHOR_ORIGIN = {
   horizontal: 'left',
@@ -54,14 +51,15 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
     ...rest
   } = props;
   const menuListRef = useRef<HTMLElement>(null);
-  const { menuRef, menuPosition } = useMenuPosition({
-    anchorReference,
-    anchorEl,
-    anchorOrigin,
-    anchorPosition,
-    menuOrigin,
-    open
-  });
+  const { popperRef: menuRef, popperPosition: menuPosition } =
+    usePopperPosition({
+      anchorReference,
+      anchorEl,
+      anchorOrigin,
+      anchorPosition,
+      popperOrigin: menuOrigin,
+      open
+    });
   const newStyle = useStyle({
     ...menuPosition,
     transformOrigin: `${menuOrigin.vertical} ${menuOrigin.horizontal}`,
