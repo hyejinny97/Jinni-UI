@@ -15,16 +15,28 @@ const meta: Meta<typeof Menu> = {
   argTypes: {
     anchorEl: {
       description: 'anchor가 되는 HTML element로, 메뉴의 위치를 결정해줌',
-      defaultValue: { summary: 'HTML element' }
+      table: {
+        type: {
+          summary: 'HTML element'
+        }
+      }
     },
     anchorOrigin: {
       description: 'menu의 origin이 부착될 anchorEl의 origin',
-      defaultValue: {
-        summary: `{ horizontal: 'left', vertical: 'bottom' }`
+      table: {
+        type: {
+          summary: `{ horizontal: 'left' | 'right' | 'center' | number, vertical: 'top' | 'bottom' | 'center' | number }`
+        },
+        defaultValue: { summary: `{ horizontal: 'left', vertical: 'bottom' }` }
       }
     },
     anchorPosition: {
-      description: 'client area에서 메뉴의 상대적인 위치'
+      description: 'client area에서 메뉴의 상대적인 위치',
+      table: {
+        type: {
+          summary: `{ left: number, top: number }`
+        }
+      }
     },
     anchorReference: {
       description: '메뉴의 위치를 설정할 때, 어떤 anchor prop을 참조할지 결정',
@@ -44,7 +56,12 @@ const meta: Meta<typeof Menu> = {
     },
     menuOrigin: {
       description: 'anchor의 origin에 부착할 menu의 origin',
-      defaultValue: { summary: `{ horizontal: 'left', vertical: 'top' }` }
+      table: {
+        type: {
+          summary: `{ horizontal: 'left' | 'right' | 'center' | number, vertical: 'top' | 'bottom' | 'center' | number }`
+        },
+        defaultValue: { summary: `{ horizontal: 'left', vertical: 'top' }` }
+      }
     },
     onClick: {
       description: 'Menu를 클릭하거나 Enter 키를 누를 때 호출되는 함수'

@@ -8,7 +8,7 @@ import { getComputedRound } from './Box.utils';
 export type RoundKeywordType = 'sm' | 'md' | 'lg';
 export type RoundType = RoundKeywordType | number;
 
-type BoxProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
+export type BoxProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   elevation?: ElevationLevelType;
   outlined?: boolean;
   round?: RoundType;

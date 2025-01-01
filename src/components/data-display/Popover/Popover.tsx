@@ -1,71 +1,67 @@
-import './Menu.scss';
+import './Popover.scss';
 import cn from 'classnames';
-import { useRef } from 'react';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
-import { MenuList, MenuListProps } from '@/components/navigation/MenuList';
-import { useKeydown } from './Menu.hooks';
+import { Box, BoxProps } from '@/components/layout/Box';
+import { useKeydown } from './Popover.hooks';
 import { PopperType, OriginType } from '@/types/popper';
 import usePopperPosition from '@/hooks/usePopperPosition';
 
-type CloseReason = 'escapeKeydown' | 'backdropClick' | 'tabKeyDown';
+type CloseReason = 'escapeKeydown' | 'backdropClick';
 
-type MenuPopperType = Omit<Partial<PopperType>, 'popperOrigin'> & {
-  menuOrigin?: PopperType['popperOrigin'];
+export type PopoverPopperType = Omit<Partial<PopperType>, 'popperOrigin'> & {
+  popoverOrigin?: PopperType['popperOrigin'];
 };
 
-export type MenuProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
-  MenuPopperType & {
-    children: Array<JSX.Element>;
+export type PopoverProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
+  PopoverPopperType & {
+    children: React.ReactNode;
     open: boolean;
     onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
-    onClick?: (event: MouseEvent | KeyboardEvent) => void;
-    MenuListProps?: Omit<MenuListProps, 'children'>;
+    BoxProps?: BoxProps;
   };
 
 const DEFAULT_ANCHOR_ORIGIN = {
   horizontal: 'left',
   vertical: 'bottom'
 } as OriginType;
-const DEFAULT_MENU_ORIGIN = {
+const DEFAULT_POPOVER_ORIGIN = {
   horizontal: 'left',
   vertical: 'top'
 } as OriginType;
 
-const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
+const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
   const {
     children,
     open,
     onClose,
-    onClick,
-    MenuListProps,
+    BoxProps,
     anchorReference = 'anchorEl',
     anchorEl,
     anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
     anchorPosition,
-    menuOrigin = DEFAULT_MENU_ORIGIN,
+    popoverOrigin = DEFAULT_POPOVER_ORIGIN,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
-  const menuListRef = useRef<HTMLElement>(null);
-  const { popperRef: menuRef, popperPosition: menuPosition } =
+  const { popperRef: popoverRef, popperPosition: popoverPosition } =
     usePopperPosition({
       anchorReference,
       anchorEl,
       anchorOrigin,
       anchorPosition,
-      popperOrigin: menuOrigin,
+      popperOrigin: popoverOrigin,
       open
     });
   const newStyle = useStyle({
-    ...menuPosition,
-    transformOrigin: `${menuOrigin.vertical} ${menuOrigin.horizontal}`,
+    ...popoverPosition,
+    transformOrigin: `${popoverOrigin.vertical} ${popoverOrigin.horizontal}`,
     ...style
   });
-  useKeydown({ menuRef, onClose, onClick });
+  useKeydown({ onClose });
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {
     if (!onClose) return;
@@ -75,18 +71,17 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
   return (
     <Backdrop open={open} invisible onClick={handleBackdropClick}>
       <Component
-        ref={menuRef}
-        className={cn('JinniMenu', className)}
+        ref={popoverRef}
+        className={cn('JinniPopover', className)}
         style={newStyle}
-        onClick={onClick}
         {...rest}
       >
-        <MenuList ref={menuListRef} {...MenuListProps}>
+        <Box elevation={5} round={4} style={{ padding: '16px' }} {...BoxProps}>
           {children}
-        </MenuList>
+        </Box>
       </Component>
     </Backdrop>
   );
 };
 
-export default Menu;
+export default Popover;

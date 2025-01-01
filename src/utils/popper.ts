@@ -1,4 +1,4 @@
-import { MenuProps, OriginType } from './Menu';
+import { PopperType, OriginType } from '@/types/popper';
 
 type PositionType = {
   top: number;
@@ -58,32 +58,30 @@ export const getAnchorCoordinate = ({
   anchorEl,
   anchorOrigin,
   anchorPosition
-}: Pick<MenuProps, 'anchorEl' | 'anchorPosition'> &
-  Required<
-    Pick<MenuProps, 'anchorReference' | 'anchorOrigin'>
-  >): PositionType => {
+}: Partial<Pick<PopperType, 'anchorEl' | 'anchorPosition' | 'anchorOrigin'>> &
+  Pick<PopperType, 'anchorReference'>): PositionType => {
   if (anchorReference === 'anchorPosition' && anchorPosition) {
     return anchorPosition;
   }
   if (anchorReference === 'anchorEl' && anchorEl && anchorOrigin) {
     return getAnchorElCoordinate({ anchorEl, anchorOrigin });
   }
-  throw new Error('Anchor Coordinate을 알 수 없습니다.');
+  throw new Error('Anchor Coordinate를 알 수 없습니다.');
 };
 
-export const getMenuCoordinate = ({
+export const getPopperCoordinate = ({
   anchorCoordinate,
-  menuOrigin,
-  menuEl
+  popperOrigin,
+  popperEl
 }: {
   anchorCoordinate: PositionType;
-  menuOrigin: OriginType;
-  menuEl: HTMLElement;
+  popperOrigin: OriginType;
+  popperEl: HTMLElement;
 }): PositionType => {
   const { top: anchorTop, left: anchorLeft } = anchorCoordinate;
-  const { horizontal, vertical } = menuOrigin;
-  const { width: menuWidth, height: menuHeight } =
-    menuEl.getBoundingClientRect();
+  const { horizontal, vertical } = popperOrigin;
+  const { width: popperWidth, height: popperHeight } =
+    popperEl.getBoundingClientRect();
 
   let top, left;
   switch (horizontal) {
@@ -91,10 +89,10 @@ export const getMenuCoordinate = ({
       left = anchorLeft;
       break;
     case 'center':
-      left = anchorLeft - menuWidth / 2;
+      left = anchorLeft - popperWidth / 2;
       break;
     case 'right':
-      left = anchorLeft - menuWidth;
+      left = anchorLeft - popperWidth;
       break;
     default:
       left = anchorLeft - horizontal;
@@ -104,10 +102,10 @@ export const getMenuCoordinate = ({
       top = anchorTop;
       break;
     case 'center':
-      top = anchorTop - menuHeight / 2;
+      top = anchorTop - popperHeight / 2;
       break;
     case 'bottom':
-      top = anchorTop - menuHeight;
+      top = anchorTop - popperHeight;
       break;
     default:
       top = anchorTop - vertical;
