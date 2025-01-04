@@ -1,0 +1,122 @@
+@use '@/styles/variables' as var;
+@use '@/styles/animation';
+
+@mixin offset {
+  &.top,
+  &.top-start,
+  &.top-end {
+    margin-bottom: var(--offset);
+  }
+  &.bottom,
+  &.bottom-start,
+  &.bottom-end {
+    margin-top: var(--offset);
+  }
+  &.left,
+  &.left-start,
+  &.left-end {
+    margin-right: var(--offset);
+  }
+  &.right,
+  &.right-start,
+  &.right-end {
+    margin-left: var(--offset);
+  }
+}
+
+@mixin arrow-position {
+  &.top-start {
+    bottom: 0;
+    left: 0;
+    transform: translate(100%, 50%) rotate(45deg);
+  }
+  &.top {
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%) rotate(45deg);
+  }
+  &.top-end {
+    bottom: 0;
+    right: 0;
+    transform: translate(-100%, 50%) rotate(45deg);
+  }
+  &.bottom-start {
+    top: 0;
+    left: 0;
+    transform: translate(100%, -50%) rotate(45deg);
+  }
+  &.bottom {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  &.bottom-end {
+    top: 0;
+    right: 0;
+    transform: translate(-100%, -50%) rotate(45deg);
+  }
+  &.left-start {
+    top: 0;
+    right: 0;
+    transform: translate(50%, 100%) rotate(45deg);
+  }
+  &.left {
+    top: 50%;
+    right: 0;
+    transform: translate(50%, -50%) rotate(45deg);
+  }
+  &.left-end {
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, -100%) rotate(45deg);
+  }
+  &.right-start {
+    top: 0;
+    left: 0;
+    transform: translate(-50%, 100%) rotate(45deg);
+  }
+  &.right {
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  &.right-end {
+    bottom: 0;
+    left: 0;
+    transform: translate(-50%, -100%) rotate(45deg);
+  }
+}
+
+.JinniTooltipAnchor {
+  display: inline-block;
+}
+
+.JinniTooltipContainer {
+  display: inline-flex;
+  position: fixed;
+  z-index: var.$z-index-tooltip;
+
+  .JinniTooltip {
+    position: relative;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: var(--jinni-color-gray-500);
+    color: white;
+    font-size: 12px;
+    font-weight: var.$font-weight-medium;
+    animation: appear 0.2s;
+    user-select: none;
+    @include offset;
+
+    .JinniTooltipArrow {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      z-index: -1;
+      background-color: inherit;
+      @include arrow-position;
+    }
+  }
+}

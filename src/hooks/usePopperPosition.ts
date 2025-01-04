@@ -40,8 +40,10 @@ const usePopperPosition = ({
 
     handlePopperPosition();
     window.addEventListener('resize', handlePopperPosition);
+    window.addEventListener('scroll', handlePopperPosition);
     return () => {
       window.removeEventListener('resize', handlePopperPosition);
+      window.removeEventListener('scroll', handlePopperPosition);
     };
   }, [
     anchorEl,
