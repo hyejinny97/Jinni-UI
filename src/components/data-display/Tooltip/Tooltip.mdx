@@ -1,0 +1,73 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TooltipStories from './Tooltip.stories';
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+사용자가 특정 요소에 hover, focus, tap 했을 때 정보성 텍스트를 보여줌
+
+## Import
+
+```js
+import { Tooltip } from '@/components/data-display/Tooltip';
+```
+
+## Usage
+
+### Basic Tooltip
+
+- `children`: anchor 요소
+- `content`: tooltip 콘텐츠
+
+<Canvas of={TooltipStories.BasicTooltip} />
+
+### Tooltip Position
+
+- `placement`: tooltip의 위치(12가지)
+
+<Canvas of={TooltipStories.TooltipPosition} />
+
+### Arrow Tooltip
+
+- `arrow`: tooltip에서 화살표 여부
+
+<Canvas of={TooltipStories.ArrowTooltip} />
+
+### Distance From Anchor
+
+- `offset`: anchor와 tooltip 사이 거리
+
+<Canvas of={TooltipStories.DistanceFromAnchor} />
+
+### Triggers
+
+- `triggers`: tooltip이 나타나는 것을 유발하는 이벤트
+  - default: `[click, hover, focus]`
+
+<Canvas of={TooltipStories.Triggers} />
+
+### Controlled Tooltip
+
+- `open`: true이면, tooltip이 나타남
+- `onOpen`: 'anchorClick' or 'mouseEnter' or 'focus' 이벤트 발생 시 실행되는 함수
+
+  - `event.type`: 'click' | 'mouseenter' | 'focus'
+  - `triggers` 값에 따라 실행 여부가 결정됨
+
+- `onClose`: 'backdropClick' or 'mouseLeave' or 'blur' 이벤트 발생 시 실행되는 함수
+
+  - `event.type`: 'click' | 'mouseleave' | 'blur'
+  - `triggers` 값에 따라 실행 여부가 결정됨
+
+<Canvas of={TooltipStories.ControlledTooltip} />
+
+### Customization
+
+- `style` prop을 통해 background-color, color, box-shadow, max-width 등 커스텀 가능
+
+<Canvas of={TooltipStories.Customization} />
+
+## Props
+
+<ArgTypes of={TooltipStories} sort="alpha" />
