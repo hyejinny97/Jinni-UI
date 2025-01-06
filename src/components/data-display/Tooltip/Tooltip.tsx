@@ -1,7 +1,7 @@
 import './Tooltip.scss';
 import cn from 'classnames';
 import { createPortal } from 'react-dom';
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, isValidElement, cloneElement } from 'react';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import usePopperPosition from '@/hooks/usePopperPosition';
@@ -83,20 +83,24 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     onOpen,
     onClose
   });
+  const tooltipAnchorProps = {
+    ref: anchorRef,
+    className: 'JinniTooltipAnchor',
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+    onClick: handleAnchorClick,
+    onFocus: handleFocus,
+    onBlur: handleBlur
+  };
+  const isSingleElement = isValidElement(children);
 
   return (
     <>
-      <span
-        ref={anchorRef}
-        className="JinniTooltipAnchor"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleAnchorClick}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      >
-        {children}
-      </span>
+      {isSingleElement ? (
+        cloneElement(children, tooltipAnchorProps)
+      ) : (
+        <span {...tooltipAnchorProps}>{children}</span>
+      )}
       {isOpen &&
         createPortal(
           <span
