@@ -1,0 +1,130 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as GridStories from './Grid.stories';
+import * as GridItemStories from './GridItem.stories';
+
+<Meta of={GridStories} />
+
+# Grid
+
+그리드 컨테이너
+
+## Import
+
+```js
+import { Grid, GridItem } from '@/components/layout/Grid';
+```
+
+## Usage
+
+### Basic Grid
+
+#### 1) basic
+
+- `Grid` 컴포넌트: Grid Container
+
+  - `children`: Grid Items
+  - `rows`: n개의 동일한 row를 가진 grid items를 생성함
+  - `columns`: n개의 동일한 column을 가진 grid items를 생성함
+
+- `GridItem` 컴포넌트: Grid Item
+
+  - `children`: Grid Item contents
+
+<Canvas of={GridStories.BasicGrid} />
+
+#### 2) responsive
+
+<Canvas of={GridStories.ResponsiveGrid} />
+
+### Spacing
+
+#### 1) spacing
+
+- `Grid` 컴포넌트
+
+  - `spacing`: row-gap, column-gap
+
+<Canvas of={GridStories.Spacing} />
+
+#### 2) row/column spacing
+
+- `Grid` 컴포넌트
+
+  - `rowSpacing`: row-gap (`spacing` 값을 override함)
+  - `columnSpacing`: column-gap (`spacing` 값을 override함)
+
+<Canvas of={GridStories.RowColumnSpacing} />
+
+#### 3) responsive
+
+<Canvas of={GridStories.ResponsiveSpacing} />
+
+### Grid Item Area
+
+#### 1) span
+
+- `GridItem` 컴포넌트
+
+  - `rowSpan`: grid container 내에서 grid item이 차지하는 rows 수
+  - `columnSpan`: grid container 내에서 grid item이 차지하는 columns 수
+
+<Canvas of={GridStories.Span} />
+
+#### 2) start/end line
+
+- `GridItem` 컴포넌트
+
+  - `rowStart`: grid item의 row 시작 라인
+  - `rowEnd`: grid item의 row 끝 라인
+  - `columnStart`: grid item의 column 시작 라인
+  - `columnEnd`: grid item의 column 끝 라인
+
+##### 2-1) row
+
+<Canvas of={GridStories.RowStartEnd} />
+
+##### 2-2) column
+
+<Canvas of={GridStories.ColumnStartEnd} />
+
+### Grid Flow
+
+- `Grid` 컴포넌트
+
+  - `flow`: grid items가 auto placement 되는 방식 결정
+
+<Canvas of={GridStories.GridFlow} />
+
+### Nested Grid
+
+<Canvas of={GridStories.NestedGrid} />
+
+### Customization
+
+- `style` prop의 grid-template-rows, grid-template-columns를 통해 grid items의 명시적인 크기 지정 가능
+
+  - n개의 동일한 row/column을 가진 grid items를 생성하려고 할 경우, 간단하게 `rows`, `columns` prop을 사용하면 됨
+
+<Canvas of={GridStories.GridTemplateCustomization} />
+
+- `style` prop의 grid-auto-rows, grid-auto-columns를 통해 grid items의 암시적인 크기 지정 가능
+
+  - 명시적으로 정의된 row/column을 벗어날 경우, 자동으로 row/column 크기를 설정하게 됨
+
+<Canvas of={GridStories.GridAuto} />
+
+- `style` prop의 grid-template-areas, grid-area를 통해 grid area에 이름을 지어 구조화 가능
+
+<Canvas of={GridStories.GridTemplateArea} />
+
+- `style` prop의 justify-items, align-items를 통해 grid item 내 contents의 상하좌우 정렬 가능
+
+<Canvas of={GridStories.Alignment} />
+
+## Props - Grid
+
+<ArgTypes of={GridStories} sort="alpha" />
+
+## Props - GridItem
+
+<ArgTypes of={GridItemStories} sort="alpha" />

@@ -15,7 +15,7 @@ type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
 };
 
-const isResponsive = <T>(element: unknown): element is Responsive<T> => {
+export const isResponsive = <T>(element: unknown): element is Responsive<T> => {
   if (!element || typeof element !== 'object') return false;
   return Object.keys(element).every((key) =>
     BREAKPOINTS.some((bp) => bp === key)
@@ -43,7 +43,7 @@ const isElevationLevel = (
 ): value is ElevationLevelType =>
   ELEVATION_LEVELS.some((level) => level === value);
 
-const editResponsive = <T>(
+export const editResponsive = <T>(
   value: Responsive<T>,
   breakpoint: BreakpointType
 ): T | undefined => {
