@@ -1,4 +1,6 @@
 .JinniGrid {
   display: grid;
   grid-auto-flow: var(--flow);
+  grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
 }

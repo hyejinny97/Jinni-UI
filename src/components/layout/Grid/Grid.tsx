@@ -4,7 +4,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { Responsive } from '@/types/breakpoint';
 
-type GridTemplateType = number | Responsive<number>;
+type GridTemplateType = number | 'auto' | Responsive<number | 'auto'>;
 type SpacingType = number | string | Responsive<number | string>;
 
 export type GridProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
@@ -19,8 +19,8 @@ export type GridProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
 
 const Grid = <T extends AsType = 'div'>(props: GridProps<T>) => {
   const {
-    rows,
-    columns,
+    rows = 'auto',
+    columns = 'auto',
     spacing,
     rowSpacing,
     columnSpacing,
@@ -33,8 +33,8 @@ const Grid = <T extends AsType = 'div'>(props: GridProps<T>) => {
   } = props;
   const newStyle = useStyle({
     '--flow': flow.replace('-', ' '),
-    gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
-    gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+    '--rows': rows,
+    '--columns': columns,
     gridRowGap: rowSpacing || spacing,
     gridColumnGap: columnSpacing || spacing,
     ...style
