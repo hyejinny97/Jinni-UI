@@ -10,7 +10,7 @@ type AlertProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children: React.ReactNode;
   severity?: SeverityType;
   variant?: 'subtle-filled' | 'filled' | 'outlined';
-  icon?: React.ReactNode;
+  icon?: React.ReactNode | false;
   action?: React.ReactNode;
   title?: React.ReactNode;
 };
@@ -29,8 +29,11 @@ const Alert = <T extends AsType = 'div'>(props: AlertProps<T>) => {
     ...rest
   } = props;
   const hasTitle = !!title;
-  const isDefaultIcon = !icon;
-  const computedIcon = icon || getDefaultIconBySeverity({ severity });
+  const hasIcon = icon !== false;
+  const isDefaultIcon = !icon && hasIcon;
+  const computedIcon = isDefaultIcon
+    ? getDefaultIconBySeverity({ severity })
+    : icon;
   const newStyle = useStyle(style);
 
   return (
@@ -39,9 +42,11 @@ const Alert = <T extends AsType = 'div'>(props: AlertProps<T>) => {
       style={newStyle}
       {...rest}
     >
-      <div className={cn('JinniAlertIcon', { isDefaultIcon })}>
-        {computedIcon}
-      </div>
+      {hasIcon && (
+        <div className={cn('JinniAlertIcon', { isDefaultIcon })}>
+          {computedIcon}
+        </div>
+      )}
       <div className="JinniAlertMessage">
         {hasTitle && <div className="JinniAlertMessageTitle">{title}</div>}
         {children}
