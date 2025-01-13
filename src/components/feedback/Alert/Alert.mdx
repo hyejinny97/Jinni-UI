@@ -1,0 +1,76 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as AlertStories from './Alert.stories';
+
+<Meta of={AlertStories} />
+
+# Alert
+
+app의 사용을 방해하지 않고, 간단한 정보를 제공함
+
+## Import
+
+```js
+import { Alert } from '@/components/feedback/Alert';
+```
+
+## Usage
+
+### Basic Alert
+
+- `children`: alert 내용
+
+<Canvas of={AlertStories.BasicAlert} />
+
+### Severity
+
+- `severity`: alert의 타입
+
+<Canvas of={AlertStories.Severity} />
+
+### Variants
+
+- `variant`: alert의 스타일
+  - type: `filled` | `subtle-filled`(default) | `outlined`
+
+#### 1) variant: `filled`
+
+<Canvas of={AlertStories.FilledVariant} />
+
+#### 2) variant: `outlined`
+
+<Canvas of={AlertStories.OutlinedVariant} />
+
+### Actions
+
+- `action`: alert의 action
+
+<Canvas of={AlertStories.Actions} />
+
+### Icons
+
+- `icon`: `severity` prop에 따라 정해진 기존 icon을 덮어씀
+  - false 이면, icon이 나타나지 않음
+
+#### 1) Custom Icon
+
+<Canvas of={AlertStories.CustomIcon} />
+
+#### 2) No Icon
+
+<Canvas of={AlertStories.NoIcon} />
+
+### Alert Title
+
+- `title`: alert의 제목
+
+<Canvas of={AlertStories.AlertTitle} />
+
+### Customization
+
+- `style`을 통해 background-color, color 등 커스텀 가능
+
+<Canvas of={AlertStories.Customization} />
+
+## Props
+
+<ArgTypes of={AlertStories} sort="alpha" />

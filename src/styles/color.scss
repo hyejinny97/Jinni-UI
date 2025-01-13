@@ -51,6 +51,18 @@
       --jinni-color-surface-container: rgb(242 236 244);
       --jinni-color-surface-container-high: rgb(236 230 238);
       --jinni-color-surface-container-highest: rgb(231 224 232);
+      --jinni-color-success: rgb(77 124 15);
+      --jinni-color-on-success: rgb(255 255 255);
+      --jinni-color-info: rgb(3 105 161);
+      --jinni-color-on-info: rgb(255 255 255);
+      --jinni-color-warning: rgb(180 83 9);
+      --jinni-color-on-warning: rgb(255 255 255);
+      --jinni-color-success-container: rgb(236 252 203);
+      --jinni-color-on-success-container: rgb(63 98 18);
+      --jinni-color-info-container: rgb(224 242 254);
+      --jinni-color-on-info-container: rgb(7 89 133);
+      --jinni-color-warning-container: rgb(254 243 199);
+      --jinni-color-on-warning-container: rgb(146 64 14);
     }
     &.medium-contrast {
       --jinni-color-primary: rgb(1 70 110);
@@ -102,6 +114,18 @@
       --jinni-color-surface-container: rgb(242 236 244);
       --jinni-color-surface-container-high: rgb(236 230 238);
       --jinni-color-surface-container-highest: rgb(231 224 232);
+      --jinni-color-success: rgb(63 98 18);
+      --jinni-color-on-success: rgb(255 255 255);
+      --jinni-color-info: rgb(7 89 133);
+      --jinni-color-on-info: rgb(255 255 255);
+      --jinni-color-warning: rgb(146 64 14);
+      --jinni-color-on-warning: rgb(255 255 255);
+      --jinni-color-success-container: rgb(217 249 157);
+      --jinni-color-on-success-container: rgb(54 83 20);
+      --jinni-color-info-container: rgb(186 230 253);
+      --jinni-color-on-info-container: rgb(12 74 110);
+      --jinni-color-warning-container: rgb(253 230 138);
+      --jinni-color-on-warning-container: rgb(120 53 15);
     }
     &.high-contrast {
       --jinni-color-primary: rgb(0 36 60);
@@ -153,6 +177,18 @@
       --jinni-color-surface-container: rgb(242 236 244);
       --jinni-color-surface-container-high: rgb(236 230 238);
       --jinni-color-surface-container-highest: rgb(231 224 232);
+      --jinni-color-success: rgb(54 83 20);
+      --jinni-color-on-success: rgb(255 255 255);
+      --jinni-color-info: rgb(12 74 110);
+      --jinni-color-on-info: rgb(255 255 255);
+      --jinni-color-warning: rgb(120 53 15);
+      --jinni-color-on-warning: rgb(255 255 255);
+      --jinni-color-success-container: rgb(190 242 100);
+      --jinni-color-on-success-container: rgb(26 46 5);
+      --jinni-color-info-container: rgb(125 211 252);
+      --jinni-color-on-info-container: rgb(0 0 0);
+      --jinni-color-warning-container: rgb(252 211 77);
+      --jinni-color-on-warning-container: rgb(69 26 3);
     }
   }
 
@@ -207,6 +243,18 @@
       --jinni-color-surface-container: rgb(33 31 36);
       --jinni-color-surface-container-high: rgb(43 41 47);
       --jinni-color-surface-container-highest: rgb(54 52 58);
+      --jinni-color-success: rgb(190 242 100);
+      --jinni-color-on-success: rgb(63 98 18);
+      --jinni-color-info: rgb(125 211 252);
+      --jinni-color-on-info: rgb(7 89 133);
+      --jinni-color-warning: rgb(252 211 77);
+      --jinni-color-on-warning: rgb(146 64 14);
+      --jinni-color-success-container: rgb(26 46 5);
+      --jinni-color-on-success-container: rgb(101 163 13);
+      --jinni-color-info-container: rgb(8 47 73);
+      --jinni-color-on-info-container: rgb(14 165 233);
+      --jinni-color-warning-container: rgb(69 26 3);
+      --jinni-color-on-warning-container: rgb(217 119 6);
     }
     &.medium-contrast {
       --jinni-color-primary: rgb(158 208 254);
@@ -258,6 +306,18 @@
       --jinni-color-surface-container: rgb(33 31 36);
       --jinni-color-surface-container-high: rgb(43 41 47);
       --jinni-color-surface-container-highest: rgb(54 52 58);
+      --jinni-color-success: rgb(217 249 157);
+      --jinni-color-on-success: rgb(54 83 20);
+      --jinni-color-info: rgb(186 230 253);
+      --jinni-color-on-info: rgb(12 74 110);
+      --jinni-color-warning: rgb(253 230 138);
+      --jinni-color-on-warning: rgb(120 53 15);
+      --jinni-color-success-container: rgb(54 83 20);
+      --jinni-color-on-success-container: rgb(190 242 100);
+      --jinni-color-info-container: rgb(12 74 110);
+      --jinni-color-on-info-container: rgb(125 211 252);
+      --jinni-color-warning-container: rgb(120 53 15);
+      --jinni-color-on-warning-container: rgb(252 211 77);
     }
     &.high-contrast {
       --jinni-color-primary: rgb(249 250 255);
@@ -309,6 +369,18 @@
       --jinni-color-surface-container: rgb(33 31 36);
       --jinni-color-surface-container-high: rgb(43 41 47);
       --jinni-color-surface-container-highest: rgb(54 52 58);
+      --jinni-color-success: rgb(236 252 203);
+      --jinni-color-on-success: rgb(26 46 5);
+      --jinni-color-info: rgb(224 242 254);
+      --jinni-color-on-info: rgb(8 47 73);
+      --jinni-color-warning: rgb(255 237 213);
+      --jinni-color-on-warning: rgb(69 26 3);
+      --jinni-color-success-container: rgb(63 98 18);
+      --jinni-color-on-success-container: rgb(255 255 255);
+      --jinni-color-info-container: rgb(7 89 133);
+      --jinni-color-on-info-container: rgb(255 255 255);
+      --jinni-color-warning-container: rgb(146 64 14);
+      --jinni-color-on-warning-container: rgb(255 255 255);
     }
   }
 }
@@ -340,4 +412,43 @@
   --jinni-color-yellow-800: #854d0e;
   --jinni-color-yellow-900: #713f12;
   --jinni-color-yellow-950: #422006;
+
+  // Amber
+  --jinni-color-amber-50: #fffbeb;
+  --jinni-color-amber-100: #fef3c7;
+  --jinni-color-amber-200: #fde68a;
+  --jinni-color-amber-300: #fcd34d;
+  --jinni-color-amber-400: #fbbf24;
+  --jinni-color-amber-500: #f59e0b;
+  --jinni-color-amber-600: #d97706;
+  --jinni-color-amber-700: #b45309;
+  --jinni-color-amber-800: #92400e;
+  --jinni-color-amber-900: #78350f;
+  --jinni-color-amber-950: #451a03;
+
+  // Lime
+  --jinni-color-lime-50: #f7fee7;
+  --jinni-color-lime-100: #ecfccb;
+  --jinni-color-lime-200: #d9f99d;
+  --jinni-color-lime-300: #bef264;
+  --jinni-color-lime-400: #a3e635;
+  --jinni-color-lime-500: #84cc16;
+  --jinni-color-lime-600: #65a30d;
+  --jinni-color-lime-700: #4d7c0f;
+  --jinni-color-lime-800: #3f6212;
+  --jinni-color-lime-900: #365314;
+  --jinni-color-lime-950: #1a2e05;
+
+  // Sky
+  --jinni-color-sky-50: #f0f9ff;
+  --jinni-color-sky-100: #e0f2fe;
+  --jinni-color-sky-200: #bae6fd;
+  --jinni-color-sky-300: #7dd3fc;
+  --jinni-color-sky-400: #38bdf8;
+  --jinni-color-sky-500: #0ea5e9;
+  --jinni-color-sky-600: #0284c7;
+  --jinni-color-sky-700: #0369a1;
+  --jinni-color-sky-800: #075985;
+  --jinni-color-sky-900: #0c4a6e;
+  --jinni-color-sky-950: #082f49;
 }
