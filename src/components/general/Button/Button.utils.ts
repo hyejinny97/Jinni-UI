@@ -15,6 +15,7 @@ export const getColorStyle = ({
   const disabledColor = lighten(color, 0.5);
   const disabledSubtleColor = lighten(subtleColor, 0.5);
   const WHITE: ColorType = 'white';
+  const TRANSPARENT: ColorType = 'transparent';
 
   const computedColor = disabled ? disabledColor : color;
   const computedSubtleColor = disabled ? disabledSubtleColor : subtleColor;
@@ -34,7 +35,7 @@ export const getColorStyle = ({
       break;
     case 'outlined':
       buttonColorStyle = {
-        backgroundColor: WHITE,
+        backgroundColor: TRANSPARENT,
         color: computedColor,
         borderColor: computedColor
       };
@@ -45,9 +46,9 @@ export const getColorStyle = ({
       break;
     case 'text':
       buttonColorStyle = {
-        backgroundColor: WHITE,
+        backgroundColor: TRANSPARENT,
         color: computedColor,
-        borderColor: WHITE
+        borderColor: TRANSPARENT
       };
       iconColorStyle = {
         fill: computedColor

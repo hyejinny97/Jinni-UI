@@ -63,7 +63,6 @@ $icon-margin: (
   @each $size in 'sm', 'md', 'lg' {
     &.#{$size} .JinniButtonLabel {
       font-size: map.get($label-font-size, $size);
-      font-weight: var.$font-weight-medium;
       z-index: 1;
     }
   }

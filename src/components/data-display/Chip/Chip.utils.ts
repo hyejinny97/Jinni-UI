@@ -12,6 +12,7 @@ export const getColorStyle = ({
   const subtleColor = lighten(color, 0.8);
   const WHITE: ColorType = 'white';
   const BLACK: ColorType = 'black';
+  const TRANSPARENT: ColorType = 'transparent';
 
   let chipColorStyle, avatarColorStyle, iconColorStyle, deleteButtonColorStyle;
   switch (variant) {
@@ -36,7 +37,7 @@ export const getColorStyle = ({
       break;
     case 'outlined':
       chipColorStyle = {
-        backgroundColor: WHITE,
+        backgroundColor: TRANSPARENT,
         color: color,
         borderColor: color
       };
@@ -55,9 +56,9 @@ export const getColorStyle = ({
       break;
     case 'text':
       chipColorStyle = {
-        backgroundColor: WHITE,
+        backgroundColor: TRANSPARENT,
         color: color,
-        borderColor: WHITE
+        borderColor: TRANSPARENT
       };
       avatarColorStyle = {
         backgroundColor: color,

@@ -1,0 +1,75 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ToastStories from './Toast.stories';
+import * as ToastContentStories from './ToastContent.stories';
+
+<Meta of={ToastStories} />
+
+# Toast
+
+간단한 처리 정도를 알려줌
+
+## Import
+
+```js
+import { Toast } from '@/components/feedback/Toast';
+```
+
+## Usage
+
+### Basic Toast
+
+#### 1) Basic
+
+- `open`: true이면, toast가 나타남
+- `onClose`: 'timeout' (`autoHideDuration` expired), 'clickAway', 'escapeKeydown' 이벤트 발생 시 호출되는 함수
+- `message`: toast 메시지
+
+<Canvas of={ToastStories.BasicToast} />
+
+#### 2) With Action
+
+- `action`: toast의 action
+
+<Canvas of={ToastStories.ActionToast} />
+
+### Toast Position
+
+- `anchorOrigin`: toast의 anchor 위치
+
+<Canvas of={ToastStories.ToastPosition} />
+
+### Automatic Dismiss
+
+- `autoHideDuration`: `onClose` 함수를 자동으로 호출하기 전까지 기다리는 시간 (단위: s)
+  - null이면, 자동으로 `onClose` 함수를 호출하지 않음
+
+<Canvas of={ToastStories.AutomaticDismiss} />
+
+### Use with Alerts
+
+- `children`: 기존 `ToastContent`를 대체
+
+<Canvas of={ToastStories.UseWithAlerts} />
+
+### Consecutive Toast
+
+- `key`를 통해 하나의 Toast 컴포넌트로 toast를 연속해서 나타낼 수 있음
+
+<Canvas of={ToastStories.ConsecutiveToast} />
+
+### Customization
+
+- `ToastContentProps을` 통해 `ToastContent` 컴포넌트 커스텀 가능
+- `style`을 통해 padding 등 커스텀 가능
+
+<Canvas of={ToastStories.ToastContentProps} />
+
+<Canvas of={ToastStories.ToastStyle} />
+
+## Props - Toast
+
+<ArgTypes of={ToastStories} sort="alpha" />
+
+## Props - ToastContent
+
+<ArgTypes of={ToastContentStories} sort="alpha" />
