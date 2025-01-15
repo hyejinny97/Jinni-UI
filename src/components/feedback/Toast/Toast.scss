@@ -1,0 +1,42 @@
+@use '@/styles/variables' as var;
+@use '@/styles/animation';
+
+$padding: 16px;
+
+@mixin width {
+  width: 100%;
+  @media (min-width: 600px) {
+    width: auto;
+    min-width: calc(300px + $padding * 2);
+  }
+}
+
+@mixin position {
+  &.left {
+    left: 0;
+  }
+  &.center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &.right {
+    right: 0;
+  }
+  &.top {
+    top: 0;
+  }
+  &.bottom {
+    bottom: 0;
+  }
+}
+
+.JinniToast {
+  position: fixed;
+  z-index: var.$z-index-toast;
+  box-sizing: border-box;
+  padding: $padding;
+  animation: appear 0.3s linear;
+
+  @include width;
+  @include position;
+}
