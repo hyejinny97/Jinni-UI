@@ -2,25 +2,18 @@ import { StyleType } from '@/types/style';
 import { JinniColorTheme, JinniColorPalette } from '@/types/color';
 import useBreakpoint from '@/hooks/useBreakpoint';
 import useJinni from '@/hooks/useJinni';
-import { BREAKPOINTS } from '@/constants/breakpoint';
 import { CSS_COLOR_PROPERTIES } from '@/constants/color';
 import { COLOR_THEME, COLOR_PALETTE } from '@/constants/color';
 import { TYPOGRAPHY } from '@/constants/typography';
 import { ELEVATION_LEVELS } from '@/constants/elevation';
-import { Responsive, BreakpointType } from '@/types/breakpoint';
 import { TypographyType } from '@/types/typography';
 import { ElevationLevelType } from '@/types/elevation';
+import { isResponsive, editResponsive } from '@/utils/responsive';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
 };
 
-export const isResponsive = <T>(element: unknown): element is Responsive<T> => {
-  if (!element || typeof element !== 'object') return false;
-  return Object.keys(element).every((key) =>
-    BREAKPOINTS.some((bp) => bp === key)
-  );
-};
 const isColorProperty = (key: string) =>
   CSS_COLOR_PROPERTIES.some((propName) => propName === key);
 const isThemeColor = (
@@ -42,18 +35,6 @@ const isElevationLevel = (
   value: StyleType[keyof StyleType]
 ): value is ElevationLevelType =>
   ELEVATION_LEVELS.some((level) => level === value);
-
-export const editResponsive = <T>(
-  value: Responsive<T>,
-  breakpoint: BreakpointType
-): T | undefined => {
-  let bpIndex = BREAKPOINTS.indexOf(breakpoint);
-  while (bpIndex >= 0) {
-    const editedValue = value[BREAKPOINTS[bpIndex]];
-    if (editedValue) return editedValue;
-    bpIndex -= 1;
-  }
-};
 
 const useStyle = (
   style: StyleType | undefined

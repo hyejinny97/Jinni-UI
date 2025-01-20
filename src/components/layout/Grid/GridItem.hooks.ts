@@ -1,5 +1,5 @@
 import useBreakpoint from '@/hooks/useBreakpoint';
-import { isResponsive, editResponsive } from '@/hooks/useStyle';
+import { isResponsive, editResponsive } from '@/utils/responsive';
 import { GridItemProps, DefaultSpanType } from './GridItem';
 
 type UseGridItemAreaProps = Pick<
