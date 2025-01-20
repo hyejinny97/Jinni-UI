@@ -8,6 +8,8 @@ export const useOverflowHidden = ({ open }: { open: boolean }) => {
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = `${scrollbarWidth}px`;
     return () => {
+      const hasRemainBackdrop = !!document.querySelector('.JinniBackdrop');
+      if (hasRemainBackdrop) return;
       document.body.style.removeProperty('overflow');
       document.body.style.removeProperty('padding-right');
     };
