@@ -12,7 +12,11 @@ const useRipple = ({ rippleColor }: useRippleProps) => {
   useLayoutEffect(() => {
     const rippleTargetEl = rippleTargetRef.current;
     if (!rippleTargetEl) return;
-    rippleTargetEl.style.position = 'relative';
+
+    const rippleTargetPosition = rippleTargetEl.style.position;
+    if (!rippleTargetPosition || rippleTargetPosition === 'static') {
+      rippleTargetEl.style.position = 'relative';
+    }
   }, []);
 
   useEffect(() => {

@@ -1,0 +1,89 @@
+@use 'sass:map';
+@use '@/styles/variables' as var;
+
+$width: (
+  xs: 320px,
+  sm: 384px,
+  md: 448px,
+  lg: 512px,
+  xl: 576px
+);
+
+$modal-content-margin: 30px;
+
+@mixin scroll-behavior {
+  &.inside .JinniModalContent {
+    max-height: calc(100% - $modal-content-margin * 2);
+    .JinniModalBody {
+      overflow-y: auto;
+    }
+  }
+  &.outside {
+    align-items: start;
+    overflow-y: auto;
+  }
+}
+
+@mixin modal-size {
+  @each $size in xs, sm, md, lg, xl {
+    &.#{$size} {
+      width: map.get($width, $size);
+    }
+  }
+
+  &.full {
+    width: 100%;
+    margin: 0;
+    &.inside {
+      height: 100%;
+      max-height: 100%;
+    }
+    &.outside {
+      min-height: 100%;
+      max-height: max-content;
+    }
+    .JinniModalBody {
+      flex: 1;
+    }
+  }
+}
+
+.JinniModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  @include scroll-behavior;
+
+  .JinniModalContent {
+    display: flex;
+    flex-direction: column;
+    margin: $modal-content-margin;
+    @include modal-size;
+
+    .JinniModalHeader {
+      padding: 16px 24px;
+      font-size: 20px;
+      font-weight: var.$font-weight-medium;
+    }
+
+    .JinniModalBody {
+      padding: 20px 24px;
+      font-size: 16px;
+      font-weight: var.$font-weight-regular;
+    }
+
+    .JinniModalHeader + .JinniModalBody {
+      padding-top: 0px;
+    }
+
+    .JinniModalFooter {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      column-gap: 10px;
+      padding: 8px;
+    }
+  }
+}
