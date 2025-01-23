@@ -1,0 +1,54 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as DrawerStories from './Drawer.stories';
+
+<Meta of={DrawerStories} />
+
+# Drawer
+
+현 페이지를 벗어나지 않고 손쉽게 페이지 이동이나 기능 처리를 가능하게 함
+
+## Import
+
+```js
+import {
+  Drawer,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter
+} from '@/components/navigation/Drawer';
+```
+
+## Usage
+
+### Basic Drawer
+
+- `Drawer` 컴포넌트
+
+  - `children`: Drawer 내 DrawerContent(=Box) 컴포넌트에 담겨질 요소
+    - `DrawerHeader`, `DrawerBody`, `DrawerFooter` 등
+  - `open`: true이면, drawer가 나타남
+  - `onClose`: "escapeKeyDown", "backdropClick" 이벤트 발생 시 호출되는 함수
+
+- `DrawerHeader` 컴포넌트
+
+- `DrawerBody` 컴포넌트
+
+- `DrawerFooter` 컴포넌트
+
+<Canvas of={DrawerStories.BasicDrawer} />
+
+### Placement
+
+- `anchor`: drawer의 위치
+
+<Canvas of={DrawerStories.Placement} />
+
+### Customization
+
+- `DrawerContentProps`: Drawer 내 DrawerContent(=Box) 컴포넌트의 props
+
+<Canvas of={DrawerStories.Customization} />
+
+## Props
+
+<ArgTypes of={DrawerStories} sort="alpha" />
