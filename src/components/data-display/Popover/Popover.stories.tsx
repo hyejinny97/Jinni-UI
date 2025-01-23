@@ -40,10 +40,11 @@ const meta: Meta<typeof Popover> = {
         defaultValue: { summary: 'anchorEl' }
       }
     },
-    BoxProps: {
-      description: 'Box 컴포넌트에 적용되는 props',
+    PopoverContentProps: {
+      description: 'PopoverContent(=Box)에 적용되는 props',
       table: {
-        type: { summary: 'BoxProps' }
+        type: { summary: 'BoxProps' },
+        defaultValue: { summary: '{ elevation: 5, round: 4 }' }
       }
     },
     children: {
@@ -307,7 +308,11 @@ export const Elevation: Story = {
   render: (args) => {
     return (
       <PopoverAnchorElTemplate
-        BoxProps={{ elevation: 10, round: 'sm', style: { padding: '8px' } }}
+        PopoverContentProps={{
+          elevation: 10,
+          round: 'sm',
+          style: { padding: '8px' }
+        }}
         {...args}
       />
     );
