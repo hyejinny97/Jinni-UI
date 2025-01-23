@@ -91,12 +91,12 @@
   display: inline-flex;
 }
 
-.JinniTooltipContainer {
+.JinniTooltip {
   display: inline-flex;
   position: fixed;
   z-index: var.$z-index-tooltip;
 
-  .JinniTooltip {
+  .JinniTooltipContent {
     position: relative;
     padding: 4px 8px;
     border-radius: 4px;
@@ -108,7 +108,7 @@
     user-select: none;
     @include offset;
 
-    .JinniTooltipArrow {
+    .JinniTooltipContentArrow {
       content: '';
       position: absolute;
       display: inline-block;

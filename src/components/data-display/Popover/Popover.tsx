@@ -19,7 +19,7 @@ export type PopoverProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
     children: React.ReactNode;
     open: boolean;
     onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
-    BoxProps?: BoxProps;
+    PopoverContentProps?: BoxProps;
   };
 
 const DEFAULT_ANCHOR_ORIGIN = {
@@ -36,7 +36,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     children,
     open,
     onClose,
-    BoxProps,
+    PopoverContentProps,
     anchorReference = 'anchorEl',
     anchorEl,
     anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
@@ -76,7 +76,13 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
         style={newStyle}
         {...rest}
       >
-        <Box elevation={5} round={4} style={{ padding: '16px' }} {...BoxProps}>
+        <Box
+          className="JinniPopoverContent"
+          elevation={5}
+          round={4}
+          style={{ padding: '16px' }}
+          {...PopoverContentProps}
+        >
           {children}
         </Box>
       </Component>
