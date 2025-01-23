@@ -12,7 +12,15 @@ const meta: Meta<typeof Modal> = {
         'Modal 내 ModalContent 컴포넌트에 담겨질 요소 (ModalHeader, ModalBody, ModalFooter 등)'
     },
     ModalContentProps: {
-      description: 'Modal 내 ModalContent(=Box) 컴포넌트의 props'
+      description: 'Modal 내 ModalContent(=Box) 컴포넌트의 props',
+      table: {
+        type: {
+          summary: `BoxProps`
+        },
+        defaultValue: {
+          summary: `{ elevation: 15, round: isFullSize ? 0 : 4 }`
+        }
+      }
     },
     onClose: {
       description:
