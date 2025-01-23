@@ -7,6 +7,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import usePopperPosition from '@/hooks/usePopperPosition';
 import { getAnchorOrigin, getPopperOrigin } from './Tooltip.utils';
 import { useHandleTriggers } from './Tooltip.hooks';
+import TooltipContent, { TooltipContentProps } from './TooltipContent';
 
 export type PlacementType =
   | 'top-start'
@@ -37,6 +38,7 @@ export type TooltipProps<T extends AsType = 'span'> = Omit<
   open?: boolean;
   onOpen?: (event: React.SyntheticEvent | Event) => void;
   onClose?: (event: React.SyntheticEvent | Event) => void;
+  TooltipContentProps?: TooltipContentProps;
 };
 
 const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
@@ -50,6 +52,7 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     open: controlledOpen,
     onOpen,
     onClose,
+    TooltipContentProps,
     className,
     style,
     as: Component = 'span',
@@ -67,7 +70,11 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     popperOrigin,
     open: isOpen
   });
-  const newStyle = useStyle({ '--offset': `${offset}px`, ...style });
+  const newStyle = useStyle({
+    ...popperPosition,
+    '--offset': `${offset}px`,
+    ...style
+  });
   const {
     handleMouseEnter,
     handleMouseLeave,
@@ -103,22 +110,22 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
       )}
       {isOpen &&
         createPortal(
-          <span
+          <Component
             ref={popperRef}
-            className={cn('JinniTooltipContainer')}
+            className={cn('JinniTooltip', className)}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            style={popperPosition}
+            style={newStyle}
+            {...rest}
           >
-            <Component
-              className={cn('JinniTooltip', placement, className)}
-              style={newStyle}
-              {...rest}
+            <TooltipContent
+              placement={placement}
+              arrow={arrow}
+              {...TooltipContentProps}
             >
               {content}
-              {arrow && <span className={cn('JinniTooltipArrow', placement)} />}
-            </Component>
-          </span>,
+            </TooltipContent>
+          </Component>,
           document.body
         )}
     </>

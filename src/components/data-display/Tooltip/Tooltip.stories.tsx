@@ -48,6 +48,14 @@ const meta: Meta<typeof Tooltip> = {
         },
         defaultValue: { summary: `[hover, click, focus]` }
       }
+    },
+    TooltipContentProps: {
+      description: 'TooltipContent 컴포넌트의 props',
+      table: {
+        type: {
+          summary: `TooltipContentProps`
+        }
+      }
     }
   }
 };
@@ -348,12 +356,14 @@ export const Customization: Story = {
       <Stack direction="row" spacing={20}>
         <Tooltip
           content="Tooltip Contents"
-          style={{
-            backgroundColor: 'white',
-            color: 'black',
-            boxShadow: '5',
-            fontSize: '15px',
-            elevation: 5
+          TooltipContentProps={{
+            style: {
+              backgroundColor: 'white',
+              color: 'black',
+              boxShadow: '5',
+              fontSize: '15px',
+              elevation: 5
+            }
           }}
           {...args}
         >
@@ -361,7 +371,7 @@ export const Customization: Story = {
         </Tooltip>
         <Tooltip
           content="Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text"
-          style={{ maxWidth: '300px' }}
+          TooltipContentProps={{ style: { maxWidth: '300px' } }}
           {...args}
         >
           <Button variant="outlined">Open Tooltip</Button>
