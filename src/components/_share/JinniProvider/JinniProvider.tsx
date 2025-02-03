@@ -16,6 +16,8 @@ import { TYPOGRAPHY } from '@/constants/typography';
 import { ELEVATION_LEVELS } from '@/constants/elevation';
 import { ElevationLevelType } from '@/types/elevation';
 import { ThemeModeType } from '@/types/theme-mode';
+import { EASING_SET, DURATIONS } from '@/constants/motion';
+import { getJinniEasingValue, getJinniDurationValue } from '@/utils/motion';
 
 interface JinniProviderProps {
   children: React.ReactNode;
@@ -59,6 +61,17 @@ const JinniProvider = ({ children }: JinniProviderProps) => {
     ),
     blackOverlay: ELEVATION_LEVELS.reduce(
       (cul, level) => ({ ...cul, [level]: getJinniBlackOverlayValue(level) }),
+      {}
+    ),
+    easing: EASING_SET.reduce(
+      (cul, easing) => ({ ...cul, [easing]: getJinniEasingValue(easing) }),
+      {}
+    ),
+    duration: DURATIONS.reduce(
+      (cul, duration) => ({
+        ...cul,
+        [duration]: getJinniDurationValue(duration)
+      }),
       {}
     )
   } as DesignSystemType;

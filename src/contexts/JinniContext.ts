@@ -4,6 +4,7 @@ import { JinniColorTheme, JinniColorPalette } from '@/types/color';
 import { TypographyType, TypographySpec } from '@/types/typography';
 import { ElevationLevelType } from '@/types/elevation';
 import { ThemeModeType } from '@/types/theme-mode';
+import { EasingType, DurationType } from '@/types/motion';
 
 type ThemeType = {
   themeMode: ThemeModeType;
@@ -19,6 +20,8 @@ export type DesignSystemType = {
   boxShadow: Record<ElevationLevelType, string>;
   whiteOverlay: Record<ElevationLevelType, string>;
   blackOverlay: Record<ElevationLevelType, string>;
+  easing: Record<EasingType, string>;
+  duration: Record<DurationType, string>;
 };
 
 type FunctionsType = {

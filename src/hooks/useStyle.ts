@@ -9,6 +9,8 @@ import { ELEVATION_LEVELS } from '@/constants/elevation';
 import { TypographyType } from '@/types/typography';
 import { ElevationLevelType } from '@/types/elevation';
 import { isResponsive, editResponsive } from '@/utils/responsive';
+import { EASING_SET, DURATIONS } from '@/constants/motion';
+import { EasingType, DurationType } from '@/types/motion';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
@@ -35,6 +37,16 @@ const isElevationLevel = (
   value: StyleType[keyof StyleType]
 ): value is ElevationLevelType =>
   ELEVATION_LEVELS.some((level) => level === value);
+const isTimingFunctionProperty = (key: string) =>
+  key === 'transitionTimingFunction' || key === 'animationTimingFunction';
+const isDurationProperty = (key: string) =>
+  key === 'transitionDuration' || key === 'animationDuration';
+const isEasingToken = (
+  value: StyleType[keyof StyleType]
+): value is EasingType => EASING_SET.some((easing) => easing === value);
+const isDurationToken = (
+  value: StyleType[keyof StyleType]
+): value is DurationType => DURATIONS.some((duration) => duration === value);
 
 const useStyle = (
   style: StyleType | undefined
@@ -45,6 +57,8 @@ const useStyle = (
     boxShadow,
     whiteOverlay,
     blackOverlay,
+    easing,
+    duration,
     getElevation
   } = useJinni();
   const breakpoint = useBreakpoint();
@@ -89,6 +103,14 @@ const useStyle = (
     if (isElevation(key) && isElevationLevel(editedValue)) {
       const elevationStyle = getElevation(editedValue);
       Object.assign(editedStyle, elevationStyle);
+      return;
+    }
+    if (isTimingFunctionProperty(key) && isEasingToken(editedValue)) {
+      editedStyle[key] = easing[editedValue];
+      return;
+    }
+    if (isDurationProperty(key) && isDurationToken(editedValue)) {
+      editedStyle[key] = duration[editedValue];
       return;
     }
     editedStyle[key] = editedValue;

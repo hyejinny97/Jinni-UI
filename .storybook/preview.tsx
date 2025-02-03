@@ -6,6 +6,7 @@ import '@/styles/typography.scss';
 import '@/styles/breakpoint.scss';
 import '@/styles/box-shadow.scss';
 import '@/styles/overlay.scss';
+import '@/styles/motion.scss';
 
 const preview: Preview = {
   parameters: {
