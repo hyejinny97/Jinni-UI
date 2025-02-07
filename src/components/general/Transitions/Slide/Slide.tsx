@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useEffect, useLayoutEffect } from 'react';
-import Transition, { TransitionProps, DEFAULT_DURATION } from './Transition';
-import { useSlide, useDurationInNumber } from './Transition.hooks';
+import Transition, { TransitionProps, DEFAULT_DURATION } from '../Transition';
+import { useSlide, useDurationInNumber } from './Slide.hooks';
 
 export type SlideProps = TransitionProps & {
   direction?: 'down' | 'up' | 'left' | 'right';

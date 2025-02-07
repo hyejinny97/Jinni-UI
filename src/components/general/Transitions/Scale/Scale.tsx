@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useState, useEffect } from 'react';
-import Transition, { TransitionProps } from './Transition';
+import Transition, { TransitionProps } from '../Transition';
 
 type ScaleProps = TransitionProps;
 

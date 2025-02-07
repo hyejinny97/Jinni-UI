@@ -1,27 +1,17 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as TransitionStories from './Transition.stories';
-import * as CollapseStories from './Collapse.stories';
-import * as FadeStories from './Fade.stories';
-import * as SlideStories from './Slide.stories';
-import * as ScaleStories from './Scale.stories';
 
 <Meta of={TransitionStories} />
 
 # Transitions
 
 Transitions은 UI를 좀 더 풍부하고 사용하기 쉽게 만들어 줌<br />
-(아래 Collapse, Fade, Slide, Scale 컴포넌트는 Transition 컴포넌트를 기반으로 만들어짐)
+(Collapse, Fade, Slide, Scale 컴포넌트는 Transition 컴포넌트를 기반으로 만들어짐)
 
 ## Import
 
 ```js
-import {
-  Transition,
-  Collapse,
-  Fade,
-  Slide,
-  Scale
-} from '@/components/general/Transitions';
+import { Transition } from '@/components/general/Transitions';
 ```
 
 ## Usage
@@ -52,72 +42,6 @@ import {
 
 <Canvas of={TransitionStories.RotateTransition} />
 
-### Collapse
-
-#### 1) Default Collapse Transition
-
-- children의 start edge에서부터 expand 되고 end edge에서부터 collapse 됨
-
-<Canvas of={CollapseStories.DefaultCollapseTransition} />
-
-#### 2) Orientation
-
-- `orientation`: transition 방향
-
-<Canvas of={CollapseStories.Orientation} />
-
-#### 3) Collapsed Size
-
-- `collapsedSize`: collapse될 때 container의 크기
-  - orientation='vertical'인 경우, container의 height
-  - orientation='horizontal'인 경우, container의 width
-
-<Canvas of={CollapseStories.CollapsedSize} />
-
-### Fade
-
-#### 1) Default Fade Transition
-
-<Canvas of={FadeStories.DefaultFadeTransition} />
-
-### Slide
-
-#### 1) Default Slide Transition
-
-- 화면의 edge에서부터 slide in 되고, 해당 edge로 slide out 됨
-
-<Canvas of={SlideStories.DefaultSlideTransition} />
-
-#### 2) Direction
-
-- `direction`: transition 방향
-  - 'down': 위 → 아래로 내려옴
-  - 'up': 아래 → 위로 올라옴
-  - 'left': 오른쪽 → 왼쪽으로 이동함
-  - 'right': 왼쪽 → 오른쪽으로 이동함
-
-<Canvas of={SlideStories.Direction} />
-
-#### 3) Slide Container
-
-- `container`: slide transition이 나타나는 container
-
-<Canvas of={SlideStories.SlideContainer} />
-
-### Scale
-
-#### 1) Default Scale Transition
-
-- children의 중심에서부터 scale out(확장) 되고, 중심 방향으로 scale in(축소) 됨
-
-<Canvas of={ScaleStories.DefaultScaleTransition} />
-
-#### 2) Transition Origin
-
-- `style` prop의 'transform-origin'을 통해 origin 변경 가능
-
-<Canvas of={ScaleStories.TransitionOrigin} />
-
 ### Combination
 
 #### 1) ScaleFade
@@ -128,22 +52,6 @@ import {
 
 <Canvas of={TransitionStories.SlideFade} />
 
-## Props - Transition
+## Props
 
 <ArgTypes of={TransitionStories} sort="alpha" />
-
-## Props - Collapse
-
-<ArgTypes of={CollapseStories} sort="alpha" />
-
-## Props - Fade
-
-<ArgTypes of={FadeStories} sort="alpha" />
-
-## Props - Slide
-
-<ArgTypes of={SlideStories} sort="alpha" />
-
-## Props - Scale
-
-<ArgTypes of={ScaleStories} sort="alpha" />

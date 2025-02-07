@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import Fade from './Fade';
+import Scale from './Scale';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Button } from '@/components/general/Button';
-import { TRANSITION_ARG_TYPES } from './Transition.constants';
+import { TRANSITION_ARG_TYPES } from '../Transition.constants';
 
-const meta: Meta<typeof Fade> = {
-  component: Fade,
+const meta: Meta<typeof Scale> = {
+  component: Scale,
   argTypes: TRANSITION_ARG_TYPES
 };
 
 export default meta;
-type Story = StoryObj<typeof Fade>;
+type Story = StoryObj<typeof Scale>;
 
-const FadeTemplate = ({ ...props }) => {
+const ScaleTemplate = ({ ...props }) => {
   const [transitionIn, setTransitionIn] = useState(false);
 
   const toggleTransition = () => {
@@ -26,24 +26,32 @@ const FadeTemplate = ({ ...props }) => {
       <Button onClick={toggleTransition} style={{ maxWidth: 'max-content' }}>
         {transitionIn ? 'Disappear' : 'Appear'}
       </Button>
-      <Fade in={transitionIn} {...props}>
+      <Scale in={transitionIn} {...props}>
         <Box
           style={{ backgroundColor: 'yellow-300', width: 100, height: 100 }}
         />
-      </Fade>
+      </Scale>
     </Stack>
   );
 };
 
-export const DefaultFadeTransition: Story = {
+export const DefaultScaleTransition: Story = {
   render: (args) => (
     <Stack direction="row" spacing={20}>
-      <FadeTemplate {...args} />
-      <FadeTemplate
-        easing="standard"
-        duration={{ enter: 'extra-long4', exit: 'short1' }}
+      <ScaleTemplate {...args} />
+      <ScaleTemplate
+        easing={{
+          enter: 'emphasized-decelerate',
+          exit: 'emphasized-accelerate'
+        }}
         {...args}
       />
     </Stack>
+  )
+};
+
+export const TransitionOrigin: Story = {
+  render: (args) => (
+    <ScaleTemplate style={{ transformOrigin: 'top left' }} {...args} />
   )
 };

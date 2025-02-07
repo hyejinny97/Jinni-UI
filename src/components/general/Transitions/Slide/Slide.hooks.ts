@@ -1,7 +1,7 @@
 import { useRef, useState, useCallback } from 'react';
 import useJinni from '@/hooks/useJinni';
 import { isNumber } from '@/utils/isNumber';
-import { flatDuration } from './Transition.utils';
+import { flatDuration } from '../Transition.utils';
 import { SlideProps } from './Slide';
 
 type useSlideProps = {

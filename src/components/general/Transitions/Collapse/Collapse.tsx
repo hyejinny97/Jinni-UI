@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useRef, useState, useEffect } from 'react';
-import Transition, { TransitionProps } from './Transition';
+import Transition, { TransitionProps } from '../Transition';
 
 type CollapseProps = TransitionProps & {
   orientation?: 'vertical' | 'horizontal';

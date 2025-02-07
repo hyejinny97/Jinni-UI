@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Transition, { TransitionProps } from './Transition';
-import Fade from './Fade';
-import Slide from './Slide';
-import Scale from './Scale';
+import { Fade } from './Fade';
+import { Slide } from './Slide';
+import { Scale } from './Scale';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Button } from '@/components/general/Button';
