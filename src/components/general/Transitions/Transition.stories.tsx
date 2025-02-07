@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Transition, { TransitionProps } from './Transition';
+import Fade from './Fade';
+import Slide from './Slide';
+import Scale from './Scale';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Button } from '@/components/general/Button';
@@ -59,6 +62,60 @@ const TransitionTemplate = ({ ...props }) => {
   );
 };
 
+const ScaleFadeTemplate = ({ ...props }) => {
+  const [transitionIn, setTransitionIn] = useState(false);
+
+  const toggleTransition = () => {
+    setTransitionIn((prev) => !prev);
+  };
+
+  return (
+    <Stack spacing={10} style={{ minWidth: 150, minHeight: 150 }}>
+      <Button onClick={toggleTransition} style={{ maxWidth: 'max-content' }}>
+        {transitionIn ? 'Disappear' : 'Appear'}
+      </Button>
+      <Fade in={transitionIn}>
+        <Scale in={transitionIn} {...props}>
+          <Box
+            style={{ backgroundColor: 'yellow-300', width: 100, height: 100 }}
+          />
+        </Scale>
+      </Fade>
+    </Stack>
+  );
+};
+
+const SlideFadeTemplate = ({ ...props }) => {
+  const [transitionIn, setTransitionIn] = useState(false);
+
+  const toggleTransition = () => {
+    setTransitionIn((prev) => !prev);
+  };
+
+  return (
+    <Stack spacing={10} style={{ minWidth: 150, minHeight: 150 }}>
+      <Button onClick={toggleTransition} style={{ maxWidth: 'max-content' }}>
+        {transitionIn ? 'Disappear' : 'Appear'}
+      </Button>
+      <Fade in={transitionIn} {...props}>
+        <Slide in={transitionIn} {...props}>
+          <Box
+            style={{ backgroundColor: 'yellow-300', width: 100, height: 100 }}
+          />
+        </Slide>
+      </Fade>
+    </Stack>
+  );
+};
+
 export const RotateTransition: Story = {
   render: (args) => <TransitionTemplate {...args} />
+};
+
+export const ScaleFade: Story = {
+  render: (args) => <ScaleFadeTemplate duration="long4" {...args} />
+};
+
+export const SlideFade: Story = {
+  render: (args) => <SlideFadeTemplate duration="extra-long4" {...args} />
 };
