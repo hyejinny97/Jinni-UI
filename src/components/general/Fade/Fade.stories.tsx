@@ -4,7 +4,7 @@ import Fade from './Fade';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Button } from '@/components/general/Button';
-import { TRANSITION_ARG_TYPES } from '../Transition.constants';
+import { TRANSITION_ARG_TYPES } from '@/components/general/Transition';
 
 const meta: Meta<typeof Fade> = {
   component: Fade,

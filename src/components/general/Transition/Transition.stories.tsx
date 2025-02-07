@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import Transition, { TransitionProps } from './Transition';
-import { Fade } from './Fade';
-import { Slide } from './Slide';
-import { Scale } from './Scale';
+import { Fade } from '@/components/general/Fade';
+import { Slide } from '@/components/general/Slide';
+import { Scale } from '@/components/general/Scale';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Button } from '@/components/general/Button';
+import Transition, { TransitionProps } from './Transition';
 import { TRANSITION_ARG_TYPES } from './Transition.constants';
 
 const meta: Meta<typeof Transition> = {

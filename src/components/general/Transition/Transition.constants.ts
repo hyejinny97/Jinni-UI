@@ -1,6 +1,9 @@
 export const TRANSITION_ARG_TYPES = {
   children: {
-    description: 'child content'
+    description: 'child content',
+    table: {
+      type: { summary: 'React.ReactNode' }
+    }
   },
   duration: {
     description: 'transition duration (단위: ms)',

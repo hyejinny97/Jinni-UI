@@ -1,6 +1,10 @@
 import cn from 'classnames';
 import { useEffect, useLayoutEffect } from 'react';
-import Transition, { TransitionProps, DEFAULT_DURATION } from '../Transition';
+import {
+  Transition,
+  TransitionProps,
+  DEFAULT_DURATION
+} from '@/components/general/Transition';
 import { useSlide, useDurationInNumber } from './Slide.hooks';
 
 export type SlideProps = TransitionProps & {
