@@ -1,5 +1,6 @@
 import './Box.scss';
 import cn from 'classnames';
+import { forwardRef } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ElevationLevelType } from '@/types/elevation';
@@ -14,33 +15,39 @@ export type BoxProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   round?: RoundType;
 };
 
-const Box = <T extends AsType = 'div'>(props: BoxProps<T>) => {
-  const {
-    elevation = 0,
-    outlined = false,
-    round = 0,
-    children,
-    className,
-    style,
-    as: Component = 'div',
-    ...rest
-  } = props;
-  const computedRound = getComputedRound(round);
-  const newStyle = useStyle({
-    elevation,
-    borderRadius: `${computedRound}px`,
-    ...style
-  });
+const Box = forwardRef(
+  <T extends AsType = 'div'>(
+    props: BoxProps<T>,
+    ref: React.Ref<HTMLElement>
+  ) => {
+    const {
+      elevation = 0,
+      outlined = false,
+      round = 0,
+      children,
+      className,
+      style,
+      as: Component = 'div',
+      ...rest
+    } = props;
+    const computedRound = getComputedRound(round);
+    const newStyle = useStyle({
+      elevation,
+      borderRadius: `${computedRound}px`,
+      ...style
+    });
 
-  return (
-    <Component
-      className={cn('JinniBox', { outlined }, className)}
-      style={newStyle}
-      {...rest}
-    >
-      {children}
-    </Component>
-  );
-};
+    return (
+      <Component
+        ref={ref}
+        className={cn('JinniBox', { outlined }, className)}
+        style={newStyle}
+        {...rest}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
 
 export default Box;

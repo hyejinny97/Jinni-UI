@@ -1,0 +1,33 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ScaleStories from './Scale.stories';
+
+<Meta of={ScaleStories} />
+
+# Scale
+
+Scale-In/Scale-Out Transition<br />
+(Transition 컴포넌트를 기반으로 만들어짐)
+
+## Import
+
+```js
+import { Scale } from '@/components/general/Scale';
+```
+
+## Usage
+
+### Default Scale Transition
+
+- children의 중심에서부터 scale out(확장) 되고, 중심 방향으로 scale in(축소) 됨
+
+<Canvas of={ScaleStories.DefaultScaleTransition} />
+
+### Transition Origin
+
+- `style` prop의 'transform-origin'을 통해 origin 변경 가능
+
+<Canvas of={ScaleStories.TransitionOrigin} />
+
+## Props
+
+<ArgTypes of={ScaleStories} sort="alpha" />

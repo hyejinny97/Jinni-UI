@@ -1,0 +1,57 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TransitionStories from './Transition.stories';
+
+<Meta of={TransitionStories} />
+
+# Transition
+
+Transition은 UI를 좀 더 풍부하고 사용하기 쉽게 만들어 줌<br />
+(Collapse, Fade, Slide, Scale 컴포넌트는 Transition 컴포넌트를 기반으로 만들어짐)
+
+## Import
+
+```js
+import { Transition } from '@/components/general/Transition';
+```
+
+## Usage
+
+### Basic Transition
+
+- `in`: true이면, transition in 됨
+
+- `easing`: transition timing function
+
+  - type: `EasingType` | `string` | `{ enter?: EasingType | string, exit?: EasingType | string }`
+    - `EasingType`:
+      - `'emphasized'` | `'emphasized-accelerate'` | `'emphasized-decelerate'`
+      - `'standard'` | `'standard-accelerate'` | `'standard-decelerate'`
+    - `string`:
+      - `‘ease’` | `‘ease-in’` | `‘ease-out’` | `‘ease-in-out’`
+      - `‘linear’` | `‘step-start’` | `‘step-end’`
+      - `‘step(n, <jump-term>)’`
+      - `‘cubic-bezier(p1, p2, p3, p4)’`
+
+- `duration`: transition duration (단위: ms)
+  - type: `DurationType` | `number` | `{ enter?: DurationType | number, exit?: DurationType | number }`
+    - `DurationType`:
+      - `'short1'` | `'short2'` | `'short3'` | `'short4'`
+      - `'medium1'` | `'medium2'` | `'medium3'` | `'medium4'`
+      - `'long1'` | `'long2'` | `'long3'` | `'long4'`
+      - `'extra-long1'` | `'extra-long2'` | `'extra-long3'` | `'extra-long4'`
+
+<Canvas of={TransitionStories.RotateTransition} />
+
+### Combination
+
+#### 1) ScaleFade
+
+<Canvas of={TransitionStories.ScaleFade} />
+
+#### 2) SlideFade
+
+<Canvas of={TransitionStories.SlideFade} />
+
+## Props
+
+<ArgTypes of={TransitionStories} sort="alpha" />

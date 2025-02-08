@@ -1,0 +1,25 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as FadeStories from './Fade.stories';
+
+<Meta of={FadeStories} />
+
+# Fade
+
+Fade-In/Fade-Out Transition<br />
+(Transition 컴포넌트를 기반으로 만들어짐)
+
+## Import
+
+```js
+import { Fade } from '@/components/general/Fade';
+```
+
+## Usage
+
+### Default Fade Transition
+
+<Canvas of={FadeStories.DefaultFadeTransition} />
+
+## Props
+
+<ArgTypes of={FadeStories} sort="alpha" />
