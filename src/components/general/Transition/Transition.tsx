@@ -12,7 +12,7 @@ export type EnterAndExit<T> = { enter?: T; exit?: T };
 export type TransitionProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
     children: React.ReactNode;
-    in: boolean;
+    in?: boolean;
     easing?: EasingType | string | EnterAndExit<EasingType | string>;
     duration?: DurationType | number | EnterAndExit<DurationType | number>;
   };
@@ -27,7 +27,7 @@ const Transition = forwardRef(
   ) => {
     const {
       children,
-      in: transitionIn,
+      in: transitionIn = false,
       easing = DEFAULT_EASING,
       duration = DEFAULT_DURATION,
       className,

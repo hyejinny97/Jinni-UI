@@ -26,6 +26,8 @@ export const TRANSITION_ARG_TYPES = {
     }
   },
   in: {
-    description: 'true이면, transition in 됨'
+    description: 'true이면, transition in 됨',
+    type: 'boolean',
+    defaultValue: { summary: false }
   }
 };
