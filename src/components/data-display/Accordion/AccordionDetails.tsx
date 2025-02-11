@@ -4,7 +4,9 @@ import useStyle from '@/hooks/useStyle';
 import { useExpand } from './Accordion.hooks';
 
 export type AccordionDetailsProps<T extends AsType = 'div'> =
-  DefaultComponentProps<T> & {};
+  DefaultComponentProps<T> & {
+    children: React.ReactNode;
+  };
 
 const AccordionDetails = <T extends AsType = 'div'>(
   props: AccordionDetailsProps<T>

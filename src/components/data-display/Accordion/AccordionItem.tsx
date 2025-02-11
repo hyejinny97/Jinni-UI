@@ -7,6 +7,7 @@ export type AccordionItemProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'onChange'
 > & {
+  children: React.ReactNode;
   defaultExpanded?: boolean;
   expanded?: boolean;
   onChange?: (event: React.SyntheticEvent, expanded: boolean) => void;

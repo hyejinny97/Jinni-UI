@@ -1,0 +1,117 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as AccordionStories from './Accordion.stories';
+import * as AccordionItemStories from './AccordionItem.stories';
+import * as AccordionSummaryStories from './AccordionSummary.stories';
+import * as AccordionDetailsStories from './AccordionDetails.stories';
+
+<Meta of={AccordionStories} />
+
+# Accordion
+
+콘텐츠를 보여주거나(expand) 숨기는(collapse) 컴포넌트
+
+## Import
+
+```js
+import {
+  Accordion,
+  AccordionItem,
+  AccordionSummary,
+  AccordionDetails
+} from '@/components/data-display/Accordion';
+```
+
+## Usage
+
+### Basic Accordion
+
+- `Accordion` 컴포넌트
+
+  - 여러 개의 `AccordionItem`를 감싸는 wrapper
+  - 기본적으로, 한번에 여러 개의 accordion item을 expand할 수 있음
+  - tab 키 눌었을 때, accordion items가 순서대로 focus 됨
+  - 한 accordion item이 focus된 상태에서 enter 키를 누르면 expand 됨
+
+- `AccordionItem` 컴포넌트
+
+  - accordion item 하나
+  - `AccordionSummary`, `AccordionDetails`를 감싸는 wrapper
+  - 기본적으로, expanded accordion item 클릭 시 collapse 됨
+
+- `AccordionSummary` 컴포넌트
+
+  - accordion header(trigger)
+  - `children`: accordion header의 content
+
+- `AccordionDetails` 컴포넌트
+
+  - accordion body(panel)
+  - `children`: accordion body의 content
+
+<Canvas of={AccordionStories.BasicAccordion} />
+
+### Expand Icon
+
+- `AccordionSummary` 컴포넌트
+  - `expandIcon`: expand indicator icon 설정 (`false`이면, expand indicator icon이 나타나지 않음)
+
+<Canvas of={AccordionStories.ExpandIcon} />
+
+### Expanded by default
+
+- `AccordionItem` 컴포넌트
+  - `defaultExpanded`: true이면, 기본적으로 open 됨 (uncontrolled accordion인 경우에만 적용 가능)
+
+<Canvas of={AccordionStories.ExpandedByDefault} />
+
+### Disabled Item
+
+- `AccordionItem` 컴포넌트
+  - `disabled`: true이면, interaction과 focus가 비활성화 됨
+
+<Canvas of={AccordionStories.DisabledItem} />
+
+### Controlled Accordion
+
+- 기본적으로 accordion은 uncontrolled 상태임
+
+  - `expanded`, `onChange` prop을 통해 accordion을 control 할 수 있음
+  - controlled accordion을 통해 한번에 하나의 accordion item만 expand 가능
+
+- `AccordionItem` 컴포넌트
+
+  - `expanded`: true이면, expand 됨
+  - `onChange`: expand/collapse state에 변화가 있을 때 호출되는 함수
+
+<Canvas of={AccordionStories.ControlledAccordion} />
+
+### Customization
+
+#### 1) style customization
+
+- `style` prop을 통해 background-color, border 등 커스텀 가능
+
+<Canvas of={AccordionStories.StyleCustomization} />
+
+#### 2) HeadingComponent
+
+- `AccordionSummary` 컴포넌트
+  - `HeadingComponent`: accordion header의 heading element 설정 가능
+
+<Canvas of={AccordionStories.HeadingComponent} />
+
+## Props - Accordion
+
+<ArgTypes of={AccordionStories} sort="alpha" />
+
+## Props - AccordionItem
+
+<ArgTypes of={AccordionItemStories} sort="alpha" />
+
+## Props - AccordionSummary
+
+<ArgTypes of={AccordionSummaryStories} sort="alpha" />
+
+## Props - AccordionDetails
+
+<ArgTypes of={AccordionDetailsStories} sort="alpha" />

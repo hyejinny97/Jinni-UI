@@ -6,6 +6,7 @@ import { useExpand } from './Accordion.hooks';
 
 export type AccordionSummaryProps<T extends AsType = 'button'> =
   DefaultComponentProps<T> & {
+    children: React.ReactNode;
     expandIcon?: React.ReactNode;
     HeadingComponent?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   };
