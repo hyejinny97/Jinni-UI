@@ -29,9 +29,11 @@ $margin-value: 16px;
 
   .JinniCheckboxLabelContent {
     font-size: 14px;
+    cursor: pointer;
 
     &.disabled {
       color: var(--jinni-color-gray-400);
+      cursor: default;
     }
 
     .JinniCheckboxLabelAsterisk {
