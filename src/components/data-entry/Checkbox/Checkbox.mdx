@@ -1,0 +1,80 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+한 개 이상의 아이템을 선택 가능하게 함
+
+## Import
+
+```js
+import { Checkbox } from '@/components/data-entry/Checkbox';
+```
+
+## Usage
+
+### Basic Checkbox
+
+- type='checkbox'인 input 요소의 props 전부 가능 (ex) name, value, required 등)
+- `disableRipple`: true이면, ripple effect가 사라짐
+
+<Canvas of={CheckboxStories.BasicCheckbox} />
+
+### Checked by default
+
+- `defaultChecked`: true이면, 기본적으로 check 됨 (uncontrolled 상태일 때 적용 가능)
+
+<Canvas of={CheckboxStories.CheckedByDefault} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화 됨
+
+<Canvas of={CheckboxStories.Disabled} />
+
+### Size
+
+- `size`: checkbox 크기
+
+<Canvas of={CheckboxStories.Size} />
+
+### Color
+
+- `color`: checkbox 색상
+
+<Canvas of={CheckboxStories.Color} />
+
+### Icon
+
+- `icon`: unchecked 됐을 때 나타나는 icon
+- `checkedIcon`: checked 됐을 때 나타나는 icon
+
+<Canvas of={CheckboxStories.Icon} />
+
+### Controlled Checkbox
+
+- `checked` 와 `onChange` prop을 통해 checkbox를 control 가능
+- `checked`: true이면, check 됨
+- `onChange`: checked/unchecked state가 변경됐을 때 호출되는 함수
+
+<Canvas of={CheckboxStories.ControlledCheckbox} />
+
+### Indeterminate
+
+#### 1) default
+
+- `indeterminate`: true이면, indeterminate check 됨
+
+<Canvas of={CheckboxStories.DefaultIndeterminate} />
+
+#### 2) indeterminate icon
+
+- `indeterminateIcon`: indeterminate icon
+
+<Canvas of={CheckboxStories.IndeterminateIcon} />
+
+## Props
+
+<ArgTypes of={CheckboxStories} sort="alpha" />
