@@ -16,6 +16,7 @@ type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
 };
 
+const isInlineCssVariable = (key: string) => key.startsWith('--');
 const isColorProperty = (key: string) =>
   CSS_COLOR_PROPERTIES.some((propName) => propName === key);
 const isThemeColor = (
@@ -73,11 +74,17 @@ const useStyle = (
       if (!val) return;
       editedValue = val;
     }
-    if (isColorProperty(key) && isThemeColor(editedValue)) {
+    if (
+      (isColorProperty(key) || isInlineCssVariable(key)) &&
+      isThemeColor(editedValue)
+    ) {
       editedStyle[key] = theme[editedValue];
       return;
     }
-    if (isColorProperty(key) && isPaletteColor(editedValue)) {
+    if (
+      (isColorProperty(key) || isInlineCssVariable(key)) &&
+      isPaletteColor(editedValue)
+    ) {
       editedStyle[key] = palette[editedValue];
       return;
     }
