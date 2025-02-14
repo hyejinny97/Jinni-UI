@@ -19,21 +19,20 @@ const ExpandProvider = ({
   const [uncontrolledExpanded, setUncontrolledExpanded] =
     useState<boolean>(!!defaultExpanded);
 
-  const handleChangeInControlledAccordion = (event: React.SyntheticEvent) => {
-    if (!isControlledAccordion || !onChange) return;
-    onChange(event, !expanded);
-  };
-
-  const handleChangeInUncontrolledAccordion = () => {
-    if (isControlledAccordion) return;
-    setUncontrolledExpanded((prevExpanded) => !prevExpanded);
+  const handleChange = (event: React.SyntheticEvent) => {
+    if (!isControlledAccordion)
+      setUncontrolledExpanded((prevExpanded) => !prevExpanded);
+    if (onChange) {
+      onChange(
+        event,
+        isControlledAccordion ? !expanded : !uncontrolledExpanded
+      );
+    }
   };
 
   const value = {
     isExpanded: isControlledAccordion ? expanded : uncontrolledExpanded,
-    toggleExpanded: isControlledAccordion
-      ? handleChangeInControlledAccordion
-      : handleChangeInUncontrolledAccordion,
+    toggleExpanded: handleChange,
     disabled: !!disabled
   };
 
