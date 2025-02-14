@@ -3,9 +3,15 @@ import { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 
 interface useRippleProps {
   rippleColor: 'white' | 'black';
+  rippleStartLocation?: 'center' | 'clicked';
+  disableRipple?: boolean;
 }
 
-const useRipple = ({ rippleColor }: useRippleProps) => {
+const useRipple = ({
+  rippleColor,
+  rippleStartLocation = 'clicked',
+  disableRipple = false
+}: useRippleProps) => {
   const rippleTargetRef = useRef<HTMLElement>(null);
   const rippleContainerRef = useRef<HTMLDivElement>(null);
 
@@ -21,7 +27,7 @@ const useRipple = ({ rippleColor }: useRippleProps) => {
 
   useEffect(() => {
     const rippleTargetEl = rippleTargetRef.current;
-    if (!rippleTargetEl) return;
+    if (!rippleTargetEl || disableRipple) return;
 
     const handleClick = (e: MouseEvent) => {
       const rippleContainerEl = rippleContainerRef.current;
@@ -35,8 +41,16 @@ const useRipple = ({ rippleColor }: useRippleProps) => {
 
       const ripple = document.createElement('span');
       ripple.style.width = ripple.style.height = `${size}px`;
-      ripple.style.left = `${x}px`;
-      ripple.style.top = `${y}px`;
+      switch (rippleStartLocation) {
+        case 'clicked':
+          ripple.style.left = `${x}px`;
+          ripple.style.top = `${y}px`;
+          break;
+        case 'center':
+          ripple.style.left = `${size / 2}px`;
+          ripple.style.top = `${size / 2}px`;
+          break;
+      }
       ripple.className = `JinniRipple ${rippleColor}`;
 
       rippleContainerEl.appendChild(ripple);
@@ -46,7 +60,7 @@ const useRipple = ({ rippleColor }: useRippleProps) => {
     };
     rippleTargetEl.addEventListener('click', handleClick);
     return () => rippleTargetEl.removeEventListener('click', handleClick);
-  }, [rippleColor]);
+  }, [rippleColor, rippleStartLocation, disableRipple]);
 
   const RippleContainer = useCallback(
     () => <div ref={rippleContainerRef} className="JinniRippleContainer"></div>,

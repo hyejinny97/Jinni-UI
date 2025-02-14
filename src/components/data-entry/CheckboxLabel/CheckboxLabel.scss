@@ -1,0 +1,43 @@
+$margin-value: 16px;
+
+@mixin labelPlacement {
+  &.start {
+    flex-direction: row-reverse;
+    margin-left: $margin-value;
+  }
+  &.end {
+    flex-direction: row;
+    margin-right: $margin-value;
+  }
+  &.top {
+    flex-direction: column-reverse;
+    margin-left: $margin-value;
+    margin-right: $margin-value;
+  }
+  &.bottom {
+    flex-direction: column;
+    margin-left: $margin-value;
+    margin-right: $margin-value;
+  }
+}
+
+.JinniCheckboxLabel {
+  display: inline-flex;
+  justify-content: start;
+  align-items: center;
+  @include labelPlacement;
+
+  .JinniCheckboxLabelContent {
+    font-size: 14px;
+    cursor: pointer;
+
+    &.disabled {
+      color: var(--jinni-color-gray-400);
+      cursor: default;
+    }
+
+    .JinniCheckboxLabelAsterisk {
+      font-size: 16px;
+    }
+  }
+}
