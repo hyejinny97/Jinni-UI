@@ -1,0 +1,75 @@
+@mixin iconColor {
+  color: var(--jinni-color-gray-600);
+
+  &.isChecked {
+    color: var(--checked-color);
+  }
+  &.disabled {
+    color: var(--jinni-color-gray-400);
+  }
+
+  svg path {
+    fill: currentColor;
+  }
+}
+
+@mixin iconSize {
+  &.sm svg {
+    width: 20px;
+    height: 20px;
+  }
+  &.md svg {
+    width: 24px;
+    height: 24px;
+  }
+  &.lg svg {
+    width: 28px;
+    height: 28px;
+  }
+  &:not(.sm, .md, .lg) svg {
+    width: var(--icon-size);
+    height: var(--icon-size);
+  }
+}
+
+.JinniRadio {
+  position: relative;
+  display: inline-flex;
+  padding: 8px;
+  width: max-content;
+  height: max-content;
+  border-radius: 50%;
+  @include iconColor;
+  @include iconSize;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--checked-color);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--jinni-duration-short2);
+  }
+  &:not(.disabled):hover::before {
+    opacity: 0.05;
+  }
+
+  .JinniRadioInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+}
