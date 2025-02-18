@@ -1,9 +1,9 @@
 import { FormControlLabelProps } from './FormControlLabel';
 
-export const insertProps = (
-  element: FormControlLabelProps['children'],
-  props: Pick<FormControlLabelProps, 'required' | 'disabled'>
-): FormControlLabelProps['children'] => {
+export const insertProps = <P>(
+  element: FormControlLabelProps<P>['children'],
+  props: Pick<FormControlLabelProps<P>, 'required' | 'disabled'>
+): FormControlLabelProps<P>['children'] => {
   return {
     ...element,
     props: {

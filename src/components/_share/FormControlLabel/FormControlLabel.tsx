@@ -37,7 +37,7 @@ const FormControlLabel = <P, T extends AsType = 'label'>(
       style={newStyle}
       {...rest}
     >
-      {insertProps(children, { required, disabled })}
+      {insertProps<P>(children, { required, disabled })}
       <span className={cn('JinniFormControlLabelContent', { disabled })}>
         {label}
         {required && (
