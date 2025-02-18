@@ -32,42 +32,42 @@ export default meta;
 type Story = StoryObj<typeof CheckboxLabel>;
 
 export const BasicCheckboxLabel: Story = {
-  render: (args) => (
-    <CheckboxLabel label="빨간색" {...args}>
+  render: () => (
+    <CheckboxLabel label="빨간색">
       <Checkbox name="color" value="red" />
     </CheckboxLabel>
   )
 };
 
 export const Required: Story = {
-  render: (args) => (
-    <CheckboxLabel label="빨간색" required {...args}>
+  render: () => (
+    <CheckboxLabel label="빨간색" required>
       <Checkbox name="color" value="red" />
     </CheckboxLabel>
   )
 };
 
 export const Disabled: Story = {
-  render: (args) => (
-    <CheckboxLabel label="빨간색" disabled {...args}>
+  render: () => (
+    <CheckboxLabel label="빨간색" disabled>
       <Checkbox name="color" value="red" />
     </CheckboxLabel>
   )
 };
 
 export const LabelPlacement: Story = {
-  render: (args) => (
+  render: () => (
     <Stack direction="row" spacing={10}>
-      <CheckboxLabel label="빨간색" labelPlacement="start" {...args}>
+      <CheckboxLabel label="빨간색" labelPlacement="start">
         <Checkbox name="color" value="red" />
       </CheckboxLabel>
-      <CheckboxLabel label="빨간색" labelPlacement="end" {...args}>
+      <CheckboxLabel label="빨간색" labelPlacement="end">
         <Checkbox name="color" value="red" />
       </CheckboxLabel>
-      <CheckboxLabel label="빨간색" labelPlacement="top" {...args}>
+      <CheckboxLabel label="빨간색" labelPlacement="top">
         <Checkbox name="color" value="red" />
       </CheckboxLabel>
-      <CheckboxLabel label="빨간색" labelPlacement="bottom" {...args}>
+      <CheckboxLabel label="빨간색" labelPlacement="bottom">
         <Checkbox name="color" value="red" />
       </CheckboxLabel>
     </Stack>
@@ -75,7 +75,7 @@ export const LabelPlacement: Story = {
 };
 
 export const Customization: Story = {
-  render: (args) => (
+  render: () => (
     <CheckboxLabel
       label="빨간색"
       style={{
@@ -84,7 +84,6 @@ export const Customization: Story = {
         fontWeight: 800,
         color: 'error'
       }}
-      {...args}
     >
       <Checkbox name="color" value="red" color="error" />
     </CheckboxLabel>

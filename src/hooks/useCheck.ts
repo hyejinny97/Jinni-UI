@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { CheckboxProps } from './Checkbox';
 import { isBoolean } from '@/utils/isBoolean';
 
-export const useCheck = ({
-  defaultChecked,
-  checked,
-  onChange
-}: Pick<CheckboxProps, 'defaultChecked' | 'checked' | 'onChange'>) => {
+type useCheckProps = {
+  defaultChecked?: boolean;
+  checked?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const useCheck = ({ defaultChecked, checked, onChange }: useCheckProps) => {
   const isControlledCheckbox = checked !== undefined && isBoolean(checked);
   const [uncontrolledChecked, setUncontrolledChecked] =
     useState<boolean>(!!defaultChecked);
@@ -23,3 +24,5 @@ export const useCheck = ({
     handleChange
   };
 };
+
+export default useCheck;

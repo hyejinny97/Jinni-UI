@@ -1,40 +1,35 @@
-import './Checkbox.scss';
+import './Radio.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { CheckboxIcon } from '@/components/icons/CheckboxIcon';
-import { CheckboxOutlineBlankIcon } from '@/components/icons/CheckboxOutlineBlankIcon';
-import { IndeterminateCheckIcon } from '@/components/icons/IndeterminateCheckIcon';
+import { RadioUncheckedIcon } from '@/components/icons/RadioUncheckedIcon';
+import { RadioCheckedIcon } from '@/components/icons/RadioCheckedIcon';
 import useCheck from '@/hooks/useCheck';
 import { ColorType } from '@/types/color';
 import { useRipple } from '@/hooks/useRipple';
 
-export type CheckboxProps<T extends AsType = 'input'> = Omit<
+export type RadioProps<T extends AsType = 'input'> = Omit<
   DefaultComponentProps<T>,
   'onChange' | 'size'
 > & {
   defaultChecked?: boolean;
   checked?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  indeterminate?: boolean;
   icon?: React.ReactNode;
   checkedIcon?: React.ReactNode;
-  indeterminateIcon?: React.ReactNode;
   disabled?: boolean;
   color?: ColorType;
   size?: 'sm' | 'md' | 'lg' | string | number;
   disableRipple?: boolean;
 };
 
-const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
+const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
   const {
     defaultChecked,
     checked,
     onChange,
-    indeterminate,
-    icon = <CheckboxOutlineBlankIcon />,
-    checkedIcon = <CheckboxIcon />,
-    indeterminateIcon = <IndeterminateCheckIcon />,
+    icon = <RadioUncheckedIcon />,
+    checkedIcon = <RadioCheckedIcon />,
     disabled,
     color = 'primary',
     size = 'md',
@@ -61,35 +56,28 @@ const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
     ...style
   });
 
-  let displayedIcon;
-  if (indeterminate) {
-    displayedIcon = indeterminateIcon;
-  } else {
-    displayedIcon = isChecked ? checkedIcon : icon;
-  }
-
   return (
     <span
       ref={rippleTargetRef}
       className={cn(
-        'JinniCheckbox',
-        { isChecked, indeterminate, disabled, [size]: isKeywordSize },
+        'JinniRadio',
+        { isChecked, disabled, [size]: isKeywordSize },
         className
       )}
       style={newStyle}
     >
       <RippleContainer />
       <Component
-        className="JinniCheckboxInput"
-        type="checkbox"
+        className="JinniRadioInput"
+        type="radio"
         checked={isChecked}
         onChange={handleChange}
         disabled={disabled}
         {...rest}
       />
-      {displayedIcon}
+      {isChecked ? checkedIcon : icon}
     </span>
   );
 };
 
-export default Checkbox;
+export default Radio;

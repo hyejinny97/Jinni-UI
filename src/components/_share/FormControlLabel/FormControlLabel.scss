@@ -21,13 +21,13 @@ $margin-value: 16px;
   }
 }
 
-.JinniCheckboxLabel {
+.JinniFormControlLabel {
   display: inline-flex;
   justify-content: start;
   align-items: center;
   @include labelPlacement;
 
-  .JinniCheckboxLabelContent {
+  .JinniFormControlLabelContent {
     font-size: 14px;
     cursor: pointer;
 
@@ -36,7 +36,7 @@ $margin-value: 16px;
       cursor: default;
     }
 
-    .JinniCheckboxLabelAsterisk {
+    .JinniFormControlLabelAsterisk {
       font-size: 16px;
     }
   }
