@@ -1,0 +1,150 @@
+@mixin thumbHoverOverlay {
+  .JinniSwitchThumbWrapper {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      opacity: 0;
+      background-color: var(--jinni-color-gray-600);
+      transition: opacity var(--jinni-duration-short2);
+    }
+    &.isChecked::before {
+      background-color: var(--checked-color);
+    }
+  }
+
+  &:not(.disabled):hover .JinniSwitchThumbWrapper::before {
+    opacity: 0.05;
+  }
+}
+
+@mixin thumbColor {
+  background-color: white;
+  &.isChecked:not(.disabled) {
+    background-color: var(--checked-color);
+  }
+  &.disabled:not(.isChecked) {
+    background-color: var(--jinni-color-gray-100);
+  }
+  &.isChecked.disabled {
+    background-color: var(--checked-disabled-color);
+  }
+}
+
+@mixin trackColor {
+  background-color: var(--jinni-color-gray-600);
+  &.isChecked:not(.disabled) {
+    background-color: var(--checked-color);
+  }
+  &.disabled:not(.isChecked) {
+    background-color: var(--jinni-color-gray-400);
+  }
+  &.isChecked.disabled {
+    background-color: var(--checked-disabled-color);
+  }
+}
+
+@mixin switchSize {
+  &.sm {
+    padding: 10px;
+    width: 46px;
+    height: 30px;
+  }
+  &.md {
+    padding: 12px;
+    width: 58px;
+    height: 38px;
+  }
+  &.lg {
+    padding: 14px;
+    width: 70px;
+    height: 46px;
+  }
+}
+
+@mixin thumbSize {
+  height: 100%;
+  aspect-ratio: 1/1;
+  &.sm {
+    padding: 7px;
+  }
+  &.md {
+    padding: 9px;
+  }
+  &.lg {
+    padding: 11px;
+  }
+}
+
+@mixin translateBySize {
+  &.isChecked {
+    &.sm {
+      transform: translateX(16px);
+    }
+    &.md {
+      transform: translateX(20px);
+    }
+    &.lg {
+      transform: translateX(24px);
+    }
+  }
+}
+
+.JinniSwitch {
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  @include switchSize;
+  @include thumbHoverOverlay;
+
+  .JinniSwitchTrack {
+    width: 100%;
+    height: 100%;
+    border-radius: 1000px;
+    opacity: 0.5;
+    @include trackColor;
+  }
+
+  .JinniSwitchThumbWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 1000px;
+    transition: transform var(--jinni-duration-short4)
+      var(--jinni-easing-emphasized-accelerate);
+    @include thumbSize;
+    @include translateBySize;
+
+    .JinniSwitchThumb {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      box-shadow: var(--jinni-box-shadow-3);
+      @include thumbColor;
+    }
+  }
+
+  .JinniSwitchInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+}

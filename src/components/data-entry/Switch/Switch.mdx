@@ -1,0 +1,64 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as SwitchStories from './Switch.stories';
+
+<Meta of={SwitchStories} />
+
+# Switch
+
+on/off 상태를 토글하는 스위치
+
+## Import
+
+```js
+import { Switch } from '@/components/data-entry/Switch';
+```
+
+## Usage
+
+### Basic Switch
+
+- type='checkbox'인 input 요소의 props 전부 가능 (ex) name, value, required 등)
+
+<Canvas of={SwitchStories.BasicSwitch} />
+
+### Checked by default
+
+- `defaultChecked`: true이면, 기본적으로 check 됨 (uncontrolled 상태일 때 적용 가능)
+
+<Canvas of={SwitchStories.CheckedByDefault} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화 됨
+
+<Canvas of={SwitchStories.Disabled} />
+
+### Size
+
+- `size`: switch 크기
+
+<Canvas of={SwitchStories.Size} />
+
+### Color
+
+- `color`: switch 색상
+
+<Canvas of={SwitchStories.Color} />
+
+### Controlled Switch
+
+- `checked` 와 `onChange` prop을 통해 switch를 control 가능
+- `checked`: true이면, check 됨
+- `onChange`: checked/unchecked state가 변경됐을 때 호출되는 함수
+
+<Canvas of={SwitchStories.ControlledSwitch} />
+
+### Customization
+
+- className과 css style을 통해 switch UI 커스텀 가능
+
+<Canvas of={SwitchStories.Customization} />
+
+## Props
+
+<ArgTypes of={SwitchStories} sort="alpha" />
