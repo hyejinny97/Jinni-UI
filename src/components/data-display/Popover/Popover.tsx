@@ -38,7 +38,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     onClose,
     PopoverContentProps,
     anchorReference = 'anchorEl',
-    anchorEl,
+    anchorElRef,
     anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
     anchorPosition,
     popoverOrigin = DEFAULT_POPOVER_ORIGIN,
@@ -50,7 +50,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
   const { popperRef: popoverRef, popperPosition: popoverPosition } =
     usePopperPosition({
       anchorReference,
-      anchorEl,
+      anchorElRef,
       anchorOrigin,
       anchorPosition,
       popperOrigin: popoverOrigin,

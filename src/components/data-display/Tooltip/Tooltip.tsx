@@ -58,14 +58,14 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     as: Component = 'span',
     ...rest
   } = props;
-  const anchorRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLElement>(null);
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const isOpen = controlledOpen || uncontrolledOpen;
   const anchorOrigin = useMemo(() => getAnchorOrigin(placement), [placement]);
   const popperOrigin = useMemo(() => getPopperOrigin(placement), [placement]);
   const { popperRef, popperPosition } = usePopperPosition({
     anchorReference: 'anchorEl',
-    anchorEl: anchorRef.current,
+    anchorElRef,
     anchorOrigin,
     popperOrigin,
     open: isOpen
@@ -83,7 +83,7 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     handleBlur
   } = useHandleTriggers({
     triggers,
-    anchorRef,
+    anchorElRef,
     popperRef,
     setUncontrolledOpen,
     controlledOpen,
@@ -91,7 +91,7 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     onClose
   });
   const tooltipAnchorProps = {
-    ref: anchorRef,
+    ref: anchorElRef,
     className: 'JinniTooltipAnchor',
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
@@ -104,7 +104,13 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
   return (
     <>
       {isSingleElement ? (
-        cloneElement(children, tooltipAnchorProps)
+        cloneElement(children, {
+          ...tooltipAnchorProps,
+          className: cn(
+            'JinniTooltipAnchor',
+            (children as React.ReactElement).props.className
+          )
+        })
       ) : (
         <span {...tooltipAnchorProps}>{children}</span>
       )}

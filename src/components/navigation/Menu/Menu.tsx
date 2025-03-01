@@ -41,7 +41,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
     onClick,
     MenuListProps,
     anchorReference = 'anchorEl',
-    anchorEl,
+    anchorElRef,
     anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
     anchorPosition,
     menuOrigin = DEFAULT_MENU_ORIGIN,
@@ -54,7 +54,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
   const { popperRef: menuRef, popperPosition: menuPosition } =
     usePopperPosition({
       anchorReference,
-      anchorEl,
+      anchorElRef,
       anchorOrigin,
       anchorPosition,
       popperOrigin: menuOrigin,

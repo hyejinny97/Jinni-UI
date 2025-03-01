@@ -7,11 +7,12 @@ import { Button } from '@/components/general/Button';
 const meta: Meta<typeof Popover> = {
   component: Popover,
   argTypes: {
-    anchorEl: {
-      description: 'anchor가 되는 HTML element로, popover의 위치를 결정해줌',
+    anchorElRef: {
+      description:
+        'anchor가 되는 HTML element의 reference로, popover의 위치를 결정해줌',
       table: {
         type: {
-          summary: 'HTML element'
+          summary: 'React.RefObject<HTMLElement>'
         }
       }
     },
@@ -77,7 +78,7 @@ const PopoverAnchorElTemplate = ({
 }: {
   buttonContent?: string;
 }) => {
-  const anchorRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -90,11 +91,11 @@ const PopoverAnchorElTemplate = ({
 
   return (
     <>
-      <Button ref={anchorRef} onClick={handleOpen}>
+      <Button ref={anchorElRef} onClick={handleOpen}>
         {buttonContent || 'Open Popover'}
       </Button>
       <Popover
-        anchorEl={anchorRef.current}
+        anchorElRef={anchorElRef}
         open={open}
         onClose={handleClose}
         {...popoverProps}

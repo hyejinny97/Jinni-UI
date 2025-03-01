@@ -4,7 +4,7 @@ import { isBoolean } from '@/utils/isBoolean';
 
 export const useHandleTriggers = ({
   triggers,
-  anchorRef,
+  anchorElRef,
   popperRef,
   setUncontrolledOpen,
   controlledOpen,
@@ -12,7 +12,7 @@ export const useHandleTriggers = ({
   onClose
 }: {
   triggers: Array<TriggerType>;
-  anchorRef: React.RefObject<HTMLElement>;
+  anchorElRef: React.RefObject<HTMLElement>;
   popperRef: React.RefObject<HTMLElement>;
   setUncontrolledOpen: React.Dispatch<React.SetStateAction<boolean>>;
   controlledOpen: TooltipProps['open'];
@@ -26,7 +26,7 @@ export const useHandleTriggers = ({
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      const anchorEl = anchorRef.current;
+      const anchorEl = anchorElRef.current;
       const tooltipEl = popperRef.current;
       const clickedEl = e.target as Node;
       if (!hasClickTrigger) return;
@@ -41,7 +41,7 @@ export const useHandleTriggers = ({
       document.removeEventListener('click', handleClick);
     };
   }, [
-    anchorRef,
+    anchorElRef,
     popperRef,
     hasClickTrigger,
     setUncontrolledOpen,

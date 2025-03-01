@@ -13,11 +13,12 @@ import { CheckIcon } from '@/components/icons/CheckIcon';
 const meta: Meta<typeof Menu> = {
   component: Menu,
   argTypes: {
-    anchorEl: {
-      description: 'anchor가 되는 HTML element로, 메뉴의 위치를 결정해줌',
+    anchorElRef: {
+      description:
+        'anchor가 되는 HTML element의 reference로, 메뉴의 위치를 결정해줌',
       table: {
         type: {
-          summary: 'HTML element'
+          summary: 'React.RefObject<HTMLElement>'
         }
       }
     },
@@ -94,7 +95,7 @@ const MenuAnchorElTemplate = ({
   children: Array<JSX.Element>;
   menuProps?: MenuProps;
 }) => {
-  const anchorRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -106,11 +107,11 @@ const MenuAnchorElTemplate = ({
 
   return (
     <>
-      <Button ref={anchorRef} onClick={handleButtonClick}>
+      <Button ref={anchorElRef} onClick={handleButtonClick}>
         {buttonContent || 'Open Menu'}
       </Button>
       <Menu
-        anchorEl={anchorRef.current}
+        anchorElRef={anchorElRef}
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -148,7 +149,7 @@ const SelectedMenuTemplate = ({ ...args }) => {
 };
 
 const OptionMenuTemplate = ({ ...args }) => {
-  const anchorRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(-1);
 
@@ -164,11 +165,11 @@ const OptionMenuTemplate = ({ ...args }) => {
 
   return (
     <>
-      <Button ref={anchorRef} onClick={handleButtonClick}>
+      <Button ref={anchorElRef} onClick={handleButtonClick}>
         Open Menu
       </Button>
       <Menu
-        anchorEl={anchorRef.current}
+        anchorElRef={anchorElRef}
         open={open}
         onClose={handleClose}
         {...args}
