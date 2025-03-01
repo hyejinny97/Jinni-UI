@@ -1,12 +1,12 @@
 import './Tooltip.scss';
 import cn from 'classnames';
 import { createPortal } from 'react-dom';
-import { useState, useRef, useMemo, isValidElement, cloneElement } from 'react';
+import { useRef, useMemo, isValidElement, cloneElement } from 'react';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import usePopperPosition from '@/hooks/usePopperPosition';
 import { getAnchorOrigin, getPopperOrigin } from './Tooltip.utils';
-import { useHandleTriggers } from './Tooltip.hooks';
+import { useOpen, useHandleTriggers } from './Tooltip.hooks';
 import TooltipContent, { TooltipContentProps } from './TooltipContent';
 
 export type PlacementType =
@@ -49,7 +49,7 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     arrow = false,
     offset = 14,
     triggers = ['click', 'hover', 'focus'],
-    open: controlledOpen,
+    open,
     onOpen,
     onClose,
     TooltipContentProps,
@@ -59,8 +59,11 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     ...rest
   } = props;
   const anchorElRef = useRef<HTMLElement>(null);
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
-  const isOpen = controlledOpen || uncontrolledOpen;
+  const { isOpen, handleOpen, handleClose } = useOpen({
+    open,
+    onOpen,
+    onClose
+  });
   const anchorOrigin = useMemo(() => getAnchorOrigin(placement), [placement]);
   const popperOrigin = useMemo(() => getPopperOrigin(placement), [placement]);
   const { popperRef, popperPosition } = usePopperPosition({
@@ -85,10 +88,8 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     triggers,
     anchorElRef,
     popperRef,
-    setUncontrolledOpen,
-    controlledOpen,
-    onOpen,
-    onClose
+    handleOpen,
+    handleClose
   });
   const tooltipAnchorProps = {
     ref: anchorElRef,
