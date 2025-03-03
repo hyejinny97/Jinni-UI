@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Tooltip from './Tooltip';
 import { Stack } from '@/components/layout/Stack';
@@ -64,14 +64,7 @@ export default meta;
 type Story = StoryObj<typeof Tooltip>;
 
 const ControlledTooltipTemplate = ({ ...rest }) => {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const id = setTimeout(() => setOpen(true), 300);
-    return () => {
-      clearTimeout(id);
-    };
-  }, []);
+  const [open, setOpen] = useState(true);
 
   const handleOpen = () => {
     setOpen(true);

@@ -3,13 +3,13 @@ import { getAnchorCoordinate, getPopperCoordinate } from '@/utils/popper';
 import { PopperType } from '@/types/popper';
 
 type UsePopperPositionProps = Partial<
-  Pick<PopperType, 'anchorEl' | 'anchorPosition' | 'anchorOrigin'>
+  Pick<PopperType, 'anchorElRef' | 'anchorPosition' | 'anchorOrigin'>
 > &
   Pick<PopperType, 'anchorReference' | 'popperOrigin'> & { open: boolean };
 
 const usePopperPosition = ({
   anchorReference,
-  anchorEl,
+  anchorElRef,
   anchorOrigin,
   anchorPosition,
   popperOrigin,
@@ -21,6 +21,7 @@ const usePopperPosition = ({
   useLayoutEffect(() => {
     const handlePopperPosition = () => {
       const popperEl = popperRef.current;
+      const anchorEl = anchorElRef?.current;
       if (!popperEl || !open) return;
 
       const anchorCoordinate = getAnchorCoordinate({
@@ -46,7 +47,7 @@ const usePopperPosition = ({
       window.removeEventListener('scroll', handlePopperPosition);
     };
   }, [
-    anchorEl,
+    anchorElRef,
     anchorOrigin,
     anchorPosition,
     anchorReference,

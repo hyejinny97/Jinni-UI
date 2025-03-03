@@ -1,0 +1,236 @@
+@use 'sass:map';
+@use '@/styles/variables' as var;
+
+$slider-padding: 13px;
+$slider-margin-for-mark-label: (
+  sm: 18px,
+  md: 20px,
+  lg: 22px
+);
+$thumb-diameter: (
+  sm: 12px,
+  md: 20px,
+  lg: 24px
+);
+$slider-thickness: (
+  sm: 2px,
+  md: 4px,
+  lg: 6px
+);
+$mark-label-font-size: (
+  sm: 12px,
+  md: 14px,
+  lg: 16px
+);
+$mark-diameter: (
+  sm: 1px,
+  md: 2px,
+  lg: 3px
+);
+
+@mixin thickness($property) {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      #{$property}: map.get($slider-thickness, $size);
+    }
+  }
+}
+
+@mixin thumb-size {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      width: map.get($thumb-diameter, $size);
+      height: map.get($thumb-diameter, $size);
+    }
+  }
+}
+
+@mixin slider-margin {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      &.horizontal {
+        margin-left: calc(map.get($thumb-diameter, $size) / 2);
+        margin-right: calc(map.get($thumb-diameter, $size) / 2);
+        &.hasMarksLabel {
+          margin-bottom: map.get($slider-margin-for-mark-label, $size);
+        }
+      }
+      &.vertical {
+        margin-top: calc(map.get($thumb-diameter, $size) / 2);
+        margin-bottom: calc(map.get($thumb-diameter, $size) / 2);
+        &.hasMarksLabel {
+          margin-right: map.get($slider-margin-for-mark-label, $size);
+        }
+      }
+    }
+  }
+}
+
+@mixin mark-label-position-from($property) {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      #{$property}: calc(
+        100% + map.get($slider-margin-for-mark-label, $size) / 2
+      );
+    }
+  }
+}
+
+@mixin font-size {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      font-size: map.get($mark-label-font-size, $size);
+    }
+  }
+}
+
+@mixin mark-size {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      width: map.get($mark-diameter, $size);
+      height: map.get($mark-diameter, $size);
+    }
+  }
+}
+
+.JinniSlider {
+  position: relative;
+  box-sizing: content-box;
+  border-radius: 12px;
+  cursor: pointer;
+  @include slider-margin;
+  &.disabled {
+    cursor: default;
+  }
+  &.horizontal {
+    padding: $slider-padding 0;
+    width: auto;
+    @include thickness(height);
+  }
+  &.vertical {
+    padding: 0 $slider-padding;
+    height: auto;
+    @include thickness(width);
+  }
+
+  .JinniSliderRail {
+    border-radius: inherit;
+    background-color: var(--color);
+    opacity: 0.3;
+    &.horizontal {
+      width: 100%;
+      height: inherit;
+    }
+    &.vertical {
+      width: inherit;
+      height: 100%;
+    }
+  }
+
+  .JinniSliderTrack {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    background-color: var(--color);
+    &.noTrack {
+      opacity: 0;
+    }
+    &.horizontal {
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &.vertical {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .JinniSliderMark {
+    position: absolute;
+    border-radius: 50%;
+    background-color: var(--color);
+    @include mark-size;
+    &.onTrack {
+      background-color: white;
+    }
+    &.horizontal {
+      left: 0;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &.vertical {
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 50%);
+    }
+  }
+
+  .JinniSliderMarkLabel {
+    position: absolute;
+    font-weight: var.$font-weight-medium;
+    user-select: none;
+    @include font-size;
+    &.horizontal {
+      left: 0;
+      transform: translate(-50%, -50%);
+      @include mark-label-position-from(top);
+    }
+    &.vertical {
+      bottom: 0;
+      transform: translate(-50%, 50%);
+      @include mark-label-position-from(left);
+    }
+  }
+
+  .JinniSliderThumb {
+    position: absolute;
+    box-sizing: border-box;
+    border-radius: 1000px;
+    background-color: var(--color);
+    box-shadow: var(--jinni-box-shadow-3);
+    outline: none;
+    cursor: inherit;
+    @include thumb-size;
+    &.horizontal {
+      left: 0;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &.vertical {
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 50%);
+    }
+
+    .JinniSliderInput {
+      margin: 0;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: inherit;
+    }
+
+    &:not(.disabled)::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      border-radius: 1000px;
+      background-color: var(--color);
+      opacity: 0.1;
+    }
+    &:hover::after,
+    &:focus::after,
+    &:active::after {
+      width: 200%;
+      height: 200%;
+    }
+  }
+}
