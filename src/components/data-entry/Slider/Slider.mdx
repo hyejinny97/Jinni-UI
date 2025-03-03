@@ -1,0 +1,187 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as SliderStories from './Slider.stories';
+
+<Meta of={SliderStories} />
+
+# Slider
+
+값의 범위를 선택 가능한 컴포넌트
+
+## Import
+
+```js
+import { Slider } from '@/components/data-entry/Slider';
+```
+
+## Usage
+
+### Basic Slider
+
+- type='range'인 input 요소의 props 전부 가능 (ex) name, required 등)
+
+<Canvas of={SliderStories.BasicSlider} />
+
+- `aria-valuetext`: formatted value text (screen reader 사용자에게 중요한 정보)
+- `getAriaValueText`: slider의 value를 사용자 친화적인 이름으로 변경해주는 함수
+
+<Canvas of={SliderStories.GetAriaValueText} />
+
+### Slided by default
+
+- `defaultValue`: slider의 기본 value (uncontrolled state일 때만 적용 가능)
+
+<Canvas of={SliderStories.SlidedByDefault} />
+
+### Controlled Slider
+
+- `value`와 `onChange` prop을 통해 slider를 control 할 수 있음
+- `value`: slider의 value
+- `onChange`: slider의 value가 변경됐을 때 호출되는 함수
+
+<Canvas of={SliderStories.ControlledSlider} />
+
+- `onChangeEnd`: slider의 연이은 value 변경이 끝날 때 호출되는 함수
+  - mouseup, keyup 이벤트가 실행될 때마다 호출됨
+
+<Canvas of={SliderStories.ChangeEnd} />
+
+### Minimum and Maximum value
+
+- `min`: slider value 최솟값 (반드시 max 값 미만 이여야 됨)
+- `max`: slider value 최댓값 (반드시 min 값 초과 이여야 됨)
+
+<Canvas of={SliderStories.MinimumMaximumValue} />
+
+### Discrete Slider
+
+- `step`: value step
+  - 값이 `null`이고 marks prop가 있다면, marks 위로만 thumb이 이동 가능하게 됨
+
+<Canvas of={SliderStories.DiscreteSlider} />
+
+### Marks
+
+- `marks`: rail 위에 표시되는 마크
+  - `true`이면, (`step`: null이 아닌 경우) `step` prop이 적용된 value에 따라 마크가 표시됨
+  - `false`이면, 마크가 표시되지 않음
+  - `Array<{ value: number }>`인 경우, 나열한 value 위치에만 마크가 표시됨
+  - `Array<{ value: number, label: node }>`인 경우, 나열한 value 위치에 마크가 표시되고 마크 아래에 label이 표시됨
+
+<Canvas of={SliderStories.Marks} />
+
+- `marks` prop과 `step={null}`을 통해 선택할 수 있는 value를 제한할 수 있음
+
+<Canvas of={SliderStories.StepOnMarks} />
+
+- marks.label이 아닌 라벨을 직접 작성함으로써 커스텀 가능
+
+<Canvas of={SliderStories.CustomMarksLabel} />
+
+### Range Slider
+
+- (uncontrolled slider인 경우) `defaultValue` or (controlled slider인 경우) `value` prop에 array 값을 제공함으로써 range slider(2개 이상의 thumb 존재) 가능
+
+<Canvas of={SliderStories.RangeSlider} />
+
+### Minimum Distance
+
+- 기본적으로 한 thumb이 다른 thumb을 넘어감
+- `disableSwap`: true이면, 한 thumb이 다른 thumb를 넘어 가지 않음
+
+<Canvas of={SliderStories.DisableSwap} />
+
+- `onChange`의 세 번째 인자인 `activeThumbIdx`를 사용해 두 thumb 간 최소 거리를 유지하게 할 수 있음
+
+<Canvas of={SliderStories.MinimumDistance} />
+
+### Vertical Slider
+
+- `orientation`: slider의 방향
+
+<Canvas of={SliderStories.VerticalSlider} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화 됨
+
+<Canvas of={SliderStories.Disabled} />
+
+### Color
+
+- `color`: slider의 색상 (theme/palette color 포함)
+
+<Canvas of={SliderStories.Color} />
+
+### Size
+
+- `size`: slider의 사이즈
+
+<Canvas of={SliderStories.Size} />
+
+### Track
+
+- `track`: 트랙 설정
+  - `normal`: 왼쪽(아래)에서부터 thumb까지 track을 채움
+  - `false`: track을 채우지 않음
+
+<Canvas of={SliderStories.Track} />
+
+### Customize Tooltip
+
+- `TooltipProps`: tooltip 컴포넌트의 props
+
+#### 1) open
+
+- 기본적으로, hover/click/focus 됐을 때 tooltip이 나타남
+- `true`로 설정하면, 항상 tooltip을 띄울 수 있게 됨
+- `false`로 설정하면, tooltip이 나타나지 않음
+
+<Canvas of={SliderStories.CustomizeTooltipOpen} />
+
+#### 2) placement
+
+- orientation='horizontal'일 땐 thumb 위(top)에 tooltip이 나타남
+- orientation='vertical'일 땐 thumb 왼쪽(left)에 tooltip이 나타남
+
+<Canvas of={SliderStories.CustomizeTooltipPlacement} />
+
+#### 3) arrow
+
+- 기본적으로, arrow가 있음
+- `false`로 설정하면, arrow를 없앨 수 있음
+
+<Canvas of={SliderStories.CustomizeTooltipArrow} />
+
+#### 4) offset
+
+- 기본적으로, thumb와 tooltip 사이 간격은 14px임
+
+<Canvas of={SliderStories.CustomizeTooltipOffset} />
+
+#### 5) Tooltip Label의 Format
+
+- `tooltipLabelFormat`: tooltip의 value label의 format을 변경하는 function
+
+<Canvas of={SliderStories.TooltipLabelFormat} />
+
+### Non-linear Scale
+
+- `scale`: slider value의 scale을 변경하는 transformation function
+- `scale` 함수는 일부 aria 데이터(`aria-valuenow`, `aria-valuemax`, `aria-valuemin`)에 사용되어 screen reader 사용자에게 scaled value를 전달해 줌
+  - `aria-valuenow`: scaled value
+  - `aria-valuemax`: scaled max value
+  - `aria-valuemin`: scaled min value
+- `tooltipLabelFormat`함수와 `getAriaValueText` 함수의 첫 번째 인자로 scaled value 값이 넘겨짐
+  - `aria-valuetext`: formatted value text
+
+<Canvas of={SliderStories.NonLinearScale} />
+
+### Customization
+
+- `className`과 css style을 통해 커스텀 가능
+
+<Canvas of={SliderStories.Customization} />
+
+## Props
+
+<ArgTypes of={SliderStories} sort="alpha" />

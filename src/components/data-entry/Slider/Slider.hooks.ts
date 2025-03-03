@@ -46,7 +46,6 @@ export const useSliderValue = ({
   const handleChange: ChangeHandlerType = useCallback(
     ({ event, activeThumbIdx, newThumbValue }) => {
       if (disabled) return;
-      const isControlledSlider = computedValue !== undefined;
       const prevSliderValue = isControlledSlider
         ? computedValue
         : uncontrolledValue;
@@ -69,13 +68,19 @@ export const useSliderValue = ({
         );
       }
     },
-    [onChange, uncontrolledValue, computedValue, disableSwap, disabled]
+    [
+      onChange,
+      uncontrolledValue,
+      computedValue,
+      disableSwap,
+      disabled,
+      isControlledSlider
+    ]
   );
 
   const handleChangeEnd: ChangeEndHandlerType = useCallback(
     (event) => {
       if (disabled) return;
-      const isControlledSlider = computedValue !== undefined;
       const newSliderValue = isControlledSlider
         ? computedValue
         : uncontrolledValue;
@@ -86,7 +91,13 @@ export const useSliderValue = ({
         );
       }
     },
-    [onChangeEnd, computedValue, uncontrolledValue, disabled]
+    [
+      onChangeEnd,
+      computedValue,
+      uncontrolledValue,
+      disabled,
+      isControlledSlider
+    ]
   );
 
   return {

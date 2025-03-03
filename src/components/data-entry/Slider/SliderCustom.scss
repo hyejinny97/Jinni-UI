@@ -1,0 +1,29 @@
+.iOS-style.JinniSlider {
+  .JinniSliderRail {
+    opacity: 1;
+    background-color: var(--jinni-color-gray-300);
+  }
+
+  .JinniSliderThumb {
+    background-color: white;
+  }
+}
+
+.pretto-style.JinniSlider {
+  &.horizontal.md {
+    height: 6px;
+  }
+
+  .JinniSliderRail {
+    background-color: rgb(82, 175, 119);
+  }
+
+  .JinniSliderTrack {
+    background-color: rgb(82, 175, 119);
+  }
+
+  .JinniSliderThumb {
+    border: 1px solid rgb(82, 175, 119);
+    background-color: white;
+  }
+}
