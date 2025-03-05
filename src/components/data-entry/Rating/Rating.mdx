@@ -1,0 +1,93 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as RatingStories from './Rating.stories';
+
+<Meta of={RatingStories} />
+
+# Rating
+
+평점
+
+## Import
+
+```js
+import { Rating } from '@/components/data-entry/Rating';
+```
+
+## Usage
+
+### Basic Rating
+
+- type='range'인 input 요소의 props 전부 가능 (ex) name, required 등)
+
+<Canvas of={RatingStories.BasicRating} />
+
+- `getLabelText`: 현재 rating value에 대한 사용자 친화적인 이름을 제공하는 함수 (screen reader 사용자에서 중요한 정보)
+
+<Canvas of={RatingStories.LabelText} />
+
+### Default Value
+
+- `defaultValue`: rating의 기본 value (uncontrolled state일 때만 적용 가능)
+
+<Canvas of={RatingStories.DefaultValue} />
+
+### Controlled Rating
+
+- `value`와 `onChange` prop을 통해 rating을 control 할 수 있음
+- `value`: rating value
+- `onChange`: rating value가 변경됐을 때 호출되는 함수
+
+<Canvas of={RatingStories.ControlledRating} />
+
+### Hover Feedback
+
+- `onHoverChange`: hover value가 변경됐을 때 호출되는 함수
+
+<Canvas of={RatingStories.HoverFeedback} />
+
+### Step
+
+- `step`: value step
+
+<Canvas of={RatingStories.Step} />
+
+### Maximum Value
+
+- `max`: rating value 최댓값
+
+<Canvas of={RatingStories.MaximumValue} />
+
+### Color
+
+- `color`: filled icon의 색상
+
+<Canvas of={RatingStories.Color} />
+
+### CustomizeIcon
+
+- `filledIcon`: 채워졌을 때의 icon
+- `emptyIcon`: 채워지지 않았을 때의 icon
+
+<Canvas of={RatingStories.CustomizeIcon} />
+
+### Read Only
+
+- `readOnly`: true이면, hover effect가 비활성화되고 value를 변경할 수 없음
+
+<Canvas of={RatingStories.ReadOnly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={RatingStories.Disabled} />
+
+### Size
+
+- `size`: rating 크기
+
+<Canvas of={RatingStories.Size} />
+
+## Props
+
+<ArgTypes of={RatingStories} sort="alpha" />

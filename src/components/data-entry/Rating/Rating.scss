@@ -1,0 +1,55 @@
+.JinniRating {
+  position: relative;
+  display: inline-flex;
+  width: max-content;
+  box-sizing: border-box;
+  &.isFocused {
+    border: 2px solid var(--jinni-color-gray-300);
+    border-radius: 4px;
+  }
+  &.disabled {
+    opacity: 0.4;
+  }
+
+  .JinniRatingIcons {
+    display: inline-flex;
+    &.emptyIcons {
+      color: var(--jinni-color-gray-400);
+    }
+
+    .JinniRatingIcon {
+      flex: 1;
+      display: inline-flex;
+      box-sizing: border-box;
+      svg {
+        width: inherit;
+        height: inherit;
+        path {
+          fill: currentColor;
+        }
+      }
+    }
+  }
+
+  .JinniRatingIconContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+
+  .JinniRatingInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    &.readOnly,
+    &.disabled {
+      cursor: default;
+    }
+  }
+}
