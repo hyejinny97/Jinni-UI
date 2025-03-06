@@ -13,6 +13,12 @@ $button-padding-x: (
   lg: 22px
 );
 
+$button-square-size: (
+  sm: 26px,
+  md: 32px,
+  lg: 38px
+);
+
 $button-gap: (
   sm: calc(map.get($button-padding-x, sm) * 1 / 2),
   md: calc(map.get($button-padding-x, md) * 1 / 2),
@@ -129,6 +135,7 @@ $icon-margin: (
 
 @mixin disabled {
   &.disabled {
+    opacity: 0.5;
     cursor: default;
     &:hover {
       background-image: none;
@@ -146,8 +153,10 @@ $icon-margin: (
 @mixin squareSize {
   @each $size in 'sm', 'md', 'lg' {
     &.square-size.#{$size} {
+      justify-content: center;
       padding: map.get($button-padding-y, $size);
-      aspect-ratio: 1 / 1;
+      width: map.get($button-square-size, $size);
+      height: map.get($button-square-size, $size);
     }
   }
 }
