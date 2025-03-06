@@ -4,29 +4,22 @@ import { lighten } from '@/utils/colorLuminance';
 
 export const getColorStyle = ({
   color,
-  variant,
-  disabled
+  variant
 }: {
   color: ColorType;
   variant: VariantType;
-  disabled: boolean;
 }) => {
   const subtleColor = lighten(color, 0.8);
-  const disabledColor = lighten(color, 0.5);
-  const disabledSubtleColor = lighten(subtleColor, 0.5);
   const WHITE: ColorType = 'white';
   const TRANSPARENT: ColorType = 'transparent';
-
-  const computedColor = disabled ? disabledColor : color;
-  const computedSubtleColor = disabled ? disabledSubtleColor : subtleColor;
 
   let buttonColorStyle, iconColorStyle, circularProgressColor;
   switch (variant) {
     case 'filled':
       buttonColorStyle = {
-        backgroundColor: computedColor,
+        backgroundColor: color,
         color: WHITE,
-        borderColor: computedColor
+        borderColor: color
       };
       iconColorStyle = {
         fill: WHITE
@@ -36,35 +29,35 @@ export const getColorStyle = ({
     case 'outlined':
       buttonColorStyle = {
         backgroundColor: TRANSPARENT,
-        color: computedColor,
-        borderColor: computedColor
+        color: color,
+        borderColor: color
       };
       iconColorStyle = {
-        fill: computedColor
+        fill: color
       };
-      circularProgressColor = computedColor;
+      circularProgressColor = color;
       break;
     case 'text':
       buttonColorStyle = {
         backgroundColor: TRANSPARENT,
-        color: computedColor,
+        color: color,
         borderColor: TRANSPARENT
       };
       iconColorStyle = {
-        fill: computedColor
+        fill: color
       };
-      circularProgressColor = computedColor;
+      circularProgressColor = color;
       break;
     case 'subtle-filled':
       buttonColorStyle = {
-        backgroundColor: computedSubtleColor,
-        color: computedColor,
-        borderColor: computedSubtleColor
+        backgroundColor: subtleColor,
+        color: color,
+        borderColor: subtleColor
       };
       iconColorStyle = {
-        fill: computedColor
+        fill: color
       };
-      circularProgressColor = computedColor;
+      circularProgressColor = color;
       break;
   }
 

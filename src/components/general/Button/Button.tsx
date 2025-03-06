@@ -76,8 +76,7 @@ const Button = forwardRef(
     const { buttonColorStyle, iconColorStyle, circularProgressColor } =
       getColorStyle({
         color,
-        variant,
-        disabled: isDisabled
+        variant
       });
     const buttonStyle = useStyle({
       elevation,
