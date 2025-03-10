@@ -27,7 +27,7 @@ export type TriggerType = 'click' | 'hover' | 'focus';
 
 export type TooltipProps<T extends AsType = 'span'> = Omit<
   DefaultComponentProps<T>,
-  'content'
+  'content' | 'children'
 > & {
   children: React.ReactNode;
   content: React.ReactNode;
@@ -102,19 +102,38 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
   };
   const isSingleElement = isValidElement(children);
 
+  let anchor = <span {...tooltipAnchorProps}>{children}</span>;
+  if (isSingleElement) {
+    const element = children as React.ReactElement;
+    anchor = cloneElement(element, {
+      ...tooltipAnchorProps,
+      className: cn(element.props.className, tooltipAnchorProps.className),
+      onMouseEnter: (e: React.MouseEvent) => {
+        if (element.props.onMouseEnter) element.props.onMouseEnter(e);
+        tooltipAnchorProps.onMouseEnter(e);
+      },
+      onMouseLeave: (e: React.MouseEvent) => {
+        if (element.props.onMouseLeave) element.props.onMouseLeave(e);
+        tooltipAnchorProps.onMouseLeave(e);
+      },
+      onClick: (e: React.MouseEvent) => {
+        if (element.props.onClick) element.props.onClick(e);
+        tooltipAnchorProps.onClick(e);
+      },
+      onFocus: (e: React.FocusEvent) => {
+        if (element.props.onFocus) element.props.onFocus(e);
+        tooltipAnchorProps.onFocus(e);
+      },
+      onBlur: (e: React.FocusEvent) => {
+        if (element.props.onBlur) element.props.onBlur(e);
+        tooltipAnchorProps.onBlur(e);
+      }
+    });
+  }
+
   return (
     <>
-      {isSingleElement ? (
-        cloneElement(children, {
-          ...tooltipAnchorProps,
-          className: cn(
-            'JinniTooltipAnchor',
-            (children as React.ReactElement).props.className
-          )
-        })
-      ) : (
-        <span {...tooltipAnchorProps}>{children}</span>
-      )}
+      {anchor}
       {isOpen &&
         createPortal(
           <Component
