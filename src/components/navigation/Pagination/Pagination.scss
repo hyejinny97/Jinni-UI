@@ -1,0 +1,27 @@
+@mixin pagination-gap {
+  &.sm {
+    column-gap: 4px;
+  }
+  &.md {
+    column-gap: 6px;
+  }
+  &.lg {
+    column-gap: 8px;
+  }
+}
+
+.JinniPagination {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  @include pagination-gap;
+
+  .JinniEllipsis {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--jinni-color-gray-500);
+  }
+}

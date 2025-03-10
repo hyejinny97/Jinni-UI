@@ -23,25 +23,26 @@ import {
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 export type SizeType = 'sm' | 'md' | 'lg';
 
-type ButtonProps<T extends AsType = 'button'> = DefaultComponentProps<T> & {
-  children?: React.ReactNode;
-  variant?: VariantType;
-  shape?: 'pill' | 'rounded';
-  href?: string;
-  leftIcon?: JSX.Element;
-  rightIcon?: JSX.Element;
-  centerIcon?: JSX.Element;
-  loading?: boolean;
-  loadingState?: React.ReactNode;
-  loadingStatePosition?: 'left' | 'center' | 'right';
-  elevation?: ElevationLevelType;
-  onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-  disabled?: boolean;
-  fullWidth?: boolean;
-  size?: SizeType;
-  isSquareSize?: boolean;
-  color?: ColorType;
-};
+export type ButtonProps<T extends AsType = 'button'> =
+  DefaultComponentProps<T> & {
+    children?: React.ReactNode;
+    variant?: VariantType;
+    shape?: 'pill' | 'rounded';
+    href?: string;
+    leftIcon?: JSX.Element;
+    rightIcon?: JSX.Element;
+    centerIcon?: JSX.Element;
+    loading?: boolean;
+    loadingState?: React.ReactNode;
+    loadingStatePosition?: 'left' | 'center' | 'right';
+    elevation?: ElevationLevelType;
+    onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    disabled?: boolean;
+    fullWidth?: boolean;
+    size?: SizeType;
+    isSquareSize?: boolean;
+    color?: ColorType;
+  };
 
 const Button = forwardRef(
   <T extends AsType = 'button'>(
