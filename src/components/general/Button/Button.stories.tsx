@@ -83,7 +83,6 @@ const meta: Meta<typeof Button> = {
     }
   },
   args: {
-    children: 'Label',
     onClick: fn()
   }
 };
@@ -95,16 +94,26 @@ const LeftIcon = () => <MailIcon />;
 const CenterIcon = () => <CartIcon />;
 const RightIcon = () => <ArrowDownIcon />;
 
-export const BasicButton: Story = {};
+export const BasicButton: Story = {
+  render: (args) => <Button {...args}>Label</Button>
+};
 
 export const ButtonVariant: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button variant="filled" {...args} />
-        <Button variant="subtle-filled" {...args} />
-        <Button variant="outlined" {...args} />
-        <Button variant="text" {...args} />
+        <Button variant="filled" {...args}>
+          Label
+        </Button>
+        <Button variant="subtle-filled" {...args}>
+          Label
+        </Button>
+        <Button variant="outlined" {...args}>
+          Label
+        </Button>
+        <Button variant="text" {...args}>
+          Label
+        </Button>
       </Stack>
     );
   }
@@ -114,8 +123,12 @@ export const ButtonShape: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button shape="rounded" {...args} />
-        <Button shape="pill" {...args} />
+        <Button shape="rounded" {...args}>
+          Label
+        </Button>
+        <Button shape="pill" {...args}>
+          Label
+        </Button>
       </Stack>
     );
   }
@@ -125,10 +138,18 @@ export const Disabled: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button variant="filled" disabled {...args} />
-        <Button variant="subtle-filled" disabled {...args} />
-        <Button variant="outlined" disabled {...args} />
-        <Button variant="text" disabled {...args} />
+        <Button variant="filled" disabled {...args}>
+          Label
+        </Button>
+        <Button variant="subtle-filled" disabled {...args}>
+          Label
+        </Button>
+        <Button variant="outlined" disabled {...args}>
+          Label
+        </Button>
+        <Button variant="text" disabled {...args}>
+          Label
+        </Button>
       </Stack>
     );
   }
@@ -136,7 +157,11 @@ export const Disabled: Story = {
 
 export const LinkButton: Story = {
   render: (args) => {
-    return <Button href="#" {...args} />;
+    return (
+      <Button href="#" {...args}>
+        Label
+      </Button>
+    );
   }
 };
 
@@ -144,10 +169,18 @@ export const LeftIconButton: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button leftIcon={<LeftIcon />} variant="filled" {...args} />
-        <Button leftIcon={<LeftIcon />} variant="subtle-filled" {...args} />
-        <Button leftIcon={<LeftIcon />} variant="outlined" {...args} />
-        <Button leftIcon={<LeftIcon />} variant="text" {...args} />
+        <Button leftIcon={<LeftIcon />} variant="filled" {...args}>
+          Label
+        </Button>
+        <Button leftIcon={<LeftIcon />} variant="subtle-filled" {...args}>
+          Label
+        </Button>
+        <Button leftIcon={<LeftIcon />} variant="outlined" {...args}>
+          Label
+        </Button>
+        <Button leftIcon={<LeftIcon />} variant="text" {...args}>
+          Label
+        </Button>
       </Stack>
     );
   }
@@ -157,10 +190,18 @@ export const RightIconButton: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button rightIcon={<RightIcon />} variant="filled" {...args} />
-        <Button rightIcon={<RightIcon />} variant="subtle-filled" {...args} />
-        <Button rightIcon={<RightIcon />} variant="outlined" {...args} />
-        <Button rightIcon={<RightIcon />} variant="text" {...args} />
+        <Button rightIcon={<RightIcon />} variant="filled" {...args}>
+          Label
+        </Button>
+        <Button rightIcon={<RightIcon />} variant="subtle-filled" {...args}>
+          Label
+        </Button>
+        <Button rightIcon={<RightIcon />} variant="outlined" {...args}>
+          Label
+        </Button>
+        <Button rightIcon={<RightIcon />} variant="text" {...args}>
+          Label
+        </Button>
       </Stack>
     );
   }
@@ -169,11 +210,31 @@ export const RightIconButton: Story = {
 export const CenterIconButton: Story = {
   render: (args) => {
     return (
-      <Stack direction="row" spacing={20}>
-        <Button centerIcon={<CenterIcon />} variant="filled" {...args} />
-        <Button centerIcon={<CenterIcon />} variant="subtle-filled" {...args} />
-        <Button centerIcon={<CenterIcon />} variant="outlined" {...args} />
-        <Button centerIcon={<CenterIcon />} variant="text" {...args} />
+      <Stack spacing={20}>
+        <Stack direction="row" spacing={20}>
+          <Button centerIcon={<CenterIcon />} variant="filled" {...args}>
+            Label
+          </Button>
+          <Button centerIcon={<CenterIcon />} variant="subtle-filled" {...args}>
+            Label
+          </Button>
+          <Button centerIcon={<CenterIcon />} variant="outlined" {...args}>
+            Label
+          </Button>
+          <Button centerIcon={<CenterIcon />} variant="text" {...args}>
+            Label
+          </Button>
+        </Stack>
+        <Stack direction="row" spacing={20}>
+          <Button centerIcon={<CenterIcon />} variant="filled" {...args} />
+          <Button
+            centerIcon={<CenterIcon />}
+            variant="subtle-filled"
+            {...args}
+          />
+          <Button centerIcon={<CenterIcon />} variant="outlined" {...args} />
+          <Button centerIcon={<CenterIcon />} variant="text" {...args} />
+        </Stack>
       </Stack>
     );
   }
@@ -182,7 +243,9 @@ export const CenterIconButton: Story = {
 export const MultipleIconButton: Story = {
   render: (args) => {
     return (
-      <Button leftIcon={<LeftIcon />} rightIcon={<RightIcon />} {...args} />
+      <Button leftIcon={<LeftIcon />} rightIcon={<RightIcon />} {...args}>
+        Label
+      </Button>
     );
   }
 };
@@ -218,9 +281,15 @@ export const LoadingStatePosition: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button loading loadingStatePosition="left" {...args} />
-        <Button loading loadingStatePosition="center" {...args} />
-        <Button loading loadingStatePosition="right" {...args} />
+        <Button loading loadingStatePosition="left" {...args}>
+          Label
+        </Button>
+        <Button loading loadingStatePosition="center" {...args}>
+          Label
+        </Button>
+        <Button loading loadingStatePosition="right" {...args}>
+          Label
+        </Button>
       </Stack>
     );
   }
@@ -228,7 +297,11 @@ export const LoadingStatePosition: Story = {
 
 export const FullWidth: Story = {
   render: (args) => {
-    return <Button fullWidth {...args} />;
+    return (
+      <Button fullWidth {...args}>
+        Label
+      </Button>
+    );
   }
 };
 
@@ -236,8 +309,12 @@ export const Elevation: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button elevation={3} {...args} />
-        <Button elevation={5} {...args} />
+        <Button elevation={3} {...args}>
+          Label
+        </Button>
+        <Button elevation={5} {...args}>
+          Label
+        </Button>
       </Stack>
     );
   }
@@ -248,34 +325,74 @@ export const Color: Story = {
     return (
       <Stack spacing={20}>
         <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="secondary" {...args} />
-          <Button variant="subtle-filled" color="secondary" {...args} />
-          <Button variant="outlined" color="secondary" {...args} />
-          <Button variant="text" color="secondary" {...args} />
+          <Button variant="filled" color="secondary" {...args}>
+            Label
+          </Button>
+          <Button variant="subtle-filled" color="secondary" {...args}>
+            Label
+          </Button>
+          <Button variant="outlined" color="secondary" {...args}>
+            Label
+          </Button>
+          <Button variant="text" color="secondary" {...args}>
+            Label
+          </Button>
         </Stack>
         <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="yellow-400" {...args} />
-          <Button variant="subtle-filled" color="yellow-400" {...args} />
-          <Button variant="outlined" color="yellow-400" {...args} />
-          <Button variant="text" color="yellow-400" {...args} />
+          <Button variant="filled" color="yellow-400" {...args}>
+            Label
+          </Button>
+          <Button variant="subtle-filled" color="yellow-400" {...args}>
+            Label
+          </Button>
+          <Button variant="outlined" color="yellow-400" {...args}>
+            Label
+          </Button>
+          <Button variant="text" color="yellow-400" {...args}>
+            Label
+          </Button>
         </Stack>
         <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="green" {...args} />
-          <Button variant="subtle-filled" color="green" {...args} />
-          <Button variant="outlined" color="green" {...args} />
-          <Button variant="text" color="green" {...args} />
+          <Button variant="filled" color="green" {...args}>
+            Label
+          </Button>
+          <Button variant="subtle-filled" color="green" {...args}>
+            Label
+          </Button>
+          <Button variant="outlined" color="green" {...args}>
+            Label
+          </Button>
+          <Button variant="text" color="green" {...args}>
+            Label
+          </Button>
         </Stack>
         <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="#159" {...args} />
-          <Button variant="subtle-filled" color="#159" {...args} />
-          <Button variant="outlined" color="#159" {...args} />
-          <Button variant="text" color="#159" {...args} />
+          <Button variant="filled" color="#159" {...args}>
+            Label
+          </Button>
+          <Button variant="subtle-filled" color="#159" {...args}>
+            Label
+          </Button>
+          <Button variant="outlined" color="#159" {...args}>
+            Label
+          </Button>
+          <Button variant="text" color="#159" {...args}>
+            Label
+          </Button>
         </Stack>
         <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="rgb(100,100, 100)" {...args} />
-          <Button variant="subtle-filled" color="rgb(100,100, 100)" {...args} />
-          <Button variant="outlined" color="rgb(100,100, 100)" {...args} />
-          <Button variant="text" color="rgb(100,100, 100)" {...args} />
+          <Button variant="filled" color="rgb(100,100, 100)" {...args}>
+            Label
+          </Button>
+          <Button variant="subtle-filled" color="rgb(100,100, 100)" {...args}>
+            Label
+          </Button>
+          <Button variant="outlined" color="rgb(100,100, 100)" {...args}>
+            Label
+          </Button>
+          <Button variant="text" color="rgb(100,100, 100)" {...args}>
+            Label
+          </Button>
         </Stack>
       </Stack>
     );
@@ -286,9 +403,15 @@ export const Size: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button size="sm" {...args} />
-        <Button size="md" {...args} />
-        <Button size="lg" {...args} />
+        <Button size="sm" {...args}>
+          Label
+        </Button>
+        <Button size="md" {...args}>
+          Label
+        </Button>
+        <Button size="lg" {...args}>
+          Label
+        </Button>
       </Stack>
     );
   }
@@ -305,6 +428,7 @@ export const SquareSize: Story = {
             isSquareSize
             {...args}
           />
+
           <Button
             variant="subtle-filled"
             centerIcon={<CenterIcon />}
@@ -369,7 +493,9 @@ export const CustomButton: Story = {
             border: 'none'
           }}
           {...args}
-        />
+        >
+          Label
+        </Button>
         <Button type="submit">Submit</Button>
       </Stack>
     );

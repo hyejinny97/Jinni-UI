@@ -52,6 +52,7 @@ $icon-margin: (
     &.#{$size} {
       @include buttonPadding($size);
       column-gap: map.get($button-gap, $size);
+      row-gap: map.get($button-gap, $size);
     }
   }
 }
@@ -181,4 +182,8 @@ $icon-margin: (
   @include disabled;
   @include fullWidth;
   @include squareSize;
+
+  &.hasCenterIcon {
+    flex-direction: column;
+  }
 }
