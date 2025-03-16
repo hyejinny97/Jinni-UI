@@ -1,0 +1,13 @@
+.tabs-custom1.JinniTabs {
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--jinni-color-gray-300);
+}
+
+.tabs-custom2.JinniTabs {
+  .JinniTabListContainer {
+    .JinniTabList {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}

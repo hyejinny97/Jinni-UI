@@ -1,0 +1,55 @@
+.JinniTabs {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  &.vertical {
+    flex-direction: column;
+    width: auto;
+  }
+
+  .JinniTabListContainer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+    .JinniTabList {
+      position: relative;
+      top: 0;
+      left: 0;
+      display: inline-flex;
+      align-items: end;
+      justify-content: start;
+      transition:
+        left var(--jinni-easing-emphasized) var(--jinni-duration-short3),
+        top var(--jinni-easing-emphasized) var(--jinni-duration-short3);
+      &.fullWidth {
+        justify-content: space-between;
+        width: 100%;
+      }
+      &.vertical {
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .JinniTab {
+        text-wrap: nowrap;
+      }
+    }
+
+    .JinniTabsIndicator {
+      position: absolute;
+      bottom: 0;
+      height: 2px;
+      background-color: var(--color);
+      transition:
+        left var(--jinni-easing-emphasized) var(--jinni-duration-short3),
+        top var(--jinni-easing-emphasized) var(--jinni-duration-short3),
+        width var(--jinni-easing-emphasized) var(--jinni-duration-short3),
+        height var(--jinni-easing-emphasized) var(--jinni-duration-short3);
+      &.vertical {
+        right: 0;
+        width: 2px;
+      }
+    }
+  }
+}
