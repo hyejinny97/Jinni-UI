@@ -1,0 +1,68 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TabStories from './Tab.stories';
+
+<Meta of={TabStories} />
+
+# Tab
+
+tabs의 한 부분
+
+## Import
+
+```js
+import { Tab } from '@/components/navigation/Tabs';
+```
+
+## Usage
+
+### Basic Tab
+
+- `children`: tab label
+- `value`: 다른 tab과 구별되는 특정 tab value
+  - 값을 직접 임명하지 않는다면, tabs 내에서 이 tab의 position index(number)가 value로 자동 할당됨
+
+<Canvas of={TabStories.BasicTab} />
+
+### Variant
+
+- `variant`: tab의 형태
+
+<Canvas of={TabStories.Variant} />
+
+### Selected Tab
+
+- `selected`: selected tab인지 여부
+
+<Canvas of={TabStories.SelectedTab} />
+
+### Color
+
+- `color`: selected tab 색상
+
+<Canvas of={TabStories.Color} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={TabStories.Disabled} />
+
+### Size
+
+- `size`: tab의 크기
+
+<Canvas of={TabStories.Size} />
+
+### Icon Tab
+
+- `leftIcon`, `centerIcon`, `rightIcon`을 통해 icon 표시 가능
+
+<Canvas of={TabStories.IconTab} />
+
+### Link Tab
+
+<Canvas of={TabStories.LinkTab} />
+
+## Props
+
+<ArgTypes of={TabStories} sort="alpha" />
