@@ -114,7 +114,10 @@ const Button = forwardRef(
       <ButtonRightIcon style={iconStyle}>{rightIcon}</ButtonRightIcon>
     );
     let centerContent = centerIcon ? (
-      <ButtonCenterIcon style={iconStyle}>{centerIcon}</ButtonCenterIcon>
+      <>
+        <ButtonCenterIcon style={iconStyle}>{centerIcon}</ButtonCenterIcon>
+        {children && <ButtonLabel>{children}</ButtonLabel>}
+      </>
     ) : (
       <ButtonLabel>{children}</ButtonLabel>
     );
@@ -132,9 +135,12 @@ const Button = forwardRef(
           break;
         case 'center':
           centerContent = (
-            <ButtonCenterLoadingState>
-              {newLoadingState}
-            </ButtonCenterLoadingState>
+            <>
+              <ButtonCenterLoadingState>
+                {newLoadingState}
+              </ButtonCenterLoadingState>
+              {children && <ButtonLabel>{children}</ButtonLabel>}
+            </>
           );
           leftContent = undefined;
           rightContent = undefined;
@@ -153,6 +159,10 @@ const Button = forwardRef(
           { 'square-size': isSquareSize },
           { disabled: isDisabled },
           { fullWidth },
+          {
+            hasCenterIcon:
+              centerIcon || (loading && loadingStatePosition === 'center')
+          },
           className
         )}
         onClick={handleClick}
