@@ -6,10 +6,12 @@ import { isNumber } from '@/utils/isNumber';
 
 export const useElevationEffect = ({
   buttonBaseElRef,
-  elevation
+  elevation,
+  disabled
 }: {
   buttonBaseElRef: React.RefObject<HTMLElement>;
   elevation?: ElevationLevelType;
+  disabled?: boolean;
 }) => {
   const jinniContext = useJinni();
 
@@ -17,7 +19,7 @@ export const useElevationEffect = ({
     const elevationMaxValue = Math.max(...ELEVATION_LEVELS);
     const hasElevation = elevation !== undefined && isNumber(elevation);
     const buttonBaseEl = buttonBaseElRef.current;
-    if (!hasElevation || !buttonBaseEl) return;
+    if (!hasElevation || !buttonBaseEl || disabled) return;
 
     const lift = () => {
       const highElevationLevel = Math.min(
@@ -61,5 +63,5 @@ export const useElevationEffect = ({
       buttonBaseEl.removeEventListener('keydown', handleKeyDown);
       buttonBaseEl.removeEventListener('keyup', lift);
     };
-  }, [buttonBaseElRef, elevation, jinniContext.boxShadow]);
+  }, [buttonBaseElRef, elevation, jinniContext.boxShadow, disabled]);
 };

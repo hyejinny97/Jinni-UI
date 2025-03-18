@@ -13,4 +13,11 @@
       background-image: var(--jinni-white-overlay-5);
     }
   }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+  }
 }

@@ -11,6 +11,7 @@ type ButtonBaseProps<T extends AsType = 'button'> = DefaultComponentProps<T> &
   Partial<UseRippleProps> & {
     children: React.ReactNode;
     href?: string;
+    disabled?: boolean;
     overlayColor?: 'black' | 'white';
     disableOverlay?: boolean;
     elevation?: ElevationLevelType;
@@ -20,11 +21,12 @@ const ButtonBase = <T extends AsType = 'button'>(props: ButtonBaseProps<T>) => {
   const {
     children,
     href,
+    disabled = false,
     overlayColor = 'black',
-    disableOverlay = false,
+    disableOverlay = disabled ? true : false,
     rippleColor = 'black',
     rippleStartLocation = 'clicked',
-    disableRipple = false,
+    disableRipple = disabled ? true : false,
     elevation,
     className,
     style,
@@ -39,7 +41,8 @@ const ButtonBase = <T extends AsType = 'button'>(props: ButtonBaseProps<T>) => {
   });
   useElevationEffect({
     buttonBaseElRef,
-    elevation
+    elevation,
+    disabled
   });
   const newStyle = useStyle({ elevation, ...style });
 
@@ -51,11 +54,12 @@ const ButtonBase = <T extends AsType = 'button'>(props: ButtonBaseProps<T>) => {
       }}
       className={cn(
         'JinniButtonBase',
-        { [`overlay-${overlayColor}`]: !disableOverlay },
+        { [`overlay-${overlayColor}`]: !disableOverlay, disabled },
         className
       )}
       href={href}
       style={newStyle}
+      disabled={disabled}
       {...rest}
     >
       {children}
