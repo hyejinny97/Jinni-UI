@@ -1,0 +1,23 @@
+.JinniButtonBase {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  cursor: pointer;
+
+  &:hover {
+    &.overlay-black {
+      background-image: var(--jinni-black-overlay-2);
+    }
+    &.overlay-white {
+      background-image: var(--jinni-white-overlay-5);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+  }
+}
