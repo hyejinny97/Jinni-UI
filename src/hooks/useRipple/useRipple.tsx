@@ -1,7 +1,7 @@
 import './ripple.scss';
 import { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 
-interface useRippleProps {
+export interface UseRippleProps {
   rippleColor: 'white' | 'black';
   rippleStartLocation?: 'center' | 'clicked';
   disableRipple?: boolean;
@@ -11,7 +11,7 @@ const useRipple = ({
   rippleColor,
   rippleStartLocation = 'clicked',
   disableRipple = false
-}: useRippleProps) => {
+}: UseRippleProps) => {
   const rippleTargetRef = useRef<HTMLElement>(null);
   const rippleContainerRef = useRef<HTMLDivElement>(null);
 
@@ -29,26 +29,29 @@ const useRipple = ({
     const rippleTargetEl = rippleTargetRef.current;
     if (!rippleTargetEl || disableRipple) return;
 
-    const handleClick = (e: MouseEvent) => {
+    const createRipple = (e: MouseEvent | KeyboardEvent) => {
       const rippleContainerEl = rippleContainerRef.current;
       if (!rippleContainerEl) return;
+
+      const isKeyboardEvent = e instanceof KeyboardEvent;
+      const startLocation = isKeyboardEvent ? 'center' : rippleStartLocation;
 
       const { left, top, width, height } =
         rippleTargetEl.getBoundingClientRect();
       const size = Math.max(width, height);
-      const x = e.clientX - left;
-      const y = e.clientY - top;
 
       const ripple = document.createElement('span');
       ripple.style.width = ripple.style.height = `${size}px`;
-      switch (rippleStartLocation) {
-        case 'clicked':
-          ripple.style.left = `${x}px`;
-          ripple.style.top = `${y}px`;
+      switch (startLocation) {
+        case 'clicked': {
+          if (isKeyboardEvent) break;
+          ripple.style.left = `${e.clientX - left}px`;
+          ripple.style.top = `${e.clientY - top}px`;
           break;
+        }
         case 'center':
-          ripple.style.left = `${size / 2}px`;
-          ripple.style.top = `${size / 2}px`;
+          ripple.style.left = `${width / 2}px`;
+          ripple.style.top = `${height / 2}px`;
           break;
       }
       ripple.className = `JinniRipple ${rippleColor}`;
@@ -58,8 +61,16 @@ const useRipple = ({
         ripple.remove();
       }, 500);
     };
-    rippleTargetEl.addEventListener('click', handleClick);
-    return () => rippleTargetEl.removeEventListener('click', handleClick);
+
+    const handleKeyDown = (e: KeyboardEvent) =>
+      (e.code === 'Enter' || e.code === 'Space') && createRipple(e);
+
+    rippleTargetEl.addEventListener('mousedown', createRipple);
+    rippleTargetEl.addEventListener('keydown', handleKeyDown);
+    return () => {
+      rippleTargetEl.removeEventListener('mousedown', createRipple);
+      rippleTargetEl.removeEventListener('keydown', handleKeyDown);
+    };
   }, [rippleColor, rippleStartLocation, disableRipple]);
 
   const RippleContainer = useCallback(
