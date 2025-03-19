@@ -1,48 +1,38 @@
 import './Button.scss';
 import cn from 'classnames';
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef } from 'react';
 import type { ColorType } from '@/types/color';
 import type { ElevationLevelType } from '@/types/elevation';
-import { useRipple } from '@/hooks/useRipple';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import useStyle from '@/hooks/useStyle';
+import { AsType } from '@/types/default-component-props';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
 import { getColorStyle, getCircularProgressSize } from './Button.utils';
-import { ButtonLabel } from './ButtonLabel';
-import {
-  ButtonLeftIcon,
-  ButtonCenterIcon,
-  ButtonRightIcon
-} from './ButtonIcon';
-import {
-  ButtonLeftLoadingState,
-  ButtonCenterLoadingState,
-  ButtonRightLoadingState
-} from './ButtonLoadingState';
+import ButtonLabel from './ButtonLabel';
+import ButtonIcon from './ButtonIcon';
+import ButtonLoadingState from './ButtonLoadingState';
+import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 export type SizeType = 'sm' | 'md' | 'lg';
 
-export type ButtonProps<T extends AsType = 'button'> =
-  DefaultComponentProps<T> & {
-    children?: React.ReactNode;
-    variant?: VariantType;
-    shape?: 'pill' | 'rounded';
-    href?: string;
-    leftIcon?: JSX.Element;
-    rightIcon?: JSX.Element;
-    centerIcon?: JSX.Element;
-    loading?: boolean;
-    loadingState?: React.ReactNode;
-    loadingStatePosition?: 'left' | 'center' | 'right';
-    elevation?: ElevationLevelType;
-    onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-    disabled?: boolean;
-    fullWidth?: boolean;
-    size?: SizeType;
-    isSquareSize?: boolean;
-    color?: ColorType;
-  };
+export type ButtonProps<T extends AsType = 'button'> = Omit<
+  ButtonBaseProps<T>,
+  'children'
+> & {
+  children?: React.ReactNode;
+  variant?: VariantType;
+  shape?: 'pill' | 'rounded';
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  centerIcon?: React.ReactNode;
+  loading?: boolean;
+  loadingState?: React.ReactNode;
+  loadingStatePosition?: 'left' | 'center' | 'right';
+  elevation?: ElevationLevelType;
+  fullWidth?: boolean;
+  size?: SizeType;
+  isSquareSize?: boolean;
+  color?: ColorType;
+};
 
 const Button = forwardRef(
   <T extends AsType = 'button'>(
@@ -53,92 +43,72 @@ const Button = forwardRef(
       children,
       variant = 'filled',
       shape = 'rounded',
-      href,
+      size = 'md',
+      color = 'primary',
       leftIcon,
       rightIcon,
       centerIcon,
       loading = false,
-      loadingState,
+      loadingState = (
+        <CircularProgress
+          progressColor={
+            getColorStyle({
+              color,
+              variant
+            }).textColor
+          }
+          size={getCircularProgressSize(size)}
+        />
+      ),
       loadingStatePosition = 'center',
-      elevation = 0,
-      onClick,
       disabled = false,
       fullWidth = false,
-      size = 'md',
       isSquareSize = false,
-      color = 'primary',
+      overlayColor = variant === 'filled' ? 'white' : 'black',
+      rippleColor = variant === 'filled' ? 'white' : 'black',
       className,
       style,
-      as: Component = href ? 'a' : 'button',
       ...rest
     } = props;
-    const isDisabled = disabled || loading;
-    const circularProgressSize = getCircularProgressSize(size);
-    const { buttonColorStyle, iconColorStyle, circularProgressColor } =
-      getColorStyle({
-        color,
-        variant
-      });
-    const buttonStyle = useStyle({
-      elevation,
-      ...buttonColorStyle,
-      ...style
+    const { textColor, backgroundColor, borderColor } = getColorStyle({
+      color,
+      variant
     });
-    const iconStyle = useStyle({ ...iconColorStyle });
-    const { rippleTargetRef, RippleContainer } = useRipple({
-      rippleColor: variant === 'filled' ? 'white' : 'black'
-    });
-    useImperativeHandle(ref, () => rippleTargetRef.current as HTMLElement);
-
-    const newLoadingState = loadingState || (
-      <CircularProgress
-        progressColor={circularProgressColor}
-        size={circularProgressSize}
-      />
-    );
-
-    const handleClick = (
-      e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-    ) => {
-      const isAnchorTag = Component === 'a';
-      if (isAnchorTag && disabled) {
-        e.preventDefault();
-      }
-      if (onClick && !disabled) onClick();
-    };
 
     let leftContent = leftIcon && (
-      <ButtonLeftIcon style={iconStyle}>{leftIcon}</ButtonLeftIcon>
+      <ButtonIcon className="left">{leftIcon}</ButtonIcon>
     );
     let rightContent = rightIcon && (
-      <ButtonRightIcon style={iconStyle}>{rightIcon}</ButtonRightIcon>
+      <ButtonIcon className="right">{rightIcon}</ButtonIcon>
     );
-    let centerContent = centerIcon ? (
+    let centerContent = (
       <>
-        <ButtonCenterIcon style={iconStyle}>{centerIcon}</ButtonCenterIcon>
+        {centerIcon && <ButtonIcon className="center">{centerIcon}</ButtonIcon>}
         {children && <ButtonLabel>{children}</ButtonLabel>}
       </>
-    ) : (
-      <ButtonLabel>{children}</ButtonLabel>
     );
     if (loading) {
       switch (loadingStatePosition) {
         case 'left':
           leftContent = (
-            <ButtonLeftLoadingState>{newLoadingState}</ButtonLeftLoadingState>
+            <ButtonLoadingState className="left">
+              {loadingState}
+            </ButtonLoadingState>
           );
           break;
         case 'right':
           rightContent = (
-            <ButtonRightLoadingState>{newLoadingState}</ButtonRightLoadingState>
+            <ButtonLoadingState className="right">
+              {loadingState}
+            </ButtonLoadingState>
           );
           break;
         case 'center':
           centerContent = (
             <>
-              <ButtonCenterLoadingState>
-                {newLoadingState}
-              </ButtonCenterLoadingState>
+              <ButtonLoadingState className="center">
+                {loadingState}
+              </ButtonLoadingState>
               {children && <ButtonLabel>{children}</ButtonLabel>}
             </>
           );
@@ -149,15 +119,13 @@ const Button = forwardRef(
     }
 
     return (
-      <Component
-        ref={rippleTargetRef}
+      <ButtonBase
+        ref={ref}
         className={cn(
           'JinniButton',
-          variant,
           size,
           shape,
           { 'square-size': isSquareSize },
-          { disabled: isDisabled },
           { fullWidth },
           {
             hasCenterIcon:
@@ -165,17 +133,21 @@ const Button = forwardRef(
           },
           className
         )}
-        onClick={handleClick}
-        href={href}
-        disabled={isDisabled}
-        style={buttonStyle}
+        disabled={disabled || loading}
+        overlayColor={overlayColor}
+        rippleColor={rippleColor}
+        style={{
+          '--text-color': textColor,
+          '--background-color': backgroundColor,
+          '--border-color': borderColor,
+          ...style
+        }}
         {...rest}
       >
         {leftContent}
         {centerContent}
         {rightContent}
-        <RippleContainer />
-      </Component>
+      </ButtonBase>
     );
   }
 );

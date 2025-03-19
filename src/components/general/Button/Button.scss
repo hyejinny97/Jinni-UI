@@ -43,14 +43,11 @@ $icon-margin: (
   lg: calc(map.get($button-padding-x, lg) * 1 / 4)
 );
 
-@mixin buttonPadding($size) {
-  padding: map.get($button-padding-y, $size) map.get($button-padding-x, $size);
-}
-
 @mixin buttonSize {
   @each $size in 'sm', 'md', 'lg' {
     &.#{$size} {
-      @include buttonPadding($size);
+      padding: map.get($button-padding-y, $size)
+        map.get($button-padding-x, $size);
       column-gap: map.get($button-gap, $size);
       row-gap: map.get($button-gap, $size);
     }
@@ -94,13 +91,15 @@ $icon-margin: (
       align-items: center;
       justify-content: center;
       z-index: 1;
+      width: map.get($icon-size, $size);
+      height: map.get($icon-size, $size);
+      color: var(--text-color);
 
       svg {
-        width: map.get($icon-size, $size);
-        height: map.get($icon-size, $size);
-        fill: inherit;
+        width: inherit;
+        height: inherit;
         path {
-          fill: inherit;
+          fill: currentColor;
         }
       }
 
@@ -124,26 +123,6 @@ $icon-margin: (
   }
 }
 
-@mixin clickable {
-  cursor: pointer;
-  &:hover {
-    background-image: var(--jinni-black-overlay-3);
-  }
-  &.filled:hover {
-    background-image: var(--jinni-white-overlay-5);
-  }
-}
-
-@mixin disabled {
-  &.disabled {
-    opacity: 0.5;
-    cursor: default;
-    &:hover {
-      background-image: none;
-    }
-  }
-}
-
 @mixin fullWidth {
   &.fullWidth {
     justify-content: center;
@@ -162,7 +141,7 @@ $icon-margin: (
   }
 }
 
-.JinniButton {
+.JinniButtonBase.JinniButton {
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
@@ -170,6 +149,9 @@ $icon-margin: (
   box-sizing: border-box;
   border: 1px solid;
   text-decoration: none;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border-color: var(--border-color);
 
   @include buttonSize;
   @include buttonShape;
@@ -178,8 +160,6 @@ $icon-margin: (
   @include buttonIcon;
   @include buttonLoadingState;
 
-  @include clickable;
-  @include disabled;
   @include fullWidth;
   @include squareSize;
 

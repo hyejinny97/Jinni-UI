@@ -24,10 +24,6 @@ import { Button } from '@/components/general/Button';
 ### Button Variant
 
 - `variant`: 버튼 종류
-  - `filled`: background에 색상 반영
-  - `subtle-filled`: background에 lightened 색상 반영
-  - `outlined`: 테두리와 텍스트에만 색상 반영
-  - `text`: 텍스트에만 색상 반영
 
 <Canvas of={ButtonStories.ButtonVariant} />
 
@@ -41,7 +37,7 @@ import { Button } from '@/components/general/Button';
 
 ### Disabled
 
-- `disabled`: 버튼 비활성화
+- `disabled`: true이면, 비활성화됨
 
 <Canvas of={ButtonStories.Disabled} />
 
@@ -56,19 +52,19 @@ import { Button } from '@/components/general/Button';
 
 #### 1) Left Icon Button
 
-- `leftIcon`: button label의 왼쪽에 위치한 아이콘
+- `leftIcon`: 버튼 왼쪽에 위치한 아이콘
 
 <Canvas of={ButtonStories.LeftIconButton} />
 
 #### 2) Right Icon Button
 
-- `rightIcon`: button label의 오른쪽에 위치한 아이콘
+- `rightIcon`: 버튼 오른쪽에 위치한 아이콘
 
 <Canvas of={ButtonStories.RightIconButton} />
 
 #### 3) Center Icon Button
 
-- `centerIcon`: 중앙에 위치한 아이콘
+- `centerIcon`: 버튼 중앙에 위치한 아이콘
 
 <Canvas of={ButtonStories.CenterIconButton} />
 
@@ -80,8 +76,8 @@ import { Button } from '@/components/general/Button';
 
 #### 1) Default Loading Button
 
-- `loading`: loading state를 나타내줌
-  - loading=true일 때, Button은 disabled 처리됨
+- `loading`: true이면, 로딩 중임
+  - true일 때, Button은 disabled 처리되고 loadingState가 나타남
 
 <Canvas of={ButtonStories.DefaultLoadingButton} />
 
@@ -96,18 +92,15 @@ import { Button } from '@/components/general/Button';
 
 - `loadingStatePosition`: 로딩 상태 위치
 
-  - `left`인 경우, 라벨 왼쪽에 로딩 상태가 나타남
-    - `leftIcon`이 있는 경우, 아이콘 대신 로딩 상태가 나타남
-  - `right`인 경우, 라벨 오른쪽에 로딩 상태가 나타남
-    - `rightIcon`이 있는 경우, 아이콘 대신 로딩 상태가 나타남
-  - `center`인 경우, 중앙에 로딩 상태가 나타남
-    - `rightIcon`, `leftIcon`, `centerIcon`은 있어도 표시되지 않음
+  - `left`인 경우, 버튼 왼쪽에 로딩 상태가 나타남 (leftIcon은 사라짐)
+  - `right`인 경우, 버튼 오른쪽에 로딩 상태가 나타남 (rightIcon은 사라짐)
+  - `center`인 경우, 버튼 중앙에 로딩 상태가 나타남 (leftIcon, centerIcon, rightIcon은 사라짐)
 
 <Canvas of={ButtonStories.LoadingStatePosition} />
 
 ### Full Width
 
-- `fullWidth`: 버튼 너비를 parent의 너비와 동일하게 맞춤
+- `fullWidth`: true이면, 버튼 너비는 parent의 너비와 동일하게 맞춰짐
 
 <Canvas of={ButtonStories.FullWidth} />
 
@@ -131,7 +124,7 @@ import { Button } from '@/components/general/Button';
 
 ### Square Size
 
-- `isSquareSize`: true인 경우, 가로 세로 크기가 동일해짐
+- `isSquareSize`: true인 경우, 가로 세로 크기가 동일하게 됨
 
 <Canvas of={ButtonStories.SquareSize} />
 
