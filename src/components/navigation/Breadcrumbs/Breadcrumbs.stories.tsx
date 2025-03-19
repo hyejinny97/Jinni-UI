@@ -73,7 +73,7 @@ const CondensedBreadcrumbsWithMenuTemplate = ({ ...args }) => {
         <a href="#">route4</a>
       </Breadcrumbs>
       <Menu
-        anchorEl={anchorRef.current}
+        anchorElRef={anchorRef}
         anchorOrigin={{
           horizontal: 'center',
           vertical: 'bottom'
