@@ -11,17 +11,18 @@ const meta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
     centerIcon: {
-      description: 'button의 중앙에 위치한 아이콘'
+      description: '버튼 중앙에 위치한 아이콘'
     },
     children: {
       description: '버튼 내부 내용(label)'
     },
     color: {
-      description: 'button 색상',
+      description: '버튼 색상',
       defaultValue: { summary: 'primary' }
     },
     disabled: {
-      description: '버튼 비활성화',
+      description: 'true이면, 비활성화됨',
+      type: 'boolean',
       defaultValue: { summary: 'false' }
     },
     elevation: {
@@ -29,39 +30,40 @@ const meta: Meta<typeof Button> = {
       defaultValue: { summary: '0' }
     },
     fullWidth: {
-      description: '버튼 너비를 parent의 너비와 동일하게 맞춤',
+      description: 'true이면, 버튼 너비는 parent의 너비와 동일하게 맞춰짐',
       defaultValue: { summary: 'false' }
     },
     href: {
-      description: '링크 url (a 태그를 반환해줌)'
+      description: '링크 url (a 태그로 변환해줌)',
+      type: 'string'
     },
     isSquareSize: {
-      description: 'true인 경우, 가로 세로 크기가 동일해짐',
+      description: 'true인 경우, 가로 세로 크기가 동일하게 됨',
       defaultValue: { summary: 'false' }
     },
     leftIcon: {
-      description: 'button label의 왼쪽에 위치한 아이콘'
+      description: '버튼 왼쪽에 위치한 아이콘'
     },
     loading: {
-      description: '로딩 여부(true인 경우, loading state를 나타냄)',
+      description: 'true이면, 로딩 중임',
       defaultValue: { summary: 'false' }
     },
     loadingState: {
-      description: 'loading state 형태',
+      description: '로딩 상태',
       defaultValue: { summary: '<CircularProgress />' }
     },
     loadingStatePosition: {
-      description: 'loading state 위치',
+      description: '로딩 상태 위치',
       table: {
         type: { summary: 'left | center | right' },
         defaultValue: { summary: 'center' }
       }
     },
     rightIcon: {
-      description: 'button label의 오른쪽에 위치한 아이콘'
+      description: '버튼 오른쪽에 위치한 아이콘'
     },
     shape: {
-      description: '버튼 모양',
+      description: '버튼 모양 (border-radius)',
       table: {
         type: { summary: 'pill | rounded' },
         defaultValue: { summary: 'rounded' }
@@ -81,9 +83,6 @@ const meta: Meta<typeof Button> = {
         defaultValue: { summary: 'filled' }
       }
     }
-  },
-  args: {
-    onClick: fn()
   }
 };
 
