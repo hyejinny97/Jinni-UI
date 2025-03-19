@@ -1,21 +1,15 @@
+import cn from 'classnames';
+
 interface ButtonLoadingStateProps {
+  className: 'left' | 'center' | 'right';
   children: React.ReactNode;
 }
 
-export const ButtonLeftLoadingState = ({
+const ButtonLoadingState = ({
+  className,
   children
 }: ButtonLoadingStateProps) => (
-  <span className="JinniButtonLoadingState left">{children}</span>
+  <span className={cn('JinniButtonLoadingState', className)}>{children}</span>
 );
 
-export const ButtonCenterLoadingState = ({
-  children
-}: ButtonLoadingStateProps) => (
-  <span className="JinniButtonLoadingState center">{children}</span>
-);
-
-export const ButtonRightLoadingState = ({
-  children
-}: ButtonLoadingStateProps) => (
-  <span className="JinniButtonLoadingState right">{children}</span>
-);
+export default ButtonLoadingState;

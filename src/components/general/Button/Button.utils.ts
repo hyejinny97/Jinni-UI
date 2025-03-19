@@ -9,59 +9,33 @@ export const getColorStyle = ({
   color: ColorType;
   variant: VariantType;
 }) => {
-  const subtleColor = lighten(color, 0.8);
+  const lightenColor = lighten(color, 0.8);
   const WHITE: ColorType = 'white';
   const TRANSPARENT: ColorType = 'transparent';
 
-  let buttonColorStyle, iconColorStyle, circularProgressColor;
+  let textColor, backgroundColor, borderColor;
   switch (variant) {
     case 'filled':
-      buttonColorStyle = {
-        backgroundColor: color,
-        color: WHITE,
-        borderColor: color
-      };
-      iconColorStyle = {
-        fill: WHITE
-      };
-      circularProgressColor = WHITE;
+      textColor = WHITE;
+      backgroundColor = color;
+      borderColor = color;
       break;
     case 'outlined':
-      buttonColorStyle = {
-        backgroundColor: TRANSPARENT,
-        color: color,
-        borderColor: color
-      };
-      iconColorStyle = {
-        fill: color
-      };
-      circularProgressColor = color;
+      textColor = color;
+      backgroundColor = TRANSPARENT;
+      borderColor = color;
       break;
     case 'text':
-      buttonColorStyle = {
-        backgroundColor: TRANSPARENT,
-        color: color,
-        borderColor: TRANSPARENT
-      };
-      iconColorStyle = {
-        fill: color
-      };
-      circularProgressColor = color;
+      textColor = color;
+      backgroundColor = TRANSPARENT;
+      borderColor = TRANSPARENT;
       break;
     case 'subtle-filled':
-      buttonColorStyle = {
-        backgroundColor: subtleColor,
-        color: color,
-        borderColor: subtleColor
-      };
-      iconColorStyle = {
-        fill: color
-      };
-      circularProgressColor = color;
-      break;
+      textColor = color;
+      backgroundColor = lightenColor;
+      borderColor = lightenColor;
   }
-
-  return { buttonColorStyle, iconColorStyle, circularProgressColor };
+  return { textColor, backgroundColor, borderColor };
 };
 
 export const getCircularProgressSize = (size: SizeType) => {

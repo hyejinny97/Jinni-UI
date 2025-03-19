@@ -1,22 +1,12 @@
+import cn from 'classnames';
+
 interface ButtonIconProps {
-  children: JSX.Element;
-  style?: React.CSSProperties;
+  className: 'left' | 'center' | 'right';
+  children: React.ReactNode;
 }
 
-export const ButtonLeftIcon = ({ children, style }: ButtonIconProps) => (
-  <span className="JinniButtonIcon left" style={style}>
-    {children}
-  </span>
+const ButtonIcon = ({ className, children }: ButtonIconProps) => (
+  <span className={cn('JinniButtonIcon', className)}>{children}</span>
 );
 
-export const ButtonCenterIcon = ({ children, style }: ButtonIconProps) => (
-  <span className="JinniButtonIcon center" style={style}>
-    {children}
-  </span>
-);
-
-export const ButtonRightIcon = ({ children, style }: ButtonIconProps) => (
-  <span className="JinniButtonIcon right" style={style}>
-    {children}
-  </span>
-);
+export default ButtonIcon;
