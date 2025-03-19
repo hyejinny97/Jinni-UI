@@ -59,7 +59,11 @@ const ButtonBase = forwardRef(
               element;
             (rippleTargetRef as MutableRefObject<HTMLElement>).current =
               element;
-            if (ref) (ref as MutableRefObject<HTMLElement>).current = element;
+            if (typeof ref === 'function') {
+              ref(element);
+            } else if (ref && 'current' in ref) {
+              (ref as MutableRefObject<HTMLElement>).current = element;
+            }
           }
         }}
         className={cn(

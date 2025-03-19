@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
 import Button from './Button';
 import { Stack } from '@/components/layout/Stack';
 import { MailIcon } from '@/components/icons/MailIcon';
