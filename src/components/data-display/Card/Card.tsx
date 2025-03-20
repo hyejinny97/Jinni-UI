@@ -13,6 +13,7 @@ const Card = <T extends AsType = 'div'>(props: CardProps<T>) => {
     className,
     elevation = 3,
     round = 'sm',
+    outlined = false,
     style,
     ...rest
   } = props;
@@ -22,6 +23,7 @@ const Card = <T extends AsType = 'div'>(props: CardProps<T>) => {
       className={cn('JinniCard', className)}
       elevation={elevation}
       round={round}
+      outlined={outlined}
       style={style}
       {...rest}
     >

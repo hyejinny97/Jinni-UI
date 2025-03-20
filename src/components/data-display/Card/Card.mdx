@@ -1,0 +1,64 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as CardStories from './Card.stories';
+
+<Meta of={CardStories} />
+
+# Card
+
+카드
+
+## Import
+
+```js
+import { Card } from '@/components/data-display/Card';
+```
+
+## Usage
+
+### Basic Card
+
+- `Card` 컴포넌트
+  - 하위 카드 관련 컴포넌트들을 감싸는 최상위 wrapper
+- `CardHeader` 컴포넌트
+  - card header를 감싸는 wrapper
+- `CardBody` 컴포넌트
+  - card content를 감싸는 wrapper
+- `CardFooter` 컴포넌트
+  - card actions를 감싸는 wrapper
+
+<Canvas of={CardStories.BasicCard} />
+
+### Elevation
+
+- `Card` 컴포넌트
+  - `elevation`: 높낮이
+
+<Canvas of={CardStories.Elevation} />
+
+### Outlined
+
+- `Card` 컴포넌트
+  - `outlined`: true이면, outline이 생성됨
+
+<Canvas of={CardStories.Outlined} />
+
+### Round
+
+- `Card` 컴포넌트
+  - `round`: card의 border-radius
+
+<Canvas of={CardStories.Round} />
+
+### Complex Card
+
+<Canvas of={CardStories.ComplexCard} />
+
+### Clickable Card
+
+<Canvas of={CardStories.ClickableCard} />
+
+## Props
+
+> `Card` 컴포넌트: `Box` 컴포넌트의 모든 props를 상속 받음
+
+<ArgTypes of={CardStories} sort="alpha" />
