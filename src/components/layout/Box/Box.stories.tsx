@@ -14,7 +14,7 @@ const meta: Meta<typeof Box> = {
     elevation: {
       description: '계층(높낮이)',
       table: {
-        type: { summary: 'ElevationType' },
+        type: { summary: 'ElevationLevelType' },
         defaultValue: { summary: '0' }
       }
     },

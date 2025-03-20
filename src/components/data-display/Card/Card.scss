@@ -1,0 +1,20 @@
+.JinniCard {
+  display: inline-flex;
+  flex-direction: column;
+
+  .JinniCardHeader {
+    padding: 16px;
+  }
+
+  .JinniCardBody {
+    padding: 16px;
+  }
+
+  .JinniCardFooter {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: 8px;
+    padding: 8px;
+  }
+}
