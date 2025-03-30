@@ -1,0 +1,36 @@
+$gap: 8px;
+
+@mixin linear-style-by-direction {
+  &.up {
+    flex-direction: column-reverse;
+    row-gap: $gap;
+    margin-bottom: var(--offset);
+  }
+  &.down {
+    flex-direction: column;
+    row-gap: $gap;
+    margin-top: var(--offset);
+  }
+  &.left {
+    flex-direction: row-reverse;
+    column-gap: $gap;
+    margin-right: var(--offset);
+  }
+  &.right {
+    flex-direction: row;
+    column-gap: $gap;
+    margin-left: var(--offset);
+  }
+}
+
+.JinniLinearSpeedDial {
+  position: fixed;
+  display: inline-block;
+  width: max-content;
+  height: max-content;
+
+  .JinniLinearSpeedDialContent {
+    display: inline-flex;
+    @include linear-style-by-direction;
+  }
+}
