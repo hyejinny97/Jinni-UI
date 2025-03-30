@@ -66,9 +66,11 @@ export const useHandleEvent = ({
 
 export const useActionPosition = ({
   mainCircleRadius,
+  circularSpeedDialContentRadius,
   rotationAngle
 }: {
   mainCircleRadius: number;
+  circularSpeedDialContentRadius: number;
   rotationAngle: number;
 }) => {
   const actionElRef = useRef<HTMLElement>(null);
@@ -81,6 +83,7 @@ export const useActionPosition = ({
     const actionRadius = actionEl.offsetWidth / 2;
     const { cx, cy } = calculateActionCenterPosition({
       mainCircleRadius,
+      circularSpeedDialContentRadius,
       actionRadius,
       rotationAngle
     });
@@ -88,7 +91,7 @@ export const useActionPosition = ({
       top: cy - actionRadius,
       left: cx - actionRadius
     });
-  }, [mainCircleRadius, rotationAngle]);
+  }, [mainCircleRadius, circularSpeedDialContentRadius, rotationAngle]);
 
   return { actionElRef, actionPosition };
 };

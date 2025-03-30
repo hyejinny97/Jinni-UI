@@ -85,20 +85,22 @@ export const insertProps = (
 
 export const calculateActionCenterPosition = ({
   mainCircleRadius,
+  circularSpeedDialContentRadius,
   actionRadius,
   rotationAngle
 }: {
   mainCircleRadius: number;
+  circularSpeedDialContentRadius: number;
   actionRadius: number;
   rotationAngle: number;
 }) => {
   const angleInRadians = (rotationAngle * Math.PI) / 180;
   return {
     cx:
-      mainCircleRadius +
+      circularSpeedDialContentRadius +
       (mainCircleRadius + actionRadius) * Math.cos(angleInRadians),
     cy:
-      mainCircleRadius +
+      circularSpeedDialContentRadius +
       (mainCircleRadius + actionRadius) * Math.sin(angleInRadians)
   };
 };

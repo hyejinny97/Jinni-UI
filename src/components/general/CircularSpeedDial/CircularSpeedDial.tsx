@@ -62,6 +62,7 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
     anchorElRef,
     offset
   });
+  const circularSpeedDialContentRadius = mainCircleRadius * 1.5;
   const rotationAngleList = getRotationAngleList({
     actionsNumber: children.length,
     direction
@@ -76,14 +77,18 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
     });
   useHandleEvent({ anchorElRef, speedDialRef, open, onOpen, onClose });
   const newStyle = useStyle({
-    '--speedDialContentRadius': `${mainCircleRadius}px`,
+    '--speedDialContentRadius': `${circularSpeedDialContentRadius}px`,
     ...speedDialPosition,
     ...style
   });
 
   return (
     <CircularSpeedDialContext.Provider
-      value={{ mainCircleRadius, rotationAngleList }}
+      value={{
+        mainCircleRadius,
+        circularSpeedDialContentRadius,
+        rotationAngleList
+      }}
     >
       {open &&
         createPortal(

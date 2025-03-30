@@ -2,6 +2,7 @@ import { createContext } from 'react';
 
 export type CircularSpeedDialContextType = {
   mainCircleRadius: number;
+  circularSpeedDialContentRadius: number;
   rotationAngleList: Array<number>;
 };
 

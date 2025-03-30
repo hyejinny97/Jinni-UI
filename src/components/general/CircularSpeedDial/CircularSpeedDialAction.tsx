@@ -36,10 +36,15 @@ const CircularSpeedDialAction = <T extends AsType = 'button'>(
   if (index === undefined)
     throw new Error('CircularSpeedDialAction의 index 값이 없습니다.');
 
-  const { mainCircleRadius, rotationAngleList } = circularSpeedDialContextValue;
+  const {
+    mainCircleRadius,
+    circularSpeedDialContentRadius,
+    rotationAngleList
+  } = circularSpeedDialContextValue;
   const rotationAngle = rotationAngleList[index];
   const { actionElRef, actionPosition } = useActionPosition({
     mainCircleRadius,
+    circularSpeedDialContentRadius,
     rotationAngle
   });
 
