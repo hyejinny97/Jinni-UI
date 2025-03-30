@@ -10,6 +10,6 @@ $font-weight-extra-bold: 800;
 $font-weight-black: 900;
 
 // z-index
-$z-index-backdrop: 9999;
-$z-index-tooltip: 1000;
-$z-index-toast: 1000;
+$z-index-backdrop: 1000;
+$z-index-tooltip: 5000;
+$z-index-toast: 5000;
