@@ -1,0 +1,76 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as CircularSpeedDialStories from './CircularSpeedDial.stories';
+
+<Meta of={CircularSpeedDialStories} />
+
+# CircularSpeedDial
+
+여러 개의 floating action buttons를 원형으로 띄워줌
+
+## Import
+
+```js
+import {
+  CircularSpeedDial,
+  CircularSpeedDialAction
+} from '@/components/general/CircularSpeedDial';
+```
+
+## Usage
+
+### Basic CircularSpeedDial
+
+- `CircularSpeedDial` 컴포넌트
+
+  - `children`: open 됐을 때 나타나는 floating action buttons (ex) `CircularSpeedDialAction` 컴포넌트들)
+  - `anchorElRef`: anchor element의 reference
+  - `open`: true이면, FABs가 나타남
+  - `onOpen`: open을 요청할 때 호출되는 함수
+  - `onClose`: close를 요청할 때 호출되는 함수
+
+- `CircularSpeedDialAction` 컴포넌트
+
+  - `tooltipProps`: tooltip 컴포넌트의 props
+  - `Button` 컴포넌트의 props를 전부 상속 받음
+
+<Canvas of={CircularSpeedDialStories.BasicCircularSpeedDial} />
+
+### Variants
+
+- `CircularSpeedDial` 컴포넌트
+
+  - `variant`: speed dial 종류
+
+<Canvas of={CircularSpeedDialStories.Variants} />
+
+### Distance From Anchor
+
+- `CircularSpeedDial` 컴포넌트
+
+  - `offset`: anchor와 speed dial 사이 거리
+
+<Canvas of={CircularSpeedDialStories.DistanceFromAnchor} />
+
+### Direction
+
+- `CircularSpeedDial` 컴포넌트
+
+  - `direction`: FABs가 나타나는 위치
+
+#### 1) Semi-Circular Speed Dial
+
+<Canvas of={CircularSpeedDialStories.SemiCircularDirection} />
+
+#### 2) Quarter-Circular Speed Dial
+
+<Canvas of={CircularSpeedDialStories.QuarterCircularDirection} />
+
+### Customize CircularSpeedDialAction
+
+- variant, color, size 등 `Button` 컴포넌트의 props와 `TooltipProps` prop을 통해 버튼과 툴팁 커스텀 가능
+
+<Canvas of={CircularSpeedDialStories.CustomizeCircularSpeedDialAction} />
+
+## Props
+
+<ArgTypes of={CircularSpeedDialStories} sort="alpha" />
