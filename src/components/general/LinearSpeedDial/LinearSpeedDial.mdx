@@ -1,0 +1,62 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as LinearSpeedDialStories from './LinearSpeedDial.stories';
+
+<Meta of={LinearSpeedDialStories} />
+
+# LinearSpeedDial
+
+여러 개의 floating action buttons를 선형으로 띄워줌
+
+## Import
+
+```js
+import {
+  LinearSpeedDial,
+  LinearSpeedDialAction
+} from '@/components/general/LinearSpeedDial';
+```
+
+## Usage
+
+### Basic LinearSpeedDial
+
+- `LinearSpeedDial` 컴포넌트
+
+  - `children`: open 됐을 때 나타나는 floating action buttons (ex) `LinearSpeedDialAction` 컴포넌트들)
+  - `anchorElRef`: anchor element의 reference
+  - `open`: true이면, FABs가 나타남
+  - `onOpen`: open을 요청할 때 호출되는 함수
+  - `onClose`: close를 요청할 때 호출되는 함수
+
+- `LinearSpeedDialAction` 컴포넌트
+
+  - `tooltipProps`: tooltip 컴포넌트의 props
+  - `Button` 컴포넌트의 props를 전부 상속 받음
+
+<Canvas of={LinearSpeedDialStories.BasicLinearSpeedDial} />
+
+### Distance From Anchor
+
+- `LinearSpeedDial` 컴포넌트
+
+  - `offset`: anchor와 speed dial 사이 거리
+
+<Canvas of={LinearSpeedDialStories.DistanceFromAnchor} />
+
+### Direction
+
+- `LinearSpeedDial` 컴포넌트
+
+  - `direction`: FABs가 나타나는 위치
+
+<Canvas of={LinearSpeedDialStories.Direction} />
+
+### Customize LinearSpeedDialAction
+
+- variant, color, size 등 `Button` 컴포넌트의 props와 `TooltipProps` prop을 통해 버튼과 툴팁 커스텀 가능
+
+<Canvas of={LinearSpeedDialStories.CustomizeLinearSpeedDialAction} />
+
+## Props
+
+<ArgTypes of={LinearSpeedDialStories} sort="alpha" />

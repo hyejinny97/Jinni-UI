@@ -1,0 +1,11 @@
+.JinniCircularSpeedDial {
+  position: fixed;
+  display: inline-block;
+
+  .JinniCircularSpeedDialContent {
+    position: relative;
+    width: calc(var(--speedDialContentRadius) * 2);
+    height: calc(var(--speedDialContentRadius) * 2);
+    border-radius: 100%;
+  }
+}

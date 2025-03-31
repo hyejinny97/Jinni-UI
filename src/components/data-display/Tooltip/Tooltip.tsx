@@ -1,7 +1,13 @@
 import './Tooltip.scss';
 import cn from 'classnames';
 import { createPortal } from 'react-dom';
-import { useRef, useMemo, isValidElement, cloneElement } from 'react';
+import {
+  useRef,
+  useMemo,
+  isValidElement,
+  cloneElement,
+  MutableRefObject
+} from 'react';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import usePopperPosition from '@/hooks/usePopperPosition';
@@ -104,9 +110,17 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
 
   let anchor = <span {...tooltipAnchorProps}>{children}</span>;
   if (isSingleElement) {
-    const element = children as React.ReactElement;
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    const element = children as React.ReactElement & { ref?: React.Ref<any> };
     anchor = cloneElement(element, {
       ...tooltipAnchorProps,
+      ref: (el: HTMLElement | null) => {
+        if (el) {
+          if (element.ref)
+            (element.ref as MutableRefObject<HTMLElement>).current = el;
+          (anchorElRef as MutableRefObject<HTMLElement>).current = el;
+        }
+      },
       className: cn(element.props.className, tooltipAnchorProps.className),
       onMouseEnter: (e: React.MouseEvent) => {
         if (element.props.onMouseEnter) element.props.onMouseEnter(e);
