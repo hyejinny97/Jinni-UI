@@ -1,0 +1,31 @@
+.JinniButtonGroup {
+  display: inline-flex;
+
+  &.horizontal {
+    flex-direction: row;
+    .JinniButton:not(:last-child) {
+      border-right: none;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .JinniButton:not(:first-child) {
+      border-left-color: var(--divider-color);
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  &.vertical {
+    flex-direction: column;
+    .JinniButton:not(:last-child) {
+      border-bottom: none;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .JinniButton:not(:first-child) {
+      border-top-color: var(--divider-color);
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+}
