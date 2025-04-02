@@ -1,0 +1,84 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ToggleButtonStories from './ToggleButton.stories';
+
+<Meta of={ToggleButtonStories} />
+
+# ToggleButton
+
+option button
+
+## Import
+
+```js
+import { ToggleButton } from '@/components/general/ToggleButton';
+```
+
+## Usage
+
+### Basic ToggleButton
+
+- `value`: toggle button을 구분하는 특정 값
+
+<Canvas of={ToggleButtonStories.BasicToggleButton} />
+
+### Default Selected
+
+- `defaultSelected`: 초기 selected 여부 (uncontrolled 상태일 때만 적용 가능함)
+
+<Canvas of={ToggleButtonStories.DefaultSelected} />
+
+### Controlled Toggle Button
+
+- `selected`와 `onChange` prop을 통해 control 가능
+- `selected`: selected 여부
+- `onChange`: selected state가 변경될 때 호출되는 함수
+  - `selected`: new selected state
+
+<Canvas of={ToggleButtonStories.ControlledToggleButton} />
+
+### Color
+
+- `color`: selected toggle button의 색상
+
+<Canvas of={ToggleButtonStories.Color} />
+
+### Size
+
+- `size`: toggle button의 크기
+
+<Canvas of={ToggleButtonStories.Size} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={ToggleButtonStories.Disabled} />
+
+### Radio/Checkbox Buttons
+
+#### 1) Radio Buttons
+
+<Canvas of={ToggleButtonStories.RadioButtons} />
+
+#### 2) Checkbox Buttons
+
+<Canvas of={ToggleButtonStories.CheckboxButtons} />
+
+## Props
+
+- `ToggleButton`은 일부 `Button` props를 가짐
+
+  - `isSquareSize`
+  - `color`
+  - `centerIcon`, `leftIcon`, `rightIcon`
+  - `size`
+  - `children`
+  - `disabled`
+  - `overlayColor`
+  - `disableOverlay`
+  - `elevation`
+  - `rippleColor`
+  - `disableRipple`
+  - `rippleStartLocation`
+
+<ArgTypes of={ToggleButtonStories} sort="alpha" />
