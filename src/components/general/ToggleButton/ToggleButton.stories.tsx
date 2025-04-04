@@ -93,6 +93,7 @@ const RadioButtonsTemplate = () => {
     <Stack direction="row" spacing={20}>
       {ITEMS.map(({ value, icon }) => (
         <ToggleButton
+          key={value}
           value={value}
           centerIcon={icon}
           selected={selectedValue === value}
@@ -121,6 +122,7 @@ const CheckboxButtonsTemplate = () => {
     <Stack direction="row" spacing={20}>
       {ITEMS.map(({ value, icon }) => (
         <ToggleButton
+          key={value}
           value={value}
           centerIcon={icon}
           selected={selectedValues.includes(value)}
