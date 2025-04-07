@@ -1,0 +1,164 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TimelineStories from './Timeline.stories';
+import * as TimelineItemStories from './TimelineItem.stories';
+import * as TimelineContentStories from './TimelineContent.stories';
+import * as TimelineOppositeContentStories from './TimelineOppositeContent.stories';
+import * as TimelineSeparatorStories from './TimelineSeparator.stories';
+import * as TimelineDotStories from './TimelineDot.stories';
+import * as TimelineConnectorStories from './TimelineConnector.stories';
+
+<Meta of={TimelineStories} />
+
+# Timeline
+
+시간 순으로 일어난 목록을 보여줌
+
+## Import
+
+```js
+import {
+  Timeline,
+  TimelineItem,
+  TimelineContent,
+  TimelineOppositeContent,
+  TimelineSeparator,
+  TimelineConnector,
+  TimelineDot
+} from '@/components/data-display/Timeline';
+```
+
+## Usage
+
+### Basic Timeline
+
+- `Timeline` 컴포넌트
+
+  - `children`: `TimelineItem` 컴포넌트들
+
+- `TimelineItem` 컴포넌트
+
+  - `children`: `TimelineContent`, `TimelineOppositeContent`, `TimelineSeparator` 컴포넌트들
+
+- `TimelineContent` 컴포넌트
+
+  - `children`: main content
+
+- `TimelineSeparator` 컴포넌트
+
+  - `children`: `TimelineDot`, `TimelineConnector` 컴포넌트
+
+- `TimelineDot` 컴포넌트
+
+  - `children`: dot 안에 들어갈 내용
+
+- `TimelineConnector` 컴포넌트
+
+<Canvas of={TimelineStories.BasicTimeline} />
+
+### Orientation
+
+- `Timeline` 컴포넌트
+  - `orientation`: timeline 방향
+
+<Canvas of={TimelineStories.Orientation} />
+
+### Reverse
+
+- `Timeline` 컴포넌트
+  - `reverse`: true이면, 좌우(위아래)가 반전됨
+
+#### 1) Vertical Timeline
+
+<Canvas of={TimelineStories.VerticalReverse} />
+
+#### 2) Horizontal Timeline
+
+<Canvas of={TimelineStories.HorizontalReverse} />
+
+### Alignment
+
+- `Timeline` 컴포넌트
+  - `alignment`: time axis를 기준으로 `TimelineContent`의 위치
+
+#### 1) Vertical Timeline
+
+<Canvas of={TimelineStories.VerticalAlignment} />
+
+#### 2) Horizontal Timeline
+
+<Canvas of={TimelineStories.HorizontalAlignment} />
+
+### Dot Customization
+
+- `TimelineDot` 컴포넌트
+  - `variant`: dot 종류
+  - `color`: dot 색상
+
+<Canvas of={TimelineStories.DotCustomization} />
+
+### Connector Customization
+
+- `TimelineConnector` 컴포넌트
+  - `variant`: connector 종류
+  - `color`: connector 색상
+
+<Canvas of={TimelineStories.ConnectorCustomization} />
+
+- `Timeline` 컴포넌트
+  - `showLastConnector`: true이면, 마지막 connector가 나타남
+
+<Canvas of={TimelineStories.ShowLastConnector} />
+
+### Opposite Content
+
+- `TimelineOppositeContent` 컴포넌트
+  - `children`: main content 반대편에 위치한 content
+
+<Canvas of={TimelineStories.OppositeContent} />
+
+### Timeline Position
+
+- 기본적으로 timeline은 container 중앙에 위치함
+- 'flex' style을 통해 `TimelineContent`와 `TimelineOppositeContent`의 너비를 조절함으로써 container 내에 timeline 위치 조정 가능
+
+#### 1) Left Position
+
+<Canvas of={TimelineStories.LeftTimelinePosition} />
+
+#### 2) Right Position
+
+<Canvas of={TimelineStories.RightTimelinePosition} />
+
+### Customization
+
+<Canvas of={TimelineStories.Customization} />
+
+## Props
+
+### 1) Timeline
+
+<ArgTypes of={TimelineStories} sort="alpha" />
+
+### 2) TimelineItem
+
+<ArgTypes of={TimelineItemStories} sort="alpha" />
+
+### 3) TimelineContent
+
+<ArgTypes of={TimelineContentStories} sort="alpha" />
+
+### 4) TimelineOppositeContent
+
+<ArgTypes of={TimelineOppositeContentStories} sort="alpha" />
+
+### 5) TimelineSeparator
+
+<ArgTypes of={TimelineSeparatorStories} sort="alpha" />
+
+### 6) TimelineDot
+
+<ArgTypes of={TimelineDotStories} sort="alpha" />
+
+### 7) TimelineConnector
+
+<ArgTypes of={TimelineConnectorStories} sort="alpha" />

@@ -1,0 +1,194 @@
+@mixin orientation {
+  &.vertical {
+    flex-direction: column;
+    .JinniTimelineItem {
+      flex-direction: row;
+      .JinniTimelineContent,
+      .JinniTimelineOppositeContent,
+      &::before,
+      &::after {
+        padding: 0 10px;
+      }
+      .JinniTimelineSeparator {
+        flex-direction: column;
+        .JinniTimelineConnector {
+          width: 2px;
+          height: 100%;
+        }
+      }
+    }
+    &.reverse {
+      flex-direction: column-reverse;
+    }
+  }
+  &.horizontal {
+    flex-direction: row;
+    .JinniTimelineItem {
+      flex-direction: column;
+      .JinniTimelineContent,
+      .JinniTimelineOppositeContent,
+      &::before,
+      &::after {
+        padding: 10px 0;
+      }
+      .JinniTimelineSeparator {
+        flex-direction: row;
+        .JinniTimelineConnector {
+          width: 100%;
+          height: 2px;
+        }
+      }
+    }
+    &.reverse {
+      flex-direction: row-reverse;
+    }
+  }
+}
+
+@mixin order($content-order, $separator-order, $opposite-content-order) {
+  .JinniTimelineContent,
+  &::before {
+    order: $content-order;
+  }
+  .JinniTimelineSeparator {
+    order: $separator-order;
+  }
+  .JinniTimelineOppositeContent,
+  &::after {
+    order: $opposite-content-order;
+  }
+}
+
+@mixin timeline-alignment {
+  &.before .JinniTimelineItem {
+    @include order(1, 2, 3);
+  }
+  &.after .JinniTimelineItem {
+    @include order(3, 2, 1);
+  }
+  &.alternate .JinniTimelineItem {
+    &:nth-child(odd) {
+      @include order(3, 2, 1);
+    }
+    &:nth-child(even) {
+      @include order(1, 2, 3);
+    }
+  }
+  &.alternate-reverse .JinniTimelineItem {
+    &:nth-child(odd) {
+      @include order(1, 2, 3);
+    }
+    &:nth-child(even) {
+      @include order(3, 2, 1);
+    }
+  }
+}
+
+@mixin text-alignment {
+  &.vertical {
+    &.before .JinniTimelineItem {
+      .JinniTimelineContent {
+        text-align: right;
+      }
+    }
+    &.after .JinniTimelineItem {
+      .JinniTimelineOppositeContent {
+        text-align: right;
+      }
+    }
+    &.alternate .JinniTimelineItem {
+      &:nth-child(even) .JinniTimelineContent {
+        text-align: right;
+      }
+      &:nth-child(odd) .JinniTimelineOppositeContent {
+        text-align: right;
+      }
+    }
+    &.alternate-reverse .JinniTimelineItem {
+      &:nth-child(odd) .JinniTimelineContent {
+        text-align: right;
+      }
+      &:nth-child(even) .JinniTimelineOppositeContent {
+        text-align: right;
+      }
+    }
+  }
+}
+
+@mixin last-connector {
+  &:not(.showLastConnector) {
+    &:not(.reverse) {
+      .JinniTimelineItem:last-child .JinniTimelineConnector {
+        visibility: hidden;
+      }
+    }
+    &.reverse {
+      .JinniTimelineItem:first-child .JinniTimelineConnector {
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+.JinniTimeline {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  @include orientation;
+  @include timeline-alignment;
+  @include text-alignment;
+  @include last-connector;
+
+  .JinniTimelineItem {
+    display: flex;
+    min-height: 70px;
+
+    .JinniTimelineContent {
+      flex: 1;
+    }
+    &:not(:has(.JinniTimelineContent))::before {
+      content: '';
+      display: block;
+      flex: 1;
+    }
+
+    .JinniTimelineOppositeContent {
+      flex: 1;
+    }
+    &:not(:has(.JinniTimelineOppositeContent))::after {
+      content: '';
+      display: block;
+      flex: 1;
+    }
+
+    .JinniTimelineSeparator {
+      display: flex;
+      align-items: center;
+
+      .JinniTimelineDot {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px;
+        box-sizing: border-box;
+        aspect-ratio: 1/1;
+        border: 2px solid var(--dot-color);
+        border-radius: 1000px;
+        &.filled {
+          background-color: var(--dot-color);
+        }
+      }
+
+      .JinniTimelineConnector {
+        box-sizing: border-box;
+        border: 1px solid var(--connector-color);
+        &.dotted {
+          border-style: dotted;
+        }
+        &.dashed {
+          border-style: dashed;
+        }
+      }
+    }
+  }
+}
