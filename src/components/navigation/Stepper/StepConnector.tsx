@@ -4,10 +4,12 @@ import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
 import { useStepStatus } from './Stepper.hooks';
 
-export type StepConnectorProps<T extends AsType = 'span'> =
-  DefaultComponentProps<T> & {
-    color?: ColorType;
-  };
+export type StepConnectorProps<T extends AsType = 'span'> = Omit<
+  DefaultComponentProps<T>,
+  'children'
+> & {
+  color?: ColorType;
+};
 
 const StepConnector = <T extends AsType = 'span'>(
   props: StepConnectorProps<T>
