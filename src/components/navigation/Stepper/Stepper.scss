@@ -1,0 +1,304 @@
+@use '@/styles/variables' as var;
+
+$gap: 12px;
+
+@mixin orientation-and-alignment {
+  &.horizontal {
+    flex-direction: row;
+    width: 100%;
+
+    .JinniStep {
+      .JinniStepConnector {
+        width: 100%;
+        height: 1px;
+      }
+    }
+
+    &.right {
+      .JinniStep {
+        flex: 1;
+        align-items: center;
+        grid-template-areas: 'dot content connector';
+        grid-template-rows: 1fr;
+        grid-template-columns: repeat(2, max-content) repeat(
+            1,
+            minmax(70px, auto)
+          );
+        .JinniStepContent {
+          padding-right: $gap;
+        }
+        &:last-child {
+          flex: 0;
+          grid-template-areas: 'dot content';
+          grid-template-columns: repeat(2, max-content);
+          .JinniStepConnector {
+            display: none;
+          }
+        }
+      }
+    }
+    &.left {
+      .JinniStep {
+        flex: 1;
+        align-items: center;
+        grid-template-areas: 'content dot connector';
+        grid-template-rows: 1fr;
+        grid-template-columns: repeat(2, max-content) repeat(
+            1,
+            minmax(70px, auto)
+          );
+        .JinniStepContent {
+          align-items: end;
+          padding-left: $gap;
+        }
+        &:last-child {
+          grid-template-areas: 'content dot';
+          grid-template-columns: repeat(2, max-content);
+          flex: 0;
+          .JinniStepConnector {
+            display: none;
+          }
+        }
+      }
+    }
+    &.bottom {
+      .JinniStep {
+        flex: 1;
+        align-items: center;
+        grid-template-areas: 'dot connector' 'content content';
+        grid-template-rows: repeat(1, max-content) repeat(
+            1,
+            minmax(max-content, auto)
+          );
+        grid-template-columns: repeat(1, max-content) repeat(
+            1,
+            minmax(70px, auto)
+          );
+        .JinniStepContent {
+          align-self: start;
+          padding-left: $gap;
+          .JinniStepTitle,
+          .JinniStepDescription {
+            transform: translateX(-50%);
+          }
+        }
+        &:last-child {
+          grid-template-areas: 'dot .' 'content content';
+          grid-template-columns: repeat(2, max-content);
+          flex: 0;
+          .JinniStepConnector {
+            display: none;
+          }
+        }
+      }
+    }
+    &.top {
+      .JinniStep {
+        flex: 1;
+        align-items: center;
+        grid-template-areas: 'content content' 'dot connector';
+        grid-template-rows: repeat(1, minmax(max-content, auto)) repeat(
+            1,
+            max-content
+          );
+        grid-template-columns: repeat(1, max-content) repeat(
+            1,
+            minmax(70px, auto)
+          );
+        .JinniStepContent {
+          align-self: end;
+          padding-left: $gap;
+          .JinniStepTitle,
+          .JinniStepDescription {
+            transform: translateX(-50%);
+          }
+        }
+        &:last-child {
+          grid-template-areas: 'content content' 'dot .';
+          grid-template-columns: repeat(2, max-content);
+          flex: 0;
+          .JinniStepConnector {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  &.vertical {
+    flex-direction: column;
+    height: 100%;
+
+    .JinniStep {
+      .JinniStepConnector {
+        width: 1px;
+        height: 100%;
+      }
+    }
+
+    &.right {
+      .JinniStep {
+        flex: 1;
+        justify-items: center;
+        grid-template-areas: 'dot content' 'connector content';
+        grid-template-rows: repeat(1, max-content) repeat(1, minmax(70px, auto));
+        grid-template-columns: repeat(2, max-content);
+        .JinniStepContent {
+          justify-self: start;
+          padding-top: $gap;
+        }
+        &:last-child {
+          flex: 0;
+          grid-template-areas: 'dot content';
+          grid-template-rows: 1fr;
+          .JinniStepConnector {
+            display: none;
+          }
+        }
+      }
+    }
+    &.left {
+      .JinniStep {
+        flex: 1;
+        justify-items: center;
+        grid-template-areas: 'content dot' 'content connector';
+        grid-template-rows: repeat(1, max-content) repeat(1, minmax(70px, auto));
+        grid-template-columns: repeat(1, minmax(max-content, auto)) repeat(
+            1,
+            max-content
+          );
+        .JinniStepContent {
+          justify-self: end;
+          align-items: end;
+          padding-top: $gap;
+        }
+        &:last-child {
+          flex: 0;
+          grid-template-areas: 'content dot';
+          grid-template-rows: 1fr;
+          .JinniStepConnector {
+            display: none;
+          }
+        }
+      }
+    }
+    &.bottom {
+      .JinniStep {
+        flex: 1;
+        justify-items: center;
+        grid-template-areas: 'dot' 'content' 'connector';
+        grid-template-rows: repeat(2, max-content) repeat(1, minmax(70px, auto));
+        grid-template-columns: 1fr;
+        .JinniStepContent {
+          align-items: center;
+          padding-bottom: $gap;
+        }
+        &:last-child {
+          flex: 0;
+          grid-template-areas: 'dot' 'content';
+          grid-template-rows: repeat(2, max-content);
+          .JinniStepConnector {
+            display: none;
+          }
+        }
+      }
+    }
+    &.top {
+      .JinniStep {
+        flex: 1;
+        justify-items: center;
+        grid-template-areas: 'content' 'dot' 'connector';
+        grid-template-rows: repeat(2, max-content) repeat(1, minmax(70px, auto));
+        grid-template-columns: 1fr;
+        .JinniStepContent {
+          align-items: center;
+          padding-top: $gap;
+        }
+        &:last-child {
+          flex: 0;
+          grid-template-areas: 'content' 'dot';
+          grid-template-rows: repeat(2, max-content);
+          .JinniStepConnector {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.JinniStepper {
+  display: flex;
+  @include orientation-and-alignment;
+
+  .JinniStep {
+    display: grid;
+
+    .JinniStepDot {
+      grid-area: dot;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      margin: $gap;
+      padding: 5px;
+      width: max-content;
+      height: max-content;
+      box-sizing: border-box;
+      border: 1px solid var(--border-color);
+      border-radius: 1000px;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      &.hasChildren {
+        width: auto;
+        height: auto;
+        min-width: max-content;
+        min-height: max-content;
+        aspect-ratio: 1/1;
+      }
+
+      svg path {
+        fill: currentColor;
+      }
+    }
+
+    .JinniStepConnector {
+      grid-area: connector;
+      display: inline-flex;
+      box-sizing: border-box;
+      background-color: var(--color);
+    }
+
+    .JinniStepContent {
+      grid-area: content;
+      display: flex;
+      flex-direction: column;
+      .JinniStepTitle {
+        display: inline-block;
+        width: max-content;
+        &.pending {
+          color: var(--jinni-color-gray-700);
+          font-weight: var.$font-weight-medium;
+        }
+        &.completed,
+        &.active {
+          color: var(--jinni-color-gray-900);
+          font-weight: var.$font-weight-bold;
+        }
+      }
+
+      .JinniStepDescription {
+        display: inline-block;
+        width: max-content;
+        &.pending {
+          color: var(--jinni-color-gray-400);
+          font-weight: var.$font-weight-regular;
+        }
+        &.completed,
+        &.active {
+          color: var(--jinni-color-gray-600);
+          font-weight: var.$font-weight-medium;
+        }
+      }
+    }
+  }
+}
