@@ -1,0 +1,16 @@
+.JinniFraction {
+  display: inline-flex;
+  align-items: center;
+  &.sm {
+    gap: 4px;
+    font-size: 12px;
+  }
+  &.md {
+    gap: 5px;
+    font-size: 14px;
+  }
+  &.lg {
+    gap: 6px;
+    font-size: 16px;
+  }
+}
