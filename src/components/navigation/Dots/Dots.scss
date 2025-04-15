@@ -25,23 +25,4 @@
   max-height: max-content;
   @include gap-by-size;
   @include orientation;
-
-  .JinniButtonBase.JinniDot {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: max-content;
-    min-height: max-content;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    &.sm {
-      padding: 4px;
-    }
-    &.md {
-      padding: 5px;
-    }
-    &.lg {
-      padding: 6px;
-    }
-  }
 }
