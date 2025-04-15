@@ -1,0 +1,28 @@
+@mixin gap-by-size {
+  &.sm {
+    gap: 5px;
+  }
+  &.md {
+    gap: 7px;
+  }
+  &.lg {
+    gap: 9px;
+  }
+}
+
+@mixin orientation {
+  &.horizontal {
+    flex-direction: row;
+  }
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.JinniDots {
+  display: inline-flex;
+  max-width: max-content;
+  max-height: max-content;
+  @include gap-by-size;
+  @include orientation;
+}

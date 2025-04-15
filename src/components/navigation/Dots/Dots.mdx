@@ -1,0 +1,109 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as DotsStories from './Dots.stories';
+import * as DotStories from './Dot.stories';
+
+<Meta of={DotsStories} />
+
+# Dots
+
+dot의 모음으로 pagination을 나타냄
+
+## Import
+
+```js
+import { Dots, Dot } from '@/components/navigation/Dots';
+```
+
+## Usage
+
+### Basic Dots
+
+- `count`: 총 dot 개수
+- `defaultValue`: 초기 active dot index (uncontrolled 상태일 때만 적용 가능)
+  - zero-based index
+
+<Canvas of={DotsStories.BasicDots} />
+
+### Controlled Dots
+
+- `value`, `onChange` prop을 통해 control 가능
+- `value`: active dot index
+  - zero-based index
+- `onChange`: active dot이 변경됐을 때 호출되는 함수
+
+<Canvas of={DotsStories.ControlledDots} />
+
+### Orientation
+
+- `orientation`: dots 방향
+
+<Canvas of={DotsStories.Orientation} />
+
+### Color
+
+- `color`: selected dot의 색상
+
+<Canvas of={DotsStories.Color} />
+
+### Size
+
+- `size`: dot의 크기
+
+<Canvas of={DotsStories.Size} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={DotsStories.Disabled} />
+
+### Overlay Effect
+
+- `overlayColor`: overlay 색상
+- `disableOverlay`: true이면, overlay가 나타나지 않음
+
+<Canvas of={DotsStories.OverlayEffect} />
+
+### Ripple Effect
+
+- `rippleColor`: ripple 색상
+- `rippleStartLocation`: ripple 시작점
+- `disableRipple`: true이면, ripple effect가 비활성화됨
+
+<Canvas of={DotsStories.RippleEffect} />
+
+### Elevation
+
+- `elevation`: elevation(box-shadow) 정도
+
+<Canvas of={DotsStories.Elevation} />
+
+### Dot Customization
+
+- `renderDot`: dotProps를 인자로 받아 `Dot` 컴포넌트를 렌더하는 함수
+
+<Canvas of={DotsStories.DotCustomization} />
+
+## Props
+
+### 1) Dot 컴포넌트
+
+- 아래 prop을 제외한 `ButtonBase` 컴포넌트의 모든 props 사용 가능
+  - href
+
+<ArgTypes of={DotStories} sort="alpha" />
+
+### 2) Dots 컴포넌트
+
+- `Dot` 컴포넌트의 일부 props 사용 가능
+  - color
+  - size
+  - disabled
+  - overlayColor
+  - disableOverlay
+  - elevation
+  - rippleColor
+  - rippleStartPosition
+  - disableRipple
+
+<ArgTypes of={DotsStories} sort="alpha" />
