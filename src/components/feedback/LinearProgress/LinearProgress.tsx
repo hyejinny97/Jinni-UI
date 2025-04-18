@@ -5,9 +5,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { ColorType } from '@/types/color';
 import { isNumber } from '@/utils/isNumber';
 import { lighten } from '@/utils/colorLuminance';
-import { editColor } from '@/utils/color';
 import { getComputedThickness } from './LinearProgress.utils';
-import Progress from './Progress';
 import Label from './Label';
 
 export type ThicknessKeyword = 'sm' | 'md' | 'lg';
@@ -24,6 +22,7 @@ export type LinearProgressProps<T extends AsType = 'div'> =
     speed?: number;
     showLabel?: boolean;
     labelFormat?: (percent: number) => string;
+    orientation?: 'horizontal' | 'vertical';
   };
 
 const LinearProgress = <T extends AsType = 'div'>(
@@ -38,16 +37,23 @@ const LinearProgress = <T extends AsType = 'div'>(
     speed = 2,
     showLabel = false,
     labelFormat = (percent) => `${percent}%`,
+    orientation = 'horizontal',
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
-  const computedThickness = getComputedThickness(thickness);
-  const thicknessStyle = { height: `${computedThickness}px` };
-  const fontSizeStyle = { fontSize: `${12 + computedThickness * 0.25}px` };
-  const newStyle = useStyle({ ...thicknessStyle, ...fontSizeStyle, ...style });
   const isDeterminate = isNumber(percent);
+  const computedThickness = getComputedThickness(thickness);
+  const newStyle = useStyle({
+    '--thickness': `${computedThickness}px`,
+    '--font-size': `${12 + computedThickness * 0.25}px`,
+    '--trail-color': trailColor,
+    '--progress-color': progressColor,
+    '--percent': isNumber(percent) ? `${percent}%` : '50%',
+    '--speed': `${speed}s`,
+    ...style
+  });
 
   return (
     <Component
@@ -55,17 +61,14 @@ const LinearProgress = <T extends AsType = 'div'>(
         'JinniLinearProgress',
         isDeterminate ? 'determinate' : 'indeterminate',
         lineCap,
+        orientation,
         className
       )}
       style={newStyle}
       {...rest}
     >
-      <div className="trail" style={{ backgroundColor: editColor(trailColor) }}>
-        <Progress
-          percent={percent}
-          progressColor={progressColor}
-          speed={speed}
-        />
+      <div className="trail">
+        <div className="progress" />
       </div>
       {isDeterminate && showLabel && <Label value={labelFormat(percent)} />}
     </Component>
