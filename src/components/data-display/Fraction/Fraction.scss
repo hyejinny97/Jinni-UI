@@ -1,6 +1,4 @@
-.JinniFraction {
-  display: inline-flex;
-  align-items: center;
+@mixin size {
   &.sm {
     gap: 4px;
     font-size: 12px;
@@ -13,4 +11,20 @@
     gap: 6px;
     font-size: 16px;
   }
+}
+
+@mixin orientation {
+  &.horizontal {
+    flex-direction: row;
+  }
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.JinniFraction {
+  display: inline-flex;
+  align-items: center;
+  @include size;
+  @include orientation;
 }

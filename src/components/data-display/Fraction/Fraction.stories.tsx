@@ -11,6 +11,13 @@ const meta: Meta<typeof Fraction> = {
         type: { summary: `number | string` }
       }
     },
+    orientation: {
+      description: 'fraction 방향',
+      table: {
+        type: { summary: `'horizontal' | 'vertical'` },
+        defaultValue: { summary: `'horizontal'` }
+      }
+    },
     size: {
       description: 'fraction 크기',
       table: {
@@ -50,6 +57,12 @@ export const Size: Story = {
         <Fraction size="lg" count={5} value={2} />
       </Stack>
     );
+  }
+};
+
+export const Orientation: Story = {
+  render: () => {
+    return <Fraction count={5} value={2} orientation="vertical" />;
   }
 };
 
