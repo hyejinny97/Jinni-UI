@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useEffect } from 'react';
-import LinearProgress, { LinearProgressProps } from './LinearProgress';
+import LinearProgress from './LinearProgress';
 import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof LinearProgress> = {
@@ -15,6 +15,13 @@ const meta: Meta<typeof LinearProgress> = {
       table: {
         type: { summary: 'round | butt' },
         defaultValue: { summary: 'round' }
+      }
+    },
+    orientation: {
+      description: 'linear progress 방향',
+      table: {
+        type: { summary: `'horizontal' | 'vertical' ` },
+        defaultValue: { summary: `'horizontal'` }
       }
     },
     percent: {
@@ -49,6 +56,25 @@ const meta: Meta<typeof LinearProgress> = {
 export default meta;
 type Story = StoryObj<typeof LinearProgress>;
 
+const PercentChange = ({ ...args }) => {
+  const [percent, setPercent] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPercent((prev) => (prev >= 100 ? 0 : prev + 10));
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  });
+
+  return (
+    <Stack spacing={20} style={{ width: '500px' }}>
+      <LinearProgress percent={75} showLabel {...args} />
+      <LinearProgress percent={percent} showLabel {...args} />
+    </Stack>
+  );
+};
+
 export const Indeterminate: Story = {
   render: (args) => (
     <Stack style={{ width: '500px' }}>
@@ -63,6 +89,17 @@ export const Determinate: Story = {
       <Stack spacing={20} style={{ width: '500px' }}>
         <LinearProgress percent={50} {...args} />
         <LinearProgress percent={70} {...args} />
+      </Stack>
+    );
+  }
+};
+
+export const Orientation: Story = {
+  render: (args) => {
+    return (
+      <Stack direction="row" spacing={20} style={{ height: '400px' }}>
+        <LinearProgress orientation="vertical" {...args} />
+        <LinearProgress orientation="vertical" percent={70} {...args} />
       </Stack>
     );
   }
@@ -132,27 +169,8 @@ export const Speed: Story = {
   }
 };
 
-const PercentChange = (args: LinearProgressProps) => {
-  const [percent, setPercent] = useState(0);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setPercent((prev) => (prev >= 100 ? 0 : prev + 10));
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  });
-
-  return (
-    <Stack spacing={20} style={{ width: '500px' }}>
-      <LinearProgress percent={75} showLabel {...args} />
-      <LinearProgress percent={percent} showLabel {...args} />
-    </Stack>
-  );
-};
-
 export const ShowLabel: Story = {
-  render: PercentChange
+  render: (args) => <PercentChange {...args} />
 };
 
 export const LabelFormat: Story = {
