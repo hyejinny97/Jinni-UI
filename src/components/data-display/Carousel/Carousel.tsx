@@ -4,11 +4,13 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import {
-  useCarouselItem,
-  useCarouselValue,
-  useHandleEvent
+  useVariables,
+  useSlideValue,
+  useHandleEvent,
+  useAutoplay
 } from './Carousel.hooks';
 import CarouselContext from './Carousel.context';
+import { addFirstAndLastSlide } from './Carousel.utils';
 
 export type OrientationType = 'horizontal' | 'vertical';
 
@@ -18,53 +20,93 @@ export type CarouselProps<T extends AsType = 'div'> = Omit<
 > & {
   children: React.ReactNode;
   defaultValue?: number;
-  value?: number;
-  onChange?: (event: Event | React.SyntheticEvent, value: number) => void;
+  onChange?: (value: number) => void;
   orientation?: OrientationType;
+  infinite?: boolean;
+  autoplay?: boolean;
+  autoplayDuration?: number;
+  disableAutoplayOnInteraction?: boolean;
+  onAutoplayLeftTimeChange?: (leftTime: number) => void;
 };
 
 const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
   const {
     children,
     defaultValue = 0,
-    value,
     onChange,
     orientation = 'horizontal',
+    infinite,
+    autoplay,
+    autoplayDuration = 5000,
+    disableAutoplayOnInteraction = false,
+    onAutoplayLeftTimeChange,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
   const carouselElRef = useRef<HTMLElement>(null);
-  const { carouselValue, handleChange, goNextSlide, goPrevSlide } =
-    useCarouselValue({
-      defaultValue,
-      value,
-      onChange
-    });
-  const { carouselItemCount, isFirstCarouselItem, isLastCarouselItem } =
-    useCarouselItem({ carouselElRef, carouselValue });
+  const {
+    carouselItemsCount,
+    slidesCount,
+    firstSlide,
+    lastSlide,
+    startSlide,
+    endSlide,
+    transformCarouselItemToSlide,
+    transformSlideToCarouselItem
+  } = useVariables({ children, infinite });
+  const {
+    carouselItemValue,
+    slideValue,
+    handleChange,
+    goNextSlide,
+    goPrevSlide,
+    noPrevSlide,
+    noNextSlide
+  } = useSlideValue({
+    carouselElRef,
+    defaultValue,
+    onChange,
+    infinite,
+    firstSlide,
+    lastSlide,
+    startSlide,
+    endSlide,
+    transformCarouselItemToSlide,
+    transformSlideToCarouselItem
+  });
+  useAutoplay({
+    carouselElRef,
+    slideValue,
+    autoplay,
+    autoplayDuration,
+    disableAutoplayOnInteraction,
+    onAutoplayLeftTimeChange,
+    goNextSlide,
+    noNextSlide
+  });
   useHandleEvent({
     carouselElRef,
-    isFirstCarouselItem,
-    isLastCarouselItem,
+    noPrevSlide,
+    noNextSlide,
     goNextSlide,
     goPrevSlide,
     orientation
   });
   const newStyle = useStyle({
-    '--carousel-item-count': carouselItemCount,
-    '--carousel-value': carouselValue,
+    '--slides-count': slidesCount,
+    '--slide-value': slideValue,
     ...style
   });
 
   return (
     <CarouselContext.Provider
       value={{
-        carouselItemCount,
-        isFirstCarouselItem,
-        isLastCarouselItem,
-        carouselValue,
+        carouselItemsCount,
+        carouselItemValue,
+        noPrevSlide,
+        noNextSlide,
         handleChange,
         goNextSlide,
         goPrevSlide,
@@ -77,7 +119,7 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
         style={newStyle}
         {...rest}
       >
-        {children}
+        {infinite ? addFirstAndLastSlide(children) : children}
       </Component>
     </CarouselContext.Provider>
   );

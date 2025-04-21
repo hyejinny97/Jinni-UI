@@ -25,8 +25,7 @@ const CarouselPrevButton = <T extends AsType = 'button'>(
   props: CarouselPrevButtonProps<T>
 ) => {
   const { position, children, className, style, ...rest } = props;
-  const { isFirstCarouselItem, goPrevSlide, orientation } =
-    useCarouselContext();
+  const { noPrevSlide, goPrevSlide, orientation } = useCarouselContext();
   const defaultIcon =
     orientation === 'horizontal' ? (
       <ArrowLeftIcon size={30} />
@@ -44,7 +43,7 @@ const CarouselPrevButton = <T extends AsType = 'button'>(
         className
       )}
       onClick={goPrevSlide}
-      disabled={isFirstCarouselItem}
+      disabled={noPrevSlide}
       style={{ position: 'absolute', ...style }}
       {...rest}
     >

@@ -22,7 +22,7 @@ const CarouselDots = <T extends AsType = 'div'>(
   props: CarouselDotsProps<T>
 ) => {
   const { position, className, ...rest } = props;
-  const { orientation, carouselItemCount, carouselValue, handleChange } =
+  const { orientation, carouselItemsCount, carouselItemValue, handleChange } =
     useCarouselContext();
   const defaultPosition =
     orientation === 'horizontal' ? 'bottom-center' : 'right-center';
@@ -34,9 +34,9 @@ const CarouselDots = <T extends AsType = 'div'>(
         position || defaultPosition,
         className
       )}
-      count={carouselItemCount}
-      value={carouselValue}
-      onChange={handleChange}
+      count={carouselItemsCount}
+      value={carouselItemValue}
+      onChange={(_, value) => handleChange({ newCarouselItemValue: value })}
       orientation={orientation}
       {...rest}
     />

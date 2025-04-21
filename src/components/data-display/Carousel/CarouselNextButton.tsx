@@ -25,7 +25,7 @@ const CarouselNextButton = <T extends AsType = 'button'>(
   props: CarouselNextButtonProps<T>
 ) => {
   const { position, children, className, style, ...rest } = props;
-  const { orientation, isLastCarouselItem, goNextSlide } = useCarouselContext();
+  const { orientation, noNextSlide, goNextSlide } = useCarouselContext();
   const defaultIcon =
     orientation === 'horizontal' ? (
       <ArrowRightIcon size={30} />
@@ -43,7 +43,7 @@ const CarouselNextButton = <T extends AsType = 'button'>(
         className
       )}
       onClick={goNextSlide}
-      disabled={isLastCarouselItem}
+      disabled={noNextSlide}
       style={{ position: 'absolute', ...style }}
       {...rest}
     >

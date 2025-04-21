@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
-type CarouselContentProps<T extends AsType = 'div'> =
+export type CarouselContentProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
     children: React.ReactNode;
   };

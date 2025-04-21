@@ -22,7 +22,7 @@ const CarouselFraction = <T extends AsType = 'span'>(
   props: CarouselFractionProps<T>
 ) => {
   const { position, className, ...rest } = props;
-  const { carouselItemCount, carouselValue, orientation } =
+  const { carouselItemsCount, carouselItemValue, orientation } =
     useCarouselContext();
   const defaultPosition =
     orientation === 'horizontal' ? 'bottom-center' : 'right-center';
@@ -34,8 +34,8 @@ const CarouselFraction = <T extends AsType = 'span'>(
         position || defaultPosition,
         className
       )}
-      count={carouselItemCount}
-      value={carouselValue + 1}
+      count={carouselItemsCount}
+      value={carouselItemValue + 1}
       orientation={orientation}
       {...rest}
     />

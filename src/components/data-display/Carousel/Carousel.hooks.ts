@@ -6,11 +6,33 @@ import {
   useContext,
   useCallback
 } from 'react';
+import { flushSync } from 'react-dom';
 import { CarouselProps, OrientationType } from './Carousel';
 import CarouselContext from './Carousel.context';
+import { countCarouselItems } from './Carousel.utils';
+import { SECOND } from '@/constants/time';
 
-type UseCarouselValueProps = Pick<CarouselProps, 'value' | 'onChange'> &
-  Required<Pick<CarouselProps, 'defaultValue'>>;
+type UseSlideVariablesProps = Pick<CarouselProps, 'children' | 'infinite'>;
+type UseSlideValueProps = Pick<CarouselProps, 'onChange' | 'infinite'> &
+  Required<Pick<CarouselProps, 'defaultValue'>> & {
+    carouselElRef: React.RefObject<HTMLElement>;
+    firstSlide: number;
+    lastSlide: number;
+    startSlide: number;
+    endSlide: number;
+    transformCarouselItemToSlide: (value: number) => number;
+    transformSlideToCarouselItem: (value: number) => number;
+  };
+type UseAutoplayProps = Pick<
+  CarouselProps,
+  'autoplay' | 'disableAutoplayOnInteraction' | 'onAutoplayLeftTimeChange'
+> &
+  Required<Pick<CarouselProps, 'autoplayDuration'>> & {
+    carouselElRef: React.RefObject<HTMLElement>;
+    slideValue: number;
+    goNextSlide: () => void;
+    noNextSlide: boolean;
+  };
 
 export const useCarouselContext = () => {
   const carouselContext = useContext(CarouselContext);
@@ -18,82 +40,155 @@ export const useCarouselContext = () => {
   return carouselContext;
 };
 
-export const useCarouselItem = ({
-  carouselElRef,
-  carouselValue
-}: {
-  carouselElRef: React.RefObject<HTMLElement>;
-  carouselValue: number;
-}) => {
-  const [carouselItemCount, setCarouselItemCount] = useState<number>(0);
+export const useVariables = ({
+  children,
+  infinite
+}: UseSlideVariablesProps) => {
+  const carouselItemsCount = countCarouselItems(children);
+  const slidesCount = infinite ? carouselItemsCount + 2 : carouselItemsCount;
+  const firstSlide = 0;
+  const lastSlide = slidesCount - 1;
+  const startSlide = infinite ? firstSlide + 1 : firstSlide;
+  const endSlide = infinite ? lastSlide - 1 : lastSlide;
 
-  useLayoutEffect(() => {
-    const carouselEl = carouselElRef.current;
-    if (!carouselEl) return;
-    const carouselContentEl = carouselEl.querySelector('.JinniCarouselContent');
-    setCarouselItemCount(
-      carouselContentEl?.querySelectorAll('.JinniCarouselItem').length || 0
-    );
-  }, [carouselElRef]);
+  const transformCarouselItemToSlide = useCallback(
+    (value: number) => {
+      return infinite ? value + 1 : value;
+    },
+    [infinite]
+  );
+
+  const transformSlideToCarouselItem = useCallback(
+    (value: number) => {
+      return infinite
+        ? (value + carouselItemsCount - 1) % carouselItemsCount
+        : value;
+    },
+    [infinite, carouselItemsCount]
+  );
 
   return {
-    carouselElRef,
-    carouselItemCount,
-    isFirstCarouselItem: carouselValue === 0,
-    isLastCarouselItem: carouselValue === carouselItemCount - 1
+    carouselItemsCount,
+    slidesCount,
+    firstSlide,
+    lastSlide,
+    startSlide,
+    endSlide,
+    transformCarouselItemToSlide,
+    transformSlideToCarouselItem
   };
 };
 
-export const useCarouselValue = ({
-  defaultValue,
-  value,
-  onChange
-}: UseCarouselValueProps) => {
-  const isControlled = value !== undefined;
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
-  const carouselValue = isControlled ? value : uncontrolledValue;
+export const useSlideValue = ({
+  carouselElRef,
+  defaultValue: carouselItemDefaultValue,
+  onChange,
+  infinite,
+  firstSlide,
+  lastSlide,
+  startSlide,
+  endSlide,
+  transformCarouselItemToSlide,
+  transformSlideToCarouselItem
+}: UseSlideValueProps) => {
+  const [slideValue, setSlideValue] = useState(
+    transformCarouselItemToSlide(carouselItemDefaultValue)
+  );
 
   const handleChange = useCallback(
-    (event: Event | React.SyntheticEvent, newValue: number) => {
-      if (!isControlled) setUncontrolledValue(newValue);
-      if (onChange) onChange(event, newValue);
+    (value: { newSlideValue: number } | { newCarouselItemValue: number }) => {
+      if ('newSlideValue' in value) {
+        const { newSlideValue } = value;
+        setSlideValue(newSlideValue);
+        if (onChange) onChange(transformSlideToCarouselItem(newSlideValue));
+      } else {
+        const { newCarouselItemValue } = value;
+        setSlideValue(transformCarouselItemToSlide(newCarouselItemValue));
+        if (onChange) onChange(newCarouselItemValue);
+      }
     },
-    [isControlled, onChange]
+    [onChange, transformSlideToCarouselItem, transformCarouselItemToSlide]
   );
 
-  const goNextSlide = useCallback(
-    (event: Event | React.SyntheticEvent) => {
-      handleChange(event, carouselValue + 1);
-    },
-    [carouselValue, handleChange]
-  );
+  const goNextSlide = useCallback(() => {
+    const nextSlide = slideValue + 1;
+    if (nextSlide > lastSlide) return;
+    handleChange({ newSlideValue: nextSlide });
+  }, [slideValue, handleChange, lastSlide]);
 
-  const goPrevSlide = useCallback(
-    (event: Event | React.SyntheticEvent) => {
-      handleChange(event, carouselValue - 1);
-    },
-    [carouselValue, handleChange]
-  );
+  const goPrevSlide = useCallback(() => {
+    const prevSlide = slideValue - 1;
+    if (prevSlide < firstSlide) return;
+    handleChange({ newSlideValue: prevSlide });
+  }, [slideValue, handleChange, firstSlide]);
+
+  useEffect(() => {
+    const carouselEl = carouselElRef.current;
+    const carouselContentEl = carouselEl?.querySelector(
+      '.JinniCarouselContent'
+    );
+    if (!infinite || !carouselContentEl) return;
+
+    const handleTransitionEnd = () => {
+      if (slideValue === lastSlide) {
+        carouselContentEl.classList.add('no-transition');
+        flushSync(() => {
+          handleChange({ newSlideValue: startSlide });
+        });
+        setTimeout(() => {
+          carouselContentEl.classList.remove('no-transition');
+        }, 0);
+      }
+      if (slideValue === firstSlide) {
+        carouselContentEl.classList.add('no-transition');
+        flushSync(() => {
+          handleChange({ newSlideValue: endSlide });
+        });
+        setTimeout(() => {
+          carouselContentEl.classList.remove('no-transition');
+        }, 0);
+      }
+    };
+    carouselContentEl.addEventListener('transitionend', handleTransitionEnd);
+    return () => {
+      carouselContentEl.removeEventListener(
+        'transitionend',
+        handleTransitionEnd
+      );
+    };
+  }, [
+    carouselElRef,
+    infinite,
+    slideValue,
+    lastSlide,
+    firstSlide,
+    startSlide,
+    endSlide,
+    handleChange
+  ]);
 
   return {
-    carouselValue: isControlled ? value : uncontrolledValue,
+    carouselItemValue: transformSlideToCarouselItem(slideValue),
+    slideValue,
     handleChange,
     goNextSlide,
-    goPrevSlide
+    goPrevSlide,
+    noPrevSlide: infinite ? false : slideValue === firstSlide,
+    noNextSlide: infinite ? false : slideValue === lastSlide
   };
 };
 
 export const useHandleEvent = ({
   carouselElRef,
-  isFirstCarouselItem,
-  isLastCarouselItem,
+  noPrevSlide,
+  noNextSlide,
   goNextSlide,
   goPrevSlide,
   orientation
 }: {
   carouselElRef: React.RefObject<HTMLElement>;
-  isFirstCarouselItem: boolean;
-  isLastCarouselItem: boolean;
+  noPrevSlide: boolean;
+  noNextSlide: boolean;
   goNextSlide: (event: Event | React.SyntheticEvent) => void;
   goPrevSlide: (event: Event | React.SyntheticEvent) => void;
   orientation: OrientationType;
@@ -146,8 +241,8 @@ export const useHandleEvent = ({
       const dragLengthVector = pressedPosition - currentPosition;
       if (Math.abs(dragLengthVector) < dragThreshold) return;
 
-      if (dragLengthVector > 0 && !isLastCarouselItem) goNextSlide(event);
-      else if (dragLengthVector < 0 && !isFirstCarouselItem) goPrevSlide(event);
+      if (dragLengthVector > 0 && !noNextSlide) goNextSlide(event);
+      else if (dragLengthVector < 0 && !noPrevSlide) goPrevSlide(event);
       pressedPositionRef.current = currentPosition;
     };
 
@@ -175,10 +270,99 @@ export const useHandleEvent = ({
     };
   }, [
     carouselElRef,
-    isFirstCarouselItem,
-    isLastCarouselItem,
+    noPrevSlide,
+    noNextSlide,
     goNextSlide,
     goPrevSlide,
     orientation
+  ]);
+};
+
+export const useAutoplay = ({
+  carouselElRef,
+  slideValue,
+  autoplay,
+  autoplayDuration,
+  disableAutoplayOnInteraction,
+  onAutoplayLeftTimeChange,
+  goNextSlide,
+  noNextSlide
+}: UseAutoplayProps) => {
+  const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
+  const prevSlideValueRef = useRef<number>(slideValue);
+  const [leftTime, setLeftTime] = useState<number>(autoplayDuration);
+
+  const pauseAutoplay = useCallback(() => {
+    if (intervalIdRef.current) {
+      clearInterval(intervalIdRef.current);
+      intervalIdRef.current = null;
+    }
+  }, []);
+
+  const startAutoplay = useCallback(() => {
+    pauseAutoplay();
+    intervalIdRef.current = setInterval(() => {
+      setLeftTime((prev) => Math.max(prev - SECOND, 0));
+    }, SECOND);
+  }, [pauseAutoplay]);
+
+  const resetAutoplay = useCallback(() => {
+    setLeftTime(autoplayDuration);
+    startAutoplay();
+  }, [autoplayDuration, startAutoplay]);
+
+  useEffect(() => {
+    if (autoplay && !noNextSlide) {
+      resetAutoplay();
+    } else {
+      pauseAutoplay();
+    }
+
+    return pauseAutoplay;
+  }, [autoplay, noNextSlide, resetAutoplay, pauseAutoplay]);
+
+  useEffect(() => {
+    if (leftTime === 0) {
+      goNextSlide();
+      if (!noNextSlide && autoplay) {
+        setLeftTime(autoplayDuration);
+      }
+    }
+  }, [leftTime, autoplay, noNextSlide, autoplayDuration, goNextSlide]);
+
+  useEffect(() => {
+    if (prevSlideValueRef.current !== slideValue) {
+      prevSlideValueRef.current = slideValue;
+      if (autoplay && !noNextSlide) {
+        resetAutoplay();
+      }
+    }
+  }, [slideValue, autoplay, noNextSlide, resetAutoplay]);
+
+  useEffect(() => {
+    if (onAutoplayLeftTimeChange) onAutoplayLeftTimeChange(leftTime);
+  }, [leftTime, onAutoplayLeftTimeChange]);
+
+  useEffect(() => {
+    const carouselEl = carouselElRef.current;
+    if (!carouselEl || !disableAutoplayOnInteraction) return;
+
+    carouselEl.addEventListener('mouseover', pauseAutoplay);
+    carouselEl.addEventListener('mouseout', startAutoplay);
+    carouselEl.addEventListener('touchstart', pauseAutoplay);
+    carouselEl.addEventListener('touchmove', pauseAutoplay);
+    carouselEl.addEventListener('touchend', startAutoplay);
+    return () => {
+      carouselEl.removeEventListener('mouseover', pauseAutoplay);
+      carouselEl.removeEventListener('mouseout', startAutoplay);
+      carouselEl.removeEventListener('touchstart', pauseAutoplay);
+      carouselEl.removeEventListener('touchmove', pauseAutoplay);
+      carouselEl.removeEventListener('touchend', startAutoplay);
+    };
+  }, [
+    carouselElRef,
+    disableAutoplayOnInteraction,
+    pauseAutoplay,
+    startAutoplay
   ]);
 };

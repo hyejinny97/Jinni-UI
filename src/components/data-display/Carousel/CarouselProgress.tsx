@@ -17,7 +17,7 @@ const CarouselProgress = <T extends AsType = 'div'>(
   props: CarouselProgressProps<T>
 ) => {
   const { position, className, ...rest } = props;
-  const { carouselItemCount, carouselValue, orientation } =
+  const { carouselItemsCount, carouselItemValue, orientation } =
     useCarouselContext();
   const defaultPosition = orientation === 'horizontal' ? 'top' : 'left';
 
@@ -28,7 +28,7 @@ const CarouselProgress = <T extends AsType = 'div'>(
         position || defaultPosition,
         className
       )}
-      percent={((carouselValue + 1) / carouselItemCount) * 100}
+      percent={((carouselItemValue + 1) / carouselItemsCount) * 100}
       thickness="sm"
       lineCap="butt"
       orientation={orientation}

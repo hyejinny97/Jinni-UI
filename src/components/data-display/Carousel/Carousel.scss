@@ -66,13 +66,13 @@ $offset: 10px;
   &.horizontal {
     .JinniCarouselContent {
       flex-direction: row;
-      width: calc(100% * var(--carousel-item-count));
+      width: calc(100% * var(--slides-count));
       height: 100%;
       transform: translateX(
-        calc(-100% * var(--carousel-value) / var(--carousel-item-count))
+        calc(-100% * var(--slide-value) / var(--slides-count))
       );
       .JinniCarouselItem {
-        width: calc(100% / var(--carousel-item-count));
+        width: calc(100% / var(--slides-count));
         height: 100%;
       }
     }
@@ -81,13 +81,13 @@ $offset: 10px;
     .JinniCarouselContent {
       flex-direction: column;
       width: 100%;
-      height: calc(100% * var(--carousel-item-count));
+      height: calc(100% * var(--slides-count));
       transform: translateY(
-        calc(-100% * var(--carousel-value) / var(--carousel-item-count))
+        calc(-100% * var(--slide-value) / var(--slides-count))
       );
       .JinniCarouselItem {
         width: 100%;
-        height: calc(100% / var(--carousel-item-count));
+        height: calc(100% / var(--slides-count));
       }
     }
   }
@@ -107,6 +107,9 @@ $offset: 10px;
     align-items: center;
     transition: transform var(--jinni-duration-medium1)
       var(--jinni-easing-emphasized);
+    &.no-transition {
+      transition: none;
+    }
 
     .JinniCarouselItem {
       user-select: none;
