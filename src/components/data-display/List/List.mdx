@@ -1,0 +1,77 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ListStories from './List.stories';
+import * as ListItemStories from './ListItem.stories';
+import * as ListItemButtonStories from './ListItemButton.stories';
+
+<Meta of={ListStories} />
+
+# List
+
+연속적인 텍스트나 이미지 목록
+
+## Import
+
+```js
+import { List } from '@/components/data-display/List';
+```
+
+## Usage
+
+### Basic List
+
+- `List` 컴포넌트
+
+  - `children`: list items (ex) `ListItem`, `Divider` 컴포넌트 등)
+
+- `ListItem` 컴포넌트
+  - `children`: list item content
+
+<Canvas of={ListStories.BasicList} />
+
+### List with icon and avatar
+
+<Canvas of={ListStories.ListWithIconAndAvatar} />
+
+### Clickable List
+
+- `ListItemButton` 컴포넌트
+  - `children`: list item content
+
+<Canvas of={ListStories.ClickableList} />
+
+### Nested List
+
+<Canvas of={ListStories.NestedList} />
+
+### Selected List
+
+- `ListItemButton` 컴포넌트
+  - `selected`: true이면, selected style이 보여짐
+
+<Canvas of={ListStories.SelectedList} />
+
+### List with label
+
+<Canvas of={ListStories.ListWithLabel} />
+
+### List with Controls
+
+<Canvas of={ListStories.ListWithCheckbox} />
+
+<Canvas of={ListStories.ListWithSwitch} />
+
+## Props
+
+### 1) List
+
+<ArgTypes of={ListStories} sort="alpha" />
+
+### 2) ListItem
+
+<ArgTypes of={ListItemStories} sort="alpha" />
+
+### 3) ListItemButton
+
+- `ButtonBase` 컴포넌트를 기반으로 하기 때문에, `ButtonBase` 컴포넌트의 모든 props 사용 가능
+
+<ArgTypes of={ListItemButtonStories} sort="alpha" />
