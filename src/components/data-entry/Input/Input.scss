@@ -1,0 +1,124 @@
+@mixin variant {
+  &.outlined {
+    border: 1px solid var(--jinni-color-gray-400);
+  }
+  &.filled {
+    background-color: var(--jinni-color-gray-200);
+  }
+  &.underlined {
+    border-bottom: 1px solid var(--jinni-color-gray-400);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &.borderless {
+    border: none;
+  }
+}
+
+@mixin hover-effect {
+  &:not(.disableHoverEffect):hover {
+    &.outlined,
+    &.underlined {
+      border-color: var(--jinni-color-gray-500);
+    }
+    &.filled,
+    &.borderless {
+      background-image: var(--jinni-black-overlay-1);
+    }
+  }
+}
+
+@mixin focus-effect {
+  &:not(.disableFocusEffect):focus-within {
+    &.outlined,
+    &.underlined {
+      border-color: var(--focused-border-color);
+    }
+    &.filled,
+    &.borderless {
+      background-image: linear-gradient(
+        var(--focused-overlay-color),
+        var(--focused-overlay-color)
+      );
+    }
+  }
+}
+
+@mixin size {
+  &.sm {
+    .JinniInput {
+      padding: 3px 12px;
+      font-size: 14px;
+    }
+    .JinniInputAdornment {
+      padding: 3px 6px;
+    }
+  }
+  &.md {
+    .JinniInput {
+      padding: 5px 14px;
+      font-size: 16px;
+    }
+    .JinniInputAdornment {
+      padding: 5px 7px;
+    }
+  }
+  &.lg {
+    .JinniInput {
+      padding: 7px 16px;
+      font-size: 18px;
+    }
+    .JinniInputAdornment {
+      padding: 7px 8px;
+    }
+  }
+}
+
+.JinniInputContainer {
+  display: inline-flex;
+  flex-direction: row;
+  min-width: 200px;
+  min-height: 20px;
+  width: max-content;
+  height: max-content;
+  box-sizing: border-box;
+  border-radius: 4px;
+  transition:
+    border-color var(--jinni-duration-short4) var(--jinni-easing-emphasized),
+    background-image var(--jinni-duration-short4) var(--jinni-easing-emphasized);
+  &.disabled {
+    opacity: 0.5;
+  }
+  &.fullWidth {
+    width: 100%;
+  }
+  @include variant;
+  @include size;
+  @include hover-effect;
+  @include focus-effect;
+
+  .JinniInput {
+    display: inline-block;
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    border-radius: inherit;
+    border: none;
+    outline: none;
+    color: var(--jinni-color-gray-900);
+    background-color: transparent;
+  }
+
+  .JinniInputAdornment {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+    &.start {
+      padding-right: 0;
+    }
+    &.end {
+      padding-left: 0;
+    }
+  }
+}
