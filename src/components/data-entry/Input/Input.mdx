@@ -1,0 +1,88 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as InputStories from './Input.stories';
+
+<Meta of={InputStories} />
+
+# Input
+
+string이나 number를 입력하거나 수정할 수 있는 input
+
+## Import
+
+```js
+import { Input } from '@/components/data-entry/Input';
+```
+
+## Usage
+
+### Basic Input
+
+- `type`: input 타입
+- `defaultValue`: 초기 input value (uncontrolled 상태일 때만 적용 가능)
+
+<Canvas of={InputStories.BasicInput} />
+
+### Controlled Input
+
+- `value`와 `onChange` prop을 통해 control 가능
+- `value`: input value
+- `onChange`: value가 변경됐을 때 호출되는 함수
+  - `event.target.value`를 통해 new value 접근 가능
+
+<Canvas of={InputStories.ControlledInput} />
+
+### Variants
+
+- `variant`: input 형태
+
+<Canvas of={InputStories.Variants} />
+
+### Sizes
+
+- `size`: input 크기
+
+<Canvas of={InputStories.Sizes} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={InputStories.Disabled} />
+
+### Color
+
+- `color`: focus 됐을 때, input border 색상
+
+<Canvas of={InputStories.Color} />
+
+### Full Width
+
+- `fullWidth`: true이면, input이 container 안에 꽉 채워지게 됨
+
+<Canvas of={InputStories.FullWidth} />
+
+### Adornments
+
+- `startAdornment`: input 앞에 위치하는 부가 요소 (icon ,text 등)
+- `endAdornment`: input 뒤에 위치하는 부가 요소 (icon ,text 등)
+
+<Canvas of={InputStories.Adornments} />
+
+### With label and helper text
+
+<Canvas of={InputStories.WithLabelAndHelperText} />
+
+### Disable Effect
+
+- `disableHoverEffect`: true이면, hover effect가 비활성화됨
+- `disableFocusEffect`: true이면, focus effect가 비활성화됨
+
+<Canvas of={InputStories.DisableEffect} />
+
+### Customization
+
+<Canvas of={InputStories.Customization} />
+
+## Props
+
+<ArgTypes of={InputStories} sort="alpha" />
