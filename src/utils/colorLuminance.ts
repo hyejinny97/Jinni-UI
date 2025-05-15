@@ -38,7 +38,7 @@ const cssColorKeywordToRgbObject = (keyword: CSSColorKeywords): RgbObject => {
   return hexToRgbObject(hex);
 };
 
-const toRgbObject = (color: ColorType): RgbObject => {
+export const toRgbObject = (color: ColorType): RgbObject => {
   const normalizedColor = editColor(color);
   if (isHex(normalizedColor)) return hexToRgbObject(normalizedColor);
   if (isRgb(normalizedColor)) return rgbToRgbObject(normalizedColor);
