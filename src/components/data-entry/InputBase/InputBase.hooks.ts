@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { InputProps } from './Input';
+import { InputBaseProps } from './InputBase';
 
 export const useInputValue = ({
   defaultValue,
   value,
   onChange
-}: Pick<InputProps, 'defaultValue' | 'value' | 'onChange'>) => {
+}: Pick<InputBaseProps, 'defaultValue' | 'value' | 'onChange'>) => {
   const isControlled = value !== undefined;
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
