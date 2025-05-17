@@ -46,35 +46,35 @@
 
 @mixin size {
   &.sm {
-    .JinniInput {
+    .JinniInputBase {
       padding: 3px 12px;
       font-size: 14px;
     }
-    .JinniInputAdornment {
+    .JinniInputBaseAdornment {
       padding: 3px 6px;
     }
   }
   &.md {
-    .JinniInput {
+    .JinniInputBase {
       padding: 5px 14px;
       font-size: 16px;
     }
-    .JinniInputAdornment {
+    .JinniInputBaseAdornment {
       padding: 5px 7px;
     }
   }
   &.lg {
-    .JinniInput {
+    .JinniInputBase {
       padding: 7px 16px;
       font-size: 18px;
     }
-    .JinniInputAdornment {
+    .JinniInputBaseAdornment {
       padding: 7px 8px;
     }
   }
 }
 
-.JinniInputContainer {
+.JinniInputBaseContainer {
   display: inline-flex;
   flex-direction: row;
   min-width: 200px;
@@ -97,7 +97,7 @@
   @include hover-effect;
   @include focus-effect;
 
-  .JinniInput {
+  .JinniInputBase {
     display: inline-block;
     width: 100%;
     min-height: 100%;
@@ -109,7 +109,7 @@
     background-color: transparent;
   }
 
-  .JinniInputAdornment {
+  .JinniInputBaseAdornment {
     display: inline-flex;
     align-items: center;
     height: 100%;
