@@ -14,95 +14,12 @@ import { SearchIcon } from '@/components/icons/SearchIcon';
 const meta: Meta<typeof Input> = {
   component: Input,
   argTypes: {
-    color: {
-      description: 'focus 됐을 때, input border 색상',
-      table: {
-        type: { summary: 'ColorType' },
-        defaultValue: { summary: `'primary'` }
-      }
-    },
-    defaultValue: {
-      description: '초기 input value',
-      table: {
-        type: { summary: 'string | number' }
-      }
-    },
-    disabled: {
-      description: 'true이면, 비활성화됨',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
-      }
-    },
-    disableFocusEffect: {
-      description: 'true이면, focus effect가 비활성화됨',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
-      }
-    },
-    disableHoverEffect: {
-      description: 'true이면, hover effect가 비활성화됨',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
-      }
-    },
-    endAdornment: {
-      description: 'input 뒤에 위치하는 부가 요소 (icon ,text 등)',
-      table: {
-        type: { summary: 'React.ReactNode' }
-      }
-    },
-    fullWidth: {
-      description: 'true이면, input이 container 안에 꽉 채워지게 됨',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
-      }
-    },
-    onChange: {
-      description: 'value가 변경됐을 때 호출되는 함수',
-      table: {
-        type: {
-          summary: '(event: React.ChangeEvent<HTMLInputElement>) => void'
-        }
-      }
-    },
-    size: {
-      description: 'input 크기',
-      table: {
-        type: { summary: `'sm' | 'md' | 'lg'` },
-        defaultValue: { summary: `'md'` }
-      }
-    },
-    startAdornment: {
-      description: 'input 앞에 위치하는 부가 요소 (icon ,text 등)',
-      table: {
-        type: { summary: 'React.ReactNode' }
-      }
-    },
     type: {
       description: 'input 타입',
       table: {
         type: {
           summary: `'date' | 'datetime-local' | 'email' | 'month' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'time' | 'url' | 'week'`
         }
-      }
-    },
-    value: {
-      description: 'input value',
-      table: {
-        type: { summary: 'string | number' }
-      }
-    },
-    variant: {
-      description: 'input 형태',
-      table: {
-        type: {
-          summary: `'filled' | 'outlined' | 'underlined' | 'borderless'`
-        },
-        defaultValue: { summary: `'outlined'` }
       }
     }
   }
