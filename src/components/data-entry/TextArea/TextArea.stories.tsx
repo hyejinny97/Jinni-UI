@@ -11,6 +11,31 @@ import { Text } from '@/components/general/Text';
 const meta: Meta<typeof TextArea> = {
   component: TextArea,
   argTypes: {
+    defaultValue: {
+      description: '초기 textarea value',
+      table: {
+        type: { summary: `string` }
+      }
+    },
+    disabled: {
+      description: 'true이면, 비활성화됨',
+      table: {
+        type: { summary: `boolean` },
+        defaultValue: { summary: 'false' }
+      }
+    },
+    onChange: {
+      description: 'value가 변경됐을 때 호출되는 함수',
+      table: {
+        type: { summary: `(event: ChangeEvent) => void` }
+      }
+    },
+    value: {
+      description: 'textarea value',
+      table: {
+        type: { summary: `string` }
+      }
+    },
     maxRows: {
       description: '최대 rows 개수',
       type: 'number'
@@ -85,7 +110,9 @@ const WithLabelAndHelperTextTemplate = () => {
           value={value}
           onChange={handleChange}
           minRows={3}
-          style={empty ? { borderColor: 'error' } : undefined}
+          style={
+            empty ? { borderColor: 'error', boxShadow: 'none' } : undefined
+          }
         />
       </label>
       {empty && (
