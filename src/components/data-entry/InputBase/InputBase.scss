@@ -30,9 +30,13 @@
 
 @mixin focus-effect {
   &:not(.disableFocusEffect):focus-within {
-    &.outlined,
+    &.outlined {
+      border-color: var(--focused-border-color);
+      box-shadow: var(--focused-border-color) 0 0 0 1px;
+    }
     &.underlined {
       border-color: var(--focused-border-color);
+      box-shadow: 0 1px 0 0 var(--focused-border-color);
     }
     &.filled,
     &.borderless {
@@ -46,7 +50,7 @@
 
 @mixin size {
   &.sm {
-    .JinniInputBase {
+    .JinniInputBaseContent {
       padding: 3px 12px;
       font-size: 14px;
     }
@@ -55,7 +59,7 @@
     }
   }
   &.md {
-    .JinniInputBase {
+    .JinniInputBaseContent {
       padding: 5px 14px;
       font-size: 16px;
     }
@@ -64,7 +68,7 @@
     }
   }
   &.lg {
-    .JinniInputBase {
+    .JinniInputBaseContent {
       padding: 7px 16px;
       font-size: 18px;
     }
@@ -74,7 +78,7 @@
   }
 }
 
-.JinniInputBaseContainer {
+.JinniInputBase {
   display: inline-flex;
   flex-direction: row;
   min-width: 200px;
@@ -97,16 +101,24 @@
   @include hover-effect;
   @include focus-effect;
 
-  .JinniInputBase {
-    display: inline-block;
-    width: 100%;
-    min-height: 100%;
+  .JinniInputBaseContent {
+    display: inline-flex;
+    flex: 1;
     box-sizing: border-box;
-    border-radius: inherit;
-    border: none;
-    outline: none;
     color: var(--jinni-color-gray-900);
-    background-color: transparent;
+    input,
+    textarea {
+      display: inline-block;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      box-sizing: border-box;
+      font-size: inherit;
+      color: inherit;
+    }
   }
 
   .JinniInputBaseAdornment {
