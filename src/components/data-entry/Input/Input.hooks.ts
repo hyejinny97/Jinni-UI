@@ -1,22 +1,17 @@
 import { useState } from 'react';
-import { InputBaseProps } from './InputBase';
-import { AsType } from '@/types/default-component-props';
+import { InputProps } from './Input';
 
-export const useInputValue = <T extends AsType = 'input'>({
+export const useInputValue = ({
   defaultValue,
   value,
   onChange
-}: Pick<InputBaseProps<T>, 'value' | 'onChange' | 'defaultValue'>) => {
+}: Pick<InputProps, 'value' | 'onChange' | 'defaultValue'>) => {
   const isControlled = value !== undefined;
   const [uncontrolledValue, setUncontrolledValue] = useState<
     string | number | undefined
   >(defaultValue);
 
-  const handleChange = (
-    event: T extends 'input'
-      ? React.ChangeEvent<HTMLInputElement>
-      : React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     if (!isControlled) setUncontrolledValue(newValue);
     if (onChange) onChange(event);

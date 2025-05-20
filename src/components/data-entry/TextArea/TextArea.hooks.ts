@@ -1,14 +1,39 @@
-import { useRef, useLayoutEffect, useCallback } from 'react';
+import { useState, useRef, useLayoutEffect, useCallback } from 'react';
 import { TextAreaProps } from './TextArea';
 import { validate } from './TextArea.utils';
+
+export const useTextAreaValue = ({
+  defaultValue,
+  value,
+  onChange,
+  adjustRows
+}: Pick<TextAreaProps, 'value' | 'onChange' | 'defaultValue'> & {
+  adjustRows: () => void;
+}) => {
+  const isControlled = value !== undefined;
+  const [uncontrolledValue, setUncontrolledValue] = useState<
+    string | number | undefined
+  >(defaultValue);
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = event.target.value;
+    if (!isControlled) setUncontrolledValue(newValue);
+    if (onChange) onChange(event);
+    adjustRows();
+  };
+
+  return {
+    textAreaValue: isControlled ? value : uncontrolledValue,
+    handleChange
+  };
+};
 
 export const useRows = ({
   rows,
   minRows,
-  maxRows,
-  onChange
-}: Pick<TextAreaProps, 'rows' | 'minRows' | 'maxRows' | 'onChange'>) => {
-  const textAreaElRef = useRef<HTMLElement>(null);
+  maxRows
+}: Pick<TextAreaProps, 'rows' | 'minRows' | 'maxRows'>) => {
+  const textAreaElRef = useRef<HTMLTextAreaElement>(null);
   const singleLineHeightRef = useRef<number>();
   const hasRowsValue = rows !== undefined && validate(rows);
   const hasMinRowsValue = minRows !== undefined && validate(minRows);
@@ -105,13 +130,8 @@ export const useRows = ({
     adjustRows();
   }, [setRows, setSingleLineHeight, adjustRows]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    adjustRows();
-    if (onChange) onChange(event);
-  };
-
   return {
     textAreaElRef,
-    handleChange
+    adjustRows
   };
 };

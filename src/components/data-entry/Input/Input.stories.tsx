@@ -14,12 +14,37 @@ import { SearchIcon } from '@/components/icons/SearchIcon';
 const meta: Meta<typeof Input> = {
   component: Input,
   argTypes: {
+    defaultValue: {
+      description: '초기 input value',
+      table: {
+        type: { summary: `string | number` }
+      }
+    },
+    disabled: {
+      description: 'true이면, 비활성화됨',
+      table: {
+        type: { summary: `boolean` },
+        defaultValue: { summary: 'false' }
+      }
+    },
+    onChange: {
+      description: 'value가 변경됐을 때 호출되는 함수',
+      table: {
+        type: { summary: `(event: ChangeEvent) => void` }
+      }
+    },
     type: {
       description: 'input 타입',
       table: {
         type: {
           summary: `'date' | 'datetime-local' | 'email' | 'month' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'time' | 'url' | 'week'`
         }
+      }
+    },
+    value: {
+      description: 'input value',
+      table: {
+        type: { summary: `string | number` }
       }
     }
   }
@@ -111,7 +136,9 @@ const WithLabelAndHelperTextTemplate = () => {
           type="text"
           value={value}
           onChange={handleChange}
-          style={empty ? { borderColor: 'error' } : undefined}
+          style={
+            empty ? { borderColor: 'error', boxShadow: 'none' } : undefined
+          }
         />
       </label>
       {empty && (

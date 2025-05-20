@@ -1,4 +1,4 @@
-.JinniTextArea {
+.JinniTextArea textarea {
   resize: none;
   &.resize {
     &.both {
@@ -10,9 +10,5 @@
     &.vertical {
       resize: vertical;
     }
-  }
-
-  textarea {
-    resize: inherit;
   }
 }

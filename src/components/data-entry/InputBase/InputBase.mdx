@@ -5,7 +5,8 @@ import * as InputBaseStories from './InputBase.stories';
 
 # InputBase
 
-HTML input element에서 일부 기능이 추가됨
+input UI를 가지는 컴포넌트
+(내부에 HTML input element는 없고 오로지 input UI만 가짐)
 
 ## Import
 
@@ -17,18 +18,9 @@ import { InputBase } from '@/components/data-entry/InputBase';
 
 ### Basic InputBase
 
-- `defaultValue`: 초기 input value (uncontrolled 상태일 때만 적용 가능)
+- `children`: input content
 
 <Canvas of={InputBaseStories.BasicInputBase} />
-
-### Controlled InputBase
-
-- `value`와 `onChange` prop을 통해 control 가능
-- `value`: input value
-- `onChange`: value가 변경됐을 때 호출되는 함수
-  - `event.target.value`를 통해 new value 접근 가능
-
-<Canvas of={InputBaseStories.ControlledInputBase} />
 
 ### Variants
 

@@ -1,42 +1,80 @@
 import './TextArea.scss';
 import cn from 'classnames';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
-import { useRows } from './TextArea.hooks';
+import { DefaultComponentProps } from '@/types/default-component-props';
+import { useTextAreaValue, useRows } from './TextArea.hooks';
 
-export type TextAreaProps = InputBaseProps<'textarea'> & {
-  rows?: number;
-  minRows?: number;
-  maxRows?: number;
-  resize?: boolean;
-  resizeDirection?: 'horizontal' | 'vertical' | 'both';
-};
+export type TextAreaProps = Omit<DefaultComponentProps<'textarea'>, 'size'> &
+  InputBaseProps & {
+    defaultValue?: string;
+    value?: string;
+    onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    disabled?: boolean;
+    rows?: number;
+    minRows?: number;
+    maxRows?: number;
+    resize?: boolean;
+    resizeDirection?: 'horizontal' | 'vertical' | 'both';
+  };
 
 const TextArea = (props: TextAreaProps) => {
   const {
+    defaultValue,
+    value,
+    onChange,
+    disabled,
+    startAdornment,
+    endAdornment,
+    variant,
+    size,
+    color,
+    disableHoverEffect,
+    disableFocusEffect,
+    fullWidth,
     rows,
     minRows,
     maxRows,
     resize = false,
     resizeDirection = 'both',
-    onChange,
     className,
+    style,
     ...rest
   } = props;
-  const { textAreaElRef, handleChange } = useRows({
+  const { textAreaElRef, adjustRows } = useRows({
     rows,
     minRows,
-    maxRows,
-    onChange
+    maxRows
+  });
+  const { textAreaValue, handleChange } = useTextAreaValue({
+    defaultValue,
+    value,
+    onChange,
+    adjustRows
   });
 
   return (
     <InputBase
-      as="textarea"
-      ref={textAreaElRef}
       className={cn('JinniTextArea', { resize }, resizeDirection, className)}
-      onChange={handleChange}
-      {...rest}
-    />
+      style={style}
+      disabled={disabled}
+      startAdornment={startAdornment}
+      endAdornment={endAdornment}
+      variant={variant}
+      size={size}
+      color={color}
+      disableHoverEffect={disableHoverEffect}
+      disableFocusEffect={disableFocusEffect}
+      fullWidth={fullWidth}
+    >
+      <textarea
+        ref={textAreaElRef}
+        className={cn({ resize }, resizeDirection)}
+        value={textAreaValue}
+        onChange={handleChange}
+        disabled={disabled}
+        {...rest}
+      />
+    </InputBase>
   );
 };
 
