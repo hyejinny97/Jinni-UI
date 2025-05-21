@@ -17,6 +17,7 @@ export type InputBaseProps = {
   disableHoverEffect?: boolean;
   disableFocusEffect?: boolean;
   fullWidth?: boolean;
+  focused?: boolean;
 };
 
 type RootInputBaseProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
@@ -38,6 +39,7 @@ const InputBase = forwardRef(
       disableHoverEffect = disabled,
       disableFocusEffect = disabled,
       fullWidth = false,
+      focused = false,
       className,
       style,
       as: Component = 'div',
@@ -60,7 +62,13 @@ const InputBase = forwardRef(
         ref={ref}
         className={cn(
           'JinniInputBase',
-          { disabled, disableHoverEffect, disableFocusEffect, fullWidth },
+          {
+            disabled,
+            disableHoverEffect,
+            disableFocusEffect,
+            fullWidth,
+            focused
+          },
           variant,
           size,
           className

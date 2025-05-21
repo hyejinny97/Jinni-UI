@@ -45,6 +45,14 @@ const meta: Meta<typeof InputBase> = {
         type: { summary: 'React.ReactNode' }
       }
     },
+    focused: {
+      description:
+        'true이면, (disableFocusEffect=false인 경우) focus effect가 나타남',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' }
+      }
+    },
     fullWidth: {
       description: 'true이면, input이 container 안에 꽉 채워지게 됨',
       table: {
