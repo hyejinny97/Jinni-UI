@@ -50,6 +50,7 @@
 
 @mixin size {
   &.sm {
+    min-height: 22px;
     .JinniInputBaseContent {
       padding: 3px 12px;
       font-size: 14px;
@@ -59,6 +60,7 @@
     }
   }
   &.md {
+    min-height: 28px;
     .JinniInputBaseContent {
       padding: 5px 14px;
       font-size: 16px;
@@ -68,6 +70,7 @@
     }
   }
   &.lg {
+    min-height: 34px;
     .JinniInputBaseContent {
       padding: 7px 16px;
       font-size: 18px;
@@ -82,11 +85,11 @@
   display: inline-flex;
   flex-direction: row;
   min-width: 200px;
-  min-height: 20px;
   width: max-content;
   height: max-content;
   box-sizing: border-box;
   border-radius: 4px;
+  line-height: 1;
   transition:
     border-color var(--jinni-duration-short4) var(--jinni-easing-emphasized),
     background-image var(--jinni-duration-short4) var(--jinni-easing-emphasized);
