@@ -1,0 +1,168 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as SelectStories from './Select.stories';
+import * as OptionStories from './Option.stories';
+
+<Meta of={SelectStories} />
+
+# Select
+
+options 목록에서 하나 선택 가능한 필드
+
+## Import
+
+```js
+import { Select, Options } from '@/components/data-entry/Select';
+```
+
+## Usage
+
+### Basic Select
+
+#### 1) Default
+
+- `Select` 컴포넌트
+
+  - `defaultValue`: 초기 selected value
+
+- `Option` 컴포넌트
+
+  - `value`: option의 value
+
+<Canvas of={SelectStories.BasicSelect} />
+
+#### 2) Select inside form
+
+<Canvas of={SelectStories.SelectInsideForm} />
+
+### Controlled Select
+
+- `Select` 컴포넌트
+  - `value`와 `onChange` prop을 통해 select를 control할 수 있음
+  - `value`: selected value
+  - `onChange`: selected value가 변경됐을 때 호출되는 함수
+
+<Canvas of={SelectStories.ControlledSelect} />
+
+### Placeholder
+
+- `Select` 컴포넌트
+  - `placeholder`: input의 placeholder
+
+<Canvas of={SelectStories.Placeholder} />
+
+### Disabled
+
+#### 1) Disabled Select
+
+- `Select` 컴포넌트
+  - `disabled`: true이면, 비활성화됨
+
+<Canvas of={SelectStories.DisabledSelect} />
+
+#### 2) Disabled Option
+
+- `Option` 컴포넌트
+  - `disabled`: true이면, 비활성화됨
+
+<Canvas of={SelectStories.DisabledOption} />
+
+### With Label and Helper Text
+
+<Canvas of={SelectStories.WithLabelAndHelperText} />
+
+### Group Menu
+
+<Canvas of={SelectStories.GroupMenu} />
+
+### Multiple Select
+
+#### 1) Default
+
+- `Select` 컴포넌트
+  - `multiple`: true이면, multiple selections이 가능함
+
+<Canvas of={SelectStories.DefaultMultipleSelect} />
+
+#### 2) Select inside form
+
+<Canvas of={SelectStories.MultipleSelectInsideForm} />
+
+#### 3) Option with Checkbox
+
+<Canvas of={SelectStories.OptionWithCheckbox} />
+
+#### 4) Chip
+
+- `Select` 컴포넌트
+  - `renderValue`: selected value를 입력값으로 받아, input 내부 content를 반환하는 함수
+
+<Canvas of={SelectStories.ChipValue} />
+
+### Customize InputBase
+
+- `InputBaseProps`: InputBase 컴포넌트의 props
+
+#### 1) Variants
+
+- `variant`: input 형태
+
+<Canvas of={SelectStories.Variants} />
+
+#### 2) Sizes
+
+- `size`: input 크기
+
+<Canvas of={SelectStories.Sizes} />
+
+#### 3) Color
+
+- `color`: focus 됐을 때, input border 색상
+
+<Canvas of={SelectStories.Color} />
+
+#### 4) Adornments
+
+- `startAdornment`: input 앞에 위치하는 부가 요소 (icon ,text 등)
+- `endAdornment`: input 뒤에 위치하는 부가 요소 (icon ,text 등)
+
+<Canvas of={SelectStories.Adornments} />
+
+#### 5) Disable Effects
+
+- `disableHoverEffect`: true이면, hover effect가 비활성화됨
+- `disableFocusEffect`: true이면, focus effect가 비활성화됨
+
+<Canvas of={SelectStories.DisableEffects} />
+
+### Customize Menu
+
+- `MenuProps`: Menu 컴포넌트의 props
+
+#### 1) Dense
+
+- `MenuListProps`: `MenuList` 컴포넌트에 적용되는 props
+- `dense`: true이면, `MenuItem` 컴포넌트 내 padding과 font-size를 줄여줌
+
+<Canvas of={SelectStories.Dense} />
+
+#### 2) Menu Position
+
+- `anchorOrigin`: menu의 origin이 부착될 anchorEl의 origin
+- `menuOrigin`: anchor의 origin에 부착할 menu의 origin
+
+<Canvas of={SelectStories.MenuPosition} />
+
+## Props
+
+### `Select` 컴포넌트
+
+- `InputBase` 컴포넌트 + `Menu` 컴포넌트로 구성됨
+
+<ArgTypes of={SelectStories} sort="alpha" />
+
+### `Option` 컴포넌트
+
+- `MenuItem` 컴포넌트로 구성됨
+- 따라서, `MenuItem` 컴포넌트의 props 전부 사용 가능
+
+<ArgTypes of={OptionStories} sort="alpha" />
