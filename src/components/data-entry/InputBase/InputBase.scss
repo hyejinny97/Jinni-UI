@@ -29,7 +29,8 @@
 }
 
 @mixin focus-effect {
-  &:not(.disableFocusEffect):focus-within {
+  &:not(.disableFocusEffect):focus-within,
+  &:not(.disableFocusEffect).focused {
     &.outlined {
       border-color: var(--focused-border-color);
       box-shadow: var(--focused-border-color) 0 0 0 1px;
@@ -50,6 +51,7 @@
 
 @mixin size {
   &.sm {
+    min-height: 29px;
     .JinniInputBaseContent {
       padding: 3px 12px;
       font-size: 14px;
@@ -59,6 +61,7 @@
     }
   }
   &.md {
+    min-height: 36px;
     .JinniInputBaseContent {
       padding: 5px 14px;
       font-size: 16px;
@@ -68,6 +71,7 @@
     }
   }
   &.lg {
+    min-height: 43px;
     .JinniInputBaseContent {
       padding: 7px 16px;
       font-size: 18px;
@@ -82,7 +86,6 @@
   display: inline-flex;
   flex-direction: row;
   min-width: 200px;
-  min-height: 20px;
   width: max-content;
   height: max-content;
   box-sizing: border-box;
@@ -106,6 +109,7 @@
     flex: 1;
     box-sizing: border-box;
     color: var(--jinni-color-gray-900);
+    line-height: 1.5;
     input,
     textarea {
       display: inline-block;
@@ -118,13 +122,14 @@
       box-sizing: border-box;
       font-size: inherit;
       color: inherit;
+      line-height: inherit;
     }
   }
 
   .JinniInputBaseAdornment {
     display: inline-flex;
     align-items: center;
-    height: 100%;
+    min-height: 100%;
     box-sizing: border-box;
     &.start {
       padding-right: 0;

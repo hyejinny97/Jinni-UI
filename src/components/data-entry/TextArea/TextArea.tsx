@@ -1,11 +1,14 @@
 import './TextArea.scss';
 import cn from 'classnames';
-import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
+import {
+  InputBase,
+  RootInputBaseProps
+} from '@/components/data-entry/InputBase';
 import { DefaultComponentProps } from '@/types/default-component-props';
 import { useTextAreaValue, useRows } from './TextArea.hooks';
 
 export type TextAreaProps = Omit<DefaultComponentProps<'textarea'>, 'size'> &
-  InputBaseProps & {
+  RootInputBaseProps & {
     defaultValue?: string;
     value?: string;
     onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
