@@ -19,9 +19,11 @@ const usePopperPosition = ({
   const [popperPosition, setPopperPosition] = useState({ top: 0, left: 0 });
 
   useLayoutEffect(() => {
+    const anchorEl = anchorElRef?.current;
+    if (!anchorEl) return;
+
     const handlePopperPosition = () => {
       const popperEl = popperRef.current;
-      const anchorEl = anchorElRef?.current;
       if (!popperEl || !open) return;
 
       const anchorCoordinate = getAnchorCoordinate({
@@ -42,9 +44,12 @@ const usePopperPosition = ({
     handlePopperPosition();
     window.addEventListener('resize', handlePopperPosition);
     window.addEventListener('scroll', handlePopperPosition);
+    const observer = new ResizeObserver(handlePopperPosition);
+    observer.observe(anchorEl);
     return () => {
       window.removeEventListener('resize', handlePopperPosition);
       window.removeEventListener('scroll', handlePopperPosition);
+      observer.unobserve(anchorEl);
     };
   }, [
     anchorElRef,
