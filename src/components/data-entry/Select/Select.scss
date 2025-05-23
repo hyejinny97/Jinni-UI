@@ -1,0 +1,47 @@
+@use '@/styles/mixins' as mixins;
+
+@mixin rotate-icon {
+  &.openMenu {
+    .JinniInputBase .JinniInputBaseAdornment.end svg {
+      rotate: 180deg;
+    }
+  }
+}
+
+.JinniSelect {
+  display: inline-block;
+  @include rotate-icon;
+
+  .JinniInputBase {
+    min-width: 120px;
+    max-width: 300px;
+    &:not(.disabled):hover {
+      cursor: pointer;
+    }
+
+    .JinniInputBaseContent {
+      .JinniPlaceholder {
+        display: inline-flex;
+        align-items: center;
+        color: var(--jinni-color-gray-500);
+      }
+
+      .JinniInputValue {
+        @include mixins.line-clamp(1);
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+}
+
+.JinniSelectMenu {
+  margin-top: 1px;
+  min-width: 120px;
+
+  .JinniMenuList {
+    width: 100%;
+  }
+}
