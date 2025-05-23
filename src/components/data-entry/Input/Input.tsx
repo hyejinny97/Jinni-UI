@@ -1,10 +1,13 @@
 import cn from 'classnames';
-import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
+import {
+  InputBase,
+  RootInputBaseProps
+} from '@/components/data-entry/InputBase';
 import { DefaultComponentProps } from '@/types/default-component-props';
 import { useInputValue } from './Input.hooks';
 
 export type InputProps = Omit<DefaultComponentProps<'input'>, 'size'> &
-  InputBaseProps & {
+  RootInputBaseProps & {
     type?:
       | 'date'
       | 'datetime-local'

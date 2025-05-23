@@ -6,7 +6,7 @@ import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
 import { adjustColorOpacity } from '@/utils/colorOpacity';
 
-export type InputBaseProps = {
+export type RootInputBaseProps = {
   children?: React.ReactNode;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
@@ -20,12 +20,12 @@ export type InputBaseProps = {
   focused?: boolean;
 };
 
-type RootInputBaseProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
-  InputBaseProps;
+export type InputBaseProps<T extends AsType = 'div'> =
+  DefaultComponentProps<T> & RootInputBaseProps;
 
 const InputBase = forwardRef(
   <T extends AsType = 'div'>(
-    props: RootInputBaseProps<T>,
+    props: InputBaseProps<T>,
     ref: React.Ref<HTMLElement>
   ) => {
     const {
