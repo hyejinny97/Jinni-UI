@@ -13,6 +13,9 @@ const meta: Meta<typeof MenuList> = {
         'true이면, MenuItem 컴포넌트 내 padding과 font-size를 줄여줌',
       defaultValue: { summary: 'false' }
     },
+    disableAlphabetKeyFocus: {
+      description: 'true이면, 알파벳 키를 눌러도 해당 item이 focus 되지 않음'
+    },
     elevation: {
       description: 'elevation(box-shadow) 정도',
       defaultValue: { summary: '3' }

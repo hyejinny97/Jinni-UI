@@ -5,7 +5,10 @@ import { MenuListProps } from './MenuList';
 
 const INIT_FOCUS_ITEM_ORDER = -1;
 
-const useKeyDown = ({ children }: Pick<MenuListProps, 'children'>) => {
+const useKeyDown = ({
+  children,
+  disableAlphabetKeyFocus
+}: Pick<MenuListProps, 'children' | 'disableAlphabetKeyFocus'>) => {
   const focusableItemsIdx = children
     .map((element) => !element.props.disabled)
     .reduce(
@@ -24,6 +27,7 @@ const useKeyDown = ({ children }: Pick<MenuListProps, 'children'>) => {
     );
 
     const handleKeydown = (e: KeyboardEvent) => {
+      if (disableAlphabetKeyFocus) return;
       const pressedKey = e.key;
       if (pressedKey === 'ArrowDown')
         return setFocusOrder(
@@ -61,7 +65,7 @@ const useKeyDown = ({ children }: Pick<MenuListProps, 'children'>) => {
     return () => {
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, [children, focusableItemsNum]);
+  }, [children, focusableItemsNum, disableAlphabetKeyFocus]);
 
   return { focusedItemIdx: focusableItemsIdx[focusOrder] };
 };
