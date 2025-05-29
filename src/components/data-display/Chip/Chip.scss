@@ -61,7 +61,6 @@ $avatar-font-size: (
       margin-right: map.get($label-margin, $size);
       font-size: map.get($label-font-size, $size);
       font-weight: var.$font-weight-medium;
-      z-index: 1;
     }
   }
 }
@@ -86,7 +85,6 @@ $avatar-font-size: (
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      z-index: 1;
 
       .JinniAvatar {
         width: map.get($avatar-size, $size);
@@ -112,7 +110,6 @@ $avatar-font-size: (
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      z-index: 1;
 
       svg {
         width: map.get($avatar-size, $size);
@@ -148,7 +145,6 @@ $avatar-font-size: (
     border: none;
     background-color: transparent;
     cursor: pointer;
-    z-index: 1;
   }
 }
 
