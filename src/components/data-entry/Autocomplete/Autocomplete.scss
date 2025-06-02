@@ -1,0 +1,56 @@
+@use '@/styles/mixins' as mixins;
+
+.JinniAutocomplete {
+  display: inline-block;
+
+  .JinniInputBase {
+    width: 300px;
+
+    .JinniInputBaseContent {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      width: 100%;
+
+      .JinniAutocompleteInput {
+        flex: 1;
+        text-overflow: ellipsis;
+        min-height: initial;
+      }
+
+      .JinniChip {
+        display: inline-flex;
+        max-width: 100%;
+        box-sizing: border-box;
+        .JinniChipLabel {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    .JinniInputBaseAdornment.end {
+      .JinniButtonBase.delete-button {
+        display: inline-flex;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+.JinniAutocompleteMenu {
+  margin-top: 1px;
+  width: 300px;
+
+  .JinniMenuList {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+
+    .JinniAutocompleteOption + .JinniAutocompleteOption.no-options {
+      display: none;
+      color: var(--jinni-color-gray-400);
+    }
+  }
+}

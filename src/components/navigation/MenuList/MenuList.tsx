@@ -12,6 +12,7 @@ export type MenuListProps<T extends AsType = 'ul'> =
     children: Array<JSX.Element>;
     elevation?: ElevationLevelType;
     dense?: boolean;
+    disableAlphabetKeyFocus?: boolean;
   };
 
 const MenuList = forwardRef(
@@ -23,12 +24,16 @@ const MenuList = forwardRef(
       children,
       elevation = 3,
       dense = false,
+      disableAlphabetKeyFocus,
       className,
       style,
       as: Component = 'ul',
       ...rest
     } = props;
-    const { focusedItemIdx } = useKeyDown({ children });
+    const { focusedItemIdx } = useKeyDown({
+      children,
+      disableAlphabetKeyFocus
+    });
     const newStyle = useStyle({ elevation, ...style });
 
     return (

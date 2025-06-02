@@ -46,6 +46,13 @@ const meta: Meta<typeof Menu> = {
         defaultValue: { summary: 'anchorEl' }
       }
     },
+    noBackdrop: {
+      description: 'true이면, backdrop 없이 menu가 나타남',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' }
+      }
+    },
     children: {
       description: '메뉴 콘텐츠(MenuItem, Divider 등)'
     },
@@ -68,7 +75,7 @@ const meta: Meta<typeof Menu> = {
       description: 'Menu를 클릭하거나 Enter 키를 누를 때 호출되는 함수'
     },
     onClose: {
-      description: `'escapeKeydown', 'backdropClick', 'tabKeyDown' 이벤트 발생 시 호출되는 함수`
+      description: `'escapeKeydown', 'backdropClick', 'tabKeyDown', 'backgroundClick'  이벤트 발생 시 호출되는 함수`
     },
     open: {
       description: 'true이면, 메뉴가 나타남'
@@ -274,6 +281,18 @@ export const BasicMenu: Story = {
         <MenuItem>Item 1</MenuItem>
         <MenuItem>Item 2</MenuItem>
         <Divider style={{ margin: '5px 0' }} />
+        <MenuItem>Item 3</MenuItem>
+      </MenuAnchorElTemplate>
+    );
+  }
+};
+
+export const NoBackdrop: Story = {
+  render: (args) => {
+    return (
+      <MenuAnchorElTemplate noBackdrop {...args}>
+        <MenuItem>Item 1</MenuItem>
+        <MenuItem>Item 2</MenuItem>
         <MenuItem>Item 3</MenuItem>
       </MenuAnchorElTemplate>
     );
