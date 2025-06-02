@@ -215,11 +215,11 @@ const Autocomplete = <
         </InputBase>
         <Menu
           className={cn('JinniAutocompleteMenu', MenuProps?.className)}
-          {...MenuProps}
           anchorElRef={inputBaseElRef}
           open={openMenu}
           onClose={handleMenuClose}
           noBackdrop
+          {...MenuProps}
           MenuListProps={{
             ref: menuListElRef,
             disableAlphabetKeyFocus: true,
@@ -233,6 +233,7 @@ const Autocomplete = <
               className="no-options"
               value={autocompleteInputValue}
               disabled
+              selected={false}
             >
               No Options
             </AutocompleteOption>
