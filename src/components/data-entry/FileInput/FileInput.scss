@@ -1,0 +1,14 @@
+.JinniFileInput {
+  display: inline-flex;
+  max-width: max-content;
+  max-height: max-content;
+  cursor: pointer;
+
+  &.disabled {
+    cursor: default;
+  }
+
+  .JinniFileInputRoot {
+    display: none;
+  }
+}
