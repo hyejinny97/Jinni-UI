@@ -67,7 +67,6 @@ $icon-margin: (
   @each $size in 'sm', 'md', 'lg' {
     &.#{$size} .JinniButtonLabel {
       font-size: map.get($label-font-size, $size);
-      z-index: 1;
     }
   }
 }
@@ -90,7 +89,6 @@ $icon-margin: (
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      z-index: 1;
       width: map.get($icon-size, $size);
       height: map.get($icon-size, $size);
       color: var(--text-color);
@@ -115,7 +113,6 @@ $icon-margin: (
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      z-index: 1;
 
       @include buttonLeft($size);
       @include buttonRight($size);
