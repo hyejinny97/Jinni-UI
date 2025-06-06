@@ -1,0 +1,86 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as FileInputStories from './FileInput.stories';
+
+<Meta of={FileInputStories} />
+
+# FileInput
+
+files를 선택할 수 있음
+
+## Import
+
+```js
+import { FileInput } from '@/components/data-entry/FileInput';
+```
+
+## Usage
+
+### Basic FileInput
+
+#### 1) Various FileInput Appearances
+
+- `children`: file input을 나타내는 요소
+- `value`: file input의 value
+  - type: multiple === true ? `Array<File>` : `File` | `null`
+- `onChange`: file input의 value가 변경됐을 때 호출되는 함수
+  - event: `event.target.files`를 통해 새로 선택된 value 값을 얻을 수 있음
+    - type: `FileList` | `null`
+  - value: file input의 new value
+    - type: multiple === true ? `Array<File>` : `File` | `null`
+    - value = 기존 value 값 + 새로 선택된 value 값
+
+<Canvas of={FileInputStories.VariousFileInputAppearances} />
+
+#### 2) FileInput with form (Upload)
+
+<Canvas of={FileInputStories.FileInputWithForm} />
+
+#### 3) Max file size
+
+<Canvas of={FileInputStories.MaxFileSize} />
+
+### Multiple
+
+#### 1) Default
+
+<Canvas of={FileInputStories.MultipleDefault} />
+
+#### 2) FileInput with form (Upload)
+
+<Canvas of={FileInputStories.MultipleFileInputWithForm} />
+
+#### 3) Remove duplicated files
+
+<Canvas of={FileInputStories.RemoveDuplicatedFiles} />
+
+#### 4) Max files
+
+<Canvas of={FileInputStories.MaxFiles} />
+
+### Accept
+
+#### 1) Default
+
+<Canvas of={FileInputStories.AcceptDefault} />
+
+#### 2) Validation
+
+<Canvas of={FileInputStories.AcceptValidation} />
+
+### FileInput with preview image
+
+<Canvas of={FileInputStories.FileInputWithPreviewImage} />
+
+### Drag and Drop
+
+<Canvas of={FileInputStories.DragAndDrop} />
+
+### Disabled
+
+<Canvas of={FileInputStories.Disabled} />
+
+## Props
+
+- HTML input type='file' 요소의 모든 속성 적용 가능
+
+<ArgTypes of={FileInputStories} sort="alpha" />
