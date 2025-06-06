@@ -10,6 +10,7 @@ import { useElevationEffect } from './ButtonBase.hooks';
 export type ButtonBaseProps<T extends AsType = 'button'> =
   DefaultComponentProps<T> &
     Partial<UseRippleProps> & {
+      type?: 'button' | 'submit' | 'reset';
       children: React.ReactNode;
       href?: string;
       disabled?: boolean;
@@ -24,6 +25,7 @@ const ButtonBase = forwardRef(
     ref: React.Ref<HTMLElement>
   ) => {
     const {
+      type,
       children,
       href,
       disabled = false,
@@ -71,6 +73,7 @@ const ButtonBase = forwardRef(
           { [`overlay-${overlayColor}`]: !disableOverlay, disabled },
           className
         )}
+        type={type}
         href={href}
         style={newStyle}
         disabled={disabled}
