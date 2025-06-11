@@ -1,0 +1,5 @@
+.JinniMasonry {
+  display: grid;
+  grid-template-columns: repeat(var(--columnsCount), 1fr);
+  grid-auto-flow: row dense;
+}

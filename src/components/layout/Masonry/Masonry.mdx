@@ -1,0 +1,83 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as MasonryStories from './Masonry.stories';
+
+<Meta of={MasonryStories} />
+
+# Masonry
+
+2차원 구조에서 다양한 items가 각각 동일한 너비와 서로 다른 높이를 가진 형태로 나열되도록 함
+
+- items는 row 방향으로 적재됨
+- 가장 짧은 column에 우선적으로 적재됨
+
+## Import
+
+```js
+import { Masonry } from '@/components/layout/Masonry';
+```
+
+## Usage
+
+### Basic Masonry
+
+- `children`: masonry의 items
+
+#### 1) Default
+
+<Canvas of={MasonryStories.BasicMasonry} />
+
+#### 2) Image Masonry
+
+<Canvas of={MasonryStories.ImageMasonry} />
+
+### Columns
+
+- `columns`: 컬럼 수
+
+#### 1) Default
+
+<Canvas of={MasonryStories.DefaultColumns} />
+
+#### 2) Responsive
+
+<Canvas of={MasonryStories.ResponsiveColumns} />
+
+### Spacing
+
+- `spacing`: items 사이 간격
+
+#### 1) Default
+
+<Canvas of={MasonryStories.DefaultSpacing} />
+
+#### 2) Responsive
+
+<Canvas of={MasonryStories.ResponsiveSpacing} />
+
+### Sequential
+
+- `sequential`: true이면, 가장 짧은 column이 아닌 왼쪽부터 오른쪽 순서대로 적재됨
+
+<Canvas of={MasonryStories.Sequential} />
+
+### Changes in items
+
+#### 1) Add items
+
+<Canvas of={MasonryStories.AddItems} />
+
+#### 2) Delete item
+
+<Canvas of={MasonryStories.DeleteItem} />
+
+#### 3) Change item height
+
+<Canvas of={MasonryStories.ChangeItemHeight} />
+
+#### 4) Add item or change item height
+
+<Canvas of={MasonryStories.AddItemAndChangeItemHeight} />
+
+## Props
+
+<ArgTypes of={MasonryStories} sort="alpha" />
