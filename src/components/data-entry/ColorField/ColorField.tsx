@@ -8,6 +8,14 @@ type ColorFieldProps = InputBaseProps & {
   value?: HEX | RGB | RGBA | HSL | HSLA | string;
 };
 
+const ColorBlock = ({ color }: { color: string }) => {
+  return (
+    <div className="JinniColorBlockContainer">
+      <div className="JinniColorBlock" style={{ backgroundColor: color }} />
+    </div>
+  );
+};
+
 const ColorField = (props: ColorFieldProps) => {
   const { value = '#000f', children, className, ...rest } = props;
 
@@ -21,14 +29,7 @@ const ColorField = (props: ColorFieldProps) => {
 
   return (
     <InputBase className={cn('JinniColorField', className)} {...rest}>
-      {children || (
-        <div className="JinniColorBlockContainer">
-          <div
-            className="JinniColorBlock"
-            style={{ backgroundColor: validatedValue }}
-          />
-        </div>
-      )}
+      {children || <ColorBlock color={validatedValue} />}
     </InputBase>
   );
 };
