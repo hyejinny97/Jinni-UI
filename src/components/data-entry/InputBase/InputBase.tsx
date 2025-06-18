@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
-import { adjustColorOpacity } from '@/utils/colorOpacity';
+import { toRgbaObject } from '@/utils/colorFormat';
 
 export type RootInputBaseProps = {
   children?: React.ReactNode;
@@ -45,11 +45,12 @@ const InputBase = forwardRef(
       as: Component = 'div',
       ...rest
     } = props;
+    const { r, g, b } = toRgbaObject(color);
     const isBorderVariant = variant === 'outlined' || variant === 'underlined';
     const isOverlayVariant = variant === 'filled' || variant === 'borderless';
     const focusedBorderColor = isBorderVariant ? color : undefined;
     const focusedOverlayColor = isOverlayVariant
-      ? adjustColorOpacity(color, 0.1)
+      ? `rgba(${r}, ${g}, ${b}, 0.1)`
       : undefined;
     const newStyle = useStyle({
       '--focused-border-color': focusedBorderColor,
