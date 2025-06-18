@@ -17,5 +17,7 @@ export type ColorType =
   | HEX
   | RGB
   | RGBA
+  | HSL
+  | HSLA
   | JinniColor
   | 'transparent';

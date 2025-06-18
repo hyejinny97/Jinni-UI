@@ -4,6 +4,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
 import { ColorLensIcon } from '@/components/icons/ColorLensIcon';
+import { ColorType } from '@/types/color';
 
 const meta: Meta<typeof ColorField> = {
   component: ColorField,
@@ -18,8 +19,8 @@ const meta: Meta<typeof ColorField> = {
     value: {
       description: '색상',
       table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: `'#000f'` }
+        type: { summary: 'ColorType' },
+        defaultValue: { summary: `'primary'` }
       }
     }
   }
@@ -28,7 +29,7 @@ const meta: Meta<typeof ColorField> = {
 export default meta;
 type Story = StoryObj<typeof ColorField>;
 
-const ColorDomain = ({ value }: { value: string }) => {
+const ColorDomain = ({ value }: { value: ColorType }) => {
   return (
     <Stack spacing={5} style={{ alignItems: 'center' }}>
       <ColorField value={value} />
@@ -49,6 +50,10 @@ export const ColorValue: Story = {
   render: (args) => {
     return (
       <Grid columns={2} spacing={20} style={{ width: '500px' }}>
+        <ColorDomain value="red" {...args} />
+        <ColorDomain value="transparent" {...args} />
+        <ColorDomain value="primary" {...args} />
+        <ColorDomain value="yellow-400" {...args} />
         <ColorDomain value="#123999" {...args} />
         <ColorDomain value="#12399988" {...args} />
         <ColorDomain value="#135" {...args} />

@@ -22,11 +22,13 @@ import { ColorField } from '@/components/data-entry/ColorField';
 ### Color Value
 
 - `value`: 색상
-  - Hue(색조), Saturation(채도), Lightness(명도), [Alpha(불투명도)]를 모두 반영
-  - color format
-    - Hex (#RRGGBB[AA], #RGB[A])
+  - type: `ColorType`
+    - CSSColorKeywords
+    - HEX (#RRGGBB[AA], #RGB[A])
     - RGB, RGBA
     - HSL, HSLA
+    - JinniColorTheme, JinniColorPalette
+    - 'transparent'
 
 <Canvas of={ColorFieldStories.ColorValue} />
 
