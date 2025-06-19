@@ -3,6 +3,7 @@ import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
 import { ColorType } from '@/types/color';
+import { Mosaic } from '@/components/_share/Mosaic';
 
 type ColorFieldProps = InputBaseProps & {
   value?: ColorType;
@@ -11,9 +12,9 @@ type ColorFieldProps = InputBaseProps & {
 const ColorBlock = ({ color }: { color: ColorType }) => {
   const colorStyle = useStyle({ backgroundColor: color });
   return (
-    <div className="JinniColorBlockContainer">
-      <div className="JinniColorBlock" style={colorStyle} />
-    </div>
+    <Mosaic>
+      <div className="JinniColorPreview" style={colorStyle} />
+    </Mosaic>
   );
 };
 

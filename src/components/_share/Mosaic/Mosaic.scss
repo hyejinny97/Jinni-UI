@@ -1,0 +1,21 @@
+.JinniMosaic {
+  background-image: conic-gradient(
+    var(--color) 25%,
+    transparent 25% 50%,
+    var(--color) 50% 75%,
+    transparent 75% 100%
+  );
+
+  &.xs {
+    background-size: 30% 30%;
+  }
+  &.sm {
+    background-size: 40% 40%;
+  }
+  &.md {
+    background-size: 50% 50%;
+  }
+  &.lg {
+    background-size: 100% 100%;
+  }
+}
