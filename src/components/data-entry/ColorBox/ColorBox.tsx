@@ -101,9 +101,9 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
               <Slider
                 className="JinniColorBoxHueSlider"
                 value={hslaValue.h}
-                onChange={(e, val) => {
-                  isNumber(val) && handleHslaChange(e, { h: val });
-                }}
+                onChange={(e, val) =>
+                  isNumber(val) && handleHslaChange(e, { h: val })
+                }
                 min={0}
                 max={360}
                 TooltipProps={{ open: false }}
@@ -113,9 +113,9 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
               <Slider
                 className="JinniColorBoxAlphaSlider"
                 value={Math.round(hslaValue.a * 100)}
-                onChange={(e, val) => {
-                  isNumber(val) && handleHslaChange(e, { a: val / 100 });
-                }}
+                onChange={(e, val) =>
+                  isNumber(val) && handleHslaChange(e, { a: val / 100 })
+                }
                 min={0}
                 max={100}
                 TooltipProps={{ open: false }}

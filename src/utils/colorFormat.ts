@@ -202,7 +202,7 @@ export const rgbaObjectToHslaObject = (value: RgbaObject): HslaObject => {
   const min = Math.min(rNorm, gNorm, bNorm);
   const delta = max - min;
 
-  let l = (max + min) / 2;
+  const l = (max + min) / 2;
 
   let s = 0;
   if (delta !== 0) {

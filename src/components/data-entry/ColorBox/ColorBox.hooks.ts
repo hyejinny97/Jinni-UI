@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect, useMemo } from 'react';
+import { useState, useRef, useLayoutEffect, useMemo, useCallback } from 'react';
 import { ColorBoxProps } from './ColorBox';
 import { HEX } from '@/types/color';
 import {
@@ -29,7 +29,7 @@ export const useColorValue = ({
     useState<RgbaObject>(toRgbaObject(defaultValue));
   const rgbaValue = useMemo(
     () => (isControlled ? toRgbaObject(value) : uncontrolledRgbaValue),
-    [value]
+    [isControlled, uncontrolledRgbaValue, value]
   );
   const [hslaValue, setHslaValue] = useState<HslaObject>(
     rgbaObjectToHslaObject(rgbaValue)
@@ -75,7 +75,7 @@ export const useColorValue = ({
 
   useLayoutEffect(() => {
     if (isControlled) setHslaValue(rgbaObjectToHslaObject(rgbaValue));
-  }, [rgbaValue]);
+  }, [isControlled, rgbaValue]);
 
   return {
     rgbaValue,
@@ -163,7 +163,7 @@ export const usePalette = ({
     paletteThumbPositionRef.current = { left, top };
   };
 
-  const setInitPaletteThumbPosition = () => {
+  const setInitPaletteThumbPosition = useCallback(() => {
     const canvasEl = svCanvasElRef.current;
     if (!canvasEl) return;
     const ctx = canvasEl.getContext('2d');
@@ -175,7 +175,7 @@ export const usePalette = ({
       top: ((100 - hsvV) / 100) * canvasEl.height,
       left: (hsvS / 100) * canvasEl.width
     });
-  };
+  }, [hslaValue]);
 
   const movePaletteThumb = ({
     e,
@@ -246,7 +246,7 @@ export const usePalette = ({
   useLayoutEffect(() => {
     drawSVPalette(hslaValue.h);
     setInitPaletteThumbPosition();
-  }, [hslaValue]);
+  }, [hslaValue, setInitPaletteThumbPosition]);
 
   return {
     svCanvasElRef,
