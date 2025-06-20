@@ -38,6 +38,11 @@ const HexInput = <T extends AsType = 'div'>(props: HexInputsProps<T>) => {
     }
   };
 
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    isTypingRef.current = true;
+    e.currentTarget.select();
+  };
+
   const handleBlur = () => {
     isTypingRef.current = false;
     setValue(hex);
@@ -59,6 +64,7 @@ const HexInput = <T extends AsType = 'div'>(props: HexInputsProps<T>) => {
         <Input
           value={value}
           onChange={handleChange}
+          onFocus={handleFocus}
           size="sm"
           disableFocusEffect
           disableHoverEffect
