@@ -22,9 +22,9 @@ import {
 import { editColor } from './color';
 
 // r/g/b: 0~255 integer, a: 0~1 number
-type RgbaObject = { r: number; g: number; b: number; a: number };
+export type RgbaObject = { r: number; g: number; b: number; a: number };
 // h: 0~360 number, s/l: 0~100 percent, a: 0~1 number
-type HslaObject = { h: number; s: number; l: number; a: number };
+export type HslaObject = { h: number; s: number; l: number; a: number };
 
 const isHex = (value: string): value is HEX => value.startsWith('#');
 const isRgb = (value: string): value is RGB => RGB_REG_EX.test(value);
@@ -127,7 +127,7 @@ export const hslToRgbaObject = (value: HSL | HSLA): RgbaObject => {
   const isHsla = value.startsWith('hsla');
   const match = isHsla ? value.match(HSLA_REG_EX) : value.match(HSL_REG_EX);
   if (!match) throw new Error('올바른 형태의 HSL(HSLA)가 아닙니다.');
-  const h = parseInt(match[1]);
+  const h = parseInt(match[1]) % 360;
   const s = parseInt(match[2]) / 100;
   const l = parseInt(match[3]) / 100;
   const a = isHsla ? parseFloat(match[4]) : 1;
@@ -186,7 +186,9 @@ export const rgbaObjectToHex = (value: RgbaObject): HEX => {
   const channelToHex = (channel: number) =>
     channel.toString(16).padStart(2, '0');
   const alphaToHex = (alpha: number) =>
-    (alpha * 255).toString(16).padStart(2, '0');
+    Math.round(alpha * 255)
+      .toString(16)
+      .padStart(2, '0');
   return `#${channelToHex(r)}${channelToHex(g)}${channelToHex(b)}${alphaToHex(a)}`;
 };
 

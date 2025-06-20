@@ -19,7 +19,7 @@ export type SelectProps<
   children: Array<JSX.Element>;
   placeholder?: string;
   InputBaseProps?: InputBaseProps;
-  MenuProps?: MenuProps;
+  MenuProps?: Partial<MenuProps>;
   multiple?: Multiple;
   defaultValue?: Multiple extends true ? string[] : string;
   value?: Multiple extends true ? string[] : string;
