@@ -64,7 +64,7 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
 
   return (
     <Component
-      className={cn('JinniColorPicker', className)}
+      className={cn('JinniColorPicker', { disabled }, className)}
       style={newStyle}
       {...rest}
     >
