@@ -1,0 +1,60 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ColorPickerStories from './ColorPicker.stories';
+
+<Meta of={ColorPickerStories} />
+
+# ColorPicker
+
+색상 선택이 가능한 컴포넌트
+
+## Import
+
+```js
+import { ColorPicker } from '@/components/data-entry/ColorPicker';
+```
+
+## Usage
+
+### Basic ColorPicker
+
+- `defaultValue`: 초기 색상
+
+<Canvas of={ColorPickerStories.BasicColorPicker} />
+
+### Controlled ColorPicker
+
+- `value`와 `onChange` prop을 통해 control 가능
+- `value`: 색상
+- `onChange`: 색상(value)이 변경됐을 때 호출되는 함수
+
+<Canvas of={ColorPickerStories.ControlledColorPicker} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={ColorPickerStories.Disabled} />
+
+### Custom ColorField
+
+- `renderColorField`: colorFieldProps를 입력값으로 받아 `ColorField` 컴포넌트를 렌더하는 함수
+
+<Canvas of={ColorPickerStories.CustomColorField} />
+
+### Custom Custom ColorBox
+
+- `renderColorBox`: colorBoxProps를 입력값으로 받아 `Custom ColorBox` 컴포넌트를 렌더하는 함수
+
+<Canvas of={ColorPickerStories.CustomColorBox} />
+
+### Custom Popover
+
+- `PopoverProps`: Popover 컴포넌트의 props
+
+<Canvas of={ColorPickerStories.CustomPopover} />
+
+## Props
+
+- `ColorField` 컴포넌트 + `ColorBox` 컴포넌트 + `Popover` 컴포넌트
+
+<ArgTypes of={ColorPickerStories} sort="alpha" />

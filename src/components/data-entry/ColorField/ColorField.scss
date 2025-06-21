@@ -1,0 +1,43 @@
+@mixin size {
+  &.sm {
+    min-width: 29px;
+    .JinniInputBaseContent {
+      padding: 3px;
+    }
+  }
+  &.md {
+    min-width: 36px;
+    .JinniInputBaseContent {
+      padding: 5px;
+    }
+  }
+  &.lg {
+    min-width: 43px;
+    .JinniInputBaseContent {
+      padding: 7px;
+    }
+  }
+}
+
+.JinniColorField.JinniInputBase {
+  @include size;
+
+  .JinniInputBaseContent {
+    min-width: inherit;
+    min-height: inherit;
+
+    .JinniMosaic {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 4px;
+
+      .JinniColorPreview {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border-radius: inherit;
+      }
+    }
+  }
+}

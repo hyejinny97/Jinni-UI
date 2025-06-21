@@ -1,0 +1,11 @@
+.JinniColorPicker {
+  .JinniColorField {
+    cursor: pointer;
+  }
+
+  &.disabled {
+    .JinniColorField {
+      cursor: default;
+    }
+  }
+}
