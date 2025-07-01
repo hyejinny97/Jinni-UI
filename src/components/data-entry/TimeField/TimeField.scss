@@ -1,0 +1,27 @@
+.JinniInputBase.JinniTimeField {
+  .JinniInputBaseContent {
+    .JinniTimeFieldPlaceholder {
+      color: var(--jinni-color-gray-400);
+    }
+    .JinniTimeFieldTimePart {
+      display: inline-block;
+      font: inherit;
+      vertical-align: middle;
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: none;
+      outline: none;
+      box-sizing: content-box;
+    }
+  }
+  &.isValidationError {
+    border-color: var(--jinni-color-error);
+    &:not(.disableHoverEffect):hover {
+      &.outlined,
+      &.underlined {
+        border-color: var(--jinni-color-error);
+      }
+    }
+  }
+}
