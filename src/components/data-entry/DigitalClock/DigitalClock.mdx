@@ -1,0 +1,98 @@
+import { Meta, Canvas, ArgTypes, Stories, Markdown } from '@storybook/blocks';
+import * as DigitalClockStories from './DigitalClock.stories';
+
+<Meta of={DigitalClockStories} />
+
+# DigitalClock
+
+디지털 형태의 시계
+
+## Import
+
+```js
+import { DigitalClock } from '@/components/data-entry/DigitalClock';
+```
+
+## Usage
+
+### Basic DigitalClock
+
+#### 1) mode
+
+- `mode`: time 선택 방법
+  - `'preset'`: '12:00', '12:30', '01:00' 처럼 미리 정의된 시간 목록에서 하나를 선택하는 방식
+  - `'manual'`: 시(hour), 분(minute), 초(second)를 각각 선택하는 방식
+
+<Canvas of={DigitalClockStories.Mode} />
+
+#### 2) defaultValue
+
+- `defaultValue`: 초기 time (uncontrolled일 때만 적용 가능)
+
+<Canvas of={DigitalClockStories.DefaultValue} />
+
+### Controlled DigitalClock
+
+- `value`와 `onChange`를 통해 control 가능
+- `value`: time
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={DigitalClockStories.ControlledDigitalClock} />
+
+### Locale and Options
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+- `options`: time 속성
+
+#### 1) Locale
+
+<Canvas of={DigitalClockStories.Locale} />
+
+#### 2) Options
+
+<Canvas of={DigitalClockStories.Options} />
+
+### Readonly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={DigitalClockStories.Readonly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={DigitalClockStories.Disabled} />
+
+### Restrict Time
+
+#### 1) minTime, maxTime
+
+- `minTime`: 선택 가능한 최소 시간
+- `maxTime`: 선택 가능한 최대 시간
+
+<Canvas of={DigitalClockStories.MinTimeAndMaxTime} />
+
+#### 2) disabledTimes
+
+- `disabledTimes`: 비활성화하는 특정 시간 모음
+
+<Canvas of={DigitalClockStories.DisabledTimes} />
+
+#### 3) skipDisabledTime
+
+- `skipDisabledTime`: true이면, 비활성화된 times는 나타나지 않음
+
+<Canvas of={DigitalClockStories.SkipDisabledTime} />
+
+### Time Steps
+
+- `timeStep`: 두 time options 간 step
+  - mode='preset'인 경우, `number` type (단위: s)
+  - mode='manual'인 경우, `{hour: number, minute: number, second: number}` type
+
+<Canvas of={DigitalClockStories.TimeSteps} />
+
+## Props
+
+<ArgTypes of={DigitalClockStories} sort="alpha" />
