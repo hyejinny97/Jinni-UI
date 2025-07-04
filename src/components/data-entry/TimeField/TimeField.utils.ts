@@ -1,5 +1,8 @@
 import { TimeFieldProps } from './TimeField';
 import { TOKENS } from './TimeField.constants';
+import { TimeStepManualType } from './TimeField.types';
+import { isObject } from '@/utils/isObject';
+import { isNumber } from '@/utils/isNumber';
 
 export const isAvailableLocale = (locale: string | undefined): boolean => {
   if (locale === undefined) return true;
@@ -135,3 +138,12 @@ export const dateToSeconds = (date: Date) => {
   const second = date.getSeconds();
   return hour * 3600 + minute * 60 + second;
 };
+
+export const isTimeStepManualType = (
+  timeStep: unknown
+): timeStep is TimeStepManualType =>
+  isObject(timeStep) &&
+  Object.entries(timeStep).every(
+    ([key, value]) =>
+      ['hour', 'minute', 'second'].includes(key) && isNumber(value)
+  );

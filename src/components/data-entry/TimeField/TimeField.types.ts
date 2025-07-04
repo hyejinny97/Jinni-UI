@@ -1,5 +1,16 @@
 import { TOKENS, KEY_TIME_PARTS } from './TimeField.constants';
 
+export type TimeOptions =
+  | {
+      timeStyle: 'short' | 'medium';
+    }
+  | {
+      hour?: 'numeric' | '2-digit';
+      minute?: 'numeric' | '2-digit';
+      second?: 'numeric' | '2-digit';
+      hour12?: boolean;
+      hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
+    };
 export type ValidationError =
   | 'minTime'
   | 'maxTime'

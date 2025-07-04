@@ -11,27 +11,19 @@ import {
   TimeStepManualType
 } from './TimeField.types';
 import { KEY_TIME_PARTS } from './TimeField.constants';
+import { TimeOptions } from './TimeField.types';
 
+export type TimeMode = 'preset' | 'manual';
 export type TimeFieldProps<
   T extends AsType = 'div',
-  Mode extends 'preset' | 'manual' = 'preset'
+  Mode extends TimeMode = 'preset'
 > = Omit<InputBaseProps<T>, 'defaultValue' | 'onChange'> & {
   placeholder?: string;
   defaultValue?: Date;
   value?: Date;
   onChange?: (value: Date, validationError?: ValidationError) => void;
   locale?: string;
-  options?:
-    | {
-        timeStyle: 'short' | 'medium';
-      }
-    | {
-        hour?: 'numeric' | '2-digit';
-        minute?: 'numeric' | '2-digit';
-        second?: 'numeric' | '2-digit';
-        hour12?: boolean;
-        hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
-      };
+  options?: TimeOptions;
   format?: string;
   minTime?: Date;
   maxTime?: Date;
@@ -48,11 +40,11 @@ const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
   minute: 1,
   second: 1
 };
+export const DEFAULT_TIME_OPTIONS: TimeOptions = {
+  timeStyle: 'short'
+};
 
-const TimeField = <
-  T extends AsType = 'div',
-  Mode extends 'preset' | 'manual' = 'preset'
->(
+const TimeField = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
   props: TimeFieldProps<T, Mode>
 ) => {
   const {
@@ -61,9 +53,7 @@ const TimeField = <
     value,
     onChange,
     locale,
-    options = {
-      timeStyle: 'short'
-    },
+    options = DEFAULT_TIME_OPTIONS,
     format,
     minTime,
     maxTime,

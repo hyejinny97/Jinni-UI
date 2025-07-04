@@ -7,7 +7,7 @@
 
 @mixin disabled {
   &.disabled {
-    color: var(--jinni-color-gray-400);
+    opacity: 0.5;
     pointer-events: none;
     cursor: default;
   }

@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react';
-import { TimeFieldProps } from './TimeField';
+import { TimeFieldProps, TimeMode } from './TimeField';
 import {
   ValidationError,
   KeyTimePartType,
@@ -18,11 +18,11 @@ import {
   findSecondTokenType,
   findDayPeriodTokenType,
   is2Digit,
-  dateToSeconds
+  dateToSeconds,
+  isTimeStepManualType
 } from './TimeField.utils';
 import { TOKENS } from './TimeField.constants';
 import { isNumber } from '@/utils/isNumber';
-import { isObject } from '@/utils/isObject';
 
 type UseTimeProps = Pick<
   TimeFieldProps,
@@ -33,7 +33,7 @@ type UseTimeProps = Pick<
   | 'maxTime'
   | 'disabledTimes'
 > & {
-  mode: 'preset' | 'manual';
+  mode: TimeMode;
   timeStep: number | TimeStepManualType;
   dateToTimeObject: (date: Date | undefined) => TimeObjectType;
   timeObjectToDate: ({
@@ -69,15 +69,6 @@ export const useTimeValue = ({
   );
   const [isValidationError, setIsValidationError] = useState<boolean>(false);
   const time = isControlled ? dateToTimeObject(value) : uncontrolledTime;
-
-  const isTimeStepManualType = (
-    timeStep: unknown
-  ): timeStep is TimeStepManualType =>
-    isObject(timeStep) &&
-    Object.entries(timeStep).every(
-      ([key, value]) =>
-        ['hour', 'minute', 'second'].includes(key) && isNumber(value)
-    );
 
   const validateTime = (time: Date): ValidationError | undefined => {
     const timeInSeconds = dateToSeconds(time);
