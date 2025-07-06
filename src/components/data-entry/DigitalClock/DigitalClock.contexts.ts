@@ -6,7 +6,7 @@ import {
 
 export type DigitalClockContextType<Mode extends TimeMode = 'preset'> = {
   dateTimeFormat: Intl.DateTimeFormat;
-  selectedTime: Date | undefined;
+  selectedTime: Date | null | undefined;
   handleChange: (newTime: Date) => void;
   timeStep: Mode extends 'preset' ? number : TimeStepManualType;
   disabled: boolean;

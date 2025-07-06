@@ -20,7 +20,7 @@ export type DigitalClockProps<
   options?: TimeOptions;
   timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
   defaultValue?: Date;
-  value?: Date;
+  value?: Date | null;
   onChange?: (value: Date) => void;
   readOnly?: boolean;
   disabled?: boolean;

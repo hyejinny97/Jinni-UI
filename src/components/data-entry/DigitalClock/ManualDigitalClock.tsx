@@ -29,7 +29,7 @@ const MenuListByUnit = ({
 }: {
   unit: 'hour' | 'minute' | 'second' | 'dayPeriod';
 }) => {
-  const boxElRef = useRef<HTMLElement>(null);
+  const menuListElRef = useRef<HTMLElement>(null);
   const menuItemsElRef = useRef<HTMLElement[]>([]);
   const {
     dateTimeFormat,
@@ -69,15 +69,14 @@ const MenuListByUnit = ({
   }
 
   const scrollToSelected = ({ behavior }: { behavior: ScrollBehavior }) => {
-    const boxEl = boxElRef.current;
+    const menuListEl = menuListElRef.current;
     const menuItemsEl = menuItemsElRef.current;
     const selectedMenuItemEl = menuItemsEl.find((element) =>
       element.classList.contains('selected')
     );
-    if (boxEl && selectedMenuItemEl) {
-      const menuListPaddingTop = 4;
-      boxEl.scrollTo({
-        top: selectedMenuItemEl.offsetTop - menuListPaddingTop,
+    if (menuListEl && selectedMenuItemEl) {
+      menuListEl.scrollTo({
+        top: selectedMenuItemEl.offsetTop,
         behavior
       });
     }
@@ -107,8 +106,21 @@ const MenuListByUnit = ({
       }
     }
     if (disabledTimes) {
-      const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
-      if (disabledTimeInSeconds.includes(timeInSeconds)) return true;
+      if (unit === 'hour') {
+        const minuteSet = disabledTimes.reduce(
+          (acc, time) => acc.add(time.getMinutes()),
+          new Set()
+        );
+        const minuteValues = getLocaleMinuteValues({
+          dateTimeFormat,
+          selectedTime,
+          timeStep
+        });
+        if (minuteSet.size === minuteValues.length) return true;
+      } else {
+        const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
+        if (disabledTimeInSeconds.includes(timeInSeconds)) return true;
+      }
     }
     return false;
   };
@@ -126,8 +138,8 @@ const MenuListByUnit = ({
   }, [selectedTime]);
 
   return (
-    <Box ref={boxElRef} className={cn(`JinniManualDigitalClockUnit ${unit}`)}>
-      <MenuList elevation={0}>
+    <Box className={cn(`JinniManualDigitalClockUnit ${unit}`)}>
+      <MenuList ref={menuListElRef} elevation={0}>
         {values.map(({ format, value }) => {
           const selected =
             !!selectedTime &&

@@ -19,7 +19,7 @@ const PresetDigitalClock = <T extends AsType = 'div'>(
   props: PresetDigitalClockProps<T>
 ) => {
   const { className, ...rest } = props;
-  const boxElRef = useRef<HTMLElement>(null);
+  const menuListElRef = useRef<HTMLElement>(null);
   const menuItemsElRef = useRef<HTMLElement[]>([]);
   const {
     dateTimeFormat,
@@ -39,13 +39,13 @@ const PresetDigitalClock = <T extends AsType = 'div'>(
     .map(({ type }) => type) as Array<KeyTimePartType>;
 
   const scrollToSelected = ({ behavior }: { behavior: ScrollBehavior }) => {
-    const boxEl = boxElRef.current;
+    const menuListEl = menuListElRef.current;
     const menuItemsEl = menuItemsElRef.current;
     const selectedMenuItemEl = menuItemsEl.find((element) =>
       element.classList.contains('selected')
     );
-    if (boxEl && selectedMenuItemEl)
-      boxEl.scrollTo({ top: selectedMenuItemEl.offsetTop, behavior });
+    if (menuListEl && selectedMenuItemEl)
+      menuListEl.scrollTo({ top: selectedMenuItemEl.offsetTop, behavior });
   };
 
   const isDisabledTime = (time: Date): boolean => {
@@ -78,12 +78,8 @@ const PresetDigitalClock = <T extends AsType = 'div'>(
   }, [selectedTime]);
 
   return (
-    <Box
-      ref={boxElRef}
-      className={cn('JinniPresetDigitalClock', className)}
-      {...rest}
-    >
-      <MenuList elevation={0}>
+    <Box className={cn('JinniPresetDigitalClock', className)} {...rest}>
+      <MenuList ref={menuListElRef} elevation={0}>
         {timePreset.map(({ format, value }) => {
           const selected =
             !!selectedTime &&

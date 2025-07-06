@@ -60,7 +60,7 @@ export const getLocaleHourValues = ({
 }: {
   dateTimeFormat: Intl.DateTimeFormat;
   timeStep: TimeStepManualType;
-  selectedTime?: Date;
+  selectedTime?: Date | null;
 }): Array<TimeItemType> => {
   const hours: Array<TimeItemType> = [];
   const { hour12 } = dateTimeFormat.resolvedOptions();
@@ -103,7 +103,7 @@ export const getLocaleMinuteValues = ({
 }: {
   dateTimeFormat: Intl.DateTimeFormat;
   timeStep: TimeStepManualType;
-  selectedTime?: Date;
+  selectedTime?: Date | null;
 }): Array<TimeItemType> => {
   const minutes: Array<TimeItemType> = [];
   for (let m = 0; m < 60; m += timeStep.minute) {
@@ -131,7 +131,7 @@ export const getLocaleSecondValues = ({
 }: {
   dateTimeFormat: Intl.DateTimeFormat;
   timeStep: TimeStepManualType;
-  selectedTime?: Date;
+  selectedTime?: Date | null;
 }): Array<TimeItemType> => {
   const seconds: Array<TimeItemType> = [];
   for (let s = 0; s < 60; s += timeStep.second) {
@@ -157,7 +157,7 @@ export const getLocaleDayPeriodValues = ({
   selectedTime
 }: {
   dateTimeFormat: Intl.DateTimeFormat;
-  selectedTime?: Date;
+  selectedTime?: Date | null;
 }): Array<TimeItemType> => {
   const dayPeriods: Array<TimeItemType> = [];
   for (let hour = 0; hour < 24; hour += 12) {

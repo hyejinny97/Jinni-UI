@@ -150,7 +150,7 @@ const OPTIONS: Array<TimeFieldProps['options']> = [
 const FORMATS = ['tt:mm a', 'HH:mm:ss', 'TT시 mm분'];
 
 const ControlledTimeFieldTemplate = ({ ...props }) => {
-  const [value, setValue] = useState<Date>();
+  const [value, setValue] = useState<Date | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const hour = value?.getHours();
   const minute = value?.getMinutes();

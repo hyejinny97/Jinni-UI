@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useLayoutEffect } from 'react';
 import { TimeFieldProps, TimeMode } from './TimeField';
 import {
   ValidationError,
@@ -35,7 +35,7 @@ type UseTimeProps = Pick<
 > & {
   mode: TimeMode;
   timeStep: number | TimeStepManualType;
-  dateToTimeObject: (date: Date | undefined) => TimeObjectType;
+  dateToTimeObject: (date: Date | null | undefined) => TimeObjectType;
   timeObjectToDate: ({
     hour,
     minute,
@@ -70,7 +70,8 @@ export const useTimeValue = ({
   const [isValidationError, setIsValidationError] = useState<boolean>(false);
   const time = isControlled ? dateToTimeObject(value) : uncontrolledTime;
 
-  const validateTime = (time: Date): ValidationError | undefined => {
+  const validateTime = (time: Date | null): ValidationError | undefined => {
+    if (time === null) return;
     const timeInSeconds = dateToSeconds(time);
     if (minTime) {
       const minTimeInSeconds = dateToSeconds(minTime);
@@ -122,8 +123,13 @@ export const useTimeValue = ({
     const validationError = validateTime(newDate);
     if (!isControlled) setUncontrolledTime(newTime);
     if (onChange) onChange(newDate, validationError);
-    setIsValidationError(!!validationError);
   };
+
+  useLayoutEffect(() => {
+    const date = isControlled ? value : timeObjectToDate(uncontrolledTime);
+    const validationError = validateTime(date);
+    setIsValidationError(!!validationError);
+  }, [time]);
 
   return {
     time,
@@ -228,8 +234,8 @@ export const useTimeFormat = ({
     };
   }, [locale, options, format]);
 
-  const dateToTimeObject = (date: Date | undefined): TimeObjectType => {
-    if (date === undefined) return {};
+  const dateToTimeObject = (date: Date | undefined | null): TimeObjectType => {
+    if (date === undefined || date === null) return {};
 
     const isHour12 = dateTimeFormat.resolvedOptions().hour12;
     if (isHour12) {
@@ -267,6 +273,8 @@ export const useTimeFormat = ({
           localeHourIndex < 12
         ) {
           date.setHours(localeHourIndex + 12);
+        } else {
+          date.setHours(localeHourIndex);
         }
       } else {
         date.setHours(localeHourIndex);
