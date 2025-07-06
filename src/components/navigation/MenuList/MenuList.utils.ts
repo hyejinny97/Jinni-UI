@@ -7,14 +7,17 @@ export const insertProps = (
     focus: (elementIdx: number) => boolean;
   }
 ): Array<JSX.Element> => {
-  return elements.map((element, elementIdx) => ({
-    ...element,
-    props: {
-      ...element.props,
-      dense: props.dense,
-      focus: props.focus(elementIdx)
-    }
-  }));
+  return elements.map(
+    (element, elementIdx) =>
+      element && {
+        ...element,
+        props: {
+          ...element.props,
+          dense: props.dense,
+          focus: props.focus(elementIdx)
+        }
+      }
+  );
 };
 
 export const findFirstCharacter = (element: React.ReactNode): string | null => {

@@ -1,0 +1,53 @@
+.JinniPresetDigitalClock {
+  display: inline-block;
+  max-width: max-content;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--jinni-color-gray-300);
+
+  .JinniMenuList {
+    position: relative;
+    padding: 0;
+    height: 180px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    border-radius: 0;
+
+    .JinniMenuItem {
+      &.selected {
+        background-color: var(--jinni-color-primary);
+        color: white;
+      }
+    }
+  }
+}
+
+.JinniManualDigitalClock.JinniStack {
+  display: inline-flex;
+  max-width: max-content;
+  border-bottom: 1px solid var(--jinni-color-gray-300);
+
+  .JinniManualDigitalClockUnit {
+    display: inline-block;
+    max-width: max-content;
+    min-width: 60px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+
+    .JinniMenuList {
+      position: relative;
+      padding: 0;
+      height: 180px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      border-radius: 0;
+
+      .JinniMenuItem {
+        &.selected {
+          background-color: var(--jinni-color-primary);
+          color: white;
+        }
+      }
+    }
+  }
+}

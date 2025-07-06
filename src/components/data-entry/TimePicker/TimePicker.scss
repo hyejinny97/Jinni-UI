@@ -1,0 +1,47 @@
+.JinniTimePickerPopover.JinniPopover {
+  .JinniPopoverContent {
+    padding: 0;
+    margin-top: 1px;
+
+    .JinniPresetDigitalClock {
+      width: 100%;
+      max-width: none;
+
+      .JinniMenuList {
+        width: 100%;
+
+        .JinniMenuItem {
+          box-sizing: border-box;
+          width: 100%;
+        }
+      }
+    }
+
+    .JinniManualDigitalClock {
+      width: 100%;
+      max-width: none;
+
+      .JinniManualDigitalClockUnit {
+        width: 100%;
+        max-width: none;
+        min-width: max-content;
+      }
+
+      .JinniMenuList {
+        width: 100%;
+
+        .JinniMenuItem {
+          box-sizing: border-box;
+          width: 100%;
+        }
+      }
+    }
+
+    .JinniTimePickerButtons {
+      display: flex;
+      justify-content: end;
+      column-gap: 10px;
+      padding: 10px;
+    }
+  }
+}

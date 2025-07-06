@@ -10,7 +10,7 @@ const useKeyDown = ({
   disableAlphabetKeyFocus
 }: Pick<MenuListProps, 'children' | 'disableAlphabetKeyFocus'>) => {
   const focusableItemsIdx = children
-    .map((element) => !element.props.disabled)
+    .map((element) => !element?.props.disabled)
     .reduce(
       (acc: Array<number>, focusable, idx) => (focusable ? [...acc, idx] : acc),
       []
@@ -20,7 +20,7 @@ const useKeyDown = ({
 
   useEffect(() => {
     const focusableItems = children.filter(
-      (element) => !element.props.disabled
+      (element) => !element?.props.disabled
     );
     const firstCharacters: Array<string | null> = focusableItems.map(
       (element: JSX.Element) => findFirstCharacter(element)
