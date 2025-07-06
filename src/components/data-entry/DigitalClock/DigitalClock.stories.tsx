@@ -114,7 +114,7 @@ hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
       description: 'time',
       table: {
         type: {
-          summary: `Date`
+          summary: `Date | null`
         }
       }
     }
