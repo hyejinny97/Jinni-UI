@@ -6,7 +6,6 @@ type useKeydownProps = Pick<PopoverProps, 'onClose'>;
 export const useKeydown = ({ onClose }: useKeydownProps) => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      e.preventDefault();
       if (!onClose) return;
       if (e.key === 'Escape') {
         onClose(e, 'escapeKeydown');
