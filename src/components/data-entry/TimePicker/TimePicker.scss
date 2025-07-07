@@ -1,3 +1,16 @@
+.JinniTimePicker {
+  .JinniTimePickerOpenButton {
+    display: inline-flex;
+    padding: 5px;
+    border-radius: 50%;
+
+    &.readOnly,
+    &.disabled {
+      cursor: default;
+    }
+  }
+}
+
 .JinniTimePickerPopover.JinniPopover {
   .JinniPopoverContent {
     padding: 0;

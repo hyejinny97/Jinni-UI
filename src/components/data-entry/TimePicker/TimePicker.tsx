@@ -19,6 +19,8 @@ import {
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import { useTime } from './TimePicker.hooks';
 import { Button } from '@/components/general/Button';
+import { ButtonBase } from '@/components/general/ButtonBase';
+import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
 
 export type TimePickerProps<
   T extends AsType = 'div',
@@ -122,7 +124,16 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
       <input name={name} value={time?.toTimeString() || ''} hidden readOnly />
       <TimeField
         ref={anchorElRef}
-        onClick={handleOpen}
+        endAdornment={
+          <ButtonBase
+            className={cn('JinniTimePickerOpenButton', { readOnly, disabled })}
+            onClick={handleOpen}
+            disableOverlay={readOnly || disabled}
+            disableRipple={readOnly || disabled}
+          >
+            <AccessTimeIcon size={20} color="gray-500" />
+          </ButtonBase>
+        }
         {...commonProps}
         {...TimeFieldProps}
       />
