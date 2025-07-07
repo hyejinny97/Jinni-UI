@@ -126,6 +126,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
         ref={anchorElRef}
         endAdornment={
           <ButtonBase
+            type="button"
             className={cn('JinniTimePickerOpenButton', { readOnly, disabled })}
             onClick={handleOpen}
             disableOverlay={readOnly || disabled}
