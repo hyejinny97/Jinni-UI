@@ -29,6 +29,7 @@ type UseTimeProps = Pick<
   | 'defaultValue'
   | 'value'
   | 'onChange'
+  | 'onError'
   | 'minTime'
   | 'maxTime'
   | 'disabledTimes'
@@ -60,6 +61,7 @@ export const useTimeValue = ({
   mode,
   timeStep,
   onChange,
+  onError,
   dateToTimeObject,
   timeObjectToDate
 }: UseTimeProps) => {
@@ -129,7 +131,10 @@ export const useTimeValue = ({
     const date = isControlled ? value : timeObjectToDate(uncontrolledTime);
     const validationError = validateTime(date);
     setIsValidationError(!!validationError);
-  }, [time]);
+    if (!!validationError && onError) {
+      onError(validationError);
+    }
+  }, [value, uncontrolledTime]);
 
   return {
     time,

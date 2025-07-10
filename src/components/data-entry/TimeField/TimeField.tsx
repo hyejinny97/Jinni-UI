@@ -23,6 +23,7 @@ export type TimeFieldProps<
   defaultValue?: Date;
   value?: Date | null;
   onChange?: (value: Date, validationError?: ValidationError) => void;
+  onError?: (validationError: ValidationError) => void;
   locale?: string;
   options?: TimeOptions;
   format?: string;
@@ -55,6 +56,7 @@ const TimeField = forwardRef(
       defaultValue,
       value,
       onChange,
+      onError,
       locale,
       options = DEFAULT_TIME_OPTIONS,
       format,
@@ -95,7 +97,8 @@ const TimeField = forwardRef(
       timeStep,
       onChange,
       dateToTimeObject,
-      timeObjectToDate
+      timeObjectToDate,
+      onError
     });
     const { timePartsElRef, handleInputChange } = useInput({
       localeHourValues,
