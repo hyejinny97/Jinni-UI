@@ -1,0 +1,173 @@
+import { Meta, Canvas, ArgTypes, Stories, Markdown } from '@storybook/blocks';
+import * as TimeRangeFieldStories from './TimeRangeField.stories';
+
+<Meta of={TimeRangeFieldStories} />
+
+# TimeRangeField
+
+사용자가 선택한 시간 범위가 나타나는 곳
+
+## Import
+
+```js
+import { TimeRangeField } from '@/components/data-entry/TimeRangeField';
+```
+
+## Usage
+
+### Basic TimeRangeField
+
+- `placeholder`: placeholder
+- `defaultValue`: 초기 time (uncontrolled일 때만 적용 가능)
+
+<Canvas of={TimeRangeFieldStories.BasicTimeRangeField} />
+
+### Controlled TimeRangeField
+
+- `value`와 `onChange`를 통해 control 가능
+- `value`: time
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={TimeRangeFieldStories.ControlledTimeRangeField} />
+
+### Locale and Options
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+- `options`: time 속성
+
+#### 1) Locale
+
+<Canvas of={TimeRangeFieldStories.Locale} />
+
+#### 2) Options
+
+<Canvas of={TimeRangeFieldStories.Options} />
+
+### Customize Time Format
+
+- `format`: time format
+
+  - `locale`, `options` 대신 time tokens를 사용해 자유롭게 포맷 설정 가능
+
+- Time Tokens
+
+  <Markdown>
+    {`
+  | Token | Type | 특징 | 
+  | ----- | --------- | ---------------- | 
+  | HH | hour | 'h23', '2-digit' | 
+  | H | hour | 'h23', 'numeric' | 
+  | hh | hour | 'h11', '2-digit' | 
+  | h | hour | 'h11', 'numeric' | 
+  | TT | hour | 'h24', '2-digit' | 
+  | T | hour | 'h24', 'numeric' | 
+  | tt | hour | 'h12', '2-digit' | 
+  | t | hour | 'h12', 'numeric' | 
+  | mm | minute | '2-digit' | 
+  | m | minute | 'numeric' | 
+  | ss | second | '2-digit' | 
+  | s | second | 'numeric' | 
+  | a | dayPeriod | 'lowerCase' | 
+  | A | dayPeriod | 'upperCase' |
+  `}
+  </Markdown>
+
+<Canvas of={TimeRangeFieldStories.CustomizeTimeFormat} />
+
+### Restrict Time
+
+- `minTime`: 선택 가능한 최소 시간
+- `maxTime`: 선택 가능한 최대 시간
+- `disabledTimes`: 비활성화하는 특정 시간 모음
+
+<Canvas of={TimeRangeFieldStories.RestrictTime} />
+
+### Time Steps
+
+- `mode`: time 선택 방법
+  - `'preset'`: '12:00', '12:30', '01:00' 처럼 미리 정의된 시간 목록에서 하나를 선택하는 방식
+  - `'manual'`: 시(hour), 분(minute), 초(second)를 각각 선택하는 방식
+- `timeStep`: 두 time options 간 step
+  - mode='preset'인 경우, `number` type (단위: s)
+  - mode='manual'인 경우, `{hour: number, minute: number, second: number}` type
+
+<Canvas of={TimeRangeFieldStories.TimeSteps} />
+
+### Variants
+
+- `variant`: input 형태
+
+<Canvas of={TimeRangeFieldStories.Variants} />
+
+### Sizes
+
+- `size`: input 크기
+
+<Canvas of={TimeRangeFieldStories.Sizes} />
+
+### Readonly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={TimeRangeFieldStories.Readonly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={TimeRangeFieldStories.Disabled} />
+
+### Color
+
+- `color`: base color
+- `focusedColor`: focused color
+
+<Canvas of={TimeRangeFieldStories.Color} />
+
+### Full Width
+
+- `fullWidth`: true이면, input이 container 안에 꽉 채워지게 됨
+
+<Canvas of={TimeRangeFieldStories.FullWidth} />
+
+### Adornments
+
+- `startAdornment`: input 앞에 위치하는 부가 요소 (icon ,text 등)
+
+  - type: `{ start?: React.ReactNode; end?: React.ReactNode, timeRangeField?: React.ReactNode }`
+  - start: 시작 `TimeField` 앞에 위치
+  - end: 끝 `TimeField` 앞에 위치
+  - timeRageField: `TimeRangeFiled` 앞에 위치
+
+- `endAdornment`: input 뒤에 위치하는 부가 요소 (icon ,text 등)
+  - type: `{ start?: React.ReactNode; end?: React.ReactNode, timeRangeField?: React.ReactNode }`
+  - start: 시작 `TimeField` 뒤에 위치
+  - end: 끝 `TimeField` 뒤에 위치
+  - timeRageField: `TimeRangeFiled` 뒤에 위치
+
+<Canvas of={TimeRangeFieldStories.Adornments} />
+
+### Disable Effect
+
+- `disableHoverEffect`: true이면, hover effect가 비활성화됨
+- `disableFocusEffect`: true이면, focus effect가 비활성화됨
+
+<Canvas of={TimeRangeFieldStories.DisableEffect} />
+
+### Custom center icon
+
+- `centerIcon`: 두 `TimeField` 중앙에 위치한 아이콘
+
+<Canvas of={TimeRangeFieldStories.CustomCenterIcon} />
+
+### Multi-TimeField
+
+- `TimeField` 컴포넌트를 두 개 사용해, 직접 시작 시간과 마지막 시간을 설정할 수도 있음
+
+<Canvas of={TimeRangeFieldStories.MultiTimeField} />
+
+## Props
+
+- `InputBase` props 모두 사용 가능
+
+<ArgTypes of={TimeRangeFieldStories} sort="alpha" />
