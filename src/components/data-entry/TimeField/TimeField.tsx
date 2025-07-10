@@ -70,6 +70,7 @@ const TimeField = forwardRef(
       readOnly = false,
       disabled = false,
       color,
+      focusedColor,
       className,
       ...rest
     } = props;
@@ -116,7 +117,7 @@ const TimeField = forwardRef(
     return (
       <InputBase
         ref={ref}
-        className={cn('JinniTimeField', { isValidationError }, className)}
+        className={cn('JinniTimeField', className)}
         onFocus={() => setFocused(true)}
         onBlur={(e: FocusEvent) => {
           const relatedTarget = e.relatedTarget as HTMLElement;
@@ -124,6 +125,7 @@ const TimeField = forwardRef(
           if (!currentTarget?.contains(relatedTarget)) setFocused(false);
         }}
         color={isValidationError ? 'error' : color}
+        focusedColor={isValidationError ? 'error' : focusedColor}
         disabled={disabled}
         {...rest}
       >
