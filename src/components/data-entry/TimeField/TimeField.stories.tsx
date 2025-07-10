@@ -350,7 +350,12 @@ export const Disabled: Story = {
 
 export const Color: Story = {
   render: (args) => (
-    <TimeField placeholder='color="yellow-400"' color="yellow-400" {...args} />
+    <TimeField
+      placeholder='color="yellow-400"'
+      color="yellow-400"
+      focusedColor="yellow-400"
+      {...args}
+    />
   )
 };
 

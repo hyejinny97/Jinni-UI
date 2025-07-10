@@ -1,12 +1,12 @@
 @mixin variant {
   &.outlined {
-    border: 1px solid var(--jinni-color-gray-400);
+    border: 1px solid var(--base-color);
   }
   &.filled {
-    background-color: var(--jinni-color-gray-200);
+    background-color: var(--base-color);
   }
   &.underlined {
-    border-bottom: 1px solid var(--jinni-color-gray-400);
+    border-bottom: 1px solid var(--base-color);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -19,7 +19,7 @@
   &:not(.disableHoverEffect):hover {
     &.outlined,
     &.underlined {
-      border-color: var(--jinni-color-gray-500);
+      border-color: var(--hover-color);
     }
     &.filled,
     &.borderless {
@@ -32,18 +32,18 @@
   &:not(.disableFocusEffect):focus-within,
   &:not(.disableFocusEffect).focused {
     &.outlined {
-      border-color: var(--focused-border-color);
-      box-shadow: var(--focused-border-color) 0 0 0 1px;
+      border-color: var(--focused-color);
+      box-shadow: var(--focused-color) 0 0 0 1px;
     }
     &.underlined {
-      border-color: var(--focused-border-color);
-      box-shadow: 0 1px 0 0 var(--focused-border-color);
+      border-color: var(--focused-color);
+      box-shadow: 0 1px 0 0 var(--focused-color);
     }
     &.filled,
     &.borderless {
       background-image: linear-gradient(
-        var(--focused-overlay-color),
-        var(--focused-overlay-color)
+        var(--focused-color),
+        var(--focused-color)
       );
     }
   }

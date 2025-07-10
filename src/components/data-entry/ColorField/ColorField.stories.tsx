@@ -100,7 +100,9 @@ export const Disabled: Story = {
 
 export const Color: Story = {
   render: (args) => {
-    return <ColorField color="yellow-400" {...args} />;
+    return (
+      <ColorField color="yellow-400" focusedColor="yellow-400" {...args} />
+    );
   }
 };
 

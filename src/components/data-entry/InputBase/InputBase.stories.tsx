@@ -12,7 +12,14 @@ const meta: Meta<typeof InputBase> = {
       }
     },
     color: {
-      description: 'focus 됐을 때, input border 색상',
+      description: 'base color',
+      table: {
+        type: { summary: 'ColorType' },
+        defaultValue: { summary: `'gray-400'` }
+      }
+    },
+    focusedColor: {
+      description: 'focused color',
       table: {
         type: { summary: 'ColorType' },
         defaultValue: { summary: `'primary'` }
@@ -158,12 +165,30 @@ export const Color: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
-        <InputBase color="error" {...args}>
-          Error
-        </InputBase>
-        <InputBase color="yellow-400" {...args}>
-          Yellow-400
-        </InputBase>
+        <Stack direction="row" spacing={20}>
+          <InputBase color="error" {...args}>
+            Error
+          </InputBase>
+          <InputBase color="yellow-400" {...args}>
+            Yellow-400
+          </InputBase>
+        </Stack>
+        <Stack direction="row" spacing={20}>
+          <InputBase focusedColor="error" {...args}>
+            Error
+          </InputBase>
+          <InputBase focusedColor="yellow-400" {...args}>
+            Yellow-400
+          </InputBase>
+        </Stack>
+        <Stack direction="row" spacing={20}>
+          <InputBase color="error" focusedColor="error" {...args}>
+            Error
+          </InputBase>
+          <InputBase color="yellow-400" focusedColor="yellow-400" {...args}>
+            Yellow-400
+          </InputBase>
+        </Stack>
       </Stack>
     );
   }

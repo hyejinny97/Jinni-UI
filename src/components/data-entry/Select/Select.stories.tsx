@@ -427,8 +427,14 @@ export const Color: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <SelectTemplate InputBaseProps={{ color: 'secondary' }} {...args} />
-        <SelectTemplate InputBaseProps={{ color: 'yellow-400' }} {...args} />
+        <SelectTemplate
+          InputBaseProps={{ color: 'secondary', focusedColor: 'secondary' }}
+          {...args}
+        />
+        <SelectTemplate
+          InputBaseProps={{ color: 'yellow-400', focusedColor: 'yellow-400' }}
+          {...args}
+        />
       </Stack>
     );
   }

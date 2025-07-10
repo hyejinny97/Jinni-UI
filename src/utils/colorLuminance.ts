@@ -1,23 +1,19 @@
-import { ColorType, HEX } from '@/types/color';
-import { toRgbaObject, rgbaObjectToHex } from '@/utils/colorFormat';
+import { ColorType, RGBA } from '@/types/color';
+import { toRgbaObject } from '@/utils/colorFormat';
 
-const adjustLuminance = (color: ColorType, luminance: number): HEX => {
+const adjustLuminance = (color: ColorType, luminance: number): RGBA => {
   if (luminance < -1 || luminance > 1) {
     throw new Error('luminance는 반드시 -1과 1 사이여야 합니다.');
   }
 
   const adjustChannel = (channel: number, luminance: number): number =>
-    Math.round(channel + (255 - channel) * luminance);
+    Math.min(
+      Math.max(Math.round(channel + (255 - channel) * luminance), 0),
+      255
+    );
 
   const { r, g, b, a } = toRgbaObject(color);
-  const adjustedColor = {
-    r: adjustChannel(r, luminance),
-    g: adjustChannel(g, luminance),
-    b: adjustChannel(b, luminance),
-    a
-  };
-
-  return rgbaObjectToHex(adjustedColor);
+  return `rgba(${adjustChannel(r, luminance)},${adjustChannel(g, luminance)},${adjustChannel(b, luminance)},${a})`;
 };
 
 export const lighten = (color: ColorType, luminance: number) =>

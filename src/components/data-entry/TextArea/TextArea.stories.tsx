@@ -250,9 +250,16 @@ export const Color: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <TextArea color="error" placeholder="error" autoFocus {...args} />
+        <TextArea
+          color="error"
+          focusedColor="error"
+          placeholder="error"
+          autoFocus
+          {...args}
+        />
         <TextArea
           color="yellow-400"
+          focusedColor="yellow-400"
           placeholder="yellow-400"
           autoFocus
           {...args}
