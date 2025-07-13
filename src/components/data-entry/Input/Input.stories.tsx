@@ -348,9 +348,16 @@ export const Color: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
-        <Input color="error" placeholder="error" autoFocus {...args} />
+        <Input
+          color="error"
+          focusedColor="error"
+          placeholder="error"
+          autoFocus
+          {...args}
+        />
         <Input
           color="yellow-400"
+          focusedColor="yellow-400"
           placeholder="yellow-400"
           autoFocus
           {...args}

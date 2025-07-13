@@ -1181,12 +1181,12 @@ export const Color: Story = {
     return (
       <Stack spacing={20}>
         <AutocompleteTemplate
-          InputBaseProps={{ color: 'secondary' }}
+          InputBaseProps={{ color: 'secondary', focusedColor: 'secondary' }}
           placeholder="secondary"
           {...args}
         />
         <AutocompleteTemplate
-          InputBaseProps={{ color: 'yellow-400' }}
+          InputBaseProps={{ color: 'yellow-400', focusedColor: 'yellow-400' }}
           placeholder="yellow-400"
           {...args}
         />

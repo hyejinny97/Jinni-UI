@@ -23,6 +23,7 @@ export type TimeFieldProps<
   defaultValue?: Date;
   value?: Date | null;
   onChange?: (value: Date, validationError?: ValidationError) => void;
+  onErrorStatus?: (validationError?: ValidationError) => void;
   locale?: string;
   options?: TimeOptions;
   format?: string;
@@ -55,6 +56,7 @@ const TimeField = forwardRef(
       defaultValue,
       value,
       onChange,
+      onErrorStatus,
       locale,
       options = DEFAULT_TIME_OPTIONS,
       format,
@@ -68,6 +70,7 @@ const TimeField = forwardRef(
       readOnly = false,
       disabled = false,
       color,
+      focusedColor,
       className,
       ...rest
     } = props;
@@ -95,7 +98,8 @@ const TimeField = forwardRef(
       timeStep,
       onChange,
       dateToTimeObject,
-      timeObjectToDate
+      timeObjectToDate,
+      onErrorStatus
     });
     const { timePartsElRef, handleInputChange } = useInput({
       localeHourValues,
@@ -113,7 +117,7 @@ const TimeField = forwardRef(
     return (
       <InputBase
         ref={ref}
-        className={cn('JinniTimeField', { isValidationError }, className)}
+        className={cn('JinniTimeField', className)}
         onFocus={() => setFocused(true)}
         onBlur={(e: FocusEvent) => {
           const relatedTarget = e.relatedTarget as HTMLElement;
@@ -121,6 +125,7 @@ const TimeField = forwardRef(
           if (!currentTarget?.contains(relatedTarget)) setFocused(false);
         }}
         color={isValidationError ? 'error' : color}
+        focusedColor={isValidationError ? 'error' : focusedColor}
         disabled={disabled}
         {...rest}
       >

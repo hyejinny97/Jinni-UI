@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
-import { toRgbaObject } from '@/utils/colorFormat';
+import { getColorStyle } from './InputBase.utils';
 
 export type RootInputBaseProps = {
   children?: React.ReactNode;
@@ -13,6 +13,7 @@ export type RootInputBaseProps = {
   variant?: 'outlined' | 'filled' | 'underlined' | 'borderless';
   size?: 'sm' | 'md' | 'lg';
   color?: ColorType;
+  focusedColor?: ColorType;
   disabled?: boolean;
   disableHoverEffect?: boolean;
   disableFocusEffect?: boolean;
@@ -34,7 +35,8 @@ const InputBase = forwardRef(
       endAdornment,
       variant = 'outlined',
       size = 'md',
-      color = 'primary',
+      color = 'gray-400',
+      focusedColor = 'primary',
       disabled = false,
       disableHoverEffect = disabled,
       disableFocusEffect = disabled,
@@ -45,16 +47,9 @@ const InputBase = forwardRef(
       as: Component = 'div',
       ...rest
     } = props;
-    const { r, g, b } = toRgbaObject(color);
-    const isBorderVariant = variant === 'outlined' || variant === 'underlined';
-    const isOverlayVariant = variant === 'filled' || variant === 'borderless';
-    const focusedBorderColor = isBorderVariant ? color : undefined;
-    const focusedOverlayColor = isOverlayVariant
-      ? `rgba(${r}, ${g}, ${b}, 0.1)`
-      : undefined;
+    const colorStyle = getColorStyle({ variant, color, focusedColor });
     const newStyle = useStyle({
-      '--focused-border-color': focusedBorderColor,
-      '--focused-overlay-color': focusedOverlayColor,
+      ...colorStyle,
       ...style
     });
 

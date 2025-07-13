@@ -39,6 +39,7 @@ const Input = (props: InputProps) => {
     variant,
     size,
     color,
+    focusedColor,
     disableHoverEffect,
     disableFocusEffect,
     fullWidth,
@@ -62,6 +63,7 @@ const Input = (props: InputProps) => {
       variant={variant}
       size={size}
       color={color}
+      focusedColor={focusedColor}
       disableHoverEffect={disableHoverEffect}
       disableFocusEffect={disableFocusEffect}
       fullWidth={fullWidth}
