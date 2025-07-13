@@ -239,7 +239,7 @@ const ControlledTimeRangeFieldTemplate = ({ ...props }) => {
 
   const handleChange = (
     newValue: RangeType<Date | null>,
-    validationError: TimeRangeValidationError
+    validationError?: TimeRangeValidationError
   ) => {
     setValue(newValue);
     setValidationError(validationError);
@@ -276,7 +276,10 @@ const MultiTimeFieldTemplate = () => {
   const [endValidationError, setEndValidationError] =
     useState<ValidationError>();
   const isChronologicalError =
-    startTime && endTime && startTime.getTime() > endTime.getTime();
+    startTime &&
+    endTime &&
+    startTime.getHours() * 60 + startTime.getMinutes() >
+      endTime.getHours() * 60 + endTime.getMinutes();
   const isStartTimeValidationError =
     !!startValidationError || isChronologicalError;
   const isEndTimeValidationError = !!endValidationError || isChronologicalError;

@@ -29,7 +29,7 @@ type UseTimeProps = Pick<
   | 'defaultValue'
   | 'value'
   | 'onChange'
-  | 'onError'
+  | 'onErrorStatus'
   | 'minTime'
   | 'maxTime'
   | 'disabledTimes'
@@ -61,7 +61,7 @@ export const useTimeValue = ({
   mode,
   timeStep,
   onChange,
-  onError,
+  onErrorStatus,
   dateToTimeObject,
   timeObjectToDate
 }: UseTimeProps) => {
@@ -69,7 +69,9 @@ export const useTimeValue = ({
   const [uncontrolledTime, setUncontrolledTime] = useState<TimeObjectType>(
     dateToTimeObject(defaultValue)
   );
-  const [isValidationError, setIsValidationError] = useState<boolean>(false);
+  const [validationError, setValidationError] = useState<
+    ValidationError | undefined
+  >();
   const time = isControlled ? dateToTimeObject(value) : uncontrolledTime;
 
   const validateTime = (time: Date | null): ValidationError | undefined => {
@@ -129,17 +131,17 @@ export const useTimeValue = ({
 
   useLayoutEffect(() => {
     const date = isControlled ? value : timeObjectToDate(uncontrolledTime);
-    const validationError = validateTime(date);
-    setIsValidationError(!!validationError);
-    if (!!validationError && onError) {
-      onError(validationError);
+    const newValidationError = validateTime(date);
+    setValidationError(newValidationError);
+    if (newValidationError !== validationError && onErrorStatus) {
+      onErrorStatus(newValidationError);
     }
   }, [value, uncontrolledTime]);
 
   return {
     time,
     handleTimeChange,
-    isValidationError
+    isValidationError: !!validationError
   };
 };
 

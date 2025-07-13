@@ -1,4 +1,4 @@
-import { useState, useMemo, useLayoutEffect } from 'react';
+import { useState, useMemo, useLayoutEffect, useRef } from 'react';
 import { TimeRangeFieldProps } from './TimeRangeField';
 import { RangeType, TimeRangeValidationError } from './TimeRangeField.types';
 import { ValidationError } from '@/components/data-entry/TimeField';
@@ -11,24 +11,10 @@ type IsChronologicalOrderError = (
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
 
-export const useTimeRange = ({
-  defaultValue,
-  value,
-  onChange,
+export const useChronologicalError = ({
   locale,
   options
-}: Pick<
-  TimeRangeFieldProps,
-  'defaultValue' | 'value' | 'onChange' | 'locale' | 'options'
->) => {
-  const isControlled = value !== undefined;
-  const [uncontrolledTimeRange, setUncontrolledTimeRange] = useState<
-    RangeType<Date | null>
-  >(defaultValue || INIT_DEFAULT_VALUE);
-  const timeRange = isControlled ? value : uncontrolledTimeRange;
-  const [timeRangeValidationError, setTimeRangeValidationError] =
-    useState<TimeRangeValidationError>({});
-
+}: Pick<TimeRangeFieldProps, 'locale' | 'options'>) => {
   const timePartTypes = useMemo(() => {
     const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
     const partTypes = dateTimeFormat.formatToParts().map((part) => part.type);
@@ -59,6 +45,31 @@ export const useTimeRange = ({
     if (timeToSeconds(startTime) > timeToSeconds(endTime)) return true;
     return false;
   };
+
+  return { isChronologicalOrderError };
+};
+
+export const useTimeRange = ({
+  defaultValue,
+  value,
+  onChange,
+  locale,
+  options
+}: Pick<
+  TimeRangeFieldProps,
+  'defaultValue' | 'value' | 'onChange' | 'locale' | 'options'
+>) => {
+  const isControlled = value !== undefined;
+  const [uncontrolledTimeRange, setUncontrolledTimeRange] = useState<
+    RangeType<Date | null>
+  >(defaultValue || INIT_DEFAULT_VALUE);
+  const timeRange = isControlled ? value : uncontrolledTimeRange;
+  const [timeRangeValidationError, setTimeRangeValidationError] =
+    useState<TimeRangeValidationError>({});
+  const { isChronologicalOrderError } = useChronologicalError({
+    locale,
+    options
+  });
 
   const handleValidationError = (
     timeFieldPosition: keyof RangeType<any>,
@@ -106,5 +117,49 @@ export const useTimeRange = ({
     handleChange,
     timeRangeValidationError,
     handleValidationError
+  };
+};
+
+export const useIndicator = ({
+  focusedTime
+}: Pick<TimeRangeFieldProps, 'focusedTime'>) => {
+  const indicatorElRef = useRef<HTMLDivElement>(null);
+  const startTimeFieldElRef = useRef<HTMLElement>(null);
+  const endTimeFieldElRef = useRef<HTMLElement>(null);
+
+  const setIndicatorLeftAndWidth = (
+    focusedTime: Required<TimeRangeFieldProps['focusedTime']>
+  ) => {
+    const indicatorEl = indicatorElRef.current;
+    const startTimeFieldEl = startTimeFieldElRef.current;
+    const endTimeFieldEl = endTimeFieldElRef.current;
+    if (!indicatorEl || !startTimeFieldEl || !endTimeFieldEl) return;
+
+    const focusedTimeFieldEl =
+      focusedTime === 'start' ? startTimeFieldEl : endTimeFieldEl;
+    const inputBaseContentEl = focusedTimeFieldEl.querySelector(
+      '.JinniInputBaseContent'
+    );
+    if (!inputBaseContentEl) return;
+
+    const paddingLeft = parseInt(
+      window.getComputedStyle(inputBaseContentEl).paddingLeft
+    );
+    const paddingRight = parseInt(
+      window.getComputedStyle(inputBaseContentEl).paddingRight
+    );
+    indicatorEl.style.left = `${(inputBaseContentEl as HTMLElement).offsetLeft + paddingLeft}px`;
+    indicatorEl.style.width = `${inputBaseContentEl.clientWidth - paddingLeft - paddingRight}px`;
+  };
+
+  useLayoutEffect(() => {
+    if (!focusedTime) return;
+    setIndicatorLeftAndWidth(focusedTime);
+  }, [focusedTime]);
+
+  return {
+    indicatorElRef,
+    startTimeFieldElRef,
+    endTimeFieldElRef
   };
 };

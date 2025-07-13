@@ -135,6 +135,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
             <AccessTimeIcon size={20} color="gray-500" />
           </ButtonBase>
         }
+        focused={open}
         {...commonProps}
         {...TimeFieldProps}
       />

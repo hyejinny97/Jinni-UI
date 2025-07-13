@@ -67,6 +67,14 @@ const meta: Meta<typeof TimeField> = {
         }
       }
     },
+    onErrorStatus: {
+      description: 'error 상태가 변경됐을 때 호출되는 함수',
+      table: {
+        type: {
+          summary: `(validationError?: 'minTime' | 'maxTime' | 'timeStep' | 'disabledTime') ⇒ void;`
+        }
+      }
+    },
     options: {
       description: 'time 속성',
       table: {
