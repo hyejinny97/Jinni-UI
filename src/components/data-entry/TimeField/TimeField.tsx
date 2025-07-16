@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
 import { useTimeValue, useTimeFormat, useInput } from './TimeField.hooks';
-import AutoWidthInput from './AutoWidthInput';
+import { AutoWidthInput } from '@/components/_share/AutoWidthInput';
 import {
   ValidationError,
   KeyTimePartType,
