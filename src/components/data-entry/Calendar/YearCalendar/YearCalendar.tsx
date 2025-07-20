@@ -23,10 +23,7 @@ const YearCalendar = <T extends AsType = 'div'>(
     props;
   const yearCalendarElRef = useRef<HTMLElement>();
   const yearsElRef = useRef<Array<HTMLElement>>([]);
-  const localeYears = useMemo(() => {
-    const dateTimeFormat = new Intl.DateTimeFormat(locale, { year: 'numeric' });
-    return getTwoCenturyLocaleYears(dateTimeFormat);
-  }, [locale]);
+  const localeYears = useMemo(() => getTwoCenturyLocaleYears(locale), [locale]);
   const todayDate = new Date();
 
   useLayoutEffect(() => {

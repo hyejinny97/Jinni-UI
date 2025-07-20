@@ -1,8 +1,9 @@
 import { LocaleYearType } from './YearCalendar.types';
 
 export const getTwoCenturyLocaleYears = (
-  dateTimeFormat: Intl.DateTimeFormat
+  locale?: string
 ): Array<LocaleYearType> => {
+  const dateTimeFormat = new Intl.DateTimeFormat(locale, { year: 'numeric' });
   let year: Array<LocaleYearType> = [];
   const currentCentury = Math.floor(new Date().getFullYear() / 100) + 1;
   const startYear = (currentCentury - 2) * 100;
