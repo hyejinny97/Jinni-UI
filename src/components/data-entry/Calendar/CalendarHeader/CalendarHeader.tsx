@@ -15,12 +15,13 @@ export type CalendarHeaderProps<T extends AsType = 'div'> =
     type: CalendarType;
     locale?: string;
     options?: DateOptions;
-    selectedDate?: Date | null;
-    referenceDate?: Date;
+    displayedDate: Date;
     onYearClick?: () => void;
     onMonthClick?: () => void;
-    onPrevMonth?: () => void;
-    onNextMonth?: () => void;
+    onPrevMonth?: (prevMonth: Date) => void;
+    onNextMonth?: (nextMonth: Date) => void;
+    readOnly?: boolean;
+    disabled?: boolean;
   };
 
 const CalendarHeader = <T extends AsType = 'div'>(
@@ -30,33 +31,34 @@ const CalendarHeader = <T extends AsType = 'div'>(
     type,
     locale,
     options,
-    selectedDate,
-    referenceDate,
+    displayedDate,
     onYearClick,
     onMonthClick,
     onPrevMonth,
     onNextMonth,
+    readOnly = false,
+    disabled = false,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
-  const todayDate = new Date();
   const dateParts = useMemo(
     () =>
       getDateParts({
         type,
         locale,
         options,
-        date: selectedDate || referenceDate || todayDate
+        date: displayedDate
       }),
-    [type, locale, options, selectedDate, referenceDate, todayDate]
+    [type, locale, options, displayedDate]
   );
   const newStyle = useStyle(style);
 
   const isClickable = (
     partType: keyof Intl.DateTimeFormatPartTypesRegistry
   ) => {
+    if (disabled || readOnly) return;
     if (type === 'month' && partType === 'year') {
       return true;
     }
@@ -71,6 +73,18 @@ const CalendarHeader = <T extends AsType = 'div'>(
     if (partType === 'year' && onYearClick) onYearClick();
     else if (partType === 'month' && onMonthClick) onMonthClick();
   };
+  const handlePrevMonthClick = () => {
+    const prevMonth = new Date(displayedDate);
+    prevMonth.setMonth(displayedDate.getMonth() - 1);
+    prevMonth.setDate(1);
+    if (onPrevMonth) onPrevMonth(prevMonth);
+  };
+  const handleNextMonthClick = () => {
+    const nextMonth = new Date(displayedDate);
+    nextMonth.setMonth(displayedDate.getMonth() + 1);
+    nextMonth.setDate(1);
+    if (onNextMonth) onNextMonth(nextMonth);
+  };
 
   return (
     <Component
@@ -81,7 +95,7 @@ const CalendarHeader = <T extends AsType = 'div'>(
       {type === 'day' && (
         <ButtonBase
           className="JinniCalendarHeaderControlButton"
-          onClick={onPrevMonth}
+          onClick={handlePrevMonthClick}
         >
           <ArrowLeftIcon color="gray-500" />
         </ButtonBase>
@@ -92,7 +106,7 @@ const CalendarHeader = <T extends AsType = 'div'>(
           return isClickable(part.type) ? (
             <ButtonBase
               key={part.type}
-              className="JinniCalendarHeaderDatePart clickable"
+              className="JinniCalendarHeaderDatePart"
               onClick={() => handlePartClick(part.type)}
             >
               {part.value}
@@ -107,7 +121,7 @@ const CalendarHeader = <T extends AsType = 'div'>(
       {type === 'day' && (
         <ButtonBase
           className="JinniCalendarHeaderControlButton"
-          onClick={onNextMonth}
+          onClick={handleNextMonthClick}
         >
           <ArrowRightIcon color="gray-500" />
         </ButtonBase>

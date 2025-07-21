@@ -8,6 +8,7 @@ type YearProps = ButtonBaseProps<'button'> & {
   selected?: boolean;
   marked?: boolean;
   color?: ColorType;
+  readOnly?: boolean;
 };
 
 const Year = forwardRef((props: YearProps, ref: React.Ref<HTMLElement>) => {
@@ -15,6 +16,8 @@ const Year = forwardRef((props: YearProps, ref: React.Ref<HTMLElement>) => {
     selected = false,
     marked = false,
     color = 'primary',
+    readOnly = false,
+    onClick,
     children,
     className,
     style,
@@ -28,6 +31,7 @@ const Year = forwardRef((props: YearProps, ref: React.Ref<HTMLElement>) => {
       style={{ '--color': color, ...style }}
       overlayColor={selected ? 'white' : 'black'}
       rippleColor={selected ? 'white' : 'black'}
+      onClick={readOnly ? undefined : onClick}
       {...rest}
     >
       {children}

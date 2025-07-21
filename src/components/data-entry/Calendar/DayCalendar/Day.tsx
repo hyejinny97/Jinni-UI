@@ -4,10 +4,11 @@ import cn from 'classnames';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import { ColorType } from '@/types/color';
 
-type DayProps = ButtonBaseProps<'button'> & {
+export type DayProps = ButtonBaseProps<'button'> & {
   selected?: boolean;
   marked?: boolean;
   color?: ColorType;
+  readOnly?: boolean;
 };
 
 const Day = forwardRef((props: DayProps, ref: React.Ref<HTMLElement>) => {
@@ -15,6 +16,8 @@ const Day = forwardRef((props: DayProps, ref: React.Ref<HTMLElement>) => {
     selected = false,
     marked = false,
     color = 'primary',
+    readOnly = false,
+    onClick,
     children,
     className,
     style,
@@ -28,6 +31,7 @@ const Day = forwardRef((props: DayProps, ref: React.Ref<HTMLElement>) => {
       style={{ '--color': color, ...style }}
       overlayColor={selected ? 'white' : 'black'}
       rippleColor={selected ? 'white' : 'black'}
+      onClick={readOnly ? undefined : onClick}
       {...rest}
     >
       {children}

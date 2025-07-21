@@ -3,7 +3,11 @@ import { useMemo } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Grid, GridProps } from '@/components/layout/Grid';
-import { getLocaleMonths } from './MonthCalendar.utils';
+import {
+  getLocaleMonths,
+  isLowerMonth,
+  isHigherMonth
+} from './MonthCalendar.utils';
 import Month from './Month';
 
 type MonthCalendarProps<T extends AsType = 'div'> = Omit<
@@ -11,21 +15,34 @@ type MonthCalendarProps<T extends AsType = 'div'> = Omit<
   'children' | 'onSelect'
 > & {
   locale?: string;
+  displayedDate: Date;
   selectedDate?: Date | null;
-  referenceDate?: Date;
   onSelect?: (selectedDate: Date) => void;
+  minDate?: Date;
+  maxDate?: Date;
+  readOnly?: boolean;
+  disabled?: boolean;
 };
 
 const MonthCalendar = <T extends AsType = 'div'>(
   props: MonthCalendarProps<T>
 ) => {
-  const { locale, selectedDate, referenceDate, onSelect, className, ...rest } =
-    props;
+  const {
+    locale,
+    displayedDate,
+    selectedDate,
+    onSelect,
+    minDate,
+    maxDate,
+    readOnly = false,
+    disabled = false,
+    className,
+    ...rest
+  } = props;
   const todayDate = new Date();
-  const year = (selectedDate || referenceDate || todayDate).getFullYear();
   const localeMonths = useMemo(
-    () => getLocaleMonths(year, locale),
-    [year, locale]
+    () => getLocaleMonths(displayedDate, locale),
+    [displayedDate, locale]
   );
 
   return (
@@ -39,12 +56,18 @@ const MonthCalendar = <T extends AsType = 'div'>(
         const month = value.getMonth();
         const selected = !!selectedDate && selectedDate.getMonth() === month;
         const marked = todayDate.getMonth() === month;
+        const isDisabled =
+          disabled ||
+          isLowerMonth({ baseDate: minDate, targetDate: value }) ||
+          isHigherMonth({ baseDate: maxDate, targetDate: value });
         return (
           <Month
             key={format}
             selected={selected}
             marked={marked}
             onClick={() => onSelect && onSelect(value)}
+            readOnly={readOnly}
+            disabled={isDisabled}
           >
             {format}
           </Month>
