@@ -7,9 +7,9 @@ export const useInputValue = ({
   onChange
 }: Pick<InputProps, 'value' | 'onChange' | 'defaultValue'>) => {
   const isControlled = value !== undefined;
-  const [uncontrolledValue, setUncontrolledValue] = useState<
-    string | number | undefined
-  >(defaultValue);
+  const [uncontrolledValue, setUncontrolledValue] = useState<string | number>(
+    defaultValue || ''
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;

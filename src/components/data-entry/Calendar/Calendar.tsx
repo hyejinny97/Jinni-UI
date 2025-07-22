@@ -7,9 +7,9 @@ import { DateOptions } from '@/components/data-entry/DateField';
 import { useSelectedDate } from './Calendar.hooks';
 import { getBaseCalendarType } from './Calendar.utils';
 import { CalendarHeader, CalendarType } from './CalendarHeader';
-import { DayCalendar } from './DayCalendar';
-import { MonthCalendar } from './MonthCalendar';
-import { YearCalendar } from './YearCalendar';
+import { DayCalendar, DayProps } from './DayCalendar';
+import { MonthCalendar, MonthProps } from './MonthCalendar';
+import { YearCalendar, YearProps } from './YearCalendar';
 
 export type CalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -33,6 +33,9 @@ export type CalendarProps<T extends AsType = 'div'> = Omit<
   showDaysOutsideCurrentMonth?: boolean;
   fixedWeekNumber?: number;
   displayWeekNumber?: boolean;
+  renderDay?: (dayProps: Omit<DayProps, 'ref'>) => React.ReactNode;
+  renderMonth?: (monthProps: Omit<MonthProps, 'ref'>) => React.ReactNode;
+  renderYear?: (yearProps: Omit<YearProps, 'ref'>) => React.ReactNode;
 };
 
 const Calendar = <T extends AsType = 'div'>(props: CalendarProps<T>) => {
@@ -55,6 +58,9 @@ const Calendar = <T extends AsType = 'div'>(props: CalendarProps<T>) => {
     showDaysOutsideCurrentMonth = false,
     fixedWeekNumber,
     displayWeekNumber = false,
+    renderDay,
+    renderMonth,
+    renderYear,
     className,
     style,
     as: Component = 'div',
@@ -125,10 +131,14 @@ const Calendar = <T extends AsType = 'div'>(props: CalendarProps<T>) => {
         disabled={disabled}
       />
       {displayedCalendarType === 'year' && (
-        <YearCalendar {...getCommonProps('year')} yearsOrder={yearsOrder} />
+        <YearCalendar
+          {...getCommonProps('year')}
+          yearsOrder={yearsOrder}
+          renderYear={renderYear}
+        />
       )}
       {displayedCalendarType === 'month' && (
-        <MonthCalendar {...getCommonProps('month')} />
+        <MonthCalendar {...getCommonProps('month')} renderMonth={renderMonth} />
       )}
       {displayedCalendarType === 'day' && (
         <DayCalendar
@@ -137,6 +147,7 @@ const Calendar = <T extends AsType = 'div'>(props: CalendarProps<T>) => {
           showDaysOutsideCurrentMonth={showDaysOutsideCurrentMonth}
           fixedWeekNumber={fixedWeekNumber}
           displayWeekNumber={displayWeekNumber}
+          renderDay={renderDay}
         />
       )}
     </Component>

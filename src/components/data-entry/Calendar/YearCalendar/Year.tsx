@@ -4,7 +4,8 @@ import cn from 'classnames';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import { ColorType } from '@/types/color';
 
-type YearProps = ButtonBaseProps<'button'> & {
+export type YearProps = ButtonBaseProps<'button'> & {
+  year: Date;
   selected?: boolean;
   marked?: boolean;
   color?: ColorType;

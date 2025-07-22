@@ -1,5 +1,5 @@
 import './DayCalendar.scss';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Grid, GridProps } from '@/components/layout/Grid';
@@ -11,7 +11,7 @@ import {
   isHigherDay,
   getWeekNumber
 } from './DayCalendar.utils';
-import Day from './Day';
+import Day, { DayProps } from './Day';
 import { LocaleDayType, DaysType, WeekDaysType } from './DayCalendar.types';
 
 type DayCalendarProps<T extends AsType = 'div'> = Omit<
@@ -30,6 +30,7 @@ type DayCalendarProps<T extends AsType = 'div'> = Omit<
   showDaysOutsideCurrentMonth?: boolean;
   fixedWeekNumber?: number;
   displayWeekNumber?: boolean;
+  renderDay?: (dayProps: Omit<DayProps, 'ref'>) => React.ReactNode;
 };
 
 const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
@@ -46,6 +47,9 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
     showDaysOutsideCurrentMonth = false,
     fixedWeekNumber,
     displayWeekNumber = false,
+    renderDay = (dayProps: Omit<DayProps, 'ref'>, key: number) => (
+      <Day key={key} {...dayProps} />
+    ),
     className,
     ...rest
   } = props;
@@ -117,7 +121,7 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
   ]);
   const gridColumns = displayWeekNumber ? 8 : 7;
 
-  const renderDay = (day: LocaleDayType) => {
+  const renderLocaleDay = (day: LocaleDayType) => {
     const { type, format, value } = day;
     const selected =
       !!selectedDate &&
@@ -131,37 +135,35 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
         disabledDates.some((disabledDate) =>
           isSameDay({ baseDate: value, targetDate: disabledDate })
         ));
-    return (
-      <Day
-        key={`${type}/${format}`}
-        className={type}
-        selected={selected}
-        marked={marked}
-        onClick={() => onSelect && onSelect(value)}
-        readOnly={readOnly}
-        disabled={isDisabled}
-        disableRipple={type === 'outside-day'}
-      >
-        {format}
-      </Day>
-    );
+    const dayProps = {
+      day: value,
+      className: type,
+      children: format,
+      selected,
+      marked,
+      onClick: () => onSelect && onSelect(value),
+      readOnly,
+      disabled: isDisabled,
+      disableRipple: type === 'outside-day'
+    };
+    return renderDay(dayProps, value.getTime());
   };
 
   return (
     <div className={cn('JinniDayCalendar', className)} {...rest}>
-      <Grid columns={gridColumns} spacing={3}>
+      <Grid className="JinniWeekDayContainer" columns={gridColumns} spacing={4}>
         {weekDays.map(({ type, format }, idx) => (
           <span key={`${format}/${idx}`} className={cn('JinniWeekDay', type)}>
             {format}
           </span>
         ))}
       </Grid>
-      <Grid className="JinniDayContainer" columns={gridColumns} spacing={3}>
+      <Grid className="JinniDayContainer" columns={gridColumns} spacing={4}>
         {days.map((day, idx) => {
           switch (day.type) {
             case 'day':
             case 'outside-day':
-              return renderDay(day);
+              return renderLocaleDay(day);
             case 'empty-day':
               return <span key={`empty-day-${idx}`} className="empty-day" />;
             case 'week-number':

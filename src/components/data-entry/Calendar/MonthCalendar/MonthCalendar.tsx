@@ -8,7 +8,7 @@ import {
   isLowerMonth,
   isHigherMonth
 } from './MonthCalendar.utils';
-import Month from './Month';
+import Month, { MonthProps } from './Month';
 
 type MonthCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
@@ -22,6 +22,7 @@ type MonthCalendarProps<T extends AsType = 'div'> = Omit<
   maxDate?: Date;
   readOnly?: boolean;
   disabled?: boolean;
+  renderMonth?: (monthProps: Omit<MonthProps, 'ref'>) => React.ReactNode;
 };
 
 const MonthCalendar = <T extends AsType = 'div'>(
@@ -36,6 +37,9 @@ const MonthCalendar = <T extends AsType = 'div'>(
     maxDate,
     readOnly = false,
     disabled = false,
+    renderMonth = (monthProps: Omit<MonthProps, 'ref'>, key: number) => (
+      <Month key={key} {...monthProps} />
+    ),
     className,
     ...rest
   } = props;
@@ -60,18 +64,16 @@ const MonthCalendar = <T extends AsType = 'div'>(
           disabled ||
           isLowerMonth({ baseDate: minDate, targetDate: value }) ||
           isHigherMonth({ baseDate: maxDate, targetDate: value });
-        return (
-          <Month
-            key={format}
-            selected={selected}
-            marked={marked}
-            onClick={() => onSelect && onSelect(value)}
-            readOnly={readOnly}
-            disabled={isDisabled}
-          >
-            {format}
-          </Month>
-        );
+        const monthProps = {
+          month: value,
+          children: format,
+          selected,
+          marked,
+          onClick: () => onSelect && onSelect(value),
+          readOnly,
+          disabled: isDisabled
+        };
+        return renderMonth(monthProps, value.getTime());
       })}
     </Grid>
   );

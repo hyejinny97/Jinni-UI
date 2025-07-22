@@ -8,7 +8,7 @@ import {
   isLowerYear,
   isHigherYear
 } from './YearCalendar.utils';
-import Year from './Year';
+import Year, { YearProps } from './Year';
 
 type YearCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
@@ -23,6 +23,7 @@ type YearCalendarProps<T extends AsType = 'div'> = Omit<
   readOnly?: boolean;
   disabled?: boolean;
   yearsOrder?: 'asc' | 'dsc';
+  renderYear?: (yearProps: Omit<YearProps, 'ref'>) => React.ReactNode;
 };
 
 const YearCalendar = <T extends AsType = 'div'>(
@@ -38,6 +39,9 @@ const YearCalendar = <T extends AsType = 'div'>(
     readOnly = false,
     disabled = false,
     yearsOrder = 'asc',
+    renderYear = (yearProps: Omit<YearProps, 'ref'>, key: number) => (
+      <Year key={key} {...yearProps} />
+    ),
     className,
     ...rest
   } = props;
@@ -83,25 +87,23 @@ const YearCalendar = <T extends AsType = 'div'>(
           disabled ||
           isLowerYear({ baseDate: minDate, targetDate: value }) ||
           isHigherYear({ baseDate: maxDate, targetDate: value });
-        return (
-          <Year
-            key={format}
-            ref={(element) => {
-              if (element) {
-                yearsElRef.current.push(element);
-              }
-            }}
-            selected={selected}
-            marked={marked}
-            data-year={year}
-            onClick={() => onSelect && onSelect(value)}
-            readOnly={readOnly}
-            disabled={isDisabled}
-            style={{ order: yearsOrder === 'dsc' ? 200 - idx : undefined }}
-          >
-            {format}
-          </Year>
-        );
+        const yearProps = {
+          year: value,
+          children: format,
+          ref: (element: HTMLElement | null) => {
+            if (element) {
+              yearsElRef.current.push(element);
+            }
+          },
+          selected,
+          marked,
+          'data-year': year,
+          onClick: () => onSelect && onSelect(value),
+          readOnly,
+          disabled: isDisabled,
+          style: { order: yearsOrder === 'dsc' ? 200 - idx : undefined }
+        };
+        return renderYear(yearProps, value.getTime());
       })}
     </Grid>
   );

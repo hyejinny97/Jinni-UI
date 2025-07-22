@@ -5,6 +5,7 @@ import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import { ColorType } from '@/types/color';
 
 export type DayProps = ButtonBaseProps<'button'> & {
+  day: Date;
   selected?: boolean;
   marked?: boolean;
   color?: ColorType;

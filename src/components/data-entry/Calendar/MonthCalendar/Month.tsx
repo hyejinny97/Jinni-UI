@@ -4,7 +4,8 @@ import cn from 'classnames';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import { ColorType } from '@/types/color';
 
-type MonthProps = ButtonBaseProps<'button'> & {
+export type MonthProps = ButtonBaseProps<'button'> & {
+  month: Date;
   selected?: boolean;
   marked?: boolean;
   color?: ColorType;

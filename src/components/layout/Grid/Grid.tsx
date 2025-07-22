@@ -40,8 +40,8 @@ const Grid = forwardRef(
       '--flow': flow.replace('-', ' '),
       '--rows': rows,
       '--columns': columns,
-      gridRowGap: rowSpacing || spacing,
-      gridColumnGap: columnSpacing || spacing,
+      '--grid-row-gap': `${rowSpacing || spacing}px`,
+      '--grid-column-gap': `${columnSpacing || spacing}px`,
       ...style
     });
 
