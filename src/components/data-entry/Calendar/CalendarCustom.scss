@@ -1,0 +1,88 @@
+@use '@/styles/mixins' as mixin;
+
+.JinniCalendar.custom-week-picker {
+  .JinniDayCalendar {
+    .JinniWeekDayContainer {
+      gap: 0;
+      .JinniWeekDay {
+        width: 38px;
+        height: 38px;
+      }
+    }
+    .JinniDayContainer {
+      gap: 0;
+      .JinniDay {
+        width: 38px;
+        height: 38px;
+        border-radius: 0;
+        &.hovered:not(.selected) {
+          background-color: var(--jinni-color-gray-200);
+        }
+        &.leftRounded {
+          border-top-left-radius: 9999px;
+          border-bottom-left-radius: 9999px;
+        }
+        &.rightRounded {
+          border-top-right-radius: 9999px;
+          border-bottom-right-radius: 9999px;
+        }
+      }
+    }
+  }
+}
+
+.JinniCalendar.custom-calendar-with-notes {
+  width: 800px;
+  .JinniCalendarHeader {
+    padding: 20px;
+    width: inherit;
+  }
+  .JinniYearCalendar {
+    width: inherit;
+  }
+  .JinniMonthCalendar {
+    width: inherit;
+  }
+  .JinniDayCalendar {
+    width: inherit;
+    .JinniWeekDayContainer {
+      gap: 10px;
+      .JinniWeekDay {
+        width: 100px;
+      }
+    }
+    .JinniDayContainer {
+      gap: 10px;
+      .JinniDay {
+        position: relative;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: start;
+        width: 100px;
+        height: 150px;
+        border-top: 1px solid var(--jinni-color-gray-300);
+        border-radius: 0;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        .day-number {
+          position: sticky;
+          top: 0;
+          left: 0;
+          padding: 4px 8px;
+          text-align: right;
+          box-sizing: border-box;
+          background-color: inherit;
+        }
+        .note {
+          margin: 0;
+          padding: 3px;
+          border-left: 2px solid var(--jinni-color-primary);
+          color: black;
+          font-size: 14px;
+          text-align: left;
+          @include mixin.line-clamp(1);
+        }
+      }
+    }
+  }
+}

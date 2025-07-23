@@ -9,7 +9,10 @@ import cn from 'classnames';
 import { DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
-type AutoWidthInputProps = DefaultComponentProps<'input'> & {};
+type AutoWidthInputProps = DefaultComponentProps<'input'> & {
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
 const AutoWidthInput = forwardRef(
   (props: AutoWidthInputProps, ref: React.Ref<HTMLElement>) => {

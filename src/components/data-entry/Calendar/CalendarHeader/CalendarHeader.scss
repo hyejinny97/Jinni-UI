@@ -1,0 +1,33 @@
+.JinniCalendarHeader {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 19px;
+  width: 320px;
+  height: 40px;
+  box-sizing: border-box;
+  &.year,
+  &.month {
+    justify-content: center;
+  }
+  &.day {
+    justify-content: space-between;
+  }
+
+  .JinniCalendarHeaderControlButton {
+    display: inline-flex;
+    padding: 8px;
+    border-radius: 9999px;
+  }
+
+  .JinniCalendarHeaderDatePart {
+    display: inline-block;
+    font: inherit;
+    &.JinniButtonBase {
+      padding: 0 3px;
+      border-radius: 4px;
+      text-decoration: underline;
+      text-decoration-color: var(--jinni-color-gray-400);
+      text-underline-offset: 2px;
+    }
+  }
+}

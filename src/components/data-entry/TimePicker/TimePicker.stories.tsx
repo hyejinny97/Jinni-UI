@@ -490,7 +490,11 @@ export const Sizes: Story = {
 };
 
 export const Color: Story = {
-  render: () => <TimePicker TimeFieldProps={{ color: 'yellow-400' }} />
+  render: () => (
+    <TimePicker
+      TimeFieldProps={{ color: 'yellow-400', focusedColor: 'yellow-400' }}
+    />
+  )
 };
 
 export const FullWidth: Story = {

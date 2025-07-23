@@ -1,4 +1,5 @@
 import './Grid.scss';
+import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
@@ -17,38 +18,44 @@ export type GridProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   flow?: 'row' | 'column' | 'dense' | 'row-dense' | 'column-dense';
 };
 
-const Grid = <T extends AsType = 'div'>(props: GridProps<T>) => {
-  const {
-    rows = 'auto',
-    columns = 'auto',
-    spacing,
-    rowSpacing,
-    columnSpacing,
-    flow = 'row',
-    children,
-    className,
-    style,
-    as: Component = 'div',
-    ...rest
-  } = props;
-  const newStyle = useStyle({
-    '--flow': flow.replace('-', ' '),
-    '--rows': rows,
-    '--columns': columns,
-    gridRowGap: rowSpacing || spacing,
-    gridColumnGap: columnSpacing || spacing,
-    ...style
-  });
+const Grid = forwardRef(
+  <T extends AsType = 'div'>(
+    props: GridProps<T>,
+    ref: React.Ref<HTMLElement>
+  ) => {
+    const {
+      rows = 'auto',
+      columns = 'auto',
+      spacing,
+      rowSpacing,
+      columnSpacing,
+      flow = 'row',
+      children,
+      className,
+      style,
+      as: Component = 'div',
+      ...rest
+    } = props;
+    const newStyle = useStyle({
+      '--flow': flow.replace('-', ' '),
+      '--rows': rows,
+      '--columns': columns,
+      '--grid-row-gap': `${rowSpacing || spacing}px`,
+      '--grid-column-gap': `${columnSpacing || spacing}px`,
+      ...style
+    });
 
-  return (
-    <Component
-      className={cn('JinniGrid', className)}
-      style={newStyle}
-      {...rest}
-    >
-      {children}
-    </Component>
-  );
-};
+    return (
+      <Component
+        ref={ref}
+        className={cn('JinniGrid', className)}
+        style={newStyle}
+        {...rest}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
 
 export default Grid;
