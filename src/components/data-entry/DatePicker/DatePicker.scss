@@ -1,0 +1,22 @@
+.JinniDatePicker {
+  &:not(.fullWidth) {
+    display: inline-block;
+  }
+  .JinniDatePickerOpenButton {
+    display: inline-flex;
+    padding: 5px;
+    border-radius: 50%;
+
+    &.readOnly,
+    &.disabled {
+      cursor: default;
+    }
+  }
+}
+
+.JinniDatePickerPopover.JinniPopover {
+  .JinniPopoverContent {
+    padding: 16px 0;
+    margin-top: 1px;
+  }
+}

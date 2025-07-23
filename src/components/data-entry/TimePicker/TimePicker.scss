@@ -1,4 +1,7 @@
 .JinniTimePicker {
+  &:not(.fullWidth) {
+    display: inline-block;
+  }
   .JinniTimePickerOpenButton {
     display: inline-flex;
     padding: 5px;

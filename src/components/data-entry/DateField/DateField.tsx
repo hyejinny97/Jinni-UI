@@ -111,6 +111,7 @@ const DateField = forwardRef(
         color={isValidationError ? 'error' : color}
         focusedColor={isValidationError ? 'error' : focusedColor}
         disabled={disabled}
+        focused={focused}
         {...rest}
       >
         {showPlaceholder ? (

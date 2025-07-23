@@ -1,4 +1,7 @@
 .JinniTimeRangePicker {
+  &:not(.fullWidth) {
+    display: inline-block;
+  }
   .JinniTimeRangePickerOpenButton {
     display: inline-flex;
     padding: 5px;

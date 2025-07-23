@@ -117,7 +117,11 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
 
   return (
     <Component
-      className={cn('JinniTimePicker', className)}
+      className={cn(
+        'JinniTimePicker',
+        { fullWidth: !!TimeFieldProps?.fullWidth },
+        className
+      )}
       style={newStyle}
       {...rest}
     >

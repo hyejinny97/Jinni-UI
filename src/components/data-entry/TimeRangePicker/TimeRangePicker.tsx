@@ -141,7 +141,11 @@ const TimeRangePicker = <
 
   return (
     <Component
-      className={cn('JinniTimeRangePicker', className)}
+      className={cn(
+        'JinniTimeRangePicker',
+        { fullWidth: !!TimeRangeFieldProps?.fullWidth },
+        className
+      )}
       style={newStyle}
       {...rest}
     >

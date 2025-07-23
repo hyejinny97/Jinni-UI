@@ -4,9 +4,9 @@
       color: var(--jinni-color-gray-400);
     }
     .JinniDateFieldDatePart {
+      align-self: baseline;
       display: inline-block;
       font: inherit;
-      vertical-align: middle;
       padding: 0;
       margin: 0;
       border: none;
