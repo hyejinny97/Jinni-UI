@@ -1,5 +1,5 @@
 import './DatePicker.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
@@ -8,7 +8,11 @@ import {
   DateOptions
 } from '@/components/data-entry/DateField';
 import { DateField, DateFieldProps } from '@/components/data-entry/DateField';
-import { Calendar, CalendarProps } from '@/components/data-entry/Calendar';
+import {
+  Calendar,
+  CalendarProps,
+  getBaseCalendarType
+} from '@/components/data-entry/Calendar';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import { useDateValue } from './DatePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
@@ -65,6 +69,17 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
     onChange
   });
   const newStyle = useStyle(style);
+  const changeTypeToClose = useMemo(() => {
+    const baseCalendarType = getBaseCalendarType({ locale, options });
+    switch (baseCalendarType) {
+      case 'year':
+        return 'onYearChange';
+      case 'month':
+        return 'onMonthChange';
+      case 'day':
+        return 'onDayChange';
+    }
+  }, [locale, options]);
 
   const handleOpen = () => {
     if (readOnly || disabled) return;
@@ -124,9 +139,10 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
         anchorElRef={anchorElRef}
         open={open}
         onClose={handleClose}
+        noBackdrop
         {...PopoverProps}
       >
-        {renderCalendar(commonProps)}
+        {renderCalendar({ ...commonProps, [changeTypeToClose]: handleClose })}
       </Popover>
     </Component>
   );
