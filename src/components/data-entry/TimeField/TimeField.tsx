@@ -71,10 +71,11 @@ const TimeField = forwardRef(
       disabled = false,
       color,
       focusedColor,
+      focused,
       className,
       ...rest
     } = props;
-    const [focused, setFocused] = useState<boolean>(false);
+    const [isFocused, setIsFocused] = useState<boolean>(focused || false);
     const {
       localeHourValues,
       localeSecondValues,
@@ -112,17 +113,18 @@ const TimeField = forwardRef(
       type: keyof Intl.DateTimeFormatPartTypesRegistry
     ): type is KeyTimePartType => KEY_TIME_PARTS.some((part) => part === type);
     const hasValue = Object.values(time).some((val) => val !== undefined);
-    const showPlaceholder = !hasValue && !focused;
+    const showPlaceholder = !hasValue && !isFocused;
 
     return (
       <InputBase
         ref={ref}
         className={cn('JinniTimeField', className)}
-        onFocus={() => setFocused(true)}
+        onFocus={() => setIsFocused(true)}
         onBlur={(e: FocusEvent) => {
+          if (focused) return;
           const relatedTarget = e.relatedTarget as HTMLElement;
           const currentTarget = e.currentTarget as HTMLElement;
-          if (!currentTarget?.contains(relatedTarget)) setFocused(false);
+          if (!currentTarget?.contains(relatedTarget)) setIsFocused(false);
         }}
         color={isValidationError ? 'error' : color}
         focusedColor={isValidationError ? 'error' : focusedColor}

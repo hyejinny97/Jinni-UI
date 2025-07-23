@@ -50,10 +50,11 @@ const DateField = forwardRef(
       disabled = false,
       color,
       focusedColor,
+      focused,
       className,
       ...rest
     } = props;
-    const [focused, setFocused] = useState<boolean>(false);
+    const [isFocused, setIsFocused] = useState<boolean>(focused || false);
     const {
       yearDigit,
       monthDigit,
@@ -94,17 +95,18 @@ const DateField = forwardRef(
       type: keyof Intl.DateTimeFormatPartTypesRegistry
     ): type is KeyDatePartType => KEY_DATE_PARTS.some((part) => part === type);
     const hasValue = Object.values(date).some((val) => val !== undefined);
-    const showPlaceholder = !hasValue && !focused;
+    const showPlaceholder = !hasValue && !isFocused;
 
     return (
       <InputBase
         ref={ref}
         className={cn('JinniDateField', className)}
-        onFocus={() => setFocused(true)}
+        onFocus={() => setIsFocused(true)}
         onBlur={(e: FocusEvent) => {
+          if (focused) return;
           const relatedTarget = e.relatedTarget as HTMLElement;
           const currentTarget = e.currentTarget as HTMLElement;
-          if (!currentTarget?.contains(relatedTarget)) setFocused(false);
+          if (!currentTarget?.contains(relatedTarget)) setIsFocused(false);
         }}
         color={isValidationError ? 'error' : color}
         focusedColor={isValidationError ? 'error' : focusedColor}
