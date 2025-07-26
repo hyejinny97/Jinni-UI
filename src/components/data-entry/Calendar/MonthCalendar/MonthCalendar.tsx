@@ -10,7 +10,7 @@ import {
 } from './MonthCalendar.utils';
 import Month, { MonthProps } from './Month';
 
-type MonthCalendarProps<T extends AsType = 'div'> = Omit<
+export type MonthCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
   'children' | 'onSelect'
 > & {
@@ -57,9 +57,11 @@ const MonthCalendar = <T extends AsType = 'div'>(
       {...rest}
     >
       {localeMonths.map(({ format, value }) => {
+        const year = value.getFullYear();
         const month = value.getMonth();
         const selected = !!selectedDate && selectedDate.getMonth() === month;
-        const marked = todayDate.getMonth() === month;
+        const marked =
+          todayDate.getFullYear() === year && todayDate.getMonth() === month;
         const isDisabled =
           disabled ||
           isLowerMonth({ baseDate: minDate, targetDate: value }) ||
