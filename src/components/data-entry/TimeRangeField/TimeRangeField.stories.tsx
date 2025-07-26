@@ -43,6 +43,12 @@ const meta: Meta<typeof TimeRangeField> = {
         type: { summary: `{ start?: Array<Date>, end?: Array<Date> }` }
       }
     },
+    focusedTime: {
+      description: '현재 포커스된 TimeField',
+      table: {
+        type: { summary: `'start' | 'end'` }
+      }
+    },
     endAdornment: {
       description: '뒤에 위치하는 부가 요소 (icon ,text 등)',
       table: {
