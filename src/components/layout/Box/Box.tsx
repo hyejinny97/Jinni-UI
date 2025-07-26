@@ -33,7 +33,7 @@ const Box = forwardRef(
     const computedRound = getComputedRound(round);
     const newStyle = useStyle({
       elevation,
-      borderRadius: `${computedRound}px`,
+      '--border-radius': `${computedRound}px`,
       ...style
     });
 

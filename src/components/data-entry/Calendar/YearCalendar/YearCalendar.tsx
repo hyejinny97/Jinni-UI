@@ -10,7 +10,7 @@ import {
 } from './YearCalendar.utils';
 import Year, { YearProps } from './Year';
 
-type YearCalendarProps<T extends AsType = 'div'> = Omit<
+export type YearCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
   'children' | 'onSelect'
 > & {
@@ -46,7 +46,7 @@ const YearCalendar = <T extends AsType = 'div'>(
     ...rest
   } = props;
   const yearCalendarElRef = useRef<HTMLElement>();
-  const yearsElRef = useRef<Array<HTMLElement>>([]);
+  const yearsElRef = useRef<Array<{ element: HTMLElement; year: Date }>>([]);
   const localeYears = useMemo(
     () => getTwoCenturyLocaleYears(displayedDate, locale),
     [displayedDate, locale]
@@ -58,8 +58,8 @@ const YearCalendar = <T extends AsType = 'div'>(
     const yearsEl = yearsElRef.current;
     if (!yearCalendarEl || yearsEl.length === 0) return;
     const baseYear = displayedDate.getFullYear();
-    for (let element of yearsEl) {
-      if (Number(element.dataset.year) === baseYear) {
+    for (let { element, year } of yearsEl) {
+      if (year.getFullYear() === baseYear) {
         yearCalendarEl.scrollTo({
           top:
             element.offsetTop -
@@ -92,12 +92,11 @@ const YearCalendar = <T extends AsType = 'div'>(
           children: format,
           ref: (element: HTMLElement | null) => {
             if (element) {
-              yearsElRef.current.push(element);
+              yearsElRef.current.push({ element, year: value });
             }
           },
           selected,
           marked,
-          'data-year': year,
           onClick: () => onSelect && onSelect(value),
           readOnly,
           disabled: isDisabled,
