@@ -125,7 +125,7 @@ export const useDateRange = ({
 >) => {
   const isControlled = value !== undefined;
   const [uncontrolledDateRange, setUncontrolledDateRange] = useState<
-    Required<RangeType<Date | null>>
+    RangeType<Date | null>
   >({ ...INIT_DEFAULT_VALUE, ...defaultValue });
   const dateRange = isControlled ? value : uncontrolledDateRange;
   const [dateRangeValidationError, setDateRangeValidationError] =

@@ -23,11 +23,11 @@ export type DateRangeFieldProps<T extends AsType = 'div'> = Omit<
   InputBaseProps<T>,
   'defaultValue' | 'onChange' | 'startAdornment' | 'endAdornment'
 > & {
-  placeholder?: RangeType<string>;
-  defaultValue?: RangeType<Date>;
-  value?: Required<RangeType<Date | null>>;
+  placeholder?: Partial<RangeType<string>>;
+  defaultValue?: Partial<RangeType<Date>>;
+  value?: RangeType<Date | null>;
   onChange?: (
-    value: Required<RangeType<Date | null>>,
+    value: RangeType<Date | null>,
     validationError?: DateRangeValidationError
   ) => void;
   locale?: string;

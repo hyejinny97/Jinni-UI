@@ -180,7 +180,7 @@ const DateStr = ({ date }: { date: Date | null }) => {
 };
 
 const ControlledDateRangeFieldTemplate = ({ ...props }) => {
-  const [value, setValue] = useState<Required<RangeType<Date | null>>>({
+  const [value, setValue] = useState<RangeType<Date | null>>({
     start: null,
     end: null
   });
@@ -199,7 +199,7 @@ const ControlledDateRangeFieldTemplate = ({ ...props }) => {
   };
 
   const handleChange = (
-    newValue: Required<RangeType<Date | null>>,
+    newValue: RangeType<Date | null>,
     validationError?: DateRangeValidationError
   ) => {
     setValue(newValue);
