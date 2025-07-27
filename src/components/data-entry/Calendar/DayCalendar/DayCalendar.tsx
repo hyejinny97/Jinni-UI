@@ -14,7 +14,7 @@ import {
 import Day, { DayProps } from './Day';
 import { LocaleDayType, DaysType, WeekDaysType } from './DayCalendar.types';
 
-type DayCalendarProps<T extends AsType = 'div'> = Omit<
+export type DayCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
   'children' | 'onSelect'
 > & {
