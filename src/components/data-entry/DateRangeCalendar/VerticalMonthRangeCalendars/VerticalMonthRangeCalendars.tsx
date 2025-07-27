@@ -19,6 +19,7 @@ const VerticalMonthRangeCalendars = <T extends AsType = 'div'>(
   const {
     monthCalendars = 5,
     displayedDate,
+    locale,
     className,
     as: Component = 'div',
     ...rest
@@ -28,6 +29,9 @@ const VerticalMonthRangeCalendars = <T extends AsType = 'div'>(
     Array<{ element: HTMLElement; year: Date }>
   >([]);
   const [hoveredMonth, setHoveredMonth] = useState<Date | null>(null);
+  const dateTimeFormat = new Intl.DateTimeFormat(locale, {
+    year: 'numeric'
+  });
 
   useLayoutEffect(() => {
     const verticalMonthRangeCalendarsEl =
@@ -74,7 +78,7 @@ const VerticalMonthRangeCalendars = <T extends AsType = 'div'>(
           }}
         >
           <Box className="JinniMonthRangeCalendarHeader">
-            {year.getFullYear()}
+            {dateTimeFormat.format(year)}
           </Box>
           <MonthRangeCalendar
             displayedDate={year}
