@@ -1,5 +1,4 @@
 import './MonthRangeCalendar.scss';
-import { useState, useRef, useLayoutEffect } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import {
@@ -12,13 +11,15 @@ import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
 import { dateToMonth } from './MonthRangeCalendar.utils';
+import { useHoveredMonth } from './MonthRangeCalendar.hooks';
 
-type MonthRangeCalendarProps<T extends AsType = 'div'> = Omit<
+export type MonthRangeCalendarProps<T extends AsType = 'div'> = Omit<
   MonthCalendarProps<T>,
   'selectedDate'
 > & {
   selectedDate?: RangeType<Date | null>;
-  monthCalendars?: number;
+  hoveredMonth?: Date | null;
+  onHover?: (hoveredMonth: Date | null) => void;
 };
 
 const MonthRangeCalendar = <T extends AsType = 'div'>(
@@ -27,34 +28,16 @@ const MonthRangeCalendar = <T extends AsType = 'div'>(
   const {
     renderMonth,
     selectedDate,
-    displayedDate,
-    monthCalendars = 5,
+    hoveredMonth,
+    onHover,
     className,
     as: Component = 'div',
     ...rest
   } = props;
-  const monthRangeCalendarContainerElRef = useRef<HTMLDivElement>(null);
-  const monthRangeCalendarsElRef = useRef<
-    Array<{ element: HTMLElement; year: Date }>
-  >([]);
-  const [hoveredMonth, setHoveredMonth] = useState<Date | null>(null);
-
-  useLayoutEffect(() => {
-    const monthRangeCalendarContainerEl =
-      monthRangeCalendarContainerElRef.current;
-    const monthRangeCalendarsEl = monthRangeCalendarsElRef.current;
-    if (!monthRangeCalendarContainerEl || monthRangeCalendarsEl.length === 0)
-      return;
-    const baseYear = displayedDate.getFullYear();
-    for (let { element, year } of monthRangeCalendarsEl) {
-      if (year.getFullYear() === baseYear) {
-        monthRangeCalendarContainerEl.scrollTo({
-          top: element.offsetTop
-        });
-        break;
-      }
-    }
-  }, []);
+  const { hoveredMonthValue, handleHover } = useHoveredMonth({
+    hoveredMonth,
+    onHover
+  });
 
   const isSelected = (month: Date): boolean => {
     if (!selectedDate) return false;
@@ -71,47 +54,25 @@ const MonthRangeCalendar = <T extends AsType = 'div'>(
     return dateToMonth(start) <= targetMonth && targetMonth <= dateToMonth(end);
   };
   const isBetweenStartAndHoveredDate = (month: Date): boolean => {
-    if (selectedDate?.start && !selectedDate.end && hoveredMonth) {
+    if (selectedDate?.start && !selectedDate.end && hoveredMonthValue) {
       const { start } = selectedDate;
       const targetMonth = dateToMonth(month);
       return (
         dateToMonth(start) <= targetMonth &&
-        targetMonth <= dateToMonth(hoveredMonth)
+        targetMonth <= dateToMonth(hoveredMonthValue)
       );
     }
     return false;
   };
 
-  const years = Array.from({ length: monthCalendars }, (_, i) => {
-    const date = new Date(displayedDate);
-    const baseYear = displayedDate.getFullYear();
-    const half = Math.floor(monthCalendars / 2);
-    date.setFullYear(baseYear - half + i);
-    return date;
-  });
-
   return (
-    <div
-      ref={monthRangeCalendarContainerElRef}
-      className={cn('JinniMonthRangeCalendarContainer', className)}
-    >
-      {years.map((year) => (
-        <div
-          key={year.getTime()}
-          ref={(element) => {
-            if (element) {
-              monthRangeCalendarsElRef.current.push({ element, year });
-            }
-          }}
-        >
-          <Box className="JinniMonthRangeCalendarHeader">
-            {year.getFullYear()}
-          </Box>
-          <MonthCalendar
-            className="JinniMonthRangeCalendar"
-            spacing={0}
-            displayedDate={year}
-            renderMonth={(monthProps: MonthProps) => {
+    <MonthCalendar
+      className="JinniMonthRangeCalendar"
+      spacing={0}
+      renderMonth={
+        renderMonth
+          ? renderMonth
+          : (monthProps: MonthProps) => {
               const { month, color = 'primary', ref, ...rest } = monthProps;
               const showDashBorder = isBetweenStartAndHoveredDate(month);
               const currentMonth = dateToMonth(month);
@@ -128,11 +89,11 @@ const MonthRangeCalendar = <T extends AsType = 'div'>(
                       dateToMonth(selectedDate.end) === currentMonth,
                     lastDashBorder:
                       showDashBorder &&
-                      hoveredMonth &&
-                      dateToMonth(hoveredMonth) === currentMonth
+                      hoveredMonthValue &&
+                      dateToMonth(hoveredMonthValue) === currentMonth
                   })}
-                  onMouseEnter={() => setHoveredMonth(month)}
-                  onMouseLeave={() => setHoveredMonth(null)}
+                  onMouseEnter={() => handleHover(month)}
+                  onMouseLeave={() => handleHover(null)}
                 >
                   <Box
                     className={cn('MonthContainer', {
@@ -149,12 +110,10 @@ const MonthRangeCalendar = <T extends AsType = 'div'>(
                   </Box>
                 </Box>
               );
-            }}
-            {...rest}
-          />
-        </div>
-      ))}
-    </div>
+            }
+      }
+      {...rest}
+    />
   );
 };
 
