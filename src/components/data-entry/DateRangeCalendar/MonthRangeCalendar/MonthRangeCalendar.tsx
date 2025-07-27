@@ -10,7 +10,7 @@ import {
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
-import { dateToMonth } from './MonthRangeCalendar.utils';
+import { dateToMonth } from '@/utils/date';
 import { useHoveredMonth } from './MonthRangeCalendar.hooks';
 
 export type MonthRangeCalendarProps<T extends AsType = 'div'> = Omit<

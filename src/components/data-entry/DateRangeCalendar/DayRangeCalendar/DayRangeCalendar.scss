@@ -51,39 +51,77 @@ $dash-border-width: 2px;
         }
       }
 
-      &:nth-child(7n + 1) {
-        @include left-rounded;
-        .JinniBox.DayContainer::before {
-          border-right-width: 0;
-        }
-      }
-      @for $i from 2 through 6 {
-        &:nth-child(7n + #{$i}) {
+      &:not(.displayWeekNumber) {
+        &:nth-child(7n + 1) {
+          @include left-rounded;
           .JinniBox.DayContainer::before {
-            border-left-width: 0;
             border-right-width: 0;
           }
         }
-      }
-      &:nth-child(7n + 7) {
-        @include right-rounded;
-        .JinniBox.DayContainer::before {
-          border-left-width: 0;
+        @for $i from 2 through 6 {
+          &:nth-child(7n + #{$i}) {
+            .JinniBox.DayContainer::before {
+              border-left-width: 0;
+              border-right-width: 0;
+            }
+          }
+        }
+        &:nth-child(7n + 7) {
+          @include right-rounded;
+          .JinniBox.DayContainer::before {
+            border-left-width: 0;
+          }
         }
       }
-      &:last-child {
-        @include right-rounded;
+
+      &.displayWeekNumber {
+        &:nth-child(8n + 2) {
+          @include left-rounded;
+          .JinniBox.DayContainer::before {
+            border-right-width: 0;
+          }
+        }
+        @for $i from 3 through 7 {
+          &:nth-child(8n + #{$i}) {
+            .JinniBox.DayContainer::before {
+              border-left-width: 0;
+              border-right-width: 0;
+            }
+          }
+        }
+        &:nth-child(8n + 8) {
+          @include right-rounded;
+          .JinniBox.DayContainer::before {
+            border-left-width: 0;
+          }
+        }
       }
-      &.startDate {
-        @include left-rounded;
-      }
-      &.endDate {
-        @include right-rounded;
-      }
-      &.lastDashBorder {
-        @include right-rounded;
-        .JinniBox.DayContainer::before {
-          border-right-width: $dash-border-width;
+
+      &:not(.displayWeekNumber),
+      &.displayWeekNumber {
+        &.firstDay {
+          @include left-rounded;
+          .JinniBox.DayContainer::before {
+            border-left-width: $dash-border-width;
+          }
+        }
+        &.lastDay {
+          @include right-rounded;
+          .JinniBox.DayContainer::before {
+            border-right-width: $dash-border-width;
+          }
+        }
+        &.startDate {
+          @include left-rounded;
+        }
+        &.endDate {
+          @include right-rounded;
+        }
+        &.lastDashBorder {
+          @include right-rounded;
+          .JinniBox.DayContainer::before {
+            border-right-width: $dash-border-width;
+          }
         }
       }
     }

@@ -10,7 +10,7 @@ import {
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
-import { dateToDay } from './DayRangeCalendar.utils';
+import { dateToDay } from '@/utils/date';
 import { useHoveredDay } from './DayRangeCalendar.hooks';
 
 export type DayRangeCalendarProps<T extends AsType = 'div'> = Omit<
@@ -27,13 +27,21 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
 ) => {
   const {
     renderDay,
+    displayedDate,
     selectedDate,
     hoveredDay,
     onHover,
+    showDaysOutsideCurrentMonth,
+    displayWeekNumber,
     className,
     as: Component = 'div',
     ...rest
   } = props;
+  const monthLastDay = new Date(
+    displayedDate.getFullYear(),
+    displayedDate.getMonth() + 1,
+    0
+  ).getDate();
   const { hoveredDayValue, handleHover } = useHoveredDay({
     hoveredDay,
     onHover
@@ -67,6 +75,9 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
   return (
     <DayCalendar
       className="JinniDayRangeCalendar"
+      displayedDate={displayedDate}
+      showDaysOutsideCurrentMonth={showDaysOutsideCurrentMonth}
+      displayWeekNumber={displayWeekNumber}
       renderDay={
         renderDay
           ? renderDay
@@ -85,10 +96,16 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
                     endDate:
                       selectedDate?.end &&
                       dateToDay(selectedDate.end) === currentDay,
+                    firstDay:
+                      !showDaysOutsideCurrentMonth && day.getDate() === 1,
+                    lastDay:
+                      !showDaysOutsideCurrentMonth &&
+                      monthLastDay === day.getDate(),
                     lastDashBorder:
                       showDashBorder &&
                       hoveredDayValue &&
-                      dateToDay(hoveredDayValue) === currentDay
+                      dateToDay(hoveredDayValue) === currentDay,
+                    displayWeekNumber
                   })}
                   onMouseEnter={() => handleHover(day)}
                   onMouseLeave={() => handleHover(null)}
