@@ -1,0 +1,142 @@
+import { Meta, Canvas, ArgTypes, Stories, Markdown } from '@storybook/blocks';
+import * as DateRangeCalendarStories from './DateRangeCalendar.stories';
+
+<Meta of={DateRangeCalendarStories} />
+
+# DateRangeCalendar
+
+날짜 범위 선택 가능한 달력
+
+## Import
+
+```js
+import { DateRangeCalendar } from '@/components/data-entry/DateRangeCalendar';
+```
+
+## Usage
+
+### Basic DateRangeCalendar
+
+#### 1) Basic
+
+<Canvas of={DateRangeCalendarStories.BasicDateRangeCalendar} />
+
+#### 2) DefaultValue
+
+- `defaultValue`: 초기 selected date (uncontrolled일 때만 적용 가능)
+
+<Canvas of={DateRangeCalendarStories.DefaultValue} />
+
+### Controlled DateRangeCalendar
+
+- `value`와 `onChange`를 통해 control 가능
+- `value`: selected date
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={DateRangeCalendarStories.ControlledDateRangeCalendar} />
+
+### Choose the initial date
+
+- `referenceDate`: `value`, `defaultValue` prop이 없을 때 참조하는 date
+
+<Canvas of={DateRangeCalendarStories.ChooseTheInitialDate} />
+
+### Locale and Options
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+- `options`: date 속성
+
+#### 1) Locale
+
+<Canvas of={DateRangeCalendarStories.Locale} />
+
+#### 2) Options
+
+<Canvas of={DateRangeCalendarStories.Options} />
+
+### Readonly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={DateRangeCalendarStories.Readonly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={DateRangeCalendarStories.Disabled} />
+
+### Restrict Date
+
+- `minDate`: 선택 가능한 최소 날짜
+- `maxDate`: 선택 가능한 최대 날짜
+- `disabledDates`: 비활성화하는 특정 날짜 모음
+
+<Canvas of={DateRangeCalendarStories.RestrictDate} />
+
+### Order of years
+
+- `yearsOrder`: years를 나타내는 순서
+
+<Canvas of={DateRangeCalendarStories.OrderOfYears} />
+
+### Show additional days
+
+- `showDaysOutsideCurrentMonth`: true이면, day calendar에서 해당 month의 days 이외의 앞뒤 일부 days를 나타냄
+- `fixedWeekNumber`: day calendar에서 보여지는 week 개수
+
+<Canvas of={DateRangeCalendarStories.ShowAdditionalDays} />
+
+### Display week number
+
+- `displayWeekNumber`: true이면, week number가 나타남
+
+<Canvas of={DateRangeCalendarStories.DisplayWeekNumber} />
+
+### Orientation of day calendars
+
+- `dayCalendarsOrientation`: day calendars 정렬 방향
+
+<Canvas of={DateRangeCalendarStories.OrientationOfDayCalendars} />
+
+### Orientation of month calendars
+
+- `monthCalendarsOrientation`: month calendars 정렬 방향
+
+<Canvas of={DateRangeCalendarStories.OrientationOfMonthCalendars} />
+
+### Choose the day calendars to render
+
+#### 1) orientation = 'horizontal'인 경우
+
+- `horizontalDayCalendars`: 수평 상에 렌더하는 day calendars 갯수
+
+<Canvas of={DateRangeCalendarStories.ChooseTheHorizontalDayCalendarsToRender} />
+
+#### 2) orientation = 'vertical'인 경우
+
+- `verticalDayCalendars`: 수평 상에 렌더하는 day calendars 갯수
+
+<Canvas of={DateRangeCalendarStories.ChooseTheVerticalDayCalendarsToRender} />
+
+### Choose the month calendars to render
+
+#### 1) orientation = 'horizontal'인 경우
+
+- `horizontalMonthCalendars`: 수평 상에 렌더하는 month calendars 갯수
+
+<Canvas
+  of={DateRangeCalendarStories.ChooseTheHorizontalMonthCalendarsToRender}
+/>
+
+#### 2) orientation = 'vertical'인 경우
+
+- `verticalMonthCalendars`: 수평 상에 렌더하는 month calendars 갯수
+
+<Canvas of={DateRangeCalendarStories.ChooseTheVerticalMonthCalendarsToRender} />
+
+## Props
+
+- `YearRangeCalendar` + `VerticalMonthRangeCalendars` + `HorizontalMonthRangeCalendars` + `VerticalDayRangeCalendars` + `HorizontalDayRangeCalendars` 컴포넌트로 구성됨
+
+<ArgTypes of={DateRangeCalendarStories} sort="alpha" />
