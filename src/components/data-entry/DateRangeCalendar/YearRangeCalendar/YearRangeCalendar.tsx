@@ -57,38 +57,44 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
 
   return (
     <YearCalendar
+      id="JinniYearRangeCalendar"
       className={cn('JinniYearRangeCalendar', className)}
       spacing={0}
-      renderYear={(yearProps: YearProps) => {
-        const { year, color = 'primary', ref, ...rest } = yearProps;
-        const showDashBorder = isBetweenStartAndHoveredDate(year);
-        return (
-          <Box
-            key={year.getTime()}
-            ref={ref}
-            className={cn('GridItem', {
-              startDate:
-                selectedDate?.start?.getFullYear() === year.getFullYear(),
-              endDate: selectedDate?.end?.getFullYear() === year.getFullYear(),
-              lastDashBorder:
-                showDashBorder &&
-                hoveredYear?.getFullYear() === year.getFullYear()
-            })}
-            onMouseEnter={() => setHoveredYear(year)}
-            onMouseLeave={() => setHoveredYear(null)}
-          >
-            <Box
-              className={cn('YearContainer', {
-                dimmedBackground: isBetweenSelectedDates(year),
-                showDashBorder
-              })}
-              style={{ '--dim-color': lighten(color, 0.8) }}
-            >
-              <Year {...rest} year={year} selected={isSelected(year)} />
-            </Box>
-          </Box>
-        );
-      }}
+      renderYear={
+        renderYear
+          ? renderYear
+          : (yearProps: YearProps) => {
+              const { year, color = 'primary', ref, ...rest } = yearProps;
+              const showDashBorder = isBetweenStartAndHoveredDate(year);
+              return (
+                <Box
+                  key={year.getTime()}
+                  ref={ref}
+                  className={cn('GridItem', {
+                    startDate:
+                      selectedDate?.start?.getFullYear() === year.getFullYear(),
+                    endDate:
+                      selectedDate?.end?.getFullYear() === year.getFullYear(),
+                    lastDashBorder:
+                      showDashBorder &&
+                      hoveredYear?.getFullYear() === year.getFullYear()
+                  })}
+                  onMouseEnter={() => setHoveredYear(year)}
+                  onMouseLeave={() => setHoveredYear(null)}
+                >
+                  <Box
+                    className={cn('YearContainer', {
+                      dimmedBackground: isBetweenSelectedDates(year),
+                      showDashBorder
+                    })}
+                    style={{ '--dim-color': lighten(color, 0.8) }}
+                  >
+                    <Year {...rest} year={year} selected={isSelected(year)} />
+                  </Box>
+                </Box>
+              );
+            }
+      }
       {...rest}
     />
   );

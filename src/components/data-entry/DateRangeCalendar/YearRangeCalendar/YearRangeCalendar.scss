@@ -11,7 +11,7 @@ $dash-border-width: 2px;
   border-bottom-right-radius: 9999px;
 }
 
-.JinniYearRangeCalendar {
+#JinniYearRangeCalendar {
   width: calc(300px + $scrollbar-width);
 
   .JinniBox.GridItem {
