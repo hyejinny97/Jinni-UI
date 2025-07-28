@@ -52,6 +52,10 @@ const YearCalendar = <T extends AsType = 'div'>(
     [displayedDate, locale]
   );
   const todayDate = new Date();
+  const sortedLocaleYears = useMemo(
+    () => (yearsOrder === 'dsc' ? [...localeYears].reverse() : localeYears),
+    [localeYears, yearsOrder]
+  );
 
   useLayoutEffect(() => {
     const yearCalendarEl = yearCalendarElRef.current;
@@ -79,7 +83,7 @@ const YearCalendar = <T extends AsType = 'div'>(
       spacing={10}
       {...rest}
     >
-      {localeYears.map(({ format, value }, idx) => {
+      {sortedLocaleYears.map(({ format, value }) => {
         const year = value.getFullYear();
         const selected = !!selectedDate && selectedDate.getFullYear() === year;
         const marked = todayDate.getFullYear() === year;
@@ -99,8 +103,7 @@ const YearCalendar = <T extends AsType = 'div'>(
           marked,
           onClick: () => onSelect && onSelect(value),
           readOnly,
-          disabled: isDisabled,
-          style: { order: yearsOrder === 'dsc' ? 200 - idx : undefined }
+          disabled: isDisabled
         };
         return renderYear(yearProps, value.getTime());
       })}
