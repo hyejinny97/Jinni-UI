@@ -1,8 +1,14 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
-export const useOverflowHidden = ({ open }: { open: boolean }) => {
-  useEffect(() => {
-    if (!open) return;
+export const useOverflowHidden = ({
+  open,
+  disableScroll
+}: {
+  open: boolean;
+  disableScroll: boolean;
+}) => {
+  useLayoutEffect(() => {
+    if (!open || !disableScroll) return;
     const scrollbarWidth =
       window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = 'hidden';
@@ -13,5 +19,5 @@ export const useOverflowHidden = ({ open }: { open: boolean }) => {
       document.body.style.removeProperty('overflow');
       document.body.style.removeProperty('padding-right');
     };
-  }, [open]);
+  }, [open, disableScroll]);
 };

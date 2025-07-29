@@ -139,7 +139,6 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
         anchorElRef={anchorElRef}
         open={open}
         onClose={handleClose}
-        noBackdrop
         {...PopoverProps}
       >
         {renderCalendar({ ...commonProps, [changeTypeToClose]: handleClose })}

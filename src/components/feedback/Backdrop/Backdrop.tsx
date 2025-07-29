@@ -9,6 +9,7 @@ type BackdropProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children?: React.ReactNode;
   open: boolean;
   invisible?: boolean;
+  disableScroll?: boolean;
 };
 
 const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
@@ -17,13 +18,14 @@ const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
     open,
     onClick,
     invisible = false,
+    disableScroll = false,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
   const newStyle = useStyle(style);
-  useOverflowHidden({ open });
+  useOverflowHidden({ open, disableScroll });
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     const { target, currentTarget } = e;

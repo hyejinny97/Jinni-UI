@@ -194,7 +194,6 @@ const TimeRangePicker = <
         anchorElRef={anchorElRef}
         className="JinniTimeRangePickerPopover"
         open={open}
-        noBackdrop
         {...PopoverProps}
       >
         {focusedTime &&

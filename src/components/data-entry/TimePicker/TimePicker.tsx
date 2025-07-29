@@ -147,7 +147,6 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
         anchorElRef={anchorElRef}
         className="JinniTimePickerPopover"
         open={open}
-        noBackdrop
         {...PopoverProps}
       >
         {renderDigitalClock(commonProps as DigitalClockProps<T, Mode>)}

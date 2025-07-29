@@ -22,6 +22,13 @@ const meta: Meta<typeof Backdrop> = {
     },
     open: {
       description: 'true이면, 배경이 딤 처리되면서 콘텐츠가 나타남'
+    },
+    disableScroll: {
+      description: 'true이면, scroll 불가',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' }
+      }
     }
   }
 };
@@ -64,5 +71,12 @@ export const Invisible: Story = {
   render: (args) => BackdropTemplate(args),
   args: {
     invisible: true
+  }
+};
+
+export const DisableScroll: Story = {
+  render: (args) => BackdropTemplate(args),
+  args: {
+    disableScroll: true
   }
 };
