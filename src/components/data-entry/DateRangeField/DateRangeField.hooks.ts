@@ -10,7 +10,7 @@ import {
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
 
-const useDateRangeValidationError = ({
+export const useDateRangeValidationError = ({
   locale,
   options,
   disabledDates

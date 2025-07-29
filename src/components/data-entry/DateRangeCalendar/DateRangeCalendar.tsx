@@ -9,7 +9,10 @@ import {
   DayProps,
   getBaseCalendarType
 } from '@/components/data-entry/Calendar';
-import { RangeType } from '@/components/data-entry/DateRangeField';
+import {
+  RangeType,
+  DateRangeValidationError
+} from '@/components/data-entry/DateRangeField';
 import { useSelectedDateRange } from './DateRangeCalendar.hooks';
 import { YearRangeCalendar } from './YearRangeCalendar';
 import { VerticalMonthRangeCalendars } from './VerticalMonthRangeCalendars';
@@ -26,7 +29,10 @@ export type DateRangeCalendarProps<T extends AsType = 'div'> = Omit<
   defaultValue?: Partial<RangeType<Date>>;
   value?: RangeType<Date | null>;
   referenceDate?: Date;
-  onChange?: (value: RangeType<Date | null>) => void;
+  onChange?: (
+    value: RangeType<Date | null>,
+    validationError?: DateRangeValidationError
+  ) => void;
   onYearChange?: (value: RangeType<Date | null>) => void;
   onMonthChange?: (value: RangeType<Date | null>) => void;
   onDayChange?: (value: RangeType<Date | null>) => void;
@@ -95,7 +101,10 @@ const DateRangeCalendar = <T extends AsType = 'div'>(
   const { selectedDateRange, handleChange } = useSelectedDateRange({
     defaultValue,
     value,
-    onChange
+    onChange,
+    locale,
+    options,
+    disabledDates
   });
   const todayDate = new Date();
   const [displayedDate, setDisplayedDate] = useState<Date>(
