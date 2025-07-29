@@ -1,0 +1,134 @@
+import { Meta, Canvas, ArgTypes, Stories, Markdown } from '@storybook/blocks';
+import * as DateRangePickerStories from './DateRangePicker.stories';
+
+<Meta of={DateRangePickerStories} />
+
+# DateRangePicker
+
+날짜 범위 선택 가능
+
+## Import
+
+```js
+import { DateRangePicker } from '@/components/data-entry/DateRangePicker';
+```
+
+## Usage
+
+### Basic DateRangePicker
+
+#### 1) Basic
+
+- `defaultValue`: 초기 date (uncontrolled일 때만 적용 가능)
+
+<Canvas of={DateRangePickerStories.Basic} />
+
+#### 2) Form with datePicker
+
+<Canvas of={DateRangePickerStories.FormWithDateRangePicker} />
+
+### Controlled DatePicker
+
+- `value`와 `onChange`를 통해 control 가능
+- `value`: date
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={DateRangePickerStories.ControlledDateRangePicker} />
+
+### Locale and Options
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+- `options`: date 속성
+
+#### 1) Locale
+
+<Canvas of={DateRangePickerStories.Locale} />
+
+#### 2) Options
+
+<Canvas of={DateRangePickerStories.Options} />
+
+### Readonly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={DateRangePickerStories.Readonly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={DateRangePickerStories.Disabled} />
+
+### Restrict Date
+
+- `minDate`: 선택 가능한 최소 날짜
+- `maxDate`: 선택 가능한 최대 날짜
+- `disabledDates`: 비활성화하는 특정 날짜 모음
+
+<Canvas of={DateRangePickerStories.RestrictDate} />
+
+### Custom Popover
+
+- `PopoverProps`: Popover 컴포넌트의 props
+
+<Canvas of={DateRangePickerStories.CustomPopover} />
+
+### Custom DateRangeField
+
+- `DateRangeFieldProps`: DateRangeField의 Props
+
+#### 1) Placeholder
+
+<Canvas of={DateRangePickerStories.Placeholder} />
+
+#### 2) Date Format
+
+<Canvas of={DateRangePickerStories.DateFormat} />
+
+#### 3) Variants
+
+<Canvas of={DateRangePickerStories.Variants} />
+
+#### 4) Sizes
+
+<Canvas of={DateRangePickerStories.Sizes} />
+
+#### 5) Color
+
+<Canvas of={DateRangePickerStories.Color} />
+
+#### 6) Full Width
+
+<Canvas of={DateRangePickerStories.FullWidth} />
+
+#### 7) Adornments
+
+<Canvas of={DateRangePickerStories.Adornments} />
+
+#### 8) Disable Effect
+
+<Canvas of={DateRangePickerStories.DisableEffect} />
+
+#### 9) Custom center icon
+
+<Canvas of={DateRangePickerStories.CustomCenterIcon} />
+
+### Custom Calendar
+
+- `renderDateRangeCalendar`: dateRangeCalendarProps를 인자로 받아 `DateRangeCalendar` 컴포넌트를 반환하는 함수
+
+<Canvas of={DateRangePickerStories.CustomDateRangeCalendar} />
+
+### Multi-DatePicker
+
+- `DatePicker` 컴포넌트를 두 개 사용해, 직접 시작 날짜와 마지막 날짜를 설정할 수도 있음
+
+<Canvas of={DateRangePickerStories.MultiDatePicker} />
+
+## Props
+
+- `DateRangeField` 컴포넌트 + `DateRangeCalendar` 컴포넌트로 구성됨
+- `Popover` 컴포넌트의 모든 props 사용 가능
+
+<ArgTypes of={DateRangePickerStories} sort="alpha" />
