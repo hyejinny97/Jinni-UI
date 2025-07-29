@@ -6,5 +6,11 @@ export const dateToMonth = (date: Date): number => {
   return year * 12 + month;
 };
 
-export const dateToDay = (date: Date): number =>
-  Math.floor(date.getTime() / DAY);
+export const dateToDay = (date: Date): number => {
+  const localMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.floor(localMidnight.getTime() / DAY) + 1;
+};
