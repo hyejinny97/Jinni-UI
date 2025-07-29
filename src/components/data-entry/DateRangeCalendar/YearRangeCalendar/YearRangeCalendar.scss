@@ -72,15 +72,33 @@ $dash-border-width: 2px;
       @include right-rounded;
     }
     &.startDate {
-      @include left-rounded;
+      &:not(.dsc) {
+        @include left-rounded;
+      }
+      &.dsc {
+        @include right-rounded;
+      }
     }
     &.endDate {
-      @include right-rounded;
+      &:not(.dsc) {
+        @include right-rounded;
+      }
+      &.dsc {
+        @include left-rounded;
+      }
     }
     &.lastDashBorder {
-      @include right-rounded;
-      .JinniBox.YearContainer::before {
-        border-right-width: $dash-border-width;
+      &:not(.dsc) {
+        @include right-rounded;
+        .JinniBox.YearContainer::before {
+          border-right-width: $dash-border-width;
+        }
+      }
+      &.dsc {
+        @include left-rounded;
+        .JinniBox.YearContainer::before {
+          border-left-width: $dash-border-width;
+        }
       }
     }
   }

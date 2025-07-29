@@ -25,6 +25,7 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
   const {
     renderYear,
     selectedDate,
+    yearsOrder,
     className,
     as: Component = 'div',
     ...rest
@@ -60,6 +61,7 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
       id="JinniYearRangeCalendar"
       className={cn('JinniYearRangeCalendar', className)}
       spacing={0}
+      yearsOrder={yearsOrder}
       renderYear={
         renderYear
           ? renderYear
@@ -70,7 +72,7 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
                 <Box
                   key={year.getTime()}
                   ref={ref}
-                  className={cn('GridItem', {
+                  className={cn('GridItem', yearsOrder, {
                     startDate:
                       selectedDate?.start?.getFullYear() === year.getFullYear(),
                     endDate:
