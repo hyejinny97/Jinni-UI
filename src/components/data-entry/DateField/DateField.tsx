@@ -20,6 +20,7 @@ export type DateFieldProps<T extends AsType = 'div'> = Omit<
   defaultValue?: Date;
   value?: Date | null;
   onChange?: (value: Date, validationError?: ValidationError) => void;
+  onErrorStatus?: (validationError?: ValidationError) => void;
   locale?: string;
   options?: DateOptions;
   format?: string;
@@ -40,6 +41,7 @@ const DateField = forwardRef(
       defaultValue,
       value,
       onChange,
+      onErrorStatus,
       locale,
       options,
       format,
@@ -78,6 +80,7 @@ const DateField = forwardRef(
         maxDate,
         disabledDates,
         onChange,
+        onErrorStatus,
         dateToDateObject,
         dateObjectToDate,
         getLocaleDayValuesByYearMonth

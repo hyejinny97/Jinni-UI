@@ -30,7 +30,10 @@ export const isLowerMonth = ({
   const baseMonth = baseDate.getMonth();
   const targetYear = targetDate.getFullYear();
   const targetMonth = targetDate.getMonth();
-  return baseYear === targetYear && baseMonth > targetMonth;
+  return (
+    baseYear > targetYear ||
+    (baseYear === targetYear && baseMonth > targetMonth)
+  );
 };
 
 export const isHigherMonth = ({
@@ -45,5 +48,8 @@ export const isHigherMonth = ({
   const baseMonth = baseDate.getMonth();
   const targetYear = targetDate.getFullYear();
   const targetMonth = targetDate.getMonth();
-  return baseYear === targetYear && baseMonth < targetMonth;
+  return (
+    baseYear < targetYear ||
+    (baseYear === targetYear && baseMonth < targetMonth)
+  );
 };

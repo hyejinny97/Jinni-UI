@@ -218,7 +218,6 @@ const Autocomplete = <
           anchorElRef={inputBaseElRef}
           open={openMenu}
           onClose={handleMenuClose}
-          noBackdrop
           {...MenuProps}
           MenuListProps={{
             ref: menuListElRef,

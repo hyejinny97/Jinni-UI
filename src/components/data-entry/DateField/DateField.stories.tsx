@@ -60,6 +60,14 @@ const meta: Meta<typeof DateField> = {
         }
       }
     },
+    onErrorStatus: {
+      description: 'error 상태가 변경됐을 때 호출되는 함수',
+      table: {
+        type: {
+          summary: `(validationError?: 'minDate' | 'maxDate' | 'disabledDate') ⇒ void;`
+        }
+      }
+    },
     options: {
       description: 'date 속성',
       table: {

@@ -1,5 +1,4 @@
 import './Popover.scss';
-import { createPortal } from 'react-dom';
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
@@ -21,7 +20,7 @@ export type PopoverProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
     open: boolean;
     onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
     PopoverContentProps?: BoxProps;
-    noBackdrop?: boolean;
+    disableScroll?: boolean;
   };
 
 const DEFAULT_ANCHOR_ORIGIN = {
@@ -44,7 +43,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
     anchorPosition,
     popoverOrigin = DEFAULT_POPOVER_ORIGIN,
-    noBackdrop = false,
+    disableScroll = false,
     className,
     style,
     as: Component = 'div',
@@ -89,12 +88,13 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     </Component>
   );
 
-  if (noBackdrop) {
-    return open && createPortal(popover, document.body);
-  }
-
   return (
-    <Backdrop open={open} invisible onClick={handleBackdropClick}>
+    <Backdrop
+      open={open}
+      invisible
+      disableScroll={disableScroll}
+      onClick={handleBackdropClick}
+    >
       {popover}
     </Backdrop>
   );

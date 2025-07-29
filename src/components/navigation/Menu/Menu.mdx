@@ -27,8 +27,7 @@ import { Menu } from '@/components/navigation/Menu';
   - `anchorElRef`: anchor가 되는 HTML element의 reference로, 메뉴의 위치를 결정해줌
   - `open`: true이면, 메뉴가 나타남
   - `onClose`: 아래와 같은 이벤트 발생 시 호출되는 함수
-    - reason: `'escapeKeydown'`, `'backdropClick'`, `'tabKeyDown'`, `'backgroundClick'`
-    - 'backgroundClick': anchorEl나 menu 이외의 곳을 click(`noBackdrop`=true일 때)
+    - reason: `'escapeKeydown'`, `'backdropClick'`, `'tabKeyDown'`
 
 - `MenuList` 컴포넌트
   - 아래/위 방향키 클릭 시, 위/아래 방향으로 메뉴 아이템이 포커스됨
@@ -36,11 +35,11 @@ import { Menu } from '@/components/navigation/Menu';
 
 <Canvas of={MenuStories.BasicMenu} />
 
-### No Backdrop
+### Disable Scroll
 
-- `noBackdrop`: true이면, backdrop 없이 menu가 나타남
+- `disabledScroll`: true이면, scroll 불가
 
-<Canvas of={MenuStories.NoBackdrop} />
+<Canvas of={MenuStories.DisableScroll} />
 
 ### Icon Menu
 

@@ -33,6 +33,7 @@ type UseDateValue = Pick<
   | 'minDate'
   | 'maxDate'
   | 'disabledDates'
+  | 'onErrorStatus'
 > & {
   dateToDateObject: (date: Date | undefined | null) => DateObjectType;
   dateObjectToDate: ({ year, month, day }: DateObjectType) => Date;
@@ -50,6 +51,7 @@ export const useDateValue = ({
   maxDate,
   disabledDates,
   onChange,
+  onErrorStatus,
   dateToDateObject,
   dateObjectToDate,
   getLocaleDayValuesByYearMonth
@@ -113,6 +115,9 @@ export const useDateValue = ({
     const date = isControlled ? value : dateObjectToDate(uncontrolledDate);
     const newValidationError = validateDate(date);
     setValidationError(newValidationError);
+    if (newValidationError !== validationError && onErrorStatus) {
+      onErrorStatus(newValidationError);
+    }
   }, [value, uncontrolledDate]);
 
   return {

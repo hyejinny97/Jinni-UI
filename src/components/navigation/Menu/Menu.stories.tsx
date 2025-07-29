@@ -46,8 +46,8 @@ const meta: Meta<typeof Menu> = {
         defaultValue: { summary: 'anchorEl' }
       }
     },
-    noBackdrop: {
-      description: 'true이면, backdrop 없이 menu가 나타남',
+    disableScroll: {
+      description: 'true이면, scroll 불가',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' }
@@ -75,7 +75,7 @@ const meta: Meta<typeof Menu> = {
       description: 'Menu를 클릭하거나 Enter 키를 누를 때 호출되는 함수'
     },
     onClose: {
-      description: `'escapeKeydown', 'backdropClick', 'tabKeyDown', 'backgroundClick'  이벤트 발생 시 호출되는 함수`
+      description: `'escapeKeydown', 'backdropClick', 'tabKeyDown' 이벤트 발생 시 호출되는 함수`
     },
     open: {
       description: 'true이면, 메뉴가 나타남'
@@ -287,10 +287,10 @@ export const BasicMenu: Story = {
   }
 };
 
-export const NoBackdrop: Story = {
+export const DisableScroll: Story = {
   render: (args) => {
     return (
-      <MenuAnchorElTemplate noBackdrop {...args}>
+      <MenuAnchorElTemplate disableScroll {...args}>
         <MenuItem>Item 1</MenuItem>
         <MenuItem>Item 2</MenuItem>
         <MenuItem>Item 3</MenuItem>

@@ -10,7 +10,7 @@ import {
 } from './YearCalendar.utils';
 import Year, { YearProps } from './Year';
 
-type YearCalendarProps<T extends AsType = 'div'> = Omit<
+export type YearCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
   'children' | 'onSelect'
 > & {
@@ -46,20 +46,24 @@ const YearCalendar = <T extends AsType = 'div'>(
     ...rest
   } = props;
   const yearCalendarElRef = useRef<HTMLElement>();
-  const yearsElRef = useRef<Array<HTMLElement>>([]);
+  const yearsElRef = useRef<Array<{ element: HTMLElement; year: Date }>>([]);
   const localeYears = useMemo(
     () => getTwoCenturyLocaleYears(displayedDate, locale),
     [displayedDate, locale]
   );
   const todayDate = new Date();
+  const sortedLocaleYears = useMemo(
+    () => (yearsOrder === 'dsc' ? [...localeYears].reverse() : localeYears),
+    [localeYears, yearsOrder]
+  );
 
   useLayoutEffect(() => {
     const yearCalendarEl = yearCalendarElRef.current;
     const yearsEl = yearsElRef.current;
     if (!yearCalendarEl || yearsEl.length === 0) return;
     const baseYear = displayedDate.getFullYear();
-    for (let element of yearsEl) {
-      if (Number(element.dataset.year) === baseYear) {
+    for (let { element, year } of yearsEl) {
+      if (year.getFullYear() === baseYear) {
         yearCalendarEl.scrollTo({
           top:
             element.offsetTop -
@@ -79,7 +83,7 @@ const YearCalendar = <T extends AsType = 'div'>(
       spacing={10}
       {...rest}
     >
-      {localeYears.map(({ format, value }, idx) => {
+      {sortedLocaleYears.map(({ format, value }) => {
         const year = value.getFullYear();
         const selected = !!selectedDate && selectedDate.getFullYear() === year;
         const marked = todayDate.getFullYear() === year;
@@ -92,16 +96,14 @@ const YearCalendar = <T extends AsType = 'div'>(
           children: format,
           ref: (element: HTMLElement | null) => {
             if (element) {
-              yearsElRef.current.push(element);
+              yearsElRef.current.push({ element, year: value });
             }
           },
           selected,
           marked,
-          'data-year': year,
           onClick: () => onSelect && onSelect(value),
           readOnly,
-          disabled: isDisabled,
-          style: { order: yearsOrder === 'dsc' ? 200 - idx : undefined }
+          disabled: isDisabled
         };
         return renderYear(yearProps, value.getTime());
       })}

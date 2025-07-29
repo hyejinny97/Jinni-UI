@@ -6,6 +6,6 @@
 
 .JinniBox {
   background-color: white;
-
+  border-radius: var(--border-radius);
   @include outlined;
 }
