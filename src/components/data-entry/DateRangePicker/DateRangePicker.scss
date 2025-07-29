@@ -1,0 +1,22 @@
+.JinniDateRangePicker {
+  &:not(.fullWidth) {
+    display: inline-block;
+  }
+  .JinniDateRangePickerOpenButton {
+    display: inline-flex;
+    padding: 5px;
+    border-radius: 50%;
+
+    &.readOnly,
+    &.disabled {
+      cursor: default;
+    }
+  }
+}
+
+.JinniDateRangePickerPopover.JinniPopover {
+  .JinniPopoverContent {
+    padding: 16px 8px;
+    margin-top: 1px;
+  }
+}

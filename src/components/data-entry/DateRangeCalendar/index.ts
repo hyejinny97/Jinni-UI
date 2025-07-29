@@ -6,3 +6,4 @@ export { DayRangeCalendar } from './DayRangeCalendar';
 export { HorizontalDayRangeCalendars } from './HorizontalDayRangeCalendars';
 export { VerticalDayRangeCalendars } from './VerticalDayRangeCalendars';
 export { default as DateRangeCalendar } from './DateRangeCalendar';
+export type { DateRangeCalendarProps } from './DateRangeCalendar';
