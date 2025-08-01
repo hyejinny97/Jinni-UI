@@ -55,16 +55,21 @@ const getAnchorElCoordinate = ({
 
 export const getAnchorCoordinate = ({
   anchorReference,
-  anchorEl,
+  anchorElRef,
   anchorOrigin,
   anchorPosition
-}: Partial<Pick<PopperType, 'anchorEl' | 'anchorPosition' | 'anchorOrigin'>> &
+}: Partial<
+  Pick<PopperType, 'anchorElRef' | 'anchorPosition' | 'anchorOrigin'>
+> &
   Pick<PopperType, 'anchorReference'>): PositionType => {
   if (anchorReference === 'anchorPosition' && anchorPosition) {
     return anchorPosition;
   }
-  if (anchorReference === 'anchorEl' && anchorEl && anchorOrigin) {
-    return getAnchorElCoordinate({ anchorEl, anchorOrigin });
+  if (anchorReference === 'anchorEl' && anchorElRef?.current && anchorOrigin) {
+    return getAnchorElCoordinate({
+      anchorEl: anchorElRef.current,
+      anchorOrigin
+    });
   }
   throw new Error('Anchor Coordinate를 알 수 없습니다.');
 };
