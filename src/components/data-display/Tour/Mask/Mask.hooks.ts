@@ -2,12 +2,12 @@ import { useLayoutEffect, useState } from 'react';
 import { MaskProps } from './Mask';
 
 export const useMaskSize = () => {
-  const [size, setSize] = useState({ height: 0 });
+  const [size, setSize] = useState({ width: 0, height: 0 });
 
   useLayoutEffect(() => {
     const updateSize = () => {
-      const { scrollHeight } = document.documentElement;
-      setSize({ height: scrollHeight });
+      const { scrollWidth, scrollHeight } = document.documentElement;
+      setSize({ width: scrollWidth, height: scrollHeight });
     };
 
     updateSize();

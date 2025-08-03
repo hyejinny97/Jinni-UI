@@ -6,7 +6,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { useTour } from '../Tour.hooks';
-import { usePlacement } from './TourStep.hooks';
+import { usePlacement, useScrollToAnchor } from './TourStep.hooks';
 import { Mask } from '../Mask';
 import { PlacementType } from '@/types/popper';
 
@@ -44,6 +44,7 @@ const TourStep = <T extends AsType = 'div'>(props: TourStepProps<T>) => {
     placement,
     show
   });
+  useScrollToAnchor({ tourStepElRef, anchorEl, show });
   const newStyle = useStyle({
     '--maskHolePadding': `${maskHolePadding}px`,
     '--offset': `${offset + maskHolePadding}px`,
