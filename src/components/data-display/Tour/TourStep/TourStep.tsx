@@ -27,7 +27,7 @@ const TourStep = <T extends AsType = 'div'>(props: TourStepProps<T>) => {
     anchorEl,
     value,
     placement = 'bottom-start',
-    offset = 5,
+    offset = 10,
     maskHolePadding = 5,
     TourStepContentProps,
     className,
@@ -47,7 +47,7 @@ const TourStep = <T extends AsType = 'div'>(props: TourStepProps<T>) => {
   useScrollToAnchor({ tourStepElRef, anchorEl, show });
   const newStyle = useStyle({
     '--maskHolePadding': `${maskHolePadding}px`,
-    '--offset': `${offset + maskHolePadding}px`,
+    '--offset': `${offset}px`,
     ...style
   });
 
