@@ -1,0 +1,70 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TourStories from './Tour.stories';
+import * as TourStepStories from './TourStep/TourStep.stories';
+
+<Meta of={TourStories} />
+
+# Tour
+
+사용자에게 특정 위치마다 정보를 순서대로 제공함
+
+## Import
+
+```js
+import { Tour } from '@/components/data-display/Tour';
+```
+
+## Usage
+
+### Basic Tour
+
+- `Tour` 컴포넌트
+
+  - `children`: `TourItem` 컴포넌트들
+  - `open`: true이면, tour가 나타남
+  - `onClose`: `'escapeKeydown'`, `'backdropClick'` 이벤트 발생 시 호출되는 함수
+
+- `TourStep` 컴포넌트
+  - `children`: 콘텐츠
+  - `anchorEl`: HTML element로, 해당 anchor 위치에 따라 tour content의 위치가 결정됨
+  - `value`: TourStep을 식별하는 유니크한 값
+
+<Canvas of={TourStories.BasicTour} />
+
+### Padding of Mask hole
+
+- `TourStep` 컴포넌트
+  - `maskHolePadding`: mask hole의 패딩
+
+<Canvas of={TourStories.PaddingOfMaskHole} />
+
+### Offset
+
+- `TourStep` 컴포넌트
+  - `offset`: mask hole과 tour step content 사이 거리
+
+<Canvas of={TourStories.Offset} />
+
+### Placement
+
+- `TourStep` 컴포넌트
+  - `placement`: anchorEl에 상대적인 tour content의 위치
+
+<Canvas of={TourStories.Placement} />
+
+### Customization
+
+- `TourStep` 컴포넌트
+  - `TourStepContentProps`: TourStepContent(=Box)에 적용되는 props
+
+<Canvas of={TourStories.Customization} />
+
+## Props
+
+### 1) Tour
+
+<ArgTypes of={TourStories} sort="alpha" />
+
+### 2) TourStep
+
+<ArgTypes of={TourStepStories} sort="alpha" />

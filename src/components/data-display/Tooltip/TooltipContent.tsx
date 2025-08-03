@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { PlacementType } from './Tooltip';
+import { PlacementType } from '@/types/popper';
 
 export type TooltipContentProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {

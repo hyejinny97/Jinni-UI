@@ -11,23 +11,13 @@ import {
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import usePopperPosition from '@/hooks/usePopperPosition';
-import { getAnchorOrigin, getPopperOrigin } from './Tooltip.utils';
 import { useOpen, useHandleTriggers } from './Tooltip.hooks';
 import TooltipContent, { TooltipContentProps } from './TooltipContent';
-
-export type PlacementType =
-  | 'top-start'
-  | 'top'
-  | 'top-end'
-  | 'bottom-start'
-  | 'bottom'
-  | 'bottom-end'
-  | 'left-start'
-  | 'left'
-  | 'left-end'
-  | 'right-start'
-  | 'right'
-  | 'right-end';
+import { PlacementType } from '@/types/popper';
+import {
+  placementToAnchorOrigin,
+  placementToPopperOrigin
+} from '@/utils/popper';
 
 export type TriggerType = 'click' | 'hover' | 'focus';
 
@@ -70,8 +60,14 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     onOpen,
     onClose
   });
-  const anchorOrigin = useMemo(() => getAnchorOrigin(placement), [placement]);
-  const popperOrigin = useMemo(() => getPopperOrigin(placement), [placement]);
+  const anchorOrigin = useMemo(
+    () => placementToAnchorOrigin(placement),
+    [placement]
+  );
+  const popperOrigin = useMemo(
+    () => placementToPopperOrigin(placement),
+    [placement]
+  );
   const { popperRef, popperPosition } = usePopperPosition({
     anchorReference: 'anchorEl',
     anchorElRef,

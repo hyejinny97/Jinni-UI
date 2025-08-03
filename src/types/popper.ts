@@ -12,3 +12,17 @@ export type PopperType = {
   anchorPosition: PositionType;
   popperOrigin: OriginType;
 };
+
+export type PlacementType =
+  | 'top-start'
+  | 'top'
+  | 'top-end'
+  | 'bottom-start'
+  | 'bottom'
+  | 'bottom-end'
+  | 'left-start'
+  | 'left'
+  | 'left-end'
+  | 'right-start'
+  | 'right'
+  | 'right-end';

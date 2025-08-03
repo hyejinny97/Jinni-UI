@@ -1,0 +1,21 @@
+@use '@/styles/variables' as var;
+
+:root {
+  &.light {
+    .JinniMask {
+      fill: rgba(0, 0, 0, 0.7);
+    }
+  }
+  &.dark {
+    .JinniMask {
+      fill: rgba(255, 255, 255, 0.7);
+    }
+  }
+}
+
+.JinniMask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var.$z-index-backdrop;
+}
