@@ -1,8 +1,50 @@
+@mixin distance {
+  &.top,
+  &.top-start,
+  &.top-end {
+    margin-bottom: calc(var(--maskHolePadding) + var(--offset));
+  }
+  &.bottom,
+  &.bottom-start,
+  &.bottom-end {
+    margin-top: calc(var(--maskHolePadding) + var(--offset));
+  }
+  &.left,
+  &.left-start,
+  &.left-end {
+    margin-right: calc(var(--maskHolePadding) + var(--offset));
+  }
+  &.right,
+  &.right-start,
+  &.right-end {
+    margin-left: calc(var(--maskHolePadding) + var(--offset));
+  }
+
+  &.top-start,
+  &.bottom-start {
+    margin-left: calc(var(--maskHolePadding) * -1);
+  }
+  &.top-end,
+  &.bottom-end {
+    margin-right: calc(var(--maskHolePadding) * -1);
+  }
+  &.left-start,
+  &.right-start {
+    margin-top: calc(var(--maskHolePadding) * -1);
+  }
+  &.left-end,
+  &.right-end {
+    margin-bottom: calc(var(--maskHolePadding) * -1);
+  }
+}
+
 .JinniTourStep {
   display: inline-block;
   position: fixed;
 
   .JinniTourStepContent {
+    position: relative;
     padding: 16px;
+    @include distance;
   }
 }

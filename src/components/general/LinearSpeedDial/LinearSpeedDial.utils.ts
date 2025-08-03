@@ -5,7 +5,7 @@ import {
   HORIZONTAL_LEFT_VERTICAL_CENTER,
   HORIZONTAL_RIGHT_VERTICAL_CENTER
 } from './LinearSpeedDial.constants';
-import { PlacementType } from '@/components/data-display/Tooltip';
+import { PlacementType } from '@/types/popper';
 
 export const getAnchorOrigin = (direction: DirectionType) => {
   switch (direction) {

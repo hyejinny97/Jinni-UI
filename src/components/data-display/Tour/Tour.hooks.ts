@@ -1,8 +1,12 @@
-import { useLayoutEffect, useContext, useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useContext, useEffect } from 'react';
 import { TourProps } from './Tour';
 import { TourStepProps } from './TourStep';
 import TourContext from './Tour.contexts';
 import { getAnchorElCoordinate, getPopperCoordinate } from '@/utils/popper';
+import {
+  placementToAnchorOrigin,
+  placementToPopperOrigin
+} from '@/utils/popper';
 
 export const useTour = () => {
   const value = useContext(TourContext);
@@ -40,55 +44,50 @@ export const useKeydown = ({ onClose }: Pick<TourProps, 'onClose'>) => {
   }, [onClose]);
 };
 
-export const useTourStepPosition = ({
+export const usePlacement = ({
+  tourStepElRef,
   anchorEl,
-  anchorOrigin,
-  tourStepOrigin,
-  maskHolePadding,
+  placement,
   show
 }: Required<
-  Pick<
-    TourStepProps,
-    'anchorEl' | 'anchorOrigin' | 'tourStepOrigin' | 'maskHolePadding'
-  > & {
+  Pick<TourStepProps, 'anchorEl' | 'placement'> & {
+    tourStepElRef: React.RefObject<HTMLElement>;
     show: boolean;
   }
 >) => {
-  const tourStepElRef = useRef<HTMLElement>(null);
-
   useLayoutEffect(() => {
     if (!show) return;
 
-    const handleTourStepPosition = () => {
-      const tourItemEl = tourStepElRef.current;
-      if (!tourItemEl) return;
+    const setPosition = () => {
+      const tourStepEl = tourStepElRef.current;
+      if (!tourStepEl) return;
 
+      const anchorOrigin = placementToAnchorOrigin(placement);
+      const tourStepOrigin = placementToPopperOrigin(placement);
       const anchorCoordinate = getAnchorElCoordinate({
         anchorEl,
         anchorOrigin
       });
-      const tourItemElCoordinate = getPopperCoordinate({
+      const tourStepElCoordinate = getPopperCoordinate({
         anchorCoordinate,
         popperOrigin: tourStepOrigin,
-        popperEl: tourItemEl
+        popperEl: tourStepEl
       });
 
-      const { top, left } = tourItemElCoordinate;
-      tourItemEl.style.top = `${top + maskHolePadding}px`;
-      tourItemEl.style.left = `${left - maskHolePadding}px`;
+      const { top, left } = tourStepElCoordinate;
+      tourStepEl.style.top = `${top}px`;
+      tourStepEl.style.left = `${left}px`;
     };
 
-    handleTourStepPosition();
-    window.addEventListener('resize', handleTourStepPosition);
-    window.addEventListener('scroll', handleTourStepPosition);
-    const observer = new ResizeObserver(handleTourStepPosition);
+    setPosition();
+    window.addEventListener('resize', setPosition);
+    window.addEventListener('scroll', setPosition);
+    const observer = new ResizeObserver(setPosition);
     observer.observe(anchorEl);
     return () => {
-      window.removeEventListener('resize', handleTourStepPosition);
-      window.removeEventListener('scroll', handleTourStepPosition);
+      window.removeEventListener('resize', setPosition);
+      window.removeEventListener('scroll', setPosition);
       observer.unobserve(anchorEl);
     };
-  }, [anchorEl, anchorOrigin, tourStepOrigin, show, maskHolePadding]);
-
-  return { tourStepElRef };
+  }, [tourStepElRef, anchorEl, show, placement]);
 };

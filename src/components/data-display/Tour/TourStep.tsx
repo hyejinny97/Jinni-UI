@@ -1,40 +1,32 @@
 import './TourStep.scss';
+import { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { Box, BoxProps } from '@/components/layout/Box';
-import { OriginType } from '@/types/popper';
-import { useTour, useTourStepPosition } from './Tour.hooks';
+import { useTour, usePlacement } from './Tour.hooks';
 import Mask from './Mask';
+import { PlacementType } from '@/types/popper';
 
 export type TourStepProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
     children: React.ReactNode;
     anchorEl: HTMLElement;
     value: number | string;
-    anchorOrigin?: OriginType;
-    tourStepOrigin?: OriginType;
+    placement?: PlacementType;
+    offset?: number;
     maskHolePadding?: number;
     TourStepContentProps?: BoxProps;
   };
-
-const DEFAULT_ANCHOR_ORIGIN: OriginType = {
-  horizontal: 'left',
-  vertical: 'bottom'
-};
-const DEFAULT_TOUR_STEP_ORIGIN: OriginType = {
-  horizontal: 'left',
-  vertical: 'top'
-};
 
 const TourStep = <T extends AsType = 'div'>(props: TourStepProps<T>) => {
   const {
     children,
     anchorEl,
     value,
-    anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
-    tourStepOrigin = DEFAULT_TOUR_STEP_ORIGIN,
+    placement = 'bottom-start',
+    offset = 5,
     maskHolePadding = 5,
     TourStepContentProps,
     className,
@@ -42,17 +34,18 @@ const TourStep = <T extends AsType = 'div'>(props: TourStepProps<T>) => {
     as: Component = 'div',
     ...rest
   } = props;
+  const tourStepElRef = useRef<HTMLElement>(null);
   const { tourValue, onClose } = useTour();
   const show = tourValue === value;
-  const { tourStepElRef } = useTourStepPosition({
+  usePlacement({
+    tourStepElRef,
     anchorEl,
-    anchorOrigin,
-    tourStepOrigin,
-    maskHolePadding,
+    placement,
     show
   });
   const newStyle = useStyle({
-    transformOrigin: `${tourStepOrigin.vertical} ${tourStepOrigin.horizontal}`,
+    '--maskHolePadding': `${maskHolePadding}px`,
+    '--offset': `${offset + maskHolePadding}px`,
     ...style
   });
 
@@ -72,7 +65,7 @@ const TourStep = <T extends AsType = 'div'>(props: TourStepProps<T>) => {
           {...rest}
         >
           <Box
-            className="JinniTourStepContent"
+            className={cn('JinniTourStepContent', placement)}
             elevation={5}
             round={4}
             {...TourStepContentProps}
