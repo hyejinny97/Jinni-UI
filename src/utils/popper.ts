@@ -5,7 +5,7 @@ type PositionType = {
   left: number;
 };
 
-const getAnchorElCoordinate = ({
+export const getAnchorElCoordinate = ({
   anchorEl,
   anchorOrigin
 }: {
