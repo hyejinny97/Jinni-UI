@@ -5,8 +5,9 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { Box, BoxProps } from '@/components/layout/Box';
-import { useTour, usePlacement } from './Tour.hooks';
-import Mask from './Mask';
+import { useTour } from '../Tour.hooks';
+import { usePlacement } from './TourStep.hooks';
+import { Mask } from '../Mask';
 import { PlacementType } from '@/types/popper';
 
 export type TourStepProps<T extends AsType = 'div'> =

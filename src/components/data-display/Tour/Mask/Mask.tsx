@@ -1,10 +1,10 @@
 import './Mask.scss';
-import { useState, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
+import { useMaskSize, useHole } from './Mask.hooks';
 
-type MaskProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
+export type MaskProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   excludeEl: HTMLElement;
   maskHolePadding: number;
 };
@@ -18,26 +18,9 @@ const Mask = <T extends AsType = 'div'>(props: MaskProps<T>) => {
     as: Component = 'div',
     ...rest
   } = props;
-  const [hole, setHole] = useState({ x: 0, y: 0, width: 0, height: 0 });
-  const newStyle = useStyle(style);
-
-  useLayoutEffect(() => {
-    const setExcludeArea = () => {
-      const { left, top, width, height } = excludeEl.getBoundingClientRect();
-      setHole({
-        x: left - maskHolePadding,
-        y: top - maskHolePadding,
-        width: width + 2 * maskHolePadding,
-        height: height + 2 * maskHolePadding
-      });
-    };
-
-    setExcludeArea();
-    window.addEventListener('resize', setExcludeArea);
-    return () => {
-      window.removeEventListener('resize', setExcludeArea);
-    };
-  }, [excludeEl]);
+  const { size } = useMaskSize();
+  const { hole } = useHole({ excludeEl, maskHolePadding });
+  const newStyle = useStyle({ ...size, ...style });
 
   return (
     <>
