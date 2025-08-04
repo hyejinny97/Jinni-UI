@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import {
-  ValidationError,
+  DateValidationError,
   DateOptions
 } from '@/components/data-entry/DateField';
 import { DateField, DateFieldProps } from '@/components/data-entry/DateField';
@@ -25,7 +25,7 @@ export type DatePickerProps<T extends AsType = 'div'> = Omit<
   name?: string;
   defaultValue?: Date;
   value?: Date | null;
-  onChange?: (value: Date, validationError?: ValidationError) => void;
+  onChange?: (value: Date, validationError?: DateValidationError) => void;
   locale?: string;
   options?: DateOptions;
   minDate?: Date;

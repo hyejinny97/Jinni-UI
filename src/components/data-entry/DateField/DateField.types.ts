@@ -6,7 +6,7 @@ import {
   KEY_DATE_PARTS
 } from './DateField.constants';
 
-export type ValidationError = 'minDate' | 'maxDate' | 'disabledDate';
+export type DateValidationError = 'minDate' | 'maxDate' | 'disabledDate';
 export type DateOptions =
   | {
       dateStyle: 'short' | 'medium';

@@ -2,7 +2,7 @@ export { default as DateField } from './DateField';
 export type { DateFieldProps } from './DateField';
 export type {
   DateOptions,
-  ValidationError,
+  DateValidationError,
   YearDigitTypes,
   MonthDigitTypes
 } from './DateField.types';

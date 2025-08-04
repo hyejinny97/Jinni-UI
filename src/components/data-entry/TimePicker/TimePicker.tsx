@@ -7,7 +7,7 @@ import {
   TimeField,
   TimeMode,
   TimeOptions,
-  ValidationError,
+  TimeValidationError,
   TimeStepManualType,
   TimeFieldProps,
   DEFAULT_TIME_OPTIONS
@@ -33,7 +33,10 @@ export type TimePickerProps<
   timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
   defaultValue?: Date;
   value?: Date | null;
-  onChange?: (value: Date | null, validationError?: ValidationError) => void;
+  onChange?: (
+    value: Date | null,
+    validationError?: TimeValidationError
+  ) => void;
   readOnly?: boolean;
   disabled?: boolean;
   minTime?: Date;

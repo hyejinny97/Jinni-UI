@@ -6,7 +6,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
 import {
   TimeOptions,
-  ValidationError,
+  TimeValidationError,
   TimeField
 } from '@/components/data-entry/TimeField';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
@@ -230,7 +230,7 @@ const ControlledTimeRangeFieldTemplate = ({ ...props }) => {
     second: value[timePosition]?.getSeconds()
   });
 
-  const getErrorMessage = (error: ValidationError): string => {
+  const getErrorMessage = (error: TimeValidationError): string => {
     switch (error) {
       case 'minTime':
         return '최소 시간보다 작습니다.';
@@ -278,9 +278,9 @@ const MultiTimeFieldTemplate = () => {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [startValidationError, setStartValidationError] =
-    useState<ValidationError>();
+    useState<TimeValidationError>();
   const [endValidationError, setEndValidationError] =
-    useState<ValidationError>();
+    useState<TimeValidationError>();
   const isChronologicalError =
     startTime &&
     endTime &&
@@ -296,7 +296,7 @@ const MultiTimeFieldTemplate = () => {
     second: time?.getSeconds()
   });
 
-  const getErrorMessage = (error: ValidationError): string => {
+  const getErrorMessage = (error: TimeValidationError): string => {
     switch (error) {
       case 'minTime':
         return '최소 시간보다 작습니다.';
@@ -311,14 +311,14 @@ const MultiTimeFieldTemplate = () => {
 
   const handleStartTimeChange = (
     value: Date | null,
-    validationError?: ValidationError
+    validationError?: TimeValidationError
   ) => {
     setStartTime(value);
     setStartValidationError(validationError);
   };
   const handleEndTimeChange = (
     value: Date | null,
-    validationError?: ValidationError
+    validationError?: TimeValidationError
   ) => {
     setEndTime(value);
     setEndValidationError(validationError);

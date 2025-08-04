@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DateField, ValidationError, DateOptions } from '.';
+import { DateField, DateValidationError, DateOptions } from '.';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
@@ -142,7 +142,10 @@ const ControlledDateFieldTemplate = ({ ...props }) => {
   const month = value?.getMonth();
   const day = value?.getDate();
 
-  const handleChange = (newValue: Date, validationError?: ValidationError) => {
+  const handleChange = (
+    newValue: Date,
+    validationError?: DateValidationError
+  ) => {
     setValue(newValue);
     if (validationError) {
       switch (validationError) {

@@ -23,7 +23,7 @@ import {
   MONTH_DIGITS,
   DAY_DIGITS
 } from './DateField.constants';
-import { ValidationError } from './DateField.types';
+import { DateValidationError } from './DateField.types';
 
 type UseDateValue = Pick<
   DateFieldProps,
@@ -61,7 +61,7 @@ export const useDateValue = ({
     dateToDateObject(defaultValue)
   );
   const [validationError, setValidationError] = useState<
-    ValidationError | undefined
+    DateValidationError | undefined
   >();
   const date = isControlled ? dateToDateObject(value) : uncontrolledDate;
   const [localeDayValues, setLocaleDayValues] = useState<Array<string>>(
@@ -75,7 +75,7 @@ export const useDateValue = ({
     return new Date(year, month, day).getTime();
   };
 
-  const validateDate = (date: Date | null): ValidationError | undefined => {
+  const validateDate = (date: Date | null): DateValidationError | undefined => {
     if (date === null) return;
     const dateInTimeStamp = dateToTimeStamp(date);
     if (minDate) {

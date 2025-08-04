@@ -6,7 +6,7 @@ import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
 import {
   DateField,
   DateOptions,
-  ValidationError
+  DateValidationError
 } from '@/components/data-entry/DateField';
 import {
   RangeType,
@@ -115,7 +115,7 @@ const DateRangeField = forwardRef(
       disabled,
       startAdornment: startAdornment?.[dateFieldPosition],
       endAdornment: endAdornment?.[dateFieldPosition],
-      onErrorStatus: (validationError?: ValidationError) => {
+      onErrorStatus: (validationError?: DateValidationError) => {
         handleValidationError(dateFieldPosition, validationError);
       },
       size,

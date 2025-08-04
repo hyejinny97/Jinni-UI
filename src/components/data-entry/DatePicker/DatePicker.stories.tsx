@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DatePicker, ValidationError } from '.';
+import { DatePicker } from '.';
 import { Calendar, CalendarProps } from '@/components/data-entry/Calendar';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
-import { DateOptions } from '@/components/data-entry/DateField';
+import {
+  DateOptions,
+  DateValidationError
+} from '@/components/data-entry/DateField';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { Button } from '@/components/general/Button';
 
@@ -149,7 +152,10 @@ const ControlledDatePickerTemplate = ({ ...props }) => {
   const month = value?.getMonth();
   const day = value?.getDate();
 
-  const handleChange = (newValue: Date, validationError?: ValidationError) => {
+  const handleChange = (
+    newValue: Date,
+    validationError?: DateValidationError
+  ) => {
     setValue(newValue);
     if (validationError) {
       switch (validationError) {
