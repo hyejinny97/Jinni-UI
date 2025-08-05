@@ -8,7 +8,7 @@ import {
   TimeStepManualType,
   TimeOptions,
   TimeMode,
-  ValidationError,
+  TimeValidationError,
   DEFAULT_TIME_OPTIONS
 } from '@/components/data-entry/TimeField';
 import {
@@ -132,7 +132,7 @@ const TimeRangeField = forwardRef(
       disabled: disabled?.[timeFieldPosition],
       startAdornment: startAdornment?.[timeFieldPosition],
       endAdornment: endAdornment?.[timeFieldPosition],
-      onErrorStatus: (validationError?: ValidationError) =>
+      onErrorStatus: (validationError?: TimeValidationError) =>
         handleValidationError(timeFieldPosition, validationError),
       size,
       fullWidth

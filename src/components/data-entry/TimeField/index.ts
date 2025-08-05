@@ -1,7 +1,7 @@
 export { default as TimeField, DEFAULT_TIME_OPTIONS } from './TimeField';
 export type { TimeFieldProps, TimeMode } from './TimeField';
 export type {
-  ValidationError,
+  TimeValidationError,
   TimeOptions,
   TimeStepManualType,
   KeyTimePartType

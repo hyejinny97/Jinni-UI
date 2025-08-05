@@ -1,7 +1,7 @@
 import { useState, useMemo, useLayoutEffect, useRef } from 'react';
 import { TimeRangeFieldProps } from './TimeRangeField';
 import { RangeType, TimeRangeValidationError } from './TimeRangeField.types';
-import { ValidationError } from '@/components/data-entry/TimeField';
+import { TimeValidationError } from '@/components/data-entry/TimeField';
 import { CHRONOLOGICAL_ORDER } from './TimeRangeField.constants';
 
 type IsChronologicalOrderError = (
@@ -73,7 +73,7 @@ export const useTimeRange = ({
 
   const handleValidationError = (
     timeFieldPosition: keyof RangeType<any>,
-    validationError?: ValidationError
+    validationError?: TimeValidationError
   ) => {
     setTimeRangeValidationError((prev) => ({
       ...prev,
@@ -83,7 +83,7 @@ export const useTimeRange = ({
 
   const handleChange =
     (timeFieldPosition: keyof RangeType<any>) =>
-    (newValue: Date, validationError?: ValidationError) => {
+    (newValue: Date, validationError?: TimeValidationError) => {
       const startTime =
         timeFieldPosition === 'start' ? newValue : timeRange.start;
       const endTime = timeFieldPosition === 'end' ? newValue : timeRange.end;

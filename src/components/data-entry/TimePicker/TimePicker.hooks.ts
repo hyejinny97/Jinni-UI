@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TimePickerProps } from './TimePicker';
-import { ValidationError } from '@/components/data-entry/TimeField';
+import { TimeValidationError } from '@/components/data-entry/TimeField';
 
 export const useTime = ({
   defaultValue,
@@ -14,7 +14,7 @@ export const useTime = ({
 
   const handleChange = (
     newValue: Date | null,
-    validationError?: ValidationError
+    validationError?: TimeValidationError
   ) => {
     if (!isControlled) setUncontrolledTime(newValue);
     if (onChange) onChange(newValue, validationError);

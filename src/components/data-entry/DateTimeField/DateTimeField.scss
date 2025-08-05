@@ -1,0 +1,24 @@
+#DateTimeField.JinniInputBase {
+  min-width: 270px;
+
+  & > .JinniInputBaseContent {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    .JinniDateTimeFieldPlaceholder {
+      color: var(--jinni-color-gray-400);
+    }
+
+    .JinniDateField,
+    .JinniTimeField {
+      min-width: max-content;
+      min-height: max-content;
+      border: none;
+
+      .JinniInputBaseContent {
+        padding: 0;
+      }
+    }
+  }
+}

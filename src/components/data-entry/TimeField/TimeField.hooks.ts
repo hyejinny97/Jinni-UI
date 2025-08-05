@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useLayoutEffect } from 'react';
 import { TimeFieldProps, TimeMode } from './TimeField';
 import {
-  ValidationError,
+  TimeValidationError,
   KeyTimePartType,
   TokensType,
   TimeObjectType,
@@ -70,11 +70,11 @@ export const useTimeValue = ({
     dateToTimeObject(defaultValue)
   );
   const [validationError, setValidationError] = useState<
-    ValidationError | undefined
+    TimeValidationError | undefined
   >();
   const time = isControlled ? dateToTimeObject(value) : uncontrolledTime;
 
-  const validateTime = (time: Date | null): ValidationError | undefined => {
+  const validateTime = (time: Date | null): TimeValidationError | undefined => {
     if (time === null) return;
     const timeInSeconds = dateToSeconds(time);
     if (minTime) {

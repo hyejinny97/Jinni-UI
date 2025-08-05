@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TimeField, ValidationError, TimeFieldProps } from '.';
+import { TimeField, TimeValidationError, TimeFieldProps } from '.';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
@@ -164,7 +164,10 @@ const ControlledTimeFieldTemplate = ({ ...props }) => {
   const minute = value?.getMinutes();
   const second = value?.getSeconds();
 
-  const handleChange = (newValue: Date, validationError?: ValidationError) => {
+  const handleChange = (
+    newValue: Date,
+    validationError?: TimeValidationError
+  ) => {
     setValue(newValue);
     if (validationError) {
       switch (validationError) {

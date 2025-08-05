@@ -1,0 +1,186 @@
+import { Meta, Canvas, ArgTypes, Stories, Markdown } from '@storybook/blocks';
+import * as DateTimeFieldStories from './DateTimeField.stories';
+
+<Meta of={DateTimeFieldStories} />
+
+# DateTimeField
+
+사용자가 선택한 날짜와 시간이 나타나는 곳
+
+## Import
+
+```js
+import { DateTimeField } from '@/components/data-entry/DateTimeField';
+```
+
+## Usage
+
+### Basic DateTimeField
+
+- `placeholder`: placeholder
+- `defaultValue`: 초기 datetime (uncontrolled일 때만 적용 가능)
+
+<Canvas of={DateTimeFieldStories.BasicDateTimeField} />
+
+### Controlled DateTimeField
+
+- `value`와 `onChange`를 통해 control 가능
+- `value`: datetime
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={DateTimeFieldStories.ControlledDateTimeField} />
+
+### Locale and Options
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+- `options`: time 속성
+
+#### 1) Locale
+
+<Canvas of={DateTimeFieldStories.Locale} />
+
+#### 2) Options
+
+<Canvas of={DateTimeFieldStories.Options} />
+
+### Customize DateTime Format
+
+- `timeFormat`: time format
+
+  - `locale`, `options` 대신 time tokens를 사용해 자유롭게 포맷 설정 가능
+
+- `dateFormat`: date format
+
+  - `locale`, `options` 대신 date tokens를 사용해 자유롭게 포맷 설정 가능
+
+- Time Tokens
+
+  {' '}
+
+  <Markdown>
+    {`
+  | Token | Type | 특징 | 
+  | ----- | --------- | ---------------- | 
+  | HH | hour | 'h23', '2-digit' | 
+  | H | hour | 'h23', 'numeric' | 
+  | hh | hour | 'h11', '2-digit' | 
+  | h | hour | 'h11', 'numeric' | 
+  | TT | hour | 'h24', '2-digit' | 
+  | T | hour | 'h24', 'numeric' | 
+  | tt | hour | 'h12', '2-digit' | 
+  | t | hour | 'h12', 'numeric' | 
+  | mm | minute | '2-digit' | 
+  | m | minute | 'numeric' | 
+  | ss | second | '2-digit' | 
+  | s | second | 'numeric' | 
+  | a | dayPeriod | 'lowerCase' | 
+  | A | dayPeriod | 'upperCase' |
+  `}
+  </Markdown>
+
+- Date Tokens
+
+  {' '}
+
+  <Markdown>
+    {`
+  | Token | Type | 특징 | 
+  | ----- | --------- | ---------------- | 
+  | YYYY | year | 'numeric' | 
+  | YY | year | '2-digit' | 
+  | MMMM | month | 'long' | 
+  | MMM | month | 'short' | 
+  | MM | month | '2-digit' | 
+  | M | month | 'numeric' | 
+  | DD | day | '2-digit' | 
+  | D | day | 'numeric' | 
+  `}
+  </Markdown>
+
+<Canvas of={DateTimeFieldStories.CustomizeDateTimeFormat} />
+
+### Restrict DateTime
+
+#### 1) Restrict Date
+
+- `minDate`: 선택 가능한 최소 날짜
+- `maxDate`: 선택 가능한 최대 날짜
+- `disabledDates`: 비활성화하는 특정 날짜 모음
+
+<Canvas of={DateTimeFieldStories.RestrictDate} />
+
+#### 2) Restrict Time
+
+- `minTime`: 선택 가능한 최소 시간
+- `maxTime`: 선택 가능한 최대 시간
+- `disabledTimes`: 비활성화하는 특정 시간 모음
+
+<Canvas of={DateTimeFieldStories.RestrictTime} />
+
+### Time Steps
+
+- `timeMode`: time 선택 방법
+  - `'preset'`: '12:00', '12:30', '01:00' 처럼 미리 정의된 시간 목록에서 하나를 선택하는 방식
+  - `'manual'`: 시(hour), 분(minute), 초(second)를 각각 선택하는 방식
+- `timeStep`: 두 time options 간 step
+  - timeMode='preset'인 경우, `number` type (단위: s)
+  - timeMode='manual'인 경우, `{hour: number, minute: number, second: number}` type
+
+<Canvas of={DateTimeFieldStories.TimeSteps} />
+
+### Variants
+
+- `variant`: input 형태
+
+<Canvas of={DateTimeFieldStories.Variants} />
+
+### Sizes
+
+- `size`: input 크기
+
+<Canvas of={DateTimeFieldStories.Sizes} />
+
+### Readonly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={DateTimeFieldStories.Readonly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={DateTimeFieldStories.Disabled} />
+
+### Color
+
+- `color`: base color
+- `focusedColor`: focused color
+
+<Canvas of={DateTimeFieldStories.Color} />
+
+### Full Width
+
+- `fullWidth`: true이면, input이 container 안에 꽉 채워지게 됨
+
+<Canvas of={DateTimeFieldStories.FullWidth} />
+
+### Adornments
+
+- `startAdornment`: input 앞에 위치하는 부가 요소 (icon ,text 등)
+- `endAdornment`: input 뒤에 위치하는 부가 요소 (icon ,text 등)
+
+<Canvas of={DateTimeFieldStories.Adornments} />
+
+### Disable Effect
+
+- `disableHoverEffect`: true이면, hover effect가 비활성화됨
+- `disableFocusEffect`: true이면, focus effect가 비활성화됨
+
+<Canvas of={DateTimeFieldStories.DisableEffect} />
+
+## Props
+
+- `InputBase` props 모두 사용 가능
+
+<ArgTypes of={DateTimeFieldStories} sort="alpha" />

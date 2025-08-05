@@ -1,6 +1,6 @@
 import { useState, useMemo, useLayoutEffect, useRef } from 'react';
 import { DateRangeFieldProps } from './DateRangeField';
-import { ValidationError } from '@/components/data-entry/DateField';
+import { DateValidationError } from '@/components/data-entry/DateField';
 import { getBaseCalendarType } from '@/components/data-entry/Calendar';
 import { RangeType, DateRangeValidationError } from './DateRangeField.types';
 import {
@@ -139,7 +139,7 @@ export const useDateRange = ({
 
   const handleValidationError = (
     dateFieldPosition: keyof RangeType<any>,
-    validationError?: ValidationError
+    validationError?: DateValidationError
   ) => {
     setDateRangeValidationError((prev) => ({
       ...prev,
@@ -149,7 +149,7 @@ export const useDateRange = ({
 
   const handleChange =
     (dateFieldPosition: keyof RangeType<any>) =>
-    (newValue: Date, validationError?: ValidationError) => {
+    (newValue: Date, validationError?: DateValidationError) => {
       const startDate =
         dateFieldPosition === 'start' ? newValue : dateRange.start;
       const endDate = dateFieldPosition === 'end' ? newValue : dateRange.end;

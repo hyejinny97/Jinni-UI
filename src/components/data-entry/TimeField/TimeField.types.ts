@@ -11,7 +11,7 @@ export type TimeOptions =
       hour12?: boolean;
       hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
     };
-export type ValidationError =
+export type TimeValidationError =
   | 'minTime'
   | 'maxTime'
   | 'disabledTime'

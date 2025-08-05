@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DateRangePicker from './DateRangePicker';
 import {
   DateOptions,
-  ValidationError
+  DateValidationError
 } from '@/components/data-entry/DateField';
 import { Calendar, CalendarProps } from '@/components/data-entry/Calendar';
 import { DatePicker } from '@/components/data-entry/DatePicker';
@@ -191,7 +191,7 @@ const ControlledDateRangePickerTemplate = ({ ...props }) => {
   const [validationError, setValidationError] =
     useState<DateRangeValidationError>();
 
-  const getErrorMessage = (error: ValidationError): string => {
+  const getErrorMessage = (error: DateValidationError): string => {
     switch (error) {
       case 'minDate':
         return '최소 날짜보다 작습니다.';
@@ -243,9 +243,9 @@ const MultiDatePickerTemplate = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [startValidationError, setStartValidationError] =
-    useState<ValidationError>();
+    useState<DateValidationError>();
   const [endValidationError, setEndValidationError] =
-    useState<ValidationError>();
+    useState<DateValidationError>();
 
   const isLowerThan = ({
     baseDate,
@@ -258,7 +258,7 @@ const MultiDatePickerTemplate = () => {
     return baseDate.getTime() / DAY > targetDate.getTime() / DAY;
   };
 
-  const getErrorMessage = (error: ValidationError): string => {
+  const getErrorMessage = (error: DateValidationError): string => {
     switch (error) {
       case 'minDate':
         return '최소 날짜보다 작습니다.';
@@ -271,14 +271,14 @@ const MultiDatePickerTemplate = () => {
 
   const handleStartDateChange = (
     value: Date | null,
-    validationError?: ValidationError
+    validationError?: DateValidationError
   ) => {
     setStartDate(value);
     setStartValidationError(validationError);
   };
   const handleEndDateChange = (
     value: Date | null,
-    validationError?: ValidationError
+    validationError?: DateValidationError
   ) => {
     setEndDate(value);
     setEndValidationError(validationError);

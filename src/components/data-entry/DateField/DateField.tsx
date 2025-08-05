@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
 import {
-  ValidationError,
+  DateValidationError,
   DateOptions,
   KeyDatePartType
 } from './DateField.types';
@@ -19,8 +19,8 @@ export type DateFieldProps<T extends AsType = 'div'> = Omit<
   placeholder?: string;
   defaultValue?: Date;
   value?: Date | null;
-  onChange?: (value: Date, validationError?: ValidationError) => void;
-  onErrorStatus?: (validationError?: ValidationError) => void;
+  onChange?: (value: Date, validationError?: DateValidationError) => void;
+  onErrorStatus?: (validationError?: DateValidationError) => void;
   locale?: string;
   options?: DateOptions;
   format?: string;

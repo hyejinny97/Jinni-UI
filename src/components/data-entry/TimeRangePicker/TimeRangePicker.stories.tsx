@@ -8,7 +8,7 @@ import {
 } from '@/components/data-entry/TimeRangeField';
 import {
   TimeOptions,
-  ValidationError
+  TimeValidationError
 } from '@/components/data-entry/TimeField';
 import { DigitalClock } from '@/components/data-entry/DigitalClock';
 import { Stack } from '@/components/layout/Stack';
@@ -224,7 +224,7 @@ const ControlledTimeRangePickerTemplate = ({ ...props }) => {
     second: value[timePosition]?.getSeconds()
   });
 
-  const getErrorMessage = (error: ValidationError): string => {
+  const getErrorMessage = (error: TimeValidationError): string => {
     switch (error) {
       case 'minTime':
         return '최소 시간보다 작습니다.';
@@ -385,9 +385,9 @@ const MultiTimePickerTemplate = () => {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [startValidationError, setStartValidationError] =
-    useState<ValidationError>();
+    useState<TimeValidationError>();
   const [endValidationError, setEndValidationError] =
-    useState<ValidationError>();
+    useState<TimeValidationError>();
   const isChronologicalError =
     startTime &&
     endTime &&
@@ -403,7 +403,7 @@ const MultiTimePickerTemplate = () => {
     second: time?.getSeconds()
   });
 
-  const getErrorMessage = (error: ValidationError): string => {
+  const getErrorMessage = (error: TimeValidationError): string => {
     switch (error) {
       case 'minTime':
         return '최소 시간보다 작습니다.';
@@ -418,14 +418,14 @@ const MultiTimePickerTemplate = () => {
 
   const handleStartTimeChange = (
     value: Date | null,
-    validationError?: ValidationError
+    validationError?: TimeValidationError
   ) => {
     setStartTime(value);
     setStartValidationError(validationError);
   };
   const handleEndTimeChange = (
     value: Date | null,
-    validationError?: ValidationError
+    validationError?: TimeValidationError
   ) => {
     setEndTime(value);
     setEndValidationError(validationError);

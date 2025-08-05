@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import {
   DateField,
   DateOptions,
-  ValidationError
+  DateValidationError
 } from '@/components/data-entry/DateField';
 import { DateRangeField, DateRangeValidationError, RangeType } from '.';
 import { Stack } from '@/components/layout/Stack';
@@ -187,7 +187,7 @@ const ControlledDateRangeFieldTemplate = ({ ...props }) => {
   const [validationError, setValidationError] =
     useState<DateRangeValidationError>();
 
-  const getErrorMessage = (error: ValidationError): string => {
+  const getErrorMessage = (error: DateValidationError): string => {
     switch (error) {
       case 'minDate':
         return '최소 날짜보다 작습니다.';
@@ -235,9 +235,9 @@ const MultiDateFieldTemplate = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [startValidationError, setStartValidationError] =
-    useState<ValidationError>();
+    useState<DateValidationError>();
   const [endValidationError, setEndValidationError] =
-    useState<ValidationError>();
+    useState<DateValidationError>();
 
   const isLowerThan = ({
     baseDate,
@@ -250,7 +250,7 @@ const MultiDateFieldTemplate = () => {
     return baseDate.getTime() / DAY > targetDate.getTime() / DAY;
   };
 
-  const getErrorMessage = (error: ValidationError): string => {
+  const getErrorMessage = (error: DateValidationError): string => {
     switch (error) {
       case 'minDate':
         return '최소 날짜보다 작습니다.';
@@ -263,14 +263,14 @@ const MultiDateFieldTemplate = () => {
 
   const handleStartDateChange = (
     value: Date | null,
-    validationError?: ValidationError
+    validationError?: DateValidationError
   ) => {
     setStartDate(value);
     setStartValidationError(validationError);
   };
   const handleEndDateChange = (
     value: Date | null,
-    validationError?: ValidationError
+    validationError?: DateValidationError
   ) => {
     setEndDate(value);
     setEndValidationError(validationError);

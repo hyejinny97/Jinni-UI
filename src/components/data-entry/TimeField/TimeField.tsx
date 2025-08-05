@@ -7,7 +7,7 @@ import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
 import { useTimeValue, useTimeFormat, useInput } from './TimeField.hooks';
 import { AutoWidthInput } from '@/components/_share/AutoWidthInput';
 import {
-  ValidationError,
+  TimeValidationError,
   KeyTimePartType,
   TimeStepManualType
 } from './TimeField.types';
@@ -22,8 +22,8 @@ export type TimeFieldProps<
   placeholder?: string;
   defaultValue?: Date;
   value?: Date | null;
-  onChange?: (value: Date, validationError?: ValidationError) => void;
-  onErrorStatus?: (validationError?: ValidationError) => void;
+  onChange?: (value: Date, validationError?: TimeValidationError) => void;
+  onErrorStatus?: (validationError?: TimeValidationError) => void;
   locale?: string;
   options?: TimeOptions;
   format?: string;

@@ -8,7 +8,7 @@ import { TimeOptions } from '@/components/data-entry/TimeField';
 import { Radio } from '@/components/data-entry/Radio';
 import { RadioLabel } from '@/components/data-entry/RadioLabel';
 import { Button } from '@/components/general/Button';
-import { ValidationError } from '@/components/data-entry/TimeField';
+import { TimeValidationError } from '@/components/data-entry/TimeField';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
 import { DigitalClock } from '@/components/data-entry/DigitalClock';
 
@@ -169,7 +169,7 @@ const ControlledTimePickerTemplate = ({ ...props }) => {
 
   const handleChange = (
     newValue: Date | null,
-    validationError?: ValidationError
+    validationError?: TimeValidationError
   ) => {
     setValue(newValue);
     if (validationError) {
