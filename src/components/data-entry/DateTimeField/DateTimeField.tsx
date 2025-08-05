@@ -1,4 +1,5 @@
 import './DateTimeField.scss';
+import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
@@ -39,104 +40,104 @@ export type DateTimeFieldProps<
   disabled?: boolean;
 };
 
-const DateTimeField = <
-  T extends AsType = 'div',
-  Mode extends TimeMode = 'preset'
->(
-  props: DateTimeFieldProps<T, Mode>
-) => {
-  const {
-    placeholder,
-    defaultValue,
-    value,
-    onChange,
-    locale,
-    options,
-    dateFormat,
-    timeFormat,
-    minTime,
-    maxTime,
-    disabledTimes,
-    timeMode,
-    timeStep,
-    minDate,
-    maxDate,
-    disabledDates,
-    readOnly,
-    disabled,
-    color,
-    focusedColor,
-    focused,
-    className,
-    ...rest
-  } = props;
-  const { isFocused, focus, blur } = useFocus({ focused });
-  const {
-    dateTimeValue,
-    handleDateChange,
-    handleTimeChange,
-    isValidationError,
-    handleValidationError
-  } = useDateTimeValue({ defaultValue, value, onChange });
-  const showPlaceholder = !isFocused && dateTimeValue === null;
+const DateTimeField = forwardRef(
+  <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
+    props: DateTimeFieldProps<T, Mode>,
+    ref: React.Ref<HTMLElement>
+  ) => {
+    const {
+      placeholder,
+      defaultValue,
+      value,
+      onChange,
+      locale,
+      options,
+      dateFormat,
+      timeFormat,
+      minTime,
+      maxTime,
+      disabledTimes,
+      timeMode,
+      timeStep,
+      minDate,
+      maxDate,
+      disabledDates,
+      readOnly,
+      disabled,
+      color,
+      focusedColor,
+      focused,
+      className,
+      ...rest
+    } = props;
+    const { isFocused, focus, blur } = useFocus({ focused });
+    const {
+      dateTimeValue,
+      handleDateChange,
+      handleTimeChange,
+      isValidationError,
+      handleValidationError
+    } = useDateTimeValue({ defaultValue, value, onChange });
+    const showPlaceholder = !isFocused && dateTimeValue === null;
 
-  const commonProps = {
-    value: dateTimeValue,
-    onErrorStatus: handleValidationError,
-    locale,
-    readOnly,
-    disabled,
-    disableHoverEffect: true,
-    disableFocusEffect: true
-  };
+    const commonProps = {
+      value: dateTimeValue,
+      onErrorStatus: handleValidationError,
+      locale,
+      readOnly,
+      disabled,
+      disableHoverEffect: true,
+      disableFocusEffect: true
+    };
 
-  return (
-    <InputBase
-      id="DateTimeField"
-      className={cn('JinniDateTimeField', className)}
-      onFocus={focus}
-      onBlur={(e: FocusEvent) => {
-        if (focused) return;
-        const relatedTarget = e.relatedTarget as HTMLElement;
-        const currentTarget = e.currentTarget as HTMLElement;
-        if (!currentTarget?.contains(relatedTarget)) blur();
-      }}
-      color={isValidationError ? 'error' : color}
-      focusedColor={isValidationError ? 'error' : focusedColor}
-      disabled={disabled}
-      focused={isFocused}
-      {...rest}
-    >
-      {showPlaceholder ? (
-        <span className="JinniDateTimeFieldPlaceholder">{placeholder}</span>
-      ) : (
-        <>
-          <DateField
-            {...commonProps}
-            onChange={handleDateChange}
-            options={filterDateOptions(options)}
-            format={dateFormat}
-            minDate={minDate}
-            maxDate={maxDate}
-            disabledDates={disabledDates}
-            focused={isFocused}
-          />
-          <TimeField
-            {...commonProps}
-            onChange={handleTimeChange}
-            options={filterTimeOptions(options)}
-            format={timeFormat}
-            mode={timeMode}
-            minTime={minTime}
-            maxTime={maxTime}
-            disabledTimes={disabledTimes}
-            timeStep={timeStep}
-            focused={isFocused}
-          />
-        </>
-      )}
-    </InputBase>
-  );
-};
+    return (
+      <InputBase
+        ref={ref}
+        id="DateTimeField"
+        className={cn('JinniDateTimeField', className)}
+        onFocus={focus}
+        onBlur={(e: FocusEvent) => {
+          const relatedTarget = e.relatedTarget as HTMLElement;
+          const currentTarget = e.currentTarget as HTMLElement;
+          if (!currentTarget?.contains(relatedTarget)) blur();
+        }}
+        color={isValidationError ? 'error' : color}
+        focusedColor={isValidationError ? 'error' : focusedColor}
+        disabled={disabled}
+        focused={isFocused}
+        {...rest}
+      >
+        {showPlaceholder ? (
+          <span className="JinniDateTimeFieldPlaceholder">{placeholder}</span>
+        ) : (
+          <>
+            <DateField
+              {...commonProps}
+              onChange={handleDateChange}
+              options={filterDateOptions(options)}
+              format={dateFormat}
+              minDate={minDate}
+              maxDate={maxDate}
+              disabledDates={disabledDates}
+              focused={isFocused}
+            />
+            <TimeField
+              {...commonProps}
+              onChange={handleTimeChange}
+              options={filterTimeOptions(options)}
+              format={timeFormat}
+              mode={timeMode}
+              minTime={minTime}
+              maxTime={maxTime}
+              disabledTimes={disabledTimes}
+              timeStep={timeStep}
+              focused={isFocused}
+            />
+          </>
+        )}
+      </InputBase>
+    );
+  }
+);
 
 export default DateTimeField;
