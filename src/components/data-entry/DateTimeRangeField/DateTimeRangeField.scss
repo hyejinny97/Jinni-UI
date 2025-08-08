@@ -1,0 +1,39 @@
+#DateTimeRangeField.JinniInputBase {
+  position: relative;
+
+  & > .JinniInputBaseContent {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+  }
+
+  .JinniDateTimeField.JinniInputBase {
+    min-width: 250px;
+    width: 250px;
+    border: none;
+
+    &.fullWidth {
+      width: 100%;
+    }
+
+    .JinniInputBaseContent {
+      overflow: hidden;
+
+      .JinniDateTimeFieldPlaceholder {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .JinniDateTimeRangeFieldIndicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--indicator-color);
+    transition:
+      width var(--jinni-easing-emphasized) var(--jinni-duration-short2),
+      left var(--jinni-easing-emphasized) var(--jinni-duration-short2);
+  }
+}
