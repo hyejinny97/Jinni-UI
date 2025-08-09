@@ -1,0 +1,51 @@
+.JinniDateTimeRangePicker {
+  &:not(.fullWidth) {
+    display: inline-block;
+  }
+  .JinniDateTimeRangePickerOpenButton {
+    display: inline-flex;
+    padding: 5px;
+    border-radius: 50%;
+
+    &.readOnly,
+    &.disabled {
+      cursor: default;
+    }
+  }
+}
+
+.JinniDateTimeRangePickerPopover.JinniPopover {
+  .JinniPopoverContent {
+    padding: 0;
+    margin-top: 1px;
+  }
+
+  .JinniDateRangeCalendar {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--jinni-color-gray-300);
+  }
+
+  .JinniManualDigitalClock {
+    .JinniManualDigitalClockUnit {
+      height: 358px;
+      box-sizing: border-box;
+      .JinniMenuList {
+        height: 100%;
+      }
+    }
+  }
+  .JinniPresetDigitalClock {
+    height: 358px;
+    box-sizing: border-box;
+    .JinniMenuList {
+      height: 100%;
+    }
+  }
+
+  .JinniDateTimeRangePickerButtons {
+    display: flex;
+    justify-content: end;
+    column-gap: 10px;
+    padding: 10px;
+  }
+}

@@ -20,6 +20,7 @@ export type DayRangeCalendarProps<T extends AsType = 'div'> = Omit<
   selectedDate?: RangeType<Date | null>;
   hoveredDay?: Date | null;
   onHover?: (hoveredDay: Date | null) => void;
+  disableHoverRangeEffect?: boolean;
 };
 
 const DayRangeCalendar = <T extends AsType = 'div'>(
@@ -33,6 +34,7 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
     onHover,
     showDaysOutsideCurrentMonth,
     displayWeekNumber,
+    disableHoverRangeEffect,
     className,
     as: Component = 'div',
     ...rest
@@ -83,7 +85,8 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
           ? renderDay
           : (dayProps: DayProps) => {
               const { day, color = 'primary', ref, ...rest } = dayProps;
-              const showDashBorder = isBetweenStartAndHoveredDate(day);
+              const showDashBorder =
+                !disableHoverRangeEffect && isBetweenStartAndHoveredDate(day);
               const currentDay = dateToDay(day);
               return (
                 <Box

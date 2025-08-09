@@ -5,8 +5,9 @@ import {
   DateTimeRangeValidationError
 } from './DateTimeRangeField.types';
 import {
-  DateTimeOptions,
-  DateTimeValidationError
+  DateTimeValidationError,
+  filterTimeOptions,
+  filterDateOptions
 } from '@/components/data-entry/DateTimeField';
 import { getBaseCalendarType } from '@/components/data-entry/Calendar';
 import {
@@ -16,14 +17,6 @@ import {
 import { DEFAULT_TIME_OPTIONS } from '@/components/data-entry/TimeField';
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
-const TIME_OPTIONS = [
-  'timeStyle',
-  'hour',
-  'minute',
-  'second',
-  'hour12',
-  'hourCycle'
-];
 
 const useDateTimeRangeValidationError = ({
   locale,
@@ -31,23 +24,20 @@ const useDateTimeRangeValidationError = ({
   disabledDates
 }: Pick<DateTimeRangeFieldProps, 'locale' | 'options' | 'disabledDates'>) => {
   const timePartTypes = useMemo(() => {
-    let newOptions: DateTimeOptions = { ...options };
-    if (
-      options === undefined ||
-      Object.keys(options).every(
-        (optionKey) => !TIME_OPTIONS.includes(optionKey)
-      )
-    ) {
-      newOptions = { ...DEFAULT_TIME_OPTIONS, ...options };
-    }
-    const dateTimeFormat = new Intl.DateTimeFormat(locale, newOptions);
+    const timeOptions = filterTimeOptions(options);
+    const noTimePartOptions =
+      timeOptions === undefined || Object.keys(timeOptions).length === 0;
+    const dateTimeFormat = new Intl.DateTimeFormat(
+      locale,
+      noTimePartOptions ? DEFAULT_TIME_OPTIONS : timeOptions
+    );
     const partTypes = dateTimeFormat.formatToParts().map((part) => part.type);
     const partTypeSet = new Set<keyof Intl.DateTimeFormatPartTypesRegistry>();
     partTypes.forEach((type) => partTypeSet.add(type));
     return partTypeSet;
   }, [locale, options]);
   const baseCalendarType = useMemo(
-    () => getBaseCalendarType({ locale, options }),
+    () => getBaseCalendarType({ locale, options: filterDateOptions(options) }),
     [locale, options]
   );
 
@@ -306,5 +296,18 @@ export const useIndicator = ({
     indicatorElRef,
     startDateTimeFieldElRef,
     endDateTimeFieldElRef
+  };
+};
+
+export const useFocus = ({
+  focused
+}: Pick<DateTimeRangeFieldProps, 'focused'>) => {
+  const [uncontrolledFocused, setUncontrolledFocused] =
+    useState<boolean>(false);
+
+  return {
+    isFocused: focused || uncontrolledFocused,
+    focus: () => setUncontrolledFocused(true),
+    blur: () => setUncontrolledFocused(false)
   };
 };

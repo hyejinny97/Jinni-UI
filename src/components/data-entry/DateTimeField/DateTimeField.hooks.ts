@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { DateTimeFieldProps } from './DateTimeField';
 import { DateTimeValidationError } from './DateTimeField.types';
 import { TimeValidationError } from '@/components/data-entry/TimeField';
@@ -18,24 +18,21 @@ export const useDateTimeValue = ({
   const handleValidationError = (validationError?: DateTimeValidationError) => {
     setIsValidationError(!!validationError);
   };
-
-  const initDate = (date: Date) => {
-    const newDate = new Date(date);
-    newDate.setMonth(0);
-    newDate.setDate(1);
-    newDate.setHours(0);
-    newDate.setMinutes(0);
-    newDate.setSeconds(0);
-    newDate.setMilliseconds(0);
-    return newDate;
-  };
+  const INIT_DATE_TIME = useMemo(() => {
+    const dateTime = new Date();
+    dateTime.setHours(0);
+    dateTime.setMinutes(0);
+    dateTime.setSeconds(0);
+    dateTime.setMilliseconds(0);
+    return dateTime;
+  }, []);
 
   const handleDateChange = (
     newValue: Date,
     validationError?: DateValidationError
   ) => {
     const newDate =
-      dateTimeValue === null ? initDate(new Date()) : new Date(dateTimeValue);
+      dateTimeValue === null ? INIT_DATE_TIME : new Date(dateTimeValue);
     newDate.setFullYear(newValue.getFullYear());
     newDate.setMonth(newValue.getMonth());
     newDate.setDate(newValue.getDate());
@@ -49,7 +46,7 @@ export const useDateTimeValue = ({
     validationError?: TimeValidationError
   ) => {
     const newTime =
-      dateTimeValue === null ? initDate(new Date()) : new Date(dateTimeValue);
+      dateTimeValue === null ? INIT_DATE_TIME : new Date(dateTimeValue);
     newTime.setHours(newValue.getHours());
     newTime.setMinutes(newValue.getMinutes());
     newTime.setSeconds(newValue.getSeconds());

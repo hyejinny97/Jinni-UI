@@ -228,6 +228,19 @@ const meta: Meta<typeof DateRangeCalendar> = {
           summary: `'asc'`
         }
       }
+    },
+    onSelect: {
+      description: 'date 선택 시 호출되는 함수',
+      table: {
+        type: { summary: `(selectedDate: Date) => void` }
+      }
+    },
+    disableHoverRangeEffect: {
+      description:
+        'true인 경우, 호버 시 범위에 border가 나타나는 효과가 사라짐',
+      table: {
+        type: { summary: `boolean` }
+      }
     }
   }
 };

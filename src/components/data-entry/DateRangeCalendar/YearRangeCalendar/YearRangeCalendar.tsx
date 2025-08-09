@@ -17,6 +17,7 @@ type YearRangeCalendarProps<T extends AsType = 'div'> = Omit<
   'selectedDate'
 > & {
   selectedDate?: RangeType<Date | null>;
+  disableHoverRangeEffect?: boolean;
 };
 
 const YearRangeCalendar = <T extends AsType = 'div'>(
@@ -26,6 +27,7 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
     renderYear,
     selectedDate,
     yearsOrder,
+    disableHoverRangeEffect,
     className,
     as: Component = 'div',
     ...rest
@@ -67,7 +69,8 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
           ? renderYear
           : (yearProps: YearProps) => {
               const { year, color = 'primary', ref, ...rest } = yearProps;
-              const showDashBorder = isBetweenStartAndHoveredDate(year);
+              const showDashBorder =
+                !disableHoverRangeEffect && isBetweenStartAndHoveredDate(year);
               return (
                 <Box
                   key={year.getTime()}
