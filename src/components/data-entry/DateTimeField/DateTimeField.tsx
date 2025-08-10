@@ -24,6 +24,7 @@ export type DateTimeFieldProps<
   defaultValue?: Date;
   value?: Date | null;
   onChange?: (value: Date, validationError?: DateTimeValidationError) => void;
+  onErrorStatus?: (validationError?: DateTimeValidationError) => void;
   locale?: string;
   options?: DateTimeOptions;
   dateFormat?: string;
@@ -50,6 +51,7 @@ const DateTimeField = forwardRef(
       defaultValue,
       value,
       onChange,
+      onErrorStatus,
       locale,
       options,
       dateFormat,
@@ -82,7 +84,10 @@ const DateTimeField = forwardRef(
 
     const commonProps = {
       value: dateTimeValue,
-      onErrorStatus: handleValidationError,
+      onErrorStatus: (validationError?: DateTimeValidationError) => {
+        handleValidationError(validationError);
+        if (onErrorStatus) onErrorStatus(validationError);
+      },
       locale,
       readOnly,
       disabled,

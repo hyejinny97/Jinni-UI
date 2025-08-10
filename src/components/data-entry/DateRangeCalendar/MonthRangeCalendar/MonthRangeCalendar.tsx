@@ -20,6 +20,7 @@ export type MonthRangeCalendarProps<T extends AsType = 'div'> = Omit<
   selectedDate?: RangeType<Date | null>;
   hoveredMonth?: Date | null;
   onHover?: (hoveredMonth: Date | null) => void;
+  disableHoverRangeEffect?: boolean;
 };
 
 const MonthRangeCalendar = <T extends AsType = 'div'>(
@@ -30,6 +31,7 @@ const MonthRangeCalendar = <T extends AsType = 'div'>(
     selectedDate,
     hoveredMonth,
     onHover,
+    disableHoverRangeEffect,
     className,
     as: Component = 'div',
     ...rest
@@ -74,7 +76,8 @@ const MonthRangeCalendar = <T extends AsType = 'div'>(
           ? renderMonth
           : (monthProps: MonthProps) => {
               const { month, color = 'primary', ref, ...rest } = monthProps;
-              const showDashBorder = isBetweenStartAndHoveredDate(month);
+              const showDashBorder =
+                !disableHoverRangeEffect && isBetweenStartAndHoveredDate(month);
               const currentMonth = dateToMonth(month);
               return (
                 <Box

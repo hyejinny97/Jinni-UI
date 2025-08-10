@@ -24,7 +24,7 @@ import { dateToDay } from '@/utils/date';
 
 export type DateRangeCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
-  'defaultValue' | 'onChange'
+  'defaultValue' | 'onChange' | 'onSelect'
 > & {
   defaultValue?: Partial<RangeType<Date>>;
   value?: RangeType<Date | null>;
@@ -33,6 +33,7 @@ export type DateRangeCalendarProps<T extends AsType = 'div'> = Omit<
     value: RangeType<Date | null>,
     validationError?: DateRangeValidationError
   ) => void;
+  onSelect?: (value: Date) => void;
   onYearChange?: (value: RangeType<Date | null>) => void;
   onMonthChange?: (value: RangeType<Date | null>) => void;
   onDayChange?: (value: RangeType<Date | null>) => void;
@@ -56,6 +57,7 @@ export type DateRangeCalendarProps<T extends AsType = 'div'> = Omit<
   horizontalMonthCalendars?: 1 | 2 | 3;
   verticalDayCalendars?: number;
   horizontalDayCalendars?: 1 | 2 | 3;
+  disableHoverRangeEffect?: boolean;
 };
 
 const DateRangeCalendar = <T extends AsType = 'div'>(
@@ -66,6 +68,7 @@ const DateRangeCalendar = <T extends AsType = 'div'>(
     value,
     referenceDate,
     onChange,
+    onSelect,
     onYearChange,
     onMonthChange,
     onDayChange,
@@ -89,6 +92,7 @@ const DateRangeCalendar = <T extends AsType = 'div'>(
     horizontalMonthCalendars = 2,
     verticalDayCalendars = 5,
     horizontalDayCalendars = 2,
+    disableHoverRangeEffect,
     className,
     style,
     as: Component = 'div',
@@ -129,6 +133,7 @@ const DateRangeCalendar = <T extends AsType = 'div'>(
     }
   };
   const handleSelect = (newSelectedDate: Date) => {
+    if (onSelect) onSelect(newSelectedDate);
     let newSelectedDateRange: RangeType<Date | null>;
     if (!selectedDateRange.start) {
       newSelectedDateRange = { ...selectedDateRange, start: newSelectedDate };
@@ -168,7 +173,8 @@ const DateRangeCalendar = <T extends AsType = 'div'>(
     minDate,
     maxDate,
     readOnly,
-    disabled
+    disabled,
+    disableHoverRangeEffect
   };
 
   let calendar: React.ReactNode;
