@@ -1,13 +1,14 @@
 import cn from 'classnames';
 import { useRef, useState, useEffect } from 'react';
+import { AsType } from '@/types/default-component-props';
 import { Transition, TransitionProps } from '@/components/general/Transition';
 
-type CollapseProps = TransitionProps & {
+type CollapseProps<T extends AsType = 'div'> = TransitionProps<T> & {
   orientation?: 'vertical' | 'horizontal';
   collapsedSize?: number | string;
 };
 
-const Collapse = (props: CollapseProps) => {
+const Collapse = <T extends AsType = 'div'>(props: CollapseProps<T>) => {
   const {
     in: transitionIn,
     orientation = 'vertical',

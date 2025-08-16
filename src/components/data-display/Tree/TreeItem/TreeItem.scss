@@ -1,0 +1,40 @@
+.JinniTreeItem {
+  .JinniTreeItemContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px 4px calc(8px + var(--layer) * 12px);
+    border-radius: 4px;
+    &.isSelected {
+      background-color: var(--selected-color);
+    }
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    &:not(.disabled) {
+      cursor: pointer;
+    }
+    &:hover {
+      background-image: var(--jinni-black-overlay-2);
+    }
+
+    .JinniTreeItemIconContainer {
+      width: 18px;
+      height: 18px;
+    }
+
+    .JinniTreeItemCheckbox {
+      padding: 0;
+    }
+  }
+
+  ul.JinniSubTree {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    &:not(.isExpanded) {
+      display: none;
+    }
+  }
+}
