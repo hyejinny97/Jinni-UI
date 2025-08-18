@@ -1,10 +1,17 @@
 .JinniTreeItem {
+  outline: none;
+  &:focus > .JinniTreeItemContent {
+    border-color: var(--jinni-color-outline);
+  }
+
   .JinniTreeItemContent {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 4px 8px 4px calc(8px + var(--layer) * 12px);
     border-radius: 4px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
     &.isSelected {
       background-color: var(--selected-color);
     }

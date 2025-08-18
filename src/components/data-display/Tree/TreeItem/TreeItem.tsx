@@ -7,7 +7,7 @@ import { TreeItemIdType } from './TreeItem.types';
 import { Checkbox } from '@/components/data-entry/Checkbox';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
-import { useTreeItem, useLayer } from './TreeItem.hooks';
+import { useTreeItem, useLayer, useFocus } from './TreeItem.hooks';
 import { toRgbaObject } from '@/utils/colorFormat';
 import { LayerContext } from './TreeItem.contexts';
 
@@ -41,6 +41,7 @@ const TreeItem = <T extends AsType = 'li'>(props: TreeItemProps<T>) => {
     onItemClick
   } = useTreeItem({ itemId });
   const layer = useLayer();
+  const { isFirstTreeItem } = useFocus({ treeItemElRef, children, isExpanded });
   const { r, g, b } = toRgbaObject('primary-container');
   const newStyle = useStyle({
     '--selected-color': `rgba(${r},${g},${b},0.8)`,
@@ -83,7 +84,9 @@ const TreeItem = <T extends AsType = 'li'>(props: TreeItemProps<T>) => {
         className={cn('JinniTreeItem', className)}
         data-itemid={itemId}
         data-selected={isSelected}
+        data-expanded={isExpanded}
         style={newStyle}
+        tabIndex={isFirstTreeItem ? 0 : -1}
         {...rest}
       >
         <div
