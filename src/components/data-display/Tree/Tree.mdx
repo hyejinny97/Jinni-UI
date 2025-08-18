@@ -1,0 +1,154 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TreeStories from './Tree.stories';
+import * as TreeItemStories from './TreeItem/TreeItem.stories';
+
+<Meta of={TreeStories} />
+
+# Tree
+
+데이터를 계층적으로 나타냄
+
+## Import
+
+```js
+import { Tree, TreeItem } from '@/components/data-display/Tree';
+```
+
+## Usage
+
+### Basic Tree
+
+#### 1) Basic
+
+- `Tree` 컴포넌트
+
+  - `children`: TreeItem 컴포넌트 등 내용
+
+- `TreeItem` 컴포넌트
+  - `itemId`: item의 고유한 id
+  - `label`: item label
+  - `children`: 하위 tree items
+
+<Canvas of={TreeStories.BasicTree} />
+
+#### 2) Disabled items
+
+- `TreeItem` 컴포넌트
+  - `disabled`: true이면, 해당 item은 비활성화됨
+
+<Canvas of={TreeStories.DisabledItems} />
+
+#### 3) Track item clicks
+
+- `Tree` 컴포넌트
+  - `onItemClick`: TreeItem을 클릭했을 때 호출되는 함수
+
+<Canvas of={TreeStories.TrackItemClick} />
+
+### Selection
+
+#### 1) Basic
+
+- `Tree` 컴포넌트
+  - `defaultSelectedItems`: 초기 selected items (uncontrolled 상태일 때만 적용 가능)
+
+<Canvas of={TreeStories.BasicSelection} />
+
+#### 2) Controlled selection
+
+- `selectedItems`와 `onSelectedItemsChange` prop을 통해 selection control 가능
+- `Tree` 컴포넌트
+  - `selectedItems`: selected items
+  - `onSelectedItemsChange`: selected items에 변화가 있을 때 호출되는 함수
+
+<Canvas of={TreeStories.ControlledSelection} />
+
+#### 3) Multi selection
+
+- `Tree` 컴포넌트
+  - `multiSelect`: true이면, 다중 select이 가능함
+  - `Ctrl` 키를 누른 상태에서 items를 클릭하면 다수의 아이템들을 독립적으로 select 가능함
+
+<Canvas of={TreeStories.MultiSelection} />
+
+#### 4) Disable selection
+
+- `Tree` 컴포넌트
+  - `disableSelection`: true이면, select 불가
+
+<Canvas of={TreeStories.DisableSelection} />
+
+#### 5) Checkbox selection
+
+- `Tree` 컴포넌트
+  - `checkboxSelection`: true이면, checkbox를 통해 select 가능
+
+<Canvas of={TreeStories.CheckboxSelection} />
+
+#### 6) Automatic parents and children selection
+
+- `Tree` 컴포넌트
+
+  - `selectionPropagation`: 한 TreeItem의 selection이 상위나 하위의 selection에 영향을 미침
+
+- `selectionPropagation.descendants` === true인 경우
+  - 특정 한 parent를 select하면, 하위 모든 TreeItem들이 자동으로 select 됨
+  - 특정 한 parent를 deselect하면, 하위 모든 TreeItem들이 자동으로 deselect 됨
+- `selectionPropagation.parents` === true인 경우
+  - 특정 한 parent의 하위 모든 TreeItem들을 select하면, parent가 자동으로 select 됨
+  - select된 특정 한 parent의 하위 TreeItems 중 하나가 deselect되면, parent도 자동으로 deselect 됨
+
+<Canvas of={TreeStories.AutomaticParentsAndChildrenSelection} />
+
+#### 7) Track item selection change
+
+- `Tree` 컴포넌트
+
+  - `onItemSelectionToggle`: TreeItem이 select되거나 unselect 됐을 때 호출되는 함수
+
+<Canvas of={TreeStories.TrackItemSelectionChange} />
+
+### Expansion
+
+#### 1) Basic
+
+- `Tree` 컴포넌트
+
+  - `defaultExpandedItems`: 초기 expanded items (uncontrolled 상태일 때만 적용 가능)
+
+<Canvas of={TreeStories.BasicExpansion} />
+
+#### 2) Controlled expansion
+
+- `Tree` 컴포넌트
+
+  - `expandedItems`: expanded items
+  - `onExpandedItemsChange`: expanded items가 변경됐을 때 호출되는 함수
+
+<Canvas of={TreeStories.ControlledExpansion} />
+
+#### 3) Limit expansion to icon container
+
+- `Tree` 컴포넌트
+
+  - `expansionTrigger`: item expansion을 트리거하는 요소
+
+<Canvas of={TreeStories.LimitExpansionToIconContainer} />
+
+#### 4) Track item expansion change
+
+- `Tree` 컴포넌트
+
+  - `onItemExpansionToggle`: TreeItem이 collapse되거나 expanse될 때 호출되는 함수
+
+<Canvas of={TreeStories.TrackItemExpansionChange} />
+
+## Props
+
+### Tree 컴포넌트
+
+<ArgTypes of={TreeStories} sort="alpha" />
+
+### TreeItem 컴포넌트
+
+<ArgTypes of={TreeItemStories} sort="alpha" />
