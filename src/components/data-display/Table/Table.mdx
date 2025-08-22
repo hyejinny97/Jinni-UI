@@ -1,0 +1,145 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TableStories from './Table.stories';
+import * as TableRowStories from './TableRow.stories';
+import * as TableCellStories from './TableCell.stories';
+import * as TablePaginationStories from './TablePagination.stories';
+
+<Meta of={TableStories} />
+
+# Table
+
+표
+
+## Import
+
+```js
+import { Table } from '@/components/data-display/Table';
+```
+
+## Usage
+
+### Basic Table
+
+- `TableCell`
+  - `align`: cell 내 text alignment
+
+<Canvas of={TableStories.BasicTable} />
+
+### Dense Table
+
+- `Table` 컴포넌트
+  - `size`: table의 크기
+
+<Canvas of={TableStories.DenseTable} />
+
+### Sticky Header
+
+- `Table` 컴포넌트
+  - `stickyHeader`: true이면, header가 sticky 처리 됨
+
+<Canvas of={TableStories.StickyHeader} />
+
+### Table pagination
+
+- `TablePagination` 컴포넌트
+  - `count`: 전체 rows 갯수
+  - `page`: 현재 페이지 (zero-based index)
+  - `rowsPerPage`: 페이지 당 rows 갯수
+  - `rowsPerPageOptions`: rows per page의 선택 옵션
+  - `onPageChange`: page 값이 변경되었을 때 호출되는 함수
+  - `onRowsPerPageChange`: rows per page 값이 변경됐을 때 호출되는 함수
+
+<Canvas of={TableStories.PaginatedTable} />
+
+### Sorting table
+
+<Canvas of={TableStories.SortingTable} />
+
+### Selecting table
+
+- `TableRow` 컴포넌트
+  - `hover`: true이면, hover effect가 활성화됨
+  - `selected`: true이면 selected styling 됨
+
+<Canvas of={TableStories.SelectingTable} />
+
+### Column grouping
+
+<Canvas of={TableStories.ColumnGrouping} />
+
+### Collapsible table
+
+<Canvas of={TableStories.CollapsibleTable} />
+
+### Spanning table
+
+<Canvas of={TableStories.SpanningTable} />
+
+### Customization
+
+<Canvas of={TableStories.Customization} />
+
+## Props
+
+<details>
+<summary>Component 종류 및 설명</summary>
+<div markdown="1">
+
+- `TableContainer` 컴포넌트
+
+  - Table 컴포넌트가 수평으로 스크롤할 수 있게 하는 wrapper
+
+- `Table`
+
+  - 메인 컴포넌트
+  - 기본적으로 table element를 렌더함
+
+- `TableHead`
+
+  - Table의 header rows를 위한 컨테이너
+  - 기본적으로 thead element를 렌더함
+
+- `TableBody`
+
+  - Table의 body rows를 위한 컨테이너
+  - 기본적으로 tbody element를 렌더함
+
+- `TableRow`
+
+  - Table의 row
+  - `TableHead`, `TableBody`, `TableFooter`에서 사용 가능
+  - 기본적으로 tr element를 렌더함
+
+- `TableCell`
+
+  - Table의 cell
+  - `TableRow`에서 사용 가능
+  - 기본적으로 `TableHead`에서는 th element를 렌더함
+  - 기본적으로 `TableBody`에서는 td element를 렌더함
+
+- `TableFooter`
+
+  - Table의 footer rows (optional)
+  - 기본적으로 tfoot element를 렌더함
+
+- `TablePagination`
+  - table data를 페이지네이션 하게 함
+
+</div>
+</details>
+
+### Table
+
+<ArgTypes of={TableStories} sort="alpha" />
+
+### TableRow
+
+<ArgTypes of={TableRowStories} sort="alpha" />
+
+### TableCell
+
+<ArgTypes of={TableCellStories} sort="alpha" />
+
+### TablePagination
+
+<ArgTypes of={TablePaginationStories} sort="alpha" />
