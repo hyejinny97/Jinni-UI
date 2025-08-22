@@ -1,0 +1,33 @@
+.JinniTable.sortable-table {
+  .JinniTableHead {
+    .JinniTableCell {
+      .JinniButtonBase {
+        display: inline-flex;
+        padding: 3px;
+        border-radius: 50%;
+        visibility: hidden;
+      }
+      &:hover,
+      &.activeSort {
+        .JinniButtonBase {
+          visibility: visible;
+        }
+      }
+      &.asc .JinniButtonBase svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.JinniTable.custom-table {
+  .JinniTableHead {
+    background-color: var(--jinni-color-primary);
+    color: var(--jinni-color-on-primary);
+  }
+  .JinniTableBody {
+    .JinniTableRow:nth-child(even) {
+      background-color: var(--jinni-color-gray-100);
+    }
+  }
+}

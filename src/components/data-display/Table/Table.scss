@@ -1,0 +1,71 @@
+@use '@/styles/variables.scss' as var;
+
+.JinniTableContainer {
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.JinniTable {
+  border-collapse: separate;
+  border-spacing: 0;
+
+  &.stickyHeader {
+    position: relative;
+    .JinniTableHead {
+      position: sticky;
+      top: 0;
+      left: 0;
+      background-color: white;
+    }
+  }
+
+  .JinniTableRow {
+    &.hover:hover {
+      background-image: var(--jinni-black-overlay-2);
+    }
+    &.selected {
+      background-color: var(--jinni-color-primary-container);
+    }
+  }
+
+  .JinniTableCell {
+    padding: var(--table-cell-padding);
+    font-weight: var.$font-weight-regular;
+    border-bottom: 1px solid var(--jinni-color-gray-300);
+    box-sizing: border-box;
+
+    &.left {
+      text-align: left;
+    }
+    &.center {
+      text-align: center;
+    }
+    &.right {
+      text-align: right;
+    }
+    &.bold {
+      font-weight: var.$font-weight-medium;
+    }
+  }
+}
+
+.JinniTablePagination {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  column-gap: 20px;
+  padding: 0 6px;
+
+  .rows-per-page-options {
+    align-items: center;
+  }
+
+  .page-controls {
+    .JinniButtonBase {
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 50%;
+    }
+  }
+}
