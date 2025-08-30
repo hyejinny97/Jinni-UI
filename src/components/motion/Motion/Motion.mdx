@@ -1,0 +1,84 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as MotionStories from './Motion.stories';
+
+<Meta of={MotionStories} />
+
+# Motion
+
+자식 요소에 애니메이션을 적용함
+
+## Import
+
+```js
+import { Motion } from '@/components/motion/Motion';
+```
+
+## Usage
+
+### Enter Animation
+
+- `children`: 애니메이션을 적용할 요소
+- `animate`: mount시 적용될 스타일
+- `transition`: CSS transition로 transition-property, transition-duration, transition-timing-function, transition-delay 설정 가능
+
+<Canvas of={MotionStories.EnterAnimation} />
+
+### Initial Style
+
+- `initial`: 초기 스타일
+
+<Canvas of={MotionStories.InitialStyle} />
+
+### Exit Animation
+
+- `exit`: unmount시 적용될 스타일
+- Exit Animation이 가능하려면 반드시 `Motion`을 `AnimatePresence` 컴포넌트로 감싸줘야함
+
+<Canvas of={MotionStories.ExitAnimation} />
+
+### Gesture Animations
+
+- Motion에 hover, click, focus, in viewport 등의 이벤트가 발생했을 때 애니메이션 실행 가능
+
+<Canvas of={MotionStories.GestureAnimations} />
+
+### Different Enter/Exit Transition
+
+<Canvas of={MotionStories.DifferentEnterExitTransition} />
+
+### Transform origin
+
+<Canvas of={MotionStories.TransformOrigin} />
+
+### Transition Timing Function
+
+- HTML 요소의 기본 transition-timing-function 적용 가능
+
+  - `'ease'` | `'ease-in'` | `'ease-out'` | `'ease-in-out'`
+  - `'linear'` | `'step-start'` | `'step-end'`
+  - `'step(n, <jump-term>)'`
+  - `'cubic-bezier(p1, p2, p3, p4)'`
+
+- `var(--jinni-easing-[시간 함수])`를 통해 Jinni UI에서 제공하는 transition-timing-function 사용 가능
+  - `'emphasized'` | `'emphasized-accelerate'` | `'emphasized-decelerate'`
+  - `'standard'` | `'standard-accelerate'` | `'standard-decelerate'`
+
+<Canvas of={MotionStories.TransitionTimingFunction} />
+
+### Transition Duration
+
+- HTML 요소의 기본 transition-duration 적용 가능
+
+  - `string`
+
+- `var(--jinni-duration-[시간])`를 통해 Jinni UI에서 제공하는 transition-duration 사용 가능
+  - `'short1'` | `'short2'` | `'short3'` | `'short4'`
+  - `'medium1'` | `'medium2'` | `'medium3'` | `'medium4'`
+  - `'long1'` | `'long2'` | `'long3'` | `'long4'`
+  - `'extra-long1'` | `'extra-long2'` | `'extra-long3'` | `'extra-long4'`
+
+<Canvas of={MotionStories.TransitionDuration} />
+
+## Props
+
+<ArgTypes of={MotionStories} sort="alpha" />
