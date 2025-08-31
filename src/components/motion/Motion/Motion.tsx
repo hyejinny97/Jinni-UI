@@ -85,6 +85,9 @@ const Motion = forwardRef(
           once: true
         });
       }
+      return () => {
+        targetEl.removeEventListener('transitionend', onExitComplete);
+      };
     }, [exitValue, exit, exitTransition]);
 
     return (
