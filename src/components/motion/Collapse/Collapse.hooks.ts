@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState, useEffect } from 'react';
+import { useRef, useLayoutEffect, useState } from 'react';
 import { CollapseProps } from './Collapse';
 
 export const useContentSize = ({
@@ -21,17 +21,5 @@ export const useContentSize = ({
   return {
     contentElRef,
     contentSize
-  };
-};
-
-export const useMount = () => {
-  const isMountedRef = useRef<boolean>(false);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-  }, []);
-
-  return {
-    isMounted: isMountedRef.current
   };
 };
