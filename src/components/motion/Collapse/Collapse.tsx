@@ -51,7 +51,11 @@ const CollapseMotion = <T extends AsType = 'div'>(
         enter: `${transitionProperty} ${enterDuration} ${enterEasing}`,
         exit: `${transitionProperty} ${exitDuration} ${exitEasing}`
       }}
-      style={{ display: 'inline-flex', overflow: 'hidden' }}
+      style={{
+        display: 'inline-flex',
+        width: 'max-content',
+        overflow: 'hidden'
+      }}
       {...rest}
     >
       <div ref={contentElRef} style={{ display: 'inline-flex' }}>
@@ -99,7 +103,11 @@ const StaticCollapseMotion = <T extends AsType = 'div'>(
         enter: `${transitionProperty} ${enterDuration} ${enterEasing}`,
         exit: `${transitionProperty} ${exitDuration} ${exitEasing}`
       }}
-      style={{ display: 'inline-flex', overflow: 'hidden' }}
+      style={{
+        display: 'inline-flex',
+        width: 'max-content',
+        overflow: 'hidden'
+      }}
       {...rest}
     >
       <div ref={contentElRef} style={{ display: 'inline-flex' }}>

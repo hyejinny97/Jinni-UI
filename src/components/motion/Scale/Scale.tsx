@@ -6,7 +6,7 @@ import { TransitionType } from '@/types/motion';
 import { useTransition } from '@/hooks/useTransition';
 import { useMountRef } from '@/hooks/useMount';
 
-export type FadeProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
+export type ScaleProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   TransitionType & {
     children?: React.ReactNode;
   };
@@ -14,9 +14,9 @@ export type FadeProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
 const DEFAULT_EASING = 'emphasized';
 const DEFAULT_DURATION = 'medium1';
 
-const Fade = <T extends AsType = 'div'>(props: FadeProps<T>) => {
+const Scale = <T extends AsType = 'div'>(props: ScaleProps<T>) => {
   const {
-    in: fadeIn,
+    in: scaleIn,
     easing = DEFAULT_EASING,
     duration = DEFAULT_DURATION,
     animateOnMount,
@@ -24,7 +24,7 @@ const Fade = <T extends AsType = 'div'>(props: FadeProps<T>) => {
     className,
     ...rest
   } = props;
-  const show = fadeIn;
+  const show = !scaleIn;
   const isMountedRef = useMountRef();
   const { enterDuration, exitDuration, enterEasing, exitEasing } =
     useTransition({ duration, easing });
@@ -33,15 +33,17 @@ const Fade = <T extends AsType = 'div'>(props: FadeProps<T>) => {
     <AnimatePresence>
       {show && (
         <Motion
-          className={cn('JinniFade', className)}
+          className={cn('JinniScale', className)}
           initial={
-            animateOnMount || isMountedRef.current ? { opacity: 0 } : undefined
+            animateOnMount || isMountedRef.current
+              ? { transform: 'scale(0)' }
+              : undefined
           }
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          animate={{ transform: 'scale(1)' }}
+          exit={{ transform: 'scale(0)' }}
           transition={{
-            enter: `opacity ${enterDuration} ${enterEasing}`,
-            exit: `opacity ${exitDuration} ${exitEasing}`
+            enter: `transform ${enterDuration} ${enterEasing}`,
+            exit: `transform ${exitDuration} ${exitEasing}`
           }}
           style={{ display: 'inline-flex', width: 'max-content' }}
           {...rest}
@@ -53,4 +55,4 @@ const Fade = <T extends AsType = 'div'>(props: FadeProps<T>) => {
   );
 };
 
-export default Fade;
+export default Scale;

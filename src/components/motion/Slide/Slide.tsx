@@ -57,7 +57,7 @@ const SlideMotion = <T extends AsType = 'div'>(
         enter: `transform ${enterDuration} ${enterEasing}`,
         exit: `transform ${exitDuration} ${exitEasing}`
       }}
-      style={{ display: 'inline-flex' }}
+      style={{ display: 'inline-flex', width: 'max-content' }}
       {...rest}
     >
       {children}
