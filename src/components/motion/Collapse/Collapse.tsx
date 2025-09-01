@@ -6,7 +6,7 @@ import { TransitionType } from '@/types/motion';
 import { useTransition } from '@/hooks/useTransition';
 import { isNumber } from '@/utils/isNumber';
 import { useContentSize } from './Collapse.hooks';
-import useMount from '@/hooks/useMount';
+import { useMountRef } from '@/hooks/useMount';
 
 export type CollapseProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   TransitionType & {
@@ -116,7 +116,7 @@ const Collapse = <T extends AsType = 'div'>(props: CollapseProps<T>) => {
     animateOnMount = false,
     ...rest
   } = props;
-  const isMounted = useMount();
+  const isMountedRef = useMountRef();
   const show = !collapse;
 
   if (collapsedSize !== undefined) {
@@ -125,7 +125,10 @@ const Collapse = <T extends AsType = 'div'>(props: CollapseProps<T>) => {
   return (
     <AnimatePresence>
       {show && (
-        <CollapseMotion hasInitial={animateOnMount || isMounted} {...rest} />
+        <CollapseMotion
+          hasInitial={animateOnMount || isMountedRef.current}
+          {...rest}
+        />
       )}
     </AnimatePresence>
   );

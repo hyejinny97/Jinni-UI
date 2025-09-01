@@ -4,7 +4,7 @@ import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
 import { TransitionType } from '@/types/motion';
 import { useTransition } from '@/hooks/useTransition';
-import useMount from '@/hooks/useMount';
+import { useMountRef } from '@/hooks/useMount';
 
 export type FadeProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   TransitionType & {
@@ -25,7 +25,7 @@ const Fade = <T extends AsType = 'div'>(props: FadeProps<T>) => {
     ...rest
   } = props;
   const show = fadeIn;
-  const isMounted = useMount();
+  const isMountedRef = useMountRef();
   const { enterDuration, exitDuration, enterEasing, exitEasing } =
     useTransition({ duration, easing });
 
@@ -34,7 +34,9 @@ const Fade = <T extends AsType = 'div'>(props: FadeProps<T>) => {
       {show && (
         <Motion
           className={cn('JinniFade', className)}
-          initial={animateOnMount || isMounted ? { opacity: 0 } : undefined}
+          initial={
+            animateOnMount || isMountedRef.current ? { opacity: 0 } : undefined
+          }
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{
