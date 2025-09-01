@@ -25,3 +25,39 @@ export const DURATIONS = [
   'extra-long3',
   'extra-long4'
 ] as const;
+
+export const TRANSITION_ARGTYPES = {
+  children: {
+    description: 'child content'
+  },
+  duration: {
+    description: 'transition duration (단위: ms)',
+    table: {
+      type: {
+        summary: `DurationType | number | string | { enter: DurationType | number  | string, exit: DurationType | number  | string }`
+      },
+      defaultValue: { summary: `'medium1'` }
+    }
+  },
+  easing: {
+    description: 'transition timing function',
+    table: {
+      type: {
+        summary: `EasingType | string | { enter: EasingType | string, exit: EasingType | string }`
+      },
+      defaultValue: { summary: `'emphasized'` }
+    }
+  },
+  in: {
+    description: 'true이면, transition in 됨',
+    table: {
+      type: { summary: `boolean` }
+    }
+  },
+  animateOnMount: {
+    description: 'true이면, mount 시 animation이 실행됨',
+    table: {
+      type: { summary: `boolean` }
+    }
+  }
+};

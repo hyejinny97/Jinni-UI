@@ -1,0 +1,72 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as SlideStories from './Slide.stories';
+
+<Meta of={SlideStories} />
+
+# Slide
+
+slide in/slide out transition
+
+## Import
+
+```js
+import { Slide } from '@/components/motion/Slide';
+```
+
+## Usage
+
+### Basic Slide
+
+- `children`: slide in/out 될 요소
+- `in`: true이면, transition in 됨
+
+<Canvas of={SlideStories.BasicSlide} />
+
+### Direction
+
+- `direction`: transition 방향
+  - 'down': 위 → 아래로 내려옴
+  - 'up': 아래 → 위로 올라옴
+  - 'left': 오른쪽 → 왼쪽으로 이동함
+  - 'right': 왼쪽 → 오른쪽으로 이동함
+
+<Canvas of={SlideStories.Direction} />
+
+### Slide Container
+
+- `containerRef`: slide transition이 나타나는 container
+  - 값을 지정하지 않으면 '화면(viewport)'을 기준으로 transition 됨
+
+<Canvas of={SlideStories.SlideContainer} />
+
+### Transition Timing Function
+
+- `easing`: transition timing function
+  - type: `EasingType` | `string` | `{ enter: EasingType | string, exit: EasingType | string }`
+  - `EasingType`:
+    - `'emphasized'` | `'emphasized-accelerate'` | `'emphasized-decelerate'`
+    - `'standard'` | `'standard-accelerate'` | `'standard-decelerate'`
+
+<Canvas of={SlideStories.TransitionTimingFunction} />
+
+### Transition Duration
+
+- `duration`: transition duration (단위: ms)
+  - type: `DurationType` | `number` | `string` | `{ enter: DurationType | number  | string, exit: DurationType | number | string }`
+  - `DurationType`:
+    - `'short1'` | `'short2'` | `'short3'` | `'short4'`
+    - `'medium1'` | `'medium2'` | `'medium3'` | `'medium4'`
+    - `'long1'` | `'long2'` | `'long3'` | `'long4'`
+    - `'extra-long1'` | `'extra-long2'` | `'extra-long3'` | `'extra-long4'`
+
+<Canvas of={SlideStories.TransitionDuration} />
+
+### Animate on mount
+
+- `animateOnMount`: true이면, mount 시 animation이 실행됨
+
+<Canvas of={SlideStories.AnimateOnMount} />
+
+## Props
+
+<ArgTypes of={SlideStories} sort="alpha" />

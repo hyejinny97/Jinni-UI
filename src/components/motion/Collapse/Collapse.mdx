@@ -1,0 +1,72 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as CollapseStories from './Collapse.stories';
+
+<Meta of={CollapseStories} />
+
+# Collapse
+
+expand/collapse transition
+
+## Import
+
+```js
+import { Collapse } from '@/components/motion/Collapse';
+```
+
+## Usage
+
+### Basic Collapse
+
+- children의 start edge서부터 expand 되고 end edge에서부터 collapse 됨
+- `children`: expand/collapse 될 요소
+- `in`: true이면, transition in 됨
+
+<Canvas of={CollapseStories.BasicCollapse} />
+
+### Orientation
+
+- `orientation`: transition 방향
+
+<Canvas of={CollapseStories.Orientation} />
+
+### Collapsed Size
+
+- `collapsedSize`: collapse될 때 container의 크기
+- 기본적으로, `in` prop에 따라 children이 mount/unmount 됨
+  - true인 경우, children이 mount 되고 transition 시작함
+  - false인 경우, transition 끝난 후 children은 unmount 됨
+- 하지만, `collapsedSize` prop을 지정한 경우 children은 mount/unmount 되지 않음
+
+<Canvas of={CollapseStories.CollapsedSize} />
+
+### Transition Timing Function
+
+- `easing`: transition timing function
+  - type: `EasingType` | `string` | `{ enter: EasingType | string, exit: EasingType | string }`
+  - `EasingType`:
+    - `'emphasized'` | `'emphasized-accelerate'` | `'emphasized-decelerate'`
+    - `'standard'` | `'standard-accelerate'` | `'standard-decelerate'`
+
+<Canvas of={CollapseStories.TransitionTimingFunction} />
+
+### Transition Duration
+
+- `duration`: transition duration (단위: ms)
+  - type: `DurationType` | `number` | `string` | `{ enter: DurationType | number  | string, exit: DurationType | number | string }`
+  - `DurationType`:
+    - `'short1'` | `'short2'` | `'short3'` | `'short4'`
+    - `'medium1'` | `'medium2'` | `'medium3'` | `'medium4'`
+    - `'long1'` | `'long2'` | `'long3'` | `'long4'`
+    - `'extra-long1'` | `'extra-long2'` | `'extra-long3'` | `'extra-long4'`
+
+<Canvas of={CollapseStories.TransitionDuration} />
+
+### Animate on mount
+
+- `animateOnMount`: true이면, mount 시 animation이 실행됨
+
+<Canvas of={CollapseStories.AnimateOnMount} />
+
+## Props
+
+<ArgTypes of={CollapseStories} sort="alpha" />

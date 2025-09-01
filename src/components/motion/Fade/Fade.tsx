@@ -1,0 +1,56 @@
+import cn from 'classnames';
+import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { Motion } from '@/components/motion/Motion';
+import { AnimatePresence } from '@/components/motion/AnimatePresence';
+import { TransitionType } from '@/types/motion';
+import { useTransition } from '@/hooks/useTransition';
+import { useMountRef } from '@/hooks/useMount';
+
+export type FadeProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
+  TransitionType & {
+    children?: React.ReactNode;
+  };
+
+const DEFAULT_EASING = 'emphasized';
+const DEFAULT_DURATION = 'medium1';
+
+const Fade = <T extends AsType = 'div'>(props: FadeProps<T>) => {
+  const {
+    in: fadeIn,
+    easing = DEFAULT_EASING,
+    duration = DEFAULT_DURATION,
+    animateOnMount,
+    children,
+    className,
+    ...rest
+  } = props;
+  const show = fadeIn;
+  const isMountedRef = useMountRef();
+  const { enterDuration, exitDuration, enterEasing, exitEasing } =
+    useTransition({ duration, easing });
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <Motion
+          className={cn('JinniFade', className)}
+          initial={
+            animateOnMount || isMountedRef.current ? { opacity: 0 } : undefined
+          }
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            enter: `opacity ${enterDuration} ${enterEasing}`,
+            exit: `opacity ${exitDuration} ${exitEasing}`
+          }}
+          style={{ display: 'inline-flex', width: 'max-content' }}
+          {...rest}
+        >
+          {children}
+        </Motion>
+      )}
+    </AnimatePresence>
+  );
+};
+
+export default Fade;
