@@ -1,0 +1,61 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ScaleStories from './Scale.stories';
+
+<Meta of={ScaleStories} />
+
+# Scale
+
+scale in/out transition
+
+## Import
+
+```js
+import { Scale } from '@/components/motion/Scale';
+```
+
+## Usage
+
+### Basic Scale
+
+- `children`: scale in/out 될 요소
+- `in`: true이면, transition in 됨
+
+<Canvas of={ScaleStories.BasicScale} />
+
+### Transform Origin
+
+- style prop의 'transform-origin'을 통해 transition 되는 origin 변경 가능
+
+<Canvas of={ScaleStories.TransformOrigin} />
+
+### Transition Timing Function
+
+- `easing`: transition timing function
+  - type: `EasingType` | `string` | `{ enter: EasingType | string, exit: EasingType | string }`
+  - `EasingType`:
+    - `'emphasized'` | `'emphasized-accelerate'` | `'emphasized-decelerate'`
+    - `'standard'` | `'standard-accelerate'` | `'standard-decelerate'`
+
+<Canvas of={ScaleStories.TransitionTimingFunction} />
+
+### Transition Duration
+
+- `duration`: transition duration (단위: ms)
+  - type: `DurationType` | `number` | `string` | `{ enter: DurationType | number  | string, exit: DurationType | number | string }`
+  - `DurationType`:
+    - `'short1'` | `'short2'` | `'short3'` | `'short4'`
+    - `'medium1'` | `'medium2'` | `'medium3'` | `'medium4'`
+    - `'long1'` | `'long2'` | `'long3'` | `'long4'`
+    - `'extra-long1'` | `'extra-long2'` | `'extra-long3'` | `'extra-long4'`
+
+<Canvas of={ScaleStories.TransitionDuration} />
+
+### Animate on mount
+
+- `animateOnMount`: true이면, mount 시 animation이 실행됨
+
+<Canvas of={ScaleStories.AnimateOnMount} />
+
+## Props
+
+<ArgTypes of={ScaleStories} sort="alpha" />
