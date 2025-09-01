@@ -9,7 +9,6 @@ import useMount from '@/hooks/useMount';
 export type FadeProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   TransitionType & {
     children?: React.ReactNode;
-    animateOnMount?: boolean;
   };
 
 const DEFAULT_EASING = 'emphasized';

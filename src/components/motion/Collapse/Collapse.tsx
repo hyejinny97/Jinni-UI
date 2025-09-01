@@ -13,7 +13,6 @@ export type CollapseProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
     children?: React.ReactNode;
     orientation?: 'horizontal' | 'vertical';
     collapsedSize?: number | string;
-    animateOnMount?: boolean;
   };
 
 const DEFAULT_EASING = 'emphasized';

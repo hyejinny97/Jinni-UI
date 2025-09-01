@@ -53,5 +53,11 @@ export const TRANSITION_ARGTYPES = {
     table: {
       type: { summary: `boolean` }
     }
+  },
+  animateOnMount: {
+    description: 'true이면, mount 시 animation이 실행됨',
+    table: {
+      type: { summary: `boolean` }
+    }
   }
 };

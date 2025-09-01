@@ -9,7 +9,7 @@ type EnterExit<T> = { enter: T; exit: T };
 export const useTransition = ({
   easing,
   duration
-}: Required<Omit<TransitionType, 'in'>>) => {
+}: Required<Pick<TransitionType, 'easing' | 'duration'>>) => {
   const processDuration = (
     duration: DurationType | number | string
   ): string => {

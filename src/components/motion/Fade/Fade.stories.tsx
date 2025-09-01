@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import Collapse from './Collapse';
+import Fade from './Fade';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
@@ -10,30 +10,13 @@ import { RadioLabel } from '@/components/data-entry/RadioLabel';
 import { EASING_SET, DURATIONS } from '@/constants/motion';
 import { TRANSITION_ARGTYPES } from '@/constants/motion';
 
-const meta: Meta<typeof Collapse> = {
-  component: Collapse,
-  argTypes: {
-    ...TRANSITION_ARGTYPES,
-    collapsedSize: {
-      description: 'collapse될 때 container의 크기',
-      table: {
-        type: { summary: `number | string` }
-      }
-    },
-    orientation: {
-      description: 'transition 방향',
-      table: {
-        type: {
-          summary: `'horizontal' | 'vertical'`
-        },
-        defaultValue: { summary: `'vertical'` }
-      }
-    }
-  }
+const meta: Meta<typeof Fade> = {
+  component: Fade,
+  argTypes: TRANSITION_ARGTYPES
 };
 
 export default meta;
-type Story = StoryObj<typeof Collapse>;
+type Story = StoryObj<typeof Fade>;
 
 const TIMING_FUNCTIONS = [
   ...EASING_SET,
@@ -49,8 +32,8 @@ const TRANSITION_DURATIONS = [
   { enter: 'long1', exit: 'short1' }
 ];
 
-const CollapseWithToggle = ({ ...props }) => {
-  const [transitionIn, setTransitionIn] = useState(false);
+const FadeWithToggle = ({ ...props }) => {
+  const [transitionIn, setTransitionIn] = useState(true);
 
   const toggleTransition = () => {
     setTransitionIn((prev) => !prev);
@@ -59,19 +42,19 @@ const CollapseWithToggle = ({ ...props }) => {
   return (
     <Stack spacing={10} style={{ minWidth: 150, minHeight: 150 }}>
       <Button onClick={toggleTransition} style={{ maxWidth: 'max-content' }}>
-        {transitionIn ? 'Expand' : 'Collapse'}
+        {transitionIn ? 'Fade out' : 'Fade in'}
       </Button>
-      <Collapse in={transitionIn} {...props}>
+      <Fade in={transitionIn} {...props}>
         <Box
           style={{ backgroundColor: 'yellow-300', width: 100, height: 100 }}
         />
-      </Collapse>
+      </Fade>
     </Stack>
   );
 };
 
-const CollapseWithToggleAndReset = ({ ...props }) => {
-  const [transitionIn, setTransitionIn] = useState(false);
+const FadeWithToggleAndReset = ({ ...props }) => {
+  const [transitionIn, setTransitionIn] = useState(true);
   const [key, setKey] = useState<number>(Math.random());
 
   const toggleTransition = () => {
@@ -85,7 +68,7 @@ const CollapseWithToggleAndReset = ({ ...props }) => {
     <Stack spacing={10} style={{ minWidth: 150, minHeight: 150 }}>
       <Stack direction="row" spacing={10}>
         <Button onClick={toggleTransition} style={{ maxWidth: 'max-content' }}>
-          {transitionIn ? 'Expand' : 'Collapse'}
+          {transitionIn ? 'Fade out' : 'Fade in'}
         </Button>
         <Button
           onClick={reset}
@@ -95,11 +78,11 @@ const CollapseWithToggleAndReset = ({ ...props }) => {
           reset
         </Button>
       </Stack>
-      <Collapse key={key} in={transitionIn} {...props}>
+      <Fade key={key} in={transitionIn} {...props}>
         <Box
           style={{ backgroundColor: 'yellow-300', width: 100, height: 100 }}
         />
-      </Collapse>
+      </Fade>
     </Stack>
   );
 };
@@ -127,7 +110,7 @@ const TimingFunctionTemplate = () => {
           );
         })}
       </Grid>
-      <CollapseWithToggle easing={TIMING_FUNCTIONS[checkedValue]} />
+      <FadeWithToggle easing={TIMING_FUNCTIONS[checkedValue]} />
     </Stack>
   );
 };
@@ -155,26 +138,13 @@ const DurationTemplate = () => {
           );
         })}
       </Grid>
-      <CollapseWithToggle duration={TRANSITION_DURATIONS[checkedValue]} />
+      <FadeWithToggle duration={TRANSITION_DURATIONS[checkedValue]} />
     </Stack>
   );
 };
 
-export const BasicCollapse: Story = {
-  render: () => <CollapseWithToggle />
-};
-
-export const Orientation: Story = {
-  render: () => (
-    <Stack direction="row" spacing={20}>
-      <CollapseWithToggle orientation="vertical" />
-      <CollapseWithToggle orientation="horizontal" />
-    </Stack>
-  )
-};
-
-export const CollapsedSize: Story = {
-  render: () => <CollapseWithToggle collapsedSize="20px" />
+export const BasicFade: Story = {
+  render: () => <FadeWithToggle />
 };
 
 export const TransitionTimingFunction: Story = {
@@ -186,5 +156,5 @@ export const TransitionDuration: Story = {
 };
 
 export const AnimateOnMount: Story = {
-  render: () => <CollapseWithToggleAndReset animateOnMount />
+  render: () => <FadeWithToggleAndReset animateOnMount duration="extra-long4" />
 };

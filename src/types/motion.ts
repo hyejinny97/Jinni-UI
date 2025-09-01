@@ -14,4 +14,5 @@ export type TransitionType = {
     | number
     | string
     | EnterExit<DurationType | number | string>;
+  animateOnMount?: boolean;
 };
