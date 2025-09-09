@@ -1,4 +1,4 @@
-import './DragContext.scss';
+import './DragProvider.scss';
 import { useRef } from 'react';
 import useDrag, { DragProps } from '@/hooks/useDrag';
 import { DragContext, DestinationType } from './Drag.contexts';

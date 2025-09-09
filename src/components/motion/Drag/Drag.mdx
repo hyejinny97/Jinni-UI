@@ -1,0 +1,131 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as DragStories from './Drag.stories';
+import * as DragProviderStories from './DragProvider.stories';
+import * as DragContainerStories from './DragContainer.stories';
+import * as DragTriggerStories from './DragTrigger.stories';
+import * as DragIntersectionStories from './DragIntersection.stories';
+
+<Meta of={DragStories} />
+
+# Drag
+
+드래그가 가능한 요소
+
+## Import
+
+```js
+import { Drag } from '@/components/motion/Drag';
+```
+
+## Usage
+
+### Basic Drag
+
+- `Drag` 컴포넌트
+
+<Canvas of={DragStories.BasicDrag} />
+
+### Direction
+
+- `DragProvider` 컴포넌트
+  - `direction`: target 요소의 이동 방향
+
+<Canvas of={DragStories.Direction} />
+
+### Trigger Element
+
+- `DragTrigger` 컴포넌트
+
+<Canvas of={DragStories.TriggerElement} />
+
+### Drag Container
+
+- `DragContainer` 컴포넌트
+
+#### 1) 너비(높이) 크기: container >= target
+
+<Canvas of={DragStories.LargeContainer} />
+
+#### 2) 너비(높이) 크기: container < target
+
+<Canvas of={DragStories.SmallContainer} />
+
+### Slip effect
+
+- Slip effect: drag를 멈출 때 멈췄을 때의 속도에 따라서 같은 방향으로 조금 더 이동하는 효과
+
+#### 1. Slip
+
+- `DragProvider` 컴포넌트
+  - `slip`: true이면, 미끄러지는 효과가 나타남
+
+<Canvas of={DragStories.Slip} />
+
+#### 2. Slip size
+
+- `DragProvider` 컴포넌트
+  - `slipSize`: 미끄러지는 정도
+
+<Canvas of={DragStories.SlipSize} />
+
+### Disable over-drag effect
+
+- over-drag effect: target이 container의 경계에 도달했을 때 살짝 더 이동하다가, drag를 멈추면 container의 경계로 돌아가게 되는 효과
+- `DragProvider` 컴포넌트
+  - `disableOverDragEffect`: true이면, over drag 효과가 사라짐
+
+<Canvas of={DragStories.DisableOverDragEffect} />
+
+### Drag with threshold
+
+- `DragIntersection` 컴포넌트
+  - `root`: intersection root
+  - `onIntersect`: intersection root와 intersection target이 교차할 때 호출되는 함수
+
+#### 예1) Carousel
+
+<Canvas of={DragStories.ThresholdCarousel} />
+
+#### 예2) Left Drawer
+
+<Canvas of={DragStories.ThresholdLeftDrawer} />
+
+#### 예3) Bottom Drawer
+
+<Canvas of={DragStories.ThresholdBottomDrawer} />
+
+### Disable Drag
+
+- `DragProvider` 컴포넌트
+  - `disabled`: true이면, drag 되지 않음
+
+<Canvas of={DragStories.DisableDrag} />
+
+## Props
+
+- `Drag` 컴포넌트: drag 되는 대상
+- `DragContainer` 컴포넌트: `Drag` 컴포넌트가 이동할 수 있는 제한된 공간
+- `DragTrigger` 컴포넌트: drag 이벤트를 유발하는 대상
+- `DragIntersection` 컴포넌트: intersection root에 대한 교차 여부를 감지하는 컴포넌트
+- `DragProvider` 컴포넌트: 위 4가지 컴포넌트를 감싸는 wrapper
+  - 위 4가지 컴포넌트에 context를 제공하는 역할
+
+### 1. Drag
+
+<ArgTypes of={DragStories} sort="alpha" />
+
+### 2. DragContainer
+
+<ArgTypes of={DragContainerStories} sort="alpha" />
+
+### 3. DragTrigger
+
+<ArgTypes of={DragTriggerStories} sort="alpha" />
+
+### 4. DragIntersection
+
+<ArgTypes of={DragIntersectionStories} sort="alpha" />
+
+### 5. DragProvider
+
+<ArgTypes of={DragProviderStories} sort="alpha" />
