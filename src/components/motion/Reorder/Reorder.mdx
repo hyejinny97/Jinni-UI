@@ -1,0 +1,61 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ReorderStories from './Reorder.stories';
+import * as ReorderItemStories from './ReorderItem.stories';
+import * as ReorderItemTriggerStories from './ReorderItemTrigger.stories';
+
+<Meta of={ReorderStories} />
+
+# Reorder
+
+드래그를 통해 리스트를 재정렬 함
+
+## Import
+
+```js
+import { Reorder } from '@/components/motion/Reorder';
+```
+
+## Usage
+
+### Basic Reorder
+
+- `Reorder` 컴포넌트
+
+  - `children`: 재정렬할 아이템들 (ReorderItem 컴포넌트들)
+  - `value`: 목록 내 아이템 순서
+  - `onChange`: 목록 내 아이템 순서가 변경 됐을 때 호출되는 함수
+
+- `ReorderItem` 컴포넌트
+  - `children`: 아이템 콘텐츠
+  - `value`: 아이템을 특정할 수 있는 유니크한 값
+
+<Canvas of={ReorderStories.BasicReorder} />
+
+### Direction
+
+- `Reorder` 컴포넌트
+  - `direction`: reorder 방향
+
+<Canvas of={ReorderStories.Direction} />
+
+### Triggers
+
+- `ReorderItemTrigger` 컴포넌트
+  - `children`: drag 이벤트를 유발하는 요소
+- `ReorderItemTrigger` 컴포넌트를 지정하지 않으면 `ReorderItem`이 trigger가 됨
+
+<Canvas of={ReorderStories.Triggers} />
+
+## Props
+
+### Reorder
+
+<ArgTypes of={ReorderStories} sort="alpha" />
+
+### ReorderItem
+
+<ArgTypes of={ReorderItemStories} sort="alpha" />
+
+### ReorderItemTrigger
+
+<ArgTypes of={ReorderItemTriggerStories} sort="alpha" />
