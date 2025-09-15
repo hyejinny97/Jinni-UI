@@ -34,8 +34,11 @@ const Avatar = <T extends AsType = 'span'>(props: AvatarProps<T>) => {
   const [isImageAvatar, setIsImageAvatar] = useState(!!src);
   const hasNumberTypeSize = typeof size === 'number';
 
-  const handleImageLoadError = () => {
+  const handleImageLoadError = (
+    event: React.SyntheticEvent<HTMLImageElement>
+  ) => {
     setIsImageAvatar(false);
+    if (imgProps?.onError) imgProps.onError(event);
   };
 
   if (hasNumberTypeSize) newStyle = { ...newStyle, width: size, height: size };
