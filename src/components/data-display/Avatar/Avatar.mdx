@@ -19,55 +19,58 @@ import { Avatar } from '@/components/data-display/Avatar';
 
 - `src`: 이미지 url
 - `alt`: 이미지 대체 텍스트
+- `imgProps`: (src, alt 속성은 제외한) HTML img element의 props
 
 <Canvas of={AvatarStories.ImageAvatars} />
 
 ### Letter Avatars
 
-`children`을 통해 텍스트 삽입
+- `children`: letter or icon
 
 <Canvas of={AvatarStories.LetterAvatars} />
 
 ### Icon Avatars
 
-`children`을 통해 아이콘 삽입
-
 <Canvas of={AvatarStories.IconAvatars} />
 
 ### Sizes
 
-`size` prop이
-
-- `xs` | `sm` | `md` | `lg` | `xl`: 순서대로 24px, 32px, 48px, 64px, 96px 크기
-- `number`: 가로 세로 모두 해당 설정값 크기
+- `size`: 아바타 크기
+  - `xs` | `sm` | `md` | `lg` | `xl`: 차례대로 24px, 32px, 48px, 64px, 96px 크기
+  - `number`: 가로/세로 모두 해당 설정값 크기
 
 <Canvas of={AvatarStories.Sizes} />
 
 ### Shape
 
-`shape` prop이
-
-- `circle`: 원 모양
-- `square`: 정사각형 모양
-- `rounded`: 모서리가 둥근 정사각형 모양
+- `shape`: 아바타 형태
+  - `circle`: 원 모양
+  - `square`: 정사각형 모양
+  - `rounded`: 모서리가 둥근 정사각형 모양
 
 <Canvas of={AvatarStories.Shape} />
 
 ### Color
 
-HTML 요소 기본 `style` prop을 사용해 색상 변경
-
 <Canvas of={AvatarStories.Color} />
 
 ### Avatar Fallbacks
 
-아바타 이미지를 로딩할 때 에러가 발생할 경우, 아래 순서에 따라 나타남
+아바타 이미지를 로딩할 때 에러가 발생할 경우, 아래 순서에 따라 나타나게 됨
 
-- children
-- `alt`
-- default avatar icon
+1. children
+2. `alt`
+3. default avatar icon
 
 <Canvas of={AvatarStories.AvatarFallbacks} />
+
+### Avatar with badge
+
+<Canvas of={AvatarStories.AvatarWithBadge} />
+
+### Avatar upload
+
+<Canvas of={AvatarStories.AvatarUpload} />
 
 ## Props
 
