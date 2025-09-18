@@ -103,10 +103,10 @@ export const ImageAvatars: Story = {
   render: (args) => {
     return (
       <>
-        <Avatar src={dogImage1} alt="강아지 사진1" {...args} />
+        <Avatar src={dogImage1} alt="강아지 아바타" {...args} />
         <Avatar
           src={dogImage2}
-          alt="강아지 사진2"
+          alt="강아지 아바타"
           imgProps={{
             width: 100,
             height: 100
@@ -122,15 +122,20 @@ export const LetterAvatars: Story = {
   render: (args) => {
     return (
       <>
-        <Avatar {...args}>N</Avatar>
+        <Avatar {...args}>J</Avatar>
         <Avatar
           style={{ backgroundColor: 'yellow-400', color: 'yellow-50' }}
           {...args}
         >
-          N
+          J
         </Avatar>
-        <Avatar style={{ fontSize: '12px' }} {...args}>
-          Name
+        <Avatar
+          role="img"
+          aria-label="Jinni 아바타"
+          style={{ fontSize: '16px' }}
+          {...args}
+        >
+          JN
         </Avatar>
       </>
     );
@@ -145,6 +150,8 @@ export const IconAvatars: Story = {
           <PersonIcon color="white" />
         </Avatar>
         <Avatar
+          role="img"
+          aria-label="사람 아바타"
           style={{
             backgroundColor: 'yellow-400'
           }}
@@ -312,7 +319,7 @@ export const AvatarWithBadge: Story = {
   render: (args) => {
     return (
       <Badge badgeContent={5}>
-        <Avatar src={dogImage1} alt="강아지 사진" shape="rounded" {...args} />
+        <Avatar src={dogImage1} alt="강아지 아바타" shape="rounded" {...args} />
       </Badge>
     );
   }
