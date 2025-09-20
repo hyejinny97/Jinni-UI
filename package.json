@@ -10,7 +10,10 @@
     "prepare": "husky",
     "type-check": "tsc -p tsconfig.json --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
