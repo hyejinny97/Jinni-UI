@@ -4,6 +4,7 @@ import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
 import { useStepStatus } from './Stepper.hooks';
 import { getDotColorStyle } from './Stepper.utils';
+import useColor from '@/hooks/useColor';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 
@@ -37,8 +38,9 @@ const StepDot = <T extends AsType = 'span'>(props: StepDotProps<T>) => {
   const isCompleted = stepStatus === 'completed';
   const isActive = stepStatus === 'active';
   const colorByStatus = isCompleted || isActive ? color : 'gray-400';
+  const normalizedColorByStatus = useColor(colorByStatus);
   const { borderColor, backgroundColor, textColor } = getDotColorStyle({
-    color: colorByStatus,
+    color: normalizedColorByStatus,
     variant: variant[stepStatus]
   });
   const newStyle = useStyle({

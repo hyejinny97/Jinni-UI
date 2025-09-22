@@ -14,20 +14,20 @@ const getCurrentBreakpoint = (breakpoints: Record<BreakpointType, number>) => {
 };
 
 const useBreakpoint = (): BreakpointType => {
-  const { breakpoints } = useJinni();
-  const initBreakpoint = getCurrentBreakpoint(breakpoints);
-  const [breakpoint, setBreakpoint] = useState<BreakpointType>(initBreakpoint);
+  const { breakpoint } = useJinni();
+  const [currentBreakpoint, setCurrentBreakpoint] = useState<BreakpointType>(
+    getCurrentBreakpoint(breakpoint)
+  );
 
   useEffect(() => {
     const handleResize = () => {
-      const currentBreakpoint = getCurrentBreakpoint(breakpoints);
-      setBreakpoint(currentBreakpoint);
+      setCurrentBreakpoint(getCurrentBreakpoint(breakpoint));
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [breakpoints]);
+  }, [breakpoint]);
 
-  return breakpoint;
+  return currentBreakpoint;
 };
 
 export default useBreakpoint;

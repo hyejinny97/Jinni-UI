@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface FlightTakeOffIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -11,6 +11,7 @@ const FlightTakeOffIcon = ({
   color = 'black',
   ...rest
 }: FlightTakeOffIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -23,7 +24,7 @@ const FlightTakeOffIcon = ({
       <g clipPath="url(#clip0_515_2197)">
         <path
           d="M2.50009 19H21.5001V21H2.50009V19ZM22.0701 9.64001C21.8601 8.84001 21.0301 8.36001 20.2301 8.58001L14.9201 10L8.02009 3.57001L6.09009 4.08001L10.2301 11.25L5.26009 12.58L3.29009 11.04L1.84009 11.43L4.43009 15.92C4.43009 15.92 11.5501 14.02 21.0001 11.49C21.8101 11.26 22.2801 10.44 22.0701 9.64001Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

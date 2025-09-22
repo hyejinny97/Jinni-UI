@@ -10,6 +10,7 @@ import { ColorType } from '@/types/color';
 import { useRatingValue, useHoverValue } from './Rating.hooks';
 import { getContainerWidthStyle, getIconsSizeStyle } from './Rating.utils';
 import Icons from './Icons';
+import useColor from '@/hooks/useColor';
 
 export type SizeType = 'sm' | 'md' | 'lg';
 
@@ -76,6 +77,7 @@ const Rating = <T extends AsType = 'input'>(props: RatingProps<T>) => {
     onHoverChange
   });
   const iconsSize = getIconsSizeStyle({ size, max });
+  const normalizedColor = useColor(color);
   const newStyle = useStyle(style);
 
   if (Array.isArray(filledIcon) || Array.isArray(emptyIcon)) return null;
@@ -103,7 +105,7 @@ const Rating = <T extends AsType = 'input'>(props: RatingProps<T>) => {
           className="hoveredIcons"
           icon={filledIcon}
           count={max}
-          style={{ color: lighten(color, 0.6), ...iconsSize }}
+          style={{ color: lighten(normalizedColor, 0.6), ...iconsSize }}
         />
       </span>
       <span

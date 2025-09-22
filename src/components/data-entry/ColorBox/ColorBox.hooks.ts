@@ -10,6 +10,7 @@ import {
   RgbaObject,
   HslaObject
 } from '@/utils/colorFormat';
+import useColor from '@/hooks/useColor';
 
 type UseColorValueProps = Required<Pick<ColorBoxProps, 'defaultValue'>> &
   Pick<ColorBoxProps, 'value' | 'onChange'>;
@@ -25,11 +26,15 @@ export const useColorValue = ({
   onChange
 }: UseColorValueProps) => {
   const isControlled = value !== undefined;
+  const [normalizedDefaultValue, normalizedValue] = useColor(
+    value ? [defaultValue, value] : [defaultValue]
+  );
   const [uncontrolledRgbaValue, setUncontrolledRgbaValue] =
-    useState<RgbaObject>(toRgbaObject(defaultValue));
+    useState<RgbaObject>(toRgbaObject(normalizedDefaultValue));
   const rgbaValue = useMemo(
-    () => (isControlled ? toRgbaObject(value) : uncontrolledRgbaValue),
-    [isControlled, uncontrolledRgbaValue, value]
+    () =>
+      isControlled ? toRgbaObject(normalizedValue) : uncontrolledRgbaValue,
+    [isControlled, uncontrolledRgbaValue, normalizedValue]
   );
   const [hslaValue, setHslaValue] = useState<HslaObject>(
     rgbaObjectToHslaObject(rgbaValue)

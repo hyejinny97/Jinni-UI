@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface FormatAlignJustifyIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -11,6 +11,7 @@ const FormatAlignJustifyIcon = ({
   color = 'black',
   ...rest
 }: FormatAlignJustifyIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -23,7 +24,7 @@ const FormatAlignJustifyIcon = ({
       <g clipPath="url(#clip0_396_2128)">
         <path
           d="M3 21H21V19H3V21ZM3 17H21V15H3V17ZM3 13H21V11H3V13ZM3 9H21V7H3V9ZM3 3V5H21V3H3Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface FirstPageIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -11,6 +11,7 @@ const FirstPageIcon = ({
   color = 'black',
   ...rest
 }: FirstPageIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -23,7 +24,7 @@ const FirstPageIcon = ({
       <g clipPath="url(#clip0_354_6154)">
         <path
           d="M18.41 16.59L13.82 12L18.41 7.41L17 6L11 12L17 18L18.41 16.59ZM6 6H8V18H6V6Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

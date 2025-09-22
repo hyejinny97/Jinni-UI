@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface HomeIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -7,6 +7,7 @@ interface HomeIconProps extends React.HTMLAttributes<SVGElement> {
 }
 
 const HomeIcon = ({ size = 24, color = 'black', ...rest }: HomeIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -19,7 +20,7 @@ const HomeIcon = ({ size = 24, color = 'black', ...rest }: HomeIconProps) => {
       <g clipPath="url(#clip0_194_180)">
         <path
           d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

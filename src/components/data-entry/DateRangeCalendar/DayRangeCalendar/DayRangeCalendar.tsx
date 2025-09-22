@@ -12,6 +12,7 @@ import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
 import { dateToDay } from '@/utils/date';
 import { useHoveredDay } from './DayRangeCalendar.hooks';
+import useColor from '@/hooks/useColor';
 
 export type DayRangeCalendarProps<T extends AsType = 'div'> = Omit<
   DayCalendarProps<T>,
@@ -36,7 +37,6 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
     displayWeekNumber,
     disableHoverRangeEffect,
     className,
-    as: Component = 'div',
     ...rest
   } = props;
   const monthLastDay = new Date(
@@ -74,58 +74,53 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
     return false;
   };
 
+  const CustomDay = (dayProps: DayProps) => {
+    const { day, color = 'primary', ref, ...rest } = dayProps;
+    const normalizedColor = useColor(color);
+    const showDashBorder =
+      !disableHoverRangeEffect && isBetweenStartAndHoveredDate(day);
+    const currentDay = dateToDay(day);
+    return (
+      <Box
+        key={day.getTime()}
+        ref={ref}
+        className={cn('GridItem', {
+          startDate:
+            selectedDate?.start && dateToDay(selectedDate.start) === currentDay,
+          endDate:
+            selectedDate?.end && dateToDay(selectedDate.end) === currentDay,
+          firstDay: !showDaysOutsideCurrentMonth && day.getDate() === 1,
+          lastDay:
+            !showDaysOutsideCurrentMonth && monthLastDay === day.getDate(),
+          lastDashBorder:
+            showDashBorder &&
+            hoveredDayValue &&
+            dateToDay(hoveredDayValue) === currentDay,
+          displayWeekNumber
+        })}
+        onMouseEnter={() => handleHover(day)}
+        onMouseLeave={() => handleHover(null)}
+      >
+        <Box
+          className={cn('DayContainer', {
+            dimmedBackground: isBetweenSelectedDates(day),
+            showDashBorder
+          })}
+          style={{ '--dim-color': lighten(normalizedColor, 0.8) }}
+        >
+          <Day {...rest} day={day} selected={isSelected(day)} />
+        </Box>
+      </Box>
+    );
+  };
+
   return (
     <DayCalendar
-      className="JinniDayRangeCalendar"
+      className={cn('JinniDayRangeCalendar', className)}
       displayedDate={displayedDate}
       showDaysOutsideCurrentMonth={showDaysOutsideCurrentMonth}
       displayWeekNumber={displayWeekNumber}
-      renderDay={
-        renderDay
-          ? renderDay
-          : (dayProps: DayProps) => {
-              const { day, color = 'primary', ref, ...rest } = dayProps;
-              const showDashBorder =
-                !disableHoverRangeEffect && isBetweenStartAndHoveredDate(day);
-              const currentDay = dateToDay(day);
-              return (
-                <Box
-                  key={day.getTime()}
-                  ref={ref}
-                  className={cn('GridItem', {
-                    startDate:
-                      selectedDate?.start &&
-                      dateToDay(selectedDate.start) === currentDay,
-                    endDate:
-                      selectedDate?.end &&
-                      dateToDay(selectedDate.end) === currentDay,
-                    firstDay:
-                      !showDaysOutsideCurrentMonth && day.getDate() === 1,
-                    lastDay:
-                      !showDaysOutsideCurrentMonth &&
-                      monthLastDay === day.getDate(),
-                    lastDashBorder:
-                      showDashBorder &&
-                      hoveredDayValue &&
-                      dateToDay(hoveredDayValue) === currentDay,
-                    displayWeekNumber
-                  })}
-                  onMouseEnter={() => handleHover(day)}
-                  onMouseLeave={() => handleHover(null)}
-                >
-                  <Box
-                    className={cn('DayContainer', {
-                      dimmedBackground: isBetweenSelectedDates(day),
-                      showDashBorder
-                    })}
-                    style={{ '--dim-color': lighten(color, 0.8) }}
-                  >
-                    <Day {...rest} day={day} selected={isSelected(day)} />
-                  </Box>
-                </Box>
-              );
-            }
-      }
+      renderDay={renderDay ? renderDay : CustomDay}
       {...rest}
     />
   );

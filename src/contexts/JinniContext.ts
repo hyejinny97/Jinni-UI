@@ -1,38 +1,29 @@
 import { createContext } from 'react';
 import { BreakpointType } from '@/types/breakpoint';
-import { JinniColorTheme, JinniColorPalette } from '@/types/color';
+import { JinniColorScheme, JinniColorPalette } from '@/types/color';
 import { TypographyType, TypographySpec } from '@/types/typography';
-import { ElevationLevelType } from '@/types/elevation';
+import { ElevationLevelType, ElevationSpecType } from '@/types/elevation';
 import { ThemeModeType } from '@/types/theme-mode';
 import { EasingType, DurationType } from '@/types/motion';
+import { ContrastType } from '@/types/contrast';
 
-type ThemeType = {
-  themeMode: ThemeModeType;
-};
-
-export type DesignSystemType = {
-  breakpoints: Record<BreakpointType, number>;
+export interface JinniContextType {
+  theme: ThemeModeType;
+  contrast: ContrastType;
+  breakpoint: Record<BreakpointType | string, number>;
   color: {
-    theme: Record<JinniColorTheme, string>;
-    palette: Record<JinniColorPalette, string>;
+    scheme: Record<JinniColorScheme | string, string>;
+    palette: Record<JinniColorPalette | string, string>;
   };
-  typography: Record<TypographyType, TypographySpec>;
-  boxShadow: Record<ElevationLevelType, string>;
-  whiteOverlay: Record<ElevationLevelType, string>;
-  blackOverlay: Record<ElevationLevelType, string>;
-  easing: Record<EasingType, string>;
-  duration: Record<DurationType, string>;
-};
+  typography: Record<TypographyType | string, TypographySpec>;
+  boxShadow: Record<ElevationLevelType | string, string>;
+  whiteOverlay: Record<ElevationLevelType | string, string>;
+  blackOverlay: Record<ElevationLevelType | string, string>;
+  elevation: Record<ElevationLevelType | string, ElevationSpecType>;
+  easing: Record<EasingType | string, string>;
+  duration: Record<DurationType | string, string>;
+}
 
-type FunctionsType = {
-  getElevation: (elevationLevel: ElevationLevelType) => {
-    boxShadow: string;
-    backgroundImage?: string;
-  };
-};
-
-export type JinniValueType = ThemeType & DesignSystemType & FunctionsType;
-
-const JinniContext = createContext<JinniValueType | null>(null);
+const JinniContext = createContext<JinniContextType | null>(null);
 
 export default JinniContext;

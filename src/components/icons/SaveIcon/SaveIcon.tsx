@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface SaveIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -7,6 +7,7 @@ interface SaveIconProps extends React.HTMLAttributes<SVGElement> {
 }
 
 const SaveIcon = ({ size = 24, color = 'black', ...rest }: SaveIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -19,7 +20,7 @@ const SaveIcon = ({ size = 24, color = 'black', ...rest }: SaveIconProps) => {
       <g clipPath="url(#clip0_387_1507)">
         <path
           d="M17 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3ZM12 19C10.34 19 9 17.66 9 16C9 14.34 10.34 13 12 13C13.66 13 15 14.34 15 16C15 17.66 13.66 19 12 19ZM15 9H5V5H15V9Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

@@ -10,6 +10,7 @@ import ButtonLabel from './ButtonLabel';
 import ButtonIcon from './ButtonIcon';
 import ButtonLoadingState from './ButtonLoadingState';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
+import useColor from '@/hooks/useColor';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 export type SizeType = 'sm' | 'md' | 'lg';
@@ -49,17 +50,7 @@ const Button = forwardRef(
       rightIcon,
       centerIcon,
       loading = false,
-      loadingState = (
-        <CircularProgress
-          progressColor={
-            getColorStyle({
-              color,
-              variant
-            }).textColor
-          }
-          size={getCircularProgressSize(size)}
-        />
-      ),
+      loadingState,
       loadingStatePosition = 'center',
       disabled = false,
       fullWidth = false,
@@ -70,10 +61,22 @@ const Button = forwardRef(
       style,
       ...rest
     } = props;
+    const normalizedColor = useColor(color);
     const { textColor, backgroundColor, borderColor } = getColorStyle({
-      color,
+      color: normalizedColor,
       variant
     });
+    const DefaultLoadingState = (
+      <CircularProgress
+        progressColor={
+          getColorStyle({
+            color: normalizedColor,
+            variant
+          }).textColor
+        }
+        size={getCircularProgressSize(size)}
+      />
+    );
 
     let leftContent = leftIcon && (
       <ButtonIcon className="left">{leftIcon}</ButtonIcon>
@@ -92,14 +95,14 @@ const Button = forwardRef(
         case 'left':
           leftContent = (
             <ButtonLoadingState className="left">
-              {loadingState}
+              {loadingState || DefaultLoadingState}
             </ButtonLoadingState>
           );
           break;
         case 'right':
           rightContent = (
             <ButtonLoadingState className="right">
-              {loadingState}
+              {loadingState || DefaultLoadingState}
             </ButtonLoadingState>
           );
           break;
@@ -107,7 +110,7 @@ const Button = forwardRef(
           centerContent = (
             <>
               <ButtonLoadingState className="center">
-                {loadingState}
+                {loadingState || DefaultLoadingState}
               </ButtonLoadingState>
               {children && <ButtonLabel>{children}</ButtonLabel>}
             </>

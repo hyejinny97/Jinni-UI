@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface SquareIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -11,6 +11,7 @@ const SquareIcon = ({
   color = 'black',
   ...rest
 }: SquareIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -22,7 +23,7 @@ const SquareIcon = ({
     >
       <path
         d="M5 21C4.45 21 3.979 20.8043 3.587 20.413C3.19567 20.021 3 19.55 3 19V5C3 4.45 3.19567 3.979 3.587 3.587C3.979 3.19567 4.45 3 5 3H19C19.55 3 20.021 3.19567 20.413 3.587C20.8043 3.979 21 4.45 21 5V19C21 19.55 20.8043 20.021 20.413 20.413C20.021 20.8043 19.55 21 19 21H5Z"
-        fill={editColor(color)}
+        fill={normalizedColor}
       />
     </svg>
   );

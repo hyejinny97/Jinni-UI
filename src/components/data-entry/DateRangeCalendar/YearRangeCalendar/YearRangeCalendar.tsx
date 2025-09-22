@@ -11,6 +11,7 @@ import {
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
+import useColor from '@/hooks/useColor';
 
 type YearRangeCalendarProps<T extends AsType = 'div'> = Omit<
   YearCalendarProps<T>,
@@ -29,7 +30,6 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
     yearsOrder,
     disableHoverRangeEffect,
     className,
-    as: Component = 'div',
     ...rest
   } = props;
   const [hoveredYear, setHoveredYear] = useState<Date | null>(null);
@@ -58,48 +58,44 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
     return false;
   };
 
+  const CustomYear = (yearProps: YearProps) => {
+    const { year, color = 'primary', ref, ...rest } = yearProps;
+    const normalizedColor = useColor(color);
+    const showDashBorder =
+      !disableHoverRangeEffect && isBetweenStartAndHoveredDate(year);
+    return (
+      <Box
+        key={year.getTime()}
+        ref={ref}
+        className={cn('GridItem', yearsOrder, {
+          startDate: selectedDate?.start?.getFullYear() === year.getFullYear(),
+          endDate: selectedDate?.end?.getFullYear() === year.getFullYear(),
+          lastDashBorder:
+            showDashBorder && hoveredYear?.getFullYear() === year.getFullYear()
+        })}
+        onMouseEnter={() => setHoveredYear(year)}
+        onMouseLeave={() => setHoveredYear(null)}
+      >
+        <Box
+          className={cn('YearContainer', {
+            dimmedBackground: isBetweenSelectedDates(year),
+            showDashBorder
+          })}
+          style={{ '--dim-color': lighten(normalizedColor, 0.8) }}
+        >
+          <Year {...rest} year={year} selected={isSelected(year)} />
+        </Box>
+      </Box>
+    );
+  };
+
   return (
     <YearCalendar
       id="JinniYearRangeCalendar"
       className={cn('JinniYearRangeCalendar', className)}
       spacing={0}
       yearsOrder={yearsOrder}
-      renderYear={
-        renderYear
-          ? renderYear
-          : (yearProps: YearProps) => {
-              const { year, color = 'primary', ref, ...rest } = yearProps;
-              const showDashBorder =
-                !disableHoverRangeEffect && isBetweenStartAndHoveredDate(year);
-              return (
-                <Box
-                  key={year.getTime()}
-                  ref={ref}
-                  className={cn('GridItem', yearsOrder, {
-                    startDate:
-                      selectedDate?.start?.getFullYear() === year.getFullYear(),
-                    endDate:
-                      selectedDate?.end?.getFullYear() === year.getFullYear(),
-                    lastDashBorder:
-                      showDashBorder &&
-                      hoveredYear?.getFullYear() === year.getFullYear()
-                  })}
-                  onMouseEnter={() => setHoveredYear(year)}
-                  onMouseLeave={() => setHoveredYear(null)}
-                >
-                  <Box
-                    className={cn('YearContainer', {
-                      dimmedBackground: isBetweenSelectedDates(year),
-                      showDashBorder
-                    })}
-                    style={{ '--dim-color': lighten(color, 0.8) }}
-                  >
-                    <Year {...rest} year={year} selected={isSelected(year)} />
-                  </Box>
-                </Box>
-              );
-            }
-      }
+      renderYear={renderYear ? renderYear : CustomYear}
       {...rest}
     />
   );

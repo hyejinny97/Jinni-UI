@@ -1,102 +1,156 @@
-import JinniContext, {
-  JinniValueType,
-  DesignSystemType
-} from '@/contexts/JinniContext';
-import { getJinniBreakPointValue } from '@/utils/breakpoint';
-import { getJinniColorValue } from '@/utils/color';
-import { getJinniTypographyValue } from '@/utils/typography';
-import {
-  getJinniWhiteOverlayValue,
-  getJinniBlackOverlayValue
-} from '@/utils/overlay';
-import { getJinniBoxShadowValue } from '@/utils/boxShadow';
-import { BREAKPOINTS } from '@/constants/breakpoint';
-import { COLOR_THEME, COLOR_PALETTE } from '@/constants/color';
-import { TYPOGRAPHY } from '@/constants/typography';
-import { ELEVATION_LEVELS } from '@/constants/elevation';
-import { ElevationLevelType } from '@/types/elevation';
+import { useLayoutEffect, useMemo } from 'react';
+import JinniContext, { JinniContextType } from '@/contexts/JinniContext';
+import { BreakpointType } from '@/types/breakpoint';
+import { JinniColorScheme, JinniColorPalette } from '@/types/color';
+import { TypographyType, TypographySpec } from '@/types/typography';
+import { ElevationLevelType, ElevationSpecType } from '@/types/elevation';
 import { ThemeModeType } from '@/types/theme-mode';
-import { EASING_SET, DURATIONS } from '@/constants/motion';
-import { getJinniEasingValue, getJinniDurationValue } from '@/utils/motion';
+import { EasingType, DurationType } from '@/types/motion';
+import { ContrastType } from '@/types/contrast';
+import { DEFAULT_DESIGN_SYSTEM } from './JinniProvider.constants';
+import { ELEVATION_LEVELS } from '@/constants/elevation';
+
+export interface DesignSystemType {
+  theme: ThemeModeType;
+  contrast: ContrastType;
+  breakpoint: Record<BreakpointType, number>;
+  color: {
+    scheme: Record<
+      ThemeModeType,
+      Record<ContrastType, Record<JinniColorScheme, string>>
+    >;
+    palette: Record<JinniColorPalette, string>;
+  };
+  typography: Record<TypographyType, TypographySpec>;
+  boxShadow: Record<ElevationLevelType, string>;
+  whiteOverlay: Record<ElevationLevelType, string>;
+  blackOverlay: Record<ElevationLevelType, string>;
+  easing: Record<EasingType, string>;
+  duration: Record<DurationType, string>;
+}
 
 interface JinniProviderProps {
   children: React.ReactNode;
+  designSystem?: DesignSystemType;
 }
 
-const JinniProvider = ({ children }: JinniProviderProps) => {
-  const getThemeMode = (): ThemeModeType => {
-    const rootEl = document.querySelector(':root');
-    if (!rootEl) throw Error('root element를 가져오지 못함');
-    return rootEl.classList.contains('dark') ? 'dark' : 'light';
-  };
+const JinniProvider = ({
+  children,
+  designSystem = DEFAULT_DESIGN_SYSTEM
+}: JinniProviderProps) => {
+  const computedDesignSystem = useMemo<JinniContextType>(() => {
+    const { theme, contrast, color, boxShadow, whiteOverlay } = designSystem;
 
-  const themeMode = getThemeMode();
-
-  const designSystem = {
-    breakpoints: BREAKPOINTS.reduce(
-      (cul, bp) => ({ ...cul, [bp]: getJinniBreakPointValue(bp) }),
-      {}
-    ),
-    color: {
-      theme: COLOR_THEME.reduce(
-        (cul, color) => ({ ...cul, [color]: getJinniColorValue(color) }),
-        {}
-      ),
-      palette: COLOR_PALETTE.reduce(
-        (cul, color) => ({ ...cul, [color]: getJinniColorValue(color) }),
-        {}
+    return {
+      ...designSystem,
+      color: {
+        scheme: color.scheme[theme][contrast],
+        palette: color.palette
+      },
+      elevation: ELEVATION_LEVELS.map((level) =>
+        theme === 'dark'
+          ? {
+              'box-shadow': boxShadow[level],
+              'background-image': whiteOverlay[level]
+            }
+          : {
+              'box-shadow': boxShadow[level]
+            }
+      ).reduce(
+        (acc, value, idx) => ({ ...acc, [idx]: value }),
+        {} as JinniContextType['elevation']
       )
-    },
-    typography: TYPOGRAPHY.reduce(
-      (cul, typo) => ({ ...cul, [typo]: getJinniTypographyValue(typo) }),
-      {}
-    ),
-    boxShadow: ELEVATION_LEVELS.reduce(
-      (cul, level) => ({ ...cul, [level]: getJinniBoxShadowValue(level) }),
-      {}
-    ),
-    whiteOverlay: ELEVATION_LEVELS.reduce(
-      (cul, level) => ({ ...cul, [level]: getJinniWhiteOverlayValue(level) }),
-      {}
-    ),
-    blackOverlay: ELEVATION_LEVELS.reduce(
-      (cul, level) => ({ ...cul, [level]: getJinniBlackOverlayValue(level) }),
-      {}
-    ),
-    easing: EASING_SET.reduce(
-      (cul, easing) => ({ ...cul, [easing]: getJinniEasingValue(easing) }),
-      {}
-    ),
-    duration: DURATIONS.reduce(
-      (cul, duration) => ({
-        ...cul,
-        [duration]: getJinniDurationValue(duration)
-      }),
-      {}
-    )
-  } as DesignSystemType;
+    };
+  }, [designSystem]);
 
-  const functions = {
-    getElevation: (elevationLevel: ElevationLevelType) => {
-      const { boxShadow, whiteOverlay } = designSystem;
-      switch (themeMode) {
-        case 'light':
-          return {
-            boxShadow: boxShadow[elevationLevel]
-          };
-        case 'dark':
-          return {
-            boxShadow: boxShadow[elevationLevel],
-            backgroundImage: whiteOverlay[elevationLevel]
-          };
-      }
-    }
-  };
+  useLayoutEffect(() => {
+    const {
+      theme,
+      contrast,
+      breakpoint,
+      color: { scheme, palette },
+      typography,
+      boxShadow,
+      whiteOverlay,
+      blackOverlay,
+      elevation,
+      easing,
+      duration
+    } = computedDesignSystem;
+    const PREFIX = '--jinni';
 
-  const value = { themeMode, ...designSystem, ...functions } as JinniValueType;
+    const themeCss = `${[PREFIX, 'theme'].join('-')}: ${theme};`;
+    const contrastCss = `${[PREFIX, 'contrast'].join('-')}: ${contrast};`;
+    const breakpointCss = Object.entries(breakpoint).map(
+      ([key, value]) => `${[PREFIX, 'breakpoint', key].join('-')}: ${value};`
+    );
+    const colorSchemeCss = Object.entries(scheme).map(
+      ([key, value]) => `${[PREFIX, 'color', key].join('-')}: ${value};`
+    );
+    const colorPaletteCss = Object.entries(palette).map(
+      ([key, value]) => `${[PREFIX, 'color', key].join('-')}: ${value};`
+    );
+    const boxShadowCss = Object.entries(boxShadow).map(
+      ([key, value]) => `${[PREFIX, 'box-shadow', key].join('-')}: ${value};`
+    );
+    const whiteOverlayCss = Object.entries(whiteOverlay).map(
+      ([key, value]) => `${[PREFIX, 'white-overlay', key].join('-')}: ${value};`
+    );
+    const blackOverlayCss = Object.entries(blackOverlay).map(
+      ([key, value]) => `${[PREFIX, 'black-overlay', key].join('-')}: ${value};`
+    );
+    const easingCss = Object.entries(easing).map(
+      ([key, value]) => `${[PREFIX, 'easing', key].join('-')}: ${value};`
+    );
+    const durationCss = Object.entries(duration).map(
+      ([key, value]) => `${[PREFIX, 'duration', key].join('-')}: ${value};`
+    );
+
+    const typographySpecToString = (typographySpec: TypographySpec) => {
+      return Object.entries(typographySpec)
+        .map(([key, value]) => `${key}: ${value};`)
+        .join('\n');
+    };
+    const typographyCss = Object.entries(typography).map(
+      ([key, value]) => `.typo-${key} { ${typographySpecToString(value)} }`
+    );
+    const elevationSpecToString = (elevationSpec: ElevationSpecType) => {
+      return Object.entries(elevationSpec)
+        .map(([key, value]) => `${key}: ${value};`)
+        .join('\n');
+    };
+    const elevationCss = Object.entries(elevation).map(
+      ([key, value]) => `.elevation-${key} { ${elevationSpecToString(value)} }`
+    );
+
+    const rootCssVariables = [
+      themeCss,
+      contrastCss,
+      ...breakpointCss,
+      ...colorSchemeCss,
+      ...colorPaletteCss,
+      ...boxShadowCss,
+      ...whiteOverlayCss,
+      ...blackOverlayCss,
+      ...easingCss,
+      ...durationCss
+    ].join('\n');
+
+    const styleEl = document.createElement('style');
+    styleEl.classList.add('jinni-design-system');
+    styleEl.textContent = `:root { ${rootCssVariables} }\n${typographyCss.join('\n')}\n${elevationCss.join('\n')}`;
+    const { head } = document;
+    const firstEl = head.firstChild;
+    head.insertBefore(styleEl, firstEl);
+    return () => {
+      styleEl.remove();
+    };
+  }, [computedDesignSystem]);
 
   return (
-    <JinniContext.Provider value={value}>{children}</JinniContext.Provider>
+    <JinniContext.Provider value={computedDesignSystem}>
+      {children}
+    </JinniContext.Provider>
   );
 };
 
