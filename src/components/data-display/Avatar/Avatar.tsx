@@ -15,7 +15,9 @@ export type AvatarProps<T extends AsType = 'span'> =
     children?: React.ReactNode;
   };
 
-const DefaultAvatarIcon = () => <PersonIcon color="white" />;
+const DefaultAvatarIcon = () => (
+  <PersonIcon color="white" role="img" aria-label="fallback icon" />
+);
 
 const Avatar = <T extends AsType = 'span'>(props: AvatarProps<T>) => {
   const {
