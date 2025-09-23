@@ -10,6 +10,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { useTreeItem, useLayer, useFocus } from './TreeItem.hooks';
 import { toRgbaObject } from '@/utils/colorFormat';
 import { LayerContext } from './TreeItem.contexts';
+import useColor from '@/hooks/useColor';
 
 type TreeItemProps<T extends AsType = 'li'> = DefaultComponentProps<T> & {
   children?: React.ReactNode;
@@ -42,7 +43,8 @@ const TreeItem = <T extends AsType = 'li'>(props: TreeItemProps<T>) => {
   } = useTreeItem({ itemId });
   const layer = useLayer();
   const { isFirstTreeItem } = useFocus({ treeItemElRef, children, isExpanded });
-  const { r, g, b } = toRgbaObject('primary-container');
+  const normalizedColor = useColor('primary-container');
+  const { r, g, b } = toRgbaObject(normalizedColor);
   const newStyle = useStyle({
     '--selected-color': `rgba(${r},${g},${b},0.8)`,
     '--layer': layer,

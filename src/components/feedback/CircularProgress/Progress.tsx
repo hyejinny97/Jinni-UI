@@ -1,7 +1,7 @@
 import { ColorType } from '@/types/color';
-import { editColor } from '@/utils/color';
 import { isNumber } from '@/utils/isNumber';
 import { LineCapType } from './CircularProgress';
+import useColor from '@/hooks/useColor';
 
 interface ProgressProps {
   percent?: number;
@@ -15,6 +15,7 @@ const CIRCLE_SIZE = 44;
 
 const Progress = (props: ProgressProps) => {
   const { percent, thickness, progressColor, lineCap, speed } = props;
+  const normalizedProgressColor = useColor(progressColor);
   const radius = (CIRCLE_SIZE - thickness) / 2;
   const circumference = 2 * Math.PI * radius;
 
@@ -47,7 +48,7 @@ const Progress = (props: ProgressProps) => {
         cy={CIRCLE_SIZE}
         r={radius}
         fill="none"
-        stroke={editColor(progressColor)}
+        stroke={normalizedProgressColor}
         strokeWidth={thickness}
         strokeLinecap={lineCap}
         style={circleStyle}

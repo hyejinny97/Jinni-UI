@@ -7,6 +7,7 @@ import { isNumber } from '@/utils/isNumber';
 import { lighten } from '@/utils/colorLuminance';
 import { getComputedThickness } from './LinearProgress.utils';
 import Label from './Label';
+import useColor from '@/hooks/useColor';
 
 export type ThicknessKeyword = 'sm' | 'md' | 'lg';
 export type ThicknessType = ThicknessKeyword | number;
@@ -32,7 +33,7 @@ const LinearProgress = <T extends AsType = 'div'>(
     percent,
     thickness = 'md',
     progressColor = 'primary',
-    trailColor = lighten(progressColor, 0.7),
+    trailColor,
     lineCap = 'round',
     speed = 2,
     showLabel = false,
@@ -45,10 +46,11 @@ const LinearProgress = <T extends AsType = 'div'>(
   } = props;
   const isDeterminate = isNumber(percent);
   const computedThickness = getComputedThickness(thickness);
+  const normalizedProgressColor = useColor(progressColor);
   const newStyle = useStyle({
     '--thickness': `${computedThickness}px`,
     '--font-size': `${12 + computedThickness * 0.25}px`,
-    '--trail-color': trailColor,
+    '--trail-color': trailColor || lighten(normalizedProgressColor, 0.7),
     '--progress-color': progressColor,
     '--percent': isNumber(percent) ? `${percent}%` : '50%',
     '--speed': `${speed}s`,

@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface ArrowLeftIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -11,6 +11,7 @@ const ArrowLeftIcon = ({
   color = 'black',
   ...rest
 }: ArrowLeftIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -23,7 +24,7 @@ const ArrowLeftIcon = ({
       <g clipPath="url(#clip0_354_6155)">
         <path
           d="M15.41 16.59L10.83 12L15.41 7.41L14 6L8 12L14 18L15.41 16.59Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

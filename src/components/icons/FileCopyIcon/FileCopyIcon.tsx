@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface FileCopyIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -11,6 +11,7 @@ const FileCopyIcon = ({
   color = 'black',
   ...rest
 }: FileCopyIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -23,7 +24,7 @@ const FileCopyIcon = ({
       <g clipPath="url(#clip0_387_1506)">
         <path
           d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

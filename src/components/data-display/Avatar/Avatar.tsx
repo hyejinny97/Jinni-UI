@@ -15,7 +15,9 @@ export type AvatarProps<T extends AsType = 'span'> =
     children?: React.ReactNode;
   };
 
-const DefaultAvatarIcon = () => <PersonIcon color="white" />;
+const DefaultAvatarIcon = () => (
+  <PersonIcon color="white" role="img" aria-label="fallback icon" />
+);
 
 const Avatar = <T extends AsType = 'span'>(props: AvatarProps<T>) => {
   const {
@@ -34,8 +36,11 @@ const Avatar = <T extends AsType = 'span'>(props: AvatarProps<T>) => {
   const [isImageAvatar, setIsImageAvatar] = useState(!!src);
   const hasNumberTypeSize = typeof size === 'number';
 
-  const handleImageLoadError = () => {
+  const handleImageLoadError = (
+    event: React.SyntheticEvent<HTMLImageElement>
+  ) => {
     setIsImageAvatar(false);
+    if (imgProps?.onError) imgProps.onError(event);
   };
 
   if (hasNumberTypeSize) newStyle = { ...newStyle, width: size, height: size };

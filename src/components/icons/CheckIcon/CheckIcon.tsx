@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface CheckIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -7,6 +7,7 @@ interface CheckIconProps extends React.HTMLAttributes<SVGElement> {
 }
 
 const CheckIcon = ({ size = 24, color = 'black', ...rest }: CheckIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -19,7 +20,7 @@ const CheckIcon = ({ size = 24, color = 'black', ...rest }: CheckIconProps) => {
       <g clipPath="url(#clip0_190_182)">
         <path
           d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7.00003L19.59 5.59003L9 16.17Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

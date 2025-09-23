@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface ArrowUpIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -11,6 +11,7 @@ const ArrowUpIcon = ({
   color = 'black',
   ...rest
 }: ArrowUpIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -23,7 +24,7 @@ const ArrowUpIcon = ({
       <g clipPath="url(#clip0_374_1811)">
         <path
           d="M7.41 15.41L12 10.83L16.59 15.41L18 14L12 8L6 14L7.41 15.41Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

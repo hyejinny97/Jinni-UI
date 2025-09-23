@@ -11,6 +11,7 @@ import { ChipLabel } from './ChipLabel';
 import { DeleteButton } from './DeleteButton';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
+import useColor from '@/hooks/useColor';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 
@@ -53,13 +54,14 @@ const Chip = <T extends AsType = 'span'>(props: ChipProps<T>) => {
   const isClickable = !!onClick || clickable;
   const isDeletable = !!onDelete;
   const showRipple = isClickable && !isDeletable;
+  const normalizedColor = useColor(color);
   const {
     chipColorStyle,
     avatarColorStyle,
     iconColorStyle,
     deleteButtonColorStyle
   } = getColorStyle({
-    color,
+    color: normalizedColor,
     variant
   });
   const chipStyle = useStyle({ ...chipColorStyle, ...style });

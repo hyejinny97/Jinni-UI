@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Avatar } from '@/components/data-display/Avatar';
 import dogImage1 from '@/assets/images/dog-1.jpg';
 import dogImage2 from '@/assets/images/dog-2.jpg';
 import { PersonIcon } from '@/components/icons/PersonIcon';
+import { Badge } from '@/components/data-display/Badge';
+import { FileInput } from '@/components/data-entry/FileInput';
 
 const meta: Meta<typeof Avatar> = {
   component: Avatar,
@@ -16,8 +19,7 @@ const meta: Meta<typeof Avatar> = {
       table: { type: { summary: 'React.ReactNode' } }
     },
     imgProps: {
-      description:
-        '(src, alt 속성은 제외한) img 요소의 나머지 속성값 (ex) loading)',
+      description: '(src, alt 속성은 제외한) HTML img element의 props',
       table: {
         type: {
           summary: 'crossOrigin | width | height | loading | sizes | ...'
@@ -27,14 +29,14 @@ const meta: Meta<typeof Avatar> = {
     shape: {
       description: '아바타의 모양',
       table: {
-        type: { summary: 'circle | square | rounded' },
-        defaultValue: { summary: 'circle' }
+        type: { summary: `'circle' | 'square' | 'rounded'` },
+        defaultValue: { summary: `'circle'` }
       }
     },
     size: {
       description: 'image의 사이즈',
-      table: { type: { summary: 'xs | sm | md | lg | xl | number' } },
-      defaultValue: { summary: 'md' },
+      table: { type: { summary: `'xs' | 'sm' | 'md' | 'lg' | 'xl' | number` } },
+      defaultValue: { summary: `'md'` },
       control: 'select',
       options: ['xs', 'sm', 'md', 'lg', 'xl']
     },
@@ -57,14 +59,54 @@ const meta: Meta<typeof Avatar> = {
 export default meta;
 type Story = StoryObj<typeof Avatar>;
 
+const AvatarUploadTemplate = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [dataUrl, setDataUrl] = useState<string | null>(null);
+
+  const fileToDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const { result } = reader;
+        if (typeof result === 'string') {
+          resolve(result);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    newFile: File | null
+  ) => {
+    setFile(newFile);
+    const { files } = e.target;
+    if (files) {
+      fileToDataUrl(files[0]).then((url) => setDataUrl(url));
+    }
+  };
+
+  return (
+    <FileInput accept="image/*" value={file} onChange={handleChange}>
+      {file && dataUrl ? (
+        <Avatar key="image-avatar" src={dataUrl} alt={file.name} />
+      ) : (
+        <Avatar key="icon-avatar">
+          <PersonIcon color="white" />
+        </Avatar>
+      )}
+    </FileInput>
+  );
+};
+
 export const ImageAvatars: Story = {
   render: (args) => {
     return (
       <>
-        <Avatar src={dogImage1} alt="강아지 사진1" {...args} />
+        <Avatar src={dogImage1} alt="강아지 아바타" {...args} />
         <Avatar
           src={dogImage2}
-          alt="강아지 사진2"
+          alt="강아지 아바타"
           imgProps={{
             width: 100,
             height: 100
@@ -80,15 +122,20 @@ export const LetterAvatars: Story = {
   render: (args) => {
     return (
       <>
-        <Avatar {...args}>N</Avatar>
+        <Avatar {...args}>J</Avatar>
         <Avatar
           style={{ backgroundColor: 'yellow-400', color: 'yellow-50' }}
           {...args}
         >
-          N
+          J
         </Avatar>
-        <Avatar style={{ fontSize: '12px' }} {...args}>
-          Name
+        <Avatar
+          role="img"
+          aria-label="Jinni 아바타"
+          style={{ fontSize: '16px' }}
+          {...args}
+        >
+          JN
         </Avatar>
       </>
     );
@@ -103,6 +150,8 @@ export const IconAvatars: Story = {
           <PersonIcon color="white" />
         </Avatar>
         <Avatar
+          role="img"
+          aria-label="사람 아바타"
           style={{
             backgroundColor: 'yellow-400'
           }}
@@ -248,7 +297,7 @@ export const AvatarFallbacks: Story = {
       <>
         <Avatar
           src="./broken-image.png"
-          alt="alt"
+          alt="broken-image"
           style={{ fontSize: '10px' }}
           {...args}
         >
@@ -256,12 +305,71 @@ export const AvatarFallbacks: Story = {
         </Avatar>
         <Avatar
           src="./broken-image.png"
-          alt="alt"
+          alt="broken-image"
           style={{ fontSize: '15px' }}
           {...args}
         />
         <Avatar src="./broken-image.png" {...args} />
       </>
     );
+  }
+};
+
+export const AvatarWithBadge: Story = {
+  render: (args) => {
+    return (
+      <Badge badgeContent={5}>
+        <Avatar src={dogImage1} alt="강아지 아바타" shape="rounded" {...args} />
+      </Badge>
+    );
+  }
+};
+
+export const AvatarUpload: Story = {
+  render: (args) => <AvatarUploadTemplate {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const AvatarUpload = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [dataUrl, setDataUrl] = useState<string | null>(null);
+
+  const fileToDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const { result } = reader;
+        if (typeof result === 'string') {
+          resolve(result);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    newFile: File | null
+  ) => {
+    setFile(newFile);
+    const { files } = e.target;
+    if (files) {
+      fileToDataUrl(files[0]).then((url) => setDataUrl(url));
+    }
+  };
+
+  return (
+    <FileInput accept="image/*" value={file} onChange={handleChange}>
+      {file && dataUrl ? (
+        <Avatar key="image-avatar" src={dataUrl} alt={file.name} />
+      ) : (
+        <Avatar key="icon-avatar">
+          <PersonIcon color="white" />
+        </Avatar>
+      )}
+    </FileInput>
+  );
+};`.trim()
+      }
+    }
   }
 };

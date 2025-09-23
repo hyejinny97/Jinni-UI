@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface ErrorIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -7,6 +7,7 @@ interface ErrorIconProps extends React.HTMLAttributes<SVGElement> {
 }
 
 const ErrorIcon = ({ size = 24, color = 'black', ...rest }: ErrorIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -18,7 +19,7 @@ const ErrorIcon = ({ size = 24, color = 'black', ...rest }: ErrorIconProps) => {
     >
       <path
         d="M11 15H13V17H11V15ZM11 7H13V13H11V7ZM11.99 2C6.47 2 2 6.48 2 12C2 17.52 6.47 22 11.99 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 11.99 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z"
-        fill={editColor(color)}
+        fill={normalizedColor}
       />
     </svg>
   );

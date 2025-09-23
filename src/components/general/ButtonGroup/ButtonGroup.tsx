@@ -6,6 +6,7 @@ import useStyle from '@/hooks/useStyle';
 import { ButtonProps } from '@/components/general/Button';
 import { darken } from '@/utils/colorLuminance';
 import { insertProps } from './ButtonGroup.utils';
+import useColor from '@/hooks/useColor';
 
 export type SomeButtonProps = Pick<
   ButtonProps,
@@ -50,8 +51,10 @@ const ButtonGroup = forwardRef(
       as: Component = 'div',
       ...rest
     } = props;
+    const normalizedColor = useColor(color);
     const newStyle = useStyle({
-      '--divider-color': variant === 'filled' ? darken(color, 0.3) : color,
+      '--divider-color':
+        variant === 'filled' ? darken(normalizedColor, 0.3) : color,
       ...style
     });
 

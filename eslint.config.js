@@ -3,6 +3,7 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
+import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default tseslint.config(
   { ignores: ['dist', '.pnp.cjs', '.pnp.loader.mjs', '.yarn'] },
@@ -15,7 +16,8 @@ export default tseslint.config(
     },
     plugins: {
       'react-hooks': reactHooks,
-      'react-refresh': reactRefresh
+      'react-refresh': reactRefresh,
+      'jsx-a11y': pluginJsxA11y
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -26,7 +28,8 @@ export default tseslint.config(
       'no-var': 'error',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
-      'no-console': ['error', { allow: ['warn', 'error', 'info'] }]
+      'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
+      ...pluginJsxA11y.configs.recommended.rules
     }
   }
 );

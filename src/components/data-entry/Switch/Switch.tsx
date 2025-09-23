@@ -5,6 +5,7 @@ import useStyle from '@/hooks/useStyle';
 import useCheck from '@/hooks/useCheck';
 import { ColorType } from '@/types/color';
 import { lighten } from '@/utils/colorLuminance';
+import useColor from '@/hooks/useColor';
 
 export type SwitchProps<T extends AsType = 'input'> = Omit<
   DefaultComponentProps<T>,
@@ -37,9 +38,10 @@ const Switch = <T extends AsType = 'input'>(props: SwitchProps<T>) => {
     onChange
   });
   const switchStyle = useStyle(style);
+  const normalizedColor = useColor(color);
   const colorStyle = useStyle({
     '--checked-color': color,
-    '--checked-disabled-color': lighten(color, 0.5)
+    '--checked-disabled-color': lighten(normalizedColor, 0.5)
   });
 
   return (

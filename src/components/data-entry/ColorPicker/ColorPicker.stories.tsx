@@ -23,6 +23,7 @@ import {
   AccordionSummary,
   AccordionDetails
 } from '@/components/data-display/Accordion';
+import useColor from '@/hooks/useColor';
 
 const meta: Meta<typeof ColorPicker> = {
   component: ColorPicker,
@@ -122,7 +123,8 @@ const ColorPreset = ({
   onClick: (e: MouseEvent, value: ColorType) => void;
 }) => {
   const PRESET = [-30, -20, -10, 0, 10, 20, 30];
-  const rgbaObject = toRgbaObject(color);
+  const normalizedColor = useColor(color);
+  const rgbaObject = toRgbaObject(normalizedColor);
   const hslaObject = rgbaObjectToHslaObject(rgbaObject);
   const { h, s, l, a } = hslaObject;
 

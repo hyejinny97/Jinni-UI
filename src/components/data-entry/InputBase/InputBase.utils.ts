@@ -1,14 +1,15 @@
+import { ColorType, JinniColor } from '@/types/color';
 import { toRgbaObject } from '@/utils/colorFormat';
 import { darken, lighten } from '@/utils/colorLuminance';
 import { RootInputBaseProps } from './InputBase';
 
-export const getColorStyle = ({
-  variant,
-  color,
-  focusedColor
-}: Required<
-  Pick<RootInputBaseProps, 'variant' | 'color' | 'focusedColor'>
->) => {
+type Props = {
+  variant: RootInputBaseProps['variant'];
+  color: Exclude<ColorType, JinniColor>;
+  focusedColor: Exclude<ColorType, JinniColor>;
+};
+
+export const getColorStyle = ({ variant, color, focusedColor }: Props) => {
   const { r, g, b } = toRgbaObject(focusedColor);
   let baseColor, hoverColor, computedFocusedColor;
   switch (variant) {

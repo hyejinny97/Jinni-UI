@@ -1,4 +1,4 @@
-import type { ColorType } from '@/types/color';
+import type { ColorType, JinniColor } from '@/types/color';
 import type { VariantType } from './Chip';
 import { lighten } from '@/utils/colorLuminance';
 
@@ -6,7 +6,7 @@ export const getColorStyle = ({
   color,
   variant
 }: {
-  color: ColorType;
+  color: Exclude<ColorType, JinniColor>;
   variant: VariantType;
 }) => {
   const subtleColor = lighten(color, 0.8);

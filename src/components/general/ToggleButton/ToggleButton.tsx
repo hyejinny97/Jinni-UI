@@ -3,6 +3,7 @@ import { AsType } from '@/types/default-component-props';
 import { Button, ButtonProps } from '@/components/general/Button';
 import { useSelected } from './ToggleButton.hooks';
 import { lighten } from '@/utils/colorLuminance';
+import useColor from '@/hooks/useColor';
 
 export type ValueType = number | string | boolean;
 
@@ -37,6 +38,7 @@ const ToggleButton = <T extends AsType = 'button'>(
     style,
     ...rest
   } = props;
+  const normalizedColor = useColor(color);
   const { isSelected, handleChange } = useSelected({
     defaultSelected,
     selected,
@@ -54,7 +56,7 @@ const ToggleButton = <T extends AsType = 'button'>(
         isSelected
           ? {
               '--text-color': color,
-              backgroundColor: lighten(color, 0.8),
+              backgroundColor: lighten(normalizedColor, 0.8),
               ...style
             }
           : style

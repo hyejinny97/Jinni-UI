@@ -1,14 +1,13 @@
-import { ColorType } from '@/types/color';
+import { ColorType, JinniColor } from '@/types/color';
 import { VariantType } from './StepDot';
 import { lighten } from '@/utils/colorLuminance';
 
-export const getDotColorStyle = ({
-  color,
-  variant
-}: {
-  color: ColorType;
+type Props = {
+  color: Exclude<ColorType, JinniColor>;
   variant: VariantType;
-}) => {
+};
+
+export const getDotColorStyle = ({ color, variant }: Props) => {
   const lightenColor = lighten(color, 0.8);
   const WHITE: ColorType = 'white';
   const TRANSPARENT: ColorType = 'transparent';

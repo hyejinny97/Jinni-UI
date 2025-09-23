@@ -5,7 +5,8 @@ import {
   RGB,
   RGBA,
   HSL,
-  HSLA
+  HSLA,
+  JinniColor
 } from '@/types/color';
 import { CSS_COLOR_KEYWORDS } from '@/constants/color';
 import {
@@ -19,7 +20,6 @@ import {
   isValidHslColor,
   isValidHslaColor
 } from '@/utils/colorValidation';
-import { editColor } from './color';
 
 // r/g/b: 0~255 integer, a: 0~1 number
 export type RgbaObject = { r: number; g: number; b: number; a: number };
@@ -166,16 +166,14 @@ export const transparentToRgbaObject = (): RgbaObject => {
   return validateRgbaObject({ r: 0, g: 0, b: 0, a: 0 });
 };
 
-export const toRgbaObject = (color: ColorType): RgbaObject => {
-  const normalizedColor = editColor(color);
-  if (normalizedColor === 'transparent') return transparentToRgbaObject();
-  else if (isHex(normalizedColor)) return hexToRgbaObject(normalizedColor);
-  else if (isRgb(normalizedColor) || isRgba(normalizedColor))
-    return rgbToRgbaObject(normalizedColor);
-  else if (isHsl(normalizedColor) || isHsla(normalizedColor))
-    return hslToRgbaObject(normalizedColor);
-  else if (isColorKeyword(normalizedColor))
-    return cssColorKeywordToRgbaObject(normalizedColor);
+export const toRgbaObject = (
+  color: Exclude<ColorType, JinniColor>
+): RgbaObject => {
+  if (color === 'transparent') return transparentToRgbaObject();
+  else if (isHex(color)) return hexToRgbaObject(color);
+  else if (isRgb(color) || isRgba(color)) return rgbToRgbaObject(color);
+  else if (isHsl(color) || isHsla(color)) return hslToRgbaObject(color);
+  else if (isColorKeyword(color)) return cssColorKeywordToRgbaObject(color);
 
   throw new Error(`Unsupported color format: ${color}`);
 };

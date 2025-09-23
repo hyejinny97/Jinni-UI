@@ -1,5 +1,5 @@
-import { editColor } from '@/utils/color';
 import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
 
 interface LastPageIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
@@ -11,6 +11,7 @@ const LastPageIcon = ({
   color = 'black',
   ...rest
 }: LastPageIconProps) => {
+  const normalizedColor = useColor(color);
   return (
     <svg
       width={size}
@@ -23,7 +24,7 @@ const LastPageIcon = ({
       <g clipPath="url(#clip0_354_6156)">
         <path
           d="M5.58997 7.41L10.18 12L5.58997 16.59L6.99997 18L13 12L6.99997 6L5.58997 7.41ZM16 6H18V18H16V6Z"
-          fill={editColor(color)}
+          fill={normalizedColor}
         />
       </g>
       <defs>

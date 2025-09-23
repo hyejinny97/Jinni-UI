@@ -1,9 +1,9 @@
 import { StyleType } from '@/types/style';
-import { JinniColorTheme, JinniColorPalette } from '@/types/color';
+import { JinniColorScheme, JinniColorPalette } from '@/types/color';
 import useBreakpoint from '@/hooks/useBreakpoint';
 import useJinni from '@/hooks/useJinni';
 import { CSS_COLOR_PROPERTIES } from '@/constants/color';
-import { COLOR_THEME, COLOR_PALETTE } from '@/constants/color';
+import { COLOR_SCHEME, COLOR_PALETTE } from '@/constants/color';
 import { TYPOGRAPHY } from '@/constants/typography';
 import { ELEVATION_LEVELS } from '@/constants/elevation';
 import { TypographyType } from '@/types/typography';
@@ -11,6 +11,7 @@ import { ElevationLevelType } from '@/types/elevation';
 import { isResponsive, editResponsive } from '@/utils/responsive';
 import { EASING_SET, DURATIONS } from '@/constants/motion';
 import { EasingType, DurationType } from '@/types/motion';
+import { kebabToCamelCase } from '@/utils/kebabToCamelCase';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
@@ -19,9 +20,9 @@ type DefaultStyleType = React.CSSProperties & {
 const isInlineCssVariable = (key: string) => key.startsWith('--');
 const isColorProperty = (key: string) =>
   CSS_COLOR_PROPERTIES.some((propName) => propName === key);
-const isThemeColor = (
+const isSchemeColor = (
   value: StyleType[keyof StyleType]
-): value is JinniColorTheme => COLOR_THEME.some((color) => color === value);
+): value is JinniColorScheme => COLOR_SCHEME.some((color) => color === value);
 const isPaletteColor = (
   value: StyleType[keyof StyleType]
 ): value is JinniColorPalette => COLOR_PALETTE.some((color) => color === value);
@@ -53,14 +54,14 @@ const useStyle = (
   style: StyleType | undefined
 ): DefaultStyleType | undefined => {
   const {
-    color: { theme, palette },
+    color: { scheme, palette },
     typography,
     boxShadow,
     whiteOverlay,
     blackOverlay,
+    elevation,
     easing,
-    duration,
-    getElevation
+    duration
   } = useJinni();
   const breakpoint = useBreakpoint();
 
@@ -76,9 +77,9 @@ const useStyle = (
     }
     if (
       (isColorProperty(key) || isInlineCssVariable(key)) &&
-      isThemeColor(editedValue)
+      isSchemeColor(editedValue)
     ) {
-      editedStyle[key] = theme[editedValue];
+      editedStyle[key] = scheme[editedValue];
       return;
     }
     if (
@@ -90,7 +91,11 @@ const useStyle = (
     }
     if (isTypography(key, editedValue)) {
       const typographyStyle = typography[editedValue];
-      Object.assign(editedStyle, typographyStyle);
+      const typographyStyleInCamelCase: { [key: string]: string } = {};
+      Object.entries(typographyStyle).forEach(([key, value]) => {
+        typographyStyleInCamelCase[kebabToCamelCase(key)] = value;
+      });
+      Object.assign(editedStyle, typographyStyleInCamelCase);
       return;
     }
     if (isBoxShadow(key) && isElevationLevel(editedValue)) {
@@ -108,8 +113,12 @@ const useStyle = (
       return;
     }
     if (isElevation(key) && isElevationLevel(editedValue)) {
-      const elevationStyle = getElevation(editedValue);
-      Object.assign(editedStyle, elevationStyle);
+      const elevationStyle = elevation[editedValue];
+      const elevationStyleInCamelCase: { [key: string]: string } = {};
+      Object.entries(elevationStyle).forEach(([key, value]) => {
+        elevationStyleInCamelCase[kebabToCamelCase(key)] = value;
+      });
+      Object.assign(editedStyle, elevationStyleInCamelCase);
       return;
     }
     if (isTimingFunctionProperty(key) && isEasingToken(editedValue)) {

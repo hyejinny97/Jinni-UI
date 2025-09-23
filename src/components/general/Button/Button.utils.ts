@@ -1,14 +1,13 @@
-import type { ColorType } from '@/types/color';
+import type { ColorType, JinniColor } from '@/types/color';
 import type { VariantType, SizeType } from './Button';
 import { lighten } from '@/utils/colorLuminance';
 
-export const getColorStyle = ({
-  color,
-  variant
-}: {
-  color: ColorType;
+type Props = {
+  color: Exclude<ColorType, JinniColor>;
   variant: VariantType;
-}) => {
+};
+
+export const getColorStyle = ({ color, variant }: Props) => {
   const lightenColor = lighten(color, 0.8);
   const WHITE: ColorType = 'white';
   const TRANSPARENT: ColorType = 'transparent';
