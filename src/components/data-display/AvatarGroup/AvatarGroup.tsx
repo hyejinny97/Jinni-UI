@@ -59,7 +59,11 @@ const AvatarGroup = <T extends AsType = 'span'>(props: AvatarGroupProps<T>) => {
         style={newStyle}
         {...rest}
       >
-        {avatars.reverse()}
+        {avatars.reverse().map((avatar, idx) => (
+          <span key={idx} className="JinniAvatarItem">
+            {avatar}
+          </span>
+        ))}
       </Component>
     </AvatarGroupContext.Provider>
   );
