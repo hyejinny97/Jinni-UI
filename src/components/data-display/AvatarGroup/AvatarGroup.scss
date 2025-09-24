@@ -1,13 +1,5 @@
 @use 'sass:map';
 
-$avatar-size: (
-  xs: 24px,
-  sm: 32px,
-  md: 48px,
-  lg: 64px,
-  xl: 96px
-);
-
 $border-width: (
   xs: 1px,
   sm: 1px,
@@ -30,16 +22,23 @@ $avatar-spacing: (
   lg: -0.2
 );
 
-@mixin avatarSpacing {
+@mixin spacing-between-avatars {
   @each $spacing in 'sm', 'md', 'lg' {
-    @each $size in 'xs', 'sm', 'md', 'lg', 'xl' {
-      &.spacing-#{$spacing}.size-#{$size} {
-        .JinniAvatar + .JinniAvatar {
-          margin-right: calc(
-            map.get($avatar-size, $size) * map.get($avatar-spacing, $spacing)
-          );
-        }
+    &.#{$spacing} {
+      .JinniAvatar + .JinniAvatar {
+        margin-right: calc(
+          var(--avatar-width) * map.get($avatar-spacing, $spacing)
+        );
       }
+    }
+  }
+}
+
+@mixin avatar-style-by-size {
+  @each $size in 'xs', 'sm', 'md', 'lg', 'xl' {
+    &.#{$size} {
+      border: solid map.get($border-width, $size) white;
+      letter-spacing: map.get($letter-spacing, $size);
     }
   }
 }
@@ -47,20 +46,16 @@ $avatar-spacing: (
 .JinniAvatarGroup {
   display: inline-flex;
   flex-direction: row-reverse;
+  @include spacing-between-avatars;
 
   .JinniAvatar {
     position: relative;
     box-sizing: border-box;
+    @include avatar-style-by-size;
 
-    @each $size in 'xs', 'sm', 'md', 'lg', 'xl' {
-      &.#{$size} {
-        border: solid map.get($border-width, $size) white;
-        &.surplus-avatar {
-          letter-spacing: map.get($letter-spacing, $size);
-        }
-      }
+    &.surplus-avatar {
+      background-color: var(--jinni-color-gray-400);
+      color: var(--jinni-color-gray-50);
     }
   }
-
-  @include avatarSpacing;
 }
