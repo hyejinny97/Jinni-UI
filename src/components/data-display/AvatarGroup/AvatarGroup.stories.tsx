@@ -1,53 +1,65 @@
+import { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { AvatarGroup } from '.';
 import { Avatar } from '@/components/data-display/Avatar';
+import { Stack } from '@/components/layout/Stack';
+import { Tooltip } from '@/components/data-display/Tooltip';
+import { Link } from '@/components/navigation/Link';
+import { Popover } from '@/components/data-display/Popover';
+import './custom.scss';
 
 const meta: Meta<typeof AvatarGroup> = {
   component: AvatarGroup,
   argTypes: {
     children: {
-      description: 'avatars stack',
-      table: { type: { summary: 'Array<React.ReactElement<AvatarProps>>' } }
+      description: 'Avatar 컴포넌트들',
+      table: { type: { summary: 'React.ReactNode' } }
     },
     max: {
       description:
         'surplus avatar를 제외한 화면 상에 나타나는 최대 아바타 갯수',
       table: {
         type: { summary: 'number' },
-        defaultValue: { summary: 'children.length' }
+        defaultValue: { summary: '5' }
       }
     },
     renderSurplus: {
-      description: 'surplus avatar를 커스텀하는 함수',
+      description: 'surplus avatar를 렌더하는 함수',
       table: {
         type: {
-          summary: '(surplus: number) => React.ReactElement<AvatarProps>'
+          summary: '(surplus: number) => React.ReactNode'
+        },
+        defaultValue: {
+          summary: `(surplus: number) => (
+<Avatar key="surplus-avatar" className="surplus-avatar">
+	{\`+\${surplus}\`}
+</Avatar>`
         }
       }
     },
     shape: {
-      description: '하위 모든 Avatar의 모양을 한번에 변경해줌',
+      description: '하위 모든 Avatar의 모양',
       table: {
-        type: { summary: 'circle | square | rounded' },
-        defaultValue: { summary: 'circle' }
+        type: { summary: `'circle' | 'square' | 'rounded'` },
+        defaultValue: { summary: `'circle'` }
       }
     },
     size: {
-      description: '하위 모든 Avatar의 크기를 한번에 변경해줌',
+      description: '하위 모든 Avatar의 크기',
       table: {
-        type: { summary: 'xs | sm | md | lg | xl' },
-        defaultValue: { summary: 'md' }
+        type: { summary: `'xs' | 'sm' | 'md' | 'lg' | 'xl' | number` },
+        defaultValue: { summary: `'md'` }
       }
     },
     spacing: {
-      description: '아바타 사이의 간격',
+      description: '아바타 간 벌어짐 정도',
       table: {
-        type: { summary: 'sm | md | lg' },
-        defaultValue: { summary: 'md' }
+        type: { summary: `'sm' | 'md' | 'lg'` },
+        defaultValue: { summary: `'md'` }
       }
     },
     total: {
-      description: '총 아바타 갯수',
+      description: '전체 아바타 갯수',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: 'children.length' }
@@ -58,6 +70,56 @@ const meta: Meta<typeof AvatarGroup> = {
 
 export default meta;
 type Story = StoryObj<typeof AvatarGroup>;
+
+const SurplusAvatar = () => {
+  const TOTAL = 4251;
+  const surplusAvatarRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+
+  return (
+    <AvatarGroup
+      renderSurplus={(surplus: number) => (
+        <>
+          <Avatar
+            ref={surplusAvatarRef}
+            onClick={openPopover}
+            style={{
+              fontSize: '20px',
+              backgroundColor: 'yellow-500',
+              color: 'yellow-50',
+              letterSpacing: '-2px',
+              cursor: 'pointer'
+            }}
+          >
+            +{surplus.toString()[0]}k
+          </Avatar>
+          <Popover
+            anchorElRef={surplusAvatarRef}
+            open={open}
+            onClose={closePopover}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            popoverOrigin={{ vertical: 'top', horizontal: 'center' }}
+            PopoverContentProps={{ style: { marginTop: '10px' } }}
+          >
+            {`${surplus} avatars left`}
+          </Popover>
+        </>
+      )}
+      total={TOTAL}
+    >
+      <Avatar />
+      <Avatar />
+      <Avatar />
+    </AvatarGroup>
+  );
+};
 
 export const MaxAvatarNumber: Story = {
   render: (args) => {
@@ -74,7 +136,7 @@ export const MaxAvatarNumber: Story = {
 export const TotalAvatarNumber: Story = {
   render: (args) => {
     return (
-      <div style={{ display: 'flex', columnGap: '20px' }}>
+      <Stack direction="column" spacing={20} style={{ alignItems: 'center' }}>
         <AvatarGroup total={5} {...args}>
           <Avatar />
           <Avatar />
@@ -85,39 +147,80 @@ export const TotalAvatarNumber: Story = {
           <Avatar />
           <Avatar />
         </AvatarGroup>
-      </div>
+      </Stack>
     );
   }
 };
 
 export const CustomSurplusAvatar: Story = {
-  render: (args) => {
-    return (
-      <AvatarGroup
-        renderSurplus={(surplus) => (
-          <span style={{ fontSize: '20px' }}>+{surplus.toString()[0]}k</span>
-        )}
-        total={4251}
-        {...args}
-      >
-        <Avatar />
-        <Avatar />
-        <Avatar />
-      </AvatarGroup>
-    );
+  render: (args) => <SurplusAvatar {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SurplusAvatar = () => {
+  const TOTAL = 4251;
+  const surplusAvatarRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+
+  return (
+    <AvatarGroup
+      renderSurplus={(surplus: number) => (
+        <>
+          <Avatar
+            ref={surplusAvatarRef}
+            onClick={openPopover}
+            style={{
+              fontSize: '20px',
+              backgroundColor: 'yellow-500',
+              color: 'yellow-50',
+              letterSpacing: '-2px',
+              cursor: 'pointer'
+            }}
+          >
+            +{surplus.toString()[0]}k
+          </Avatar>
+          <Popover
+            anchorElRef={surplusAvatarRef}
+            open={open}
+            onClose={closePopover}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            popoverOrigin={{ vertical: 'top', horizontal: 'center' }}
+            PopoverContentProps={{ style: { marginTop: '10px' } }}
+          >
+            {\`\${surplus} avatars left\`}
+          </Popover>
+        </>
+      )}
+      total={TOTAL}
+    >
+      <Avatar />
+      <Avatar />
+      <Avatar />
+    </AvatarGroup>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const Spacing: Story = {
   render: (args) => {
     return (
-      <div style={{ display: 'flex', columnGap: '20px' }}>
+      <Stack direction="column" spacing={20} style={{ alignItems: 'center' }}>
         <AvatarGroup spacing="sm" {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
         </AvatarGroup>
-        <AvatarGroup {...args}>
+        <AvatarGroup spacing="md" {...args}>
           <Avatar />
           <Avatar />
           <Avatar />
@@ -127,7 +230,7 @@ export const Spacing: Story = {
           <Avatar />
           <Avatar />
         </AvatarGroup>
-      </div>
+      </Stack>
     );
   }
 };
@@ -135,62 +238,38 @@ export const Spacing: Story = {
 export const Sizes: Story = {
   render: (args) => {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', rowGap: '20px' }}>
-        <section style={{ display: 'flex', columnGap: '20px' }}>
-          <AvatarGroup size="xs" {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-          <AvatarGroup size="sm" {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-          <AvatarGroup {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-          <AvatarGroup size="lg" {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-          <AvatarGroup size="xl" {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-        </section>
-        <section style={{ display: 'flex', columnGap: '20px' }}>
-          <AvatarGroup size="xs" max={2} {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-          <AvatarGroup size="sm" max={2} {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-          <AvatarGroup max={2} {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-          <AvatarGroup size="lg" max={2} {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-          <AvatarGroup size="xl" max={2} {...args}>
-            <Avatar />
-            <Avatar />
-            <Avatar />
-          </AvatarGroup>
-        </section>
-      </div>
+      <Stack direction="column" spacing={20} style={{ alignItems: 'center' }}>
+        <AvatarGroup size="xs" max={2} {...args}>
+          <Avatar />
+          <Avatar />
+          <Avatar />
+        </AvatarGroup>
+        <AvatarGroup size="sm" max={2} {...args}>
+          <Avatar />
+          <Avatar />
+          <Avatar />
+        </AvatarGroup>
+        <AvatarGroup size="md" max={2} {...args}>
+          <Avatar />
+          <Avatar />
+          <Avatar />
+        </AvatarGroup>
+        <AvatarGroup size="lg" max={2} {...args}>
+          <Avatar />
+          <Avatar />
+          <Avatar />
+        </AvatarGroup>
+        <AvatarGroup size="xl" max={2} {...args}>
+          <Avatar />
+          <Avatar />
+          <Avatar />
+        </AvatarGroup>
+        <AvatarGroup size={60} max={2} {...args}>
+          <Avatar />
+          <Avatar />
+          <Avatar />
+        </AvatarGroup>
+      </Stack>
     );
   }
 };
@@ -198,7 +277,7 @@ export const Sizes: Story = {
 export const Shape: Story = {
   render: (args) => {
     return (
-      <div style={{ display: 'flex', columnGap: '20px' }}>
+      <Stack direction="column" spacing={20} style={{ alignItems: 'center' }}>
         <AvatarGroup shape="circle" {...args}>
           <Avatar />
           <Avatar />
@@ -214,18 +293,38 @@ export const Shape: Story = {
           <Avatar />
           <Avatar />
         </AvatarGroup>
-      </div>
+      </Stack>
     );
   }
 };
 
-export const Color: Story = {
+export const AvatarWrappedInTooltip: Story = {
   render: (args) => {
     return (
-      <AvatarGroup style={{ backgroundColor: 'yellow-400' }} {...args}>
-        <Avatar />
-        <Avatar />
-        <Avatar />
+      <AvatarGroup {...args}>
+        {Array(3)
+          .fill(0)
+          .map((_, idx) => (
+            <Tooltip key={idx} content={`Avatar ${idx + 1}`} offset={5}>
+              <Avatar />
+            </Tooltip>
+          ))}
+      </AvatarGroup>
+    );
+  }
+};
+
+export const AvatarWrappedInLink: Story = {
+  render: (args) => {
+    return (
+      <AvatarGroup className="expand-when-hover" {...args}>
+        {Array(3)
+          .fill(0)
+          .map((_, idx) => (
+            <Link key={idx} href={`#avatar${idx + 1}`}>
+              <Avatar />
+            </Link>
+          ))}
       </AvatarGroup>
     );
   }
