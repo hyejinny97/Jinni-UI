@@ -126,13 +126,13 @@ const SurplusAvatar = () => {
 export const BasicAvatarGroup: Story = {
   render: (args) => {
     return (
-      <AvatarGroup {...args}>
+      <AvatarGroup aria-label="아바타 그룹" {...args}>
         <Avatar src={dogImage} alt="강아지 아바타" />
         <Avatar style={{ backgroundColor: 'yellow-400', color: 'yellow-50' }}>
           J
         </Avatar>
         <Avatar>
-          <PersonIcon color="white" />
+          <PersonIcon color="white" role="img" aria-label="사람 아바타" />
         </Avatar>
       </AvatarGroup>
     );
