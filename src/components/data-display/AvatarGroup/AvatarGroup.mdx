@@ -5,7 +5,7 @@ import * as AvatarGroupStories from './AvatarGroup.stories';
 
 # AvatarGroup
 
-아바타를 하나의 그룹으로 쌓은 컴포넌트
+아바타를 하나의 그룹으로 쌓음
 
 ## Import
 
@@ -14,6 +14,10 @@ import { AvatarGroup } from '@/components/data-display/AvatarGroup';
 ```
 
 ## Usage
+
+### Basic AvatarGroup
+
+<Canvas of={AvatarGroupStories.BasicAvatarGroup} />
 
 ### Max Avatar Number
 
@@ -29,15 +33,13 @@ import { AvatarGroup } from '@/components/data-display/AvatarGroup';
 
 ### Custom Surplus Avatar
 
-- `renderSurplus`: surplus avatar를 커스텀하는 함수
-  - parameter: surplus (= surplus avatar 개수 = total - max)
-  - return: `Avatar` 컴포넌트
+- `renderSurplus`: surplus avatar를 렌더하는 함수
 
 <Canvas of={AvatarGroupStories.CustomSurplusAvatar} />
 
 ### Spacing
 
-- `spacing`: 아바타 사이의 간격
+- `spacing`: 아바타 간 벌어짐 정도
   - `sm`: `Avatar` 너비 x 40% 만큼 겹쳐침
   - `md`: `Avatar` 너비 x 30% 만큼 겹쳐침
   - `lg`: `Avatar` 너비 x 20% 만큼 겹쳐침
@@ -46,25 +48,25 @@ import { AvatarGroup } from '@/components/data-display/AvatarGroup';
 
 ### Sizes
 
-- `size`: 하위 모든 `Avatar`의 크기를 한번에 변경해줌
-  - `xs` | `sm` | `md` | `lg` | `xl`: 순서대로 24px, 32px, 48px, 64px, 96px 크기
+- `size`: 하위 모든 `Avatar`의 크기
 
 <Canvas of={AvatarGroupStories.Sizes} />
 
 ### Shape
 
-- `shape`: 하위 모든 `Avatar`의 모양을 한번에 변경해줌
-  - `circle`: 원 모양
-  - `square`: 정사각형 모양
-  - `rounded`: 둥근 정사각형 모양
+- `shape`: 하위 모든 `Avatar`의 모양
 
 <Canvas of={AvatarGroupStories.Shape} />
 
-### Color
+### AvatarGroup with wrapped avatars
 
-HTML 요소 기본 `style` prop을 사용해 하위 모든 `Avatar` 색상 변경 가능
+#### 1) Avatar wrapped in Tooltip
 
-<Canvas of={AvatarGroupStories.Color} />
+<Canvas of={AvatarGroupStories.AvatarWrappedInTooltip} />
+
+#### 2) Avatar wrapped in Link
+
+<Canvas of={AvatarGroupStories.AvatarWrappedInLink} />
 
 ## Props
 

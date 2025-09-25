@@ -6,6 +6,7 @@ import useStyle from '@/hooks/useStyle';
 
 type LinkProps<T extends AsType = 'a'> = DefaultComponentProps<T> & {
   children: React.ReactNode;
+  href: string;
   lineClamp?: number;
   underline?: 'always' | 'hover' | 'none';
 };
@@ -17,6 +18,7 @@ const Link = forwardRef(
   ) => {
     const {
       children,
+      href,
       lineClamp,
       underline = 'always',
       className,
@@ -29,6 +31,7 @@ const Link = forwardRef(
     return (
       <Component
         ref={ref}
+        href={href}
         className={cn('JinniLink', { lineClamp }, underline, className)}
         style={newStyle}
         {...rest}

@@ -1,0 +1,12 @@
+.JinniAvatarGroup.expand-when-hover {
+  .JinniAvatarItem {
+    transition: margin-right var(--jinni-duration-short3)
+      var(--jinni-easing-emphasized);
+  }
+
+  &:hover {
+    .JinniAvatarItem + .JinniAvatarItem {
+      margin-right: 0;
+    }
+  }
+}
