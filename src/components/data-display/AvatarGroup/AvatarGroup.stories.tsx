@@ -6,6 +6,8 @@ import { Stack } from '@/components/layout/Stack';
 import { Tooltip } from '@/components/data-display/Tooltip';
 import { Link } from '@/components/navigation/Link';
 import { Popover } from '@/components/data-display/Popover';
+import dogImage from '@/assets/images/dog-1.jpg';
+import { PersonIcon } from '@/components/icons/PersonIcon';
 import './custom.scss';
 
 const meta: Meta<typeof AvatarGroup> = {
@@ -119,6 +121,22 @@ const SurplusAvatar = () => {
       <Avatar />
     </AvatarGroup>
   );
+};
+
+export const BasicAvatarGroup: Story = {
+  render: (args) => {
+    return (
+      <AvatarGroup {...args}>
+        <Avatar src={dogImage} alt="강아지 아바타" />
+        <Avatar style={{ backgroundColor: 'yellow-400', color: 'yellow-50' }}>
+          J
+        </Avatar>
+        <Avatar>
+          <PersonIcon color="white" />
+        </Avatar>
+      </AvatarGroup>
+    );
+  }
 };
 
 export const MaxAvatarNumber: Story = {
