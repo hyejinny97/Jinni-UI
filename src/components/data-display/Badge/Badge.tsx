@@ -1,65 +1,76 @@
 import './Badge.scss';
+import { useMemo } from 'react';
 import cn from 'classnames';
-import type { ColorType } from '@/types/color';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
+import { validatePositiveInteger } from '@/utils/isNumber';
+
+type AnchorOriginType = {
+  vertical?: 'top' | 'bottom';
+  horizontal?: 'left' | 'right';
+};
 
 type BadgeProps<T extends AsType = 'span'> = DefaultComponentProps<T> & {
-  badgeContent?: React.ReactNode;
   children: React.ReactNode;
+  content?: React.ReactNode;
   max?: number;
   showZero?: boolean;
   variant?: 'standard' | 'dot';
   invisible?: boolean;
-  color?: ColorType;
   size?: 'sm' | 'md' | 'lg';
-  origin?: {
-    vertical: 'top' | 'bottom';
-    horizontal: 'left' | 'right';
-  };
+  anchorOrigin?: AnchorOriginType;
 };
+
+const DEFAULT_ANCHOR_ORIGIN = { vertical: 'top', horizontal: 'right' };
 
 const Badge = <T extends AsType = 'span'>(props: BadgeProps<T>) => {
   const {
-    badgeContent,
     children,
+    content,
     max = 99,
     showZero = false,
     variant = 'standard',
     invisible = false,
-    color = 'primary',
     size = 'md',
-    origin = { vertical: 'top', horizontal: 'right' },
+    anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
     className,
     style,
     as: Component = 'span',
     ...rest
   } = props;
-  const newStyle = useStyle({ backgroundColor: color, ...style });
-  const isNumberTypeContent = typeof badgeContent === 'number';
-  const showBadge = !invisible && !(badgeContent === 0 && !showZero);
-  const showContent = variant !== 'dot';
+  const validatedMax = validatePositiveInteger({ value: max });
+  const computedAnchorOrigin = useMemo(
+    () => ({ ...DEFAULT_ANCHOR_ORIGIN, ...anchorOrigin }),
+    [anchorOrigin]
+  );
+  const newStyle = useStyle(style);
 
-  const newBadgeContent =
-    isNumberTypeContent && badgeContent > max ? `${max}+` : badgeContent;
+  const showBadge = !invisible && !(content === 0 && !showZero);
+  const showContent = variant === 'standard';
+  const badgeContent =
+    typeof content === 'number' && content > validatedMax
+      ? `${validatedMax}+`
+      : content;
+
   return (
     <Component
       className={cn(
         'JinniBadge',
-        variant,
-        size,
-        origin.vertical,
-        origin.horizontal,
+        computedAnchorOrigin.vertical,
+        computedAnchorOrigin.horizontal,
         className
       )}
-      {...rest}
     >
+      {children}
       {showBadge && (
-        <span className="badge" style={newStyle}>
-          {showContent && newBadgeContent}
+        <span
+          className={cn('JinniBadgeRoot', variant, size)}
+          style={newStyle}
+          {...rest}
+        >
+          {showContent && badgeContent}
         </span>
       )}
-      {children}
     </Component>
   );
 };

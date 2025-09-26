@@ -5,8 +5,9 @@ import useStyle from '@/hooks/useStyle';
 import { Avatar } from '@/components/data-display/Avatar';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { useAvatarChildren } from './AvatarGroup.hooks';
-import { validatePositiveInteger, getAvatarWidth } from './AvatarGroup.utils';
+import { getAvatarWidth } from './AvatarGroup.utils';
 import AvatarGroupContext from './AvatarGroup.contexts';
+import { validatePositiveInteger } from '@/utils/isNumber';
 
 export type AvatarGroupProps<T extends AsType = 'span'> =
   DefaultComponentProps<T> & {
@@ -43,8 +44,8 @@ const AvatarGroup = <T extends AsType = 'span'>(props: AvatarGroupProps<T>) => {
   const newStyle = useStyle({ '--avatar-width': avatarWidth, ...style });
 
   const totalCount = total ?? avatarChildren.length;
-  const validatedMax = validatePositiveInteger(max);
-  const validatedTotal = validatePositiveInteger(totalCount);
+  const validatedMax = validatePositiveInteger({ value: max });
+  const validatedTotal = validatePositiveInteger({ value: totalCount });
   const maxToShow = Math.min(validatedMax, avatarChildren.length);
   const surplus = validatedTotal - maxToShow;
 
