@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Badge } from '.';
 import { Avatar } from '@/components/data-display/Avatar';
@@ -5,6 +6,10 @@ import { MailIcon } from '@/components/icons/MailIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { ButtonBase } from '@/components/general/ButtonBase';
+import { Button } from '@/components/general/Button';
+import { ButtonGroup } from '@/components/general/ButtonGroup';
+import { Switch } from '@/components/data-entry/Switch';
+import { SwitchLabel } from '@/components/data-entry/SwitchLabel';
 import dogImage from '@/assets/images/dog-1.jpg';
 
 const meta: Meta<typeof Badge> = {
@@ -86,6 +91,95 @@ const Square = () => (
     }}
   />
 );
+
+const Visibility = () => {
+  const [visible, setVisible] = useState(true);
+  const [notifications, setNotifications] = useState(98);
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack direction="row" spacing={10}>
+        <ButtonGroup variant="outlined">
+          <Button
+            aria-label="increase"
+            onClick={() => setNotifications((prev) => prev + 1)}
+          >
+            +
+          </Button>
+          <Button
+            aria-label="reduce"
+            onClick={() => setNotifications((prev) => prev - 1)}
+          >
+            -
+          </Button>
+        </ButtonGroup>
+        <SwitchLabel label="Show Badge">
+          <Switch
+            checked={visible}
+            onChange={(e) => setVisible(e.target.checked)}
+          />
+        </SwitchLabel>
+      </Stack>
+      <Box
+        round="md"
+        style={{
+          display: 'inline-flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100px',
+          height: '100px',
+          backgroundColor: 'surface-container-low'
+        }}
+      >
+        <Badge
+          invisible={!visible}
+          content={notifications}
+          role="status"
+          aria-label={`${notifications}개의 알림`}
+          aria-live="polite"
+        >
+          <MailIcon color="gray-600" />
+        </Badge>
+      </Box>
+    </Stack>
+  );
+};
+
+const NotificationButton = () => {
+  const getNotificationsLabel = (count: number) => {
+    if (count === 0) {
+      return 'no notifications';
+    }
+    if (count > 99) {
+      return 'more than 99 notifications';
+    }
+    return `${count} notifications`;
+  };
+
+  return (
+    <ButtonBase
+      aria-label={getNotificationsLabel(500)}
+      style={{ display: 'inline-flex', padding: '10px', borderRadius: '50%' }}
+    >
+      <Badge
+        content={500}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minWidth: '22px',
+          height: '22px',
+          transform: 'translate(70%, -60%)',
+          backgroundColor: 'secondary',
+          color: 'on-secondary',
+          border: '1px solid white'
+        }}
+      >
+        <MailIcon color="gray-600" />
+      </Badge>
+    </ButtonBase>
+  );
+};
 
 export const BasicBadge: Story = {
   render: (args) => (
@@ -173,16 +267,65 @@ export const DotBadge: Story = {
 };
 
 export const BadgeVisibility: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={30}>
-      <Badge content={5} {...args}>
-        <Square />
-      </Badge>
-      <Badge content={5} invisible {...args}>
-        <Square />
-      </Badge>
+  render: (args) => <Visibility {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const Visibility = () => {
+  const [visible, setVisible] = useState(true);
+  const [notifications, setNotifications] = useState(98);
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack direction="row" spacing={10}>
+        <ButtonGroup variant="outlined">
+          <Button
+            aria-label="increase"
+            onClick={() => setNotifications((prev) => prev + 1)}
+          >
+            +
+          </Button>
+          <Button
+            aria-label="reduce"
+            onClick={() => setNotifications((prev) => prev - 1)}
+          >
+            -
+          </Button>
+        </ButtonGroup>
+        <SwitchLabel label="Show Badge">
+          <Switch
+            checked={visible}
+            onChange={(e) => setVisible(e.target.checked)}
+          />
+        </SwitchLabel>
+      </Stack>
+      <Box
+        round="md"
+        style={{
+          display: 'inline-flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100px',
+          height: '100px',
+          backgroundColor: 'surface-container-low'
+        }}
+      >
+        <Badge
+          invisible={!visible}
+          content={notifications}
+          role="status"
+          aria-label={\`\${notifications}개의 알림\`}
+          aria-live="polite"
+        >
+          <MailIcon color="gray-600" />
+        </Badge>
+      </Box>
     </Stack>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Size: Story = {
@@ -286,8 +429,24 @@ export const BadgeAlignment: Story = {
 };
 
 export const Customization: Story = {
-  render: (args) => (
+  render: (args) => <NotificationButton {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const NotificationButton = () => {
+  const getNotificationsLabel = (count: number) => {
+    if (count === 0) {
+      return 'no notifications';
+    }
+    if (count > 99) {
+      return 'more than 99 notifications';
+    }
+    return \`\${count} notifications\`;
+  };
+
+  return (
     <ButtonBase
+      aria-label={getNotificationsLabel(500)}
       style={{ display: 'inline-flex', padding: '10px', borderRadius: '50%' }}
     >
       <Badge
@@ -303,10 +462,13 @@ export const Customization: Story = {
           color: 'on-secondary',
           border: '1px solid white'
         }}
-        {...args}
       >
         <MailIcon color="gray-600" />
       </Badge>
     </ButtonBase>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };

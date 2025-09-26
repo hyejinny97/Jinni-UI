@@ -10,7 +10,10 @@ type AnchorOriginType = {
   horizontal?: 'left' | 'right';
 };
 
-type BadgeProps<T extends AsType = 'span'> = DefaultComponentProps<T> & {
+type BadgeProps<T extends AsType = 'span'> = Omit<
+  DefaultComponentProps<T>,
+  'content'
+> & {
   children: React.ReactNode;
   content?: React.ReactNode;
   max?: number;
