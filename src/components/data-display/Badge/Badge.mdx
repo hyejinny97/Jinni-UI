@@ -5,7 +5,7 @@ import * as BadgeStories from './Badge.stories';
 
 # Badge
 
-children(아이콘이나 버튼 등)의 모서리 한 부분에 숫자 등 정보를 제공하는 컴포넌트
+하위 요소(아이콘이나 버튼 등)의 모서리 한 부분에 숫자 등 정보를 제공함
 
 ## Import
 
@@ -17,42 +17,35 @@ import { Badge } from '@/components/data-display/Badge';
 
 ### Basic Badge
 
-- `badgeContent`: 배지에 들어갈 내용 (number, icon, text 등)
-- `children`: 배지가 붙여질 anchor (Icon, Avatar, text 등)
+- `children`: 배지가 부착될 anchor (Icon, Avatar, text 등)
+- `content`: 배지에 들어갈 내용 (number, icon, text 등)
 
 <Canvas of={BadgeStories.BasicBadge} />
 
 ### Maximum Value
 
-- `max`: `badgeContent` 최댓값 (기본값=99)
+- `max`: content 숫자 최댓값
 
 <Canvas of={BadgeStories.MaximumValue} />
 
 ### Show on Zero
 
-기본적으로 `badgeContent`가 0인 경우, 배지가 자동으로 숨겨짐
-
-- `showZero`: true이면 `badgeContent`가 0이어도 배지가 숨겨지지 않음
+- 기본적으로 content가 0인 경우, 배지가 자동으로 숨겨짐
+- `showZero`: true이면, content가 0이어도 배지가 숨겨지지 않음
 
 <Canvas of={BadgeStories.ShowOnZero} />
 
 ### Dot Badge
 
-- `variant`: 'dot' 인 경우, badgeContent 없이 배지만 보여줌
+- `variant`: 배지의 형태
 
 <Canvas of={BadgeStories.DotBadge} />
 
 ### Badge Visibility
 
-- `invisible`: true이면 배지가 안보임
+- `invisible`: true면, 배지가 보이지 않음
 
 <Canvas of={BadgeStories.BadgeVisibility} />
-
-### Color
-
-- `color`: 색상 (color theme/palette 포함)
-
-<Canvas of={BadgeStories.Color} />
 
 ### Size
 
@@ -62,13 +55,11 @@ import { Badge } from '@/components/data-display/Badge';
 
 ### Badge Alignment
 
-- `origin`: (anchor element의 네 개의 코너 중) 배지 위치
+- `anchorOrigin`: 배지가 부착될 anchor의 origin
 
 <Canvas of={BadgeStories.BadgeAlignment} />
 
 ### Customization
-
-- `style`: 배지 offset, padding, border, color 등 수정 가능
 
 <Canvas of={BadgeStories.Customization} />
 

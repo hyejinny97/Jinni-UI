@@ -1,63 +1,61 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Badge } from '.';
 import { Avatar } from '@/components/data-display/Avatar';
 import { MailIcon } from '@/components/icons/MailIcon';
+import { Stack } from '@/components/layout/Stack';
+import { Box } from '@/components/layout/Box';
+import { ButtonBase } from '@/components/general/ButtonBase';
+import { Button } from '@/components/general/Button';
+import { ButtonGroup } from '@/components/general/ButtonGroup';
+import { Switch } from '@/components/data-entry/Switch';
+import { SwitchLabel } from '@/components/data-entry/SwitchLabel';
 import dogImage from '@/assets/images/dog-1.jpg';
 
 const meta: Meta<typeof Badge> = {
   component: Badge,
   argTypes: {
-    badgeContent: {
+    anchorOrigin: {
+      description: '배지가 부착될 anchor의 origin',
+      table: {
+        type: {
+          summary: `{
+  vertical?: 'top' | 'bottom';
+  horizontal?: 'left' | 'right';
+}`
+        },
+        defaultValue: {
+          summary: `{
+  vertical: 'top';
+  horizontal: 'right';
+}`
+        }
+      }
+    },
+    children: {
+      description: '배지가 부착될 anchor',
+      table: { type: { summary: 'React.ReactNode' } }
+    },
+    content: {
       description: '배지에 들어갈 내용',
       table: { type: { summary: 'React.ReactNode' } }
     },
-    children: {
-      description: '배지가 붙여질 anchor',
-      table: { type: { summary: 'React.ReactNode' } }
-    },
-    color: {
-      description: '배지 색상',
-      table: {
-        type: { summary: 'ColorType' },
-        defaultValue: { summary: 'primary' }
-      },
-      control: {
-        type: 'color'
-      }
-    },
     invisible: {
-      description: 'true면 배지가 안보임',
+      description: 'true면, 배지가 보이지 않음',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' }
       }
     },
     max: {
-      description: '배지 내 content 최댓값',
+      description: 'content 숫자 최댓값',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '99' }
       }
     },
-    origin: {
-      description: '(anchor element의 네 개의 코너 중) 배지 위치',
-      table: {
-        type: {
-          summary: `{
-  vertical: 'top' | 'bottom';
-  horizontal: 'left' | 'right';
-}`
-        },
-        defaultValue: {
-          summary: `{
-vertical: 'top';
-horizontal: 'right';
-}`
-        }
-      }
-    },
     showZero: {
-      description: 'true면 content가 0일 때 배지가 보임',
+      description: 'true면, content가 0이어도 배지가 숨겨지지 않음',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' }
@@ -66,15 +64,15 @@ horizontal: 'right';
     size: {
       description: '배지 크기',
       table: {
-        type: { summary: 'sm | md | lg' },
-        defaultValue: { summary: 'md' }
+        type: { summary: `'sm' | 'md' | 'lg'` },
+        defaultValue: { summary: `'md'` }
       }
     },
     variant: {
-      description: '배지 모양',
+      description: '배지의 형태',
       table: {
-        type: { summary: 'dot | standard' },
-        defaultValue: { summary: 'standard' }
+        type: { summary: `'standard' | 'dot'` },
+        defaultValue: { summary: `'standard'` }
       }
     }
   }
@@ -83,275 +81,394 @@ horizontal: 'right';
 export default meta;
 type Story = StoryObj<typeof Badge>;
 
-const Inner = ({ children }: { children: React.ReactNode }) => {
-  return <div style={{ display: 'flex', columnGap: '30px' }}>{children}</div>;
-};
-
-const Outer = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', rowGap: '30px' }}>
-      {children}
-    </div>
-  );
-};
-
 const Square = () => (
-  <div
+  <Box
     style={{
       width: '32px',
       height: '32px',
-      backgroundColor: '#9CA3AF',
+      backgroundColor: 'surface-container-highest',
       borderRadius: '8px'
     }}
-  ></div>
+  />
 );
+
+const Visibility = () => {
+  const [visible, setVisible] = useState(true);
+  const [notifications, setNotifications] = useState(98);
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack direction="row" spacing={10}>
+        <ButtonGroup variant="outlined">
+          <Button
+            aria-label="increase"
+            onClick={() => setNotifications((prev) => prev + 1)}
+          >
+            +
+          </Button>
+          <Button
+            aria-label="reduce"
+            onClick={() => setNotifications((prev) => prev - 1)}
+          >
+            -
+          </Button>
+        </ButtonGroup>
+        <SwitchLabel label="Show Badge">
+          <Switch
+            checked={visible}
+            onChange={(e) => setVisible(e.target.checked)}
+          />
+        </SwitchLabel>
+      </Stack>
+      <Box
+        round="md"
+        style={{
+          display: 'inline-flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100px',
+          height: '100px',
+          backgroundColor: 'surface-container-low'
+        }}
+      >
+        <Badge
+          invisible={!visible}
+          content={notifications}
+          role="status"
+          aria-label={`${notifications}개의 알림`}
+          aria-live="polite"
+        >
+          <MailIcon color="gray-600" />
+        </Badge>
+      </Box>
+    </Stack>
+  );
+};
+
+const NotificationButton = () => {
+  const getNotificationsLabel = (count: number) => {
+    if (count === 0) {
+      return 'no notifications';
+    }
+    if (count > 99) {
+      return 'more than 99 notifications';
+    }
+    return `${count} notifications`;
+  };
+
+  return (
+    <ButtonBase
+      aria-label={getNotificationsLabel(500)}
+      style={{ display: 'inline-flex', padding: '10px', borderRadius: '50%' }}
+    >
+      <Badge
+        content={500}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minWidth: '22px',
+          height: '22px',
+          transform: 'translate(70%, -60%)',
+          backgroundColor: 'secondary',
+          color: 'on-secondary',
+          border: '1px solid white'
+        }}
+      >
+        <MailIcon color="gray-600" />
+      </Badge>
+    </ButtonBase>
+  );
+};
 
 export const BasicBadge: Story = {
   render: (args) => (
-    <Outer>
-      <Inner>
-        <Badge badgeContent={5} {...args}>
+    <Stack spacing={30}>
+      <Stack direction="row" spacing={30}>
+        <Badge content={5} {...args}>
           <Square />
         </Badge>
-        <Badge badgeContent={5} {...args}>
-          <MailIcon color="gray-400" />
+        <Badge content={5} {...args}>
+          <MailIcon color="surface-container-highest" />
         </Badge>
-        <Badge badgeContent={5} {...args}>
+        <Badge content={5} {...args}>
           <Avatar src={dogImage} alt="강아지 사진" size={32} />
         </Badge>
-        <Badge badgeContent={5} {...args}>
+        <Badge content={5} {...args}>
           text
         </Badge>
-      </Inner>
-      <Inner>
-        <Badge badgeContent={5} {...args}>
+      </Stack>
+      <Stack direction="row" spacing={30}>
+        <Badge content={5} {...args}>
           <Square />
         </Badge>
         <Badge
-          badgeContent={<MailIcon color="primary" size={20} />}
+          content={<MailIcon color="primary" size={20} />}
+          style={{ backgroundColor: 'transparent' }}
           {...args}
-          color="rgba(0,0,0,0)"
         >
           <Square />
         </Badge>
         <Badge
-          badgeContent={<Avatar src={dogImage} alt="강아지 사진" size={20} />}
+          content={<Avatar src={dogImage} alt="강아지 사진" size={20} />}
+          style={{ backgroundColor: 'transparent' }}
           {...args}
-          color="rgba(0,0,0,0)"
         >
           <Square />
         </Badge>
-        <Badge badgeContent="text" {...args}>
+        <Badge content="text" {...args}>
           <Square />
         </Badge>
-      </Inner>
-    </Outer>
+      </Stack>
+    </Stack>
   )
 };
 
 export const MaximumValue: Story = {
   render: (args) => (
-    <Inner>
-      <Badge badgeContent={99} {...args}>
+    <Stack direction="row" spacing={30}>
+      <Badge content={99} {...args}>
         <Square />
       </Badge>
-      <Badge badgeContent={100} {...args}>
+      <Badge content={100} {...args}>
         <Square />
       </Badge>
-      <Badge badgeContent={1000} max={999} {...args}>
+      <Badge content={1000} max={999} {...args}>
         <Square />
       </Badge>
-    </Inner>
+    </Stack>
   )
 };
 
 export const ShowOnZero: Story = {
   render: (args) => (
-    <Inner>
-      <Badge badgeContent={0} {...args}>
+    <Stack direction="row" spacing={30}>
+      <Badge content={0} {...args}>
         <Square />
       </Badge>
-      <Badge badgeContent={0} showZero {...args}>
+      <Badge content={0} showZero {...args}>
         <Square />
       </Badge>
-    </Inner>
+    </Stack>
   )
 };
 
 export const DotBadge: Story = {
   render: (args) => (
-    <Inner>
-      <Badge badgeContent={5} variant="standard" {...args}>
+    <Stack direction="row" spacing={30}>
+      <Badge content={5} variant="standard" {...args}>
         <Square />
       </Badge>
-      <Badge badgeContent={5} variant="dot" {...args}>
+      <Badge content={5} variant="dot" {...args}>
         <Square />
       </Badge>
-    </Inner>
+    </Stack>
   )
 };
 
 export const BadgeVisibility: Story = {
-  render: (args) => (
-    <Inner>
-      <Badge badgeContent={5} {...args}>
-        <Square />
-      </Badge>
-      <Badge badgeContent={5} invisible {...args}>
-        <Square />
-      </Badge>
-    </Inner>
-  )
-};
+  render: (args) => <Visibility {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const Visibility = () => {
+  const [visible, setVisible] = useState(true);
+  const [notifications, setNotifications] = useState(98);
 
-export const Color: Story = {
-  render: (args) => (
-    <Inner>
-      <Badge badgeContent={5} {...args}>
-        <Square />
-      </Badge>
-      <Badge badgeContent={5} color="secondary" {...args}>
-        <Square />
-      </Badge>
-      <Badge badgeContent={5} color="tertiary" {...args}>
-        <Square />
-      </Badge>
-      <Badge badgeContent={5} color="yellow-400" {...args}>
-        <Square />
-      </Badge>
-      <Badge badgeContent={5} color="red" {...args}>
-        <Square />
-      </Badge>
-      <Badge badgeContent={5} color="rgb(1,1,1)" {...args}>
-        <Square />
-      </Badge>
-      <Badge badgeContent={5} color="#abc" {...args}>
-        <Square />
-      </Badge>
-    </Inner>
-  )
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack direction="row" spacing={10}>
+        <ButtonGroup variant="outlined">
+          <Button
+            aria-label="increase"
+            onClick={() => setNotifications((prev) => prev + 1)}
+          >
+            +
+          </Button>
+          <Button
+            aria-label="reduce"
+            onClick={() => setNotifications((prev) => prev - 1)}
+          >
+            -
+          </Button>
+        </ButtonGroup>
+        <SwitchLabel label="Show Badge">
+          <Switch
+            checked={visible}
+            onChange={(e) => setVisible(e.target.checked)}
+          />
+        </SwitchLabel>
+      </Stack>
+      <Box
+        round="md"
+        style={{
+          display: 'inline-flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100px',
+          height: '100px',
+          backgroundColor: 'surface-container-low'
+        }}
+      >
+        <Badge
+          invisible={!visible}
+          content={notifications}
+          role="status"
+          aria-label={\`\${notifications}개의 알림\`}
+          aria-live="polite"
+        >
+          <MailIcon color="gray-600" />
+        </Badge>
+      </Box>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Size: Story = {
   render: (args) => (
-    <Outer>
-      <Inner>
-        <Badge badgeContent={5} size="sm" {...args}>
+    <Stack spacing={30}>
+      <Stack direction="row" spacing={30}>
+        <Badge content={5} size="sm" {...args}>
           <Square />
         </Badge>
-        <Badge badgeContent={5} size="md" {...args}>
+        <Badge content={5} size="md" {...args}>
           <Square />
         </Badge>
-        <Badge badgeContent={5} size="lg" {...args}>
+        <Badge content={5} size="lg" {...args}>
           <Square />
         </Badge>
-      </Inner>
-      <Inner>
-        <Badge badgeContent={5} size="sm" variant="dot" {...args}>
+      </Stack>
+      <Stack direction="row" spacing={30}>
+        <Badge content={5} size="sm" variant="dot" {...args}>
           <Square />
         </Badge>
-        <Badge badgeContent={5} size="md" variant="dot" {...args}>
+        <Badge content={5} size="md" variant="dot" {...args}>
           <Square />
         </Badge>
-        <Badge badgeContent={5} size="lg" variant="dot" {...args}>
+        <Badge content={5} size="lg" variant="dot" {...args}>
           <Square />
         </Badge>
-      </Inner>
-    </Outer>
+      </Stack>
+    </Stack>
   )
 };
 
 export const BadgeAlignment: Story = {
   render: (args) => (
-    <Outer>
-      <Inner>
+    <Stack spacing={30}>
+      <Stack direction="row" spacing={30}>
         <Badge
-          badgeContent={5}
-          origin={{ vertical: 'top', horizontal: 'right' }}
+          content={5}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           {...args}
         >
           <Square />
         </Badge>
         <Badge
-          badgeContent={5}
-          origin={{ vertical: 'top', horizontal: 'left' }}
+          content={5}
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           {...args}
         >
           <Square />
         </Badge>
         <Badge
-          badgeContent={5}
-          origin={{ vertical: 'bottom', horizontal: 'right' }}
+          content={5}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           {...args}
         >
           <Square />
         </Badge>
         <Badge
-          badgeContent={5}
-          origin={{ vertical: 'bottom', horizontal: 'left' }}
+          content={5}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           {...args}
         >
           <Square />
         </Badge>
-      </Inner>
-      <Inner>
+      </Stack>
+      <Stack direction="row" spacing={30}>
         <Badge
-          badgeContent={5}
-          origin={{ vertical: 'top', horizontal: 'right' }}
+          content={5}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           variant="dot"
           {...args}
         >
           <Square />
         </Badge>
         <Badge
-          badgeContent={5}
-          origin={{ vertical: 'top', horizontal: 'left' }}
+          content={5}
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           variant="dot"
           {...args}
         >
           <Square />
         </Badge>
         <Badge
-          badgeContent={5}
-          origin={{ vertical: 'bottom', horizontal: 'right' }}
+          content={5}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           variant="dot"
           {...args}
         >
           <Square />
         </Badge>
         <Badge
-          badgeContent={5}
-          origin={{ vertical: 'bottom', horizontal: 'left' }}
+          content={5}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           variant="dot"
           {...args}
         >
           <Square />
         </Badge>
-      </Inner>
-    </Outer>
+      </Stack>
+    </Stack>
   )
 };
 
 export const Customization: Story = {
-  render: (args) => (
-    <Inner>
+  render: (args) => <NotificationButton {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const NotificationButton = () => {
+  const getNotificationsLabel = (count: number) => {
+    if (count === 0) {
+      return 'no notifications';
+    }
+    if (count > 99) {
+      return 'more than 99 notifications';
+    }
+    return \`\${count} notifications\`;
+  };
+
+  return (
+    <ButtonBase
+      aria-label={getNotificationsLabel(500)}
+      style={{ display: 'inline-flex', padding: '10px', borderRadius: '50%' }}
+    >
       <Badge
-        badgeContent={5}
-        style={{ backgroundColor: 'wheat', color: 'black' }}
-        {...args}
+        content={500}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minWidth: '22px',
+          height: '22px',
+          transform: 'translate(70%, -60%)',
+          backgroundColor: 'secondary',
+          color: 'on-secondary',
+          border: '1px solid white'
+        }}
       >
-        <Square />
+        <MailIcon color="gray-600" />
       </Badge>
-      <Badge
-        badgeContent={5}
-        style={{ transform: 'translate(70%, -70%)' }}
-        {...args}
-      >
-        <Square />
-      </Badge>
-      <Badge badgeContent={5} style={{ border: '1px solid white' }} {...args}>
-        <Square />
-      </Badge>
-    </Inner>
-  )
+    </ButtonBase>
+  );
+};`.trim()
+      }
+    }
+  }
 };

@@ -25,51 +25,43 @@ $badge-padding: (
   lg: 0 7px
 );
 
-$border-radius: (
-  sm: 10px,
-  md: 10px,
-  lg: 12px
-);
-
-$badge-transformX: (
+$badge-translateX: (
   left: -50%,
   right: 50%
 );
 
-$badge-transformY: (
+$badge-translateY: (
   top: -50%,
   bottom: 50%
 );
 
-@mixin badgeSize($variant) {
+@mixin badge-size-by-variant {
   @each $size in 'sm', 'md', 'lg' {
-    &.#{$variant}.#{$size} .badge {
-      @if $variant == 'standard' {
-        padding: map.get($badge-padding, $size);
-        min-width: map.get($standard-badge-size, $size);
-        height: map.get($standard-badge-size, $size);
-        border-radius: map.get($border-radius, $size);
-        font-size: map.get($font-size, $size);
-      }
-      @if $variant == 'dot' {
-        padding: 0;
-        width: map.get($dot-badge-size, $size);
-        height: map.get($dot-badge-size, $size);
-        border-radius: 100%;
-      }
+    &.standard.#{$size} {
+      padding: map.get($badge-padding, $size);
+      min-width: map.get($standard-badge-size, $size);
+      height: map.get($standard-badge-size, $size);
+      font-size: map.get($font-size, $size);
+    }
+  }
+  @each $size in 'sm', 'md', 'lg' {
+    &.dot.#{$size} {
+      padding: 0;
+      width: map.get($dot-badge-size, $size);
+      height: map.get($dot-badge-size, $size);
     }
   }
 }
 
-@mixin badgeOrigin {
+@mixin badge-origin {
   @each $vertical in 'top', 'bottom' {
     @each $horizontal in 'left', 'right' {
-      &.#{$vertical}.#{$horizontal} .badge {
+      &.#{$vertical}.#{$horizontal} .JinniBadgeRoot {
         #{$vertical}: 0;
         #{$horizontal}: 0;
         transform: translate(
-          map.get($badge-transformX, $horizontal),
-          map.get($badge-transformY, $vertical)
+          map.get($badge-translateX, $horizontal),
+          map.get($badge-translateY, $vertical)
         );
       }
     }
@@ -77,21 +69,19 @@ $badge-transformY: (
 }
 
 .JinniBadge {
-  display: inline-block;
+  display: inline-flex;
+  width: max-content;
+  height: max-content;
   position: relative;
+  @include badge-origin;
 
-  .badge {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .JinniBadgeRoot {
     position: absolute;
     box-sizing: border-box;
     background-color: var(--jinni-color-primary);
-    color: white;
+    color: var(--jinni-color-on-primary);
     font-weight: var.$font-weight-medium;
+    border-radius: 1000px;
+    @include badge-size-by-variant;
   }
-
-  @include badgeSize('standard');
-  @include badgeSize('dot');
-  @include badgeOrigin;
 }
