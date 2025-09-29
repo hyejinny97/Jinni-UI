@@ -177,7 +177,13 @@ export const Dividers: Story = {
         <Stack
           spacing={10}
           direction="row"
-          divider={<Divider orientation="vertical" />}
+          divider={
+            <Divider
+              orientation="vertical"
+              role="separator"
+              aria-orientation="vertical"
+            />
+          }
           {...args}
         >
           <Item order={1} />
@@ -186,7 +192,12 @@ export const Dividers: Story = {
         </Stack>
       </Section>
       <Section>
-        <Stack spacing={10} direction="column" divider={<Divider />} {...args}>
+        <Stack
+          spacing={10}
+          direction="column"
+          divider={<Divider role="separator" aria-orientation="horizontal" />}
+          {...args}
+        >
           <Item order={1} />
           <Item order={2} />
           <Item order={3} />
