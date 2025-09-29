@@ -1,3 +1,5 @@
 .JinniStack {
   display: flex;
+  flex-direction: var(--flex-direction);
+  gap: var(--flex-spacing);
 }
