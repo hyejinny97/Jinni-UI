@@ -318,7 +318,7 @@ export const AvatarFallbacks: Story = {
 export const AvatarWithBadge: Story = {
   render: (args) => {
     return (
-      <Badge badgeContent={5}>
+      <Badge content={5}>
         <Avatar src={dogImage1} alt="강아지 아바타" shape="rounded" {...args} />
       </Badge>
     );

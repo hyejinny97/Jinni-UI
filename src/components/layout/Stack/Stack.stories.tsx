@@ -1,29 +1,41 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Stack } from '.';
+import { Stack, DirectionType } from '.';
+import { Box } from '@/components/layout/Box';
+import { Divider } from '@/components/layout/Divider';
+import { ColorType } from '@/types/color';
+import { Radio } from '@/components/data-entry/Radio';
+import { RadioLabel } from '@/components/data-entry/RadioLabel';
 
 const meta: Meta<typeof Stack> = {
   component: Stack,
   argTypes: {
     children: {
-      description: '레이아웃을 적용할 items'
+      description: '레이아웃을 적용할 items',
+      table: {
+        type: { summary: 'React.ReactNode' }
+      }
     },
     direction: {
       description: '정렬 방향',
       table: {
         type: {
-          summary:
-            'row | row-reverse | column | column-reverse | Responsive<row | row-reverse | column | column-reverse>'
+          summary: `'row' | 'row-reverse' | 'column' | 'column-reverse' | Responsive<'row' | 'row-reverse' | 'column' | 'column-reverse'>`
         },
-        defaultValue: { summary: 'column' }
+        defaultValue: { summary: `'column'` }
       }
     },
     divider: {
-      description: 'item 사이의 구분선'
+      description: 'item 사이의 구분선',
+      table: {
+        type: { summary: 'React.ReactNode' }
+      }
     },
     spacing: {
       description: 'item 사이의 간격',
       table: {
-        type: { summary: 'number | Responsive<number>' }
+        type: { summary: 'number | Responsive<number>' },
+        default: '0'
       }
     }
   }
@@ -31,6 +43,10 @@ const meta: Meta<typeof Stack> = {
 
 export default meta;
 type Story = StoryObj<typeof Stack>;
+
+type BackgroundColorType = {
+  [key: number]: ColorType;
+};
 
 const Section = ({ children }: { children: React.ReactNode }) => (
   <section
@@ -46,14 +62,14 @@ const Section = ({ children }: { children: React.ReactNode }) => (
   </section>
 );
 
-const Box = ({ order }: { order: 1 | 2 | 3 }) => {
-  const backgroundColor = {
+const Item = ({ order }: { order: 1 | 2 | 3 }) => {
+  const backgroundColor: BackgroundColorType = {
     1: 'red',
     2: 'green',
     3: 'blue'
   };
   return (
-    <div
+    <Box
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -65,51 +81,115 @@ const Box = ({ order }: { order: 1 | 2 | 3 }) => {
       }}
     >
       Box {order}
-    </div>
+    </Box>
   );
 };
 
-const Divider = () => <hr style={{ margin: 0 }} />;
+const DirectionPlayground = () => {
+  const DIRECTION = ['row', 'row-reverse', 'column', 'column-reverse'] as const;
+  const [checkedValue, setCheckedValue] = useState<DirectionType>(DIRECTION[0]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(e.target.value as DirectionType);
+  };
+
+  return (
+    <Stack spacing={20}>
+      <Stack direction="row" spacing={10}>
+        {DIRECTION.map((direction) => (
+          <RadioLabel key={direction} label={direction}>
+            <Radio
+              value={direction}
+              checked={checkedValue === direction}
+              onChange={handleChange}
+            />
+          </RadioLabel>
+        ))}
+      </Stack>
+      <Section>
+        <Stack spacing={10} direction={checkedValue}>
+          <Item order={1} />
+          <Item order={2} />
+          <Item order={3} />
+        </Stack>
+      </Section>
+    </Stack>
+  );
+};
 
 export const BasicStack: Story = {
   render: (args) => (
     <Section>
       <Stack spacing={10} {...args}>
-        <Box order={1} />
-        <Box order={2} />
-        <Box order={3} />
+        <Item order={1} />
+        <Item order={2} />
+        <Item order={3} />
       </Stack>
     </Section>
   )
 };
 
 export const Direction: Story = {
-  render: (args) => (
-    <Section>
-      <Stack spacing={10} direction="row" {...args}>
-        <Box order={1} />
-        <Box order={2} />
-        <Box order={3} />
+  render: (args) => <DirectionPlayground {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const DirectionPlayground = () => {
+  const DIRECTION = ['row', 'row-reverse', 'column', 'column-reverse'] as const;
+  const [checkedValue, setCheckedValue] = useState<DirectionType>(DIRECTION[0]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(e.target.value as DirectionType);
+  };
+
+  return (
+    <Stack spacing={20}>
+      <Stack direction="row" spacing={10}>
+        {DIRECTION.map((direction) => (
+          <RadioLabel key={direction} label={direction}>
+            <Radio
+              value={direction}
+              checked={checkedValue === direction}
+              onChange={handleChange}
+            />
+          </RadioLabel>
+        ))}
       </Stack>
-    </Section>
-  )
+      <Section>
+        <Stack spacing={10} direction={checkedValue}>
+          <Item order={1} />
+          <Item order={2} />
+          <Item order={3} />
+        </Stack>
+      </Section>
+    </Stack>
+  );
+}`.trim()
+      }
+    }
+  }
 };
 
 export const Dividers: Story = {
   render: (args) => (
     <Stack spacing={10}>
       <Section>
-        <Stack spacing={10} direction="row" divider={<Divider />} {...args}>
-          <Box order={1} />
-          <Box order={2} />
-          <Box order={3} />
+        <Stack
+          spacing={10}
+          direction="row"
+          divider={<Divider orientation="vertical" />}
+          {...args}
+        >
+          <Item order={1} />
+          <Item order={2} />
+          <Item order={3} />
         </Stack>
       </Section>
       <Section>
         <Stack spacing={10} direction="column" divider={<Divider />} {...args}>
-          <Box order={1} />
-          <Box order={2} />
-          <Box order={3} />
+          <Item order={1} />
+          <Item order={2} />
+          <Item order={3} />
         </Stack>
       </Section>
     </Stack>
@@ -130,9 +210,9 @@ export const ResponsiveSpacing: Story = {
         }}
         {...args}
       >
-        <Box order={1} />
-        <Box order={2} />
-        <Box order={3} />
+        <Item order={1} />
+        <Item order={2} />
+        <Item order={3} />
       </Stack>
     </Section>
   )
@@ -152,9 +232,9 @@ export const ResponsiveDirection: Story = {
         }}
         {...args}
       >
-        <Box order={1} />
-        <Box order={2} />
-        <Box order={3} />
+        <Item order={1} />
+        <Item order={2} />
+        <Item order={3} />
       </Stack>
     </Section>
   )
@@ -176,9 +256,9 @@ export const Customization: Story = {
         }}
         {...args}
       >
-        <Box order={1} />
-        <Box order={2} />
-        <Box order={3} />
+        <Item order={1} />
+        <Item order={2} />
+        <Item order={3} />
       </Stack>
     </Section>
   )
