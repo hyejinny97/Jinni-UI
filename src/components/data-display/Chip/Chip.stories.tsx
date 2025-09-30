@@ -1,67 +1,65 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
 import { Chip } from '@/components/data-display/Chip';
 import { Avatar } from '@/components/data-display/Avatar';
+import { Stack } from '@/components/layout/Stack';
+import { ButtonBase } from '@/components/general/ButtonBase';
+import { CircularProgress } from '@/components/feedback/CircularProgress';
 import { PersonIcon } from '@/components/icons/PersonIcon';
-import { TrashcanIcon } from '@/components/icons/TrashcanIcon';
+import { CancelIcon } from '@/components/icons/CancelIcon';
+import { CheckIcon } from '@/components/icons/CheckIcon';
+import { AddIcon } from '@/components/icons/AddIcon';
+import { ColorType } from '@/types/color';
 import dogImage from '@/assets/images/dog-1.jpg';
+import { Link } from '@/components/navigation/Link';
 
 const meta: Meta<typeof Chip> = {
   component: Chip,
   argTypes: {
-    clickable: {
-      description:
-        'true이면 hover & ripple 애니메이션이 추가됨 (단, onDelete prop을 추가한 경우 hover 애니메이션만 추가됨)',
-      defaultValue: { summary: 'false' }
+    children: {
+      description: 'chip content',
+      table: {
+        type: { summary: 'React.ReactNode' }
+      }
     },
     color: {
       description: 'chip 색상',
-      defaultValue: { summary: 'primary' }
+      table: {
+        type: { summary: 'ColorType' },
+        defaultValue: { summary: `'gray-400'` }
+      }
     },
-    deleteIcon: {
-      description: '삭제 아이콘',
-      defaultValue: { summary: '<DefaultDeleteIcon />' }
-    },
-    label: {
-      description: 'chip 내부 내용 (text 등)'
-    },
-    leftAvatar: {
-      description: 'chip label의 왼쪽에 위치한 아바타'
-    },
-    leftIcon: {
-      description: 'chip label의 왼쪽에 위치한 아이콘'
-    },
-    onClick: {
-      description: '클릭 이벤트가 일어났을 때 호출되는 함수'
-    },
-    onDelete: {
-      description: '삭제 이벤트가 일어났을 때 호출되는 함수'
-    },
-    rightAvatar: {
-      description: 'chip label의 오른쪽에 위치한 아바타'
-    },
-    rightIcon: {
-      description: 'chip label의 오른쪽에 위치한 아이콘'
+    endAdornment: {
+      description: 'content 뒤에 위치하는 부가 요소 (icon, avatar 등)',
+      table: {
+        type: { summary: 'React.ReactNode' }
+      }
     },
     shape: {
       description: 'chip 모양',
       table: {
-        type: { summary: 'pill | rounded' },
-        defaultValue: { summary: 'pill' }
+        type: { summary: `'pill' | 'rounded'` },
+        defaultValue: { summary: `'pill'` }
       }
     },
     size: {
       description: 'chip 크기',
       table: {
-        type: { summary: 'sm | md | lg' },
-        defaultValue: { summary: 'md' }
+        type: { summary: `'sm' | 'md' | 'lg'` },
+        defaultValue: { summary: `'md'` }
+      }
+    },
+    startAdornment: {
+      description: 'content 앞에 위치하는 부가 요소 (icon, avatar 등)',
+      table: {
+        type: { summary: 'React.ReactNode' }
       }
     },
     variant: {
       description: 'chip 종류',
       table: {
-        type: { summary: 'filled | subtle-filled | outlined | text' },
-        defaultValue: { summary: 'filled' }
+        type: { summary: `'filled' | 'subtle-filled' | 'outlined' | 'text'` },
+        defaultValue: { summary: `'outlined'` }
       }
     }
   }
@@ -70,607 +68,427 @@ const meta: Meta<typeof Chip> = {
 export default meta;
 type Story = StoryObj<typeof Chip>;
 
-const RowStack = ({ children }: { children: React.ReactNode }) => {
+const DeletableChipTemplate = () => {
+  const handleDelete = () => {
+    alert('삭제 버튼 클릭됨');
+  };
+
   return (
-    <div style={{ display: 'flex', columnGap: '30px', alignItems: 'end' }}>
-      {children}
-    </div>
+    <Chip
+      endAdornment={
+        <ButtonBase
+          aria-label="delete chip"
+          onClick={handleDelete}
+          disableOverlay
+          disableRipple
+          style={{ width: '100%', height: '100%' }}
+        >
+          <CancelIcon
+            color="gray-700"
+            style={{ width: '100%', height: '100%' }}
+          />
+        </ButtonBase>
+      }
+    >
+      Deletable chip
+    </Chip>
   );
 };
 
-const ColumnStack = ({ children }: { children: React.ReactNode }) => {
+const ClickableDeletableChipTemplate = () => {
+  const handleDelete = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
+    alert('삭제 버튼 클릭됨');
+  };
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', rowGap: '30px' }}>
-      {children}
-    </div>
+    <Chip
+      as={ButtonBase}
+      elevation={0}
+      disableRipple
+      endAdornment={
+        <CancelIcon
+          role="button"
+          tabIndex={0}
+          aria-label="delete chip"
+          onClick={handleDelete}
+          color="gray-700"
+        />
+      }
+    >
+      Clickable and deletable chip
+    </Chip>
+  );
+};
+
+const IngredientChips = () => {
+  const INGREDIENTS = ['Cheese', 'Vanilla', 'Chocolate', 'Egg'];
+  const [loadingState, setLoadingState] = useState<string[]>([]);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+
+  const toggle = (ingredient: string) => {
+    setLoadingState((prev) => [...prev, ingredient]);
+    const timeoutId = setTimeout(() => {
+      if (selectedValues.includes(ingredient)) {
+        setSelectedValues((prev) => prev.filter((val) => val !== ingredient));
+      } else {
+        setSelectedValues((prev) => [...prev, ingredient]);
+      }
+      setLoadingState((prev) => prev.filter((val) => val !== ingredient));
+    }, 2000);
+    return () => clearTimeout(timeoutId);
+  };
+
+  return (
+    <Stack direction="row" spacing={10}>
+      {INGREDIENTS.map((ingredient) => {
+        const isSelected = selectedValues.includes(ingredient);
+        const isLoading = loadingState.includes(ingredient);
+        let startAdornment: React.ReactNode = <AddIcon color="gray-400" />;
+        if (isLoading) {
+          startAdornment = (
+            <CircularProgress
+              progressColor={isSelected ? 'white' : 'gray-400'}
+            />
+          );
+        } else if (isSelected) {
+          startAdornment = <CheckIcon color="white" />;
+        }
+        return (
+          <Chip
+            as={ButtonBase}
+            onClick={() => toggle(ingredient)}
+            startAdornment={startAdornment}
+            variant={isSelected ? 'filled' : 'outlined'}
+            color={(isSelected ? 'primary' : 'gray-400') as ColorType}
+            overlayColor={isSelected ? 'white' : 'black'}
+            rippleColor={isSelected ? 'white' : 'black'}
+            disabled={isLoading}
+          >
+            {ingredient}
+          </Chip>
+        );
+      })}
+    </Stack>
   );
 };
 
 export const BasicChip: Story = {
-  args: {
-    label: 'label'
-  },
-  render: (args) => <Chip {...args} />
+  render: (args) => <Chip {...args}>Chip</Chip>
+};
+
+export const AvatarChip: Story = {
+  render: (args) => {
+    return (
+      <Stack direction="row" spacing={30}>
+        <Chip
+          startAdornment={
+            <Avatar src={dogImage} alt="강아지 사진" aria-hidden="true" />
+          }
+          {...args}
+        >
+          Avatar chip
+        </Chip>
+        <Chip
+          startAdornment={
+            <Avatar aria-hidden="true" style={{ fontSize: '10px' }}>
+              N
+            </Avatar>
+          }
+          {...args}
+        >
+          Avatar chip
+        </Chip>
+        <Chip
+          startAdornment={
+            <Avatar style={{ backgroundColor: 'yellow-600' }}>
+              <PersonIcon color="white" />
+            </Avatar>
+          }
+          {...args}
+        >
+          Avatar chip
+        </Chip>
+      </Stack>
+    );
+  }
+};
+
+export const IconChip: Story = {
+  render: (args) => (
+    <Chip startAdornment={<PersonIcon color="primary" />} {...args}>
+      Icon chip
+    </Chip>
+  )
+};
+
+<Chip as={ButtonBase}>Clickable chip</Chip>;
+
+export const ClickableChip: Story = {
+  render: () => <Chip as={ButtonBase}>Clickable chip</Chip>
+};
+
+export const DeletableChip: Story = {
+  render: (args) => <DeletableChipTemplate {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const DeletableChipTemplate = () => {
+  const handleDelete = () => {
+    alert('삭제 버튼 클릭됨');
+  };
+
+  return (
+    <Chip
+      endAdornment={
+        <ButtonBase
+          aria-label="delete chip"
+          onClick={handleDelete}
+          disableOverlay
+          disableRipple
+          style={{ width: '100%', height: '100%' }}
+        >
+          <CancelIcon
+            color="gray-700"
+            style={{ width: '100%', height: '100%' }}
+          />
+        </ButtonBase>
+      }
+    >
+      Deletable chip
+    </Chip>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const ClickableDeletableChip: Story = {
+  render: (args) => <ClickableDeletableChipTemplate {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ClickableDeletableChipTemplate = () => {
+  const handleDelete = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
+    alert('삭제 버튼 클릭됨');
+  };
+
+  return (
+    <Chip
+      as={ButtonBase}
+      elevation={0}
+      disableRipple
+      endAdornment={
+        <CancelIcon
+          role="button"
+          tabIndex={0}
+          aria-label="delete chip"
+          onClick={handleDelete}
+          color="gray-700"
+        />
+      }
+    >
+      Clickable and deletable chip
+    </Chip>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const LinkChip: Story = {
+  render: () => (
+    <Stack direction="row" spacing={30}>
+      <Chip as="a" href="#">
+        Link chip (as HTML a element)
+      </Chip>
+      <Chip as={Link} href="#" underline="hover">
+        Link chip (as Link)
+      </Chip>
+      <Chip as={ButtonBase} href="#">
+        Link chip (as ButtonBase)
+      </Chip>
+    </Stack>
+  )
 };
 
 export const ChipVariant: Story = {
-  args: {
-    label: 'label'
-  },
   render: (args) => {
     return (
-      <RowStack>
-        <Chip variant="filled" {...args} />
-        <Chip variant="subtle-filled" {...args} />
-        <Chip variant="outlined" {...args} />
-        <Chip variant="text" {...args} />
-      </RowStack>
+      <Stack direction="row" spacing={30}>
+        <Chip variant="filled" {...args}>
+          Filled chip
+        </Chip>
+        <Chip variant="subtle-filled" {...args}>
+          Subtle-filled chip
+        </Chip>
+        <Chip variant="outlined" {...args}>
+          Outlined chip
+        </Chip>
+        <Chip variant="text" {...args}>
+          Text chip
+        </Chip>
+      </Stack>
     );
   }
 };
 
 export const ChipShape: Story = {
-  args: {
-    label: 'label'
-  },
   render: (args) => {
     return (
-      <RowStack>
-        <Chip shape="pill" {...args} />
-        <Chip shape="rounded" {...args} />
-      </RowStack>
-    );
-  }
-};
-
-export const LeftAvatarChip: Story = {
-  args: {
-    label: 'label'
-  },
-  render: (args) => {
-    return (
-      <ColumnStack>
-        <RowStack>
-          <Chip
-            leftAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            {...args}
-          />
-          <Chip leftAvatar={<Avatar>N</Avatar>} {...args} />
-          <Chip
-            leftAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            {...args}
-          />
-        </RowStack>
-        <RowStack>
-          <Chip
-            leftAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            variant="subtle-filled"
-            {...args}
-          />
-          <Chip
-            leftAvatar={<Avatar>N</Avatar>}
-            variant="subtle-filled"
-            {...args}
-          />
-          <Chip
-            leftAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            variant="subtle-filled"
-            {...args}
-          />
-        </RowStack>
-        <RowStack>
-          <Chip
-            leftAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            variant="outlined"
-            {...args}
-          />
-          <Chip leftAvatar={<Avatar>N</Avatar>} variant="outlined" {...args} />
-          <Chip
-            leftAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            variant="outlined"
-            {...args}
-          />
-        </RowStack>
-        <RowStack>
-          <Chip
-            leftAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            variant="text"
-            {...args}
-          />
-          <Chip leftAvatar={<Avatar>N</Avatar>} variant="text" {...args} />
-          <Chip
-            leftAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            variant="text"
-            {...args}
-          />
-        </RowStack>
-      </ColumnStack>
-    );
-  }
-};
-
-export const RightAvatarChip: Story = {
-  args: {
-    label: 'label'
-  },
-  render: (args) => {
-    return (
-      <ColumnStack>
-        <RowStack>
-          <Chip
-            rightAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            {...args}
-          />
-          <Chip rightAvatar={<Avatar>N</Avatar>} {...args} />
-          <Chip
-            rightAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            {...args}
-          />
-        </RowStack>
-        <RowStack>
-          <Chip
-            rightAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            variant="subtle-filled"
-            {...args}
-          />
-          <Chip
-            rightAvatar={<Avatar>N</Avatar>}
-            variant="subtle-filled"
-            {...args}
-          />
-          <Chip
-            rightAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            variant="subtle-filled"
-            {...args}
-          />
-        </RowStack>
-        <RowStack>
-          <Chip
-            rightAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            variant="outlined"
-            {...args}
-          />
-          <Chip rightAvatar={<Avatar>N</Avatar>} variant="outlined" {...args} />
-          <Chip
-            rightAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            variant="outlined"
-            {...args}
-          />
-        </RowStack>
-        <RowStack>
-          <Chip
-            rightAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            variant="text"
-            {...args}
-          />
-          <Chip rightAvatar={<Avatar>N</Avatar>} variant="text" {...args} />
-          <Chip
-            rightAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            variant="text"
-            {...args}
-          />
-        </RowStack>
-      </ColumnStack>
-    );
-  }
-};
-
-export const LeftIconChip: Story = {
-  args: {
-    label: 'label'
-  },
-  render: (args) => {
-    return (
-      <RowStack>
-        <Chip leftIcon={<PersonIcon />} variant="filled" {...args} />
-        <Chip leftIcon={<PersonIcon />} variant="subtle-filled" {...args} />
-        <Chip leftIcon={<PersonIcon />} variant="outlined" {...args} />
-        <Chip leftIcon={<PersonIcon />} variant="text" {...args} />
-      </RowStack>
-    );
-  }
-};
-
-export const RightIconChip: Story = {
-  args: {
-    label: 'label'
-  },
-  render: (args) => {
-    return (
-      <RowStack>
-        <Chip rightIcon={<PersonIcon />} variant="filled" {...args} />
-        <Chip rightIcon={<PersonIcon />} variant="subtle-filled" {...args} />
-        <Chip rightIcon={<PersonIcon />} variant="outlined" {...args} />
-        <Chip rightIcon={<PersonIcon />} variant="text" {...args} />
-      </RowStack>
-    );
-  }
-};
-
-export const ClickableChip: Story = {
-  args: {
-    label: 'label',
-    onClick: fn()
-  },
-  render: (args) => {
-    return (
-      <ColumnStack>
-        <RowStack>
-          <Chip
-            onClick={() => {
-              console.info('클릭');
-            }}
-            {...args}
-          />
-          <Chip
-            onClick={() => {
-              console.info('클릭');
-            }}
-            variant="subtle-filled"
-            {...args}
-          />
-          <Chip
-            onClick={() => {
-              console.info('클릭');
-            }}
-            variant="outlined"
-            {...args}
-          />
-          <Chip
-            onClick={() => {
-              console.info('클릭');
-            }}
-            variant="text"
-            {...args}
-          />
-        </RowStack>
-        <RowStack>
-          <Chip
-            leftAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            onClick={() => {
-              console.info('클릭');
-            }}
-            {...args}
-          />
-          <Chip
-            leftAvatar={<Avatar>N</Avatar>}
-            onClick={() => {
-              console.info('클릭');
-            }}
-            {...args}
-          />
-          <Chip
-            leftAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            onClick={() => {
-              console.info('클릭');
-            }}
-            {...args}
-          />
-        </RowStack>
-      </ColumnStack>
-    );
-  }
-};
-
-export const DefaultDeletableChip: Story = {
-  args: {
-    label: 'label',
-    onDelete: fn()
-  },
-  render: (args) => {
-    return (
-      <ColumnStack>
-        <RowStack>
-          <Chip
-            onDelete={() => {
-              console.info('삭제');
-            }}
-            {...args}
-          />
-          <Chip
-            onDelete={() => {
-              console.info('삭제');
-            }}
-            variant="subtle-filled"
-            {...args}
-          />
-          <Chip
-            onDelete={() => {
-              console.info('삭제');
-            }}
-            variant="outlined"
-            {...args}
-          />
-          <Chip
-            onDelete={() => {
-              console.info('삭제');
-            }}
-            variant="text"
-            {...args}
-          />
-        </RowStack>
-        <RowStack>
-          <Chip
-            leftAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
-            onDelete={() => {
-              console.info('삭제');
-            }}
-            {...args}
-          />
-          <Chip
-            leftAvatar={<Avatar>N</Avatar>}
-            onDelete={() => {
-              console.info('삭제');
-            }}
-            {...args}
-          />
-          <Chip
-            leftAvatar={
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            }
-            onDelete={() => {
-              console.info('삭제');
-            }}
-            {...args}
-          />
-        </RowStack>
-      </ColumnStack>
-    );
-  }
-};
-
-export const CustomDeletableChip: Story = {
-  args: {
-    label: 'label',
-    onDelete: fn()
-  },
-  render: (args) => {
-    return (
-      <RowStack>
-        <Chip
-          onDelete={() => {
-            console.info('삭제');
-          }}
-          deleteIcon={<TrashcanIcon />}
-          {...args}
-        />
-        <Chip
-          onDelete={() => {
-            console.info('삭제');
-          }}
-          deleteIcon={<TrashcanIcon />}
-          variant="subtle-filled"
-          {...args}
-        />
-        <Chip
-          onDelete={() => {
-            console.info('삭제');
-          }}
-          deleteIcon={<TrashcanIcon />}
-          variant="outlined"
-          {...args}
-        />
-        <Chip
-          onDelete={() => {
-            console.info('삭제');
-          }}
-          deleteIcon={<TrashcanIcon />}
-          variant="text"
-          {...args}
-        />
-      </RowStack>
-    );
-  }
-};
-
-export const ClickableAndDeletableChip: Story = {
-  args: {
-    label: 'label',
-    onClick: fn(),
-    onDelete: fn()
-  },
-  render: (args) => {
-    return (
-      <RowStack>
-        <Chip
-          onClick={() => {
-            console.info('클릭');
-          }}
-          onDelete={() => {
-            console.info('삭제');
-          }}
-          {...args}
-        />
-        <Chip
-          onClick={() => {
-            console.info('클릭');
-          }}
-          onDelete={() => {
-            console.info('삭제');
-          }}
-          variant="subtle-filled"
-          {...args}
-        />
-        <Chip
-          onClick={() => {
-            console.info('클릭');
-          }}
-          onDelete={() => {
-            console.info('삭제');
-          }}
-          variant="outlined"
-          {...args}
-        />
-        <Chip
-          onClick={() => {
-            console.info('클릭');
-          }}
-          onDelete={() => {
-            console.info('삭제');
-          }}
-          variant="text"
-          {...args}
-        />
-      </RowStack>
-    );
-  }
-};
-
-export const ClickableOuterLinkChip: Story = {
-  args: {
-    label: 'label'
-  },
-  render: (args) => {
-    return (
-      <RowStack>
-        <a href="#">
-          <Chip clickable {...args} />
-        </a>
-        <a href="#">
-          <Chip clickable variant="subtle-filled" {...args} />
-        </a>
-        <a href="#">
-          <Chip clickable variant="outlined" {...args} />
-        </a>
-        <a href="#">
-          <Chip clickable variant="text" {...args} />
-        </a>
-      </RowStack>
-    );
-  }
-};
-
-export const ClickableInnerLinkChip: Story = {
-  args: {
-    label: <a href="#">label</a>
-  },
-  render: (args) => {
-    return (
-      <RowStack>
-        <Chip clickable {...args} />
-        <Chip clickable variant="subtle-filled" {...args} />
-        <Chip clickable variant="outlined" {...args} />
-        <Chip clickable variant="text" {...args} />
-      </RowStack>
+      <Stack direction="row" spacing={30}>
+        <Chip shape="pill" {...args}>
+          Pilled chip
+        </Chip>
+        <Chip shape="rounded" {...args}>
+          Rounded chip
+        </Chip>
+      </Stack>
     );
   }
 };
 
 export const Color: Story = {
-  args: {
-    label: 'label'
-  },
   render: (args) => {
     return (
-      <ColumnStack>
-        <RowStack>
-          <Chip variant="filled" color="secondary" {...args} />
-          <Chip variant="subtle-filled" color="secondary" {...args} />
-          <Chip variant="outlined" color="secondary" {...args} />
-          <Chip variant="text" color="secondary" {...args} />
-        </RowStack>
-        <RowStack>
-          <Chip variant="filled" color="yellow-400" {...args} />
-          <Chip variant="subtle-filled" color="yellow-400" {...args} />
-          <Chip variant="outlined" color="yellow-400" {...args} />
-          <Chip variant="text" color="yellow-400" {...args} />
-        </RowStack>
-        <RowStack>
-          <Chip variant="filled" color="green" {...args} />
-          <Chip variant="subtle-filled" color="green" {...args} />
-          <Chip variant="outlined" color="green" {...args} />
-          <Chip variant="text" color="green" {...args} />
-        </RowStack>
-        <RowStack>
-          <Chip variant="filled" color="#159" {...args} />
-          <Chip variant="subtle-filled" color="#159" {...args} />
-          <Chip variant="outlined" color="#159" {...args} />
-          <Chip variant="text" color="#159" {...args} />
-        </RowStack>
-        <RowStack>
-          <Chip variant="filled" color="rgb(100,100, 100)" {...args} />
-          <Chip variant="subtle-filled" color="rgb(100,100, 100)" {...args} />
-          <Chip variant="outlined" color="rgb(100,100, 100)" {...args} />
-          <Chip variant="text" color="rgb(100,100, 100)" {...args} />
-        </RowStack>
-      </ColumnStack>
+      <Stack spacing={30}>
+        {['secondary', 'yellow-400', 'green', '#159', 'rgb(100,100,100)'].map(
+          (color) => (
+            <Stack direction="row" spacing={30}>
+              <Chip variant="filled" color={color} {...args}>
+                chip
+              </Chip>
+              <Chip variant="subtle-filled" color={color} {...args}>
+                chip
+              </Chip>
+              <Chip variant="outlined" color={color} {...args}>
+                chip
+              </Chip>
+              <Chip variant="text" color={color} {...args}>
+                chip
+              </Chip>
+            </Stack>
+          )
+        )}
+      </Stack>
     );
   }
 };
 
 export const Size: Story = {
-  args: {
-    label: 'label'
-  },
   render: (args) => {
     return (
-      <ColumnStack>
-        <RowStack>
-          <Chip size="sm" {...args} />
-          <Chip size="md" {...args} />
-          <Chip size="lg" {...args} />
-        </RowStack>
-        <RowStack>
-          <Chip leftIcon={<PersonIcon />} size="sm" {...args} />
-          <Chip leftIcon={<PersonIcon />} size="md" {...args} />
-          <Chip leftIcon={<PersonIcon />} size="lg" {...args} />
-        </RowStack>
-        <RowStack>
+      <Stack spacing={30}>
+        <Stack direction="row" spacing={30}>
+          <Chip size="sm" {...args}>
+            Small chip
+          </Chip>
+          <Chip size="md" {...args}>
+            Medium chip
+          </Chip>
+          <Chip size="lg" {...args}>
+            Large chip
+          </Chip>
+        </Stack>
+        <Stack direction="row" spacing={30}>
+          <Chip startAdornment={<PersonIcon />} size="sm" {...args}>
+            Small chip
+          </Chip>
+          <Chip startAdornment={<PersonIcon />} size="md" {...args}>
+            Medium chip
+          </Chip>
+          <Chip startAdornment={<PersonIcon />} size="lg" {...args}>
+            Large chip
+          </Chip>
+        </Stack>
+        <Stack direction="row" spacing={30}>
           <Chip
-            leftAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
+            startAdornment={<Avatar src={dogImage} alt="강아지 사진" />}
             size="sm"
             {...args}
-          />
+          >
+            Small chip
+          </Chip>
           <Chip
-            leftAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
+            startAdornment={<Avatar src={dogImage} alt="강아지 사진" />}
             size="md"
             {...args}
-          />
+          >
+            Medium chip
+          </Chip>
           <Chip
-            leftAvatar={<Avatar src={dogImage} alt="강아지 사진" />}
+            startAdornment={<Avatar src={dogImage} alt="강아지 사진" />}
             size="lg"
             {...args}
-          />
-        </RowStack>
-      </ColumnStack>
+          >
+            Large chip
+          </Chip>
+        </Stack>
+      </Stack>
     );
+  }
+};
+
+export const Customization: Story = {
+  render: (args) => <IngredientChips {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const IngredientChips = () => {
+  const INGREDIENTS = ['Cheese', 'Vanilla', 'Chocolate', 'Egg'];
+  const [loadingState, setLoadingState] = useState<string[]>([]);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+
+  const toggle = (ingredient: string) => {
+    setLoadingState((prev) => [...prev, ingredient]);
+    const timeoutId = setTimeout(() => {
+      if (selectedValues.includes(ingredient)) {
+        setSelectedValues((prev) => prev.filter((val) => val !== ingredient));
+      } else {
+        setSelectedValues((prev) => [...prev, ingredient]);
+      }
+      setLoadingState((prev) => prev.filter((val) => val !== ingredient));
+    }, 2000);
+    return () => clearTimeout(timeoutId);
+  };
+
+  return (
+    <Stack direction="row" spacing={10}>
+      {INGREDIENTS.map((ingredient) => {
+        const isSelected = selectedValues.includes(ingredient);
+        const isLoading = loadingState.includes(ingredient);
+        let startAdornment: React.ReactNode = <AddIcon color="gray-400" />;
+        if (isLoading) {
+          startAdornment = (
+            <CircularProgress
+              progressColor={isSelected ? 'white' : 'gray-400'}
+            />
+          );
+        } else if (isSelected) {
+          startAdornment = <CheckIcon color="white" />;
+        }
+        return (
+          <Chip
+            as={ButtonBase}
+            onClick={() => toggle(ingredient)}
+            variant={isSelected ? 'filled' : 'outlined'}
+            color={(isSelected ? 'primary' : 'gray-400') as ColorType}
+            startAdornment={startAdornment}
+            overlayColor={isSelected ? 'white' : 'black'}
+            rippleColor={isSelected ? 'white' : 'black'}
+            disabled={isLoading}
+          >
+            {ingredient}
+          </Chip>
+        );
+      })}
+    </Stack>
+  );
+};`.trim()
+      }
+    }
   }
 };
