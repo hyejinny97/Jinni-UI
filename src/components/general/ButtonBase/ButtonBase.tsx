@@ -79,7 +79,7 @@ const ButtonBase = forwardRef(
         disabled={disabled}
         {...rest}
       >
-        <RippleContainer />
+        {!disableRipple && <RippleContainer />}
         {children}
       </Component>
     );

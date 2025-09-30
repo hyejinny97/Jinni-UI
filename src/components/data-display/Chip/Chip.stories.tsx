@@ -76,6 +76,7 @@ const DeletableChipTemplate = () => {
     <Chip
       endAdornment={
         <ButtonBase
+          aria-label="delete chip"
           onClick={handleDelete}
           disableOverlay
           disableRipple
@@ -94,26 +95,24 @@ const DeletableChipTemplate = () => {
 };
 
 const ClickableDeletableChipTemplate = () => {
-  const handleDelete = () => {
+  const handleDelete = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
     alert('삭제 버튼 클릭됨');
   };
 
   return (
     <Chip
       as={ButtonBase}
+      elevation={0}
       disableRipple
       endAdornment={
-        <ButtonBase
+        <CancelIcon
+          role="button"
+          tabIndex={0}
+          aria-label="delete chip"
           onClick={handleDelete}
-          disableOverlay
-          disableRipple
-          style={{ width: '100%', height: '100%' }}
-        >
-          <CancelIcon
-            color="gray-700"
-            style={{ width: '100%', height: '100%' }}
-          />
-        </ButtonBase>
+          color="gray-700"
+        />
       }
     >
       Clickable and deletable chip
@@ -182,13 +181,19 @@ export const AvatarChip: Story = {
     return (
       <Stack direction="row" spacing={30}>
         <Chip
-          startAdornment={<Avatar src={dogImage} alt="강아지 사진" />}
+          startAdornment={
+            <Avatar src={dogImage} alt="강아지 사진" aria-hidden="true" />
+          }
           {...args}
         >
           Avatar chip
         </Chip>
         <Chip
-          startAdornment={<Avatar style={{ fontSize: '10px' }}>N</Avatar>}
+          startAdornment={
+            <Avatar aria-hidden="true" style={{ fontSize: '10px' }}>
+              N
+            </Avatar>
+          }
           {...args}
         >
           Avatar chip
@@ -236,6 +241,7 @@ export const DeletableChip: Story = {
     <Chip
       endAdornment={
         <ButtonBase
+          aria-label="delete chip"
           onClick={handleDelete}
           disableOverlay
           disableRipple
@@ -263,26 +269,24 @@ export const ClickableDeletableChip: Story = {
     docs: {
       source: {
         code: `const ClickableDeletableChipTemplate = () => {
-  const handleDelete = () => {
+  const handleDelete = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
     alert('삭제 버튼 클릭됨');
   };
 
   return (
     <Chip
       as={ButtonBase}
+      elevation={0}
       disableRipple
       endAdornment={
-        <ButtonBase
+        <CancelIcon
+          role="button"
+          tabIndex={0}
+          aria-label="delete chip"
           onClick={handleDelete}
-          disableOverlay
-          disableRipple
-          style={{ width: '100%', height: '100%' }}
-        >
-          <CancelIcon
-            color="gray-700"
-            style={{ width: '100%', height: '100%' }}
-          />
-        </ButtonBase>
+          color="gray-700"
+        />
       }
     >
       Clickable and deletable chip
