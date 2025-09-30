@@ -11,6 +11,7 @@ import { CheckIcon } from '@/components/icons/CheckIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
 import { ColorType } from '@/types/color';
 import dogImage from '@/assets/images/dog-1.jpg';
+import { Link } from '@/components/navigation/Link';
 
 const meta: Meta<typeof Chip> = {
   component: Chip,
@@ -300,9 +301,17 @@ export const ClickableDeletableChip: Story = {
 
 export const LinkChip: Story = {
   render: () => (
-    <Chip as={ButtonBase} href="#">
-      Link chip
-    </Chip>
+    <Stack direction="row" spacing={30}>
+      <Chip as="a" href="#">
+        Link chip (as HTML a element)
+      </Chip>
+      <Chip as={Link} href="#" underline="hover">
+        Link chip (as Link)
+      </Chip>
+      <Chip as={ButtonBase} href="#">
+        Link chip (as ButtonBase)
+      </Chip>
+    </Stack>
   )
 };
 
