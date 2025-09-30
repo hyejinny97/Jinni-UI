@@ -2,9 +2,9 @@
 @use '@/styles/variables' as var;
 
 $chip-height: (
-  sm: 18px,
-  md: 22px,
-  lg: 30px
+  sm: 20px,
+  md: 26px,
+  lg: 32px
 );
 
 $label-font-size: (
@@ -19,33 +19,46 @@ $label-margin: (
   lg: 12px
 );
 
-$avatar-size: (
+$adornment-size: (
   sm: 14px,
   md: 16px,
   lg: 18px
 );
 
-$avatar-margin: (
+$adornment-margin: (
   sm: 4px,
   md: 5px,
   lg: 6px
 );
 
-$avatar-font-size: (
-  sm: 10px,
-  md: 12px,
-  lg: 14px
-);
-
-@mixin chipSize {
+@mixin chip-style-by-size {
   @each $size in 'sm', 'md', 'lg' {
     &.#{$size} {
       height: map.get($chip-height, $size);
+
+      .JinniChipLabel {
+        margin-left: map.get($label-margin, $size);
+        margin-right: map.get($label-margin, $size);
+        font-size: map.get($label-font-size, $size);
+      }
+
+      .JinniChipAdornment {
+        width: map.get($adornment-size, $size);
+        height: map.get($adornment-size, $size);
+        &.start {
+          margin-left: map.get($adornment-margin, $size);
+          margin-right: - map.get($adornment-margin, $size);
+        }
+        &.end {
+          margin-left: - map.get($adornment-margin, $size);
+          margin-right: map.get($adornment-margin, $size);
+        }
+      }
     }
   }
 }
 
-@mixin chipShape {
+@mixin chip-shape {
   &.pill {
     border-radius: 9999px;
   }
@@ -54,114 +67,31 @@ $avatar-font-size: (
   }
 }
 
-@mixin chipLabel {
-  @each $size in 'sm', 'md', 'lg' {
-    &.#{$size} .JinniChipLabel {
-      margin-left: map.get($label-margin, $size);
-      margin-right: map.get($label-margin, $size);
-      font-size: map.get($label-font-size, $size);
-      font-weight: var.$font-weight-medium;
-    }
-  }
-}
-
-@mixin chipLeft($chip-size) {
-  &.left {
-    margin-left: map.get($avatar-margin, $chip-size);
-    margin-right: - map.get($avatar-margin, $chip-size);
-  }
-}
-
-@mixin chipRight($chip-size) {
-  &.right {
-    margin-left: - map.get($avatar-margin, $chip-size);
-    margin-right: map.get($avatar-margin, $chip-size);
-  }
-}
-
-@mixin chipAvatar {
-  @each $size in 'sm', 'md', 'lg' {
-    &.#{$size} .JinniChipAvatar {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      .JinniAvatar {
-        width: map.get($avatar-size, $size);
-        height: map.get($avatar-size, $size);
-        font-size: map.get($avatar-font-size, $size);
-        font-weight: var.$font-weight-medium;
-
-        svg,
-        svg path {
-          fill: inherit;
-        }
-      }
-
-      @include chipLeft($size);
-      @include chipRight($size);
-    }
-  }
-}
-
-@mixin chipIcon {
-  @each $size in 'sm', 'md', 'lg' {
-    &.#{$size} .JinniChipIcon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      svg {
-        width: map.get($avatar-size, $size);
-        height: map.get($avatar-size, $size);
-        fill: inherit;
-        path {
-          fill: inherit;
-        }
-      }
-
-      @include chipLeft($size);
-      @include chipRight($size);
-    }
-  }
-}
-
-@mixin clickable {
-  &.clickable {
-    cursor: pointer;
-
-    &:hover {
-      background-image: var(--jinni-black-overlay-3);
-    }
-    &.filled:hover {
-      background-image: var(--jinni-white-overlay-5);
-    }
-  }
-}
-
-@mixin deleteButton {
-  .delete-button {
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-  }
-}
-
-.JinniChip {
+.JinniChip,
+.JinniChip.JinniButtonBase {
   display: inline-flex;
-  justify-content: space-between;
   align-items: center;
   border: 1px solid;
+  box-sizing: border-box;
   user-select: none;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+  @include chip-style-by-size;
+  @include chip-shape;
 
-  @include chipSize;
-  @include chipShape;
+  .JinniChipLabel {
+    display: inline-flex;
+    font-weight: var.$font-weight-medium;
+  }
 
-  @include chipLabel;
-  @include chipAvatar;
-  @include chipIcon;
+  .JinniChipAdornment {
+    display: inline-flex;
 
-  @include clickable;
-  @include deleteButton;
+    .JinniAvatar,
+    & > svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
