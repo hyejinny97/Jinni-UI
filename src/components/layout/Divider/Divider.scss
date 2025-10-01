@@ -1,77 +1,95 @@
 @use '@/styles/variables' as var;
 
-@mixin dividerVariant {
-  @each $variant in solid, dotted, dashed {
-    &.#{$variant} {
-      border-style: $variant;
+$biased-percent: 10%;
+
+@mixin horizontal-thickness {
+  border-top-width: var(--thickness);
+}
+
+@mixin vertical-thickness {
+  border-left-width: var(--thickness);
+}
+
+@mixin length-by-alignment($base: width) {
+  &.start {
+    &::before {
+      #{$base}: $biased-percent;
+    }
+    &::after {
+      flex: 1;
+    }
+  }
+  &.center {
+    &::before,
+    &::after {
+      flex: 1;
+    }
+  }
+  &.end {
+    &::before {
+      flex: 1;
+    }
+    &::after {
+      #{$base}: $biased-percent;
     }
   }
 }
 
-@mixin dividerOrientation {
+.JinniDivider {
+  box-sizing: border-box;
   &.horizontal {
     width: auto;
   }
   &.vertical {
     height: auto;
   }
-}
 
-@mixin contentAlignment {
-  .content {
-    position: absolute;
+  &:not(.hasContent) {
+    border-width: 0;
+    border-style: var(--border-style);
+    border-color: var(--color);
+    &.horizontal {
+      @include horizontal-thickness;
+    }
+    &.vertical {
+      @include vertical-thickness;
+    }
+  }
+
+  &.hasContent {
+    display: flex;
+    align-items: center;
+
+    &::before,
+    &::after {
+      content: '';
+      border-width: 0;
+      border-style: var(--border-style);
+      border-color: var(--color);
+    }
+
+    &.horizontal {
+      flex-direction: row;
+      &::before,
+      &::after {
+        @include horizontal-thickness;
+      }
+      @include length-by-alignment(width);
+    }
+    &.vertical {
+      flex-direction: column;
+      &::before,
+      &::after {
+        @include vertical-thickness;
+      }
+      @include length-by-alignment(height);
+    }
+  }
+
+  .JinniDividerContent {
     padding: 0 10px;
-    background-color: white;
-    color: inherit;
-    font-size: inherit;
-    font-weight: inherit;
+    color: var(--color);
+    font-size: 14px;
+    font-weight: var.$font-weight-regular;
   }
-
-  &.horizontal .content {
-    top: 0;
-    &.center {
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    &.left {
-      left: calc(100% * 0.1);
-      transform: translate(0, -50%);
-    }
-    &.right {
-      right: calc(100% * 0.1);
-      transform: translate(0, -50%);
-    }
-  }
-
-  &.vertical .content {
-    left: 0;
-    &.center {
-      top: 50%;
-      transform: translate(-50%, -50%) rotate(-90deg);
-    }
-    &.left {
-      bottom: calc(100% * 0.1);
-      transform-origin: center left;
-      transform: rotate(-90deg);
-    }
-    &.right {
-      top: calc(100% * 0.1);
-      transform-origin: center right;
-      transform: translate(-100%, 0) rotate(-90deg);
-    }
-  }
-}
-
-.JinniDivider {
-  position: relative;
-  box-sizing: border-box;
-  border-width: 0;
-  border-color: var(--jinni-color-outline-variant);
-  color: var(--jinni-color-outline-variant);
-  font-size: 14px;
-  font-weight: var.$font-weight-regular;
-
-  @include dividerVariant;
-  @include dividerOrientation;
-  @include contentAlignment;
 }
