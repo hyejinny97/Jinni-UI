@@ -171,9 +171,9 @@ export const Customization: Story = {
       }}
     >
       <ListItem>Item 1</ListItem>
-      <Divider style={{ margin: '2px 16px' }} {...args} />
+      <Divider style={{ margin: '2px 16px' }} aria-hidden="true" {...args} />
       <ListItem>Item 2</ListItem>
-      <Divider style={{ margin: '2px 16px' }} {...args} />
+      <Divider style={{ margin: '2px 16px' }} aria-hidden="true" {...args} />
       <ListItem>Item 3</ListItem>
     </List>
   )
