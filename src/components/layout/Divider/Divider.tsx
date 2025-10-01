@@ -2,41 +2,56 @@ import './Divider.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { getBorderWidth } from './Divider.utils';
+import { ColorType } from '@/types/color';
+import useColor from '@/hooks/useColor';
+import { validatePositiveInteger } from '@/utils/isNumber';
 
 export type DividerProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
+    children?: React.ReactNode;
     variant?: 'solid' | 'dotted' | 'dashed';
     orientation?: 'horizontal' | 'vertical';
-    contentAlign?: 'left' | 'center' | 'right';
+    contentAlign?: 'start' | 'center' | 'end';
     thickness?: number;
-    children?: React.ReactNode;
+    color?: ColorType;
   };
 
 const Divider = <T extends AsType = 'div'>(props: DividerProps<T>) => {
   const {
+    children,
     variant = 'solid',
     orientation = 'horizontal',
     contentAlign = 'center',
     thickness = 1,
-    children,
+    color = 'outline-variant',
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
-  const borderWidth = getBorderWidth(orientation, thickness);
-  const newStyle = useStyle({ ...borderWidth, ...style });
+  const normalizedColor = useColor(color);
+  const newStyle = useStyle({
+    '--border-style': variant,
+    '--color': normalizedColor,
+    '--thickness': `${validatePositiveInteger({ value: thickness })}px`,
+    ...style
+  });
 
   return (
     <Component
-      className={cn('JinniDivider', variant, orientation, className)}
+      className={cn(
+        'JinniDivider',
+        { hasContent: !!children },
+        orientation,
+        contentAlign,
+        className
+      )}
       style={newStyle}
       role="separator"
       aria-orientation={orientation}
       {...rest}
     >
-      <span className={cn('content', contentAlign)}>{children}</span>
+      {children && <span className="JinniDividerContent">{children}</span>}
     </Component>
   );
 };

@@ -19,6 +19,12 @@ import { Divider } from '@/components/layout/Divider';
 
 <Canvas of={DividerStories.BasicDivider} />
 
+### Thickness
+
+- `thickness`: 구분선 두께
+
+<Canvas of={DividerStories.Thickness} />
+
 ### Variant
 
 - `variant`: 구분선 스타일
@@ -33,20 +39,29 @@ import { Divider } from '@/components/layout/Divider';
 
 ### With Contents
 
-- `children`을 통해 구분선 사이 콘텐츠 입력
+#### 1. content
+
+- `children`: 구분선 내 콘텐츠
+
+<Canvas of={DividerStories.Content} />
+
+#### 2. content alignment
+
 - `contentAlign`: 구분선 내 콘텐츠 위치
 
-<Canvas of={DividerStories.WithContents} />
+<Canvas of={DividerStories.ContentAlignment} />
 
-### Thickness
+#### 3. customize content
 
-- `thickness`: 구분선 두께
+<Canvas of={DividerStories.CustomContent} />
 
-<Canvas of={DividerStories.Thickness} />
+### Color
+
+- `color`: 구분선, content 색상
+
+<Canvas of={DividerStories.Color} />
 
 ### Customization
-
-- `style` prop을 통해 color, margin, font-weight 등 변경 가능
 
 <Canvas of={DividerStories.Customization} />
 
