@@ -45,6 +45,7 @@ const CircularProgress = <T extends AsType = 'div'>(
     );
   }
 
+  const isDeterminate = isNumber(value);
   const isNumberSize = isNumber(size);
   const newStyle = useStyle({
     ...(isNumberSize && { '--size': `${size}px` }),
@@ -54,6 +55,11 @@ const CircularProgress = <T extends AsType = 'div'>(
 
   return (
     <Component
+      role="progressbar"
+      aria-valuenow={value}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-busy={!isDeterminate}
       className={cn(
         'JinniCircularProgress',
         isNumberSize ? 'isNumberSize' : size,

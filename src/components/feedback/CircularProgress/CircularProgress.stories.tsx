@@ -75,7 +75,11 @@ const WithLabel = () => {
 
   return (
     <Box style={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress size={40} value={value} />
+      <CircularProgress
+        size={40}
+        value={value}
+        aria-label="파일 업로드 진행률"
+      />
       <Text
         className="typo-label-small"
         style={{
@@ -115,6 +119,7 @@ const SaveButton = () => {
           backgroundColor: state === 'saved' ? 'green' : 'primary',
           borderRadius: '50%'
         }}
+        aria-label="save"
       >
         {state === 'saved' ? (
           <CheckIcon color="white" />
@@ -171,7 +176,11 @@ export const CircularWithLabel: Story = {
 
   return (
     <Box style={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress size={40} value={value} />
+      <CircularProgress
+        size={40}
+        value={value}
+        aria-label="파일 업로드 진행률"
+      />
       <Text
         className="typo-label-small"
         style={{
@@ -278,6 +287,7 @@ export const Customization: Story = {
           backgroundColor: state === 'saved' ? 'green' : 'primary',
           borderRadius: '50%'
         }}
+        aria-label="save"
       >
         {state === 'saved' ? (
           <CheckIcon color="white" />
@@ -299,7 +309,8 @@ export const Customization: Story = {
       )}
     </Box>
   );
-};`.trim()
+};
+`.trim()
       }
     }
   }
