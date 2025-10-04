@@ -7,6 +7,10 @@ import * as CircularProgressStories from './CircularProgress.stories';
 
 명확하지 않은 대기 시간을 알려주거나 처리 정도를 나타내줌
 
+- CircularProgress 종류
+  - Indeterminate CircularProgress: 명확하지 않은 대기 상태를 나타냄
+  - Determinate CircularProgress: 처리 정도를 나타냄
+
 ## Import
 
 ```js
@@ -15,35 +19,48 @@ import { CircularProgress } from '@/components/feedback/CircularProgress';
 
 ## Usage
 
-### Basic CircularProgress
+### Indeterminate CircularProgress
 
-- 종류
-
-  - indeterminate: 명확하지 않은 대기 상태 (shrink animation이 있음)
-  - determinate: 명확한 대기 상태 (처리 정도를 나타내줌)
-
-- `percent`: 처리 정도
-  - `percent`가 있으면 determinate, 없으면 indeterminate
-
-#### 1. Indeterminate
+#### 1. Basic
 
 <Canvas of={CircularProgressStories.Indeterminate} />
 
-#### 2. Determinate
+#### 2. Speed
+
+- `speed`: 한번 회전하는데 걸리는 시간 (단위: s)
+
+<Canvas of={CircularProgressStories.Speed} />
+
+#### 3. Disable Shrink Animation
+
+- `disableShrink`: shrink animation 비활성화
+
+<Canvas of={CircularProgressStories.DisableShrinkAnimation} />
+
+### Determinate CircularProgress
+
+#### 1. Basic
+
+- `value`: 처리 정도 (0~100)
+- `value` prop이 있으면 determinate, 없으면 indeterminate
 
 <Canvas of={CircularProgressStories.Determinate} />
 
+#### 2. Circular with label
+
+<Canvas of={CircularProgressStories.CircularWithLabel} />
+
 ### Progress Color
 
-- `progressColor`: progress 색상 (theme/palette 포함)
+- `progressColor`: progress 색상
 
 <Canvas of={CircularProgressStories.ProgressColor} />
 
-### Trail Color
+### Track Color
 
-- `trailColor`: 바탕 색상 (theme/palette 포함)
+- `trackColor`: track 색상
 
-<Canvas of={CircularProgressStories.TrailColor} />
+<Canvas of={CircularProgressStories.TrackColor} />
 
 ### Size
 
@@ -63,32 +80,9 @@ import { CircularProgress } from '@/components/feedback/CircularProgress';
 
 <Canvas of={CircularProgressStories.LineCap} />
 
-### Disable Shrink Animation
+### Customization
 
-- `disableShrink`: shrink animation 비활성화 (indeterminate 타입일 때만 적용됨)
-
-<Canvas of={CircularProgressStories.DisableShrinkAnimation} />
-
-### Speed
-
-- `speed`: 한번 회전하는데 걸리는 시간 (indeterminate 타입일 때만 적용됨)
-
-<Canvas of={CircularProgressStories.Speed} />
-
-### With Label
-
-#### showLabel
-
-- `showLabel`: true이면, progress percent를 나타냄 (determinate 타입일 때만 적용됨)
-  - `showLabel`=true일지라도, 특정 size(40px) 이상이어야 label이 나타남
-
-<Canvas of={CircularProgressStories.ShowLabel} />
-
-#### labelFormat
-
-- `labelFormat`: label을 커스텀하는 함수
-
-<Canvas of={CircularProgressStories.LabelFormat} />
+<Canvas of={CircularProgressStories.Customization} />
 
 ## Props
 
