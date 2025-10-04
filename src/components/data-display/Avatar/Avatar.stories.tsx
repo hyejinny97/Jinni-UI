@@ -305,7 +305,7 @@ export const AvatarFallbacks: Story = {
         </Avatar>
         <Avatar
           src="./broken-image.png"
-          alt="broken-image"
+          alt="alt"
           style={{ fontSize: '15px' }}
           {...args}
         />
