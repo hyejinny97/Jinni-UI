@@ -1,57 +1,51 @@
-import { ColorType } from '@/types/color';
+import cn from 'classnames';
+import { useMemo } from 'react';
 import { isNumber } from '@/utils/isNumber';
-import { LineCapType } from './CircularProgress';
+import { CircularProgressProps, VIEW_BOX_SIZE } from './CircularProgress';
 import useColor from '@/hooks/useColor';
 
-interface ProgressProps {
-  percent?: number;
-  thickness: number;
-  progressColor: ColorType;
-  lineCap: LineCapType;
-  speed: number;
-}
-
-const CIRCLE_SIZE = 44;
+type ProgressProps = Pick<CircularProgressProps, 'value'> &
+  Required<
+    Pick<
+      CircularProgressProps,
+      'thickness' | 'progressColor' | 'lineCap' | 'disableShrink'
+    >
+  >;
 
 const Progress = (props: ProgressProps) => {
-  const { percent, thickness, progressColor, lineCap, speed } = props;
+  const { value, thickness, progressColor, lineCap, disableShrink } = props;
   const normalizedProgressColor = useColor(progressColor);
-  const radius = (CIRCLE_SIZE - thickness) / 2;
+  const isDeterminate = isNumber(value);
+  const radius = (VIEW_BOX_SIZE - thickness) / 2;
   const circumference = 2 * Math.PI * radius;
-
-  let circleStyle = {};
-  let svgStyle = {};
-  if (isNumber(percent)) {
-    const progress = circumference * (percent / 100);
-    circleStyle = {
-      ...circleStyle,
-      strokeDasharray: `${circumference}`,
-      strokeDashoffset: `${circumference - progress}px`,
-      transition: 'stroke-dashoffset 0.5s ease-in-out'
-    };
-  }
-  if (speed) {
-    circleStyle = {
-      ...circleStyle,
-      animationDuration: `${speed}s`
-    };
-    svgStyle = {
-      ...svgStyle,
-      animationDuration: `${speed}s`
-    };
-  }
+  const style = useMemo<{ [key: string]: string } | undefined>(() => {
+    if (isDeterminate) {
+      const progress = circumference * (value / 100);
+      return {
+        '--stroke-dasharray': `${circumference}px`,
+        '--stroke-dashoffset': `${circumference - progress}px`
+      };
+    }
+  }, [isDeterminate, value, circumference]);
 
   return (
-    <svg className="progress" viewBox="22 22 44 44" style={svgStyle}>
+    <svg
+      className={cn(
+        'JinniCircularProgress-progress',
+        isDeterminate ? 'determinate' : 'indeterminate'
+      )}
+      viewBox={`22 22 ${VIEW_BOX_SIZE} ${VIEW_BOX_SIZE}`}
+      style={style}
+    >
       <circle
-        cx={CIRCLE_SIZE}
-        cy={CIRCLE_SIZE}
+        className={cn({ disableShrink })}
+        cx={22 + VIEW_BOX_SIZE / 2}
+        cy={22 + VIEW_BOX_SIZE / 2}
         r={radius}
         fill="none"
         stroke={normalizedProgressColor}
         strokeWidth={thickness}
         strokeLinecap={lineCap}
-        style={circleStyle}
       />
     </svg>
   );

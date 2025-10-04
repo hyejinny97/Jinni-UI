@@ -4,79 +4,72 @@ import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { ColorType } from '@/types/color';
 import { isNumber } from '@/utils/isNumber';
-import { getComputedSize } from './CircularProgress.utils';
 import Progress from './Progress';
-import Trail from './Trail';
-import Label from './Label';
-
-export type SizeKeyword = 'sm' | 'md' | 'lg';
-export type SizeType = SizeKeyword | number;
-export type LineCapType = 'butt' | 'round';
+import Track from './Track';
 
 export type CircularProgressProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
-    percent?: number;
+    value?: number;
     thickness?: number;
     progressColor?: ColorType;
-    trailColor?: ColorType;
-    size?: SizeType;
-    lineCap?: LineCapType;
+    trackColor?: ColorType;
+    size?: 'sm' | 'md' | 'lg' | number;
+    lineCap?: 'butt' | 'round';
     disableShrink?: boolean;
     speed?: number;
-    showLabel?: boolean;
-    labelFormat?: (percent: number) => string;
   };
 
-const LIMIT_SIZE = 40;
+export const VIEW_BOX_SIZE = 44;
 
 const CircularProgress = <T extends AsType = 'div'>(
   props: CircularProgressProps<T>
 ) => {
   const {
-    percent,
+    value,
     thickness = 4,
     progressColor = 'primary',
-    trailColor = 'transparent',
+    trackColor = 'transparent',
     size = 'md',
     lineCap = 'round',
     disableShrink = false,
     speed = 1.5,
-    showLabel = false,
-    labelFormat = (percent) => `${percent}%`,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
-  const computedSize = getComputedSize(size);
-  const sizeStyle = { width: computedSize, height: computedSize };
-  const fontSizeStyle = { fontSize: computedSize * 0.25 };
-  const newStyle = useStyle({ ...sizeStyle, ...fontSizeStyle, ...style });
-  const isDeterminate = isNumber(percent);
-  const isMoreThanLimitSize = computedSize >= LIMIT_SIZE;
+
+  if (value && !(0 <= value && value <= 100)) {
+    throw new Error(
+      'CircularProgress value prop은 0~100 사이 숫자여야 합니다.'
+    );
+  }
+
+  const isNumberSize = isNumber(size);
+  const newStyle = useStyle({
+    ...(isNumberSize && { '--size': `${size}px` }),
+    '--speed': `${speed}s`,
+    ...style
+  });
 
   return (
     <Component
       className={cn(
         'JinniCircularProgress',
-        isDeterminate ? 'determinate' : 'indeterminate',
-        { disableShrink },
+        isNumberSize ? 'isNumberSize' : size,
         className
       )}
       style={newStyle}
       {...rest}
     >
-      <Trail thickness={thickness} trailColor={trailColor} />
+      <Track thickness={thickness} trackColor={trackColor} />
       <Progress
-        percent={percent}
+        value={value}
         thickness={thickness}
         progressColor={progressColor}
         lineCap={lineCap}
-        speed={speed}
+        disableShrink={disableShrink}
       />
-      {isDeterminate && showLabel && isMoreThanLimitSize && (
-        <Label value={labelFormat(percent)} />
-      )}
     </Component>
   );
 };
