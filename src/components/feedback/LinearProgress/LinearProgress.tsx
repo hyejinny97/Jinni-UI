@@ -6,10 +6,6 @@ import { ColorType } from '@/types/color';
 import { isNumber } from '@/utils/isNumber';
 import useColor from '@/hooks/useColor';
 
-export type ThicknessKeyword = 'sm' | 'md' | 'lg';
-export type ThicknessType = ThicknessKeyword | number;
-export type LineCapType = 'butt' | 'round';
-
 export type LinearProgressProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
     value?: number;
@@ -42,6 +38,7 @@ const LinearProgress = <T extends AsType = 'div'>(
     throw new Error('LinearProgress value prop은 0~100 사이 숫자여야 합니다.');
   }
 
+  const isDeterminate = isNumber(value);
   const [normalizedProgressColor, normalizedTrackColor] = useColor([
     progressColor,
     trackColor
@@ -54,8 +51,6 @@ const LinearProgress = <T extends AsType = 'div'>(
     '--speed': `${speed}s`,
     ...style
   });
-
-  const isDeterminate = isNumber(value);
 
   return (
     <Component
