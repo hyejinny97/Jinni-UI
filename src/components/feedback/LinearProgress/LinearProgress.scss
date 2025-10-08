@@ -1,84 +1,66 @@
 @use '@/styles/animation';
 @use '@/styles/variables' as var;
 
-@mixin indeterminate {
-  &.indeterminate .trail .progress {
-    animation-duration: 2s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-duration: var(--speed);
-  }
-}
-
-@mixin determinate {
-  &.determinate .trail .progress {
-    transition: width 0.2s linear;
-  }
+@mixin move-animation($animation-name) {
+  animation: $animation-name var(--speed) ease-in-out infinite;
 }
 
 @mixin linecap {
-  &.round .trail,
-  &.round .trail .progress {
+  &.round {
     border-radius: 10px;
   }
 }
 
-@mixin orientation {
+.JinniLinearProgress {
+  position: relative;
+  overflow: hidden;
+  @include linecap;
+
   &.horizontal {
-    flex-direction: row;
-    column-gap: 10px;
-    width: 100%;
-    .trail {
-      height: var(--thickness);
-    }
-    .progress {
-      top: 0;
-      left: 0;
-      width: var(--percent);
-      height: var(--thickness);
-      animation-name: move-left-to-right;
-    }
+    width: auto;
+    height: var(--thickness);
   }
   &.vertical {
-    flex-direction: column-reverse;
-    row-gap: 10px;
+    width: var(--thickness);
     height: 100%;
-    .trail {
-      width: var(--thickness);
+  }
+
+  .JinniLinearProgress-track {
+    width: 100%;
+    height: 100%;
+    background-color: var(--track-color);
+    border-radius: inherit;
+  }
+
+  .JinniLinearProgress-progress {
+    position: absolute;
+    left: 0;
+    background-color: var(--progress-color);
+    border-radius: inherit;
+
+    &.horizontal {
+      top: 0;
+      height: 100%;
+      &.indeterminate {
+        width: 50%;
+        @include move-animation(move-left-to-right);
+      }
+      &.determinate {
+        width: var(--value);
+        transition: width 0.2s linear;
+      }
     }
-    .progress {
+    &.vertical {
       bottom: 0;
-      left: 0;
-      width: var(--thickness);
-      height: var(--percent);
-      animation-name: move-bottom-to-top;
+      width: 100%;
+      &.indeterminate {
+        height: 50%;
+        @include move-animation(move-bottom-to-top);
+      }
+      &.determinate {
+        height: var(--value);
+        transition: height 0.2s linear;
+      }
     }
   }
-}
-
-.JinniLinearProgress {
-  display: flex;
-  align-items: center;
-
-  .trail {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    background-color: var(--trail-color);
-
-    .progress {
-      position: absolute;
-      background-color: var(--progress-color);
-    }
-  }
-
-  .label {
-    font-size: var(--font-size);
-    font-weight: var.$font-weight-medium;
-  }
-
-  @include indeterminate;
-  @include determinate;
-  @include linecap;
-  @include orientation;
 }
