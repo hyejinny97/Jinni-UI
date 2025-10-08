@@ -4,25 +4,16 @@ import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { ColorType } from '@/types/color';
 import { isNumber } from '@/utils/isNumber';
-import { lighten } from '@/utils/colorLuminance';
-import { getComputedThickness } from './LinearProgress.utils';
-import Label from './Label';
 import useColor from '@/hooks/useColor';
-
-export type ThicknessKeyword = 'sm' | 'md' | 'lg';
-export type ThicknessType = ThicknessKeyword | number;
-export type LineCapType = 'butt' | 'round';
 
 export type LinearProgressProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
-    percent?: number;
-    thickness?: ThicknessType;
+    value?: number;
+    thickness?: number;
     progressColor?: ColorType;
-    trailColor?: ColorType;
-    lineCap?: LineCapType;
+    trackColor?: ColorType;
+    lineCap?: 'butt' | 'round';
     speed?: number;
-    showLabel?: boolean;
-    labelFormat?: (percent: number) => string;
     orientation?: 'horizontal' | 'vertical';
   };
 
@@ -30,49 +21,56 @@ const LinearProgress = <T extends AsType = 'div'>(
   props: LinearProgressProps<T>
 ) => {
   const {
-    percent,
-    thickness = 'md',
+    value,
+    thickness = 4,
     progressColor = 'primary',
-    trailColor,
-    lineCap = 'round',
-    speed = 2,
-    showLabel = false,
-    labelFormat = (percent) => `${percent}%`,
+    trackColor = 'gray-200',
+    lineCap = 'butt',
+    speed = 1.5,
     orientation = 'horizontal',
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
-  const isDeterminate = isNumber(percent);
-  const computedThickness = getComputedThickness(thickness);
-  const normalizedProgressColor = useColor(progressColor);
+
+  if (value && !(0 <= value && value <= 100)) {
+    throw new Error('LinearProgress value prop은 0~100 사이 숫자여야 합니다.');
+  }
+
+  const isDeterminate = isNumber(value);
+  const [normalizedProgressColor, normalizedTrackColor] = useColor([
+    progressColor,
+    trackColor
+  ]);
   const newStyle = useStyle({
-    '--thickness': `${computedThickness}px`,
-    '--font-size': `${12 + computedThickness * 0.25}px`,
-    '--trail-color': trailColor || lighten(normalizedProgressColor, 0.7),
-    '--progress-color': progressColor,
-    '--percent': isNumber(percent) ? `${percent}%` : '50%',
+    '--thickness': `${thickness}px`,
+    '--progress-color': normalizedProgressColor,
+    '--track-color': normalizedTrackColor,
+    '--value': `${value}%`,
     '--speed': `${speed}s`,
     ...style
   });
 
   return (
     <Component
-      className={cn(
-        'JinniLinearProgress',
-        isDeterminate ? 'determinate' : 'indeterminate',
-        lineCap,
-        orientation,
-        className
-      )}
+      className={cn('JinniLinearProgress', orientation, lineCap, className)}
       style={newStyle}
+      role="progressbar"
+      aria-valuenow={value}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-busy={!isDeterminate}
       {...rest}
     >
-      <div className="trail">
-        <div className="progress" />
-      </div>
-      {isDeterminate && showLabel && <Label value={labelFormat(percent)} />}
+      <div className="JinniLinearProgress-track" />
+      <div
+        className={cn(
+          'JinniLinearProgress-progress',
+          isDeterminate ? 'determinate' : 'indeterminate',
+          orientation
+        )}
+      />
     </Component>
   );
 };
