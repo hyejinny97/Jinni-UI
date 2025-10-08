@@ -56,6 +56,11 @@ const LinearProgress = <T extends AsType = 'div'>(
     <Component
       className={cn('JinniLinearProgress', orientation, lineCap, className)}
       style={newStyle}
+      role="progressbar"
+      aria-valuenow={value}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-busy={!isDeterminate}
       {...rest}
     >
       <div className="JinniLinearProgress-track" />

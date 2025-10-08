@@ -75,7 +75,7 @@ const WithLabel = () => {
   return (
     <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
       <Box style={{ width: '500px' }}>
-        <LinearProgress value={value} />
+        <LinearProgress value={value} aria-label="파일 업로드 진행률" />
       </Box>
       <Text
         className="typo-label-small"
@@ -113,7 +113,14 @@ const StepProgress = () => {
         </Button>
       </ButtonGroup>
       <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
-        <Stack direction="row" spacing={3}>
+        <Stack
+          direction="row"
+          spacing={3}
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={STEPS}
+          aria-valuenow={currentStep}
+        >
           {Array(STEPS)
             .fill(0)
             .map((_, idx) => {
@@ -123,6 +130,7 @@ const StepProgress = () => {
                   key={step}
                   value={currentStep >= step ? 100 : 0}
                   style={{ width: '50px' }}
+                  role="none"
                 />
               );
             })}
@@ -177,7 +185,7 @@ export const LinearWithLabel: Story = {
   return (
     <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
       <Box style={{ width: '500px' }}>
-        <LinearProgress value={value} />
+        <LinearProgress value={value} aria-label="파일 업로드 진행률" />
       </Box>
       <Text
         className="typo-label-small"
@@ -283,7 +291,14 @@ export const Customization: Story = {
         </Button>
       </ButtonGroup>
       <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
-        <Stack direction="row" spacing={3}>
+        <Stack
+          direction="row"
+          spacing={3}
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={STEPS}
+          aria-valuenow={currentStep}
+        >
           {Array(STEPS)
             .fill(0)
             .map((_, idx) => {
@@ -293,6 +308,7 @@ export const Customization: Story = {
                   key={step}
                   value={currentStep >= step ? 100 : 0}
                   style={{ width: '50px' }}
+                  role="none"
                 />
               );
             })}
