@@ -7,6 +7,10 @@ import * as LinearProgressStories from './LinearProgress.stories';
 
 명확하지 않은 대기 시간을 알려주거나 처리 정도를 나타내줌
 
+- LinearProgress 종류
+  - Indeterminate LinearProgress: 명확하지 않은 대기 상태를 나타냄
+  - Determinate LinearProgress: 명확한 진행 정도를 나타냄
+
 ## Import
 
 ```js
@@ -15,42 +19,48 @@ import { LinearProgress } from '@/components/feedback/LinearProgress';
 
 ## Usage
 
-### Basic LinearProgress
+### Indeterminate LinearProgress
 
-- 종류
-
-  - indeterminate: 명확하지 않은 대기 상태
-  - determinate: 명확한 대기 상태 (처리 정도를 나타내줌)
-
-- `percent`: 처리 정도
-  - `percent`가 있으면 determinate, 없으면 indeterminate
-
-#### 1. Indeterminate
+#### 1. Basic
 
 <Canvas of={LinearProgressStories.Indeterminate} />
 
-#### 2. Determinate
+#### 2. Speed
+
+- `speed`: 한번 이동하는데 걸리는 시간 (단위: s)
+
+<Canvas of={LinearProgressStories.Speed} />
+
+### Determinate LinearProgress
+
+#### 1. Basic
+
+- `value`: 처리 정도 (0~100)
+- `value` prop이 있으면 determinate, 없으면 indeterminate
 
 <Canvas of={LinearProgressStories.Determinate} />
 
+#### 2. Linear with label
+
+<Canvas of={LinearProgressStories.LinearWithLabel} />
+
 ### Orientation
 
-- `orientation`: linear progress 방향
+- `orientation`: LinearProgress 방향
 
 <Canvas of={LinearProgressStories.Orientation} />
 
 ### Progress Color
 
-- `progressColor`: progress 색상 (theme/palette 포함)
+- `progressColor`: progress 색상
 
 <Canvas of={LinearProgressStories.ProgressColor} />
 
-### Trail Color
+### Track Color
 
-- `trailColor`: 바탕 색상 (theme/palette 포함)
-  - trailColor를 명시하지 않은 경우, progressColor에서 명도를 70% 높인(lightened) 색상을 가지게 됨
+- `trackColor`: track 색상
 
-<Canvas of={LinearProgressStories.TrailColor} />
+<Canvas of={LinearProgressStories.TrackColor} />
 
 ### Thickness
 
@@ -60,29 +70,13 @@ import { LinearProgress } from '@/components/feedback/LinearProgress';
 
 ### LineCap
 
-- `lineCap`: progress line 끝 모양
+- `lineCap`: progress/track line 끝 모양
 
 <Canvas of={LinearProgressStories.LineCap} />
 
-### Speed
+### Customization
 
-- `speed`: 한번 회전하는데 걸리는 시간 (indeterminate 타입일 때만 적용됨)
-
-<Canvas of={LinearProgressStories.Speed} />
-
-### With Label
-
-#### showLabel
-
-- `showLabel`: true이면, progress percent를 나타냄 (determinate 타입일 때만 적용됨)
-
-<Canvas of={LinearProgressStories.ShowLabel} />
-
-#### labelFormat
-
-- `labelFormat`: label을 커스텀하는 함수
-
-<Canvas of={LinearProgressStories.LabelFormat} />
+<Canvas of={LinearProgressStories.Customization} />
 
 ## Props
 

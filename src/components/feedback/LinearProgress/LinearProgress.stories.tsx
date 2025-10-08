@@ -2,53 +2,59 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useEffect } from 'react';
 import LinearProgress from './LinearProgress';
 import { Stack } from '@/components/layout/Stack';
+import { Box } from '@/components/layout/Box';
+import { Text } from '@/components/general/Text';
+import { Fraction } from '@/components/data-display/Fraction';
+import { Button } from '@/components/general/Button';
+import { ButtonGroup } from '@/components/general/ButtonGroup';
 
 const meta: Meta<typeof LinearProgress> = {
   component: LinearProgress,
   argTypes: {
-    labelFormat: {
-      description: 'progress label 커스텀 함수',
-      defaultValue: { summary: '(percent: number) ⇒ ${percent}%' }
-    },
     lineCap: {
-      description: 'progress line 끝 모양',
+      description: 'progress/track line 끝 모양',
       table: {
-        type: { summary: 'round | butt' },
-        defaultValue: { summary: 'round' }
+        type: { summary: `'round' | 'butt'` },
+        defaultValue: { summary: `'butt'` }
       }
     },
     orientation: {
-      description: 'linear progress 방향',
+      description: 'LinearProgress 방향',
       table: {
-        type: { summary: `'horizontal' | 'vertical' ` },
+        type: { summary: `'horizontal' | 'vertical'` },
         defaultValue: { summary: `'horizontal'` }
       }
     },
-    percent: {
-      description: '처리 정도'
-    },
     progressColor: {
       description: 'progress 색상',
-      defaultValue: { summary: 'primary' }
-    },
-    showLabel: {
-      description: 'progress label(percent)을 나타냄',
-      defaultValue: { summary: 'false' }
+      table: {
+        type: { summary: 'ColorType' },
+        defaultValue: { summary: `'primary'` }
+      }
     },
     speed: {
-      description: '한번 회전하는데 걸리는 시간',
-      defaultValue: { summary: '2s' }
+      description: '한번 이동하는데 걸리는 시간 (단위: s)',
+      defaultValue: { summary: '1.5' }
     },
     thickness: {
       description: 'progress 두께',
       table: {
-        type: { summary: 'sm | md | lg | number' },
-        defaultValue: { summary: 'md' }
+        type: { summary: 'number' },
+        defaultValue: { summary: '4' }
       }
     },
-    trailColor: {
-      description: '바탕 색상',
-      defaultValue: { summary: 'lighten(processColor)' }
+    trackColor: {
+      description: 'track 색상',
+      table: {
+        type: { summary: 'ColorType' },
+        defaultValue: { summary: `'gray-200'` }
+      }
+    },
+    value: {
+      description: '처리 정도',
+      table: {
+        type: { summary: 'number (0~100)' }
+      }
     }
   }
 };
@@ -56,41 +62,136 @@ const meta: Meta<typeof LinearProgress> = {
 export default meta;
 type Story = StoryObj<typeof LinearProgress>;
 
-const PercentChange = ({ ...args }) => {
-  const [percent, setPercent] = useState(0);
+const WithLabel = () => {
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setPercent((prev) => (prev >= 100 ? 0 : prev + 10));
+      setValue((prev) => (prev >= 100 ? 0 : prev + 10));
     }, 1000);
-
     return () => clearInterval(intervalId);
   });
 
   return (
-    <Stack spacing={20} style={{ width: '500px' }}>
-      <LinearProgress percent={75} showLabel {...args} />
-      <LinearProgress percent={percent} showLabel {...args} />
+    <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
+      <Box style={{ width: '500px' }}>
+        <LinearProgress value={value} />
+      </Box>
+      <Text
+        className="typo-label-small"
+        style={{
+          margin: 0,
+          width: '50px',
+          color: 'gray-500'
+        }}
+      >{`${value}%`}</Text>
+    </Stack>
+  );
+};
+
+const StepProgress = () => {
+  const STEPS = 5;
+  const INIT_STEP = 0;
+  const [currentStep, setCurrentStep] = useState(INIT_STEP);
+
+  return (
+    <Stack direction="row" spacing={30}>
+      <ButtonGroup variant="outlined">
+        <Button
+          aria-label="reduce"
+          onClick={() => setCurrentStep((prev) => prev - 1)}
+          disabled={currentStep === INIT_STEP}
+        >
+          -
+        </Button>
+        <Button
+          aria-label="increase"
+          onClick={() => setCurrentStep((prev) => prev + 1)}
+          disabled={currentStep === STEPS}
+        >
+          +
+        </Button>
+      </ButtonGroup>
+      <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
+        <Stack direction="row" spacing={3}>
+          {Array(STEPS)
+            .fill(0)
+            .map((_, idx) => {
+              const step = idx + 1;
+              return (
+                <LinearProgress
+                  key={step}
+                  value={currentStep >= step ? 100 : 0}
+                  style={{ width: '50px' }}
+                />
+              );
+            })}
+        </Stack>
+        <Fraction count={STEPS} value={currentStep} />
+      </Stack>
     </Stack>
   );
 };
 
 export const Indeterminate: Story = {
   render: (args) => (
-    <Stack style={{ width: '500px' }}>
+    <Box style={{ width: '500px' }}>
       <LinearProgress {...args} />
-    </Stack>
+    </Box>
+  )
+};
+
+export const Speed: Story = {
+  render: (args) => (
+    <Box style={{ width: '500px' }}>
+      <LinearProgress speed={3} {...args} />
+    </Box>
   )
 };
 
 export const Determinate: Story = {
   render: (args) => {
     return (
-      <Stack spacing={20} style={{ width: '500px' }}>
-        <LinearProgress percent={50} {...args} />
-        <LinearProgress percent={70} {...args} />
-      </Stack>
+      <Box style={{ width: '500px' }}>
+        <LinearProgress value={70} {...args} />
+      </Box>
     );
+  }
+};
+
+export const LinearWithLabel: Story = {
+  render: () => <WithLabel />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const WithLabel = () => {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setValue((prev) => (prev >= 100 ? 0 : prev + 10));
+    }, 1000);
+    return () => clearInterval(intervalId);
+  });
+
+  return (
+    <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
+      <Box style={{ width: '500px' }}>
+        <LinearProgress value={value} />
+      </Box>
+      <Text
+        className="typo-label-small"
+        style={{
+          margin: 0,
+          width: '50px',
+          color: 'gray-500'
+        }}
+      >{\`\${value}%\`}</Text>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
@@ -99,7 +200,7 @@ export const Orientation: Story = {
     return (
       <Stack direction="row" spacing={20} style={{ height: '400px' }}>
         <LinearProgress orientation="vertical" {...args} />
-        <LinearProgress orientation="vertical" percent={70} {...args} />
+        <LinearProgress orientation="vertical" value={70} {...args} />
       </Stack>
     );
   }
@@ -110,7 +211,6 @@ export const ProgressColor: Story = {
     return (
       <Stack spacing={20} style={{ width: '500px' }}>
         <LinearProgress progressColor="secondary" {...args} />
-        <LinearProgress progressColor="tertiary" {...args} />
         <LinearProgress progressColor="yellow-400" {...args} />
         <LinearProgress progressColor="green" {...args} />
         <LinearProgress progressColor="#123" {...args} />
@@ -120,14 +220,14 @@ export const ProgressColor: Story = {
   }
 };
 
-export const TrailColor: Story = {
+export const TrackColor: Story = {
   render: (args) => {
     return (
       <Stack spacing={20} style={{ width: '500px' }}>
-        <LinearProgress trailColor="gray-200" {...args} />
+        <LinearProgress trackColor="transparent" {...args} />
         <LinearProgress
           progressColor="yellow-400"
-          trailColor="yellow-100"
+          trackColor="yellow-100"
           {...args}
         />
       </Stack>
@@ -136,61 +236,73 @@ export const TrailColor: Story = {
 };
 
 export const Thickness: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={20} style={{ width: '500px' }}>
-        <LinearProgress thickness="sm" {...args} />
-        <LinearProgress thickness="md" {...args} />
-        <LinearProgress thickness="lg" {...args} />
-        <LinearProgress thickness={10} {...args} />
-      </Stack>
-    );
-  }
+  render: (args) => (
+    <Box style={{ width: '500px' }}>
+      <LinearProgress thickness={6} {...args} />
+    </Box>
+  )
 };
 
 export const LineCap: Story = {
   render: (args) => {
     return (
       <Stack spacing={20} style={{ width: '500px' }}>
-        <LinearProgress lineCap="round" {...args} />
-        <LinearProgress lineCap="butt" {...args} />
+        <LinearProgress lineCap="round" thickness={6} {...args} />
+        <LinearProgress lineCap="butt" thickness={6} {...args} />
       </Stack>
     );
   }
 };
 
-export const Speed: Story = {
-  render: (args) => {
-    return (
-      <Stack style={{ width: '500px' }}>
-        <LinearProgress speed={1} {...args} />
-      </Stack>
-    );
-  }
-};
+export const Customization: Story = {
+  render: () => <StepProgress />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const StepProgress = () => {
+  const STEPS = 5;
+  const INIT_STEP = 0;
+  const [currentStep, setCurrentStep] = useState(INIT_STEP);
 
-export const ShowLabel: Story = {
-  render: (args) => <PercentChange {...args} />
-};
-
-export const LabelFormat: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={20} style={{ width: '500px' }}>
-        <LinearProgress
-          percent={100}
-          showLabel
-          labelFormat={(percent) => (percent === 100 ? 'Done' : `${percent}%`)}
-          {...args}
-        />
-        <LinearProgress
-          percent={75}
-          showLabel
-          labelFormat={(percent) => `${percent} Days`}
-          style={{ fontSize: '10px', color: 'gray-400' }}
-          {...args}
-        />
+  return (
+    <Stack direction="row" spacing={30}>
+      <ButtonGroup variant="outlined">
+        <Button
+          aria-label="reduce"
+          onClick={() => setCurrentStep((prev) => prev - 1)}
+          disabled={currentStep === INIT_STEP}
+        >
+          -
+        </Button>
+        <Button
+          aria-label="increase"
+          onClick={() => setCurrentStep((prev) => prev + 1)}
+          disabled={currentStep === STEPS}
+        >
+          +
+        </Button>
+      </ButtonGroup>
+      <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
+        <Stack direction="row" spacing={3}>
+          {Array(STEPS)
+            .fill(0)
+            .map((_, idx) => {
+              const step = idx + 1;
+              return (
+                <LinearProgress
+                  key={step}
+                  value={currentStep >= step ? 100 : 0}
+                  style={{ width: '50px' }}
+                />
+              );
+            })}
+        </Stack>
+        <Fraction count={STEPS} value={currentStep} />
       </Stack>
-    );
+    </Stack>
+  );
+};`.trim()
+      }
+    }
   }
 };
