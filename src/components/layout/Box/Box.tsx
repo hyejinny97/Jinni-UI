@@ -4,15 +4,12 @@ import { forwardRef } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ElevationLevelType } from '@/types/elevation';
-import { getComputedRound } from './Box.utils';
-
-export type RoundKeywordType = 'sm' | 'md' | 'lg';
-export type RoundType = RoundKeywordType | number;
+import { isNumber } from '@/utils/isNumber';
 
 export type BoxProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   elevation?: ElevationLevelType;
   outlined?: boolean;
-  round?: RoundType;
+  round?: 'sm' | 'md' | 'lg' | number;
 };
 
 const Box = forwardRef(
@@ -21,26 +18,34 @@ const Box = forwardRef(
     ref: React.Ref<HTMLElement>
   ) => {
     const {
-      elevation = 0,
-      outlined = false,
-      round = 0,
+      elevation,
+      outlined,
+      round,
       children,
       className,
       style,
       as: Component = 'div',
       ...rest
     } = props;
-    const computedRound = getComputedRound(round);
+    const isNumberRound = isNumber(round);
+    const isKeywordRound = ['sm', 'md', 'lg'].some(
+      (keyword) => keyword === round
+    );
     const newStyle = useStyle({
-      elevation,
-      '--border-radius': `${computedRound}px`,
+      ...(isNumberRound && { '--border-radius': `${round}px` }),
       ...style
     });
 
     return (
       <Component
         ref={ref}
-        className={cn('JinniBox', { outlined }, className)}
+        className={cn(
+          'JinniBox',
+          { isNumberRound, outlined },
+          isKeywordRound && round,
+          isNumber(elevation) && `elevation-${elevation}`,
+          className
+        )}
         style={newStyle}
         {...rest}
       >
