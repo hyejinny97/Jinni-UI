@@ -33,7 +33,6 @@ const Box = forwardRef(
     );
     const newStyle = useStyle({
       ...(isNumberRound && { '--border-radius': `${round}px` }),
-      elevation,
       ...style
     });
 
@@ -44,6 +43,7 @@ const Box = forwardRef(
           'JinniBox',
           { isNumberRound, outlined },
           isKeywordRound && round,
+          isNumber(elevation) && `elevation-${elevation}`,
           className
         )}
         style={newStyle}
