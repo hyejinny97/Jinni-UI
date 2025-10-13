@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Drawer, DrawerHeader, DrawerBody, DrawerFooter } from '.';
 import { Button } from '@/components/general/Button';
+import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { Stack } from '@/components/layout/Stack';
 
@@ -64,14 +65,19 @@ const DrawerTemplate = ({
       <Drawer open={open} onClose={handleClose} {...rest}>
         <DrawerHeader style={{ position: 'relative' }}>
           Drawer Header
-          <Button
-            variant="text"
-            isSquareSize
+          <ButtonBase
             onClick={handleClose}
-            style={{ position: 'absolute', right: '5px', top: '5px' }}
+            style={{
+              display: 'inline-flex',
+              position: 'absolute',
+              right: '5px',
+              top: '5px',
+              padding: '6px',
+              borderRadius: '50%'
+            }}
           >
             <CloseIcon />
-          </Button>
+          </ButtonBase>
         </DrawerHeader>
         <DrawerBody>Drawer Body</DrawerBody>
         <DrawerFooter>

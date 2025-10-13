@@ -7,6 +7,8 @@ import { Text } from '@/components/general/Text';
 import { Chip } from '@/components/data-display/Chip';
 import { Button } from '@/components/general/Button';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
+import { ButtonBase } from '@/components/general/ButtonBase';
+import { CancelIcon } from '@/components/icons/CancelIcon';
 
 const meta: Meta<typeof Autocomplete> = {
   component: Autocomplete,
@@ -821,7 +823,26 @@ const CustomSingleValueRenderingTemplate = () => {
       inputValue={inputValue}
       onInputChange={handleInputChange}
       renderValue={(value: string) =>
-        value && <Chip label={value} onDelete={deleteValue} />
+        value && (
+          <Chip
+            endAdornment={
+              <ButtonBase
+                aria-label="delete chip"
+                onClick={deleteValue}
+                disableOverlay
+                disableRipple
+                style={{ width: '100%', height: '100%' }}
+              >
+                <CancelIcon
+                  color="gray-700"
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </ButtonBase>
+            }
+          >
+            {value}
+          </Chip>
+        )
       }
     />
   );
@@ -852,7 +873,25 @@ const LimitTagsTemplate = ({ ...props }) => {
         return (
           <>
             {displayedValues.map((val) => (
-              <Chip key={val} label={val} onDelete={deleteValue} />
+              <Chip
+                key={val}
+                endAdornment={
+                  <ButtonBase
+                    aria-label="delete chip"
+                    onClick={deleteValue}
+                    disableOverlay
+                    disableRipple
+                    style={{ width: '100%', height: '100%' }}
+                  >
+                    <CancelIcon
+                      color="gray-700"
+                      style={{ width: '100%', height: '100%' }}
+                    />
+                  </ButtonBase>
+                }
+              >
+                {val}
+              </Chip>
             ))}
             {restCount > 0 && (
               <Text style={{ margin: 0 }}>{`+${restCount}`}</Text>
@@ -1031,7 +1070,7 @@ export const SingleValueAutocompleteWithForm: Story = {
         style={{ display: 'flex', columnGap: '10px' }}
       >
         <AutocompleteTemplate name="options" {...args} />
-        <Button>제출</Button>
+        <Button type="submit">제출</Button>
       </form>
     );
   }
@@ -1050,7 +1089,7 @@ export const MultipleValueAutocompleteWithForm: Story = {
         style={{ display: 'flex', columnGap: '10px' }}
       >
         <AutocompleteTemplate name="options" multiple {...args} />
-        <Button>제출</Button>
+        <Button type="submit">제출</Button>
       </form>
     );
   }

@@ -21,7 +21,6 @@ const CircularSpeedDialAction = <T extends AsType = 'button'>(
     index,
     variant = 'text',
     color = 'gray-600',
-    isSquareSize = true,
     size = 'md',
     elevation = 3,
     shape = 'pill',
@@ -58,11 +57,15 @@ const CircularSpeedDialAction = <T extends AsType = 'button'>(
         className={cn('JinniCircularSpeedDialAction', className)}
         variant={variant}
         color={color}
-        isSquareSize={isSquareSize}
         size={size}
         elevation={elevation}
         shape={shape}
-        style={{ position: 'absolute', ...actionPosition, ...style }}
+        style={{
+          position: 'absolute',
+          padding: '8px',
+          ...actionPosition,
+          ...style
+        }}
         {...rest}
       />
     </Tooltip>

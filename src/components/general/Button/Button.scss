@@ -1,5 +1,4 @@
 @use 'sass:map';
-@use '@/styles/variables' as var;
 
 $button-padding-y: (
   sm: 4px,
@@ -13,48 +12,29 @@ $button-padding-x: (
   lg: 22px
 );
 
-$button-square-size: (
-  sm: 26px,
-  md: 32px,
-  lg: 38px
-);
-
-$button-gap: (
-  sm: calc(map.get($button-padding-x, sm) * 1 / 2),
-  md: calc(map.get($button-padding-x, md) * 1 / 2),
-  lg: calc(map.get($button-padding-x, lg) * 1 / 2)
-);
-
 $label-font-size: (
   sm: 13px,
   md: 15px,
   lg: 17px
 );
 
-$icon-size: (
+$adornment-size: (
   sm: 18px,
   md: 20px,
   lg: 22px
 );
 
-$icon-margin: (
-  sm: calc(map.get($button-padding-x, sm) * 1 / 4),
-  md: calc(map.get($button-padding-x, md) * 1 / 4),
-  lg: calc(map.get($button-padding-x, lg) * 1 / 4)
-);
-
-@mixin buttonSize {
+@mixin button-size {
   @each $size in 'sm', 'md', 'lg' {
     &.#{$size} {
       padding: map.get($button-padding-y, $size)
         map.get($button-padding-x, $size);
-      column-gap: map.get($button-gap, $size);
-      row-gap: map.get($button-gap, $size);
+      gap: calc(map.get($button-padding-x, $size) * 1 / 2);
     }
   }
 }
 
-@mixin buttonShape {
+@mixin button-shape {
   &.rounded {
     border-radius: 4px;
   }
@@ -63,84 +43,15 @@ $icon-margin: (
   }
 }
 
-@mixin buttonLabel {
-  @each $size in 'sm', 'md', 'lg' {
-    &.#{$size} .JinniButtonLabel {
-      font-size: map.get($label-font-size, $size);
-    }
-  }
-}
-
-@mixin buttonLeft($size) {
-  &.left {
-    margin-left: - map.get($icon-margin, $size);
-  }
-}
-
-@mixin buttonRight($size) {
-  &.right {
-    margin-right: - map.get($icon-margin, $size);
-  }
-}
-
-@mixin buttonIcon {
-  @each $size in 'sm', 'md', 'lg' {
-    &.#{$size} .JinniButtonIcon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: map.get($icon-size, $size);
-      height: map.get($icon-size, $size);
-      color: var(--text-color);
-
-      svg {
-        width: inherit;
-        height: inherit;
-        path {
-          fill: currentColor;
-        }
-      }
-
-      @include buttonLeft($size);
-      @include buttonRight($size);
-    }
-  }
-}
-
-@mixin buttonLoadingState {
-  @each $size in 'sm', 'md', 'lg' {
-    &.#{$size} .JinniButtonLoadingState {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      @include buttonLeft($size);
-      @include buttonRight($size);
-    }
-  }
-}
-
-@mixin fullWidth {
+@mixin full-width {
   &.fullWidth {
-    justify-content: center;
     width: 100%;
-  }
-}
-
-@mixin squareSize {
-  @each $size in 'sm', 'md', 'lg' {
-    &.square-size.#{$size} {
-      justify-content: center;
-      padding: map.get($button-padding-y, $size);
-      width: map.get($button-square-size, $size);
-      height: map.get($button-square-size, $size);
-    }
   }
 }
 
 .JinniButtonBase.JinniButton {
   display: inline-flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   height: max-content;
   box-sizing: border-box;
@@ -149,18 +60,38 @@ $icon-margin: (
   color: var(--text-color);
   background-color: var(--background-color);
   border-color: var(--border-color);
+  @include button-size;
+  @include button-shape;
+  @include full-width;
 
-  @include buttonSize;
-  @include buttonShape;
+  .JinniButtonLabel {
+    display: inline-flex;
+    @each $size in 'sm', 'md', 'lg' {
+      &.#{$size} {
+        font-size: map.get($label-font-size, $size);
+      }
+    }
+  }
 
-  @include buttonLabel;
-  @include buttonIcon;
-  @include buttonLoadingState;
+  .JinniButtonAdornment {
+    @each $size in 'sm', 'md', 'lg' {
+      &.#{$size} {
+        width: map.get($adornment-size, $size);
+        height: map.get($adornment-size, $size);
+      }
+      &.start.#{$size} {
+        margin-left: - calc(map.get($button-padding-x, $size) * 1 / 4);
+      }
+      &.end.#{$size} {
+        margin-right: - calc(map.get($button-padding-x, $size) * 1 / 4);
+      }
+    }
 
-  @include fullWidth;
-  @include squareSize;
-
-  &.hasCenterIcon {
-    flex-direction: column;
+    & > svg,
+    .JinniAvatar,
+    .JinniCircularProgress {
+      width: 100%;
+      height: 100%;
+    }
   }
 }

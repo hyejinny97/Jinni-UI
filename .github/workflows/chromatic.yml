@@ -3,6 +3,7 @@ name: 'Chromatic Publish'
 on:
   pull_request:
     branches: ['master']
+    types: [opened, synchronize]
 
 jobs:
   test:

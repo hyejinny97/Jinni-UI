@@ -1,10 +1,10 @@
 import type { ColorType, JinniColor } from '@/types/color';
-import type { VariantType, SizeType } from './Button';
+import type { ButtonProps } from './Button';
 import { lighten } from '@/utils/colorLuminance';
 
 type Props = {
   color: Exclude<ColorType, JinniColor>;
-  variant: VariantType;
+  variant: NonNullable<ButtonProps['variant']>;
 };
 
 export const getColorStyle = ({ color, variant }: Props) => {
@@ -35,9 +35,4 @@ export const getColorStyle = ({ color, variant }: Props) => {
       borderColor = lightenColor;
   }
   return { textColor, backgroundColor, borderColor };
-};
-
-export const getCircularProgressSize = (size: SizeType) => {
-  const circularProgressSizeMap = { sm: 18, md: 20, lg: 22 };
-  return circularProgressSizeMap[size];
 };

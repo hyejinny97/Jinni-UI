@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Toast, { CloseReason } from './Toast';
 import { Stack } from '@/components/layout/Stack';
 import { Button } from '@/components/general/Button';
+import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { Alert } from '@/components/feedback/Alert';
 
@@ -123,13 +124,16 @@ const ToastWithActionTemplate = ({
             >
               UNDO
             </Button>
-            <Button
-              centerIcon={<CloseIcon size={20} />}
-              variant="text"
-              color="white"
-              isSquareSize
+            <ButtonBase
               onClick={handleClose}
-            />
+              style={{
+                display: 'inline-flex',
+                padding: '4px',
+                borderRadius: '50%'
+              }}
+            >
+              <CloseIcon size={20} color="white" />
+            </ButtonBase>
           </>
         }
         {...rest}
@@ -167,13 +171,16 @@ const ConsecutiveToastTemplate = () => {
         onClose={handleClose}
         message={toast.message}
         action={
-          <Button
-            centerIcon={<CloseIcon size={20} />}
-            variant="text"
-            color="white"
-            isSquareSize
+          <ButtonBase
             onClick={handleClose}
-          />
+            style={{
+              display: 'inline-flex',
+              padding: '4px',
+              borderRadius: '50%'
+            }}
+          >
+            <CloseIcon size={20} color="white" />
+          </ButtonBase>
         }
       />
     </>

@@ -11,6 +11,7 @@ import { AddIcon } from '@/components/icons/AddIcon';
 import { FileUploadIcon } from '@/components/icons/FileUploadIcon';
 import { Divider } from '@/components/layout/Divider';
 import { Toast } from '@/components/feedback/Toast';
+import { CircularProgress } from '@/components/feedback/CircularProgress';
 
 const meta: Meta<typeof FileInput> = {
   component: FileInput,
@@ -111,6 +112,7 @@ const FileBox = ({
         {imageUrl && (
           <img
             src={imageUrl}
+            alt=""
             width={50}
             height={50}
             style={{ objectFit: 'contain', borderRadius: '4px' }}
@@ -232,7 +234,7 @@ const FileInputWithFormTemplate = () => {
           >
             <Button
               type="button"
-              leftIcon={<AddIcon />}
+              startAdornment={<AddIcon color="white" />}
               disabled={isSubmitting}
             >
               Choose File
@@ -241,9 +243,14 @@ const FileInputWithFormTemplate = () => {
           <Button
             type="submit"
             variant="outlined"
-            leftIcon={<FileUploadIcon />}
-            loading={isSubmitting}
-            loadingStatePosition="left"
+            startAdornment={
+              isSubmitting ? (
+                <CircularProgress color="primary" />
+              ) : (
+                <FileUploadIcon color="primary" />
+              )
+            }
+            disabled={isSubmitting}
           >
             Upload File
           </Button>
@@ -413,7 +420,7 @@ const MultipleFileInputWithFormTemplate = () => {
           >
             <Button
               type="button"
-              leftIcon={<AddIcon />}
+              startAdornment={<AddIcon color="white" />}
               disabled={isSubmitting}
             >
               Choose File
@@ -422,9 +429,14 @@ const MultipleFileInputWithFormTemplate = () => {
           <Button
             type="submit"
             variant="outlined"
-            leftIcon={<FileUploadIcon />}
-            loading={isSubmitting}
-            loadingStatePosition="left"
+            startAdornment={
+              isSubmitting ? (
+                <CircularProgress color="primary" />
+              ) : (
+                <FileUploadIcon color="primary" />
+              )
+            }
+            disabled={isSubmitting}
           >
             Upload File
           </Button>

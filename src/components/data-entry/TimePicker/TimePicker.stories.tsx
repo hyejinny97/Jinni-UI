@@ -357,7 +357,9 @@ export const FormWithTimePicker: Story = {
       style={{ display: 'flex', columnGap: '10px', alignItems: 'center' }}
     >
       <TimePicker name="time" mode="manual" />
-      <Button size="sm">제출</Button>
+      <Button type="submit" size="sm">
+        제출
+      </Button>
     </form>
   )
 };

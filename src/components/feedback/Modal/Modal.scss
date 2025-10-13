@@ -60,6 +60,7 @@ $modal-content-margin: 30px;
     display: flex;
     flex-direction: column;
     margin: $modal-content-margin;
+    background-color: white;
     @include modal-size;
 
     .JinniModalHeader {

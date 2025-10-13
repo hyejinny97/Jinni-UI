@@ -107,7 +107,7 @@ const Form = ({ children }: { children: React.ReactNode }) => {
       style={{ display: 'flex', columnGap: '10px', alignItems: 'center' }}
     >
       {children}
-      <Button>submit</Button>
+      <Button type="submit">submit</Button>
     </form>
   );
 };
@@ -388,7 +388,9 @@ export const ChipValue: Story = {
             style={{ width: '100%', overflow: 'visible', flexWrap: 'wrap' }}
           >
             {values.map((value) => (
-              <Chip key={value} label={value} variant="subtle-filled" />
+              <Chip key={value} variant="subtle-filled">
+                {value}
+              </Chip>
             ))}
           </Stack>
         )}

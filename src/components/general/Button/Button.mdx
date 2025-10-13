@@ -17,86 +17,34 @@ import { Button } from '@/components/general/Button';
 
 ### Basic Button
 
-- `children`: 버튼 내부 내용
+- `children`: 버튼 내부 내용(label)
 
 <Canvas of={ButtonStories.BasicButton} />
 
-### Button Variant
+### Button variants
 
 - `variant`: 버튼 종류
 
 <Canvas of={ButtonStories.ButtonVariant} />
 
-### Button Shape
+### Button shape
 
 - `shape`: 버튼 모양
-  - `pill`: 모서리가 완전히 둥근 모양
-  - `rounded`: 모서리가 살짝 둥근 모양
 
 <Canvas of={ButtonStories.ButtonShape} />
 
-### Disabled
+### Button adornments
 
-- `disabled`: true이면, 비활성화됨
+- `startAdornment`: content 앞에 위치하는 부가 요소 (icon, avatar 등)
+- `endAdornment`: content 뒤에 위치하는 부가 요소 (icon, avatar 등)
 
-<Canvas of={ButtonStories.Disabled} />
+#### 1) Icon Button
 
-### Link Button
+<Canvas of={ButtonStories.IconButton} />
 
-- `href`: 링크 url
-  - href prop이 있으면 기존 button에서 a 태그로 변환됨
+#### 2) Loading Button
 
-<Canvas of={ButtonStories.LinkButton} />
-
-### Icon Button
-
-#### 1) Left Icon Button
-
-- `leftIcon`: 버튼 왼쪽에 위치한 아이콘
-
-<Canvas of={ButtonStories.LeftIconButton} />
-
-#### 2) Right Icon Button
-
-- `rightIcon`: 버튼 오른쪽에 위치한 아이콘
-
-<Canvas of={ButtonStories.RightIconButton} />
-
-#### 3) Center Icon Button
-
-- `centerIcon`: 버튼 중앙에 위치한 아이콘
-
-<Canvas of={ButtonStories.CenterIconButton} />
-
-#### 3) Multiple Icon Button
-
-<Canvas of={ButtonStories.MultipleIconButton} />
-
-### Loading Button
-
-#### 1) Default Loading Button
-
-- `loading`: true이면, 로딩 중임
-  - true일 때, Button은 disabled 처리되고 loadingState가 나타남
-
-<Canvas of={ButtonStories.DefaultLoadingButton} />
-
-#### 2) Custom Loading State
-
-- `loadingState`: 로딩 상태
-  - ex) CircularProgress, DotProgress, string 등
-
-<Canvas of={ButtonStories.CustomLoadingState} />
-
-#### 3) Loading State Position
-
-- `loadingStatePosition`: 로딩 상태 위치
-
-  - `left`인 경우, 버튼 왼쪽에 로딩 상태가 나타남 (leftIcon은 사라짐)
-  - `right`인 경우, 버튼 오른쪽에 로딩 상태가 나타남 (rightIcon은 사라짐)
-  - `center`인 경우, 버튼 중앙에 로딩 상태가 나타남 (leftIcon, centerIcon, rightIcon은 사라짐)
-
-<Canvas of={ButtonStories.LoadingStatePosition} />
+<Canvas of={ButtonStories.LoadingButton} />
 
 ### Full Width
 
@@ -104,15 +52,9 @@ import { Button } from '@/components/general/Button';
 
 <Canvas of={ButtonStories.FullWidth} />
 
-### Elevation
-
-- `elevation`: elevation(box-shadow) 정도
-
-<Canvas of={ButtonStories.Elevation} />
-
 ### Color
 
-- `color`: 버튼 색상(theme/palette 포함)
+- `color`: 버튼 색상
 
 <Canvas of={ButtonStories.Color} />
 
@@ -122,17 +64,51 @@ import { Button } from '@/components/general/Button';
 
 <Canvas of={ButtonStories.Size} />
 
-### Square Size
+### ButtonBase props
 
-- `isSquareSize`: true인 경우, 가로 세로 크기가 동일하게 됨
+- `Button` 컴포넌트는 내부적으로 `ButtonBase` 컴포넌트를 반환하므로, `ButtonBase`의 모든 props 사용 가능
 
-<Canvas of={ButtonStories.SquareSize} />
+#### 1) Button type
+
+<Canvas of={ButtonStories.ButtonType} />
+
+#### 2) Link Button
+
+<Canvas of={ButtonStories.LinkButton} />
+
+#### 2) Overlay effect
+
+1. Overlay color
+
+<Canvas of={ButtonStories.OverlayColor} />
+
+2. Disable overlay effect
+
+<Canvas of={ButtonStories.DisableOverlay} />
+
+#### 3) Ripple effect
+
+1. Ripple color
+
+<Canvas of={ButtonStories.RippleColor} />
+
+2. Ripple start location
+
+<Canvas of={ButtonStories.RippleLocation} />
+
+3. Disable overlay effect
+
+<Canvas of={ButtonStories.DisableRipple} />
+
+#### 4) Elevation effect
+
+<Canvas of={ButtonStories.Elevation} />
+
+#### 5) Disabled
+
+<Canvas of={ButtonStories.Disabled} />
 
 ### Custom Button
-
-- `style` prop을 사용해 color, border, background, padding, font-size 등 커스텀 가능
-- 기본 HTML button 요소 prop인 `type` prop을 사용해 버튼의 타입 설정 가능
-  - type: `button` | `submit` | `reset`
 
 <Canvas of={ButtonStories.CustomButton} />
 
