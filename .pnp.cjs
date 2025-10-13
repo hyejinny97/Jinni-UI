@@ -48,7 +48,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "npm:18.3.1"],\
           ["@vitejs/plugin-react", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:4.3.3"],\
           ["@vitest/ui", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:2.1.4"],\
-          ["chromatic", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:11.18.1"],\
+          ["chromatic", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:13.3.0"],\
           ["classnames", "npm:2.5.1"],\
           ["eslint", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:9.13.0"],\
           ["eslint-plugin-jsx-a11y", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:6.10.2"],\
@@ -3884,17 +3884,17 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["npm:11.18.1", {\
-        "packageLocation": "../../AppData/Local/Yarn/Berry/cache/chromatic-npm-11.18.1-582a700d2c-10c0.zip/node_modules/chromatic/",\
+      ["npm:13.3.0", {\
+        "packageLocation": "../../AppData/Local/Yarn/Berry/cache/chromatic-npm-13.3.0-bfd3652157-10c0.zip/node_modules/chromatic/",\
         "packageDependencies": [\
-          ["chromatic", "npm:11.18.1"]\
+          ["chromatic", "npm:13.3.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:11.18.1", {\
-        "packageLocation": "./.yarn/__virtual__/chromatic-virtual-7e2402820a/3/AppData/Local/Yarn/Berry/cache/chromatic-npm-11.18.1-582a700d2c-10c0.zip/node_modules/chromatic/",\
+      ["virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:13.3.0", {\
+        "packageLocation": "./.yarn/__virtual__/chromatic-virtual-d9f9eef6d9/3/AppData/Local/Yarn/Berry/cache/chromatic-npm-13.3.0-bfd3652157-10c0.zip/node_modules/chromatic/",\
         "packageDependencies": [\
-          ["chromatic", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:11.18.1"],\
+          ["chromatic", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:13.3.0"],\
           ["@chromatic-com/cypress", null],\
           ["@chromatic-com/playwright", null],\
           ["@types/chromatic-com__cypress", null],\
@@ -6070,7 +6070,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "npm:18.3.1"],\
           ["@vitejs/plugin-react", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:4.3.3"],\
           ["@vitest/ui", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:2.1.4"],\
-          ["chromatic", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:11.18.1"],\
+          ["chromatic", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:13.3.0"],\
           ["classnames", "npm:2.5.1"],\
           ["eslint", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:9.13.0"],\
           ["eslint-plugin-jsx-a11y", "virtual:0b01e21176efd569e04dd09b80ad4b417545845dc214e3fde1dc7b772616f80d174996100e60386003ab9687badd1d5c207a67817d023904f5325a339115ae9d#npm:6.10.2"],\

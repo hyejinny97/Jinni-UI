@@ -2697,9 +2697,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:^11.18.1":
-  version: 11.18.1
-  resolution: "chromatic@npm:11.18.1"
+"chromatic@npm:^13.3.0":
+  version: 13.3.0
+  resolution: "chromatic@npm:13.3.0"
   peerDependencies:
     "@chromatic-com/cypress": ^0.*.* || ^1.0.0
     "@chromatic-com/playwright": ^0.*.* || ^1.0.0
@@ -2712,7 +2712,7 @@ __metadata:
     chroma: dist/bin.js
     chromatic: dist/bin.js
     chromatic-cli: dist/bin.js
-  checksum: 10c0/7f95a702f33047badb4ef1c8e3a400ed4e8cb738926505fd6de632b60fc43fd6e9fa3a3d35756c8b285366c9c72085b330af7bdb5ec5c1672a39262a86540163
+  checksum: 10c0/496656850cc6498fa101cb17bb8adc9256df70c404f01be1cc6edcdd66fd97ab573a3fe858c581cf45d7279bcab0e170cb054dc3b2e2ef104ac0af9e6df38223
   languageName: node
   linkType: hard
 
@@ -4659,7 +4659,7 @@ __metadata:
     "@types/react-dom": "npm:^18.3.1"
     "@vitejs/plugin-react": "npm:^4.3.3"
     "@vitest/ui": "npm:2.1.4"
-    chromatic: "npm:^11.18.1"
+    chromatic: "npm:^13.3.0"
     classnames: "npm:^2.5.1"
     eslint: "npm:^9.13.0"
     eslint-plugin-jsx-a11y: "npm:^6.10.2"
