@@ -426,6 +426,7 @@ export const CustomButton: Story = {
           background: 'linear-gradient(#e66465, #9198e5)',
           border: 'none'
         }}
+        aria-label="add to shopping cart"
         {...args}
       >
         <CartIcon color="white" />
