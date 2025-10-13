@@ -432,7 +432,9 @@ export const FormWithDateTimeRangePicker: Story = {
       <DateTimeRangePicker
         name={{ start: 'startDateTime', end: 'endDateTime' }}
       />
-      <Button size="sm">제출</Button>
+      <Button type="submit" size="sm">
+        제출
+      </Button>
     </form>
   )
 };

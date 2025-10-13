@@ -15,6 +15,7 @@ import AutocompleteContext from './Autocomplete.contexts';
 import AutocompleteOption from './AutocompleteOption';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { ButtonBase } from '@/components/general/ButtonBase';
+import { CancelIcon } from '@/components/icons/CancelIcon';
 
 export type AutocompleteProps<
   Multiple extends boolean = false,
@@ -132,13 +133,27 @@ const Autocomplete = <
         {values.map((value) => (
           <Chip
             key={value}
-            label={value}
-            onDelete={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
-              handleValueChange(e, value)
-            }
             variant="subtle-filled"
             color="gray-800"
-          />
+            endAdornment={
+              <ButtonBase
+                aria-label="delete chip"
+                onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) =>
+                  handleValueChange(e, value)
+                }
+                disableOverlay
+                disableRipple
+                style={{ width: '100%', height: '100%' }}
+              >
+                <CancelIcon
+                  color="gray-700"
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </ButtonBase>
+            }
+          >
+            {value}
+          </Chip>
         ))}
       </>
     )) as (value: Multiple extends true ? string[] : string) => React.ReactNode;

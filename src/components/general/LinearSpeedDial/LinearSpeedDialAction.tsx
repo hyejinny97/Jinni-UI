@@ -18,11 +18,11 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
     TooltipProps,
     variant = 'text',
     color = 'gray-600',
-    isSquareSize = true,
     size = 'md',
     elevation = 3,
     shape = 'pill',
     className,
+    style,
     ...rest
   } = props;
   const linearSpeedDialContextValue = useContext(LinearSpeedDialContext);
@@ -39,10 +39,13 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
         className={cn('JinniLinearSpeedDialAction', className)}
         variant={variant}
         color={color}
-        isSquareSize={isSquareSize}
         size={size}
         elevation={elevation}
         shape={shape}
+        style={{
+          padding: '8px',
+          ...style
+        }}
         {...rest}
       />
     </Tooltip>

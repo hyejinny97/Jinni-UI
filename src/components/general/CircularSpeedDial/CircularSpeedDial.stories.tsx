@@ -74,11 +74,11 @@ export default meta;
 type Story = StoryObj<typeof CircularSpeedDial>;
 
 const ACTIONS = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
-  { icon: <TrashcanIcon />, name: 'Delete' }
+  { icon: <FileCopyIcon size={20} />, name: 'Copy' },
+  { icon: <SaveIcon size={20} />, name: 'Save' },
+  { icon: <PrintIcon size={20} />, name: 'Print' },
+  { icon: <ShareIcon size={20} />, name: 'Share' },
+  { icon: <TrashcanIcon size={20} />, name: 'Delete' }
 ];
 const ANCHOR_RADIUS = 38 / 2;
 
@@ -142,17 +142,18 @@ const CircularSpeedDialWithButton = ({
     <>
       <Button
         ref={anchorElRef}
-        centerIcon={<AddIcon />}
         elevation={5}
         size="lg"
         shape="pill"
-        isSquareSize
         style={{
+          padding: '8px',
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s',
           ...buttonStyle
         }}
-      />
+      >
+        <AddIcon color="white" size={20} />
+      </Button>
       <CircularSpeedDial
         anchorElRef={anchorElRef}
         open={open}
@@ -163,10 +164,11 @@ const CircularSpeedDialWithButton = ({
         {actionItems.map((action) => (
           <CircularSpeedDialAction
             key={action.name}
-            centerIcon={action.icon}
             TooltipProps={{ ...TooltipProps, content: action.name }}
             {...restSpeedDialActionProps}
-          />
+          >
+            {action.icon}
+          </CircularSpeedDialAction>
         ))}
       </CircularSpeedDial>
     </>

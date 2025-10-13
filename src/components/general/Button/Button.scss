@@ -65,6 +65,7 @@ $adornment-size: (
   @include full-width;
 
   .JinniButtonLabel {
+    display: inline-flex;
     @each $size in 'sm', 'md', 'lg' {
       &.#{$size} {
         font-size: map.get($label-font-size, $size);

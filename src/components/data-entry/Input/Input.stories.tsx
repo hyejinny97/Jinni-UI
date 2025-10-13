@@ -352,14 +352,12 @@ export const Color: Story = {
           color="error"
           focusedColor="error"
           placeholder="error"
-          autoFocus
           {...args}
         />
         <Input
           color="yellow-400"
           focusedColor="yellow-400"
           placeholder="yellow-400"
-          autoFocus
           {...args}
         />
       </Stack>
@@ -430,12 +428,13 @@ export const Customization: Story = {
           {...args}
         />
         <Button
-          centerIcon={<SearchIcon />}
           style={{
             borderTopLeftRadius: '0',
             borderBottomLeftRadius: '0'
           }}
-        />
+        >
+          <SearchIcon color="white" size={22} />
+        </Button>
       </Stack>
     );
   }

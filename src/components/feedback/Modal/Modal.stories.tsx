@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '.';
 import { Button } from '@/components/general/Button';
+import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 
 const meta: Meta<typeof Modal> = {
@@ -140,14 +141,19 @@ const ModalTemplate = ({
       <Modal open={open} onClose={handleClose} {...rest}>
         <ModalHeader style={{ position: 'relative' }}>
           {headerContent || 'Modal Header'}
-          <Button
-            variant="text"
-            isSquareSize
-            style={{ position: 'absolute', top: '5px', right: '5px' }}
+          <ButtonBase
+            style={{
+              display: 'inline-flex',
+              position: 'absolute',
+              top: '5px',
+              right: '5px',
+              padding: '4px',
+              borderRadius: '50%'
+            }}
             onClick={handleClose}
           >
             <CloseIcon size={20} />
-          </Button>
+          </ButtonBase>
         </ModalHeader>
         <ModalBody>{bodyContent || 'Modal Body'}</ModalBody>
         <ModalFooter>
@@ -177,14 +183,12 @@ const NestedModalTemplate = ({ ...rest }) => {
       <Modal open={open} onClose={handleClose} {...rest}>
         <ModalHeader style={{ position: 'relative' }}>
           First Modal Header
-          <Button
-            variant="text"
-            isSquareSize
+          <ButtonBase
             style={{ position: 'absolute', top: '5px', right: '5px' }}
             onClick={handleClose}
           >
             <CloseIcon size={20} />
-          </Button>
+          </ButtonBase>
         </ModalHeader>
         <ModalBody>First Modal Body</ModalBody>
         <ModalFooter>
@@ -231,14 +235,19 @@ const ModalFormTemplate = ({ ...rest }) => {
       >
         <ModalHeader style={{ position: 'relative' }}>
           Modal Header
-          <Button
-            variant="text"
-            isSquareSize
-            style={{ position: 'absolute', top: '5px', right: '5px' }}
+          <ButtonBase
+            style={{
+              display: 'inline-flex',
+              position: 'absolute',
+              top: '5px',
+              right: '5px',
+              padding: '4px',
+              borderRadius: '50%'
+            }}
             onClick={handleClose}
           >
             <CloseIcon size={20} />
-          </Button>
+          </ButtonBase>
         </ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>

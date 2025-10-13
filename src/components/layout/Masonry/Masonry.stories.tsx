@@ -170,6 +170,7 @@ const ImageMasonryTemplate = () => {
             >
               <img
                 src={images[0]}
+                alt=""
                 style={{
                   height: '100%',
                   width: '100%',
@@ -207,7 +208,7 @@ const AddItemsTemplate = () => {
       <Button
         variant="outlined"
         fullWidth
-        leftIcon={<AddIcon />}
+        startAdornment={<AddIcon color="primary" />}
         onClick={addItems}
         style={{
           marginTop: '30px'
@@ -270,7 +271,7 @@ const AddResizeItemsTemplate = () => {
       <Button
         variant="outlined"
         fullWidth
-        leftIcon={<AddIcon />}
+        startAdornment={<AddIcon color="primary" />}
         onClick={addItems}
         style={{
           marginTop: '30px'

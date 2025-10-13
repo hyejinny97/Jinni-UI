@@ -510,7 +510,9 @@ export const FormWithTimeRangePicker: Story = {
         name={{ start: 'startTime', end: 'endTime' }}
         mode="manual"
       />
-      <Button size="sm">제출</Button>
+      <Button type="submit" size="sm">
+        제출
+      </Button>
     </form>
   )
 };

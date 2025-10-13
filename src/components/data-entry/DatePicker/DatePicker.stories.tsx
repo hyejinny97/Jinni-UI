@@ -215,7 +215,9 @@ export const FormWithDatePicker: Story = {
       style={{ display: 'flex', columnGap: '10px', alignItems: 'center' }}
     >
       <DatePicker name="date" />
-      <Button size="sm">제출</Button>
+      <Button type="submit" size="sm">
+        제출
+      </Button>
     </form>
   )
 };

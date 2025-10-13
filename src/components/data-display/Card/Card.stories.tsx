@@ -103,15 +103,20 @@ const ComplexCardTemplate = () => {
             2025.03.20
           </Text>
         </Box>
-        <Button
-          variant="text"
-          color="gray-500"
-          shape="pill"
-          centerIcon={<MorevertIcon />}
-          isSquareSize
-        />
+        <ButtonBase
+          style={{
+            display: 'inline-flex',
+            padding: '8px',
+            borderRadius: '50%'
+          }}
+        >
+          <MorevertIcon />
+        </ButtonBase>
       </CardHeader>
-      <img src="https://i.namu.wiki/i/9qwlYKHuEdbgthEygO5lTj5jsUF-IK8-RGlAaM-f0cWX3ZMLr2uvVUICyPcNU_a8URLz4JAAdaM4P8YMGrZGVuaazuFveTxcNpYMYg3Ja8IzSW3X6imYOtfM2T4ej5TG1JYhg7jNNdQBazEeoyTvRw.webp" />
+      <img
+        src="https://recipe1.ezmember.co.kr/cache/recipe/2022/09/30/8e7eb8e3019532a8dc6d39a9a325aad41.jpg"
+        alt="pasta"
+      />
       <CardBody>
         <Text className="typo-body-medium" style={{ margin: '0' }}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga

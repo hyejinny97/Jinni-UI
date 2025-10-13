@@ -128,7 +128,9 @@ const SplitButtonTemplate = () => {
     <>
       <ButtonGroup ref={anchorElRef}>
         <Button style={{ height: '34px' }}>{OPTIONS[selectedIdx].title}</Button>
-        <Button centerIcon={<ArrowDownIcon />} onClick={handleMenuOpen} />
+        <Button onClick={handleMenuOpen}>
+          <ArrowDownIcon color="white" size={20} />
+        </Button>
       </ButtonGroup>
       <Menu
         anchorElRef={anchorElRef}

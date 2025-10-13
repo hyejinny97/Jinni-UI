@@ -363,7 +363,9 @@ export const FormWithDateRangePicker: Story = {
       style={{ display: 'flex', columnGap: '10px', alignItems: 'center' }}
     >
       <DateRangePicker name={{ start: 'startDate', end: 'endDate' }} />
-      <Button size="sm">제출</Button>
+      <Button type="submit" size="sm">
+        제출
+      </Button>
     </form>
   )
 };
