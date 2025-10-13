@@ -25,10 +25,10 @@ jobs:
 
       - name: Chromatic에 Storybook 배포
         id: chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          yarn chromatic \
+            --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} \
+            --exit-once-uploaded \
 
       - name: PR 코멘트 남기기
         uses: thollander/actions-comment-pull-request@v3
