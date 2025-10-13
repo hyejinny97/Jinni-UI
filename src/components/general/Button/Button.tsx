@@ -2,36 +2,22 @@ import './Button.scss';
 import cn from 'classnames';
 import { forwardRef } from 'react';
 import type { ColorType } from '@/types/color';
-import type { ElevationLevelType } from '@/types/elevation';
 import { AsType } from '@/types/default-component-props';
-import { CircularProgress } from '@/components/feedback/CircularProgress';
-import { getColorStyle, getCircularProgressSize } from './Button.utils';
-import ButtonLabel from './ButtonLabel';
-import ButtonIcon from './ButtonIcon';
-import ButtonLoadingState from './ButtonLoadingState';
+import { getColorStyle } from './Button.utils';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import useColor from '@/hooks/useColor';
-
-export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
-export type SizeType = 'sm' | 'md' | 'lg';
 
 export type ButtonProps<T extends AsType = 'button'> = Omit<
   ButtonBaseProps<T>,
   'children'
 > & {
   children?: React.ReactNode;
-  variant?: VariantType;
+  variant?: 'filled' | 'subtle-filled' | 'outlined' | 'text';
   shape?: 'pill' | 'rounded';
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  centerIcon?: React.ReactNode;
-  loading?: boolean;
-  loadingState?: React.ReactNode;
-  loadingStatePosition?: 'left' | 'center' | 'right';
-  elevation?: ElevationLevelType;
+  startAdornment?: React.ReactNode;
+  endAdornment?: React.ReactNode;
   fullWidth?: boolean;
-  size?: SizeType;
-  isSquareSize?: boolean;
+  size?: 'sm' | 'md' | 'lg';
   color?: ColorType;
 };
 
@@ -46,15 +32,9 @@ const Button = forwardRef(
       shape = 'rounded',
       size = 'md',
       color = 'primary',
-      leftIcon,
-      rightIcon,
-      centerIcon,
-      loading = false,
-      loadingState,
-      loadingStatePosition = 'center',
-      disabled = false,
-      fullWidth = false,
-      isSquareSize = false,
+      startAdornment,
+      endAdornment,
+      fullWidth,
       overlayColor = variant === 'filled' ? 'white' : 'black',
       rippleColor = variant === 'filled' ? 'white' : 'black',
       className,
@@ -66,77 +46,11 @@ const Button = forwardRef(
       color: normalizedColor,
       variant
     });
-    const DefaultLoadingState = (
-      <CircularProgress
-        progressColor={
-          getColorStyle({
-            color: normalizedColor,
-            variant
-          }).textColor
-        }
-        size={getCircularProgressSize(size)}
-      />
-    );
-
-    let leftContent = leftIcon && (
-      <ButtonIcon className="left">{leftIcon}</ButtonIcon>
-    );
-    let rightContent = rightIcon && (
-      <ButtonIcon className="right">{rightIcon}</ButtonIcon>
-    );
-    let centerContent = (
-      <>
-        {centerIcon && <ButtonIcon className="center">{centerIcon}</ButtonIcon>}
-        {children && <ButtonLabel>{children}</ButtonLabel>}
-      </>
-    );
-    if (loading) {
-      switch (loadingStatePosition) {
-        case 'left':
-          leftContent = (
-            <ButtonLoadingState className="left">
-              {loadingState || DefaultLoadingState}
-            </ButtonLoadingState>
-          );
-          break;
-        case 'right':
-          rightContent = (
-            <ButtonLoadingState className="right">
-              {loadingState || DefaultLoadingState}
-            </ButtonLoadingState>
-          );
-          break;
-        case 'center':
-          centerContent = (
-            <>
-              <ButtonLoadingState className="center">
-                {loadingState || DefaultLoadingState}
-              </ButtonLoadingState>
-              {children && <ButtonLabel>{children}</ButtonLabel>}
-            </>
-          );
-          leftContent = undefined;
-          rightContent = undefined;
-          break;
-      }
-    }
 
     return (
       <ButtonBase
         ref={ref}
-        className={cn(
-          'JinniButton',
-          size,
-          shape,
-          { 'square-size': isSquareSize },
-          { fullWidth },
-          {
-            hasCenterIcon:
-              centerIcon || (loading && loadingStatePosition === 'center')
-          },
-          className
-        )}
-        disabled={disabled || loading}
+        className={cn('JinniButton', size, shape, { fullWidth }, className)}
         overlayColor={overlayColor}
         rippleColor={rippleColor}
         style={{
@@ -147,9 +61,17 @@ const Button = forwardRef(
         }}
         {...rest}
       >
-        {leftContent}
-        {centerContent}
-        {rightContent}
+        {startAdornment && (
+          <span className={cn('JinniButtonAdornment start', size)}>
+            {startAdornment}
+          </span>
+        )}
+        <span className={cn('JinniButtonLabel', size)}>{children}</span>
+        {endAdornment && (
+          <span className={cn('JinniButtonAdornment end', size)}>
+            {endAdornment}
+          </span>
+        )}
       </ButtonBase>
     );
   }

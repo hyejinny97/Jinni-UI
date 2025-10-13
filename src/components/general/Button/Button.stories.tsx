@@ -1,85 +1,61 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 import Button from './Button';
 import { Stack } from '@/components/layout/Stack';
+import { Box } from '@/components/layout/Box';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { CartIcon } from '@/components/icons/CartIcon';
-import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
+import { HomeIcon } from '@/components/icons/HomeIcon';
+import { PersonIcon } from '@/components/icons/PersonIcon';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
 
 const meta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
-    centerIcon: {
-      description: '버튼 중앙에 위치한 아이콘'
-    },
     children: {
       description: '버튼 내부 내용(label)'
     },
     color: {
       description: '버튼 색상',
-      defaultValue: { summary: 'primary' }
-    },
-    disabled: {
-      description: 'true이면, 비활성화됨',
-      type: 'boolean',
-      defaultValue: { summary: 'false' }
-    },
-    elevation: {
-      description: 'elevation(box-shadow) 정도',
-      defaultValue: { summary: '0' }
-    },
-    fullWidth: {
-      description: 'true이면, 버튼 너비는 parent의 너비와 동일하게 맞춰짐',
-      defaultValue: { summary: 'false' }
-    },
-    href: {
-      description: '링크 url (a 태그로 변환해줌)',
-      type: 'string'
-    },
-    isSquareSize: {
-      description: 'true인 경우, 가로 세로 크기가 동일하게 됨',
-      defaultValue: { summary: 'false' }
-    },
-    leftIcon: {
-      description: '버튼 왼쪽에 위치한 아이콘'
-    },
-    loading: {
-      description: 'true이면, 로딩 중임',
-      defaultValue: { summary: 'false' }
-    },
-    loadingState: {
-      description: '로딩 상태',
-      defaultValue: { summary: '<CircularProgress />' }
-    },
-    loadingStatePosition: {
-      description: '로딩 상태 위치',
       table: {
-        type: { summary: 'left | center | right' },
-        defaultValue: { summary: 'center' }
+        type: { summary: 'ColorType' },
+        defaultValue: { summary: `'primary'` }
       }
     },
-    rightIcon: {
-      description: '버튼 오른쪽에 위치한 아이콘'
+    endAdornment: {
+      description: 'content 뒤에 위치하는 부가 요소 (icon, avatar 등)',
+      table: {
+        type: { summary: 'React.ReactNode' }
+      }
+    },
+    fullWidth: {
+      description: 'true이면, 버튼 너비는 parent의 너비와 동일하게 맞춰짐'
     },
     shape: {
-      description: '버튼 모양 (border-radius)',
+      description: '버튼 모양',
       table: {
-        type: { summary: 'pill | rounded' },
-        defaultValue: { summary: 'rounded' }
+        type: { summary: `'pill' | 'rounded'` },
+        defaultValue: { summary: `'rounded'` }
       }
     },
     size: {
       description: '버튼 크기',
       table: {
-        type: { summary: 'sm | md | lg' },
-        defaultValue: { summary: 'md' }
+        type: { summary: `'sm' | 'md' | 'lg'` },
+        defaultValue: { summary: `'md'` }
+      }
+    },
+    startAdornment: {
+      description: 'content 앞에 위치하는 부가 요소 (icon, avatar 등)',
+      table: {
+        type: { summary: 'React.ReactNode' }
       }
     },
     variant: {
       description: '버튼 종류',
       table: {
-        type: { summary: 'filled | subtle-filled | outlined | text' },
-        defaultValue: { summary: 'filled' }
+        type: { summary: `'filled' | 'subtle-filled' | 'outlined' | 'text'` },
+        defaultValue: { summary: `'filled'` }
       }
     }
   }
@@ -88,9 +64,61 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-const LeftIcon = () => <MailIcon />;
-const CenterIcon = () => <CartIcon />;
-const RightIcon = () => <ArrowDownIcon />;
+const LoadingButtons = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = () => {
+    setIsLoading(true);
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timeoutId);
+  };
+
+  return (
+    <Stack direction="row" spacing={20}>
+      <Button onClick={handleClick} disabled={isLoading}>
+        {isLoading ? 'Loading...' : 'Label'}
+      </Button>
+      <Button
+        startAdornment={isLoading && <CircularProgress progressColor="white" />}
+        onClick={handleClick}
+        disabled={isLoading}
+      >
+        Label
+      </Button>
+      <Button
+        variant="outlined"
+        endAdornment={
+          isLoading ? (
+            <CircularProgress progressColor="primary" />
+          ) : (
+            <PersonIcon color="primary" />
+          )
+        }
+        onClick={handleClick}
+        disabled={isLoading}
+      >
+        Profile
+      </Button>
+      <Button
+        variant="subtle-filled"
+        startAdornment={
+          isLoading ? (
+            <CircularProgress progressColor="primary" />
+          ) : (
+            <HomeIcon color="primary" />
+          )
+        }
+        onClick={handleClick}
+        disabled={isLoading}
+        style={{ flexDirection: 'column' }}
+      >
+        Home
+      </Button>
+    </Stack>
+  );
+};
 
 export const BasicButton: Story = {
   render: (args) => <Button {...args}>Label</Button>
@@ -132,188 +160,106 @@ export const ButtonShape: Story = {
   }
 };
 
-export const Disabled: Story = {
+export const IconButton: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button variant="filled" disabled {...args}>
-          Label
+        <Button startAdornment={<MailIcon color="white" />} {...args}>
+          Mail
         </Button>
-        <Button variant="subtle-filled" disabled {...args}>
-          Label
-        </Button>
-        <Button variant="outlined" disabled {...args}>
-          Label
-        </Button>
-        <Button variant="text" disabled {...args}>
-          Label
-        </Button>
-      </Stack>
-    );
-  }
-};
-
-export const LinkButton: Story = {
-  render: (args) => {
-    return (
-      <Button href="#" {...args}>
-        Label
-      </Button>
-    );
-  }
-};
-
-export const LeftIconButton: Story = {
-  render: (args) => {
-    return (
-      <Stack direction="row" spacing={20}>
-        <Button leftIcon={<LeftIcon />} variant="filled" {...args}>
-          Label
-        </Button>
-        <Button leftIcon={<LeftIcon />} variant="subtle-filled" {...args}>
-          Label
-        </Button>
-        <Button leftIcon={<LeftIcon />} variant="outlined" {...args}>
-          Label
-        </Button>
-        <Button leftIcon={<LeftIcon />} variant="text" {...args}>
-          Label
-        </Button>
-      </Stack>
-    );
-  }
-};
-
-export const RightIconButton: Story = {
-  render: (args) => {
-    return (
-      <Stack direction="row" spacing={20}>
-        <Button rightIcon={<RightIcon />} variant="filled" {...args}>
-          Label
-        </Button>
-        <Button rightIcon={<RightIcon />} variant="subtle-filled" {...args}>
-          Label
-        </Button>
-        <Button rightIcon={<RightIcon />} variant="outlined" {...args}>
-          Label
-        </Button>
-        <Button rightIcon={<RightIcon />} variant="text" {...args}>
-          Label
-        </Button>
-      </Stack>
-    );
-  }
-};
-
-export const CenterIconButton: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={20}>
-        <Stack direction="row" spacing={20}>
-          <Button centerIcon={<CenterIcon />} variant="filled" {...args}>
-            Label
-          </Button>
-          <Button centerIcon={<CenterIcon />} variant="subtle-filled" {...args}>
-            Label
-          </Button>
-          <Button centerIcon={<CenterIcon />} variant="outlined" {...args}>
-            Label
-          </Button>
-          <Button centerIcon={<CenterIcon />} variant="text" {...args}>
-            Label
-          </Button>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <Button centerIcon={<CenterIcon />} variant="filled" {...args} />
-          <Button
-            centerIcon={<CenterIcon />}
-            variant="subtle-filled"
-            {...args}
-          />
-          <Button centerIcon={<CenterIcon />} variant="outlined" {...args} />
-          <Button centerIcon={<CenterIcon />} variant="text" {...args} />
-        </Stack>
-      </Stack>
-    );
-  }
-};
-
-export const MultipleIconButton: Story = {
-  render: (args) => {
-    return (
-      <Button leftIcon={<LeftIcon />} rightIcon={<RightIcon />} {...args}>
-        Label
-      </Button>
-    );
-  }
-};
-
-export const DefaultLoadingButton: Story = {
-  render: (args) => {
-    return <Button loading {...args} />;
-  }
-};
-
-export const CustomLoadingState: Story = {
-  render: (args) => {
-    return (
-      <Stack direction="row" spacing={20}>
-        <Button loading loadingState="로딩중..." {...args} />
         <Button
-          loading
-          loadingState={
-            <CircularProgress
-              trailColor="rgba(0, 0, 0, 0.2)"
-              progressColor="white"
-              size={20}
-            />
-          }
+          variant="outlined"
+          endAdornment={<PersonIcon color="primary" />}
           {...args}
-        />
+        >
+          Profile
+        </Button>
+        <Button
+          variant="subtle-filled"
+          startAdornment={<HomeIcon color="primary" />}
+          style={{ flexDirection: 'column' }}
+          {...args}
+        >
+          Home
+        </Button>
       </Stack>
     );
   }
 };
 
-export const LoadingStatePosition: Story = {
-  render: (args) => {
-    return (
-      <Stack direction="row" spacing={20}>
-        <Button loading loadingStatePosition="left" {...args}>
-          Label
-        </Button>
-        <Button loading loadingStatePosition="center" {...args}>
-          Label
-        </Button>
-        <Button loading loadingStatePosition="right" {...args}>
-          Label
-        </Button>
-      </Stack>
-    );
+export const LoadingButton: Story = {
+  render: () => <LoadingButtons />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const LoadingButtons = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = () => {
+    setIsLoading(true);
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timeoutId);
+  };
+
+  return (
+    <Stack direction="row" spacing={20}>
+      <Button onClick={handleClick} disabled={isLoading}>
+        {isLoading ? 'Loading...' : 'Label'}
+      </Button>
+      <Button
+        startAdornment={isLoading && <CircularProgress progressColor="white" />}
+        onClick={handleClick}
+        disabled={isLoading}
+      >
+        Label
+      </Button>
+      <Button
+        variant="outlined"
+        endAdornment={
+          isLoading ? (
+            <CircularProgress progressColor="primary" />
+          ) : (
+            <PersonIcon color="primary" />
+          )
+        }
+        onClick={handleClick}
+        disabled={isLoading}
+      >
+        Profile
+      </Button>
+      <Button
+        variant="subtle-filled"
+        startAdornment={
+          isLoading ? (
+            <CircularProgress progressColor="primary" />
+          ) : (
+            <HomeIcon color="primary" />
+          )
+        }
+        onClick={handleClick}
+        disabled={isLoading}
+        style={{ flexDirection: 'column' }}
+      >
+        Home
+      </Button>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const FullWidth: Story = {
   render: (args) => {
     return (
-      <Button fullWidth {...args}>
-        Label
-      </Button>
-    );
-  }
-};
-
-export const Elevation: Story = {
-  render: (args) => {
-    return (
-      <Stack direction="row" spacing={20}>
-        <Button elevation={3} {...args}>
+      <Box style={{ width: '500px' }}>
+        <Button fullWidth {...args}>
           Label
         </Button>
-        <Button elevation={5} {...args}>
-          Label
-        </Button>
-      </Stack>
+      </Box>
     );
   }
 };
@@ -322,76 +268,19 @@ export const Color: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
-        <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="secondary" {...args}>
-            Label
-          </Button>
-          <Button variant="subtle-filled" color="secondary" {...args}>
-            Label
-          </Button>
-          <Button variant="outlined" color="secondary" {...args}>
-            Label
-          </Button>
-          <Button variant="text" color="secondary" {...args}>
-            Label
-          </Button>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="yellow-400" {...args}>
-            Label
-          </Button>
-          <Button variant="subtle-filled" color="yellow-400" {...args}>
-            Label
-          </Button>
-          <Button variant="outlined" color="yellow-400" {...args}>
-            Label
-          </Button>
-          <Button variant="text" color="yellow-400" {...args}>
-            Label
-          </Button>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="green" {...args}>
-            Label
-          </Button>
-          <Button variant="subtle-filled" color="green" {...args}>
-            Label
-          </Button>
-          <Button variant="outlined" color="green" {...args}>
-            Label
-          </Button>
-          <Button variant="text" color="green" {...args}>
-            Label
-          </Button>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="#159" {...args}>
-            Label
-          </Button>
-          <Button variant="subtle-filled" color="#159" {...args}>
-            Label
-          </Button>
-          <Button variant="outlined" color="#159" {...args}>
-            Label
-          </Button>
-          <Button variant="text" color="#159" {...args}>
-            Label
-          </Button>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <Button variant="filled" color="rgb(100,100, 100)" {...args}>
-            Label
-          </Button>
-          <Button variant="subtle-filled" color="rgb(100,100, 100)" {...args}>
-            Label
-          </Button>
-          <Button variant="outlined" color="rgb(100,100, 100)" {...args}>
-            Label
-          </Button>
-          <Button variant="text" color="rgb(100,100, 100)" {...args}>
-            Label
-          </Button>
-        </Stack>
+        {['secondary', 'yellow-400', 'green', '#159', 'rgb(100,100, 100)'].map(
+          (color) => (
+            <Stack direction="row" spacing={20}>
+              {(['filled', 'subtle-filled', 'outlined', 'text'] as const).map(
+                (variant) => (
+                  <Button variant={variant} color={color} {...args}>
+                    Label
+                  </Button>
+                )
+              )}
+            </Stack>
+          )
+        )}
       </Stack>
     );
   }
@@ -415,67 +304,110 @@ export const Size: Story = {
   }
 };
 
-export const SquareSize: Story = {
+export const ButtonType: Story = {
   render: (args) => {
     return (
-      <Stack spacing={20}>
-        <Stack direction="row" spacing={20}>
-          <Button
-            variant="filled"
-            centerIcon={<CenterIcon />}
-            isSquareSize
-            {...args}
-          />
+      <Stack direction="row" spacing={20}>
+        <Button type="button" {...args}>
+          Button
+        </Button>
+        <Button type="submit" {...args}>
+          Submit
+        </Button>
+        <Button type="reset" {...args}>
+          Reset
+        </Button>
+      </Stack>
+    );
+  }
+};
 
-          <Button
-            variant="subtle-filled"
-            centerIcon={<CenterIcon />}
-            isSquareSize
-            {...args}
-          />
-          <Button
-            variant="outlined"
-            centerIcon={<CenterIcon />}
-            isSquareSize
-            {...args}
-          />
-          <Button
-            variant="text"
-            centerIcon={<CenterIcon />}
-            isSquareSize
-            {...args}
-          />
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <Button
-            variant="filled"
-            shape="pill"
-            centerIcon={<CenterIcon />}
-            isSquareSize
-            {...args}
-          />
-          <Button
-            variant="subtle-filled"
-            shape="pill"
-            centerIcon={<CenterIcon />}
-            isSquareSize
-            {...args}
-          />
-          <Button
-            variant="outlined"
-            shape="pill"
-            centerIcon={<CenterIcon />}
-            isSquareSize
-            {...args}
-          />
-          <Button
-            variant="text"
-            shape="pill"
-            centerIcon={<CenterIcon />}
-            isSquareSize
-            {...args}
-          />
-        </Stack>
+export const LinkButton: Story = {
+  render: (args) => {
+    return (
+      <Button href="#" {...args}>
+        Label
+      </Button>
+    );
+  }
+};
+
+export const OverlayColor: Story = {
+  render: (args) => {
+    return (
+      <Button overlayColor="black" {...args}>
+        Label
+      </Button>
+    );
+  }
+};
+
+export const DisableOverlay: Story = {
+  render: (args) => {
+    return (
+      <Button disableOverlay {...args}>
+        Label
+      </Button>
+    );
+  }
+};
+
+export const RippleColor: Story = {
+  render: (args) => {
+    return (
+      <Button rippleColor="black" {...args}>
+        Label
+      </Button>
+    );
+  }
+};
+
+export const RippleLocation: Story = {
+  render: (args) => {
+    return (
+      <Button rippleStartLocation="center" {...args}>
+        Label
+      </Button>
+    );
+  }
+};
+
+export const DisableRipple: Story = {
+  render: (args) => {
+    return (
+      <Button disableRipple {...args}>
+        Label
+      </Button>
+    );
+  }
+};
+
+export const Elevation: Story = {
+  render: (args) => {
+    return (
+      <Button elevation={5} {...args}>
+        Label
+      </Button>
+    );
+  }
+};
+
+export const Disabled: Story = {
+  render: (args) => {
+    return (
+      <Stack direction="row" spacing={20}>
+        <Button variant="filled" disabled {...args}>
+          Label
+        </Button>
+        <Button variant="subtle-filled" disabled {...args}>
+          Label
+        </Button>
+        <Button variant="outlined" disabled {...args}>
+          Label
+        </Button>
+        <Button variant="text" disabled {...args}>
+          Label
+        </Button>
       </Stack>
     );
   }
@@ -484,18 +416,20 @@ export const SquareSize: Story = {
 export const CustomButton: Story = {
   render: (args) => {
     return (
-      <Stack direction="row" spacing={20}>
-        <Button
-          style={{
-            background: 'linear-gradient(#e66465, #9198e5)',
-            border: 'none'
-          }}
-          {...args}
-        >
-          Label
-        </Button>
-        <Button type="submit">Submit</Button>
-      </Stack>
+      <Button
+        shape="pill"
+        elevation={3}
+        style={{
+          padding: '0',
+          width: '45px',
+          height: '45px',
+          background: 'linear-gradient(#e66465, #9198e5)',
+          border: 'none'
+        }}
+        {...args}
+      >
+        <CartIcon color="white" />
+      </Button>
     );
   }
 };

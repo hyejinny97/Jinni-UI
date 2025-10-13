@@ -149,7 +149,6 @@ const IngredientChips = () => {
           startAdornment = (
             <CircularProgress
               progressColor={isSelected ? 'white' : 'gray-400'}
-              style={{ width: '100%', height: '100%' }}
             />
           );
         } else if (isSelected) {
@@ -466,7 +465,6 @@ export const Customization: Story = {
           startAdornment = (
             <CircularProgress
               progressColor={isSelected ? 'white' : 'gray-400'}
-              style={{ width: '100%', height: '100%' }}
             />
           );
         } else if (isSelected) {
