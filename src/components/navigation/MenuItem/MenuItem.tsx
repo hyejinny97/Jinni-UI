@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
+import { useMenuList } from './MenuItem.hooks';
 
 export type MenuItemProps<T extends AsType = 'button'> = ButtonBaseProps<T> & {
   children?: React.ReactNode;
@@ -15,14 +16,17 @@ const MenuItem = forwardRef(
     ref: React.Ref<HTMLLIElement>
   ) => {
     const { children, selected, className, ...rest } = props;
+    const menuListValue = useMenuList();
 
     return (
       <li ref={ref} className={cn('JinniMenuItem', className)} role="none">
         <ButtonBase
           className={cn('JinniMenuItemButton', {
-            selected
+            selected,
+            dense: menuListValue?.dense
           })}
           role="menuitem"
+          tabIndex={-1}
           {...rest}
         >
           {children}

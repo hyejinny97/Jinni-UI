@@ -1,73 +1,92 @@
-import { useEffect, useState } from 'react';
-import { findFirstCharacter } from './MenuList.utils';
+import { useEffect, useRef } from 'react';
 import { isAlphabet } from '@/utils/isAlphabet';
 import { MenuListProps } from './MenuList';
 
-const INIT_FOCUS_ITEM_ORDER = -1;
+const INIT_FOCUSED_MENU_ITEM_IDX = -1;
 
-const useKeyDown = ({
+const useKeyboardAccessibility = ({
   children,
   disableAlphabetKeyFocus
 }: Pick<MenuListProps, 'children' | 'disableAlphabetKeyFocus'>) => {
-  const focusableItemsIdx = children
-    .map((element) => !element?.props.disabled)
-    .reduce(
-      (acc: Array<number>, focusable, idx) => (focusable ? [...acc, idx] : acc),
-      []
-    );
-  const focusableItemsNum = focusableItemsIdx.length;
-  const [focusOrder, setFocusOrder] = useState(INIT_FOCUS_ITEM_ORDER);
+  const menuListElRef = useRef<HTMLElement>(null);
+  const focusedMenuItemIdxRef = useRef<number>(INIT_FOCUSED_MENU_ITEM_IDX);
 
   useEffect(() => {
-    const focusableItems = children.filter(
-      (element) => !element?.props.disabled
+    const menuListEl = menuListElRef.current;
+    if (!menuListEl) return;
+    const menuItems = menuListEl.querySelectorAll<HTMLElement>(
+      'button.JinniMenuItemButton'
     );
-    const firstCharacters: Array<string | null> = focusableItems.map(
-      (element: JSX.Element) => findFirstCharacter(element)
-    );
+    if (menuItems.length === 0) return;
+
+    const focusMenuItem = (menuItemIdxToFocus: number) => {
+      menuItems[menuItemIdxToFocus].focus();
+      focusedMenuItemIdxRef.current = menuItemIdxToFocus;
+    };
+    const initFocus = () => {
+      focusedMenuItemIdxRef.current = INIT_FOCUSED_MENU_ITEM_IDX;
+    };
 
     const handleKeydown = (e: KeyboardEvent) => {
-      if (disableAlphabetKeyFocus) return;
-      const pressedKey = e.key;
-      if (pressedKey === 'ArrowDown')
-        return setFocusOrder(
-          (prevOrder) => (prevOrder + 1) % focusableItemsNum
-        );
-      if (pressedKey === 'ArrowUp')
-        return setFocusOrder((prevOrder) =>
-          prevOrder === -1
-            ? focusableItemsNum - 1
-            : (prevOrder - 1 + focusableItemsNum) % focusableItemsNum
-        );
-      if (isAlphabet(pressedKey)) {
-        const uppercaseKey = pressedKey.toUpperCase();
-        const uppercaseCharacters = firstCharacters.map((character) =>
-          typeof character === 'string' ? character.toUpperCase() : character
-        );
-        const matchedOrders = uppercaseCharacters.reduce(
-          (cul: Array<number>, character, idx) =>
-            character === uppercaseKey ? [...cul, idx] : cul,
-          []
-        );
-        if (matchedOrders.length === 0) {
-          return setFocusOrder(INIT_FOCUS_ITEM_ORDER);
+      if (isAlphabet(e.key) && !disableAlphabetKeyFocus) {
+        const pressedChar = e.key.toLowerCase();
+        const startIdx = (focusedMenuItemIdxRef.current + 1) % menuItems.length;
+        const matchIdx = Array.from(menuItems)
+          .slice(startIdx)
+          .findIndex((item) =>
+            item.textContent?.trim().toLowerCase().startsWith(pressedChar)
+          );
+        const targetIdx =
+          matchIdx !== -1
+            ? startIdx + matchIdx
+            : Array.from(menuItems).findIndex((item) =>
+                item.textContent?.trim().toLowerCase().startsWith(pressedChar)
+              );
+
+        if (targetIdx !== -1) {
+          focusMenuItem(targetIdx);
         }
-        return setFocusOrder((prevOrder) => {
-          const order = matchedOrders.indexOf(prevOrder);
-          return order === -1
-            ? matchedOrders[0]
-            : matchedOrders[(order + 1) % matchedOrders.length];
-        });
+        return;
+      }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const focusedMenuItemIdx = focusedMenuItemIdxRef.current;
+        let nextFocusedMenuItemIdx;
+        if (e.key === 'ArrowDown') {
+          nextFocusedMenuItemIdx =
+            focusedMenuItemIdx === menuItems.length - 1
+              ? 0
+              : focusedMenuItemIdx + 1;
+        } else {
+          nextFocusedMenuItemIdx =
+            focusedMenuItemIdx === 0
+              ? menuItems.length - 1
+              : focusedMenuItemIdx - 1;
+        }
+        focusMenuItem(nextFocusedMenuItemIdx);
+      }
+    };
+    const handleFocus = (e: FocusEvent) => {
+      const isFocusedByKeyboard = (e.target as HTMLElement).matches(
+        ':focus-visible'
+      );
+      if (isFocusedByKeyboard) {
+        focusMenuItem(0);
+      } else {
+        initFocus();
       }
     };
 
-    document.addEventListener('keydown', handleKeydown);
+    menuListEl.addEventListener('keydown', handleKeydown);
+    menuListEl.addEventListener('focus', handleFocus);
     return () => {
-      document.removeEventListener('keydown', handleKeydown);
+      menuListEl.removeEventListener('keydown', handleKeydown);
+      menuListEl.removeEventListener('focus', handleFocus);
+      initFocus();
     };
-  }, [children, focusableItemsNum, disableAlphabetKeyFocus]);
+  }, [children, disableAlphabetKeyFocus]);
 
-  return { focusedItemIdx: focusableItemsIdx[focusOrder] };
+  return { menuListElRef };
 };
 
-export default useKeyDown;
+export default useKeyboardAccessibility;

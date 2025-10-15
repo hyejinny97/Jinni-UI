@@ -1,1 +1,2 @@
-export const isAlphabet = (key: string): boolean => /^[a-zA-Z]$/.test(key);
+export const isAlphabet = (key: string): boolean =>
+  key.length === 1 && /^[a-zA-Z]$/.test(key);
