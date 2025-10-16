@@ -11,8 +11,10 @@ export const useKeyboardAccessibility = ({
 
   useEffect(() => {
     if (open) {
-      const menuListEl = menuListElRef.current;
-      menuListEl?.focus();
+      setTimeout(() => {
+        const menuListEl = menuListElRef.current;
+        menuListEl?.focus();
+      }, 0);
     } else if (prevOpenRef.current === true && open === false) {
       const anchorEl = anchorElRef?.current;
       anchorEl?.focus();
