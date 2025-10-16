@@ -6,16 +6,15 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { usePopperAbsolutePosition } from './Popper.hooks';
 import useStyle from '@/hooks/useStyle';
 
-type PopperProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
-  Partial<PopperType> & {
-    anchorReference: PopperType['anchorReference'];
-    anchorElRef?: PopperType['anchorElRef'];
-    anchorOrigin?: PopperType['anchorOrigin'];
-    anchorPosition?: PopperType['anchorPosition'];
-    popperOrigin: PopperType['popperOrigin'];
-  };
+export type PopperProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
+  anchorReference: PopperType['anchorReference'];
+  anchorElRef?: PopperType['anchorElRef'];
+  anchorOrigin?: PopperType['anchorOrigin'];
+  anchorPosition?: PopperType['anchorPosition'];
+  popperOrigin: PopperType['popperOrigin'];
+};
 
-const Popper = (props: PopperProps) => {
+const Popper = <T extends AsType = 'div'>(props: PopperProps<T>) => {
   const {
     children,
     anchorReference,

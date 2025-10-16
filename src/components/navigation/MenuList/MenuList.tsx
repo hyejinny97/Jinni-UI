@@ -4,7 +4,7 @@ import { forwardRef, MutableRefObject } from 'react';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import type { ElevationLevelType } from '@/types/elevation';
-import useKeyboardAccessibility from './MenuList.hooks';
+import { useKeyboardAccessibility } from './MenuList.hooks';
 import { isNumber } from '@/utils/isNumber';
 import MenuListContext from './MenuList.contexts';
 

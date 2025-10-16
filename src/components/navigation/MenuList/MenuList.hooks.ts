@@ -4,7 +4,7 @@ import { MenuListProps } from './MenuList';
 
 const INIT_FOCUSED_MENU_ITEM_IDX = -1;
 
-const useKeyboardAccessibility = ({
+export const useKeyboardAccessibility = ({
   children,
   disableAlphabetKeyFocus
 }: Pick<MenuListProps, 'children' | 'disableAlphabetKeyFocus'>) => {
@@ -88,5 +88,3 @@ const useKeyboardAccessibility = ({
 
   return { menuListElRef };
 };
-
-export default useKeyboardAccessibility;
