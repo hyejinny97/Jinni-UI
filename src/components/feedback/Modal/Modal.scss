@@ -1,5 +1,4 @@
 @use 'sass:map';
-@use '@/styles/variables' as var;
 
 $width: (
   xs: 320px,
@@ -66,13 +65,13 @@ $modal-content-margin: 30px;
     .JinniModalHeader {
       padding: 16px 24px;
       font-size: 20px;
-      font-weight: var.$font-weight-medium;
+      font-weight: var(--jinni-font-weight-medium);
     }
 
     .JinniModalBody {
       padding: 20px 24px;
       font-size: 16px;
-      font-weight: var.$font-weight-regular;
+      font-weight: var(--jinni-font-weight-regular);
     }
 
     .JinniModalHeader + .JinniModalBody {

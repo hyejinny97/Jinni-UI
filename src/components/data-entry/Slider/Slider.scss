@@ -1,5 +1,4 @@
 @use 'sass:map';
-@use '@/styles/variables' as var;
 
 $slider-padding: 13px;
 $slider-margin-for-mark-label: (
@@ -170,7 +169,7 @@ $mark-diameter: (
 
   .JinniSliderMarkLabel {
     position: absolute;
-    font-weight: var.$font-weight-medium;
+    font-weight: var(--jinni-font-weight-medium);
     user-select: none;
     @include font-size;
     &.horizontal {

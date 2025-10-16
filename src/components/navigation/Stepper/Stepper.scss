@@ -1,5 +1,3 @@
-@use '@/styles/variables' as var;
-
 $gap: 12px;
 
 @mixin orientation-and-alignment {
@@ -277,12 +275,12 @@ $gap: 12px;
         width: max-content;
         &.pending {
           color: var(--jinni-color-gray-700);
-          font-weight: var.$font-weight-medium;
+          font-weight: var(--jinni-font-weight-medium);
         }
         &.completed,
         &.active {
           color: var(--jinni-color-gray-900);
-          font-weight: var.$font-weight-bold;
+          font-weight: var(--jinni-font-weight-bold);
         }
       }
 
@@ -291,12 +289,12 @@ $gap: 12px;
         width: max-content;
         &.pending {
           color: var(--jinni-color-gray-400);
-          font-weight: var.$font-weight-regular;
+          font-weight: var(--jinni-font-weight-regular);
         }
         &.completed,
         &.active {
           color: var(--jinni-color-gray-600);
-          font-weight: var.$font-weight-medium;
+          font-weight: var(--jinni-font-weight-medium);
         }
       }
     }

@@ -1,5 +1,3 @@
-@use '@/styles/variables' as var;
-
 .JinniAccordion {
   .JinniAccordionItem {
     border-bottom: 1px solid var(--jinni-color-gray-300);
@@ -34,7 +32,7 @@
           flex: 1;
           text-align: left;
           font-size: 16px;
-          font-weight: var.$font-weight-medium;
+          font-weight: var(--jinni-font-weight-medium);
         }
 
         &ExpandIcon {
@@ -54,7 +52,7 @@
     .JinniAccordionDetails {
       padding: 0 8px 16px;
       font-size: 14px;
-      font-weight: var.$font-weight-regular;
+      font-weight: var(--jinni-font-weight-regular);
     }
   }
 }

@@ -1,5 +1,4 @@
 @use 'sass:map';
-@use '@/styles/variables' as var;
 
 $chip-height: (
   sm: 20px,
@@ -82,7 +81,7 @@ $adornment-margin: (
 
   .JinniChipLabel {
     display: inline-flex;
-    font-weight: var.$font-weight-medium;
+    font-weight: var(--jinni-font-weight-medium);
   }
 
   .JinniChipAdornment {

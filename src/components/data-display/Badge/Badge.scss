@@ -1,5 +1,4 @@
 @use 'sass:map';
-@use '@/styles/variables' as var;
 
 $standard-badge-size: (
   sm: 16px,
@@ -80,7 +79,7 @@ $badge-translateY: (
     box-sizing: border-box;
     background-color: var(--jinni-color-primary);
     color: var(--jinni-color-on-primary);
-    font-weight: var.$font-weight-medium;
+    font-weight: var(--jinni-font-weight-medium);
     border-radius: 1000px;
     @include badge-size-by-variant;
   }

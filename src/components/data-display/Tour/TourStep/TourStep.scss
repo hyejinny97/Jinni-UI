@@ -1,5 +1,3 @@
-@use '@/styles/variables' as var;
-
 @mixin distance {
   &.top,
   &.top-start,
@@ -43,7 +41,7 @@
 .JinniTourStep {
   display: inline-block;
   position: absolute;
-  z-index: var.$z-index-backdrop;
+  z-index: var(--jinni-z-index-backdrop);
 
   .JinniTourStepContent {
     position: relative;
