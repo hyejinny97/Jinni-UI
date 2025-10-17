@@ -19,12 +19,15 @@
 }
 
 .JinniMenuItem {
+  display: inline-flex;
   list-style: none;
 
   .JinniMenuItemButton {
     display: inline-flex;
+    align-items: center;
     padding: 6px 16px;
     width: 100%;
+    box-sizing: border-box;
     font-size: 16px;
     color: inherit;
     text-decoration: none;

@@ -14,9 +14,11 @@ export const useKeyboardAccessibility = ({
   useEffect(() => {
     const menuListEl = menuListElRef.current;
     if (!menuListEl) return;
-    const menuItems = menuListEl.querySelectorAll<HTMLElement>(
-      'button.JinniMenuItemButton'
-    );
+    const menuItems = [
+      ...menuListEl.querySelectorAll<HTMLButtonElement | HTMLLinkElement>(
+        '.JinniMenuItemButton'
+      )
+    ].filter((item) => !item.disabled);
     if (menuItems.length === 0) return;
 
     const focusMenuItem = (menuItemIdxToFocus: number) => {
@@ -31,7 +33,7 @@ export const useKeyboardAccessibility = ({
       if (isAlphabet(e.key) && !disableAlphabetKeyFocus) {
         const pressedChar = e.key.toLowerCase();
         const startIdx = (focusedMenuItemIdxRef.current + 1) % menuItems.length;
-        const matchIdx = Array.from(menuItems)
+        const matchIdx = menuItems
           .slice(startIdx)
           .findIndex((item) =>
             item.textContent?.trim().toLowerCase().startsWith(pressedChar)
@@ -39,7 +41,7 @@ export const useKeyboardAccessibility = ({
         const targetIdx =
           matchIdx !== -1
             ? startIdx + matchIdx
-            : Array.from(menuItems).findIndex((item) =>
+            : menuItems.findIndex((item) =>
                 item.textContent?.trim().toLowerCase().startsWith(pressedChar)
               );
 
@@ -59,7 +61,8 @@ export const useKeyboardAccessibility = ({
               : focusedMenuItemIdx + 1;
         } else {
           nextFocusedMenuItemIdx =
-            focusedMenuItemIdx === 0
+            focusedMenuItemIdx === 0 ||
+            focusedMenuItemIdx === INIT_FOCUSED_MENU_ITEM_IDX
               ? menuItems.length - 1
               : focusedMenuItemIdx - 1;
         }

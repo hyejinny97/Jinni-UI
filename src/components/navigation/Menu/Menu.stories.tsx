@@ -1,21 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useRef, useState } from 'react';
-import Menu, { MenuProps } from './Menu';
+import Menu from './Menu';
 import { MenuItem } from '@/components/navigation/MenuItem';
 import { Button } from '@/components/general/Button';
 import { Divider } from '@/components/layout/Divider';
 import { Stack } from '@/components/layout/Stack';
+import { Grid } from '@/components/layout/Grid';
 import { CartIcon } from '@/components/icons/CartIcon';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import { CheckIcon } from '@/components/icons/CheckIcon';
+import { ListItem } from '@/components/data-display/List';
+import { Radio } from '@/components/data-entry/Radio';
+import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Motion } from '@/components/motion/Motion';
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
   argTypes: {
     anchorElRef: {
-      description:
-        'anchor가 되는 HTML element의 reference로, 메뉴의 위치를 결정해줌',
+      description: 'anchor 요소 참조 객체',
       table: {
         type: {
           summary: 'React.RefObject<HTMLElement>'
@@ -42,19 +46,21 @@ const meta: Meta<typeof Menu> = {
     anchorReference: {
       description: '메뉴의 위치를 설정할 때, 어떤 anchor prop을 참조할지 결정',
       table: {
-        type: { summary: 'anchorEl | anchorPosition' },
-        defaultValue: { summary: 'anchorEl' }
-      }
-    },
-    disableScroll: {
-      description: 'true이면, scroll 불가',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
+        type: { summary: `'anchorEl' | 'anchorPosition'` },
+        defaultValue: { summary: `'anchorEl'` }
       }
     },
     children: {
-      description: '메뉴 콘텐츠(MenuItem, Divider 등)'
+      description: 'MenuList 컴포넌트 안에 담을 요소 (MenuItem, Divider 등)',
+      table: {
+        type: { summary: `React.ReactNode` }
+      }
+    },
+    disableScroll: {
+      description: 'true이면, 화면이 스크롤 되지 않음',
+      table: {
+        type: { summary: 'boolean' }
+      }
     },
     MenuListProps: {
       description: 'MenuList 컴포넌트에 적용되는 props',
@@ -71,14 +77,26 @@ const meta: Meta<typeof Menu> = {
         defaultValue: { summary: `{ horizontal: 'left', vertical: 'top' }` }
       }
     },
-    onClick: {
-      description: 'Menu를 클릭하거나 Enter 키를 누를 때 호출되는 함수'
-    },
     onClose: {
-      description: `'escapeKeydown', 'backdropClick', 'tabKeyDown' 이벤트 발생 시 호출되는 함수`
+      description: `Escape 키/Tab 키/backdrop 클릭 이벤트가 발생 시 호출되는 함수`,
+      table: {
+        type: {
+          summary: `(event: MouseEvent | KeyboardEvent, reason: 'escapeKeydown' |  'backdropClick' | 'tabKeyDown') => void`
+        }
+      }
     },
     open: {
-      description: 'true이면, 메뉴가 나타남'
+      description: 'true이면, 메뉴가 나타남',
+      table: {
+        type: { summary: 'boolean' }
+      }
+    },
+    TransitionComponent: {
+      description: `transition 컴포넌트`,
+      table: {
+        type: { summary: `React.ReactNode` },
+        defaultValue: { summary: `ScaleFade` }
+      }
     }
   }
 };
@@ -86,141 +104,124 @@ const meta: Meta<typeof Menu> = {
 export default meta;
 type Story = StoryObj<typeof Menu>;
 
-const iconMenuItemStyle = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  columnGap: '10px'
-};
-
-const MenuAnchorElTemplate = ({
-  buttonContent,
-  children,
-  ...menuProps
-}: {
-  buttonContent?: string;
-  children: Array<JSX.Element>;
-  menuProps?: MenuProps;
-}) => {
+const BasicMenuTemplate = () => {
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleButtonClick = () => {
+  const openMenu = () => {
     setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
   };
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={handleButtonClick}>
-        {buttonContent || 'Open Menu'}
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
       </Button>
-      <Menu
-        anchorElRef={anchorElRef}
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        {...menuProps}
-      >
-        {children}
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
       </Menu>
     </>
   );
 };
 
-const SelectedMenuTemplate = ({ ...args }) => {
-  const [selectedIdx, setSelectedIdx] = useState(1);
-
-  const handleSelect = (idx: number) => {
-    setSelectedIdx(idx);
-  };
-
-  return (
-    <MenuAnchorElTemplate
-      buttonContent={`Selected Item: Item ${selectedIdx + 1}`}
-      {...args}
-    >
-      <MenuItem onClick={() => handleSelect(0)} disabled>
-        Item 1
-      </MenuItem>
-      <MenuItem onClick={() => handleSelect(1)} selected={selectedIdx === 1}>
-        Item 2
-      </MenuItem>
-      <MenuItem onClick={() => handleSelect(2)} selected={selectedIdx === 2}>
-        Item 3
-      </MenuItem>
-    </MenuAnchorElTemplate>
-  );
-};
-
-const OptionMenuTemplate = ({ ...args }) => {
+const IconMenuTemplate = () => {
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(-1);
 
-  const handleButtonClick = () => {
+  const openMenu = () => {
     setOpen(true);
   };
-  const handleClose = () => {
+  const closeMenu = () => {
     setOpen(false);
-  };
-  const handleSelectOption = (idx: number) => {
-    setSelectedOption(idx);
   };
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={handleButtonClick}>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
+          <CartIcon size={15} color="gray-700" />
+          Cart
+        </MenuItem>
+        <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
+          <MailIcon size={15} color="gray-700" />
+          Mail
+        </MenuItem>
+        <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
+          <PersonIcon size={15} color="gray-700" />
+          Profile
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const DenseMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
         Open Menu
       </Button>
       <Menu
         anchorElRef={anchorElRef}
         open={open}
-        onClose={handleClose}
-        {...args}
+        onClose={closeMenu}
+        MenuListProps={{ dense: true }}
       >
-        <MenuItem
-          onClick={() => handleSelectOption(0)}
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            columnGap: '10px'
-          }}
-        >
-          <span style={{ minWidth: '15px' }}>
-            {selectedOption === 0 && <CheckIcon size={15} />}
-          </span>
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const SelectedMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [selectedIdx, setSelectedIdx] = useState(1);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  const selectMenuItem = (idx: number) => () => {
+    setSelectedIdx(idx);
+    closeMenu();
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        {`Selected Item: Item ${selectedIdx + 1}`}
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem onClick={selectMenuItem(0)} disabled>
           Item 1
         </MenuItem>
-        <MenuItem
-          onClick={() => handleSelectOption(1)}
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            columnGap: '10px'
-          }}
-        >
-          <span style={{ minWidth: '15px' }}>
-            {selectedOption === 1 && <CheckIcon size={15} />}
-          </span>
+        <MenuItem onClick={selectMenuItem(1)} selected={selectedIdx === 1}>
           Item 2
         </MenuItem>
-        <MenuItem
-          onClick={() => handleSelectOption(2)}
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            columnGap: '10px'
-          }}
-        >
-          <span style={{ minWidth: '15px' }}>
-            {selectedOption === 2 && <CheckIcon size={15} />}
-          </span>
+        <MenuItem onClick={selectMenuItem(2)} selected={selectedIdx === 2}>
           Item 3
         </MenuItem>
       </Menu>
@@ -228,21 +229,286 @@ const OptionMenuTemplate = ({ ...args }) => {
   );
 };
 
-const MenuAnchorPositionTemplate = ({ ...args }) => {
+const GroupMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <ListItem
+          style={{
+            fontWeight: 'var(--jinni-font-weight-bold)',
+            fontSize: '14px',
+            color: 'gray-600'
+          }}
+        >
+          Category 1
+        </ListItem>
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+        <Divider />
+        <ListItem
+          style={{
+            fontWeight: 'var(--jinni-font-weight-bold)',
+            fontSize: '14px',
+            color: 'gray-600'
+          }}
+        >
+          Category 2
+        </ListItem>
+        <MenuItem onClick={closeMenu}>Item 4</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 5</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 6</MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const LinkMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem href="#" onClick={closeMenu}>
+          Item 1
+        </MenuItem>
+        <MenuItem href="#" onClick={closeMenu}>
+          Item 2
+        </MenuItem>
+        <MenuItem href="#" onClick={closeMenu}>
+          Item 3
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const OptionMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  const selectOption = (idx: number) => () => {
+    setSelectedOptions((prev) =>
+      prev.includes(idx)
+        ? prev.filter((option) => option !== idx)
+        : [...prev, idx]
+    );
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem
+          role="menuitemcheckbox"
+          onClick={selectOption(0)}
+          style={{ columnGap: '5px' }}
+        >
+          <span style={{ display: 'inline-flex', minWidth: '15px' }}>
+            {selectedOptions.includes(0) && <CheckIcon size={15} />}
+          </span>
+          Option 1
+        </MenuItem>
+        <MenuItem
+          role="menuitemcheckbox"
+          onClick={selectOption(1)}
+          style={{ columnGap: '5px' }}
+        >
+          <span style={{ display: 'inline-flex', minWidth: '15px' }}>
+            {selectedOptions.includes(1) && <CheckIcon size={15} />}
+          </span>
+          Option 2
+        </MenuItem>
+        <MenuItem
+          role="menuitemcheckbox"
+          onClick={selectOption(2)}
+          style={{ columnGap: '5px' }}
+        >
+          <span style={{ display: 'inline-flex', minWidth: '15px' }}>
+            {selectedOptions.includes(2) && <CheckIcon size={15} />}
+          </span>
+          Option 3
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const MenuOriginTemplate = () => {
+  const MENU_ORIGIN = [
+    { label: 'H left / V top', horizontal: 'left', vertical: 'top' },
+    { label: 'H left / V center', horizontal: 'left', vertical: 'center' },
+    { label: 'H left / V bottom', horizontal: 'left', vertical: 'bottom' },
+    { label: 'H center / V top', horizontal: 'center', vertical: 'top' },
+    { label: 'H center / V center', horizontal: 'center', vertical: 'center' },
+    { label: 'H center / V bottom', horizontal: 'center', vertical: 'bottom' },
+    { label: 'H right / V top', horizontal: 'right', vertical: 'top' },
+    { label: 'H right / V center', horizontal: 'right', vertical: 'center' },
+    { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
+    { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
+  ] as const;
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [checkedValue, setCheckedValue] = useState<number>(0);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(Number(e.target.value));
+  };
+
+  return (
+    <>
+      <Stack spacing={20} style={{ alignItems: 'center' }}>
+        <Grid columns={3} columnSpacing={20}>
+          {MENU_ORIGIN.map((origin, idx) => (
+            <RadioLabel label={origin.label}>
+              <Radio
+                checked={checkedValue === idx}
+                value={idx}
+                onChange={check}
+              />
+            </RadioLabel>
+          ))}
+        </Grid>
+        <Button ref={anchorElRef} onClick={openMenu}>
+          Open Menu
+        </Button>
+      </Stack>
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        menuOrigin={{
+          horizontal: MENU_ORIGIN[checkedValue].horizontal,
+          vertical: MENU_ORIGIN[checkedValue].vertical
+        }}
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const AnchorOriginTemplate = () => {
+  const ANCHOR_ORIGIN = [
+    { label: 'H left / V top', horizontal: 'left', vertical: 'top' },
+    { label: 'H left / V center', horizontal: 'left', vertical: 'center' },
+    { label: 'H left / V bottom', horizontal: 'left', vertical: 'bottom' },
+    { label: 'H center / V top', horizontal: 'center', vertical: 'top' },
+    { label: 'H center / V center', horizontal: 'center', vertical: 'center' },
+    { label: 'H center / V bottom', horizontal: 'center', vertical: 'bottom' },
+    { label: 'H right / V top', horizontal: 'right', vertical: 'top' },
+    { label: 'H right / V center', horizontal: 'right', vertical: 'center' },
+    { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
+    { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
+  ] as const;
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [checkedValue, setCheckedValue] = useState<number>(0);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(Number(e.target.value));
+  };
+
+  return (
+    <>
+      <Stack spacing={20} style={{ alignItems: 'center' }}>
+        <Grid columns={3} columnSpacing={20}>
+          {ANCHOR_ORIGIN.map((origin, idx) => (
+            <RadioLabel label={origin.label}>
+              <Radio
+                checked={checkedValue === idx}
+                value={idx}
+                onChange={check}
+              />
+            </RadioLabel>
+          ))}
+        </Grid>
+        <Button ref={anchorElRef} onClick={openMenu}>
+          Open Menu
+        </Button>
+      </Stack>
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        anchorOrigin={{
+          horizontal: ANCHOR_ORIGIN[checkedValue].horizontal,
+          vertical: ANCHOR_ORIGIN[checkedValue].vertical
+        }}
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const AnchorPositionTemplate = () => {
   const [open, setOpen] = useState(false);
   const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
 
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
     const newCoordinate = {
       left: event.clientX,
       top: event.clientY
     };
-    setOpen(true);
     setCoordinate(newCoordinate);
-  };
-  const handleClose = () => {
-    setOpen(false);
+    openMenu();
   };
 
   return (
@@ -260,367 +526,782 @@ const MenuAnchorPositionTemplate = ({ ...args }) => {
       </p>
       <Menu
         open={open}
-        onClose={handleClose}
-        onClick={handleClose}
+        onClose={closeMenu}
         anchorReference="anchorPosition"
         anchorPosition={coordinate}
-        {...args}
       >
-        <MenuItem>Item 1</MenuItem>
-        <MenuItem>Item 2</MenuItem>
-        <MenuItem>Item 3</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const DisableScrollTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        disableScroll
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const CustomizeMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        MenuListProps={{ style: { maxHeight: '90px', overflowY: 'scroll' } }}
+        style={{ marginTop: '5px' }}
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 4</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 5</MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+const Scale = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Motion
+      initial={{ transform: 'scale(0)' }}
+      animate={{ transform: 'scale(1)' }}
+      exit={{ transform: 'scale(0)' }}
+      transition={{
+        enter:
+          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
+        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
+      }}
+    >
+      {children}
+    </Motion>
+  );
+};
+
+const CustomizeTransitionTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        TransitionComponent={Scale}
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
       </Menu>
     </>
   );
 };
 
 export const BasicMenu: Story = {
-  render: (args) => {
-    return (
-      <MenuAnchorElTemplate {...args}>
-        <MenuItem>Item 1</MenuItem>
-        <MenuItem>Item 2</MenuItem>
-        <Divider style={{ margin: '5px 0' }} />
-        <MenuItem>Item 3</MenuItem>
-      </MenuAnchorElTemplate>
-    );
-  }
-};
+  render: () => <BasicMenuTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
 
-export const DisableScroll: Story = {
-  render: (args) => {
-    return (
-      <MenuAnchorElTemplate disableScroll {...args}>
-        <MenuItem>Item 1</MenuItem>
-        <MenuItem>Item 2</MenuItem>
-        <MenuItem>Item 3</MenuItem>
-      </MenuAnchorElTemplate>
-    );
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};
+`.trim()
+      }
+    }
   }
 };
 
 export const IconMenu: Story = {
-  render: (args) => {
-    return (
-      <MenuAnchorElTemplate {...args}>
-        <MenuItem style={iconMenuItemStyle}>
-          <CartIcon size={15} />
-          Item 1
+  render: () => <IconMenuTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const IconMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
+          <CartIcon size={15} color="gray-700" />
+          Cart
         </MenuItem>
-        <MenuItem style={iconMenuItemStyle}>
-          <MailIcon size={15} />
-          Item 2
+        <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
+          <MailIcon size={15} color="gray-700" />
+          Mail
         </MenuItem>
-        <MenuItem style={iconMenuItemStyle}>
-          <PersonIcon size={15} />
-          Item 3
+        <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
+          <PersonIcon size={15} color="gray-700" />
+          Profile
         </MenuItem>
-      </MenuAnchorElTemplate>
-    );
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const DenseMenu: Story = {
-  render: (args) => {
-    return (
-      <MenuAnchorElTemplate MenuListProps={{ dense: true }} {...args}>
-        <MenuItem>Item 1</MenuItem>
-        <MenuItem>Item 2</MenuItem>
-        <MenuItem>Item 3</MenuItem>
-      </MenuAnchorElTemplate>
-    );
+  render: () => <DenseMenuTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const DenseMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        MenuListProps={{ dense: true }}
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const SelectedMenu: Story = {
-  render: (args) => SelectedMenuTemplate(args)
+  render: () => <SelectedMenuTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SelectedMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [selectedIdx, setSelectedIdx] = useState(1);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  const selectMenuItem = (idx: number) => () => {
+    setSelectedIdx(idx);
+    closeMenu();
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        {\`Selected Item: Item \${selectedIdx + 1}\`}
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem onClick={selectMenuItem(0)} disabled>
+          Item 1
+        </MenuItem>
+        <MenuItem onClick={selectMenuItem(1)} selected={selectedIdx === 1}>
+          Item 2
+        </MenuItem>
+        <MenuItem onClick={selectMenuItem(2)} selected={selectedIdx === 2}>
+          Item 3
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+`.trim()
+      }
+    }
+  }
 };
 
 export const GroupMenu: Story = {
-  render: (args) => {
-    return (
-      <MenuAnchorElTemplate {...args}>
-        <MenuItem
-          disabled
+  render: () => <GroupMenuTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const GroupMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <ListItem
           style={{
-            color: 'primary',
-            fontWeight: '700'
+            fontWeight: 'var(--jinni-font-weight-bold)',
+            fontSize: '14px',
+            color: 'gray-600'
           }}
         >
-          Group Name
-        </MenuItem>
-        <MenuItem>Item 1</MenuItem>
-        <MenuItem>Item 2</MenuItem>
-      </MenuAnchorElTemplate>
-    );
+          Category 1
+        </ListItem>
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+        <Divider />
+        <ListItem
+          style={{
+            fontWeight: 'var(--jinni-font-weight-bold)',
+            fontSize: '14px',
+            color: 'gray-600'
+          }}
+        >
+          Category 2
+        </ListItem>
+        <MenuItem onClick={closeMenu}>Item 4</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 5</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 6</MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const LinkMenu: Story = {
-  render: (args) => {
-    return (
-      <MenuAnchorElTemplate {...args}>
-        <MenuItem href="https://www.naver.com">Item 1</MenuItem>
-        <MenuItem href="#">Item 2</MenuItem>
-        <MenuItem href="#">Item 3</MenuItem>
-      </MenuAnchorElTemplate>
-    );
+  render: () => <LinkMenuTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const LinkMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem href="#" onClick={closeMenu}>
+          Item 1
+        </MenuItem>
+        <MenuItem href="#" onClick={closeMenu}>
+          Item 2
+        </MenuItem>
+        <MenuItem href="#" onClick={closeMenu}>
+          Item 3
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const OptionMenu: Story = {
-  render: (args) => OptionMenuTemplate(args)
+  render: () => <OptionMenuTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const OptionMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  const selectOption = (idx: number) => () => {
+    setSelectedOptions((prev) =>
+      prev.includes(idx)
+        ? prev.filter((option) => option !== idx)
+        : [...prev, idx]
+    );
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+        <MenuItem
+          role="menuitemcheckbox"
+          onClick={selectOption(0)}
+          style={{ columnGap: '5px' }}
+        >
+          <span style={{ display: 'inline-flex', minWidth: '15px' }}>
+            {selectedOptions.includes(0) && <CheckIcon size={15} />}
+          </span>
+          Option 1
+        </MenuItem>
+        <MenuItem
+          role="menuitemcheckbox"
+          onClick={selectOption(1)}
+          style={{ columnGap: '5px' }}
+        >
+          <span style={{ display: 'inline-flex', minWidth: '15px' }}>
+            {selectedOptions.includes(1) && <CheckIcon size={15} />}
+          </span>
+          Option 2
+        </MenuItem>
+        <MenuItem
+          role="menuitemcheckbox"
+          onClick={selectOption(2)}
+          style={{ columnGap: '5px' }}
+        >
+          <span style={{ display: 'inline-flex', minWidth: '15px' }}>
+            {selectedOptions.includes(2) && <CheckIcon size={15} />}
+          </span>
+          Option 3
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const MenuOrigin: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={30}>
-        <Stack direction="row" spacing={20}>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 'left', vertical: 'top' }}
-            buttonContent="H left / V top (Default)"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 'left', vertical: 'center' }}
-            buttonContent="H left / V center"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-            buttonContent="H left / V bottom"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 'center', vertical: 'top' }}
-            buttonContent="H center / V top"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 'center', vertical: 'center' }}
-            buttonContent="H center / V center"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-            buttonContent="H center / V bottom"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 'right', vertical: 'top' }}
-            buttonContent="H right / V top"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 'right', vertical: 'center' }}
-            buttonContent="H right / V center"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            buttonContent="H right / V bottom"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 0, vertical: 20 }}
-            buttonContent="H 0 / V 20"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            menuOrigin={{ horizontal: 50, vertical: 0 }}
-            buttonContent="H 50 / V 0"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-        </Stack>
+  render: () => <MenuOriginTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const MenuOriginTemplate = () => {
+  const MENU_ORIGIN = [
+    { label: 'H left / V top', horizontal: 'left', vertical: 'top' },
+    { label: 'H left / V center', horizontal: 'left', vertical: 'center' },
+    { label: 'H left / V bottom', horizontal: 'left', vertical: 'bottom' },
+    { label: 'H center / V top', horizontal: 'center', vertical: 'top' },
+    { label: 'H center / V center', horizontal: 'center', vertical: 'center' },
+    { label: 'H center / V bottom', horizontal: 'center', vertical: 'bottom' },
+    { label: 'H right / V top', horizontal: 'right', vertical: 'top' },
+    { label: 'H right / V center', horizontal: 'right', vertical: 'center' },
+    { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
+    { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
+  ] as const;
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [checkedValue, setCheckedValue] = useState<number>(0);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(Number(e.target.value));
+  };
+
+  return (
+    <>
+      <Stack spacing={20} style={{ alignItems: 'center' }}>
+        <Grid columns={3} columnSpacing={20}>
+          {MENU_ORIGIN.map((origin, idx) => (
+            <RadioLabel label={origin.label}>
+              <Radio
+                checked={checkedValue === idx}
+                value={idx}
+                onChange={check}
+              />
+            </RadioLabel>
+          ))}
+        </Grid>
+        <Button ref={anchorElRef} onClick={openMenu}>
+          Open Menu
+        </Button>
       </Stack>
-    );
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        menuOrigin={{
+          horizontal: MENU_ORIGIN[checkedValue].horizontal,
+          vertical: MENU_ORIGIN[checkedValue].vertical
+        }}
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const AnchorOrigin: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={30}>
-        <Stack direction="row" spacing={20}>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-            buttonContent="H left / V top"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 'left', vertical: 'center' }}
-            buttonContent="H left / V center"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-            buttonContent="H left / V bottom (Default)"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            buttonContent="H center / V top"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
-            buttonContent="H center / V center"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-            buttonContent="H center / V bottom"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            buttonContent="H right / V top"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 'right', vertical: 'center' }}
-            buttonContent="H right / V center"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            buttonContent="H right / V bottom"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 0, vertical: 20 }}
-            buttonContent="H 0 / V 20"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-          <MenuAnchorElTemplate
-            anchorOrigin={{ horizontal: 50, vertical: 0 }}
-            buttonContent="H 50 / V 0"
-            {...args}
-          >
-            <MenuItem>Item 1</MenuItem>
-            <MenuItem>Item 2</MenuItem>
-            <MenuItem>Item 3</MenuItem>
-          </MenuAnchorElTemplate>
-        </Stack>
+  render: () => <AnchorOriginTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const AnchorOriginTemplate = () => {
+  const ANCHOR_ORIGIN = [
+    { label: 'H left / V top', horizontal: 'left', vertical: 'top' },
+    { label: 'H left / V center', horizontal: 'left', vertical: 'center' },
+    { label: 'H left / V bottom', horizontal: 'left', vertical: 'bottom' },
+    { label: 'H center / V top', horizontal: 'center', vertical: 'top' },
+    { label: 'H center / V center', horizontal: 'center', vertical: 'center' },
+    { label: 'H center / V bottom', horizontal: 'center', vertical: 'bottom' },
+    { label: 'H right / V top', horizontal: 'right', vertical: 'top' },
+    { label: 'H right / V center', horizontal: 'right', vertical: 'center' },
+    { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
+    { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
+  ] as const;
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [checkedValue, setCheckedValue] = useState<number>(0);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(Number(e.target.value));
+  };
+
+  return (
+    <>
+      <Stack spacing={20} style={{ alignItems: 'center' }}>
+        <Grid columns={3} columnSpacing={20}>
+          {ANCHOR_ORIGIN.map((origin, idx) => (
+            <RadioLabel label={origin.label}>
+              <Radio
+                checked={checkedValue === idx}
+                value={idx}
+                onChange={check}
+              />
+            </RadioLabel>
+          ))}
+        </Grid>
+        <Button ref={anchorElRef} onClick={openMenu}>
+          Open Menu
+        </Button>
       </Stack>
-    );
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        anchorOrigin={{
+          horizontal: ANCHOR_ORIGIN[checkedValue].horizontal,
+          vertical: ANCHOR_ORIGIN[checkedValue].vertical
+        }}
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const AnchorPosition: Story = {
-  render: (args) => MenuAnchorPositionTemplate(args)
+  render: () => <AnchorPositionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const AnchorPositionTemplate = () => {
+  const [open, setOpen] = useState(false);
+  const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault();
+    const newCoordinate = {
+      left: event.clientX,
+      top: event.clientY
+    };
+    setCoordinate(newCoordinate);
+    openMenu();
+  };
+
+  return (
+    <>
+      <p onContextMenu={handleContextMenu}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
+        purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
+        bibendum vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed
+        dolor porttitor blandit vel vel purus. Fusce vel malesuada ligula. Nam
+        quis vehicula ante, eu finibus est. Proin ullamcorper fermentum orci,
+        quis finibus massa. Nunc lobortis, massa ut rutrum ultrices, metus metus
+        finibus ex, sit amet facilisis neque enim sed neque. Quisque accumsan
+        metus vel maximus consequat. Suspendisse lacinia tellus a libero
+        volutpat maximus.
+      </p>
+      <Menu
+        open={open}
+        onClose={closeMenu}
+        anchorReference="anchorPosition"
+        anchorPosition={coordinate}
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
-export const Customization: Story = {
-  render: (args) => {
-    return (
-      <MenuAnchorElTemplate
+export const DisableScroll: Story = {
+  render: () => <DisableScrollTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const DisableScrollTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu} disableScroll>
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const CustomizeMenu: Story = {
+  render: () => <CustomizeMenuTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomizeMenuTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
         MenuListProps={{ style: { maxHeight: '90px', overflowY: 'scroll' } }}
-        {...args}
+        style={{ marginTop: '5px' }}
       >
-        <MenuItem>Item 1</MenuItem>
-        <MenuItem>Item 2</MenuItem>
-        <MenuItem>Item 3</MenuItem>
-        <MenuItem>Item 4</MenuItem>
-        <MenuItem>Item 5</MenuItem>
-      </MenuAnchorElTemplate>
-    );
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 4</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 5</MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const CustomizeTransition: Story = {
+  render: () => <CustomizeTransitionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const Scale = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Motion
+      initial={{ transform: 'scale(0)' }}
+      animate={{ transform: 'scale(1)' }}
+      exit={{ transform: 'scale(0)' }}
+      transition={{
+        enter:
+          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
+        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
+      }}
+    >
+      {children}
+    </Motion>
+  );
+};
+
+const CustomizeTransitionTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={openMenu}>
+        Open Menu
+      </Button>
+      <Menu
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        TransitionComponent={Scale}
+      >
+        <MenuItem onClick={closeMenu}>Item 1</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 2</MenuItem>
+        <MenuItem onClick={closeMenu}>Item 3</MenuItem>
+      </Menu>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
