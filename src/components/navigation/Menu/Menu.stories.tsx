@@ -117,10 +117,21 @@ const BasicMenuTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem onClick={closeMenu}>Item 1</MenuItem>
         <MenuItem onClick={closeMenu}>Item 2</MenuItem>
         <MenuItem onClick={closeMenu}>Item 3</MenuItem>
@@ -142,10 +153,21 @@ const IconMenuTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
           <CartIcon size={15} color="gray-700" />
           Cart
@@ -176,10 +198,17 @@ const DenseMenuTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -211,10 +240,21 @@ const SelectedMenuTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         {`Selected Item: Item ${selectedIdx + 1}`}
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem onClick={selectMenuItem(0)} disabled>
           Item 1
         </MenuItem>
@@ -242,10 +282,21 @@ const GroupMenuTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <ListItem
           style={{
             fontWeight: 'var(--jinni-font-weight-bold)',
@@ -289,10 +340,21 @@ const LinkMenuTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem href="#" onClick={closeMenu}>
           Item 1
         </MenuItem>
@@ -328,12 +390,24 @@ const OptionMenuTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem
           role="menuitemcheckbox"
+          aria-checked={selectedOptions.includes(0)}
           onClick={selectOption(0)}
           style={{ columnGap: '5px' }}
         >
@@ -344,6 +418,7 @@ const OptionMenuTemplate = () => {
         </MenuItem>
         <MenuItem
           role="menuitemcheckbox"
+          aria-checked={selectedOptions.includes(1)}
           onClick={selectOption(1)}
           style={{ columnGap: '5px' }}
         >
@@ -354,6 +429,7 @@ const OptionMenuTemplate = () => {
         </MenuItem>
         <MenuItem
           role="menuitemcheckbox"
+          aria-checked={selectedOptions.includes(2)}
           onClick={selectOption(2)}
           style={{ columnGap: '5px' }}
         >
@@ -408,11 +484,18 @@ const MenuOriginTemplate = () => {
             </RadioLabel>
           ))}
         </Grid>
-        <Button ref={anchorElRef} onClick={openMenu}>
+        <Button
+          ref={anchorElRef}
+          onClick={openMenu}
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="basic-menu"
+        >
           Open Menu
         </Button>
       </Stack>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -470,11 +553,18 @@ const AnchorOriginTemplate = () => {
             </RadioLabel>
           ))}
         </Grid>
-        <Button ref={anchorElRef} onClick={openMenu}>
+        <Button
+          ref={anchorElRef}
+          onClick={openMenu}
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="basic-menu"
+        >
           Open Menu
         </Button>
       </Stack>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -513,7 +603,12 @@ const AnchorPositionTemplate = () => {
 
   return (
     <>
-      <p onContextMenu={handleContextMenu}>
+      <p
+        onContextMenu={handleContextMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
         bibendum vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed
@@ -525,6 +620,7 @@ const AnchorPositionTemplate = () => {
         volutpat maximus.
       </p>
       <Menu
+        id="basic-menu"
         open={open}
         onClose={closeMenu}
         anchorReference="anchorPosition"
@@ -551,10 +647,17 @@ const DisableScrollTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -581,10 +684,17 @@ const CustomizeMenuTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -631,10 +741,17 @@ const CustomizeTransitionTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -666,18 +783,28 @@ export const BasicMenu: Story = {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem onClick={closeMenu}>Item 1</MenuItem>
         <MenuItem onClick={closeMenu}>Item 2</MenuItem>
         <MenuItem onClick={closeMenu}>Item 3</MenuItem>
       </Menu>
     </>
   );
-};
-`.trim()
+};`.trim()
       }
     }
   }
@@ -701,10 +828,21 @@ export const IconMenu: Story = {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
           <CartIcon size={15} color="gray-700" />
           Cart
@@ -744,10 +882,17 @@ export const DenseMenu: Story = {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -759,7 +904,8 @@ export const DenseMenu: Story = {
       </Menu>
     </>
   );
-};`.trim()
+};
+`.trim()
       }
     }
   }
@@ -788,10 +934,21 @@ export const SelectedMenu: Story = {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         {\`Selected Item: Item \${selectedIdx + 1}\`}
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem onClick={selectMenuItem(0)} disabled>
           Item 1
         </MenuItem>
@@ -829,10 +986,21 @@ export const GroupMenu: Story = {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <ListItem
           style={{
             fontWeight: 'var(--jinni-font-weight-bold)',
@@ -885,10 +1053,21 @@ export const LinkMenu: Story = {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem href="#" onClick={closeMenu}>
           Item 1
         </MenuItem>
@@ -933,12 +1112,24 @@ export const OptionMenu: Story = {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu}>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+      >
         <MenuItem
           role="menuitemcheckbox"
+          aria-checked={selectedOptions.includes(0)}
           onClick={selectOption(0)}
           style={{ columnGap: '5px' }}
         >
@@ -949,6 +1140,7 @@ export const OptionMenu: Story = {
         </MenuItem>
         <MenuItem
           role="menuitemcheckbox"
+          aria-checked={selectedOptions.includes(1)}
           onClick={selectOption(1)}
           style={{ columnGap: '5px' }}
         >
@@ -959,6 +1151,7 @@ export const OptionMenu: Story = {
         </MenuItem>
         <MenuItem
           role="menuitemcheckbox"
+          aria-checked={selectedOptions.includes(2)}
           onClick={selectOption(2)}
           style={{ columnGap: '5px' }}
         >
@@ -1022,11 +1215,18 @@ export const MenuOrigin: Story = {
             </RadioLabel>
           ))}
         </Grid>
-        <Button ref={anchorElRef} onClick={openMenu}>
+        <Button
+          ref={anchorElRef}
+          onClick={openMenu}
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="basic-menu"
+        >
           Open Menu
         </Button>
       </Stack>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -1093,11 +1293,18 @@ export const AnchorOrigin: Story = {
             </RadioLabel>
           ))}
         </Grid>
-        <Button ref={anchorElRef} onClick={openMenu}>
+        <Button
+          ref={anchorElRef}
+          onClick={openMenu}
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="basic-menu"
+        >
           Open Menu
         </Button>
       </Stack>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -1145,7 +1352,12 @@ export const AnchorPosition: Story = {
 
   return (
     <>
-      <p onContextMenu={handleContextMenu}>
+      <p
+        onContextMenu={handleContextMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
         bibendum vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed
@@ -1157,6 +1369,7 @@ export const AnchorPosition: Story = {
         volutpat maximus.
       </p>
       <Menu
+        id="basic-menu"
         open={open}
         onClose={closeMenu}
         anchorReference="anchorPosition"
@@ -1168,7 +1381,8 @@ export const AnchorPosition: Story = {
       </Menu>
     </>
   );
-};`.trim()
+};
+`.trim()
       }
     }
   }
@@ -1192,10 +1406,22 @@ export const DisableScroll: Story = {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
-      <Menu anchorElRef={anchorElRef} open={open} onClose={closeMenu} disableScroll>
+      <Menu
+        id="basic-menu"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeMenu}
+        disableScroll
+      >
         <MenuItem onClick={closeMenu}>Item 1</MenuItem>
         <MenuItem onClick={closeMenu}>Item 2</MenuItem>
         <MenuItem onClick={closeMenu}>Item 3</MenuItem>
@@ -1226,10 +1452,17 @@ export const CustomizeMenu: Story = {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
@@ -1285,10 +1518,17 @@ const CustomizeTransitionTemplate = () => {
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={openMenu}>
+      <Button
+        ref={anchorElRef}
+        onClick={openMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-menu"
+      >
         Open Menu
       </Button>
       <Menu
+        id="basic-menu"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeMenu}
