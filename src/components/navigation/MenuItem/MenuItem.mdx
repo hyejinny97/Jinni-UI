@@ -17,13 +17,9 @@ import { MenuItem } from '@/components/navigation/MenuItem';
 
 ### Basic MenuItem
 
+- `children`: 메뉴 아이템 콘텐츠
+
 <Canvas of={MenuItemStories.BasicMenuItem} />
-
-### Dense
-
-- `dense`: true이면, MenuItem 컴포넌트 내 padding과 font-size를 줄여줌
-
-<Canvas of={MenuItemStories.Dense} />
 
 ### Selected
 
@@ -31,23 +27,31 @@ import { MenuItem } from '@/components/navigation/MenuItem';
 
 <Canvas of={MenuItemStories.Selected} />
 
-### Disabled
+### ButtonBase props
 
-- `disabled`: true이면, 비활성화됨
+- 내부적으로 `ButtonBase` 컴포넌트를 반환하므로, `ButtonBase`의 모든 props 사용 가능
 
-<Canvas of={MenuItemStories.Disabled} />
-
-### Focus
-
-- `focus`: true이면, focus 됨 (overlay가 씌워짐)
-
-<Canvas of={MenuItemStories.Focus} />
-
-### Link Menu Item
-
-- `href`: 이동할 링크 url
+#### 1) Link MenuItem
 
 <Canvas of={MenuItemStories.LinkMenuItem} />
+
+#### 2) Overlay effect
+
+<Canvas of={MenuItemStories.OverlayEffect} />
+
+#### 3) Ripple effect
+
+1. Ripple start location
+
+<Canvas of={MenuItemStories.RippleStartLocation} />
+
+2. Disable overlay effect
+
+<Canvas of={MenuItemStories.DisableRipple} />
+
+#### 4) Disabled
+
+<Canvas of={MenuItemStories.Disabled} />
 
 ## Props
 

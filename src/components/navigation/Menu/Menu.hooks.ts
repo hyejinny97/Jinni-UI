@@ -1,35 +1,45 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { MenuProps } from './Menu';
 
-type useKeydownProps = Pick<MenuProps, 'onClose' | 'onClick'> & {
-  menuRef: React.RefObject<HTMLElement>;
-};
+export const useKeyboardAccessibility = ({
+  open,
+  onClose,
+  anchorElRef
+}: Pick<MenuProps, 'open' | 'onClose' | 'anchorElRef'>) => {
+  const menuListElRef = useRef<HTMLElement>(null);
+  const prevOpenRef = useRef<boolean>(open);
 
-export const useKeydown = ({ menuRef, onClose, onClick }: useKeydownProps) => {
   useEffect(() => {
-    const menuEl = menuRef.current;
-    if (!menuEl) return;
+    if (open) {
+      setTimeout(() => {
+        const menuListEl = menuListElRef.current;
+        menuListEl?.focus();
+      }, 0);
+    } else if (prevOpenRef.current === true && open === false) {
+      const anchorEl = anchorElRef?.current;
+      anchorEl?.focus();
+    }
+    prevOpenRef.current = open;
+  }, [open, anchorElRef]);
+
+  useEffect(() => {
+    if (!open || !onClose) return;
 
     const handleEscapeAndTap = (e: KeyboardEvent) => {
-      if (!onClose) return;
       if (e.key === 'Escape') {
-        onClose(e, 'escapeKeydown');
+        onClose(e, 'escapeKeyDown');
       }
       if (e.key === 'Tab') {
+        e.preventDefault();
         onClose(e, 'tabKeyDown');
-      }
-    };
-    const handleEnter = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && onClick) {
-        onClick(e);
       }
     };
 
     document.addEventListener('keydown', handleEscapeAndTap);
-    menuEl.addEventListener('keydown', handleEnter);
     return () => {
       document.removeEventListener('keydown', handleEscapeAndTap);
-      menuEl.removeEventListener('keydown', handleEnter);
     };
-  }, [onClose]);
+  }, [open, onClose]);
+
+  return { menuListElRef };
 };

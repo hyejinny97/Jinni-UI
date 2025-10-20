@@ -1,5 +1,4 @@
 @use 'sass:map';
-@use '@/styles/variables' as var;
 
 $avatar-size: (
   xs: 24px,
@@ -18,11 +17,11 @@ $font-size: (
 );
 
 $font-weight: (
-  xs: var.$font-weight-regular,
-  sm: var.$font-weight-regular,
-  md: var.$font-weight-medium,
-  lg: var.$font-weight-semi-bold,
-  xl: var.$font-weight-bold
+  xs: var(--jinni-font-weight-regular),
+  sm: var(--jinni-font-weight-regular),
+  md: var(--jinni-font-weight-medium),
+  lg: var(--jinni-font-weight-semi-bold),
+  xl: var(--jinni-font-weight-bold)
 );
 
 $avatar-shape: (

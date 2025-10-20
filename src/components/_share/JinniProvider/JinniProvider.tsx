@@ -9,6 +9,8 @@ import { EasingType, DurationType } from '@/types/motion';
 import { ContrastType } from '@/types/contrast';
 import { DEFAULT_DESIGN_SYSTEM } from './JinniProvider.constants';
 import { ELEVATION_LEVELS } from '@/constants/elevation';
+import { FontWeightType } from '@/types/fontWeight';
+import { ZIndexType } from '@/types/zIndex';
 
 export interface DesignSystemType {
   theme: ThemeModeType;
@@ -27,6 +29,8 @@ export interface DesignSystemType {
   blackOverlay: Record<ElevationLevelType, string>;
   easing: Record<EasingType, string>;
   duration: Record<DurationType, string>;
+  fontWeight: Record<FontWeightType, number>;
+  zIndex: Record<ZIndexType, number>;
 }
 
 interface JinniProviderProps {
@@ -75,7 +79,9 @@ const JinniProvider = ({
       blackOverlay,
       elevation,
       easing,
-      duration
+      duration,
+      fontWeight,
+      zIndex
     } = computedDesignSystem;
     const PREFIX = '--jinni';
 
@@ -105,6 +111,12 @@ const JinniProvider = ({
     const durationCss = Object.entries(duration).map(
       ([key, value]) => `${[PREFIX, 'duration', key].join('-')}: ${value};`
     );
+    const fontWeightCss = Object.entries(fontWeight).map(
+      ([key, value]) => `${[PREFIX, 'font-weight', key].join('-')}: ${value};`
+    );
+    const zIndexCss = Object.entries(zIndex).map(
+      ([key, value]) => `${[PREFIX, 'z-index', key].join('-')}: ${value};`
+    );
 
     const typographySpecToString = (typographySpec: TypographySpec) => {
       return Object.entries(typographySpec)
@@ -133,7 +145,9 @@ const JinniProvider = ({
       ...whiteOverlayCss,
       ...blackOverlayCss,
       ...easingCss,
-      ...durationCss
+      ...durationCss,
+      ...fontWeightCss,
+      ...zIndexCss
     ].join('\n');
 
     const styleEl = document.createElement('style');

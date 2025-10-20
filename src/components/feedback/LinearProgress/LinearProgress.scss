@@ -1,5 +1,4 @@
 @use '@/styles/animation';
-@use '@/styles/variables' as var;
 
 @mixin move-animation($animation-name) {
   animation: $animation-name var(--speed) ease-in-out infinite;

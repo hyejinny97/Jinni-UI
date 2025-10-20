@@ -1,5 +1,3 @@
-@use '@/styles/variables.scss' as var;
-
 .JinniTableContainer {
   width: max-content;
   max-width: 100%;
@@ -31,7 +29,7 @@
 
   .JinniTableCell {
     padding: var(--table-cell-padding);
-    font-weight: var.$font-weight-regular;
+    font-weight: var(--jinni-font-weight-regular);
     border-bottom: 1px solid var(--jinni-color-gray-300);
     box-sizing: border-box;
 
@@ -45,7 +43,7 @@
       text-align: right;
     }
     &.bold {
-      font-weight: var.$font-weight-medium;
+      font-weight: var(--jinni-font-weight-medium);
     }
   }
 }

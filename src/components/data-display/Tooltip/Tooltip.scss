@@ -1,4 +1,3 @@
-@use '@/styles/variables' as var;
 @use '@/styles/animation';
 
 @mixin offset {
@@ -94,7 +93,7 @@
 .JinniTooltip {
   display: inline-flex;
   position: fixed;
-  z-index: var.$z-index-tooltip;
+  z-index: var(--jinni-z-index-tooltip);
 
   .JinniTooltipContent {
     position: relative;
@@ -103,7 +102,7 @@
     background-color: var(--jinni-color-gray-500);
     color: white;
     font-size: 12px;
-    font-weight: var.$font-weight-medium;
+    font-weight: var(--jinni-font-weight-medium);
     animation: appear 0.2s;
     user-select: none;
     @include offset;

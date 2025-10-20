@@ -6,6 +6,8 @@ import { ElevationLevelType, ElevationSpecType } from '@/types/elevation';
 import { ThemeModeType } from '@/types/theme-mode';
 import { EasingType, DurationType } from '@/types/motion';
 import { ContrastType } from '@/types/contrast';
+import { FontWeightType } from '@/types/fontWeight';
+import { ZIndexType } from '@/types/zIndex';
 
 export interface JinniContextType {
   theme: ThemeModeType;
@@ -22,6 +24,8 @@ export interface JinniContextType {
   elevation: Record<ElevationLevelType | string, ElevationSpecType>;
   easing: Record<EasingType | string, string>;
   duration: Record<DurationType | string, string>;
+  fontWeight: Record<FontWeightType, number>;
+  zIndex: Record<ZIndexType, number>;
 }
 
 const JinniContext = createContext<JinniContextType | null>(null);

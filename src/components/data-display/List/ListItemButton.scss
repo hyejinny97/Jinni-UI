@@ -1,0 +1,12 @@
+.JinniListItemButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  &.selected {
+    background-color: var(--jinni-color-primary-container);
+  }
+}

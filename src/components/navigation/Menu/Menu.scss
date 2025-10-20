@@ -1,7 +1,5 @@
-@use '@/styles/animation';
-
 .JinniMenu {
-  display: inline-block;
-  position: fixed;
-  animation: appear 0.1s ease-out;
+  .JinniMotion {
+    transform-origin: var(--transform-origin);
+  }
 }

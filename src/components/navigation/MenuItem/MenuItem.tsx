@@ -1,81 +1,37 @@
 import './MenuItem.scss';
-import React, { forwardRef, MutableRefObject } from 'react';
+import React, { forwardRef } from 'react';
 import cn from 'classnames';
-import useStyle from '@/hooks/useStyle';
-import { useRipple } from '@/hooks/useRipple';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { useFocus, useKeydown } from './MenuItem.hooks';
+import { AsType } from '@/types/default-component-props';
+import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
+import { useMenuList } from './MenuItem.hooks';
 
-export type MenuItemProps<T extends AsType = 'li'> =
-  DefaultComponentProps<T> & {
-    children: React.ReactNode;
-    dense?: boolean;
-    disabled?: boolean;
-    selected?: boolean;
-    href?: string;
-    focus?: boolean;
-    onClick?: (event: MouseEvent | KeyboardEvent) => void;
-  };
+export type MenuItemProps<T extends AsType = 'button'> = ButtonBaseProps<T> & {
+  children?: React.ReactNode;
+  selected?: boolean;
+};
 
 const MenuItem = forwardRef(
   <T extends AsType = 'li'>(
     props: MenuItemProps<T>,
-    ref: React.Ref<HTMLElement>
+    ref: React.Ref<HTMLLIElement>
   ) => {
-    const {
-      children,
-      dense = false,
-      disabled = false,
-      selected = false,
-      href,
-      focus = false,
-      onClick,
-      className,
-      style,
-      as: Component = href ? 'a' : 'li',
-      ...rest
-    } = props;
-    const newStyle = useStyle(style);
-    const { rippleTargetRef, RippleContainer } = useRipple({
-      rippleColor: 'black'
-    });
-    useFocus({ rippleTargetRef, focus });
-    useKeydown({
-      rippleTargetRef,
-      onClick,
-      href,
-      focus
-    });
+    const { children, selected, className, ...rest } = props;
+    const menuListValue = useMenuList();
 
     return (
-      <Component
-        ref={(element: HTMLElement | null) => {
-          if (element) {
-            (rippleTargetRef as MutableRefObject<HTMLElement>).current =
-              element;
-            if (typeof ref === 'function') {
-              ref(element);
-            } else if (ref && 'current' in ref) {
-              (ref as MutableRefObject<HTMLElement>).current = element;
-            }
-          }
-        }}
-        className={cn(
-          'JinniMenuItem',
-          { dense },
-          { disabled },
-          { selected },
-          className
-        )}
-        style={newStyle}
-        href={href}
-        onClick={onClick}
-        tabIndex={focus ? 0 : -1}
-        {...rest}
-      >
-        {children}
-        <RippleContainer />
-      </Component>
+      <li ref={ref} className={cn('JinniMenuItem', className)} role="none">
+        <ButtonBase
+          className={cn('JinniMenuItemButton', {
+            selected,
+            dense: menuListValue?.dense
+          })}
+          role="menuitem"
+          tabIndex={-1}
+          {...rest}
+        >
+          {children}
+        </ButtonBase>
+      </li>
     );
   }
 );

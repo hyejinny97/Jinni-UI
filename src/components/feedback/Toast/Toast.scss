@@ -1,4 +1,3 @@
-@use '@/styles/variables' as var;
 @use '@/styles/animation';
 
 $padding: 16px;
@@ -32,7 +31,7 @@ $padding: 16px;
 
 .JinniToast {
   position: fixed;
-  z-index: var.$z-index-toast;
+  z-index: var(--jinni-z-index-toast);
   box-sizing: border-box;
   padding: $padding;
   animation: appear 0.3s linear;

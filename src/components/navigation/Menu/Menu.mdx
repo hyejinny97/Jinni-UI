@@ -7,6 +7,18 @@ import * as MenuStories from './Menu.stories';
 
 특정 이벤트(클릭 등)에 의해 일시적으로 나타나는 선택 가능한 리스트
 
+- `Menu` 컴포넌트
+  - anchor에 이벤트가 발생했을 때 적절한 위치에 `MenuList`를 띄우는 컴포넌트
+- `MenuList` 컴포넌트
+  - `MenuItem`을 담는 컴포넌트
+- `MenuItem` 컴포넌트
+  - 클릭 가능한 메뉴 항목
+- 키보드로 조작 가능
+  - 방향키(`ArrowUp`, `ArrowDown`)로 항목 간 이동
+  - `Escape`/ `Tab` 키로 메뉴 닫기
+  - `Enter` / `Space`로 항목 선택
+  - 사용자가 누른 알파벳 키가 메뉴 아이템의 첫 글자와 일치하는 경우 포커스됨
+
 ## Import
 
 ```js
@@ -17,29 +29,12 @@ import { Menu } from '@/components/navigation/Menu';
 
 ### Basic Menu
 
-- `Menu`, `MenuList`, `MenuItem` 컴포넌트
-
-  - 내부적으로 `Menu` 컴포넌트 안에 `MenuList` 컴포넌트가 `children`을 감싸고 있음
-  - `Menu`의 `children`으로 `MenuItem`, `Divider` 등을 채워넣을 수 있음
-
-- `Menu` 컴포넌트
-
-  - `anchorElRef`: anchor가 되는 HTML element의 reference로, 메뉴의 위치를 결정해줌
-  - `open`: true이면, 메뉴가 나타남
-  - `onClose`: 아래와 같은 이벤트 발생 시 호출되는 함수
-    - reason: `'escapeKeydown'`, `'backdropClick'`, `'tabKeyDown'`
-
-- `MenuList` 컴포넌트
-  - 아래/위 방향키 클릭 시, 위/아래 방향으로 메뉴 아이템이 포커스됨
-  - 사용자가 누른 알파벳 키가 메뉴 아이템의 첫 글자와 같은 경우 포커스됨
+- `children`: MenuList 컴포넌트 안에 담을 요소 (MenuItem, Divider 등)
+- `anchorElRef`: anchor 요소 참조 객체
+- `open`: true이면, 메뉴가 나타남
+- `onClose`: Escape 키/Tab 키/backdrop 클릭 이벤트가 발생 시 호출되는 함수
 
 <Canvas of={MenuStories.BasicMenu} />
-
-### Disable Scroll
-
-- `disabledScroll`: true이면, scroll 불가
-
-<Canvas of={MenuStories.DisableScroll} />
 
 ### Icon Menu
 
@@ -47,20 +42,11 @@ import { Menu } from '@/components/navigation/Menu';
 
 ### Dense Menu
 
-- `Menu` 컴포넌트
-
-  - `MenuListProps`: `MenuList` 컴포넌트에 적용되는 props
-
-- `MenuList` 컴포넌트
-  - `dense`: true이면, `MenuItem` 컴포넌트 내 padding과 font-size를 줄여줌
+- `MenuListProps`: `MenuList` 컴포넌트에 적용되는 props
 
 <Canvas of={MenuStories.DenseMenu} />
 
 ### Selected Menu
-
-- `MenuItem` 컴포넌트
-  - `disabled`: 비활성화된 메뉴 아이템
-  - `selected`: 선택된 메뉴 아이템
 
 <Canvas of={MenuStories.SelectedMenu} />
 
@@ -70,9 +56,6 @@ import { Menu } from '@/components/navigation/Menu';
 
 ### Link Menu
 
-- `MenuItem` 컴포넌트
-  - `href`: 이동할 링크 url (`href`를 추가하면 기존 li → a 태그로 전환됨)
-
 <Canvas of={MenuStories.LinkMenu} />
 
 ### Option Menu
@@ -81,30 +64,38 @@ import { Menu } from '@/components/navigation/Menu';
 
 ### Menu Position
 
-- `Menu` 컴포넌트
-  - `menuOrigin`: anchor의 origin에 부착할 menu의 origin
-  - `anchorReference`: 메뉴의 위치를 설정할 때, 어떤 anchor prop을 참조할지 결정
-    - 'anchorEl'(default) | 'anchorPosition'
-  - `anchorOrigin`: menu의 origin이 부착될 anchorEl의 origin
-  - `anchorPosition`: client area에서 메뉴의 상대적인 위치
+- `menuOrigin`: anchor의 origin에 부착할 menu의 origin
+- `anchorReference`: 메뉴의 위치를 설정할 때, 어떤 anchor prop을 참조할지 결정
+- `anchorOrigin`: menu의 origin이 부착될 anchorEl의 origin
+- `anchorPosition`: client area에서 메뉴의 상대적인 위치
 
-#### 1) Menu Origin
+#### 1. Menu origin
 
 <Canvas of={MenuStories.MenuOrigin} />
 
-#### 2) Anchor Origin (anchorReference='anchorEl'인 경우)
+#### 2. Anchor origin
 
 <Canvas of={MenuStories.AnchorOrigin} />
 
-#### 3) Anchor Position (anchorReference='anchorPosition'인 경우)
+#### 3. Anchor position
 
 <Canvas of={MenuStories.AnchorPosition} />
 
-### Customization
+### Disable scroll
 
-- `style` prop을 통해 anchor와 메뉴 사이의 간격(margin), height 등 커스텀 가능
+- `disableScroll`: true이면, 화면이 스크롤 되지 않음
 
-<Canvas of={MenuStories.Customization} />
+<Canvas of={MenuStories.DisableScroll} />
+
+### Customize Menu
+
+<Canvas of={MenuStories.CustomizeMenu} />
+
+### Customize Transition
+
+- `TransitionComponent`: transition 컴포넌트
+
+<Canvas of={MenuStories.CustomizeTransition} />
 
 ## Props
 

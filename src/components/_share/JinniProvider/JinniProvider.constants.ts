@@ -8,6 +8,8 @@ import {
   DEFAULT_BLACK_OVERLAY
 } from '@/constants/overlay';
 import { DEFAULT_EASING_SET, DEFAULT_DURATION } from '@/constants/motion';
+import { DEFAULT_FONT_WEIGHT } from '@/constants/fontWeight';
+import { DEFAULT_Z_INDEX } from '@/constants/zIndex';
 
 export const DEFAULT_DESIGN_SYSTEM: DesignSystemType = {
   theme: 'light',
@@ -22,5 +24,7 @@ export const DEFAULT_DESIGN_SYSTEM: DesignSystemType = {
   whiteOverlay: DEFAULT_WHITE_OVERLAY,
   blackOverlay: DEFAULT_BLACK_OVERLAY,
   easing: DEFAULT_EASING_SET,
-  duration: DEFAULT_DURATION
+  duration: DEFAULT_DURATION,
+  fontWeight: DEFAULT_FONT_WEIGHT,
+  zIndex: DEFAULT_Z_INDEX
 };

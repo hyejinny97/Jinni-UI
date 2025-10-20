@@ -17,6 +17,8 @@ import { MenuList } from '@/components/navigation/MenuList';
 
 ### Basic MenuList
 
+- `children`: MenuItem 등 메뉴 항목
+
 <Canvas of={MenuListStories.BasicMenuList} />
 
 ### Dense
@@ -27,9 +29,15 @@ import { MenuList } from '@/components/navigation/MenuList';
 
 ### Elevation
 
-- `elevation`: elevation(box-shadow) 정도 (0-24 level)
+- `elevation`: 계층(높낮이)
 
 <Canvas of={MenuListStories.Elevation} />
+
+### DisableAlphabetKeyFocus
+
+- `disableAlphabetKeyFocus`: true이면, 알파벳 키를 눌러도 해당 item이 focus 되지 않음
+
+<Canvas of={MenuListStories.DisableAlphabetKeyFocus} />
 
 ## Props
 

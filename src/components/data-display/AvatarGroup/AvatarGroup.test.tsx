@@ -1,5 +1,5 @@
 import { vi, describe, it, expect } from 'vitest';
-import { render, screen } from '@/react-testing-tools';
+import { render, screen } from '@/tests/react-testing-tools';
 import AvatarGroup from './AvatarGroup';
 import { Avatar } from '@/components/data-display/Avatar';
 
