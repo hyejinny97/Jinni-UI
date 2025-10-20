@@ -53,47 +53,6 @@ describe('<Menu />', () => {
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });
 
-  it('selects the menu item when Enter key(or Space key) is pressed', async () => {
-    const user = userEvent.setup();
-    const onClick = vi.fn();
-    const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
-      const [open, setOpen] = useState(false);
-      return (
-        <>
-          <Button ref={anchorElRef} onClick={() => setOpen(true)}>
-            Open
-          </Button>
-          <Menu
-            anchorElRef={anchorElRef}
-            open={open}
-            onClose={() => setOpen(false)}
-          >
-            <MenuItem onClick={onClick}>Item A</MenuItem>
-            <MenuItem onClick={() => setOpen(false)}>Item B</MenuItem>
-          </Menu>
-        </>
-      );
-    };
-    render(<TestToggle />);
-    const triggerBtn = screen.getByRole('button', { name: /open/i });
-
-    await user.click(triggerBtn);
-    const menu = screen.getByRole('menu');
-    expect(menu).toBeInTheDocument();
-
-    const menuItem = screen.getByRole('menuitem', { name: 'Item A' });
-    menuItem.focus();
-    expect(menuItem).toHaveFocus();
-
-    await user.keyboard('{Enter}');
-    expect(onClick).toHaveBeenCalled();
-
-    await user.keyboard('{ }');
-    expect(onClick).toHaveBeenCalled();
-    expect(onClick).toHaveBeenCalledTimes(2);
-  });
-
   it('calls onClose with reason "escapeKeyDown" when Escape is pressed', () => {
     const onClose = vi.fn();
     const TestToggle = () => {
@@ -259,5 +218,46 @@ describe('<Menu />', () => {
 
     await user.keyboard('M');
     expect(menuItems[2]).toHaveFocus();
+  });
+
+  it('selects the menu item when Enter key(or Space key) is pressed', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    const TestToggle = () => {
+      const anchorElRef = useRef<HTMLElement | null>(null);
+      const [open, setOpen] = useState(false);
+      return (
+        <>
+          <Button ref={anchorElRef} onClick={() => setOpen(true)}>
+            Open
+          </Button>
+          <Menu
+            anchorElRef={anchorElRef}
+            open={open}
+            onClose={() => setOpen(false)}
+          >
+            <MenuItem onClick={onClick}>Item A</MenuItem>
+            <MenuItem onClick={() => setOpen(false)}>Item B</MenuItem>
+          </Menu>
+        </>
+      );
+    };
+    render(<TestToggle />);
+    const triggerBtn = screen.getByRole('button', { name: /open/i });
+
+    await user.click(triggerBtn);
+    const menu = screen.getByRole('menu');
+    expect(menu).toBeInTheDocument();
+
+    const menuItem = screen.getByRole('menuitem', { name: 'Item A' });
+    menuItem.focus();
+    expect(menuItem).toHaveFocus();
+
+    await user.keyboard('{Enter}');
+    expect(onClick).toHaveBeenCalled();
+
+    await user.keyboard('{ }');
+    expect(onClick).toHaveBeenCalled();
+    expect(onClick).toHaveBeenCalledTimes(2);
   });
 });
