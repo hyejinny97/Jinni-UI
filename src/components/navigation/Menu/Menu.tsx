@@ -9,7 +9,7 @@ import { useKeyboardAccessibility } from './Menu.hooks';
 import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
 
-type CloseReason = 'escapeKeydown' | 'tabKeyDown' | 'backdropClick';
+type CloseReason = 'escapeKeyDown' | 'tabKeyDown' | 'backdropClick';
 
 export type MenuProps<T extends AsType = 'div'> = Omit<
   Partial<PopperProps<T>>,
@@ -80,6 +80,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
         invisible
         disableScroll={disableScroll}
         onClick={handleBackdropClick}
+        data-testid="menu-backdrop"
       />
       <AnimatePresence>
         {open && (

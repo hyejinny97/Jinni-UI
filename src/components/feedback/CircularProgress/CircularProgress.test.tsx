@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@/react-testing-tools';
+import { render, screen } from '@/tests/react-testing-tools';
 import CircularProgress from './CircularProgress';
 
 describe('<CircularProgress />', () => {

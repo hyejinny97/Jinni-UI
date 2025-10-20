@@ -81,7 +81,7 @@ const meta: Meta<typeof Menu> = {
       description: `Escape 키/Tab 키/backdrop 클릭 이벤트가 발생 시 호출되는 함수`,
       table: {
         type: {
-          summary: `(event: MouseEvent | KeyboardEvent, reason: 'escapeKeydown' |  'backdropClick' | 'tabKeyDown') => void`
+          summary: `(event: MouseEvent | KeyboardEvent, reason: 'escapeKeyDown' |  'backdropClick' | 'tabKeyDown') => void`
         }
       }
     },

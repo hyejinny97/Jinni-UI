@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@/react-testing-tools';
+import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import Avatar from './Avatar';
 import dogImage1 from '@/assets/images/dog-1.jpg';
 import { PersonIcon } from '@/components/icons/PersonIcon';

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@/react-testing-tools';
+import { render, screen } from '@/tests/react-testing-tools';
 import Stack from './Stack';
 import { Divider } from '@/components/layout/Divider';
 

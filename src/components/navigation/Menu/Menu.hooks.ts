@@ -27,7 +27,7 @@ export const useKeyboardAccessibility = ({
 
     const handleEscapeAndTap = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose(e, 'escapeKeydown');
+        onClose(e, 'escapeKeyDown');
       }
       if (e.key === 'Tab') {
         e.preventDefault();
