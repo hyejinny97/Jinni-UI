@@ -75,7 +75,9 @@ const WithMenu = () => {
           color="gray-600"
           size="sm"
           onClick={openMenu}
-          aria-label="Show path"
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="condensed-path"
         >
           ...
         </Button>
@@ -84,6 +86,7 @@ const WithMenu = () => {
         </Link>
       </Breadcrumbs>
       <Menu
+        id="condensed-path"
         anchorElRef={anchorRef}
         anchorOrigin={{
           horizontal: 'center',
@@ -332,7 +335,9 @@ export const CondensedBreadcrumbsWithMenu: Story = {
           color="gray-600"
           size="sm"
           onClick={openMenu}
-          aria-label="Show path"
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="condensed-path"
         >
           ...
         </Button>
@@ -341,6 +346,7 @@ export const CondensedBreadcrumbsWithMenu: Story = {
         </Link>
       </Breadcrumbs>
       <Menu
+        id="condensed-path"
         anchorElRef={anchorRef}
         anchorOrigin={{
           horizontal: 'center',
