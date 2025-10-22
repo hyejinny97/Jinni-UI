@@ -1,12 +1,10 @@
-@mixin line-clamp {
-  &.lineClamp {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: var(--line-clamp);
-  }
-}
+@use '@/styles/mixins' as mix;
 
 .JinniText {
-  @include line-clamp;
+  &.lineClamp {
+    @include mix.line-clamp(var(--line-clamp));
+  }
+  &.noMargin {
+    margin: 0;
+  }
 }
