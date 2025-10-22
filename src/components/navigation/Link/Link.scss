@@ -1,11 +1,4 @@
-@mixin line-clamp {
-  &.lineClamp {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: var(--line-clamp);
-  }
-}
+@use '@/styles/mixins' as mix;
 
 @mixin underline {
   &.always {
@@ -24,11 +17,11 @@
 
 .JinniLink {
   color: inherit;
-
   &:active {
     color: inherit;
   }
-
-  @include line-clamp;
+  &.lineClamp {
+    @include mix.line-clamp(var(--line-clamp));
+  }
   @include underline;
 }

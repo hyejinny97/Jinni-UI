@@ -5,7 +5,7 @@ import * as LinkStories from './Link.stories';
 
 # Link
 
-Jinni typography, color(theme/palette) 적용이 가능한 anchor element
+Jinni typography, color 적용이 가능한 anchor element
 
 ## Import
 
@@ -24,26 +24,23 @@ import { Link } from '@/components/navigation/Link';
 
 ### Typography
 
-- `className`을 통해 텍스트에 타이포그래피(15종류) 적용 가능
+- `className`을 통해 타이포그래피 적용 가능
 
 <Canvas of={LinkStories.Typography} />
 
 ### Color
-
-- `style` prop을 통해 color theme/palette 접근 가능
 
 <Canvas of={LinkStories.Color} />
 
 ### Line Clamp
 
 - `lineClamp`: 보여지는 라인 수
-  - 라인 수가 lineClamp 이상인 경우, 말줄임 표시됨
 
 <Canvas of={LinkStories.LineClamp} />
 
 ### Underline
 
-- `underline`: 링크 underline
+- `underline`: underline이 나타나는 조건
 
 <Canvas of={LinkStories.Underline} />
 
