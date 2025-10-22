@@ -5,7 +5,7 @@ import * as TextStories from './Text.stories';
 
 # Text
 
-Jinni typography, color(theme/palette) 적용이 가능한 글자
+Jinni typography, color 적용이 가능한 글자
 
 ## Import
 
@@ -24,25 +24,24 @@ import { Text } from '@/components/general/Text';
 ### HTML Semantic Element
 
 - `as` prop을 통해 root node 변경 가능
+- `noMargin`: true이면, margin이 제거됨
 
 <Canvas of={TextStories.HTMLSemanticElement} />
 
 ### Typography
 
-- `className`을 통해 타이포그래피(15종류) 적용 가능
+- `className`을 통해 타이포그래피 적용 가능
+- 주의) 반드시 접미사로 'typo'를 붙여야 함
 
 <Canvas of={TextStories.Typography} />
 
 ### Color
-
-- `style` prop을 통해 color theme/palette 접근 가능
 
 <Canvas of={TextStories.Color} />
 
 ### Line Clamp
 
 - `lineClamp`: 보여지는 라인 수
-  - 라인 수가 `lineClamp` 이상인 경우, 말줄임 표시됨
 
 <Canvas of={TextStories.LineClamp} />
 
@@ -50,7 +49,11 @@ import { Text } from '@/components/general/Text';
 
 - `style` prop을 통해 text-align, text-transform, text-decoration, wrap, padding, margin 등 커스텀 가능
 
-<Canvas of={TextStories.Customization} />
+<Canvas of={TextStories.SimpleCustomization} />
+
+- 아래 텍스트를 드래그해서 선택한 후, highlight/underline/delete 처리해보세요
+
+<Canvas of={TextStories.ComplexCustomization} />
 
 ## Props
 
