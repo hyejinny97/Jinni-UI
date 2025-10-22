@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { forwardRef } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
+import { validatePositiveInteger } from '@/utils/isNumber';
 
 type LinkProps<T extends AsType = 'a'> = DefaultComponentProps<T> & {
   children: React.ReactNode;
@@ -26,7 +27,11 @@ const Link = forwardRef(
       as: Component = 'a',
       ...rest
     } = props;
-    const newStyle = useStyle({ '--line-clamp': lineClamp, ...style });
+    const newStyle = useStyle({
+      '--line-clamp':
+        lineClamp && validatePositiveInteger({ value: lineClamp }),
+      ...style
+    });
 
     return (
       <Component
