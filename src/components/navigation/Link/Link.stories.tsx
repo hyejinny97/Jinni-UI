@@ -6,19 +6,22 @@ const meta: Meta<typeof Link> = {
   component: Link,
   argTypes: {
     as: {
-      defaultValue: { summary: '<a>' }
+      defaultValue: { summary: 'a' }
     },
     children: {
       description: '링크 콘텐츠'
+    },
+    href: {
+      description: 'url'
     },
     lineClamp: {
       description: '보여지는 라인 수'
     },
     underline: {
-      description: '링크 underline 여부',
+      description: 'underline이 나타나는 조건',
       table: {
-        type: { summary: 'always | hover | none' },
-        defaultValue: { summary: 'always' }
+        type: { summary: `'always' | 'hover' | 'none'` },
+        defaultValue: { summary: `'always'` }
       }
     }
   }
@@ -28,19 +31,15 @@ export default meta;
 type Story = StoryObj<typeof Link>;
 
 export const BasicLink: Story = {
-  render: (args) => {
-    return (
-      <Link href="#" {...args}>
-        Home
-      </Link>
-    );
+  render: () => {
+    return <Link href="#">Home</Link>;
   }
 };
 
 export const Typography: Story = {
-  render: (args) => {
+  render: () => {
     return (
-      <Link href="#" className="typo-headline-medium" {...args}>
+      <Link href="#" className="typo-headline-medium">
         Home
       </Link>
     );
@@ -48,9 +47,9 @@ export const Typography: Story = {
 };
 
 export const Color: Story = {
-  render: (args) => {
+  render: () => {
     return (
-      <Link href="#" style={{ color: 'primary' }} {...args}>
+      <Link href="#" style={{ color: 'primary' }}>
         Home
       </Link>
     );
@@ -58,9 +57,9 @@ export const Color: Story = {
 };
 
 export const LineClamp: Story = {
-  render: (args) => {
+  render: () => {
     return (
-      <Link href="#" lineClamp={1} style={{ maxWidth: '300px' }} {...args}>
+      <Link href="#" lineClamp={1} style={{ maxWidth: '300px' }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam possimus
         dignissimos, consequuntur obcaecati animi dolor labore odio eligendi
         officiis explicabo.
@@ -70,16 +69,16 @@ export const LineClamp: Story = {
 };
 
 export const Underline: Story = {
-  render: (args) => {
+  render: () => {
     return (
       <Stack>
-        <Link href="#" underline="always" {...args}>
+        <Link href="#" underline="always">
           Home
         </Link>
-        <Link href="#" underline="hover" {...args}>
+        <Link href="#" underline="hover">
           Home
         </Link>
-        <Link href="#" underline="none" {...args}>
+        <Link href="#" underline="none">
           Home
         </Link>
       </Stack>
