@@ -1,27 +1,24 @@
 import './Popover.scss';
 import cn from 'classnames';
-import useStyle from '@/hooks/useStyle';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { AsType } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { Box, BoxProps } from '@/components/layout/Box';
-import { useKeydown } from './Popover.hooks';
-import { PopperType, OriginType } from '@/types/popper';
-import usePopperPosition from '@/hooks/usePopperPosition';
+import { useKeyboardAccessibility } from './Popover.hooks';
+import { OriginType } from '@/types/popper';
+import { Popper, PopperProps } from '@/components/_share/Popper';
 
 type CloseReason = 'escapeKeydown' | 'backdropClick';
 
-export type PopoverPopperType = Omit<Partial<PopperType>, 'popperOrigin'> & {
-  popoverOrigin?: PopperType['popperOrigin'];
+export type PopoverProps<T extends AsType = 'div'> = Omit<
+  Partial<PopperProps<T>>,
+  'popperOrigin'
+> & {
+  popoverOrigin?: PopperProps['popperOrigin'];
+  open: boolean;
+  onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
+  BoxProps?: BoxProps;
+  disableScroll?: boolean;
 };
-
-export type PopoverProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
-  PopoverPopperType & {
-    children: React.ReactNode;
-    open: boolean;
-    onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
-    PopoverContentProps?: BoxProps;
-    disableScroll?: boolean;
-  };
 
 const DEFAULT_ANCHOR_ORIGIN = {
   horizontal: 'left',
@@ -37,7 +34,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     children,
     open,
     onClose,
-    PopoverContentProps,
+    BoxProps,
     anchorReference = 'anchorEl',
     anchorElRef,
     anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
@@ -46,57 +43,51 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     disableScroll = false,
     className,
     style,
-    as: Component = 'div',
     ...rest
   } = props;
-  const { popperRef: popoverRef, popperPosition: popoverPosition } =
-    usePopperPosition({
-      anchorReference,
-      anchorElRef,
-      anchorOrigin,
-      anchorPosition,
-      popperOrigin: popoverOrigin,
-      open
-    });
-  const newStyle = useStyle({
-    ...popoverPosition,
-    transformOrigin: `${popoverOrigin.vertical} ${popoverOrigin.horizontal}`,
-    ...style
-  });
-  useKeydown({ onClose });
+  const { boxElRef } = useKeyboardAccessibility({ open, onClose, anchorElRef });
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {
     if (!onClose) return;
     onClose(e.nativeEvent, 'backdropClick');
   };
 
-  const popover = (
-    <Component
-      ref={popoverRef}
-      className={cn('JinniPopover', className)}
-      style={newStyle}
-      {...rest}
-    >
-      <Box
-        className="JinniPopoverContent"
-        elevation={5}
-        round={4}
-        {...PopoverContentProps}
-      >
-        {children}
-      </Box>
-    </Component>
-  );
-
   return (
-    <Backdrop
-      open={open}
-      invisible
-      disableScroll={disableScroll}
-      onClick={handleBackdropClick}
-    >
-      {popover}
-    </Backdrop>
+    <>
+      <Backdrop
+        open={open}
+        invisible
+        disableScroll={disableScroll}
+        onClick={handleBackdropClick}
+        data-testid="popover-backdrop"
+      />
+      {open && (
+        <Popper
+          className={cn('JinniPopover', className)}
+          anchorReference={anchorReference}
+          anchorElRef={anchorElRef}
+          anchorOrigin={anchorOrigin}
+          anchorPosition={anchorPosition}
+          popperOrigin={popoverOrigin}
+          style={{
+            '--transform-origin': `${popoverOrigin.horizontal} ${popoverOrigin.vertical}`,
+            ...style
+          }}
+          {...rest}
+        >
+          <Box
+            ref={boxElRef}
+            className="JinniPopoverContent"
+            elevation={5}
+            round={4}
+            tabIndex={0}
+            {...BoxProps}
+          >
+            {children}
+          </Box>
+        </Popper>
+      )}
+    </>
   );
 };
 

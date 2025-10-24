@@ -1,12 +1,29 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { PopoverProps } from './Popover';
 
-type useKeydownProps = Pick<PopoverProps, 'onClose'>;
+export const useKeyboardAccessibility = ({
+  open,
+  onClose,
+  anchorElRef
+}: Pick<PopoverProps, 'open' | 'onClose' | 'anchorElRef'>) => {
+  const boxElRef = useRef<HTMLElement>(null);
+  const prevOpenRef = useRef<boolean>(open);
 
-export const useKeydown = ({ onClose }: useKeydownProps) => {
   useEffect(() => {
+    if (open) {
+      const boxEl = boxElRef.current;
+      boxEl?.focus();
+    } else if (prevOpenRef.current === true && open === false) {
+      const anchorEl = anchorElRef?.current;
+      anchorEl?.focus();
+    }
+    prevOpenRef.current = open;
+  }, [open, anchorElRef]);
+
+  useEffect(() => {
+    if (!open || !onClose) return;
+
     const handleEscape = (e: KeyboardEvent) => {
-      if (!onClose) return;
       if (e.key === 'Escape') {
         onClose(e, 'escapeKeydown');
       }
@@ -16,5 +33,7 @@ export const useKeydown = ({ onClose }: useKeydownProps) => {
     return () => {
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [onClose]);
+  }, [open, onClose]);
+
+  return { boxElRef };
 };

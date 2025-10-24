@@ -1,11 +1,9 @@
-@use '@/styles/animation';
-
 .JinniPopover {
-  display: inline-block;
-  position: fixed;
-  animation: appear 0.1s ease-out;
-
   .JinniPopoverContent {
     padding: 16px;
+    background-color: white;
+    &:focus {
+      outline: none;
+    }
   }
 }
