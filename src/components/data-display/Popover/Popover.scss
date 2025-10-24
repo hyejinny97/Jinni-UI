@@ -1,9 +1,12 @@
 .JinniPopover {
-  .JinniPopoverContent {
-    padding: 16px;
-    background-color: white;
-    &:focus {
-      outline: none;
+  .JinniMotion {
+    transform-origin: var(--transform-origin);
+    .JinniBox {
+      padding: 16px;
+      background-color: white;
+      &:focus {
+        outline: none;
+      }
     }
   }
 }

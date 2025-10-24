@@ -6,6 +6,8 @@ import { Box, BoxProps } from '@/components/layout/Box';
 import { useKeyboardAccessibility } from './Popover.hooks';
 import { OriginType } from '@/types/popper';
 import { Popper, PopperProps } from '@/components/_share/Popper';
+import { Motion } from '@/components/motion/Motion';
+import { AnimatePresence } from '@/components/motion/AnimatePresence';
 
 type CloseReason = 'escapeKeydown' | 'backdropClick';
 
@@ -18,6 +20,7 @@ export type PopoverProps<T extends AsType = 'div'> = Omit<
   onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
   BoxProps?: BoxProps;
   disableScroll?: boolean;
+  TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
 };
 
 const DEFAULT_ANCHOR_ORIGIN = {
@@ -28,6 +31,19 @@ const DEFAULT_POPOVER_ORIGIN = {
   horizontal: 'left',
   vertical: 'top'
 } as OriginType;
+
+const ScaleFade = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Motion
+      initial={{ transform: 'scale(0.9)', opacity: 0 }}
+      animate={{ transform: 'scale(1)', opacity: 1 }}
+      exit={{ transform: 'scale(0.9)', opacity: 0 }}
+      transition="transform var(--jinni-duration-short3) var(--jinni-easing-emphasized), opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized)"
+    >
+      {children}
+    </Motion>
+  );
+};
 
 const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
   const {
@@ -41,6 +57,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     anchorPosition,
     popoverOrigin = DEFAULT_POPOVER_ORIGIN,
     disableScroll = false,
+    TransitionComponent = ScaleFade,
     className,
     style,
     ...rest
@@ -61,32 +78,35 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
         onClick={handleBackdropClick}
         data-testid="popover-backdrop"
       />
-      {open && (
-        <Popper
-          className={cn('JinniPopover', className)}
-          anchorReference={anchorReference}
-          anchorElRef={anchorElRef}
-          anchorOrigin={anchorOrigin}
-          anchorPosition={anchorPosition}
-          popperOrigin={popoverOrigin}
-          style={{
-            '--transform-origin': `${popoverOrigin.horizontal} ${popoverOrigin.vertical}`,
-            ...style
-          }}
-          {...rest}
-        >
-          <Box
-            ref={boxElRef}
-            className="JinniPopoverContent"
-            elevation={5}
-            round={4}
-            tabIndex={0}
-            {...BoxProps}
+      <AnimatePresence>
+        {open && (
+          <Popper
+            className={cn('JinniPopover', className)}
+            anchorReference={anchorReference}
+            anchorElRef={anchorElRef}
+            anchorOrigin={anchorOrigin}
+            anchorPosition={anchorPosition}
+            popperOrigin={popoverOrigin}
+            style={{
+              '--transform-origin': `${popoverOrigin.horizontal} ${popoverOrigin.vertical}`,
+              ...style
+            }}
+            {...rest}
           >
-            {children}
-          </Box>
-        </Popper>
-      )}
+            <TransitionComponent>
+              <Box
+                ref={boxElRef}
+                elevation={5}
+                round={4}
+                tabIndex={0}
+                {...BoxProps}
+              >
+                {children}
+              </Box>
+            </TransitionComponent>
+          </Popper>
+        )}
+      </AnimatePresence>
     </>
   );
 };
