@@ -4,6 +4,7 @@ import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useJinni from '@/hooks/useJinni';
 import { isNumber } from '@/utils/isNumber';
+import { prefersReducedMotion } from '@/utils/accessibility';
 
 type SkeletonProps<T extends AsType = 'span'> = DefaultComponentProps<T> & {
   width?: number | string;
@@ -18,7 +19,7 @@ const Skeleton = <T extends AsType = 'span'>(props: SkeletonProps<T>) => {
     width = children ? 'auto' : '100%',
     height = children ? 'auto' : '1em',
     variant = 'rounded',
-    animation = 'pulse',
+    animation = prefersReducedMotion ? 'none' : 'pulse',
     className,
     style,
     as: Component = 'span',
