@@ -17,29 +17,51 @@ import { Skeleton } from '@/components/feedback/Skeleton';
 
 ### Basic Skeleton
 
-- light mode일 땐 black skeleton, dark mode일 땐 white skeleton이 나타남
-- `width`: Skeleton 너비
-- `height`: Skeleton 높이
+- `width`: skeleton 너비
+- `height`: skeleton 높이
 
 <Canvas of={SkeletonStories.BasicSkeleton} />
 
 ### Variants
 
-- `variant`: Skeleton 모양(border-radius 결정)
+- `variant`: skeleton 모양 (border-radius 결정)
 
 <Canvas of={SkeletonStories.Variants} />
-
-### Color
-
-- `style`의 background-color를 통해 Skeleton 색상 변경 가능
-
-<Canvas of={SkeletonStories.Color} />
 
 ### Animations
 
 - `animation`: 애니메이션 타입
 
 <Canvas of={SkeletonStories.Animations} />
+
+### Color
+
+#### 1. Color by theme
+
+- theme의 종류에 따라 자동으로 skeleton의 배경색이 달라짐
+- 'light' theme일 땐 black skeleton, 'dark' theme일 땐 white skeleton이 나타남
+
+<Canvas of={SkeletonStories.ColorByTheme} />
+
+#### 2. Customize color
+
+- `style`의 background-color를 통해 Skeleton 색상 변경 가능
+
+<Canvas of={SkeletonStories.CustomizeColor} />
+
+### Inferring dimensions
+
+#### 1. Inferring font-size of parent
+
+- (children이 없을 때) height의 기본값은 '1em'이므로, 부모 요소의 폰트 크기와 동일하게 높이가 잡힘
+
+<Canvas of={SkeletonStories.InferringParent} />
+
+#### 2. Inferring size of children
+
+- (children이 있을 때) width와 height의 기본값은 'auto'이므로, 자식 요소의 너비, 높이와 동일하게 잡힘
+
+<Canvas of={SkeletonStories.InferringChildren} />
 
 ## Props
 

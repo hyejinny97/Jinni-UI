@@ -5,7 +5,7 @@
     border-radius: 0;
   }
   &.rounded {
-    border-radius: 8px;
+    border-radius: 4px;
   }
   &.circular {
     border-radius: 9999px;
@@ -24,7 +24,6 @@
       left: 0;
       width: 100%;
       height: 100%;
-      border-radius: inherit;
       animation: move-left-to-right 2s infinite;
     }
   }
@@ -33,39 +32,42 @@
   }
 }
 
-:root {
-  &.light {
-    .JinniSkeleton {
-      background-color: rgba(0, 0, 0, 0.1);
-      &::after {
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(0, 0, 0, 0.1),
-          transparent
-        );
-      }
+@mixin background-color-by-theme {
+  &.light-theme {
+    background-color: rgba(0, 0, 0, 0.1);
+    &::after {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 0, 0, 0.1),
+        transparent
+      );
     }
   }
-  &.dark {
-    .JinniSkeleton {
-      background-color: rgba(255, 255, 255, 0.2);
-      &::after {
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-      }
+  &.dark-theme {
+    background-color: rgba(255, 255, 255, 0.2);
+    &::after {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
     }
   }
 }
 
 .JinniSkeleton {
+  display: inline-block;
   position: relative;
+  width: var(--width);
+  height: var(--height);
   overflow: hidden;
+  & > * {
+    visibility: hidden;
+  }
 
   @include variants;
   @include animation;
+  @include background-color-by-theme;
 }

@@ -5,7 +5,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { validatePositiveInteger } from '@/utils/isNumber';
 
-type TextProps<T extends AsType = 'p'> = DefaultComponentProps<T> & {
+export type TextProps<T extends AsType = 'p'> = DefaultComponentProps<T> & {
   children: React.ReactNode;
   lineClamp?: number;
   noMargin?: boolean;
