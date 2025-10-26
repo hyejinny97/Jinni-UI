@@ -1,15 +1,19 @@
+import './CustomPopover.scss';
 import { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Popover from './Popover';
 import { Stack } from '@/components/layout/Stack';
+import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
+import { Radio } from '@/components/data-entry/Radio';
+import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Motion } from '@/components/motion/Motion';
 
 const meta: Meta<typeof Popover> = {
   component: Popover,
   argTypes: {
     anchorElRef: {
-      description:
-        'anchor가 되는 HTML element의 reference로, popover의 위치를 결정해줌',
+      description: 'anchor 요소 참조 객체',
       table: {
         type: {
           summary: 'React.RefObject<HTMLElement>'
@@ -37,22 +41,32 @@ const meta: Meta<typeof Popover> = {
       description:
         'popover의 위치를 설정할 때, 어떤 anchor prop을 참조할지 결정',
       table: {
-        type: { summary: 'anchorEl | anchorPosition' },
+        type: { summary: `'anchorEl' | 'anchorPosition'` },
         defaultValue: { summary: 'anchorEl' }
       }
     },
-    PopoverContentProps: {
-      description: 'PopoverContent(=Box)에 적용되는 props',
+    BoxProps: {
+      description: 'Box 컴포넌트에 적용되는 props',
       table: {
-        type: { summary: 'BoxProps' },
-        defaultValue: { summary: '{ elevation: 5, round: 4 }' }
+        type: { summary: 'BoxProps' }
       }
     },
     children: {
-      description: 'popover의 콘텐츠'
+      description: 'popover의 콘텐츠',
+      table: {
+        type: { summary: `React.ReactNode` }
+      }
+    },
+    disableScroll: {
+      description: 'true이면, 화면이 스크롤 되지 않음'
     },
     onClose: {
-      description: `'escapeKeydown', 'backdropClick' 이벤트 발생 시 호출되는 함수`
+      description: `Escape 키/backdrop 클릭 이벤트가 발생 시 호출되는 함수`,
+      table: {
+        type: {
+          summary: `(event: MouseEvent | KeyboardEvent, reason: 'escapeKeyDown' |  'backdropClick') => void`
+        }
+      }
     },
     open: {
       description: 'true이면, popover가 나타남'
@@ -65,6 +79,13 @@ const meta: Meta<typeof Popover> = {
         },
         defaultValue: { summary: `{ horizontal: 'left', vertical: 'top' }` }
       }
+    },
+    TransitionComponent: {
+      description: `transition 컴포넌트`,
+      table: {
+        type: { summary: `React.ReactNode` },
+        defaultValue: { summary: `ScaleFade` }
+      }
     }
   }
 };
@@ -72,33 +93,33 @@ const meta: Meta<typeof Popover> = {
 export default meta;
 type Story = StoryObj<typeof Popover>;
 
-const PopoverAnchorElTemplate = ({
-  buttonContent,
-  ...popoverProps
-}: {
-  buttonContent?: string;
-}) => {
+const BasicPopoverTemplate = () => {
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const openPopover = () => {
     setOpen(true);
   };
-
-  const handleClose = () => {
+  const closePopover = () => {
     setOpen(false);
   };
 
   return (
     <>
-      <Button ref={anchorElRef} onClick={handleOpen}>
-        {buttonContent || 'Open Popover'}
+      <Button
+        ref={anchorElRef}
+        onClick={openPopover}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
+        Open Popover
       </Button>
       <Popover
+        id="basic-popover"
         anchorElRef={anchorElRef}
         open={open}
-        onClose={handleClose}
-        {...popoverProps}
+        onClose={closePopover}
       >
         Popover Content
       </Popover>
@@ -106,26 +127,168 @@ const PopoverAnchorElTemplate = ({
   );
 };
 
-const PopoverAnchorPositionTemplate = ({ ...popoverProps }) => {
+const PopoverOriginTemplate = () => {
+  const POPOVER_ORIGIN = [
+    { label: 'H left / V top', horizontal: 'left', vertical: 'top' },
+    { label: 'H left / V center', horizontal: 'left', vertical: 'center' },
+    { label: 'H left / V bottom', horizontal: 'left', vertical: 'bottom' },
+    { label: 'H center / V top', horizontal: 'center', vertical: 'top' },
+    { label: 'H center / V center', horizontal: 'center', vertical: 'center' },
+    { label: 'H center / V bottom', horizontal: 'center', vertical: 'bottom' },
+    { label: 'H right / V top', horizontal: 'right', vertical: 'top' },
+    { label: 'H right / V center', horizontal: 'right', vertical: 'center' },
+    { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
+    { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
+  ] as const;
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [checkedValue, setCheckedValue] = useState<number>(0);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(Number(e.target.value));
+  };
+
+  return (
+    <>
+      <Stack spacing={20} style={{ alignItems: 'center' }}>
+        <Grid columns={3} columnSpacing={20}>
+          {POPOVER_ORIGIN.map((origin, idx) => (
+            <RadioLabel label={origin.label}>
+              <Radio
+                checked={checkedValue === idx}
+                value={idx}
+                onChange={check}
+              />
+            </RadioLabel>
+          ))}
+        </Grid>
+        <Button
+          ref={anchorElRef}
+          onClick={openPopover}
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="basic-popover"
+        >
+          Open Popover
+        </Button>
+      </Stack>
+      <Popover
+        id="basic-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        popoverOrigin={{
+          horizontal: POPOVER_ORIGIN[checkedValue].horizontal,
+          vertical: POPOVER_ORIGIN[checkedValue].vertical
+        }}
+      >
+        Popover content
+      </Popover>
+    </>
+  );
+};
+
+const AnchorOriginTemplate = () => {
+  const ANCHOR_ORIGIN = [
+    { label: 'H left / V top', horizontal: 'left', vertical: 'top' },
+    { label: 'H left / V center', horizontal: 'left', vertical: 'center' },
+    { label: 'H left / V bottom', horizontal: 'left', vertical: 'bottom' },
+    { label: 'H center / V top', horizontal: 'center', vertical: 'top' },
+    { label: 'H center / V center', horizontal: 'center', vertical: 'center' },
+    { label: 'H center / V bottom', horizontal: 'center', vertical: 'bottom' },
+    { label: 'H right / V top', horizontal: 'right', vertical: 'top' },
+    { label: 'H right / V center', horizontal: 'right', vertical: 'center' },
+    { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
+    { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
+  ] as const;
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [checkedValue, setCheckedValue] = useState<number>(0);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(Number(e.target.value));
+  };
+
+  return (
+    <>
+      <Stack spacing={20} style={{ alignItems: 'center' }}>
+        <Grid columns={3} columnSpacing={20}>
+          {ANCHOR_ORIGIN.map((origin, idx) => (
+            <RadioLabel label={origin.label}>
+              <Radio
+                checked={checkedValue === idx}
+                value={idx}
+                onChange={check}
+              />
+            </RadioLabel>
+          ))}
+        </Grid>
+        <Button
+          ref={anchorElRef}
+          onClick={openPopover}
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="basic-popover"
+        >
+          Open Popover
+        </Button>
+      </Stack>
+      <Popover
+        id="basic-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        anchorOrigin={{
+          horizontal: ANCHOR_ORIGIN[checkedValue].horizontal,
+          vertical: ANCHOR_ORIGIN[checkedValue].vertical
+        }}
+      >
+        Popover content
+      </Popover>
+    </>
+  );
+};
+
+const AnchorPositionTemplate = () => {
   const [open, setOpen] = useState(false);
   const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
 
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
     const newCoordinate = {
       left: event.clientX,
       top: event.clientY
     };
-    setOpen(true);
     setCoordinate(newCoordinate);
-  };
-  const handleClose = () => {
-    setOpen(false);
+    openPopover();
   };
 
   return (
     <>
-      <p onContextMenu={handleContextMenu}>
+      <p
+        onContextMenu={handleContextMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
         bibendum vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed
@@ -137,11 +300,139 @@ const PopoverAnchorPositionTemplate = ({ ...popoverProps }) => {
         volutpat maximus.
       </p>
       <Popover
+        id="basic-popover"
         open={open}
-        onClose={handleClose}
+        onClose={closePopover}
         anchorReference="anchorPosition"
         anchorPosition={coordinate}
-        {...popoverProps}
+      >
+        Popover content
+      </Popover>
+    </>
+  );
+};
+
+const DisableScrollTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button
+        ref={anchorElRef}
+        onClick={openPopover}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
+        Open Popover
+      </Button>
+      <Popover
+        id="basic-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        disableScroll
+      >
+        Popover content
+      </Popover>
+    </>
+  );
+};
+
+const CustomizePopoverTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button
+        ref={anchorElRef}
+        onClick={openPopover}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
+        Open Popover
+      </Button>
+      <Popover
+        id="basic-popover"
+        className="custom-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        BoxProps={{
+          elevation: 10,
+          round: 'sm',
+          style: { padding: '8px' }
+        }}
+        style={{ marginTop: '10px' }}
+      >
+        Popover Content
+      </Popover>
+    </>
+  );
+};
+
+const Scale = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Motion
+      initial={{ transform: 'scale(0)' }}
+      animate={{ transform: 'scale(1)' }}
+      exit={{ transform: 'scale(0)' }}
+      transition={{
+        enter:
+          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
+        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
+      }}
+    >
+      {children}
+    </Motion>
+  );
+};
+
+const CustomizeTransitionTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button
+        ref={anchorElRef}
+        onClick={openPopover}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
+        Open Popover
+      </Button>
+      <Popover
+        id="basic-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        TransitionComponent={Scale}
       >
         Popover Content
       </Popover>
@@ -150,178 +441,411 @@ const PopoverAnchorPositionTemplate = ({ ...popoverProps }) => {
 };
 
 export const BasicPopover: Story = {
-  render: (args) => {
-    return <PopoverAnchorElTemplate {...args} />;
+  render: () => <BasicPopoverTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicPopoverTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button
+        ref={anchorElRef}
+        onClick={openPopover}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
+        Open Popover
+      </Button>
+      <Popover
+        id="basic-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+      >
+        Popover Content
+      </Popover>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const PopoverOrigin: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={30}>
-        <Stack direction="row" spacing={20}>
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 'left', vertical: 'top' }}
-            buttonContent="H left / V top (Default)"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 'left', vertical: 'center' }}
-            buttonContent="H left / V center"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-            buttonContent="H left / V bottom"
-            {...args}
-          />
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 'center', vertical: 'top' }}
-            buttonContent="H center / V top"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 'center', vertical: 'center' }}
-            buttonContent="H center / V center"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-            buttonContent="H center / V bottom"
-            {...args}
-          />
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 'right', vertical: 'top' }}
-            buttonContent="H right / V top"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 'right', vertical: 'center' }}
-            buttonContent="H right / V center"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            buttonContent="H right / V bottom"
-            {...args}
-          />
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 0, vertical: 20 }}
-            buttonContent="H 0 / V 20"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            popoverOrigin={{ horizontal: 50, vertical: 0 }}
-            buttonContent="H 50 / V 0"
-            {...args}
-          />
-        </Stack>
+  render: () => <PopoverOriginTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const PopoverOriginTemplate = () => {
+  const POPOVER_ORIGIN = [
+    { label: 'H left / V top', horizontal: 'left', vertical: 'top' },
+    { label: 'H left / V center', horizontal: 'left', vertical: 'center' },
+    { label: 'H left / V bottom', horizontal: 'left', vertical: 'bottom' },
+    { label: 'H center / V top', horizontal: 'center', vertical: 'top' },
+    { label: 'H center / V center', horizontal: 'center', vertical: 'center' },
+    { label: 'H center / V bottom', horizontal: 'center', vertical: 'bottom' },
+    { label: 'H right / V top', horizontal: 'right', vertical: 'top' },
+    { label: 'H right / V center', horizontal: 'right', vertical: 'center' },
+    { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
+    { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
+  ] as const;
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [checkedValue, setCheckedValue] = useState<number>(0);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(Number(e.target.value));
+  };
+
+  return (
+    <>
+      <Stack spacing={20} style={{ alignItems: 'center' }}>
+        <Grid columns={3} columnSpacing={20}>
+          {POPOVER_ORIGIN.map((origin, idx) => (
+            <RadioLabel label={origin.label}>
+              <Radio
+                checked={checkedValue === idx}
+                value={idx}
+                onChange={check}
+              />
+            </RadioLabel>
+          ))}
+        </Grid>
+        <Button
+          ref={anchorElRef}
+          onClick={openPopover}
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="basic-popover"
+        >
+          Open Popover
+        </Button>
       </Stack>
-    );
+      <Popover
+        id="basic-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        popoverOrigin={{
+          horizontal: POPOVER_ORIGIN[checkedValue].horizontal,
+          vertical: POPOVER_ORIGIN[checkedValue].vertical
+        }}
+      >
+        Popover content
+      </Popover>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const AnchorOrigin: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={30}>
-        <Stack direction="row" spacing={20}>
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-            buttonContent="H left / V top"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 'left', vertical: 'center' }}
-            buttonContent="H left / V center"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-            buttonContent="H left / V bottom (Default)"
-            {...args}
-          />
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-            buttonContent="H center / V top"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
-            buttonContent="H center / V center"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-            buttonContent="H center / V bottom"
-            {...args}
-          />
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            buttonContent="H right / V top"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 'right', vertical: 'center' }}
-            buttonContent="H right / V center"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            buttonContent="H right / V bottom"
-            {...args}
-          />
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 0, vertical: 20 }}
-            buttonContent="H 0 / V 20"
-            {...args}
-          />
-          <PopoverAnchorElTemplate
-            anchorOrigin={{ horizontal: 50, vertical: 0 }}
-            buttonContent="H 50 / V 0"
-            {...args}
-          />
-        </Stack>
+  render: () => <AnchorOriginTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const AnchorOriginTemplate = () => {
+  const ANCHOR_ORIGIN = [
+    { label: 'H left / V top', horizontal: 'left', vertical: 'top' },
+    { label: 'H left / V center', horizontal: 'left', vertical: 'center' },
+    { label: 'H left / V bottom', horizontal: 'left', vertical: 'bottom' },
+    { label: 'H center / V top', horizontal: 'center', vertical: 'top' },
+    { label: 'H center / V center', horizontal: 'center', vertical: 'center' },
+    { label: 'H center / V bottom', horizontal: 'center', vertical: 'bottom' },
+    { label: 'H right / V top', horizontal: 'right', vertical: 'top' },
+    { label: 'H right / V center', horizontal: 'right', vertical: 'center' },
+    { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
+    { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
+  ] as const;
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [checkedValue, setCheckedValue] = useState<number>(0);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedValue(Number(e.target.value));
+  };
+
+  return (
+    <>
+      <Stack spacing={20} style={{ alignItems: 'center' }}>
+        <Grid columns={3} columnSpacing={20}>
+          {ANCHOR_ORIGIN.map((origin, idx) => (
+            <RadioLabel label={origin.label}>
+              <Radio
+                checked={checkedValue === idx}
+                value={idx}
+                onChange={check}
+              />
+            </RadioLabel>
+          ))}
+        </Grid>
+        <Button
+          ref={anchorElRef}
+          onClick={openPopover}
+          aria-haspopup={true}
+          aria-expanded={open}
+          aria-controls="basic-popover"
+        >
+          Open Popover
+        </Button>
       </Stack>
-    );
+      <Popover
+        id="basic-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        anchorOrigin={{
+          horizontal: ANCHOR_ORIGIN[checkedValue].horizontal,
+          vertical: ANCHOR_ORIGIN[checkedValue].vertical
+        }}
+      >
+        Popover content
+      </Popover>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const AnchorPosition: Story = {
-  render: (args) => {
-    return <PopoverAnchorPositionTemplate {...args} />;
+  render: () => <AnchorPositionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const AnchorPositionTemplate = () => {
+  const [open, setOpen] = useState(false);
+  const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault();
+    const newCoordinate = {
+      left: event.clientX,
+      top: event.clientY
+    };
+    setCoordinate(newCoordinate);
+    openPopover();
+  };
+
+  return (
+    <>
+      <p
+        onContextMenu={handleContextMenu}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
+        purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
+        bibendum vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed
+        dolor porttitor blandit vel vel purus. Fusce vel malesuada ligula. Nam
+        quis vehicula ante, eu finibus est. Proin ullamcorper fermentum orci,
+        quis finibus massa. Nunc lobortis, massa ut rutrum ultrices, metus metus
+        finibus ex, sit amet facilisis neque enim sed neque. Quisque accumsan
+        metus vel maximus consequat. Suspendisse lacinia tellus a libero
+        volutpat maximus.
+      </p>
+      <Popover
+        id="basic-popover"
+        open={open}
+        onClose={closePopover}
+        anchorReference="anchorPosition"
+        anchorPosition={coordinate}
+      >
+        Popover content
+      </Popover>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
-export const Elevation: Story = {
-  render: (args) => {
-    return (
-      <PopoverAnchorElTemplate
-        PopoverContentProps={{
+export const DisableScroll: Story = {
+  render: () => <DisableScrollTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const DisableScrollTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button
+        ref={anchorElRef}
+        onClick={openPopover}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
+        Open Popover
+      </Button>
+      <Popover
+        id="basic-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        disableScroll
+      >
+        Popover content
+      </Popover>
+    </>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const CustomizePopover: Story = {
+  render: () => <CustomizePopoverTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomizePopoverTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button
+        ref={anchorElRef}
+        onClick={openPopover}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
+        Open Popover
+      </Button>
+      <Popover
+        id="basic-popover"
+        className="custom-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        BoxProps={{
           elevation: 10,
           round: 'sm',
           style: { padding: '8px' }
         }}
-        {...args}
-      />
-    );
+        style={{ marginTop: '10px' }}
+      >
+        Popover Content
+      </Popover>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
-export const Customization: Story = {
-  render: (args) => {
-    return <PopoverAnchorElTemplate style={{ marginTop: '10px' }} {...args} />;
+export const CustomizeTransition: Story = {
+  render: () => <CustomizeTransitionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const Scale = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Motion
+      initial={{ transform: 'scale(0)' }}
+      animate={{ transform: 'scale(1)' }}
+      exit={{ transform: 'scale(0)' }}
+      transition={{
+        enter:
+          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
+        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
+      }}
+    >
+      {children}
+    </Motion>
+  );
+};
+
+const CustomizeTransitionTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+  const closePopover = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button
+        ref={anchorElRef}
+        onClick={openPopover}
+        aria-haspopup={true}
+        aria-expanded={open}
+        aria-controls="basic-popover"
+      >
+        Open Popover
+      </Button>
+      <Popover
+        id="basic-popover"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closePopover}
+        TransitionComponent={Scale}
+      >
+        Popover Content
+      </Popover>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
