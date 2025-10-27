@@ -1,0 +1,19 @@
+.custom-popover.JinniPopover {
+  .JinniBox {
+    position: relative;
+    border: 1px solid var(--jinni-color-gray-300);
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border: 1px solid var(--jinni-color-gray-300);
+      border-bottom: none;
+      border-right: none;
+    }
+  }
+}

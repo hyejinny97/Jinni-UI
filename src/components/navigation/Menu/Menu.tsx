@@ -18,7 +18,7 @@ export type MenuProps<T extends AsType = 'div'> = Omit<
   menuOrigin?: PopperProps['popperOrigin'];
   open: boolean;
   onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
-  MenuListProps?: Omit<MenuListProps, 'children'>;
+  MenuListProps?: MenuListProps;
   disableScroll?: boolean;
   TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
 };

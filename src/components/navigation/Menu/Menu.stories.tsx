@@ -475,7 +475,7 @@ const MenuOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {MENU_ORIGIN.map((origin, idx) => (
-            <RadioLabel label={origin.label}>
+            <RadioLabel key={origin.label} label={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
@@ -544,7 +544,7 @@ const AnchorOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <RadioLabel label={origin.label}>
+            <RadioLabel key={origin.label} label={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
@@ -1206,7 +1206,7 @@ export const MenuOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {MENU_ORIGIN.map((origin, idx) => (
-            <RadioLabel label={origin.label}>
+            <RadioLabel key={origin.label} label={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
@@ -1284,7 +1284,7 @@ export const AnchorOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <RadioLabel label={origin.label}>
+            <RadioLabel key={origin.label} label={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
