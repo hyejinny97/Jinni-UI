@@ -109,7 +109,7 @@ const BasicPopoverTemplate = () => {
       <Button
         ref={anchorElRef}
         onClick={openPopover}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -120,8 +120,19 @@ const BasicPopoverTemplate = () => {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
       >
-        Popover Content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -159,7 +170,7 @@ const PopoverOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {POPOVER_ORIGIN.map((origin, idx) => (
-            <RadioLabel label={origin.label}>
+            <RadioLabel key={origin.label} label={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
@@ -171,7 +182,7 @@ const PopoverOriginTemplate = () => {
         <Button
           ref={anchorElRef}
           onClick={openPopover}
-          aria-haspopup={true}
+          aria-haspopup="dialog"
           aria-expanded={open}
           aria-controls="basic-popover"
         >
@@ -183,12 +194,23 @@ const PopoverOriginTemplate = () => {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
         popoverOrigin={{
           horizontal: POPOVER_ORIGIN[checkedValue].horizontal,
           vertical: POPOVER_ORIGIN[checkedValue].vertical
         }}
       >
-        Popover content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -226,7 +248,7 @@ const AnchorOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <RadioLabel label={origin.label}>
+            <RadioLabel key={origin.label} label={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
@@ -238,7 +260,7 @@ const AnchorOriginTemplate = () => {
         <Button
           ref={anchorElRef}
           onClick={openPopover}
-          aria-haspopup={true}
+          aria-haspopup="dialog"
           aria-expanded={open}
           aria-controls="basic-popover"
         >
@@ -250,12 +272,23 @@ const AnchorOriginTemplate = () => {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
         anchorOrigin={{
           horizontal: ANCHOR_ORIGIN[checkedValue].horizontal,
           vertical: ANCHOR_ORIGIN[checkedValue].vertical
         }}
       >
-        Popover content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -285,7 +318,7 @@ const AnchorPositionTemplate = () => {
     <>
       <p
         onContextMenu={handleContextMenu}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -301,12 +334,23 @@ const AnchorPositionTemplate = () => {
       </p>
       <Popover
         id="basic-popover"
-        open={open}
-        onClose={closePopover}
         anchorReference="anchorPosition"
         anchorPosition={coordinate}
+        open={open}
+        onClose={closePopover}
+        style={{ maxWidth: '300px' }}
       >
-        Popover content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -328,7 +372,7 @@ const DisableScrollTemplate = () => {
       <Button
         ref={anchorElRef}
         onClick={openPopover}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -339,9 +383,20 @@ const DisableScrollTemplate = () => {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
         disableScroll
       >
-        Popover content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -363,7 +418,7 @@ const CustomizePopoverTemplate = () => {
       <Button
         ref={anchorElRef}
         onClick={openPopover}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -375,14 +430,24 @@ const CustomizePopoverTemplate = () => {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px', marginTop: '10px' }}
         BoxProps={{
-          elevation: 10,
+          elevation: 0,
           round: 'sm',
           style: { padding: '8px' }
         }}
-        style={{ marginTop: '10px' }}
       >
-        Popover Content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -421,7 +486,7 @@ const CustomizeTransitionTemplate = () => {
       <Button
         ref={anchorElRef}
         onClick={openPopover}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -432,9 +497,20 @@ const CustomizeTransitionTemplate = () => {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
         TransitionComponent={Scale}
       >
-        Popover Content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -461,7 +537,7 @@ export const BasicPopover: Story = {
       <Button
         ref={anchorElRef}
         onClick={openPopover}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -472,8 +548,19 @@ export const BasicPopover: Story = {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
       >
-        Popover Content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -520,7 +607,7 @@ export const PopoverOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {POPOVER_ORIGIN.map((origin, idx) => (
-            <RadioLabel label={origin.label}>
+            <RadioLabel key={origin.label} label={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
@@ -532,7 +619,7 @@ export const PopoverOrigin: Story = {
         <Button
           ref={anchorElRef}
           onClick={openPopover}
-          aria-haspopup={true}
+          aria-haspopup="dialog"
           aria-expanded={open}
           aria-controls="basic-popover"
         >
@@ -544,12 +631,23 @@ export const PopoverOrigin: Story = {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
         popoverOrigin={{
           horizontal: POPOVER_ORIGIN[checkedValue].horizontal,
           vertical: POPOVER_ORIGIN[checkedValue].vertical
         }}
       >
-        Popover content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -596,7 +694,7 @@ export const AnchorOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <RadioLabel label={origin.label}>
+            <RadioLabel key={origin.label} label={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
@@ -608,7 +706,7 @@ export const AnchorOrigin: Story = {
         <Button
           ref={anchorElRef}
           onClick={openPopover}
-          aria-haspopup={true}
+          aria-haspopup="dialog"
           aria-expanded={open}
           aria-controls="basic-popover"
         >
@@ -620,12 +718,23 @@ export const AnchorOrigin: Story = {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
         anchorOrigin={{
           horizontal: ANCHOR_ORIGIN[checkedValue].horizontal,
           vertical: ANCHOR_ORIGIN[checkedValue].vertical
         }}
       >
-        Popover content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -664,7 +773,7 @@ export const AnchorPosition: Story = {
     <>
       <p
         onContextMenu={handleContextMenu}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -680,12 +789,23 @@ export const AnchorPosition: Story = {
       </p>
       <Popover
         id="basic-popover"
-        open={open}
-        onClose={closePopover}
         anchorReference="anchorPosition"
         anchorPosition={coordinate}
+        open={open}
+        onClose={closePopover}
+        style={{ maxWidth: '300px' }}
       >
-        Popover content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -716,7 +836,7 @@ export const DisableScroll: Story = {
       <Button
         ref={anchorElRef}
         onClick={openPopover}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -727,9 +847,20 @@ export const DisableScroll: Story = {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
         disableScroll
       >
-        Popover content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -760,7 +891,7 @@ export const CustomizePopover: Story = {
       <Button
         ref={anchorElRef}
         onClick={openPopover}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -772,14 +903,24 @@ export const CustomizePopover: Story = {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px', marginTop: '10px' }}
         BoxProps={{
-          elevation: 10,
+          elevation: 0,
           round: 'sm',
           style: { padding: '8px' }
         }}
-        style={{ marginTop: '10px' }}
       >
-        Popover Content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
@@ -827,7 +968,7 @@ const CustomizeTransitionTemplate = () => {
       <Button
         ref={anchorElRef}
         onClick={openPopover}
-        aria-haspopup={true}
+        aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
       >
@@ -838,9 +979,20 @@ const CustomizeTransitionTemplate = () => {
         anchorElRef={anchorElRef}
         open={open}
         onClose={closePopover}
+        style={{ maxWidth: '300px' }}
         TransitionComponent={Scale}
       >
-        Popover Content
+        Are you sure you want to continue with your action?
+        <Stack
+          direction="row"
+          spacing={5}
+          style={{ marginTop: '10px', justifyContent: 'end' }}
+        >
+          <Button variant="text" onClick={closePopover}>
+            Close
+          </Button>
+          <Button onClick={closePopover}>Ok</Button>
+        </Stack>
       </Popover>
     </>
   );
