@@ -7,23 +7,13 @@ export const useKeyboardAccessibility = ({
   anchorElRef
 }: Pick<MenuProps, 'open' | 'onClose' | 'anchorElRef'>) => {
   const menuListElRef = useRef<HTMLElement>(null);
-  const prevOpenRef = useRef<boolean>(open);
-
-  useEffect(() => {
-    if (open) {
-      setTimeout(() => {
-        const menuListEl = menuListElRef.current;
-        menuListEl?.focus();
-      }, 0);
-    } else if (prevOpenRef.current === true && open === false) {
-      const anchorEl = anchorElRef?.current;
-      anchorEl?.focus();
-    }
-    prevOpenRef.current = open;
-  }, [open, anchorElRef]);
 
   useEffect(() => {
     if (!open || !onClose) return;
+
+    const anchorEl = anchorElRef?.current;
+    const menuListEl = menuListElRef.current;
+    menuListEl?.focus();
 
     const handleEscapeAndTap = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -38,8 +28,9 @@ export const useKeyboardAccessibility = ({
     document.addEventListener('keydown', handleEscapeAndTap);
     return () => {
       document.removeEventListener('keydown', handleEscapeAndTap);
+      anchorEl?.focus();
     };
-  }, [open, onClose]);
+  }, [open, onClose, anchorElRef]);
 
   return { menuListElRef };
 };
