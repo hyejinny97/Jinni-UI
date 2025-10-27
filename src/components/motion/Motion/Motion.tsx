@@ -37,12 +37,15 @@ const Motion = forwardRef(
       as: Component = 'div',
       ...rest
     } = props;
-    const targetElRef = useRef<HTMLDivElement>(null);
+    const targetElRef = useRef<HTMLElement | null>(null);
     const exitValue = useExit();
+    const isExiting = exitValue?.isExiting ?? false;
+
     const enterTransition =
       typeof transition === 'string' ? transition : transition.enter;
     const exitTransition =
       typeof transition === 'string' ? transition : transition.exit;
+
     const newStyle = useStyle({
       transition: enterTransition,
       ...style
@@ -58,43 +61,49 @@ const Motion = forwardRef(
 
     useLayoutEffect(() => {
       const targetEl = targetElRef.current;
-      if (!targetEl || !initial) return;
+      if (!targetEl || !initial || isExiting) return;
 
       setStyle(targetEl, initial);
-    }, []);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isExiting]);
 
     useEffect(() => {
       const targetEl = targetElRef.current;
-      if (!targetEl || !animate) return;
+      if (!targetEl || !animate || isExiting) return;
 
       const id = requestAnimationFrame(() => {
         setStyle(targetEl, animate);
       });
       return () => cancelAnimationFrame(id);
-    }, [animate]);
+    }, [animate, isExiting]);
 
     useEffect(() => {
       const targetEl = targetElRef.current;
-      if (!targetEl || exitValue === null) return;
+      if (!targetEl || !exitValue) return;
 
       const { isExiting, onExitComplete } = exitValue;
       if (isExiting && exit) {
         targetEl.style.transition = exitTransition;
         setStyle(targetEl, exit);
-        targetEl.addEventListener('transitionend', onExitComplete, {
-          once: true
-        });
+
+        const handleEnd = (e: TransitionEvent) => {
+          if (e.target === targetEl) {
+            onExitComplete?.();
+          }
+        };
+
+        targetEl.addEventListener('transitionend', handleEnd, { once: true });
+        return () => {
+          targetEl.removeEventListener('transitionend', handleEnd);
+        };
       }
-      return () => {
-        targetEl.removeEventListener('transitionend', onExitComplete);
-      };
     }, [exitValue, exit, exitTransition]);
 
     return (
       <Component
         ref={(element) => {
           if (element) {
-            (targetElRef as MutableRefObject<HTMLElement>).current = element;
+            targetElRef.current = element;
             if (ref && 'current' in ref) {
               (ref as MutableRefObject<HTMLElement>).current = element;
             }
