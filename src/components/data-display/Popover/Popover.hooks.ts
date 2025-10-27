@@ -33,7 +33,7 @@ export const useKeyboardAccessibility = ({
 
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose?.(e, 'escapeKeydown');
+        onClose?.(e, 'escapeKeyDown');
       }
       if (e.key === 'Tab') {
         if (focusableEls.length === 0) {
