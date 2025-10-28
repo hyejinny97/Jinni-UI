@@ -27,7 +27,7 @@ import { Tooltip } from '@/components/data-display/Tooltip';
 
 ### Tooltip Position
 
-- `placement`: tooltip의 위치(12가지)
+- `placement`: tooltip의 위치
 
 <Canvas of={TooltipStories.TooltipPosition} />
 
@@ -45,31 +45,38 @@ import { Tooltip } from '@/components/data-display/Tooltip';
 
 ### Triggers
 
-- `triggers`: tooltip이 나타나는 것을 유발하는 이벤트
-  - default: `[click, hover, focus]`
+- `triggers`: tooltip의 open을 유발하는 이벤트 종류
 
 <Canvas of={TooltipStories.Triggers} />
 
 ### Controlled Tooltip
 
 - `open`: true이면, tooltip이 나타남
-- `onOpen`: 'anchorClick' or 'mouseEnter' or 'focus' 이벤트 발생 시 실행되는 함수
-
-  - `event.type`: 'click' | 'mouseenter' | 'focus'
-  - `triggers` 값에 따라 실행 여부가 결정됨
-
-- `onClose`: 'backdropClick' or 'mouseLeave' or 'blur' 이벤트 발생 시 실행되는 함수
-
-  - `event.type`: 'click' | 'mouseleave' | 'blur'
-  - `triggers` 값에 따라 실행 여부가 결정됨
+- `onOpen`: triggers prop에 의한 open 이벤트 발생 시 실행되는 함수
+  - open 이벤트: anchor click, mouse enter, focus
+- `onClose`: triggers prop에 의한 close 이벤트 발생 시 실행되는 함수
+  - close 이벤트: background click, mouse leave, blur
 
 <Canvas of={TooltipStories.ControlledTooltip} />
 
-### Customization
+### Showing and hiding delay
 
-- `TooltipContentProps`를 통해 background-color, color, box-shadow, max-width 등 커스텀 가능
+- `enterDelay`: tooltip이 나타날 때까지 delay 되는 시간 (단위: ms)
+- `leaveDelay`: tooltip이 사라질 때까지 delay 되는 시간 (단위: ms)
 
-<Canvas of={TooltipStories.Customization} />
+<Canvas of={TooltipStories.ShowingHidingDelay} />
+
+### Customize Tooltip
+
+- `BoxProps`: Box 컴포넌트에 적용되는 props
+
+<Canvas of={TooltipStories.CustomizeTooltip} />
+
+### Customize Transition
+
+- `TransitionComponent`: transition 컴포넌트
+
+<Canvas of={TooltipStories.CustomizeTransition} />
 
 ## Props
 
