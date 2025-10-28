@@ -1,6 +1,6 @@
 import './Tooltip.scss';
 import cn from 'classnames';
-import {
+import React, {
   useRef,
   useMemo,
   isValidElement,
@@ -16,6 +16,8 @@ import {
 } from '@/utils/popper';
 import { Popper } from '@/components/_share/Popper';
 import { Box, BoxProps } from '@/components/layout/Box';
+import { Motion } from '@/components/motion/Motion';
+import { AnimatePresence } from '@/components/motion/AnimatePresence';
 
 export type TriggerType = 'click' | 'hover' | 'focus';
 
@@ -33,6 +35,31 @@ export type TooltipProps<T extends AsType = 'div'> = Omit<
   onOpen?: (event: React.SyntheticEvent | Event) => void;
   onClose?: (event: React.SyntheticEvent | Event) => void;
   BoxProps?: BoxProps;
+  enterDelay?: number;
+  leaveDelay?: number;
+  TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
+};
+
+type ScaleFadeProps = {
+  children: React.ReactNode;
+  enterDelay: number;
+  leaveDelay: number;
+};
+
+const ScaleFade = ({ children, enterDelay, leaveDelay }: ScaleFadeProps) => {
+  return (
+    <Motion
+      initial={{ transform: 'scale(0.9)', opacity: 0 }}
+      animate={{ transform: 'scale(1)', opacity: 1 }}
+      exit={{ transform: 'scale(0.9)', opacity: 0 }}
+      transition={{
+        enter: `transform var(--jinni-duration-short3) var(--jinni-easing-emphasized) ${enterDelay}ms, opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized) ${enterDelay}ms`,
+        exit: `transform var(--jinni-duration-short3) var(--jinni-easing-emphasized) ${leaveDelay}ms, opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized) ${leaveDelay}ms`
+      }}
+    >
+      {children}
+    </Motion>
+  );
 };
 
 const Tooltip = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
@@ -47,6 +74,9 @@ const Tooltip = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
     onOpen,
     onClose,
     BoxProps,
+    enterDelay = 0,
+    leaveDelay = 0,
+    TransitionComponent = ScaleFade,
     className,
     style,
     ...rest
@@ -130,37 +160,44 @@ const Tooltip = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
   return (
     <>
       {anchor}
-      {isOpen && (
-        <Popper
-          ref={popperRef}
-          className={cn('JinniTooltip', className)}
-          anchorReference="anchorEl"
-          anchorElRef={anchorElRef}
-          anchorOrigin={anchorOrigin}
-          popperOrigin={popperOrigin}
-          style={{
-            '--transform-origin': `${popperOrigin.horizontal} ${popperOrigin.vertical}`,
-            '--offset': `${offset}px`,
-            ...style
-          }}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          {...rest}
-        >
-          <Box
-            className={cn(
-              'JinniTooltipContent',
-              { arrow },
-              placement,
-              className
-            )}
-            round={4}
-            {...BoxProps}
+      <AnimatePresence>
+        {isOpen && (
+          <Popper
+            ref={popperRef}
+            className={cn('JinniTooltip', className)}
+            anchorReference="anchorEl"
+            anchorElRef={anchorElRef}
+            anchorOrigin={anchorOrigin}
+            popperOrigin={popperOrigin}
+            style={{
+              '--transform-origin': `${popperOrigin.horizontal} ${popperOrigin.vertical}`,
+              '--offset': `${offset}px`,
+              ...style
+            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            {...rest}
           >
-            {content}
-          </Box>
-        </Popper>
-      )}
+            <TransitionComponent
+              enterDelay={enterDelay}
+              leaveDelay={leaveDelay}
+            >
+              <Box
+                className={cn(
+                  'JinniTooltipContent',
+                  { arrow },
+                  placement,
+                  className
+                )}
+                round={4}
+                {...BoxProps}
+              >
+                {content}
+              </Box>
+            </TransitionComponent>
+          </Popper>
+        )}
+      </AnimatePresence>
     </>
   );
 };

@@ -85,27 +85,30 @@
 }
 
 .JinniTooltip {
-  .JinniTooltipContent {
-    position: relative;
-    padding: 4px 8px;
-    background-color: var(--jinni-color-gray-500);
-    color: white;
-    font-size: 12px;
-    font-weight: var(--jinni-font-weight-medium);
+  .JinniMotion {
+    transform-origin: var(--transform-origin);
+    .JinniTooltipContent {
+      position: relative;
+      padding: 4px 8px;
+      background-color: var(--jinni-color-gray-500);
+      color: white;
+      font-size: 12px;
+      font-weight: var(--jinni-font-weight-medium);
 
-    &::before {
-      content: '';
-      position: absolute;
-      width: 7px;
-      height: 7px;
-      background-color: inherit;
-      visibility: hidden;
-    }
-    &.arrow::before {
-      visibility: visible;
-    }
+      &::before {
+        content: '';
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        background-color: inherit;
+        visibility: hidden;
+      }
+      &.arrow::before {
+        visibility: visible;
+      }
 
-    @include offset;
-    @include arrow-position;
+      @include offset;
+      @include arrow-position;
+    }
   }
 }
