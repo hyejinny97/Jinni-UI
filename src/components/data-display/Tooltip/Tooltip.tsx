@@ -1,6 +1,5 @@
 import './Tooltip.scss';
 import cn from 'classnames';
-import { createPortal } from 'react-dom';
 import {
   useRef,
   useMemo,
@@ -8,20 +7,19 @@ import {
   cloneElement,
   MutableRefObject
 } from 'react';
-import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import usePopperPosition from '@/hooks/usePopperPosition';
 import { useOpen, useHandleTriggers } from './Tooltip.hooks';
-import TooltipContent, { TooltipContentProps } from './TooltipContent';
 import { PlacementType } from '@/types/popper';
 import {
   placementToAnchorOrigin,
   placementToPopperOrigin
 } from '@/utils/popper';
+import { Popper } from '@/components/_share/Popper';
+import { Box, BoxProps } from '@/components/layout/Box';
 
 export type TriggerType = 'click' | 'hover' | 'focus';
 
-export type TooltipProps<T extends AsType = 'span'> = Omit<
+export type TooltipProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'content' | 'children'
 > & {
@@ -34,32 +32,27 @@ export type TooltipProps<T extends AsType = 'span'> = Omit<
   open?: boolean;
   onOpen?: (event: React.SyntheticEvent | Event) => void;
   onClose?: (event: React.SyntheticEvent | Event) => void;
-  TooltipContentProps?: TooltipContentProps;
+  BoxProps?: BoxProps;
 };
 
-const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
+const Tooltip = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
   const {
     children,
     content,
     placement = 'bottom',
-    arrow = false,
+    arrow,
     offset = 14,
     triggers = ['click', 'hover', 'focus'],
     open,
     onOpen,
     onClose,
-    TooltipContentProps,
+    BoxProps,
     className,
     style,
-    as: Component = 'span',
     ...rest
   } = props;
   const anchorElRef = useRef<HTMLElement>(null);
-  const { isOpen, handleOpen, handleClose } = useOpen({
-    open,
-    onOpen,
-    onClose
-  });
+  const popperRef = useRef<HTMLElement>(null);
   const anchorOrigin = useMemo(
     () => placementToAnchorOrigin(placement),
     [placement]
@@ -68,17 +61,10 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
     () => placementToPopperOrigin(placement),
     [placement]
   );
-  const { popperRef, popperPosition } = usePopperPosition({
-    anchorReference: 'anchorEl',
-    anchorElRef,
-    anchorOrigin,
-    popperOrigin,
-    open: isOpen
-  });
-  const newStyle = useStyle({
-    ...popperPosition,
-    '--offset': `${offset}px`,
-    ...style
+  const { isOpen, handleOpen, handleClose } = useOpen({
+    open,
+    onOpen,
+    onClose
   });
   const {
     handleMouseEnter,
@@ -144,26 +130,37 @@ const Tooltip = <T extends AsType = 'span'>(props: TooltipProps<T>) => {
   return (
     <>
       {anchor}
-      {isOpen &&
-        createPortal(
-          <Component
-            ref={popperRef}
-            className={cn('JinniTooltip', className)}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            style={newStyle}
-            {...rest}
+      {isOpen && (
+        <Popper
+          ref={popperRef}
+          className={cn('JinniTooltip', className)}
+          anchorReference="anchorEl"
+          anchorElRef={anchorElRef}
+          anchorOrigin={anchorOrigin}
+          popperOrigin={popperOrigin}
+          style={{
+            '--transform-origin': `${popperOrigin.horizontal} ${popperOrigin.vertical}`,
+            '--offset': `${offset}px`,
+            ...style
+          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          {...rest}
+        >
+          <Box
+            className={cn(
+              'JinniTooltipContent',
+              { arrow },
+              placement,
+              className
+            )}
+            round={4}
+            {...BoxProps}
           >
-            <TooltipContent
-              placement={placement}
-              arrow={arrow}
-              {...TooltipContentProps}
-            >
-              {content}
-            </TooltipContent>
-          </Component>,
-          document.body
-        )}
+            {content}
+          </Box>
+        </Popper>
+      )}
     </>
   );
 };

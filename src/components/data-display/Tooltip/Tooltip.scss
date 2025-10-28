@@ -1,5 +1,3 @@
-@use '@/styles/animation';
-
 @mixin offset {
   &.top,
   &.top-start,
@@ -24,98 +22,90 @@
 }
 
 @mixin arrow-position {
-  &.top-start {
+  &.top-start::before {
     bottom: 0;
     left: 0;
     transform: translate(100%, 50%) rotate(45deg);
   }
-  &.top {
+  &.top::before {
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%) rotate(45deg);
   }
-  &.top-end {
+  &.top-end::before {
     bottom: 0;
     right: 0;
     transform: translate(-100%, 50%) rotate(45deg);
   }
-  &.bottom-start {
+  &.bottom-start::before {
     top: 0;
     left: 0;
     transform: translate(100%, -50%) rotate(45deg);
   }
-  &.bottom {
+  &.bottom::before {
     top: 0;
     left: 50%;
     transform: translate(-50%, -50%) rotate(45deg);
   }
-  &.bottom-end {
+  &.bottom-end::before {
     top: 0;
     right: 0;
     transform: translate(-100%, -50%) rotate(45deg);
   }
-  &.left-start {
+  &.left-start::before {
     top: 0;
     right: 0;
     transform: translate(50%, 100%) rotate(45deg);
   }
-  &.left {
+  &.left::before {
     top: 50%;
     right: 0;
     transform: translate(50%, -50%) rotate(45deg);
   }
-  &.left-end {
+  &.left-end::before {
     bottom: 0;
     right: 0;
     transform: translate(50%, -100%) rotate(45deg);
   }
-  &.right-start {
+  &.right-start::before {
     top: 0;
     left: 0;
     transform: translate(-50%, 100%) rotate(45deg);
   }
-  &.right {
+  &.right::before {
     top: 50%;
     left: 0;
     transform: translate(-50%, -50%) rotate(45deg);
   }
-  &.right-end {
+  &.right-end::before {
     bottom: 0;
     left: 0;
     transform: translate(-50%, -100%) rotate(45deg);
   }
 }
 
-.JinniTooltipAnchor {
-  display: inline-flex;
-}
-
 .JinniTooltip {
-  display: inline-flex;
-  position: fixed;
-  z-index: var(--jinni-z-index-tooltip);
-
   .JinniTooltipContent {
     position: relative;
     padding: 4px 8px;
-    border-radius: 4px;
     background-color: var(--jinni-color-gray-500);
     color: white;
     font-size: 12px;
     font-weight: var(--jinni-font-weight-medium);
-    animation: appear 0.2s;
-    user-select: none;
-    @include offset;
 
-    .JinniTooltipContentArrow {
+    &::before {
       content: '';
       position: absolute;
-      display: inline-block;
       width: 7px;
       height: 7px;
-      z-index: -1;
       background-color: inherit;
-      @include arrow-position;
+      visibility: hidden;
     }
+    &.arrow::before {
+      visibility: visible;
+    }
+
+    @include offset;
+    @include arrow-position;
   }
 }
