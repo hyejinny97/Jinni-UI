@@ -96,6 +96,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
             <TransitionComponent>
               <Box
                 ref={boxElRef}
+                className="JinniPopoverContent"
                 role="dialog"
                 elevation={5}
                 round={4}

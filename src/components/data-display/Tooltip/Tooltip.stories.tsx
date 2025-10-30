@@ -2,15 +2,25 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Tooltip from './Tooltip';
 import { Stack } from '@/components/layout/Stack';
+import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
+import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
+import { Motion } from '@/components/motion/Motion';
 
 const meta: Meta<typeof Tooltip> = {
   component: Tooltip,
   argTypes: {
     arrow: {
-      description: 'tooltip 화살표 여부',
-      defaultValue: { summary: 'false' }
+      description: 'tooltip 화살표 여부'
+    },
+    BoxProps: {
+      description: 'Box 컴포넌트에 적용되는 props',
+      table: {
+        type: {
+          summary: `BoxProps`
+        }
+      }
     },
     children: {
       description: 'anchor 요소'
@@ -18,15 +28,35 @@ const meta: Meta<typeof Tooltip> = {
     content: {
       description: 'tooltip 콘텐츠'
     },
+    enterDelay: {
+      description: 'tooltip이 나타날 때까지 delay 되는 시간 (단위: ms)',
+      table: {
+        type: { summary: `number` },
+        defaultValue: { summary: `0` }
+      }
+    },
+    leaveDelay: {
+      description: 'tooltip이 사라질 때까지 delay 되는 시간 (단위: ms)',
+      table: {
+        type: { summary: `number` },
+        defaultValue: { summary: `0` }
+      }
+    },
     offset: {
       description: 'anchor와 tooltip 사이 거리',
-      defaultValue: { summary: '14px' }
+      defaultValue: { summary: '14' }
     },
     onClose: {
-      description: `'backdropClick', 'mouseLeave', 'blur' 이벤트 발생 시 실행되는 함수`
+      description: `triggers prop에 의한 close 이벤트 발생 시 실행되는 함수`,
+      table: {
+        type: { summary: `(event: React.SyntheticEvent) => void` }
+      }
     },
     onOpen: {
-      description: `'anchorClick', 'mouseEnter', 'focus' 이벤트 발생 시 실행되는 함수`
+      description: `triggers prop에 의한 open 이벤트 발생 시 실행되는 함수`,
+      table: {
+        type: { summary: `(event: React.SyntheticEvent) => void` }
+      }
     },
     open: {
       description: 'true이면, tooltip이 나타남'
@@ -35,26 +65,25 @@ const meta: Meta<typeof Tooltip> = {
       description: 'tooltip의 위치',
       table: {
         type: {
-          summary: `bottom-end | bottom-start | bottom | left-end | left-start | left | right-end | right-start | right| top-end| top-start | top`
+          summary: `'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end' | 'left-start' | 'left' | 'left-end' | 'right-start' | 'right' | 'right-end'`
         },
-        defaultValue: { summary: `bottom` }
+        defaultValue: { summary: `'bottom'` }
+      }
+    },
+    TransitionComponent: {
+      description: `transition 컴포넌트`,
+      table: {
+        type: { summary: `React.ReactNode` },
+        defaultValue: { summary: `ScaleFade` }
       }
     },
     triggers: {
-      description: 'tooltip이 나타나는 것을 유발하는 이벤트',
+      description: 'tooltip의 open을 유발하는 이벤트 종류',
       table: {
         type: {
-          summary: `[hover | click | focus]`
+          summary: `Array<'hover' | 'click' | 'focus'>`
         },
-        defaultValue: { summary: `[hover, click, focus]` }
-      }
-    },
-    TooltipContentProps: {
-      description: 'TooltipContent 컴포넌트의 props',
-      table: {
-        type: {
-          summary: `TooltipContentProps`
-        }
+        defaultValue: { summary: `['hover', 'click', 'focus']` }
       }
     }
   }
@@ -63,46 +92,70 @@ const meta: Meta<typeof Tooltip> = {
 export default meta;
 type Story = StoryObj<typeof Tooltip>;
 
-const ControlledTooltipTemplate = ({ ...rest }) => {
-  const [open, setOpen] = useState(true);
+const ControlledTooltipTemplate = () => {
+  const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const openTooltip = () => {
     setOpen(true);
   };
-  const handleClose = (e: Event | React.SyntheticEvent) => {
-    if (e.type === 'click') return;
+  const closeTooltip = () => {
     setOpen(false);
   };
 
   return (
     <Tooltip
+      id="jinni-controlled-tooltip"
       content={
         <Stack direction="row" spacing={10} style={{ alignItems: 'center' }}>
-          <span>Tooltip Contents</span>
-          <CloseIcon
-            size={20}
-            color="white"
-            style={{ cursor: 'pointer' }}
-            onClick={() => setOpen(false)}
-          />
+          Tooltip Contents
+          <ButtonBase
+            onClick={closeTooltip}
+            style={{
+              display: 'inline-flex',
+              padding: '3px',
+              borderRadius: '50%'
+            }}
+          >
+            <CloseIcon size={13} color="white" />
+          </ButtonBase>
         </Stack>
       }
       open={open}
-      onOpen={handleOpen}
-      onClose={handleClose}
+      onOpen={openTooltip}
+      onClose={closeTooltip}
       triggers={['click']}
-      {...rest}
     >
-      <Button variant="outlined">Open Tooltip</Button>
+      <Button variant="outlined" aria-describedby="jinni-controlled-tooltip">
+        Open Tooltip
+      </Button>
     </Tooltip>
+  );
+};
+
+const Scale = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Motion
+      initial={{ transform: 'scale(0)' }}
+      animate={{ transform: 'scale(1)' }}
+      exit={{ transform: 'scale(0)' }}
+      transition={{
+        enter:
+          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
+        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
+      }}
+    >
+      {children}
+    </Motion>
   );
 };
 
 export const BasicTooltip: Story = {
   render: (args) => {
     return (
-      <Tooltip content="Tooltip Contents" {...args}>
-        <Button variant="outlined">Open Tooltip</Button>
+      <Tooltip id="jinni-basic-tooltip" content="Tooltip Contents" {...args}>
+        <Button variant="outlined" aria-describedby="jinni-basic-tooltip">
+          Open Tooltip
+        </Button>
       </Tooltip>
     );
   }
@@ -111,80 +164,47 @@ export const BasicTooltip: Story = {
 export const TooltipPosition: Story = {
   render: (args) => {
     return (
-      <div
+      <Grid
+        spacing={20}
         style={{
           maxWidth: '600px',
-          display: 'grid',
-          gridGap: '10px',
           justifyItems: 'center',
           gridTemplateAreas: `'. top-start top top-end .' 'left-start . . . right-start' 'left . . . right' 'left-end . . . right-end' '. bottom-start bottom bottom-end .'`
         }}
       >
-        <div style={{ gridArea: 'top-start' }}>
-          <Tooltip content="Tooltip Contents" placement="top-start" {...args}>
-            <Button variant="outlined">top-start</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'top' }}>
-          <Tooltip content="Tooltip Contents" placement="top" {...args}>
-            <Button variant="outlined">top</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'top-end' }}>
-          <Tooltip content="Tooltip Contents" placement="top-end" {...args}>
-            <Button variant="outlined">top-end</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'bottom-start' }}>
+        {(
+          [
+            'top-start',
+            'top',
+            'top-end',
+            'bottom-start',
+            'bottom',
+            'bottom-end',
+            'left-start',
+            'left',
+            'left-end',
+            'right-start',
+            'right',
+            'right-end'
+          ] as const
+        ).map((placement) => (
           <Tooltip
+            key={placement}
+            id={`${placement}-position-tooltip`}
             content="Tooltip Contents"
-            placement="bottom-start"
+            placement={placement}
             {...args}
           >
-            <Button variant="outlined">bottom-start</Button>
+            <Button
+              variant="outlined"
+              style={{ gridArea: placement }}
+              aria-describedby={`${placement}-position-tooltip`}
+            >
+              {placement}
+            </Button>
           </Tooltip>
-        </div>
-        <div style={{ gridArea: 'bottom' }}>
-          <Tooltip content="Tooltip Contents" placement="bottom" {...args}>
-            <Button variant="outlined">bottom</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'bottom-end' }}>
-          <Tooltip content="Tooltip Contents" placement="bottom-end" {...args}>
-            <Button variant="outlined">bottom-end</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'left-start' }}>
-          <Tooltip content="Tooltip Contents" placement="left-start" {...args}>
-            <Button variant="outlined">left-start</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'left' }}>
-          <Tooltip content="Tooltip Contents" placement="left" {...args}>
-            <Button variant="outlined">left</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'left-end' }}>
-          <Tooltip content="Tooltip Contents" placement="left-end" {...args}>
-            <Button variant="outlined">left-end</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'right-start' }}>
-          <Tooltip content="Tooltip Contents" placement="right-start" {...args}>
-            <Button variant="outlined">right-start</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'right' }}>
-          <Tooltip content="Tooltip Contents" placement="right" {...args}>
-            <Button variant="outlined">right</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'right-end' }}>
-          <Tooltip content="Tooltip Contents" placement="right-end" {...args}>
-            <Button variant="outlined">right-end</Button>
-          </Tooltip>
-        </div>
-      </div>
+        ))}
+      </Grid>
     );
   }
 };
@@ -192,121 +212,48 @@ export const TooltipPosition: Story = {
 export const ArrowTooltip: Story = {
   render: (args) => {
     return (
-      <div
+      <Grid
+        spacing={20}
         style={{
           maxWidth: '600px',
-          display: 'grid',
-          gridGap: '10px',
           justifyItems: 'center',
           gridTemplateAreas: `'. top-start top top-end .' 'left-start . . . right-start' 'left . . . right' 'left-end . . . right-end' '. bottom-start bottom bottom-end .'`
         }}
       >
-        <div style={{ gridArea: 'top-start' }}>
+        {(
+          [
+            'top-start',
+            'top',
+            'top-end',
+            'bottom-start',
+            'bottom',
+            'bottom-end',
+            'left-start',
+            'left',
+            'left-end',
+            'right-start',
+            'right',
+            'right-end'
+          ] as const
+        ).map((placement) => (
           <Tooltip
+            key={placement}
+            id={`${placement}-position-arrow-tooltip`}
             content="Tooltip Contents"
-            placement="top-start"
+            placement={placement}
             arrow
             {...args}
           >
-            <Button variant="outlined">top-start</Button>
+            <Button
+              variant="outlined"
+              style={{ gridArea: placement }}
+              aria-describedby={`${placement}-position-arrow-tooltip`}
+            >
+              {placement}
+            </Button>
           </Tooltip>
-        </div>
-        <div style={{ gridArea: 'top' }}>
-          <Tooltip content="Tooltip Contents" placement="top" arrow {...args}>
-            <Button variant="outlined">top</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'top-end' }}>
-          <Tooltip
-            content="Tooltip Contents"
-            placement="top-end"
-            arrow
-            {...args}
-          >
-            <Button variant="outlined">top-end</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'bottom-start' }}>
-          <Tooltip
-            content="Tooltip Contents"
-            placement="bottom-start"
-            arrow
-            {...args}
-          >
-            <Button variant="outlined">bottom-start</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'bottom' }}>
-          <Tooltip
-            content="Tooltip Contents"
-            placement="bottom"
-            arrow
-            {...args}
-          >
-            <Button variant="outlined">bottom</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'bottom-end' }}>
-          <Tooltip
-            content="Tooltip Contents"
-            placement="bottom-end"
-            arrow
-            {...args}
-          >
-            <Button variant="outlined">bottom-end</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'left-start' }}>
-          <Tooltip
-            content="Tooltip Contents"
-            placement="left-start"
-            arrow
-            {...args}
-          >
-            <Button variant="outlined">left-start</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'left' }}>
-          <Tooltip content="Tooltip Contents" placement="left" arrow {...args}>
-            <Button variant="outlined">left</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'left-end' }}>
-          <Tooltip
-            content="Tooltip Contents"
-            placement="left-end"
-            arrow
-            {...args}
-          >
-            <Button variant="outlined">left-end</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'right-start' }}>
-          <Tooltip
-            content="Tooltip Contents"
-            placement="right-start"
-            arrow
-            {...args}
-          >
-            <Button variant="outlined">right-start</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'right' }}>
-          <Tooltip content="Tooltip Contents" placement="right" arrow {...args}>
-            <Button variant="outlined">right</Button>
-          </Tooltip>
-        </div>
-        <div style={{ gridArea: 'right-end' }}>
-          <Tooltip
-            content="Tooltip Contents"
-            placement="right-end"
-            arrow
-            {...args}
-          >
-            <Button variant="outlined">right-end</Button>
-          </Tooltip>
-        </div>
-      </div>
+        ))}
+      </Grid>
     );
   }
 };
@@ -314,8 +261,15 @@ export const ArrowTooltip: Story = {
 export const DistanceFromAnchor: Story = {
   render: (args) => {
     return (
-      <Tooltip content="Tooltip Contents" offset={0} {...args}>
-        <Button variant="outlined">Open Tooltip</Button>
+      <Tooltip
+        id="offset-tooltip"
+        content="Tooltip Contents"
+        offset={0}
+        {...args}
+      >
+        <Button variant="outlined" aria-describedby="offset-tooltip">
+          Open Tooltip
+        </Button>
       </Tooltip>
     );
   }
@@ -325,14 +279,35 @@ export const Triggers: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Tooltip content="Tooltip Contents" triggers={['click']} {...args}>
-          <Button variant="outlined">Triggers: click</Button>
+        <Tooltip
+          id="click-trigger-tooltip"
+          content="Tooltip Contents"
+          triggers={['click']}
+          {...args}
+        >
+          <Button variant="outlined" aria-describedby="click-trigger-tooltip">
+            Triggers: click
+          </Button>
         </Tooltip>
-        <Tooltip content="Tooltip Contents" triggers={['hover']} {...args}>
-          <Button variant="outlined">Triggers: hover</Button>
+        <Tooltip
+          id="hover-trigger-tooltip"
+          content="Tooltip Contents"
+          triggers={['hover']}
+          {...args}
+        >
+          <Button variant="outlined" aria-describedby="hover-trigger-tooltip">
+            Triggers: hover
+          </Button>
         </Tooltip>
-        <Tooltip content="Tooltip Contents" triggers={['focus']} {...args}>
-          <Button variant="outlined">Triggers: focus</Button>
+        <Tooltip
+          id="focus-trigger-tooltip"
+          content="Tooltip Contents"
+          triggers={['focus']}
+          {...args}
+        >
+          <Button variant="outlined" aria-describedby="focus-trigger-tooltip">
+            Triggers: focus
+          </Button>
         </Tooltip>
       </Stack>
     );
@@ -340,36 +315,148 @@ export const Triggers: Story = {
 };
 
 export const ControlledTooltip: Story = {
-  render: (args) => <ControlledTooltipTemplate {...args} />
+  render: () => <ControlledTooltipTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledTooltipTemplate = () => {
+  const [open, setOpen] = useState(false);
+
+  const openTooltip = () => {
+    setOpen(true);
+  };
+  const closeTooltip = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Tooltip
+      id="controlled-tooltip"
+      content={
+        <Stack direction="row" spacing={10} style={{ alignItems: 'center' }}>
+          Tooltip Contents
+          <ButtonBase
+            onClick={closeTooltip}
+            style={{
+              display: 'inline-flex',
+              padding: '3px',
+              borderRadius: '50%'
+            }}
+          >
+            <CloseIcon size={13} color="white" />
+          </ButtonBase>
+        </Stack>
+      }
+      open={open}
+      onOpen={openTooltip}
+      onClose={closeTooltip}
+      triggers={['click']}
+    >
+      <Button variant="outlined" aria-describedby="controlled-tooltip">
+        Open Tooltip
+      </Button>
+    </Tooltip>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
-export const Customization: Story = {
+export const ShowingHidingDelay: Story = {
   render: (args) => {
     return (
-      <Stack direction="row" spacing={20}>
-        <Tooltip
-          content="Tooltip Contents"
-          TooltipContentProps={{
-            style: {
-              backgroundColor: 'white',
-              color: 'black',
-              boxShadow: '5',
-              fontSize: '15px',
-              elevation: 5
-            }
-          }}
-          {...args}
-        >
-          <Button variant="outlined">Open Tooltip</Button>
-        </Tooltip>
-        <Tooltip
-          content="Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text"
-          TooltipContentProps={{ style: { maxWidth: '300px' } }}
-          {...args}
-        >
-          <Button variant="outlined">Open Tooltip</Button>
-        </Tooltip>
-      </Stack>
+      <Tooltip
+        id="delay-tooltip"
+        content="Tooltip Contents"
+        enterDelay={300}
+        leaveDelay={500}
+        {...args}
+      >
+        <Button variant="outlined" aria-describedby="delay-tooltip">
+          Open Tooltip
+        </Button>
+      </Tooltip>
     );
+  }
+};
+
+export const CustomizeTooltip: Story = {
+  render: (args) => {
+    return (
+      <Tooltip
+        id="jinni-customize-tooltip"
+        content="Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text"
+        BoxProps={{
+          elevation: 5,
+          style: {
+            maxWidth: '300px',
+            backgroundColor: 'white',
+            color: 'black'
+          }
+        }}
+        {...args}
+      >
+        <Button variant="outlined" aria-describedby="jinni-customize-tooltip">
+          Open Tooltip
+        </Button>
+      </Tooltip>
+    );
+  }
+};
+
+export const CustomizeTransition: Story = {
+  render: (args) => {
+    return (
+      <Tooltip
+        id="jinni-customize-transition"
+        content="Tooltip Contents"
+        TransitionComponent={Scale}
+        {...args}
+      >
+        <Button
+          variant="outlined"
+          aria-describedby="jinni-customize-transition"
+        >
+          Open Tooltip
+        </Button>
+      </Tooltip>
+    );
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `const Scale = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Motion
+      initial={{ transform: 'scale(0)' }}
+      animate={{ transform: 'scale(1)' }}
+      exit={{ transform: 'scale(0)' }}
+      transition={{
+        enter:
+          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
+        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
+      }}
+    >
+      {children}
+    </Motion>
+  );
+};
+
+const TransitionCustomization = () => {
+  return (
+    <Tooltip
+      id="customize-transition"
+      content="Tooltip Contents"
+      TransitionComponent={Scale}
+    >
+      <Button variant="outlined" aria-describedby="customize-transition">
+        Open Tooltip
+      </Button>
+    </Tooltip>
+  );
+};`.trim()
+      }
+    }
   }
 };

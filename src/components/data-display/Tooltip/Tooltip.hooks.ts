@@ -7,31 +7,27 @@ export const useOpen = ({
   onOpen,
   onClose
 }: Pick<TooltipProps, 'open' | 'onOpen' | 'onClose'>) => {
-  const isControlledTooltip = open !== undefined && isBoolean(open);
+  const isControlled = open !== undefined && isBoolean(open);
   const [uncontrolledOpen, setUncontrolledOpen] = useState<boolean>(false);
 
   const handleOpen = useCallback(
     (event: React.SyntheticEvent | Event) => {
-      if (!isControlledTooltip) setUncontrolledOpen(true);
-      if (onOpen) {
-        onOpen(event);
-      }
+      if (!isControlled) setUncontrolledOpen(true);
+      if (onOpen) onOpen(event);
     },
-    [isControlledTooltip, onOpen]
+    [isControlled, onOpen]
   );
 
   const handleClose = useCallback(
     (event: React.SyntheticEvent | Event) => {
-      if (!isControlledTooltip) setUncontrolledOpen(false);
-      if (onClose) {
-        onClose(event);
-      }
+      if (!isControlled) setUncontrolledOpen(false);
+      if (onClose) onClose(event);
     },
-    [isControlledTooltip, onClose]
+    [isControlled, onClose]
   );
 
   return {
-    isOpen: isControlledTooltip ? open : uncontrolledOpen,
+    isOpen: isControlled ? open : uncontrolledOpen,
     handleOpen,
     handleClose
   };

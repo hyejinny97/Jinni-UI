@@ -1,7 +1,7 @@
 .JinniPopover {
   .JinniMotion {
     transform-origin: var(--transform-origin);
-    .JinniBox {
+    .JinniPopoverContent {
       padding: 16px;
       background-color: white;
       &:focus {
