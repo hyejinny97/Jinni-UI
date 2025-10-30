@@ -104,6 +104,7 @@ const ControlledTooltipTemplate = () => {
 
   return (
     <Tooltip
+      id="jinni-controlled-tooltip"
       content={
         <Stack direction="row" spacing={10} style={{ alignItems: 'center' }}>
           Tooltip Contents
@@ -124,7 +125,9 @@ const ControlledTooltipTemplate = () => {
       onClose={closeTooltip}
       triggers={['click']}
     >
-      <Button variant="outlined">Open Tooltip</Button>
+      <Button variant="outlined" aria-describedby="jinni-controlled-tooltip">
+        Open Tooltip
+      </Button>
     </Tooltip>
   );
 };
@@ -149,8 +152,10 @@ const Scale = ({ children }: { children: React.ReactNode }) => {
 export const BasicTooltip: Story = {
   render: (args) => {
     return (
-      <Tooltip content="Tooltip Contents" {...args}>
-        <Button variant="outlined">Open Tooltip</Button>
+      <Tooltip id="jinni-basic-tooltip" content="Tooltip Contents" {...args}>
+        <Button variant="outlined" aria-describedby="jinni-basic-tooltip">
+          Open Tooltip
+        </Button>
       </Tooltip>
     );
   }
@@ -185,11 +190,16 @@ export const TooltipPosition: Story = {
         ).map((placement) => (
           <Tooltip
             key={placement}
+            id={`${placement}-position-tooltip`}
             content="Tooltip Contents"
             placement={placement}
             {...args}
           >
-            <Button variant="outlined" style={{ gridArea: placement }}>
+            <Button
+              variant="outlined"
+              style={{ gridArea: placement }}
+              aria-describedby={`${placement}-position-tooltip`}
+            >
               {placement}
             </Button>
           </Tooltip>
@@ -228,12 +238,17 @@ export const ArrowTooltip: Story = {
         ).map((placement) => (
           <Tooltip
             key={placement}
+            id={`${placement}-position-arrow-tooltip`}
             content="Tooltip Contents"
             placement={placement}
             arrow
             {...args}
           >
-            <Button variant="outlined" style={{ gridArea: placement }}>
+            <Button
+              variant="outlined"
+              style={{ gridArea: placement }}
+              aria-describedby={`${placement}-position-arrow-tooltip`}
+            >
               {placement}
             </Button>
           </Tooltip>
@@ -246,8 +261,15 @@ export const ArrowTooltip: Story = {
 export const DistanceFromAnchor: Story = {
   render: (args) => {
     return (
-      <Tooltip content="Tooltip Contents" offset={0} {...args}>
-        <Button variant="outlined">Open Tooltip</Button>
+      <Tooltip
+        id="offset-tooltip"
+        content="Tooltip Contents"
+        offset={0}
+        {...args}
+      >
+        <Button variant="outlined" aria-describedby="offset-tooltip">
+          Open Tooltip
+        </Button>
       </Tooltip>
     );
   }
@@ -257,14 +279,35 @@ export const Triggers: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Tooltip content="Tooltip Contents" triggers={['click']} {...args}>
-          <Button variant="outlined">Triggers: click</Button>
+        <Tooltip
+          id="click-trigger-tooltip"
+          content="Tooltip Contents"
+          triggers={['click']}
+          {...args}
+        >
+          <Button variant="outlined" aria-describedby="click-trigger-tooltip">
+            Triggers: click
+          </Button>
         </Tooltip>
-        <Tooltip content="Tooltip Contents" triggers={['hover']} {...args}>
-          <Button variant="outlined">Triggers: hover</Button>
+        <Tooltip
+          id="hover-trigger-tooltip"
+          content="Tooltip Contents"
+          triggers={['hover']}
+          {...args}
+        >
+          <Button variant="outlined" aria-describedby="hover-trigger-tooltip">
+            Triggers: hover
+          </Button>
         </Tooltip>
-        <Tooltip content="Tooltip Contents" triggers={['focus']} {...args}>
-          <Button variant="outlined">Triggers: focus</Button>
+        <Tooltip
+          id="focus-trigger-tooltip"
+          content="Tooltip Contents"
+          triggers={['focus']}
+          {...args}
+        >
+          <Button variant="outlined" aria-describedby="focus-trigger-tooltip">
+            Triggers: focus
+          </Button>
         </Tooltip>
       </Stack>
     );
@@ -288,6 +331,7 @@ export const ControlledTooltip: Story = {
 
   return (
     <Tooltip
+      id="controlled-tooltip"
       content={
         <Stack direction="row" spacing={10} style={{ alignItems: 'center' }}>
           Tooltip Contents
@@ -308,7 +352,9 @@ export const ControlledTooltip: Story = {
       onClose={closeTooltip}
       triggers={['click']}
     >
-      <Button variant="outlined">Open Tooltip</Button>
+      <Button variant="outlined" aria-describedby="controlled-tooltip">
+        Open Tooltip
+      </Button>
     </Tooltip>
   );
 };`.trim()
@@ -321,12 +367,15 @@ export const ShowingHidingDelay: Story = {
   render: (args) => {
     return (
       <Tooltip
+        id="delay-tooltip"
         content="Tooltip Contents"
         enterDelay={300}
         leaveDelay={500}
         {...args}
       >
-        <Button variant="outlined">Open Tooltip</Button>
+        <Button variant="outlined" aria-describedby="delay-tooltip">
+          Open Tooltip
+        </Button>
       </Tooltip>
     );
   }
@@ -336,6 +385,7 @@ export const CustomizeTooltip: Story = {
   render: (args) => {
     return (
       <Tooltip
+        id="jinni-customize-tooltip"
         content="Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text Long Text"
         BoxProps={{
           elevation: 5,
@@ -347,7 +397,9 @@ export const CustomizeTooltip: Story = {
         }}
         {...args}
       >
-        <Button variant="outlined">Open Tooltip</Button>
+        <Button variant="outlined" aria-describedby="jinni-customize-tooltip">
+          Open Tooltip
+        </Button>
       </Tooltip>
     );
   }
@@ -356,8 +408,18 @@ export const CustomizeTooltip: Story = {
 export const CustomizeTransition: Story = {
   render: (args) => {
     return (
-      <Tooltip content="Tooltip Contents" TransitionComponent={Scale} {...args}>
-        <Button variant="outlined">Open Tooltip</Button>
+      <Tooltip
+        id="jinni-customize-transition"
+        content="Tooltip Contents"
+        TransitionComponent={Scale}
+        {...args}
+      >
+        <Button
+          variant="outlined"
+          aria-describedby="jinni-customize-transition"
+        >
+          Open Tooltip
+        </Button>
       </Tooltip>
     );
   },
@@ -383,8 +445,14 @@ export const CustomizeTransition: Story = {
 
 const TransitionCustomization = () => {
   return (
-    <Tooltip content="Tooltip Contents" TransitionComponent={Scale}>
-      <Button variant="outlined">Open Tooltip</Button>
+    <Tooltip
+      id="customize-transition"
+      content="Tooltip Contents"
+      TransitionComponent={Scale}
+    >
+      <Button variant="outlined" aria-describedby="customize-transition">
+        Open Tooltip
+      </Button>
     </Tooltip>
   );
 };`.trim()

@@ -183,6 +183,7 @@ const Tooltip = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
               leaveDelay={leaveDelay}
             >
               <Box
+                role="tooltip"
                 className={cn(
                   'JinniTooltipContent',
                   { arrow },
