@@ -17,25 +17,35 @@ import { Backdrop } from '@/components/feedback/Backdrop';
 
 ### Basic Backdrop
 
-- `children`: backdrop 위에 위치할 콘텐츠
-- `open`: true이면, 배경이 딤 처리되면서 콘텐츠가 나타남
-  - light mode인 경우, black overlay가 덮여짐
-  - dark mode인 경우, white overlay가 덮여짐
-- `onClick`: backdrop을 클릭했을 때 호출되는 함수
+- `onClick`: backdrop을 클릭했을 때 호출되는 함수 (children에 대한 click 이벤트는 포함 안됨)
 
 <Canvas of={BackdropStories.BasicBackdrop} />
 
+### Backdrop with contents
+
+- `children`: backdrop 위에 위치할 콘텐츠
+
+<Canvas of={BackdropStories.BackdropWithContents} />
+
 ### Invisible
 
-- `invisible`: true인 경우, 배경이 딤 처리되지 않음
+- `invisible`: true인 경우, 투명한 backdrop이 나타남
 
 <Canvas of={BackdropStories.Invisible} />
 
-### DisableScroll
+### Disable scroll
 
-- `disableScroll`: true인 경우, scroll 불가
+- `disableScroll`: true이면, 화면이 스크롤 되지 않음
 
 <Canvas of={BackdropStories.DisableScroll} />
+
+### Backdrop color by theme
+
+- theme에 따라 다른 색상의 backdrop이 나타남
+  - light mode인 경우, 불투명한 black 색상의 backdrop이 나타남
+  - dark mode인 경우, 불투명한 white 색상의 backdrop이 나타남
+
+<Canvas of={BackdropStories.BackdropColorByTheme} />
 
 ## Props
 
