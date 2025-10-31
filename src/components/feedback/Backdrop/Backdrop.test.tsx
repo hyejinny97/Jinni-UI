@@ -16,6 +16,7 @@ describe('<Skeleton />', () => {
       </Backdrop>
     );
     const backdrop = screen.getByTestId('basic backdrop');
+    const content = screen.getByText('content');
     expect(backdrop).toBeInTheDocument();
     expect(content).toBeInTheDocument();
   });
