@@ -74,16 +74,15 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
   };
 
   return (
-    <>
-      <Backdrop
-        open={open}
-        invisible
-        disableScroll={disableScroll}
-        onClick={handleBackdropClick}
-        data-testid="menu-backdrop"
-      />
-      <AnimatePresence>
-        {open && (
+    <AnimatePresence>
+      {open && (
+        <>
+          <Backdrop
+            invisible
+            disableScroll={disableScroll}
+            onClick={handleBackdropClick}
+            data-testid="menu-backdrop"
+          />
           <Popper
             className={cn('JinniMenu', className)}
             anchorReference={anchorReference}
@@ -103,9 +102,9 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
               </MenuList>
             </TransitionComponent>
           </Popper>
-        )}
-      </AnimatePresence>
-    </>
+        </>
+      )}
+    </AnimatePresence>
   );
 };
 

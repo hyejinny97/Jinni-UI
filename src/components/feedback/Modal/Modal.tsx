@@ -49,23 +49,27 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
   };
 
   return (
-    <Backdrop open={open}>
-      <Component
-        className={cn('JinniModal', scrollBehavior, className)}
-        style={newStyle}
-        onClick={handleBackdropClick}
-        {...rest}
-      >
-        <Box
-          className={cn('JinniModalContent', modalSize, scrollBehavior)}
-          elevation={15}
-          round={isFullSize ? 0 : 4}
-          {...(ModalContentProps as BoxProps<P>)}
-        >
-          {children}
-        </Box>
-      </Component>
-    </Backdrop>
+    <>
+      {open && (
+        <Backdrop>
+          <Component
+            className={cn('JinniModal', scrollBehavior, className)}
+            style={newStyle}
+            onClick={handleBackdropClick}
+            {...rest}
+          >
+            <Box
+              className={cn('JinniModalContent', modalSize, scrollBehavior)}
+              elevation={15}
+              round={isFullSize ? 0 : 4}
+              {...(ModalContentProps as BoxProps<P>)}
+            >
+              {children}
+            </Box>
+          </Component>
+        </Backdrop>
+      )}
+    </>
   );
 };
 

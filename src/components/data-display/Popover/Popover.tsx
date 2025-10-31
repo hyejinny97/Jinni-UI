@@ -70,16 +70,15 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
   };
 
   return (
-    <>
-      <Backdrop
-        open={open}
-        invisible
-        disableScroll={disableScroll}
-        onClick={handleBackdropClick}
-        data-testid="popover-backdrop"
-      />
-      <AnimatePresence>
-        {open && (
+    <AnimatePresence>
+      {open && (
+        <>
+          <Backdrop
+            invisible
+            disableScroll={disableScroll}
+            onClick={handleBackdropClick}
+            data-testid="popover-backdrop"
+          />
           <Popper
             className={cn('JinniPopover', className)}
             anchorReference={anchorReference}
@@ -107,9 +106,9 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
               </Box>
             </TransitionComponent>
           </Popper>
-        )}
-      </AnimatePresence>
-    </>
+        </>
+      )}
+    </AnimatePresence>
   );
 };
 

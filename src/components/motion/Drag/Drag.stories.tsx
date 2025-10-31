@@ -145,43 +145,45 @@ const LeftDrawer = () => {
   return (
     <>
       <Button onClick={openDrawer}>Open Drawer</Button>
-      <Backdrop open={open} onClick={closeDrawer} disableScroll>
-        <DragProvider disableOverDragEffect>
-          <DragContainer
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: '-300px',
-              width: '600px',
-              height: '100vh'
-            }}
-          >
-            <Drag
+      {open && (
+        <Backdrop onClick={closeDrawer} disableScroll>
+          <DragProvider disableOverDragEffect>
+            <DragContainer
               style={{
-                width: '300px',
-                height: '100vh',
-                transform: 'translateX(300px)'
+                position: 'absolute',
+                top: 0,
+                left: '-300px',
+                width: '600px',
+                height: '100vh'
               }}
             >
-              <DragIntersection
-                root="viewport"
-                onIntersect={handleIntersect}
+              <Drag
                 style={{
-                  padding: '16px',
-                  width: '100%',
-                  height: '100%',
-                  boxSizing: 'border-box',
-                  elevation: 20,
-                  backgroundColor: 'white',
-                  userSelect: 'none'
+                  width: '300px',
+                  height: '100vh',
+                  transform: 'translateX(300px)'
                 }}
               >
-                Drawer content
-              </DragIntersection>
-            </Drag>
-          </DragContainer>
-        </DragProvider>
-      </Backdrop>
+                <DragIntersection
+                  root="viewport"
+                  onIntersect={handleIntersect}
+                  style={{
+                    padding: '16px',
+                    width: '100%',
+                    height: '100%',
+                    boxSizing: 'border-box',
+                    elevation: 20,
+                    backgroundColor: 'white',
+                    userSelect: 'none'
+                  }}
+                >
+                  Drawer content
+                </DragIntersection>
+              </Drag>
+            </DragContainer>
+          </DragProvider>
+        </Backdrop>
+      )}
     </>
   );
 };
@@ -216,44 +218,46 @@ const BottomDrawer = () => {
   return (
     <>
       <Button onClick={openDrawer}>Open Drawer</Button>
-      <Backdrop open={open} onClick={closeDrawer} disableScroll>
-        <DragProvider direction="vertical" disableOverDragEffect>
-          <DragContainer
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: `calc(100vh * 2)`
-            }}
-          >
-            <Drag
+      {open && (
+        <Backdrop onClick={closeDrawer} disableScroll>
+          <DragProvider direction="vertical" disableOverDragEffect>
+            <DragContainer
               style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
                 width: '100vw',
-                height: '100vh',
-                transform: `translateY(calc(100vh / 2))`
+                height: `calc(100vh * 2)`
               }}
             >
-              <DragIntersection
-                root="viewport"
-                onIntersect={handleIntersect}
+              <Drag
                 style={{
-                  padding: '16px',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '8px 8px 0 0',
-                  boxSizing: 'border-box',
-                  elevation: 20,
-                  backgroundColor: 'white',
-                  userSelect: 'none'
+                  width: '100vw',
+                  height: '100vh',
+                  transform: `translateY(calc(100vh / 2))`
                 }}
               >
-                댓글
-              </DragIntersection>
-            </Drag>
-          </DragContainer>
-        </DragProvider>
-      </Backdrop>
+                <DragIntersection
+                  root="viewport"
+                  onIntersect={handleIntersect}
+                  style={{
+                    padding: '16px',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '8px 8px 0 0',
+                    boxSizing: 'border-box',
+                    elevation: 20,
+                    backgroundColor: 'white',
+                    userSelect: 'none'
+                  }}
+                >
+                  댓글
+                </DragIntersection>
+              </Drag>
+            </DragContainer>
+          </DragProvider>
+        </Backdrop>
+      )}
     </>
   );
 };

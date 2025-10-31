@@ -3,8 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Skeleton from './Skeleton';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { JinniProvider } from '@/components/_share/JinniProvider';
-import { DEFAULT_DESIGN_SYSTEM } from '@/components/_share/JinniProvider/JinniProvider.constants';
+import {
+  JinniProvider,
+  DEFAULT_DESIGN_SYSTEM
+} from '@/components/_share/JinniProvider';
 import { Switch } from '@/components/data-entry/Switch';
 import { SwitchLabel } from '@/components/data-entry/SwitchLabel';
 import { Text, TextProps } from '@/components/general/Text';
