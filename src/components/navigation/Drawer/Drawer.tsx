@@ -43,22 +43,26 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
   };
 
   return (
-    <Backdrop open={open}>
-      <Component
-        className={cn('JinniDrawer', anchor, className)}
-        style={newStyle}
-        onClick={handleBackdropClick}
-        {...rest}
-      >
-        <Box
-          className="JinniDrawerContent"
-          elevation={15}
-          {...(DrawerContentProps as BoxProps<P>)}
-        >
-          {children}
-        </Box>
-      </Component>
-    </Backdrop>
+    <>
+      {open && (
+        <Backdrop>
+          <Component
+            className={cn('JinniDrawer', anchor, className)}
+            style={newStyle}
+            onClick={handleBackdropClick}
+            {...rest}
+          >
+            <Box
+              className="JinniDrawerContent"
+              elevation={15}
+              {...(DrawerContentProps as BoxProps<P>)}
+            >
+              {children}
+            </Box>
+          </Component>
+        </Backdrop>
+      )}
+    </>
   );
 };
 

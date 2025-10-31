@@ -3,11 +3,11 @@ import cn from 'classnames';
 import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { useOverflowHidden } from './Backdrop.hooks';
+import { useWindowScroll } from './Backdrop.hooks';
+import useJinni from '@/hooks/useJinni';
 
 type BackdropProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children?: React.ReactNode;
-  open: boolean;
   invisible?: boolean;
   disableScroll?: boolean;
 };
@@ -15,17 +15,17 @@ type BackdropProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
 const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
   const {
     children,
-    open,
     onClick,
-    invisible = false,
-    disableScroll = false,
+    invisible,
+    disableScroll,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
+  const { theme } = useJinni();
+  const backdropElRef = useWindowScroll({ disableScroll });
   const newStyle = useStyle(style);
-  useOverflowHidden({ open, disableScroll });
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     const { target, currentTarget } = e;
@@ -35,18 +35,24 @@ const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
 
   return (
     <>
-      {open &&
-        createPortal(
-          <Component
-            className={cn('JinniBackdrop', { invisible }, className)}
-            style={newStyle}
-            onClick={handleBackdropClick}
-            {...rest}
-          >
-            {children}
-          </Component>,
-          document.body
-        )}
+      {createPortal(
+        <Component
+          ref={backdropElRef}
+          className={cn(
+            'JinniBackdrop',
+            { invisible },
+            `${theme}-theme`,
+            className
+          )}
+          onClick={handleBackdropClick}
+          style={newStyle}
+          data-disable-scroll={disableScroll}
+          {...rest}
+        >
+          {children}
+        </Component>,
+        document.body
+      )}
     </>
   );
 };
