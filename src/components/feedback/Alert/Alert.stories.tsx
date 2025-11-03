@@ -69,6 +69,7 @@ const ActionTemplate = () => {
                 padding: '3px',
                 borderRadius: '50%'
               }}
+              aria-label="close alert"
             >
               <CloseIcon />
             </ButtonBase>
@@ -115,7 +116,7 @@ export const Actions: Story = {
   const handleClose = () => {
     setOpen(false);
   };
-
+  
   return (
     <Box style={{ width: '500px' }}>
       {open ? (
@@ -128,6 +129,7 @@ export const Actions: Story = {
                 padding: '3px',
                 borderRadius: '50%'
               }}
+              aria-label="close alert"
             >
               <CloseIcon />
             </ButtonBase>
@@ -171,7 +173,12 @@ export const Variant: Story = {
       {(['success', 'info', 'warning', 'error'] as const).map((status) => {
         return (['subtle-filled', 'filled', 'outlined'] as const).map(
           (variant) => (
-            <Alert status={status} variant={variant} {...args}>
+            <Alert
+              key={`${status}/${variant}`}
+              status={status}
+              variant={variant}
+              {...args}
+            >
               Alert Content
             </Alert>
           )
