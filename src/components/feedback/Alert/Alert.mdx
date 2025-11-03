@@ -5,7 +5,7 @@ import * as AlertStories from './Alert.stories';
 
 # Alert
 
-app의 사용을 방해하지 않고, 간단한 정보를 제공함
+app의 사용을 방해하지 않고, 간략한 정보를 제공함
 
 ## Import
 
@@ -21,24 +21,11 @@ import { Alert } from '@/components/feedback/Alert';
 
 <Canvas of={AlertStories.BasicAlert} />
 
-### Severity
+### Alert Title
 
-- `severity`: alert의 타입
+- `title`: alert의 제목
 
-<Canvas of={AlertStories.Severity} />
-
-### Variants
-
-- `variant`: alert의 스타일
-  - type: `filled` | `subtle-filled`(default) | `outlined`
-
-#### 1) variant: `filled`
-
-<Canvas of={AlertStories.FilledVariant} />
-
-#### 2) variant: `outlined`
-
-<Canvas of={AlertStories.OutlinedVariant} />
+<Canvas of={AlertStories.AlertTitle} />
 
 ### Actions
 
@@ -46,24 +33,24 @@ import { Alert } from '@/components/feedback/Alert';
 
 <Canvas of={AlertStories.Actions} />
 
+### Status
+
+- `Status`: alert의 상태
+
+<Canvas of={AlertStories.Status} />
+
+### Variants
+
+- `variant`: alert의 스타일
+
+<Canvas of={AlertStories.Variant} />
+
 ### Icons
 
-- `icon`: `severity` prop에 따라 정해진 기존 icon을 덮어씀
+- `icon`: `status` prop에 따라 정해진 기존 icon을 덮어씀
   - false 이면, icon이 나타나지 않음
 
-#### 1) Custom Icon
-
-<Canvas of={AlertStories.CustomIcon} />
-
-#### 2) No Icon
-
-<Canvas of={AlertStories.NoIcon} />
-
-### Alert Title
-
-- `title`: alert의 제목
-
-<Canvas of={AlertStories.AlertTitle} />
+<Canvas of={AlertStories.Icons} />
 
 ### Customization
 

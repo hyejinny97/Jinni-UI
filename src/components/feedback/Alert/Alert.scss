@@ -1,28 +1,29 @@
-@mixin getColorStyle($variant, $severity) {
+@mixin getColorStyle($variant, $status) {
   @if ($variant == 'subtle-filled') {
-    background-color: var(--jinni-color-#{$severity}-container);
-    color: var(--jinni-color-on-#{$severity}-container);
-    fill: var(--jinni-color-on-#{$severity}-container);
+    background-color: var(--jinni-color-#{$status}-container);
+    color: var(--jinni-color-on-#{$status}-container);
+    fill: var(--jinni-color-on-#{$status}-container);
+    border: 1px solid var(--jinni-color-#{$status}-container);
   }
   @if ($variant == 'filled') {
-    background-color: var(--jinni-color-#{$severity});
-    color: var(--jinni-color-on-#{$severity});
-    fill: var(--jinni-color-on-#{$severity});
+    background-color: var(--jinni-color-#{$status});
+    color: var(--jinni-color-on-#{$status});
+    fill: var(--jinni-color-on-#{$status});
+    border: 1px solid var(--jinni-color-#{$status});
   }
   @if ($variant == 'outlined') {
     background-color: transparent;
-    color: var(--jinni-color-on-#{$severity}-container);
-    fill: var(--jinni-color-on-#{$severity}-container);
-    border: 1px solid var(--jinni-color-#{$severity});
-    box-sizing: border-box;
+    color: var(--jinni-color-on-#{$status}-container);
+    fill: var(--jinni-color-on-#{$status}-container);
+    border: 1px solid var(--jinni-color-#{$status});
   }
 }
 
 @mixin color {
-  @each $severity in 'success', 'info', 'warning', 'error' {
+  @each $status in 'success', 'info', 'warning', 'error' {
     @each $variant in 'subtle-filled', 'filled', 'outlined' {
-      &.#{$severity}.#{$variant} {
-        @include getColorStyle($variant, $severity);
+      &.#{$status}.#{$variant} {
+        @include getColorStyle($variant, $status);
       }
     }
   }
@@ -31,21 +32,25 @@
 .JinniAlert {
   display: flex;
   justify-content: space-between;
-  align-items: start;
   column-gap: 12px;
   padding: 14px 16px;
   border-radius: 4px;
   font-weight: var(--jinni-font-weight-regular);
+  box-sizing: border-box;
+  &:not(.hasTitle) {
+    align-items: center;
+  }
+  &.hasTitle {
+    align-items: start;
+  }
   @include color;
 
   .JinniAlertIcon {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    &.isDefaultIcon {
-      svg,
-      svg path {
-        fill: inherit;
-      }
+    svg,
+    svg path {
+      fill: inherit;
     }
   }
 
@@ -58,7 +63,7 @@
   }
 
   .JinniAlertAction {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     margin-right: -8px;
   }
