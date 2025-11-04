@@ -9,6 +9,8 @@ type useAutoCloseProps = Pick<
 >;
 type useCloseProps = useAutoCloseProps;
 
+const INTERVAL_TIME = 1 * SECOND;
+
 const useAutoClose = ({
   onClose,
   open,
@@ -25,15 +27,27 @@ const useAutoClose = ({
   }, []);
 
   const initTime = useCallback(() => {
-    setIsRunning(!!autoHideDuration);
-    timeRef.current = autoHideDuration ? autoHideDuration * SECOND : 0;
+    if (autoHideDuration) {
+      timeRef.current = autoHideDuration * SECOND;
+      setIsRunning(true);
+    }
   }, [autoHideDuration]);
 
   const resetTime = useCallback(() => {
     clearTimer();
-    setIsRunning(false);
     timeRef.current = 0;
+    setIsRunning(false);
   }, [clearTimer]);
+
+  const pauseTimer = useCallback(() => {
+    setIsRunning(false);
+  }, []);
+
+  const resumeTimer = useCallback(() => {
+    if (autoHideDuration && timeRef.current > 0) {
+      setIsRunning(true);
+    }
+  }, [autoHideDuration]);
 
   useEffect(() => {
     if (open) initTime();
@@ -41,55 +55,48 @@ const useAutoClose = ({
   }, [open, resetTime, initTime]);
 
   useEffect(() => {
-    if (!onClose || !open) return;
+    if (!open) return;
+
     if (isRunning) {
       timerRef.current = setInterval(() => {
         if (timeRef.current <= 0) {
-          clearTimer();
-          setIsRunning(false);
-          onClose(null, 'timeout');
+          resetTime();
+          onClose?.(null, 'timeout');
         }
-        timeRef.current -= 1 * SECOND;
-      }, 1 * SECOND);
+        timeRef.current -= INTERVAL_TIME;
+      }, INTERVAL_TIME);
     } else clearTimer();
     return clearTimer;
-  }, [onClose, open, isRunning, clearTimer]);
+  }, [onClose, open, isRunning, clearTimer, resetTime]);
 
   return {
-    pauseTimer: () => setIsRunning(false),
-    resumeTimer: () => setIsRunning(true)
+    pauseTimer,
+    resumeTimer
   };
 };
 
 const useManualClose = ({ onClose, open }: useManualCloseProps) => {
-  const [isOpen, setIsOpen] = useState(open);
-
   useEffect(() => {
-    setIsOpen(open);
-  }, [open]);
+    if (!open) return;
 
-  useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      e.preventDefault();
-      if (!onClose || !isOpen) return;
       if (e.key === 'Escape') {
-        onClose(e, 'escapeKeydown');
+        onClose?.(e, 'escapeKeydown');
       }
     };
     const handleClick = (e: MouseEvent) => {
-      if (!onClose || !isOpen) return;
       const target = e.target as HTMLElement;
-      if (target.closest('.JinniToastContent')) return;
-      onClose(e, 'clickAway');
+      if (target.closest('.JinniToast')) return;
+      onClose?.(e, 'backgroundClick');
     };
 
     document.addEventListener('keydown', handleEscape);
-    document.addEventListener('click', handleClick);
+    document.addEventListener('click', handleClick, { capture: true });
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('click', handleClick, { capture: true });
     };
-  }, [onClose, isOpen]);
+  }, [onClose, open]);
 };
 
 export const useClose = ({

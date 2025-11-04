@@ -1,8 +1,6 @@
-@use '@/styles/animation';
-
 $padding: 16px;
 
-@mixin width {
+@mixin toast-width {
   width: 100%;
   @media (min-width: 600px) {
     width: auto;
@@ -31,11 +29,33 @@ $padding: 16px;
 
 .JinniToast {
   position: fixed;
-  z-index: var(--jinni-z-index-toast);
-  box-sizing: border-box;
   padding: $padding;
-  animation: appear 0.3s linear;
-
-  @include width;
+  box-sizing: border-box;
+  z-index: var(--jinni-z-index-toast);
+  @include toast-width;
   @include position;
+
+  .JinniToastContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 12px;
+    padding: 6px 16px;
+    box-sizing: border-box;
+    background-color: var(--jinni-color-inverse-surface);
+    color: var(--jinni-color-inverse-on-surface);
+    font-size: 14px;
+    font-weight: var(--jinni-font-weight-medium);
+
+    .JinniToastContentMessage {
+      flex: 1;
+      padding: 6px 0;
+    }
+
+    .JinniToastContentAction {
+      display: inline-flex;
+      align-items: center;
+      margin-right: -8px;
+    }
+  }
 }
