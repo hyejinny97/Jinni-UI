@@ -1,10 +1,10 @@
 import './Toast.scss';
 import cn from 'classnames';
-import { forwardRef } from 'react';
+import { forwardRef, MutableRefObject } from 'react';
 import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { useClose } from './Toast.hooks';
+import { useClose, useActionFocus } from './Toast.hooks';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
@@ -73,6 +73,7 @@ const Toast = forwardRef(
       open,
       autoHideDuration
     });
+    const { toastElRef } = useActionFocus({ open });
     const newStyle = useStyle(style);
 
     return (
@@ -81,7 +82,18 @@ const Toast = forwardRef(
           <>
             {createPortal(
               <Component
-                ref={ref}
+                role="alert"
+                ref={(element) => {
+                  if (element) {
+                    (toastElRef as MutableRefObject<HTMLElement>).current =
+                      element;
+                    if (typeof ref === 'function') {
+                      ref(element);
+                    } else if (ref && 'current' in ref) {
+                      (ref as MutableRefObject<HTMLElement>).current = element;
+                    }
+                  }
+                }}
                 className={cn(
                   'JinniToast',
                   anchorOrigin.horizontal,

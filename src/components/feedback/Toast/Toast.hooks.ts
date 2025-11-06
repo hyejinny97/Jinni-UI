@@ -111,3 +111,84 @@ export const useClose = ({
     autoHideDuration
   });
 };
+
+const FOCUSABLE_SELECTORS = [
+  'a[href]',
+  'button:not([disabled])',
+  'textarea:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])'
+];
+
+export const useActionFocus = ({ open }: Pick<ToastProps, 'open'>) => {
+  const toastElRef = useRef<HTMLElement>(null);
+
+  const getFocusableElements = useCallback(
+    (element: HTMLElement): HTMLElement[] => {
+      return Array.from(
+        element.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS.join(','))
+      ).filter(
+        (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden')
+      );
+    },
+    []
+  );
+
+  const getNextFocusableElement = (
+    element: HTMLElement
+  ): HTMLElement | null => {
+    let sibling = element.nextElementSibling as HTMLElement | null;
+    while (sibling) {
+      if (sibling.matches(FOCUSABLE_SELECTORS.join(','))) return sibling;
+      sibling = sibling.nextElementSibling as HTMLElement | null;
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    const toastEl = toastElRef.current;
+    const triggerEl = document.activeElement;
+    if (!open || !toastEl || !triggerEl) return;
+
+    const focusableEls = getFocusableElements(toastEl);
+    if (focusableEls.length === 0) return;
+
+    const firstToastEl = focusableEls[0];
+    const lastToastEl = focusableEls[focusableEls.length - 1];
+    const nextOfTrigger = getNextFocusableElement(triggerEl as HTMLElement);
+
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const activeEl = document.activeElement as HTMLElement | null;
+
+      if (!e.shiftKey && activeEl === triggerEl) {
+        e.preventDefault();
+        firstToastEl?.focus();
+        return;
+      }
+      if (!e.shiftKey && activeEl === lastToastEl) {
+        e.preventDefault();
+        nextOfTrigger?.focus();
+        return;
+      }
+      if (e.shiftKey && activeEl === nextOfTrigger) {
+        e.preventDefault();
+        lastToastEl?.focus();
+        return;
+      }
+      if (e.shiftKey && activeEl === firstToastEl) {
+        e.preventDefault();
+        (triggerEl as HTMLElement).focus();
+        return;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeydown);
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, [open, getFocusableElements]);
+
+  return { toastElRef };
+};

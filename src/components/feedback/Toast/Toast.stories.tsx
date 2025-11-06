@@ -131,6 +131,7 @@ const ToastActionTemplate = () => {
                 padding: '4px',
                 borderRadius: '50%'
               }}
+              aria-label="close"
             >
               <CloseIcon size={20} color="white" />
             </ButtonBase>
@@ -430,6 +431,7 @@ export const ToastAction: Story = {
                 padding: '4px',
                 borderRadius: '50%'
               }}
+              aria-label="close"
             >
               <CloseIcon size={20} color="white" />
             </ButtonBase>
