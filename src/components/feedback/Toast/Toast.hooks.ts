@@ -125,7 +125,7 @@ export const useActionFocus = ({ open }: Pick<ToastProps, 'open'>) => {
   const toastElRef = useRef<HTMLElement>(null);
 
   const getFocusableElements = useCallback(
-    (element: HTMLElement): HTMLElement[] => {
+    (element: HTMLElement | Document): HTMLElement[] => {
       return Array.from(
         element.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS.join(','))
       ).filter(
@@ -135,16 +135,14 @@ export const useActionFocus = ({ open }: Pick<ToastProps, 'open'>) => {
     []
   );
 
-  const getNextFocusableElement = (
-    element: HTMLElement
-  ): HTMLElement | null => {
-    let sibling = element.nextElementSibling as HTMLElement | null;
-    while (sibling) {
-      if (sibling.matches(FOCUSABLE_SELECTORS.join(','))) return sibling;
-      sibling = sibling.nextElementSibling as HTMLElement | null;
-    }
-    return null;
-  };
+  const getNextFocusableElement = useCallback(
+    (element: HTMLElement): HTMLElement | null => {
+      const allFocusableEls = getFocusableElements(document);
+      const elementIdx = allFocusableEls.indexOf(element);
+      return allFocusableEls[elementIdx + 1];
+    },
+    [getFocusableElements]
+  );
 
   useEffect(() => {
     const toastEl = toastElRef.current;
@@ -188,7 +186,7 @@ export const useActionFocus = ({ open }: Pick<ToastProps, 'open'>) => {
     return () => {
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, [open, getFocusableElements]);
+  }, [open, getFocusableElements, getNextFocusableElement]);
 
   return { toastElRef };
 };
