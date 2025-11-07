@@ -1,11 +1,14 @@
 import './Modal.scss';
 import cn from 'classnames';
+import { useId } from 'react';
+import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
-import { useModalSize, useKeydown } from './Modal.hooks';
+import { useModalSize, useKeyboardAccessibility } from './Modal.hooks';
 import { Responsive } from '@/types/breakpoint';
 import { Box, BoxProps } from '@/components/layout/Box';
+import ModalContext from './Modal.contexts';
 
 export type CloseReason = 'escapeKeydown' | 'backdropClick';
 type ModalSizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -19,7 +22,7 @@ export type ModalProps<
   children: React.ReactNode;
   size?: ModalSizeType | Responsive<ModalSizeType>;
   scrollBehavior?: 'inside' | 'outside';
-  ModalContentProps?: BoxProps<P>;
+  BoxProps?: BoxProps<P>;
 };
 
 const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
@@ -31,16 +34,17 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
     children,
     size = 'md',
     scrollBehavior = 'inside',
-    ModalContentProps,
+    BoxProps,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
-  const isFullSize = size === 'full';
-  const newStyle = useStyle(style);
+  const modalHeaderId = useId();
+  const modalBodyId = useId();
   const modalSize = useModalSize({ size });
-  useKeydown({ onClose });
+  const { boxElRef } = useKeyboardAccessibility({ open, onClose });
+  const newStyle = useStyle(style);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {
     const { target, currentTarget } = e;
@@ -49,27 +53,39 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
   };
 
   return (
-    <>
-      {open && (
-        <Backdrop>
-          <Component
-            className={cn('JinniModal', scrollBehavior, className)}
-            style={newStyle}
-            onClick={handleBackdropClick}
-            {...rest}
-          >
-            <Box
-              className={cn('JinniModalContent', modalSize, scrollBehavior)}
-              elevation={15}
-              round={isFullSize ? 0 : 4}
-              {...(ModalContentProps as BoxProps<P>)}
+    <ModalContext.Provider value={{ modalHeaderId, modalBodyId }}>
+      {open &&
+        createPortal(
+          <div className="JinniModalContainer">
+            <Backdrop
+              disablePortal
+              disableScroll
+              data-testid="modal-backdrop"
+            />
+            <Component
+              role="dialog"
+              aria-modal={true}
+              aria-labelledby={modalHeaderId}
+              aria-describedby={modalBodyId}
+              className={cn('JinniModal', scrollBehavior, className)}
+              onClick={handleBackdropClick}
+              style={newStyle}
+              {...rest}
             >
-              {children}
-            </Box>
-          </Component>
-        </Backdrop>
-      )}
-    </>
+              <Box
+                ref={boxElRef}
+                className={cn('JinniModalContent', modalSize, scrollBehavior)}
+                elevation={15}
+                round={size === 'full' ? 0 : 4}
+                {...BoxProps}
+              >
+                {children}
+              </Box>
+            </Component>
+          </div>,
+          document.body
+        )}
+    </ModalContext.Provider>
   );
 };
 

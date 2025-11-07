@@ -10,6 +10,7 @@ type BackdropProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children?: React.ReactNode;
   invisible?: boolean;
   disableScroll?: boolean;
+  disablePortal?: boolean;
 };
 
 const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
@@ -18,6 +19,7 @@ const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
     onClick,
     invisible,
     disableScroll,
+    disablePortal,
     className,
     style,
     as: Component = 'div',
@@ -33,28 +35,25 @@ const Backdrop = <T extends AsType = 'div'>(props: BackdropProps<T>) => {
     onClick(e);
   };
 
-  return (
-    <>
-      {createPortal(
-        <Component
-          ref={backdropElRef}
-          className={cn(
-            'JinniBackdrop',
-            { invisible },
-            `${theme}-theme`,
-            className
-          )}
-          onClick={handleBackdropClick}
-          style={newStyle}
-          data-disable-scroll={disableScroll}
-          {...rest}
-        >
-          {children}
-        </Component>,
-        document.body
+  const content = (
+    <Component
+      ref={backdropElRef}
+      className={cn(
+        'JinniBackdrop',
+        { invisible },
+        `${theme}-theme`,
+        className
       )}
-    </>
+      onClick={handleBackdropClick}
+      style={newStyle}
+      data-disable-scroll={disableScroll}
+      {...rest}
+    >
+      {children}
+    </Component>
   );
+
+  return <>{disablePortal ? content : createPortal(content, document.body)}</>;
 };
 
 export default Backdrop;
