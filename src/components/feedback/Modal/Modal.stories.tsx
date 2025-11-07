@@ -84,6 +84,7 @@ const BasicModalTemplate = () => {
               borderRadius: '50%'
             }}
             onClick={closeModal}
+            aria-label="close"
           >
             <CloseIcon size={20} />
           </ButtonBase>
@@ -149,22 +150,7 @@ const ModalSizeTemplate = () => {
       </Grid>
       <Button onClick={openModal}>Open Modal</Button>
       <Modal open={open} onClose={closeModal} size={SIZES[checkedValue].value}>
-        <ModalHeader style={{ position: 'relative' }}>
-          Modal Header
-          <ButtonBase
-            style={{
-              display: 'inline-flex',
-              position: 'absolute',
-              top: '5px',
-              right: '5px',
-              padding: '4px',
-              borderRadius: '50%'
-            }}
-            onClick={closeModal}
-          >
-            <CloseIcon size={20} />
-          </ButtonBase>
-        </ModalHeader>
+        <ModalHeader style={{ position: 'relative' }}>Modal Header</ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeModal}>
@@ -211,22 +197,7 @@ const ModalScrollBehaviorTemplate = () => {
       </Grid>
       <Button onClick={openModal}>Open Modal</Button>
       <Modal open={open} onClose={closeModal} scrollBehavior={checkedValue}>
-        <ModalHeader style={{ position: 'relative' }}>
-          Modal Header
-          <ButtonBase
-            style={{
-              display: 'inline-flex',
-              position: 'absolute',
-              top: '5px',
-              right: '5px',
-              padding: '4px',
-              borderRadius: '50%'
-            }}
-            onClick={closeModal}
-          >
-            <CloseIcon size={20} />
-          </ButtonBase>
-        </ModalHeader>
+        <ModalHeader style={{ position: 'relative' }}>Modal Header</ModalHeader>
         <ModalBody>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
           reiciendis qui illo veniam aspernatur excepturi nobis, ullam maxime
@@ -372,22 +343,7 @@ const ModalFormTemplate = () => {
         }}
         style={{ alignItems: 'start' }}
       >
-        <ModalHeader style={{ position: 'relative' }}>
-          Modal Header
-          <ButtonBase
-            style={{
-              display: 'inline-flex',
-              position: 'absolute',
-              top: '5px',
-              right: '5px',
-              padding: '4px',
-              borderRadius: '50%'
-            }}
-            onClick={closeModal}
-          >
-            <CloseIcon size={20} />
-          </ButtonBase>
-        </ModalHeader>
+        <ModalHeader style={{ position: 'relative' }}>Modal Header</ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeModal}>
@@ -431,6 +387,7 @@ export const BasicModal: Story = {
               borderRadius: '50%'
             }}
             onClick={closeModal}
+            aria-label="close"
           >
             <CloseIcon size={20} />
           </ButtonBase>
@@ -507,19 +464,6 @@ export const Sizes: Story = {
       <Modal open={open} onClose={closeModal} size={SIZES[checkedValue].value}>
         <ModalHeader style={{ position: 'relative' }}>
           Modal Header
-          <ButtonBase
-            style={{
-              display: 'inline-flex',
-              position: 'absolute',
-              top: '5px',
-              right: '5px',
-              padding: '4px',
-              borderRadius: '50%'
-            }}
-            onClick={closeModal}
-          >
-            <CloseIcon size={20} />
-          </ButtonBase>
         </ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>
@@ -578,19 +522,6 @@ export const ScrollBehavior: Story = {
       <Modal open={open} onClose={closeModal} scrollBehavior={checkedValue}>
         <ModalHeader style={{ position: 'relative' }}>
           Modal Header
-          <ButtonBase
-            style={{
-              display: 'inline-flex',
-              position: 'absolute',
-              top: '5px',
-              right: '5px',
-              padding: '4px',
-              borderRadius: '50%'
-            }}
-            onClick={closeModal}
-          >
-            <CloseIcon size={20} />
-          </ButtonBase>
         </ModalHeader>
         <ModalBody>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
@@ -757,19 +688,6 @@ export const CustomizeModal: Story = {
       >
         <ModalHeader style={{ position: 'relative' }}>
           Modal Header
-          <ButtonBase
-            style={{
-              display: 'inline-flex',
-              position: 'absolute',
-              top: '5px',
-              right: '5px',
-              padding: '4px',
-              borderRadius: '50%'
-            }}
-            onClick={closeModal}
-          >
-            <CloseIcon size={20} />
-          </ButtonBase>
         </ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>

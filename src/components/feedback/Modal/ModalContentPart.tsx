@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { useModalContext } from './Modal.hooks';
 
 export type ModalContentPartProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
@@ -19,10 +20,21 @@ const ModalContentPart = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
+  const { modalHeaderId, modalBodyId } = useModalContext();
   const newStyle = useStyle(style);
+
+  let id = undefined;
+  switch (partName) {
+    case 'Header':
+      id = modalHeaderId;
+      break;
+    case 'Body':
+      id = modalBodyId;
+  }
 
   return (
     <Component
+      id={id}
       className={cn(`JinniModal${partName}`, className)}
       style={newStyle}
       {...rest}

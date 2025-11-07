@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import useBreakpoint from '@/hooks/useBreakpoint';
 import { isResponsive, editResponsive } from '@/utils/responsive';
 import { ModalProps } from './Modal';
+import ModalContext from './Modal.contexts';
 
 export const useKeyboardAccessibility = ({
   open,
@@ -60,7 +61,7 @@ export const useKeyboardAccessibility = ({
       document.removeEventListener('keydown', handleEscape);
       if (triggerEl) (triggerEl as HTMLElement).focus();
     };
-  }, [onClose]);
+  }, [open, onClose]);
 
   return { boxElRef };
 };
@@ -70,4 +71,10 @@ export const useModalSize = ({ size }: Pick<ModalProps, 'size'>) => {
 
   if (isResponsive(size)) return editResponsive(size, breakpoint);
   return size;
+};
+
+export const useModalContext = () => {
+  const value = useContext(ModalContext);
+  if (!value) throw Error('ModalContext value is null');
+  return value;
 };

@@ -1,5 +1,6 @@
 import './Modal.scss';
 import cn from 'classnames';
+import { useId } from 'react';
 import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
@@ -7,6 +8,7 @@ import { Backdrop } from '@/components/feedback/Backdrop';
 import { useModalSize, useKeyboardAccessibility } from './Modal.hooks';
 import { Responsive } from '@/types/breakpoint';
 import { Box, BoxProps } from '@/components/layout/Box';
+import ModalContext from './Modal.contexts';
 
 export type CloseReason = 'escapeKeydown' | 'backdropClick';
 type ModalSizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -38,6 +40,8 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
+  const modalHeaderId = useId();
+  const modalBodyId = useId();
   const modalSize = useModalSize({ size });
   const { boxElRef } = useKeyboardAccessibility({ open, onClose });
   const newStyle = useStyle(style);
@@ -49,12 +53,16 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
   };
 
   return (
-    <>
+    <ModalContext.Provider value={{ modalHeaderId, modalBodyId }}>
       {open &&
         createPortal(
           <div className="JinniModalContainer">
             <Backdrop disablePortal disableScroll />
             <Component
+              role="dialog"
+              aria-modal={true}
+              aria-labelledby={modalHeaderId}
+              aria-describedby={modalBodyId}
               className={cn('JinniModal', scrollBehavior, className)}
               onClick={handleBackdropClick}
               style={newStyle}
@@ -73,7 +81,7 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
           </div>,
           document.body
         )}
-    </>
+    </ModalContext.Provider>
   );
 };
 
