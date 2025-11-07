@@ -150,7 +150,7 @@ const ModalSizeTemplate = () => {
       </Grid>
       <Button onClick={openModal}>Open Modal</Button>
       <Modal open={open} onClose={closeModal} size={SIZES[checkedValue].value}>
-        <ModalHeader style={{ position: 'relative' }}>Modal Header</ModalHeader>
+        <ModalHeader>Modal Header</ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeModal}>
@@ -197,7 +197,7 @@ const ModalScrollBehaviorTemplate = () => {
       </Grid>
       <Button onClick={openModal}>Open Modal</Button>
       <Modal open={open} onClose={closeModal} scrollBehavior={checkedValue}>
-        <ModalHeader style={{ position: 'relative' }}>Modal Header</ModalHeader>
+        <ModalHeader>Modal Header</ModalHeader>
         <ModalBody>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
           reiciendis qui illo veniam aspernatur excepturi nobis, ullam maxime
@@ -289,9 +289,7 @@ const NestedModalTemplate = () => {
     <>
       <Button onClick={openFirstModal}>Open First Modal</Button>
       <Modal open={openFirst} onClose={closeFirstModal}>
-        <ModalHeader style={{ position: 'relative' }}>
-          First Modal Header
-        </ModalHeader>
+        <ModalHeader>First Modal Header</ModalHeader>
         <ModalBody>First Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeFirstModal}>
@@ -301,9 +299,7 @@ const NestedModalTemplate = () => {
         </ModalFooter>
       </Modal>
       <Modal open={openSecond} onClose={closeSecondModal}>
-        <ModalHeader style={{ position: 'relative' }}>
-          Second Modal Header
-        </ModalHeader>
+        <ModalHeader>Second Modal Header</ModalHeader>
         <ModalBody>Second Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeSecondModal}>
@@ -343,7 +339,7 @@ const ModalFormTemplate = () => {
         }}
         style={{ alignItems: 'start' }}
       >
-        <ModalHeader style={{ position: 'relative' }}>Modal Header</ModalHeader>
+        <ModalHeader>Modal Header</ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeModal}>
@@ -462,9 +458,7 @@ export const Sizes: Story = {
       </Grid>
       <Button onClick={openModal}>Open Modal</Button>
       <Modal open={open} onClose={closeModal} size={SIZES[checkedValue].value}>
-        <ModalHeader style={{ position: 'relative' }}>
-          Modal Header
-        </ModalHeader>
+        <ModalHeader>Modal Header</ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeModal}>
@@ -520,9 +514,7 @@ export const ScrollBehavior: Story = {
       </Grid>
       <Button onClick={openModal}>Open Modal</Button>
       <Modal open={open} onClose={closeModal} scrollBehavior={checkedValue}>
-        <ModalHeader style={{ position: 'relative' }}>
-          Modal Header
-        </ModalHeader>
+        <ModalHeader>Modal Header</ModalHeader>
         <ModalBody>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta
           reiciendis qui illo veniam aspernatur excepturi nobis, ullam maxime
@@ -623,9 +615,7 @@ export const NestedModal: Story = {
     <>
       <Button onClick={openFirstModal}>Open First Modal</Button>
       <Modal open={openFirst} onClose={closeFirstModal}>
-        <ModalHeader style={{ position: 'relative' }}>
-          First Modal Header
-        </ModalHeader>
+        <ModalHeader>First Modal Header</ModalHeader>
         <ModalBody>First Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeFirstModal}>
@@ -635,9 +625,7 @@ export const NestedModal: Story = {
         </ModalFooter>
       </Modal>
       <Modal open={openSecond} onClose={closeSecondModal}>
-        <ModalHeader style={{ position: 'relative' }}>
-          Second Modal Header
-        </ModalHeader>
+        <ModalHeader>Second Modal Header</ModalHeader>
         <ModalBody>Second Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeSecondModal}>
@@ -686,9 +674,7 @@ export const CustomizeModal: Story = {
         }}
         style={{ alignItems: 'start' }}
       >
-        <ModalHeader style={{ position: 'relative' }}>
-          Modal Header
-        </ModalHeader>
+        <ModalHeader>Modal Header</ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>
           <Button variant="subtle-filled" onClick={closeModal}>

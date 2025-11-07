@@ -57,7 +57,11 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
       {open &&
         createPortal(
           <div className="JinniModalContainer">
-            <Backdrop disablePortal disableScroll />
+            <Backdrop
+              disablePortal
+              disableScroll
+              data-testid="modal-backdrop"
+            />
             <Component
               role="dialog"
               aria-modal={true}
