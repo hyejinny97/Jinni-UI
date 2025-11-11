@@ -1,4 +1,75 @@
-@mixin placement {
+$border-style: 1px solid var(--jinni-color-outline-variant);
+$default-drawer-size: 250px;
+
+@mixin placement-at-permanent {
+  &.left {
+    width: $default-drawer-size;
+    .JinniDrawerContent {
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: 100%;
+      border-right: $border-style;
+    }
+  }
+  &.right {
+    width: $default-drawer-size;
+    .JinniDrawerContent {
+      top: 0;
+      right: 0;
+      width: inherit;
+      height: 100%;
+      border-left: $border-style;
+    }
+  }
+  &.top {
+    height: $default-drawer-size;
+    .JinniDrawerContent {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: inherit;
+      border-bottom: $border-style;
+    }
+  }
+  &.bottom {
+    height: $default-drawer-size;
+    .JinniDrawerContent {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: inherit;
+      border-top: $border-style;
+    }
+  }
+}
+
+@mixin placement-at-persistent {
+  @include placement-at-permanent;
+  .JinniDrawerContent {
+    transition: transform var(--jinni-duration-short4)
+      var(--jinni-easing-emphasized);
+    &.open {
+      transform: 'none';
+    }
+    &.close {
+      &.left {
+        transform: translate(-100%, 0);
+      }
+      &.right {
+        transform: translate(100%, 0);
+      }
+      &.top {
+        transform: translate(0, -100%);
+      }
+      &.bottom {
+        transform: translate(0, 100%);
+      }
+    }
+  }
+}
+
+@mixin placement-at-temporary {
   &.left {
     flex-direction: row;
     justify-content: start;
@@ -17,43 +88,94 @@
   }
 }
 
-.JinniDrawer {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  @include placement;
+@mixin drawer-content-part-styles {
+  .JinniDrawerHeader {
+    padding: 16px 24px;
+    font-size: 20px;
+    font-weight: var(--jinni-font-weight-medium);
+  }
+
+  .JinniDrawerBody {
+    flex: 1;
+    padding: 20px 24px;
+    font-size: 16px;
+    font-weight: var(--jinni-font-weight-regular);
+  }
+
+  .JinniDrawerHeader + .JinniDrawerBody {
+    padding-top: 0px;
+  }
+
+  .JinniDrawerFooter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 10px;
+    padding: 8px;
+  }
+}
+
+// variant == 'permanent'
+.JinniDrawer.permanent {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  @include placement-at-permanent;
 
   .JinniDrawerContent {
+    position: fixed;
+    z-index: var(--jinni-z-index-drawer);
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    min-width: 250px;
-    min-height: 250px;
-    background-color: white;
+    background-color: var(--jinni-color-surface-container-lowest);
+    @include drawer-content-part-styles;
+  }
+}
 
-    .JinniDrawerHeader {
-      padding: 16px 24px;
-      font-size: 20px;
-      font-weight: var(--jinni-font-weight-medium);
-    }
+// variant == 'persistent'
+.JinniDrawer.persistent {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  @include placement-at-persistent;
 
-    .JinniDrawerBody {
-      flex: 1;
-      padding: 20px 24px;
-      font-size: 16px;
-      font-weight: var(--jinni-font-weight-regular);
-    }
+  .JinniDrawerContent {
+    position: fixed;
+    z-index: var(--jinni-z-index-drawer);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: var(--jinni-color-surface-container-lowest);
+    @include drawer-content-part-styles;
+  }
+}
 
-    .JinniDrawerHeader + .JinniDrawerBody {
-      padding-top: 0px;
-    }
+// variant == 'temporary'
+.JinniDrawerContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--jinni-z-index-drawer);
 
-    .JinniDrawerFooter {
+  .JinniBackdrop {
+    z-index: -1;
+  }
+
+  .JinniDrawer.temporary {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    @include placement-at-temporary;
+
+    .JinniDrawerContent {
       display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      column-gap: 10px;
-      padding: 8px;
+      flex-direction: column;
+      box-sizing: border-box;
+      min-width: $default-drawer-size;
+      min-height: $default-drawer-size;
+      background-color: var(--jinni-color-surface-container-lowest);
+      @include drawer-content-part-styles;
     }
   }
 }

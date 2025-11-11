@@ -71,7 +71,7 @@ $modal-content-margin: 30px;
       display: flex;
       flex-direction: column;
       margin: $modal-content-margin;
-      background-color: white;
+      background-color: var(--jinni-color-surface-container-lowest);
       @include modal-size;
 
       .JinniModalHeader {
