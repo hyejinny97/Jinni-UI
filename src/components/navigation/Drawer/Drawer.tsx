@@ -46,15 +46,13 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
   const newStyle = useStyle(style);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {
-    const { target, currentTarget } = e;
-    if (target !== currentTarget || !onClose || variant !== 'temporary') return;
+    if (!onClose || variant !== 'temporary') return;
     onClose(e, 'backdropClick');
   };
 
   const content = (
     <Component
       className={cn('JinniDrawer', variant, anchorOrigin, className)}
-      onClick={handleBackdropClick}
       style={newStyle}
       {...rest}
     >
@@ -87,6 +85,7 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
                   disablePortal
                   disableScroll
                   data-testid="drawer-backdrop"
+                  onClick={handleBackdropClick}
                 />
                 {content}
               </div>,
