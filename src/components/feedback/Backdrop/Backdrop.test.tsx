@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import Backdrop from './Backdrop';
 
-describe('<Skeleton />', () => {
+describe('<Backdrop />', () => {
   it('renders backdrop', () => {
     render(<Backdrop data-testid="basic backdrop" />);
     const backdrop = screen.getByTestId('basic backdrop');

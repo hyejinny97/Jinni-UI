@@ -1,10 +1,13 @@
 import './Drawer.scss';
 import cn from 'classnames';
+import { useId } from 'react';
+import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { Box, BoxProps } from '@/components/layout/Box';
-import { useKeydown } from './Drawer.hooks';
+import { useKeyboardAccessibility } from './Drawer.hooks';
+import DrawerContext from './Drawer.contexts';
 
 export type CloseReason = 'escapeKeydown' | 'backdropClick';
 
@@ -12,11 +15,13 @@ export type DrawerProps<
   T extends AsType = 'div',
   P extends AsType = 'div'
 > = DefaultComponentProps<T> & {
-  open: boolean;
+  open?: boolean;
   onClose?: (event: React.SyntheticEvent | Event, reason: CloseReason) => void;
   children: React.ReactNode;
-  anchor?: 'left' | 'right' | 'top' | 'bottom';
-  DrawerContentProps?: BoxProps<P>;
+  variant?: 'temporary' | 'persistent' | 'permanent';
+  anchorOrigin?: 'left' | 'right' | 'top' | 'bottom';
+  container?: Element | DocumentFragment;
+  BoxProps?: BoxProps<P>;
 };
 
 const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
@@ -26,44 +31,79 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
     open,
     onClose,
     children,
-    anchor = 'left',
-    DrawerContentProps,
+    variant = 'temporary',
+    anchorOrigin = 'left',
+    container = document.body,
+    BoxProps,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
+  const drawerHeaderId = useId();
+  const drawerBodyId = useId();
+  const { boxElRef } = useKeyboardAccessibility({
+    open,
+    onClose,
+    variant
+  });
   const newStyle = useStyle(style);
-  useKeydown({ onClose });
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {
-    const { target, currentTarget } = e;
-    if (target !== currentTarget || !onClose) return;
+    if (!onClose || variant !== 'temporary') return;
     onClose(e, 'backdropClick');
   };
 
-  return (
-    <>
-      {open && (
-        <Backdrop>
-          <Component
-            className={cn('JinniDrawer', anchor, className)}
-            style={newStyle}
-            onClick={handleBackdropClick}
-            {...rest}
-          >
-            <Box
-              className="JinniDrawerContent"
-              elevation={15}
-              {...(DrawerContentProps as BoxProps<P>)}
-            >
-              {children}
-            </Box>
-          </Component>
-        </Backdrop>
-      )}
-    </>
+  const content = (
+    <Component
+      {...(variant === 'temporary' && {
+        role: 'dialog',
+        'aria-modal': true,
+        'aria-labelledby': drawerHeaderId,
+        'aria-describedby': drawerBodyId
+      })}
+      className={cn('JinniDrawer', variant, anchorOrigin, className)}
+      style={newStyle}
+      {...rest}
+    >
+      <Box
+        ref={boxElRef}
+        className={cn(
+          'JinniDrawerContent',
+          open ? 'open' : 'close',
+          anchorOrigin
+        )}
+        {...(variant === 'temporary' && { elevation: 15 })}
+        {...BoxProps}
+      >
+        {children}
+      </Box>
+    </Component>
   );
+
+  switch (variant) {
+    case 'permanent':
+    case 'persistent':
+      return content;
+    case 'temporary':
+      return (
+        <DrawerContext.Provider value={{ drawerHeaderId, drawerBodyId }}>
+          {open &&
+            createPortal(
+              <div className="JinniDrawerContainer">
+                <Backdrop
+                  disablePortal
+                  disableScroll
+                  data-testid="drawer-backdrop"
+                  onClick={handleBackdropClick}
+                />
+                {content}
+              </div>,
+              container
+            )}
+        </DrawerContext.Provider>
+      );
+  }
 };
 
 export default Drawer;

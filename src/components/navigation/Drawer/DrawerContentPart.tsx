@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { useDrawerContext } from './Drawer.hooks';
 
 export type DrawerContentPartProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
@@ -19,10 +20,21 @@ const DrawerContentPart = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
+  const drawerContext = useDrawerContext();
   const newStyle = useStyle(style);
+
+  let id = undefined;
+  switch (partName) {
+    case 'Header':
+      id = drawerContext?.drawerHeaderId;
+      break;
+    case 'Body':
+      id = drawerContext?.drawerBodyId;
+  }
 
   return (
     <Component
+      id={id}
       className={cn(`JinniDrawer${partName}`, className)}
       style={newStyle}
       {...rest}
