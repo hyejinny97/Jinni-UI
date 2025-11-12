@@ -20,16 +20,16 @@ const DrawerContentPart = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
-  const { drawerHeaderId, drawerBodyId } = useDrawerContext();
+  const drawerContext = useDrawerContext();
   const newStyle = useStyle(style);
 
   let id = undefined;
   switch (partName) {
     case 'Header':
-      id = drawerHeaderId;
+      id = drawerContext?.drawerHeaderId;
       break;
     case 'Body':
-      id = drawerBodyId;
+      id = drawerContext?.drawerBodyId;
   }
 
   return (

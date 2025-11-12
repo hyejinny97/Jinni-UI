@@ -67,6 +67,5 @@ export const useKeyboardAccessibility = ({
 
 export const useDrawerContext = () => {
   const value = useContext(DrawerContext);
-  if (!value) throw Error('DrawerContext value is null');
   return value;
 };
