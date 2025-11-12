@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import { DrawerProps } from './Drawer';
+import DrawerContext from './Drawer.contexts';
 
 export const useKeyboardAccessibility = ({
   open,
@@ -62,4 +63,10 @@ export const useKeyboardAccessibility = ({
   }, [open, onClose, variant]);
 
   return { boxElRef };
+};
+
+export const useDrawerContext = () => {
+  const value = useContext(DrawerContext);
+  if (!value) throw Error('DrawerContext value is null');
+  return value;
 };

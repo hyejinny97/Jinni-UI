@@ -173,6 +173,7 @@ const BasicDrawerTemplate = () => {
               padding: '6px',
               borderRadius: '50%'
             }}
+            aria-label="close"
           >
             <CloseIcon />
           </ButtonBase>
@@ -228,6 +229,7 @@ const PlacementTemplate = () => {
               padding: '6px',
               borderRadius: '50%'
             }}
+            aria-label="close"
           >
             <CloseIcon />
           </ButtonBase>
@@ -273,6 +275,7 @@ const TemporaryDrawerTemplate = () => {
         <ButtonBase
           style={{ padding: '8px', borderRadius: '50%' }}
           onClick={openDrawer}
+          aria-label="open drawer"
         >
           <BurgerIcon color="white" />
         </ButtonBase>
@@ -336,6 +339,7 @@ const MiniVariantDrawerTemplate = () => {
         <ButtonBase
           style={{ padding: '8px', borderRadius: '50%' }}
           onClick={expandDrawer}
+          aria-label="open drawer"
         >
           <BurgerIcon color="white" />
         </ButtonBase>
@@ -361,6 +365,7 @@ const MiniVariantDrawerTemplate = () => {
             <ButtonBase
               style={{ padding: '5px', borderRadius: '50%' }}
               onClick={collapseDrawer}
+              aria-label="close drawer"
             >
               <ArrowLeftIcon color="gray-500" />
             </ButtonBase>
@@ -415,6 +420,7 @@ const LeftPersistentDrawerTemplate = () => {
           <ButtonBase
             style={{ padding: '8px', borderRadius: '50%' }}
             onClick={openDrawer}
+            aria-label="open drawer"
           >
             <BurgerIcon color="white" />
           </ButtonBase>
@@ -436,6 +442,7 @@ const LeftPersistentDrawerTemplate = () => {
             <ButtonBase
               style={{ padding: '5px', borderRadius: '50%' }}
               onClick={closeDrawer}
+              aria-label="close drawer"
             >
               <ArrowLeftIcon color="gray-500" />
             </ButtonBase>
@@ -460,7 +467,7 @@ const LeftPersistentDrawerTemplate = () => {
 };
 
 const RightPersistentDrawerTemplate = () => {
-  const TRANSITION = `var(--jinni-duration-short4)var(--jinni-easing-emphasized)`;
+  const TRANSITION = `var(--jinni-duration-short4) var(--jinni-easing-emphasized)`;
   const [open, setOpen] = useState(false);
 
   const openDrawer = () => {
@@ -498,6 +505,7 @@ const RightPersistentDrawerTemplate = () => {
           <ButtonBase
             style={{ padding: '8px', borderRadius: '50%' }}
             onClick={openDrawer}
+            aria-label="open drawer"
           >
             <BurgerIcon color="white" />
           </ButtonBase>
@@ -528,6 +536,7 @@ const RightPersistentDrawerTemplate = () => {
             <ButtonBase
               style={{ padding: '5px', borderRadius: '50%' }}
               onClick={closeDrawer}
+              aria-label="close drawer"
             >
               <ArrowRightIcon color="gray-500" />
             </ButtonBase>
@@ -574,6 +583,7 @@ const CustomizeDrawerTemplate = () => {
               padding: '6px',
               borderRadius: '50%'
             }}
+            aria-label="close"
           >
             <CloseIcon />
           </ButtonBase>
@@ -618,6 +628,7 @@ export const BasicDrawer: Story = {
               padding: '6px',
               borderRadius: '50%'
             }}
+            aria-label='close'
           >
             <CloseIcon />
           </ButtonBase>
@@ -683,6 +694,7 @@ export const Placement: Story = {
               padding: '6px',
               borderRadius: '50%'
             }}
+            aria-label='close'
           >
             <CloseIcon />
           </ButtonBase>
@@ -738,6 +750,7 @@ export const Temporary: Story = {
         <ButtonBase
           style={{ padding: '8px', borderRadius: '50%' }}
           onClick={openDrawer}
+          aria-label="open drawer"
         >
           <BurgerIcon color="white" />
         </ButtonBase>
@@ -950,6 +963,7 @@ export const MiniVariantDrawer: Story = {
         <ButtonBase
           style={{ padding: '8px', borderRadius: '50%' }}
           onClick={expandDrawer}
+          aria-label="open drawer"
         >
           <BurgerIcon color="white" />
         </ButtonBase>
@@ -975,6 +989,7 @@ export const MiniVariantDrawer: Story = {
             <ButtonBase
               style={{ padding: '5px', borderRadius: '50%' }}
               onClick={collapseDrawer}
+              aria-label="close drawer"
             >
               <ArrowLeftIcon color="gray-500" />
             </ButtonBase>
@@ -1038,6 +1053,7 @@ export const LeftPersistentDrawer: Story = {
           <ButtonBase
             style={{ padding: '8px', borderRadius: '50%' }}
             onClick={openDrawer}
+            aria-label="open drawer"
           >
             <BurgerIcon color="white" />
           </ButtonBase>
@@ -1059,6 +1075,7 @@ export const LeftPersistentDrawer: Story = {
             <ButtonBase
               style={{ padding: '5px', borderRadius: '50%' }}
               onClick={closeDrawer}
+              aria-label="close drawer"
             >
               <ArrowLeftIcon color="gray-500" />
             </ButtonBase>
@@ -1130,6 +1147,7 @@ export const RightPersistentDrawer: Story = {
           <ButtonBase
             style={{ padding: '8px', borderRadius: '50%' }}
             onClick={openDrawer}
+            aria-label="open drawer"
           >
             <BurgerIcon color="white" />
           </ButtonBase>
@@ -1160,6 +1178,7 @@ export const RightPersistentDrawer: Story = {
             <ButtonBase
               style={{ padding: '5px', borderRadius: '50%' }}
               onClick={closeDrawer}
+              aria-label="close drawer"
             >
               <ArrowRightIcon color="gray-500" />
             </ButtonBase>
@@ -1216,6 +1235,7 @@ export const CustomizeDrawer: Story = {
               padding: '6px',
               borderRadius: '50%'
             }}
+            aria-label="close"
           >
             <CloseIcon />
           </ButtonBase>

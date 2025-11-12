@@ -1,11 +1,13 @@
 import './Drawer.scss';
 import cn from 'classnames';
+import { useId } from 'react';
 import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { useKeyboardAccessibility } from './Drawer.hooks';
+import DrawerContext from './Drawer.contexts';
 
 export type CloseReason = 'escapeKeydown' | 'backdropClick';
 
@@ -38,6 +40,8 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
+  const drawerHeaderId = useId();
+  const drawerBodyId = useId();
   const { boxElRef } = useKeyboardAccessibility({
     open,
     onClose,
@@ -52,6 +56,12 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
 
   const content = (
     <Component
+      {...(variant === 'temporary' && {
+        role: 'dialog',
+        'aria-modal': true,
+        'aria-labelledby': drawerHeaderId,
+        'aria-describedby': drawerBodyId
+      })}
       className={cn('JinniDrawer', variant, anchorOrigin, className)}
       style={newStyle}
       {...rest}
@@ -77,7 +87,7 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
       return content;
     case 'temporary':
       return (
-        <>
+        <DrawerContext.Provider value={{ drawerHeaderId, drawerBodyId }}>
           {open &&
             createPortal(
               <div className="JinniDrawerContainer">
@@ -91,7 +101,7 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
               </div>,
               container
             )}
-        </>
+        </DrawerContext.Provider>
       );
   }
 };
