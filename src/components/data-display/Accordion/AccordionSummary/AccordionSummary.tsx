@@ -17,7 +17,9 @@ const AccordionSummary = <T extends AsType = 'h3'>(
 ) => {
   const {
     children,
-    expandIcon = <ArrowDownIcon color="gray-700" />,
+    expandIcon = (
+      <ArrowDownIcon color="gray-700" data-testid="arrow down icon" />
+    ),
     ButtonBaseProps,
     className,
     style,
