@@ -11,7 +11,7 @@ export type ButtonBaseProps<T extends AsType = 'button'> =
   DefaultComponentProps<T> &
     Partial<UseRippleProps> & {
       type?: 'button' | 'submit' | 'reset';
-      children: React.ReactNode;
+      children?: React.ReactNode;
       href?: string;
       disabled?: boolean;
       overlayColor?: 'black' | 'white';

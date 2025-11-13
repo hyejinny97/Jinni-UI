@@ -2,7 +2,7 @@
   .JinniAccordionItem {
     border-bottom: 1px solid var(--jinni-color-gray-300);
 
-    .JinniAccordionHeader {
+    .JinniAccordionSummaryRoot {
       margin: 0;
 
       .JinniAccordionSummary {
@@ -12,31 +12,16 @@
         column-gap: 8px;
         padding: 16px 8px;
         width: 100%;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
 
-        &:hover {
-          text-decoration: underline;
-        }
-
-        &:disabled {
-          cursor: default;
-          text-decoration: none;
-          svg path {
-            fill: var(--jinni-color-gray-300);
-          }
-        }
-
-        &Content {
+        .JinniAccordionSummaryContent {
           flex: 1;
           text-align: left;
           font-size: 16px;
           font-weight: var(--jinni-font-weight-medium);
         }
 
-        &ExpandIcon {
-          display: flex;
+        .JinniAccordionSummaryExpandIcon {
+          display: inline-flex;
           justify-content: center;
           align-items: center;
           transition: transform var(--jinni-duration-short2)

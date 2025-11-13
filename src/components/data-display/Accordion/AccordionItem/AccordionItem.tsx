@@ -1,7 +1,8 @@
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import ExpandProvider from './ExpandProvider';
+import { useExpand } from './AccordionItem.hooks';
+import AccordionItemContext from './AccordionItem.contexts';
 
 export type AccordionItemProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -19,7 +20,7 @@ const AccordionItem = <T extends AsType = 'div'>(
 ) => {
   const {
     children,
-    defaultExpanded,
+    defaultExpanded = false,
     expanded,
     onChange,
     disabled,
@@ -28,14 +29,16 @@ const AccordionItem = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
+  const { isExpanded, toggleExpand } = useExpand({
+    defaultExpanded,
+    expanded,
+    onChange
+  });
   const newStyle = useStyle(style);
 
   return (
-    <ExpandProvider
-      defaultExpanded={defaultExpanded}
-      expanded={expanded}
-      onChange={onChange}
-      disabled={disabled}
+    <AccordionItemContext.Provider
+      value={{ isExpanded, toggleExpand, disabled: !!disabled }}
     >
       <Component
         className={cn('JinniAccordionItem', className)}
@@ -44,7 +47,7 @@ const AccordionItem = <T extends AsType = 'div'>(
       >
         {children}
       </Component>
-    </ExpandProvider>
+    </AccordionItemContext.Provider>
   );
 };
 
