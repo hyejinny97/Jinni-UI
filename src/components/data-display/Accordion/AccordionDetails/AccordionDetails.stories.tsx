@@ -9,6 +9,13 @@ const meta: Meta<typeof AccordionDetails> = {
       table: {
         type: { summary: 'React.ReactNode' }
       }
+    },
+    TransitionComponent: {
+      description: 'transition 컴포넌트',
+      table: {
+        type: { summary: `React.ReactNode` },
+        defaultValue: { summary: `Collapse` }
+      }
     }
   }
 };

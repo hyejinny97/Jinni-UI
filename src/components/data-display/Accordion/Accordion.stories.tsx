@@ -7,6 +7,7 @@ import {
   AccordionDetails
 } from '.';
 import { ArrowCircleDownIcon } from '@/components/icons/ArrowCircleDownIcon';
+import { Motion } from '@/components/motion/Motion';
 
 const meta: Meta<typeof Accordion> = {
   component: Accordion,
@@ -27,15 +28,10 @@ const ITEMS = Array(3)
   .fill(0)
   .map((_, idx) => ({
     summary: `Accordion Summary ${idx + 1}`,
-    details: `This is Accordion Details ${idx + 1}. Lorem ipsum dolor, sit amet consectetur
-          adipisicing elit. Quo consectetur enim voluptates iusto delectus,
-          voluptatum praesentium. Dignissimos fugiat ex eaque sapiente magnam,
-          minus quos, iusto illo ratione doloribus hic in?`
+    details: `This is Accordion Details ${idx + 1}. \nLorem ipsum dolor, sit amet consectetur adipisicing elit. \nQuo consectetur enim voluptates iusto delectus, \nvoluptatum praesentium. Dignissimos fugiat ex eaque sapiente magnam, \nminus quos, iusto illo ratione doloribus hic in?`
   }));
 
-const ACCORDION_STYLE = { width: '500px' };
-
-const ControlledAccordionTemplate = ({ ...props }) => {
+const ControlledAccordionTemplate = () => {
   const [expandedItem, setExpandedItem] = useState<number | null>(null);
 
   const handleChange =
@@ -44,7 +40,7 @@ const ControlledAccordionTemplate = ({ ...props }) => {
     };
 
   return (
-    <Accordion style={ACCORDION_STYLE} {...props}>
+    <Accordion style={{ width: '500px' }}>
       {ITEMS.map(({ summary, details }, idx) => {
         return (
           <AccordionItem
@@ -61,9 +57,22 @@ const ControlledAccordionTemplate = ({ ...props }) => {
   );
 };
 
+const Fade = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Motion
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition="opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized)"
+    >
+      {children}
+    </Motion>
+  );
+};
+
 export const BasicAccordion: Story = {
   render: (args) => (
-    <Accordion style={ACCORDION_STYLE} {...args}>
+    <Accordion style={{ width: '500px' }} {...args}>
       {ITEMS.map(({ summary, details }) => {
         return (
           <AccordionItem key={summary}>
@@ -76,9 +85,74 @@ export const BasicAccordion: Story = {
   )
 };
 
+export const ExpandedByDefault: Story = {
+  render: (args) => (
+    <Accordion style={{ width: '500px' }} {...args}>
+      {ITEMS.map(({ summary, details }, idx) => {
+        return (
+          <AccordionItem key={summary} defaultExpanded={idx === 0}>
+            <AccordionSummary>{summary}</AccordionSummary>
+            <AccordionDetails>{details}</AccordionDetails>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
+  )
+};
+
+export const ControlledAccordion: Story = {
+  render: () => <ControlledAccordionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledAccordionTemplate = () => {
+  const [expandedItem, setExpandedItem] = useState<number | null>(null);
+
+  const handleChange =
+    (itemIdx: number) => (_: React.SyntheticEvent, expanded: boolean) => {
+      setExpandedItem(expanded ? itemIdx : null);
+    };
+
+  return (
+    <Accordion style={{ width: '500px' }}>
+      {ITEMS.map(({ summary, details }, idx) => {
+        return (
+          <AccordionItem
+            key={summary}
+            expanded={expandedItem === idx}
+            onChange={handleChange(idx)}
+          >
+            <AccordionSummary>{summary}</AccordionSummary>
+            <AccordionDetails>{details}</AccordionDetails>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const DisabledItem: Story = {
+  render: (args) => (
+    <Accordion style={{ width: '500px' }} {...args}>
+      {ITEMS.map(({ summary, details }, idx) => {
+        return (
+          <AccordionItem key={summary} disabled={idx === 0}>
+            <AccordionSummary>{summary}</AccordionSummary>
+            <AccordionDetails>{details}</AccordionDetails>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
+  )
+};
+
 export const ExpandIcon: Story = {
   render: (args) => (
-    <Accordion style={ACCORDION_STYLE} {...args}>
+    <Accordion style={{ width: '500px' }} {...args}>
       {ITEMS.map(({ summary, details }) => {
         return (
           <AccordionItem key={summary}>
@@ -93,43 +167,9 @@ export const ExpandIcon: Story = {
   )
 };
 
-export const ExpandedByDefault: Story = {
+export const CustomizeAccordion: Story = {
   render: (args) => (
-    <Accordion style={ACCORDION_STYLE} {...args}>
-      {ITEMS.map(({ summary, details }, idx) => {
-        return (
-          <AccordionItem key={summary} defaultExpanded={idx === 0}>
-            <AccordionSummary>{summary}</AccordionSummary>
-            <AccordionDetails>{details}</AccordionDetails>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
-  )
-};
-
-export const DisabledItem: Story = {
-  render: (args) => (
-    <Accordion style={ACCORDION_STYLE} {...args}>
-      {ITEMS.map(({ summary, details }, idx) => {
-        return (
-          <AccordionItem key={summary} disabled={idx === 0}>
-            <AccordionSummary>{summary}</AccordionSummary>
-            <AccordionDetails>{details}</AccordionDetails>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
-  )
-};
-
-export const ControlledAccordion: Story = {
-  render: (args) => <ControlledAccordionTemplate {...args} />
-};
-
-export const StyleCustomization: Story = {
-  render: (args) => (
-    <Accordion style={ACCORDION_STYLE} {...args}>
+    <Accordion style={{ width: '500px' }} {...args}>
       {ITEMS.map(({ summary, details }) => {
         return (
           <AccordionItem
@@ -137,9 +177,14 @@ export const StyleCustomization: Story = {
             style={{ marginBottom: 10, border: '1px solid gray' }}
           >
             <AccordionSummary
+              as="h6"
               style={{
-                backgroundColor: 'gray-100',
-                flexDirection: 'row-reverse'
+                backgroundColor: 'gray-100'
+              }}
+              ButtonBaseProps={{
+                disableOverlay: true,
+                disableRipple: true,
+                style: { flexDirection: 'row-reverse' }
               }}
             >
               {summary}
@@ -156,17 +201,56 @@ export const StyleCustomization: Story = {
   )
 };
 
-export const HeadingComponent: Story = {
+export const CustomizeTransition: Story = {
   render: (args) => (
-    <Accordion style={ACCORDION_STYLE} {...args}>
+    <Accordion style={{ width: '500px' }} {...args}>
       {ITEMS.map(({ summary, details }) => {
         return (
           <AccordionItem key={summary}>
-            <AccordionSummary HeadingComponent="h2">{summary}</AccordionSummary>
-            <AccordionDetails>{details}</AccordionDetails>
+            <AccordionSummary>{summary}</AccordionSummary>
+            <AccordionDetails TransitionComponent={Fade}>
+              {details}
+            </AccordionDetails>
           </AccordionItem>
         );
       })}
     </Accordion>
-  )
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const Fade = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Motion
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition="opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized)"
+    >
+      {children}
+    </Motion>
+  );
+};
+
+const CustomizeTransition = () => {
+  return (
+    <Accordion style={{ width: '500px' }} {...args}>
+      {ITEMS.map(({ summary, details }) => {
+        return (
+          <AccordionItem key={summary}>
+            <AccordionSummary>{summary}</AccordionSummary>
+            <AccordionDetails TransitionComponent={Fade}>
+              {details}
+            </AccordionDetails>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
+  );
+};
+        `.trim()
+      }
+    }
+  }
 };

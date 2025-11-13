@@ -4,6 +4,12 @@ import AccordionSummary from './AccordionSummary';
 const meta: Meta<typeof AccordionSummary> = {
   component: AccordionSummary,
   argTypes: {
+    ButtonBaseProps: {
+      description: 'ButtonBase 컴포넌트의 props',
+      table: {
+        type: { summary: 'ButtonBaseProps' }
+      }
+    },
     children: {
       description: 'accordion header의 content',
       table: {
