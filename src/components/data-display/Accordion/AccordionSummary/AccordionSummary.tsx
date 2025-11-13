@@ -37,6 +37,7 @@ const AccordionSummary = <T extends AsType = 'h3'>(
       <ButtonBase
         className={cn('JinniAccordionSummary', className)}
         disabled={disabled}
+        aria-expanded={isExpanded}
         {...ButtonBaseProps}
       >
         <div className="JinniAccordionSummaryContent">{children}</div>
