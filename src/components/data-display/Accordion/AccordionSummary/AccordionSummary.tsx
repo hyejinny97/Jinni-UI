@@ -26,8 +26,11 @@ const AccordionSummary = <T extends AsType = 'h3'>(
     as: Component = 'h3',
     ...rest
   } = props;
-  const { disabled, isExpanded, toggleExpand } = useAccordionItem();
+  const accordionItemContext = useAccordionItem();
   const newStyle = useStyle(style);
+
+  if (!accordionItemContext) return null;
+  const { disabled, isExpanded, toggleExpand } = accordionItemContext;
 
   return (
     <Component

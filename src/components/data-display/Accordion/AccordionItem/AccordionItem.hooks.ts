@@ -28,6 +28,5 @@ export const useExpand = ({
 
 export const useAccordionItem = () => {
   const value = useContext(AccordionItemContext);
-  if (!value) throw Error('AccordionItemContext value is null');
   return value;
 };

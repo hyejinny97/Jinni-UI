@@ -48,8 +48,11 @@ const AccordionDetails = <T extends AsType = 'div'>(
     TransitionComponent = Collapse,
     ...rest
   } = props;
-  const { isExpanded, disabled } = useAccordionItem();
+  const accordionItemContext = useAccordionItem();
   const newStyle = useStyle(style);
+
+  if (!accordionItemContext) return null;
+  const { disabled, isExpanded } = accordionItemContext;
 
   return (
     <AnimatePresence>
