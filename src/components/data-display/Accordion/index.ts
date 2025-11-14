@@ -1,4 +1,4 @@
 export { default as Accordion } from './Accordion';
-export { default as AccordionItem } from './AccordionItem';
-export { default as AccordionSummary } from './AccordionSummary';
-export { default as AccordionDetails } from './AccordionDetails';
+export { AccordionItem } from './AccordionItem';
+export { AccordionSummary } from './AccordionSummary';
+export { AccordionDetails } from './AccordionDetails';

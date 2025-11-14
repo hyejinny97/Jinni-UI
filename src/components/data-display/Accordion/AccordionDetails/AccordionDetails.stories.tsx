@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { AccordionDetails } from '.';
+import AccordionDetails from './AccordionDetails';
 
 const meta: Meta<typeof AccordionDetails> = {
   component: AccordionDetails,
@@ -8,6 +8,13 @@ const meta: Meta<typeof AccordionDetails> = {
       description: 'accordion body의 content',
       table: {
         type: { summary: 'React.ReactNode' }
+      }
+    },
+    TransitionComponent: {
+      description: 'transition 컴포넌트',
+      table: {
+        type: { summary: `React.ReactNode` },
+        defaultValue: { summary: `Collapse` }
       }
     }
   }

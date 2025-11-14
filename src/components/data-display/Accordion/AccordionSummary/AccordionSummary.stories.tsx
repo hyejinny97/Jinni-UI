@@ -1,9 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { AccordionSummary } from '.';
+import AccordionSummary from './AccordionSummary';
 
 const meta: Meta<typeof AccordionSummary> = {
   component: AccordionSummary,
   argTypes: {
+    ButtonBaseProps: {
+      description: 'ButtonBase 컴포넌트의 props',
+      table: {
+        type: { summary: 'ButtonBaseProps' }
+      }
+    },
     children: {
       description: 'accordion header의 content',
       table: {
@@ -15,13 +21,6 @@ const meta: Meta<typeof AccordionSummary> = {
       table: {
         type: { summary: 'React.ReactNode | false' },
         defaultValue: { summary: '<ArrowDownIcon />' }
-      }
-    },
-    HeadingComponent: {
-      description: 'accordion header의 heading element',
-      table: {
-        type: { summary: 'h1 | h2 | h3 | h4 | h5 | h6 ' },
-        defaultValue: { summary: 'h3' }
       }
     }
   }
