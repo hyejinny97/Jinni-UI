@@ -20,6 +20,21 @@ const config: StorybookConfig = {
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {}
+  },
+  viteFinal: async (config) => {
+    config.optimizeDeps = {
+      ...config.optimizeDeps,
+      esbuildOptions: {
+        ...config.optimizeDeps?.esbuildOptions,
+        supported: {
+          ...config.optimizeDeps?.esbuildOptions?.supported,
+          worker: false,
+          'top-level-await': true
+        }
+      }
+    };
+
+    return config;
   }
 };
 export default config;
