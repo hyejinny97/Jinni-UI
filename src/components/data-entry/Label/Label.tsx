@@ -2,10 +2,11 @@ import './Label.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
+import LabelContext from './Label.contexts';
 
 export type LabelProps<T extends AsType = 'label'> = Omit<
   DefaultComponentProps<T>,
-  'children'
+  'children' | 'content'
 > & {
   content: React.ReactNode;
   children?: React.ReactNode;
@@ -35,19 +36,26 @@ const Label = <T extends AsType = 'label'>(props: LabelProps<T>) => {
   });
 
   return (
-    <Component
-      className={cn('JinniLabel', labelPlacement, className)}
-      style={newStyle}
-      {...rest}
-    >
-      {children}
-      <span
-        className={cn('JinniLabelContent', { [size]: isKeywordSize, disabled })}
+    <LabelContext.Provider value={{ required, disabled, size }}>
+      <Component
+        className={cn('JinniLabel', labelPlacement, className)}
+        style={newStyle}
+        {...rest}
       >
-        {content}
-        {required && <span className="JinniLabelContentAsterisk">&nbsp;*</span>}
-      </span>
-    </Component>
+        {children}
+        <span
+          className={cn('JinniLabelContent', {
+            [size]: isKeywordSize,
+            disabled
+          })}
+        >
+          {content}
+          {required && (
+            <span className="JinniLabelContentAsterisk">&nbsp;*</span>
+          )}
+        </span>
+      </Component>
+    </LabelContext.Provider>
   );
 };
 

@@ -33,6 +33,9 @@ $label-size: (
       font-size: map-get($map: $label-size, $key: $size);
     }
   }
+  &:not(.sm, .md, .lg) {
+    font-size: calc(var(--size) * 0.7);
+  }
 }
 
 .JinniLabel {
@@ -41,7 +44,6 @@ $label-size: (
   @include label-placement;
 
   .JinniLabelContent {
-    font-size: var(--size);
     cursor: pointer;
     @include content-size;
 
