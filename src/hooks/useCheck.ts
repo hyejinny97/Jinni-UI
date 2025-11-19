@@ -2,25 +2,25 @@ import { useState } from 'react';
 import { isBoolean } from '@/utils/isBoolean';
 
 type useCheckProps = {
-  defaultChecked?: boolean;
+  defaultChecked: boolean;
   checked?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const useCheck = ({ defaultChecked, checked, onChange }: useCheckProps) => {
-  const isControlledCheckbox = checked !== undefined && isBoolean(checked);
+  const isControlled = checked !== undefined && isBoolean(checked);
   const [uncontrolledChecked, setUncontrolledChecked] =
-    useState<boolean>(!!defaultChecked);
+    useState<boolean>(defaultChecked);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isControlledCheckbox) setUncontrolledChecked(event.target.checked);
+    if (!isControlled) setUncontrolledChecked(event.target.checked);
     if (onChange) {
       onChange(event);
     }
   };
 
   return {
-    isChecked: isControlledCheckbox ? checked : uncontrolledChecked,
+    isChecked: isControlled ? checked : uncontrolledChecked,
     handleChange
   };
 };

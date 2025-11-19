@@ -1,0 +1,55 @@
+$margin-value: 16px;
+
+$label-size: (
+  sm: 14px,
+  md: 16px,
+  lg: 18px
+);
+
+@mixin label-placement {
+  &.start {
+    flex-direction: row-reverse;
+    margin-left: $margin-value;
+  }
+  &.end {
+    flex-direction: row;
+    margin-right: $margin-value;
+  }
+  &.top {
+    flex-direction: column-reverse;
+    margin-left: $margin-value;
+    margin-right: $margin-value;
+  }
+  &.bottom {
+    flex-direction: column;
+    margin-left: $margin-value;
+    margin-right: $margin-value;
+  }
+}
+
+@mixin content-size {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      font-size: map-get($map: $label-size, $key: $size);
+    }
+  }
+  &:not(.sm, .md, .lg) {
+    font-size: calc(var(--size) * 0.7);
+  }
+}
+
+.JinniLabel {
+  display: inline-flex;
+  align-items: center;
+  @include label-placement;
+
+  .JinniLabelContent {
+    cursor: pointer;
+    @include content-size;
+
+    &.disabled {
+      color: var(--jinni-color-gray-400);
+      cursor: default;
+    }
+  }
+}

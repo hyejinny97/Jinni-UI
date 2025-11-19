@@ -1,0 +1,59 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as LabelStories from './Label.stories';
+
+<Meta of={LabelStories} />
+
+# Label
+
+form control(checkbox, radio, switch)의 label
+
+## Import
+
+```js
+import { Label } from '@/components/data-entry/Label';
+```
+
+## Usage
+
+### Basic Label
+
+- label 요소의 props 전부 가능
+  - ex) form, htmlFor 등
+- `children`: form control element (ex) Checkbox, Radio, Switch 컴포넌트)
+- `content`: label content
+
+<Canvas of={LabelStories.BasicLabel} />
+
+### Required
+
+- `required`: true이면, input을 required 처리하고 label 마지막에 '\*' 표시 추가
+
+<Canvas of={LabelStories.Required} />
+
+### Disabled
+
+- `disabled`: true이면 input을 disabled 처리하고 label 색상을 dim 처리함
+
+<Canvas of={LabelStories.Disabled} />
+
+### Label Placement
+
+- `labelPlacement`: label 위치
+
+<Canvas of={LabelStories.LabelPlacement} />
+
+### Size
+
+- `size`: label과 control의 크기
+
+<Canvas of={LabelStories.Size} />
+
+### Customization
+
+- `style` prop을 통해 gap, background-color 등 커스텀 가능
+
+<Canvas of={LabelStories.Customization} />
+
+## Props
+
+<ArgTypes of={LabelStories} sort="alpha" />
