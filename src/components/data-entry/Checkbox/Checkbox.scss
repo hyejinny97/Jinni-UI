@@ -1,4 +1,4 @@
-@mixin iconColor {
+@mixin icon-color {
   color: var(--jinni-color-gray-600);
 
   &.isChecked,
@@ -14,7 +14,7 @@
   }
 }
 
-@mixin iconSize {
+@mixin icon-size {
   &.sm svg {
     width: 20px;
     height: 20px;
@@ -33,6 +33,12 @@
   }
 }
 
+@mixin overlay-effect {
+  &:not(.disabled):hover {
+    background-image: linear-gradient(var(--overlay-color));
+  }
+}
+
 .JinniCheckbox {
   position: relative;
   display: inline-flex;
@@ -40,24 +46,9 @@
   width: max-content;
   height: max-content;
   border-radius: 50%;
-  @include iconColor;
-  @include iconSize;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: var(--checked-color);
-    border-radius: inherit;
-    opacity: 0;
-    transition: opacity var(--jinni-duration-short2);
-  }
-  &:not(.disabled):hover::before {
-    opacity: 0.05;
-  }
+  @include icon-color;
+  @include icon-size;
+  @include overlay-effect;
 
   .JinniCheckboxInput {
     position: absolute;
