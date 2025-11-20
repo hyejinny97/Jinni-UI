@@ -184,7 +184,12 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
             else onOpen?.(event);
           } else if (snapTo === 0) {
             if (open) onClose?.(event, 'snap');
-            else translateDrawer(0);
+            else {
+              translateDrawer(0);
+              drawerEl.addEventListener('transitionend', hiddenDrawer, {
+                once: true
+              });
+            }
           } else {
             translateDrawer(size * snapTo);
           }
@@ -200,7 +205,8 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
       onOpen,
       onClose,
       translateDrawer,
-      getCurrentDisplayedSize
+      getCurrentDisplayedSize,
+      hiddenDrawer
     ]
   );
 
@@ -230,7 +236,7 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
       if (!drawerEl) return;
       activeTransition();
       translateDrawer(0);
-      drawerEl.addEventListener('transitionend', hiddenDrawer);
+      drawerEl.addEventListener('transitionend', hiddenDrawer, { once: true });
       return () => {
         drawerEl.removeEventListener('transitionend', hiddenDrawer);
       };
