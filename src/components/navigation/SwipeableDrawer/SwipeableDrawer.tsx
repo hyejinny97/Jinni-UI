@@ -24,7 +24,7 @@ type SnapPoint = {
 export type SwipeableDrawerProps<
   T extends AsType = 'div',
   P extends AsType = 'div'
-> = DefaultComponentProps<T> & {
+> = Omit<DefaultComponentProps<T>, 'children'> & {
   children: React.ReactNode;
   open: boolean;
   onOpen?: (event: React.SyntheticEvent | Event) => void;
@@ -85,6 +85,21 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
       ? `transform var(--jinni-duration-short4) var(--jinni-easing-standard-decelerate)`
       : `transform var(--jinni-duration-short4) var(--jinni-easing-standard-accelerate)`;
   }, [open]);
+  const getCurrentDisplayedSize = useCallback(() => {
+    const drawerEl = drawerElRef.current;
+    if (!drawerEl) return 0;
+    const { x, y } = getTranslate(drawerEl);
+    switch (anchorOrigin) {
+      case 'left':
+        return size + x;
+      case 'right':
+        return size - x;
+      case 'top':
+        return size + y;
+      case 'bottom':
+        return size - y;
+    }
+  }, [size, anchorOrigin]);
   const translateDrawer = useCallback(
     (displayedSize: number) => {
       const drawerEl = drawerElRef.current;
@@ -110,20 +125,23 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
     (event: PointerEvent) => {
       const drawerEl = drawerElRef.current;
       if (!drawerEl) return;
-      const { x, y } = getTranslate(drawerEl);
-      let displayedSize = 0;
+      let displayedSize = getCurrentDisplayedSize();
       switch (anchorOrigin) {
         case 'left':
+          displayedSize += event.movementX;
+          break;
         case 'right':
-          displayedSize = size + x + event.movementX;
+          displayedSize -= event.movementX;
           break;
         case 'top':
+          displayedSize += event.movementY;
+          break;
         case 'bottom':
-          displayedSize = size + y + event.movementY;
+          displayedSize -= event.movementY;
       }
       translateDrawer(Math.max(Math.min(displayedSize, size), 0));
     },
-    [anchorOrigin, size, translateDrawer]
+    [anchorOrigin, size, translateDrawer, getCurrentDisplayedSize]
   );
 
   const onProgress = useCallback((progress: number) => {
@@ -156,9 +174,7 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
       const drawerEl = drawerElRef.current;
       if (!drawerEl) return;
       activeTransition();
-      const { x, y } = getTranslate(drawerEl);
-      const displayedSize =
-        (['left', 'right'].includes(anchorOrigin) ? x : y) + size;
+      const displayedSize = getCurrentDisplayedSize();
       const displayRatio = displayedSize / size;
       for (const snapPoint of snapPoints) {
         const { threshold, snapTo } = snapPoint;
@@ -170,21 +186,21 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
             if (open) onClose?.(event, 'snap');
             else translateDrawer(0);
           } else {
-            translateDrawer(snapTo);
+            translateDrawer(size * snapTo);
           }
           break;
         }
       }
     },
     [
-      anchorOrigin,
       size,
       open,
       snapPoints,
       activeTransition,
       onOpen,
       onClose,
-      translateDrawer
+      translateDrawer,
+      getCurrentDisplayedSize
     ]
   );
 

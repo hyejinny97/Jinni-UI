@@ -94,12 +94,16 @@ export const useDrawerTranslateWatcher = ({
       let translate = 0;
       switch (anchorOrigin) {
         case 'left':
-        case 'right':
           translate = x;
           break;
+        case 'right':
+          translate = -x;
+          break;
         case 'top':
-        case 'bottom':
           translate = y;
+          break;
+        case 'bottom':
+          translate = -y;
           break;
       }
 
@@ -140,15 +144,27 @@ export const useSwipe = ({
     if (!drawerEl) return;
 
     const handlePointerDown = (event: PointerEvent) => {
-      isPointerDownRef.current = true;
-      const pointerPosition = ['left', 'right'].includes(anchorOrigin)
-        ? event.clientX
-        : event.clientY;
+      let pointerDistanceFromEdge;
+      switch (anchorOrigin) {
+        case 'left':
+          pointerDistanceFromEdge = event.clientX;
+          break;
+        case 'right':
+          pointerDistanceFromEdge = window.innerWidth - event.clientX;
+          break;
+        case 'top':
+          pointerDistanceFromEdge = event.clientY;
+          break;
+        case 'bottom':
+          pointerDistanceFromEdge = window.innerHeight - event.clientY;
+      }
       if (event.target && drawerEl.contains(event.target as Node)) {
+        isPointerDownRef.current = true;
         onSwipeStart(event, false);
         return;
       }
-      if (pointerPosition <= TRIGGER_REGION) {
+      if (pointerDistanceFromEdge <= TRIGGER_REGION) {
+        isPointerDownRef.current = true;
         onSwipeStart(event, true);
       }
     };
