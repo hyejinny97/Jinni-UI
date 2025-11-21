@@ -5,7 +5,7 @@ import useStyle from '@/hooks/useStyle';
 import { CheckboxIcon } from '@/components/icons/CheckboxIcon';
 import { CheckboxOutlineBlankIcon } from '@/components/icons/CheckboxOutlineBlankIcon';
 import { IndeterminateCheckIcon } from '@/components/icons/IndeterminateCheckIcon';
-import useCheck from '@/hooks/useCheck';
+import useCheck from './Checkbox.hooks';
 import { ColorType } from '@/types/color';
 import { useRipple, UseRippleProps } from '@/hooks/useRipple';
 import { useLabelContext } from '@/components/data-entry/Label';
