@@ -11,12 +11,15 @@ import { useRipple, UseRippleProps } from '@/hooks/useRipple';
 import { useLabelContext } from '@/components/data-entry/Label';
 import useColor from '@/hooks/useColor';
 import { toRgbaObject } from '@/utils/colorFormat';
+import { useCheckboxGroupContext } from '@/components/data-entry/CheckboxGroup';
 
 export type CheckboxProps<T extends AsType = 'input'> = Omit<
   DefaultComponentProps<T>,
   'onChange' | 'size'
 > &
   UseRippleProps & {
+    name?: string;
+    value?: string | number;
     defaultChecked?: boolean;
     checked?: boolean;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -32,21 +35,24 @@ export type CheckboxProps<T extends AsType = 'input'> = Omit<
 
 const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
   const labelContext = useLabelContext();
+  const checkboxGroupContext = useCheckboxGroupContext();
   const {
+    name = checkboxGroupContext?.name,
+    value,
     defaultChecked = false,
     checked,
     onChange,
     indeterminate,
-    icon = <CheckboxOutlineBlankIcon />,
-    checkedIcon = <CheckboxIcon />,
+    icon = checkboxGroupContext?.icon || <CheckboxOutlineBlankIcon />,
+    checkedIcon = checkboxGroupContext?.checkedIcon || <CheckboxIcon />,
     indeterminateIcon = <IndeterminateCheckIcon />,
     disabled = labelContext?.disabled,
     required = labelContext?.required,
-    color = 'primary',
+    color = checkboxGroupContext?.color || 'primary',
     size = labelContext?.size || 'md',
-    rippleColor = 'black',
-    rippleStartLocation = 'center',
-    disableRipple,
+    rippleColor = checkboxGroupContext?.rippleColor || 'black',
+    rippleStartLocation = checkboxGroupContext?.rippleStartLocation || 'center',
+    disableRipple = checkboxGroupContext?.disableRipple,
     className,
     style,
     as: Component = 'input',
@@ -61,7 +67,8 @@ const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
   const { isChecked, handleChange } = useCheck({
     defaultChecked,
     checked,
-    onChange
+    onChange,
+    value
   });
   const computedColor = useColor(color);
   const { r, g, b } = toRgbaObject(computedColor);
@@ -91,6 +98,8 @@ const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
       <Component
         className="JinniCheckboxInput"
         type="checkbox"
+        name={name}
+        value={value}
         checked={isChecked}
         onChange={handleChange}
         disabled={disabled}

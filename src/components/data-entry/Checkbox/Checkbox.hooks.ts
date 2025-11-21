@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { isBoolean } from '@/utils/isBoolean';
+import { CheckboxProps } from './Checkbox';
+import { useCheckboxGroupContext } from '@/components/data-entry/CheckboxGroup';
 
-type useCheckProps = {
-  defaultChecked: boolean;
-  checked?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+type useCheckProps = Required<Pick<CheckboxProps, 'defaultChecked'>> &
+  Pick<CheckboxProps, 'checked' | 'onChange' | 'value'>;
 
-const useCheck = ({ defaultChecked, checked, onChange }: useCheckProps) => {
+const useCheck = ({
+  defaultChecked,
+  checked,
+  onChange,
+  value
+}: useCheckProps) => {
+  const checkboxGroupContext = useCheckboxGroupContext();
   const isControlled = checked !== undefined && isBoolean(checked);
   const [uncontrolledChecked, setUncontrolledChecked] =
     useState<boolean>(defaultChecked);
@@ -19,9 +24,18 @@ const useCheck = ({ defaultChecked, checked, onChange }: useCheckProps) => {
     }
   };
 
+  let isChecked: boolean;
+  if (checkboxGroupContext) {
+    isChecked = checkboxGroupContext.checkedValue.some((v) => v === value);
+  } else {
+    isChecked = isControlled ? checked : uncontrolledChecked;
+  }
+
   return {
-    isChecked: isControlled ? checked : uncontrolledChecked,
-    handleChange
+    isChecked,
+    handleChange: checkboxGroupContext
+      ? checkboxGroupContext.handleChange
+      : handleChange
   };
 };
 
