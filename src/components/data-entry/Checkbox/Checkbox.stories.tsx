@@ -26,7 +26,7 @@ const meta: Meta<typeof Checkbox> = {
       }
     },
     color: {
-      description: 'checkbox 색상',
+      description: 'checked checkbox 색상',
       table: {
         type: { summary: 'ColorType' },
         defaultValue: { summary: `'primary'` }
