@@ -6,7 +6,7 @@ describe('<Checkbox />', () => {
   it('renders unchecked by default and exposes native input', () => {
     render(<Checkbox />);
 
-    const input = screen.getByRole('checkbox');
+    const input = screen.getByRole('checkbox') as HTMLInputElement;
     expect(input).toBeInTheDocument();
     expect(input.checked).toBe(false);
   });
@@ -37,7 +37,7 @@ describe('<Checkbox />', () => {
       />
     );
 
-    const input = screen.getByRole('checkbox');
+    const input = screen.getByRole('checkbox') as HTMLInputElement;
     expect(input.checked).toBe(true);
     expect(screen.queryByTestId('on')).toBeInTheDocument();
 
