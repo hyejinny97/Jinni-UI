@@ -6,7 +6,7 @@ import { Text } from '@/components/general/Text';
 import { Stack } from '@/components/layout/Stack';
 import { StyleType } from '@/types/style';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof Grid> = {
   component: Grid,
@@ -106,9 +106,9 @@ const GridFlowTemplate = () => {
     <Stack spacing={30}>
       <Stack direction="row" spacing={10}>
         {FLOWS.map((flow) => (
-          <RadioLabel label={flow}>
+          <Label content={flow}>
             <Radio checked={checkedValue === flow} onChange={check(flow)} />
-          </RadioLabel>
+          </Label>
         ))}
       </Stack>
       <Grid rows={3} columns={3} spacing={10} flow={checkedValue}>
@@ -144,23 +144,23 @@ const AlignmentTemplate = () => {
         <Stack direction="row" spacing={10}>
           <Text>justify-items: </Text>
           {POSITIONS.map((position) => (
-            <RadioLabel label={position}>
+            <Label content={position}>
               <Radio
                 checked={justifyItems === position}
                 onChange={changeJustifyItems(position)}
               />
-            </RadioLabel>
+            </Label>
           ))}
         </Stack>
         <Stack direction="row" spacing={10}>
           <Text>align-items: </Text>
           {POSITIONS.map((position) => (
-            <RadioLabel label={position}>
+            <Label content={position}>
               <Radio
                 checked={alignItems === position}
                 onChange={changeAlignItems(position)}
               />
-            </RadioLabel>
+            </Label>
           ))}
         </Stack>
       </Stack>
@@ -329,9 +329,9 @@ export const GridFlow: Story = {
     <Stack spacing={30}>
       <Stack direction="row" spacing={10}>
         {FLOWS.map((flow) => (
-          <RadioLabel label={flow}>
+          <Label content={flow}>
             <Radio checked={checkedValue === flow} onChange={check(flow)} />
-          </RadioLabel>
+          </Label>
         ))}
       </Stack>
       <Grid rows={3} columns={3} spacing={10} flow={checkedValue}>
@@ -482,23 +482,23 @@ export const Alignment: Story = {
         <Stack direction="row" spacing={10}>
           <Text>justify-items: </Text>
           {POSITIONS.map((position) => (
-            <RadioLabel label={position}>
+            <Label content={position}>
               <Radio
                 checked={justifyItems === position}
                 onChange={changeJustifyItems(position)}
               />
-            </RadioLabel>
+            </Label>
           ))}
         </Stack>
         <Stack direction="row" spacing={10}>
           <Text>align-items: </Text>
           {POSITIONS.map((position) => (
-            <RadioLabel label={position}>
+            <Label content={position}>
               <Radio
                 checked={alignItems === position}
                 onChange={changeAlignItems(position)}
               />
-            </RadioLabel>
+            </Label>
           ))}
         </Stack>
       </Stack>

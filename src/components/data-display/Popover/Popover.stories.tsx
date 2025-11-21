@@ -6,7 +6,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 import { Motion } from '@/components/motion/Motion';
 
 const meta: Meta<typeof Popover> = {
@@ -170,13 +170,13 @@ const PopoverOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {POPOVER_ORIGIN.map((origin, idx) => (
-            <RadioLabel key={origin.label} label={origin.label}>
+            <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
                 onChange={check}
               />
-            </RadioLabel>
+            </Label>
           ))}
         </Grid>
         <Button
@@ -248,13 +248,13 @@ const AnchorOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <RadioLabel key={origin.label} label={origin.label}>
+            <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
                 onChange={check}
               />
-            </RadioLabel>
+            </Label>
           ))}
         </Grid>
         <Button
@@ -607,13 +607,13 @@ export const PopoverOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {POPOVER_ORIGIN.map((origin, idx) => (
-            <RadioLabel key={origin.label} label={origin.label}>
+            <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
                 onChange={check}
               />
-            </RadioLabel>
+            </Label>
           ))}
         </Grid>
         <Button
@@ -694,13 +694,13 @@ export const AnchorOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <RadioLabel key={origin.label} label={origin.label}>
+            <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={idx}
                 onChange={check}
               />
-            </RadioLabel>
+            </Label>
           ))}
         </Grid>
         <Button
