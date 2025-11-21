@@ -1,7 +1,7 @@
 @mixin icon-color {
   color: var(--jinni-color-gray-600);
 
-  &.isChecked {
+  &.checked {
     color: var(--checked-color);
   }
   &.disabled {

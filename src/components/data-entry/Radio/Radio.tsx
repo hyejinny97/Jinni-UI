@@ -4,7 +4,6 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { RadioUncheckedIcon } from '@/components/icons/RadioUncheckedIcon';
 import { RadioCheckedIcon } from '@/components/icons/RadioCheckedIcon';
-import useCheck from '@/hooks/useCheck';
 import { ColorType } from '@/types/color';
 import { useRipple, UseRippleProps } from '@/hooks/useRipple';
 import { useLabelContext } from '@/components/data-entry/Label';
@@ -16,7 +15,6 @@ export type RadioProps<T extends AsType = 'input'> = Omit<
   'onChange' | 'size'
 > &
   UseRippleProps & {
-    defaultChecked?: boolean;
     checked?: boolean;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     icon?: React.ReactNode;
@@ -30,7 +28,6 @@ export type RadioProps<T extends AsType = 'input'> = Omit<
 const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
   const labelContext = useLabelContext();
   const {
-    defaultChecked = false,
     checked,
     onChange,
     icon = <RadioUncheckedIcon />,
@@ -53,11 +50,6 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
     rippleStartLocation,
     disableRipple
   });
-  const { isChecked, handleChange } = useCheck({
-    defaultChecked,
-    checked,
-    onChange
-  });
   const computedColor = useColor(color);
   const { r, g, b } = toRgbaObject(computedColor);
   const newStyle = useStyle({
@@ -72,7 +64,7 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
       ref={rippleTargetRef}
       className={cn(
         'JinniRadio',
-        { isChecked, disabled, [size]: isKeywordSize },
+        { checked, disabled, [size]: isKeywordSize },
         className
       )}
       style={newStyle}
@@ -81,13 +73,13 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
       <Component
         className="JinniRadioInput"
         type="radio"
-        checked={isChecked}
-        onChange={handleChange}
+        checked={checked}
+        onChange={onChange}
         disabled={disabled}
         required={required}
         {...rest}
       />
-      {isChecked ? checkedIcon : icon}
+      {checked ? checkedIcon : icon}
     </span>
   );
 };
