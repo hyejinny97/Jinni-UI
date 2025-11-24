@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Checkbox from './Checkbox';
 import { Stack } from '@/components/layout/Stack';
@@ -6,8 +6,11 @@ import { BookmarkIcon } from '@/components/icons/BookmarkIcon';
 import { BookmarkBorderIcon } from '@/components/icons/BookmarkBorderIcon';
 import { FavoriteIcon } from '@/components/icons/FavoriteIcon';
 import { FavoriteBorderIcon } from '@/components/icons/FavoriteBorderIcon';
-import { CheckboxLabel } from '@/components/data-entry/CheckboxLabel';
+import { Label } from '@/components/data-entry/Label';
 import { SquareIcon } from '@/components/icons/SquareIcon';
+import { Text } from '@/components/general/Text';
+import { Button } from '@/components/general/Button';
+import { Box } from '@/components/layout/Box';
 
 const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
@@ -23,20 +26,27 @@ const meta: Meta<typeof Checkbox> = {
       }
     },
     color: {
-      description: 'checkbox 색상',
+      description: 'checked checkbox 색상',
       table: {
         type: { summary: 'ColorType' },
         defaultValue: { summary: `'primary'` }
       }
     },
     defaultChecked: {
-      description: 'true이면, 기본적으로 check 됨'
+      description: 'true이면, 기본적으로 check 됨',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: `false` }
+      }
     },
     disabled: {
       description: 'true이면, 비활성화 됨'
     },
     disableRipple: {
-      description: 'true이면, ripple effect가 사라짐'
+      description: 'true이면, ripple effect가 비활성화됨',
+      table: {
+        type: { summary: `boolean` }
+      }
     },
     icon: {
       description: 'unchecked 됐을 때 나타나는 icon',
@@ -56,11 +66,13 @@ const meta: Meta<typeof Checkbox> = {
       }
     },
     name: {
-      description: 'checkbox name',
-      type: 'string'
+      description: 'input name',
+      table: {
+        type: { summary: 'string' }
+      }
     },
     onChange: {
-      description: 'checked/unchecked state가 변경됐을 때 호출되는 함수',
+      description: 'checked state가 변경됐을 때 호출되는 함수',
       table: {
         type: {
           summary: '(event: React.ChangeEvent<HTMLInputElement>) => void'
@@ -68,8 +80,24 @@ const meta: Meta<typeof Checkbox> = {
       }
     },
     required: {
-      description: 'true이면, required 처리 됨',
-      type: 'boolean'
+      description: 'input required',
+      table: {
+        type: { summary: 'boolean' }
+      }
+    },
+    rippleColor: {
+      description: 'ripple 색상',
+      table: {
+        type: { summary: `'black' | 'white'` },
+        defaultValue: { summary: `'black'` }
+      }
+    },
+    rippleStartLocation: {
+      description: 'ripple 시작점',
+      table: {
+        type: { summary: `'center' | 'clicked'` },
+        defaultValue: { summary: `'center'` }
+      }
     },
     size: {
       description: 'checkbox 크기',
@@ -79,10 +107,9 @@ const meta: Meta<typeof Checkbox> = {
       }
     },
     value: {
-      description: 'checkbox value',
+      description: 'input value',
       table: {
-        type: { summary: `any` },
-        defaultValue: { summary: `'on'` }
+        type: { summary: 'string' }
       }
     }
   }
@@ -98,69 +125,405 @@ const ControlledCheckboxTemplate = () => {
     setChecked(e.target.checked);
   };
 
-  return <Checkbox checked={checked} onChange={handleChange} />;
+  return (
+    <Stack spacing={10} style={{ alignItems: 'center' }}>
+      <Text>State: {checked ? 'Checked' : 'Unchecked'}</Text>
+      <Checkbox checked={checked} onChange={handleChange} />
+    </Stack>
+  );
 };
 
-const IndeterminateTemplate = ({ ...props }) => {
+const BasicIndeterminateTemplate = () => {
   const [checkedList, setCheckedList] = useState([false, false]);
 
   const handleParentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedList([e.target.checked, e.target.checked]);
   };
-
   const handleChild1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedList([e.target.checked, checkedList[1]]);
   };
-
   const handleChild2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedList([checkedList[0], e.target.checked]);
   };
 
   return (
     <>
-      <CheckboxLabel label="Parent">
+      <Label content="Parent">
         <Checkbox
           checked={checkedList[0] && checkedList[1]}
           indeterminate={checkedList[0] !== checkedList[1]}
           onChange={handleParentChange}
-          {...props}
         />
-      </CheckboxLabel>
+      </Label>
       <Stack style={{ marginLeft: 20 }}>
-        <CheckboxLabel label="Child1">
+        <Label content="Child1">
           <Checkbox
             name="child"
             value="child1"
             checked={checkedList[0]}
             onChange={handleChild1Change}
-            {...props}
           />
-        </CheckboxLabel>
-        <CheckboxLabel label="Child2">
+        </Label>
+        <Label content="Child2">
           <Checkbox
             name="child"
             value="child2"
             checked={checkedList[1]}
             onChange={handleChild2Change}
-            {...props}
           />
-        </CheckboxLabel>
+        </Label>
       </Stack>
     </>
+  );
+};
+
+const IndeterminateIconTemplate = () => {
+  const [checkedList, setCheckedList] = useState([false, false]);
+
+  const handleParentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedList([e.target.checked, e.target.checked]);
+  };
+  const handleChild1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedList([e.target.checked, checkedList[1]]);
+  };
+  const handleChild2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedList([checkedList[0], e.target.checked]);
+  };
+
+  return (
+    <>
+      <Label content="Parent">
+        <Checkbox
+          checked={checkedList[0] && checkedList[1]}
+          indeterminate={checkedList[0] !== checkedList[1]}
+          indeterminateIcon={<SquareIcon />}
+          onChange={handleParentChange}
+        />
+      </Label>
+      <Stack style={{ marginLeft: 20 }}>
+        <Label content="Child1">
+          <Checkbox
+            name="child"
+            value="child1"
+            checked={checkedList[0]}
+            onChange={handleChild1Change}
+          />
+        </Label>
+        <Label content="Child2">
+          <Checkbox
+            name="child"
+            value="child2"
+            checked={checkedList[1]}
+            onChange={handleChild2Change}
+          />
+        </Label>
+      </Stack>
+    </>
+  );
+};
+
+const CheckboxWithFormTemplate = () => {
+  const [error, setError] = useState(false);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const colors = formData.getAll('color');
+    const fruits = formData.getAll('fruit');
+    if (colors.length > 0) {
+      setError(false);
+      alert(
+        `좋아하는 색상: ${colors.join(', ')}\n좋아하는 과일: ${fruits.join(', ')}`
+      );
+    } else {
+      setError(true);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Stack spacing={15}>
+        <Box as="fieldset">
+          <Text as="legend" className="typo-title-medium">
+            좋아하는 색상은? *
+          </Text>
+          <Stack direction="row" spacing={10}>
+            <Label content="빨간색">
+              <Checkbox name="color" value="red" />
+            </Label>
+            <Label content="노란색">
+              <Checkbox name="color" value="yellow" />
+            </Label>
+            <Label content="초록색">
+              <Checkbox name="color" value="green" />
+            </Label>
+          </Stack>
+          {error && (
+            <Text
+              className="typo-label-medium"
+              noMargin
+              style={{ color: 'error' }}
+            >
+              반드시 체크해야 합니다.
+            </Text>
+          )}
+        </Box>
+        <Box as="fieldset">
+          <Text as="legend" className="typo-title-medium">
+            좋아하는 과일은?
+          </Text>
+          <Stack direction="row" spacing={10}>
+            <Label content="사과">
+              <Checkbox name="fruit" value="apple" />
+            </Label>
+            <Label content="바나나">
+              <Checkbox name="fruit" value="banana" />
+            </Label>
+            <Label content="수박">
+              <Checkbox name="fruit" value="watermelon" />
+            </Label>
+          </Stack>
+        </Box>
+        <Button fullWidth>제출</Button>
+      </Stack>
+    </form>
   );
 };
 
 export const BasicCheckbox: Story = {
   render: (args) => (
     <Stack direction="row" spacing={10}>
-      <Checkbox name="color" value="red" {...args} />
-      <Checkbox name="color" value="red" disableRipple {...args} />
+      <Checkbox {...args} />
+      <Checkbox defaultChecked {...args} />
     </Stack>
   )
 };
 
-export const CheckedByDefault: Story = {
-  render: (args) => <Checkbox defaultChecked {...args} />
+export const ControlledCheckbox: Story = {
+  render: () => <ControlledCheckboxTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledCheckboxTemplate = () => {
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(e.target.checked);
+  };
+
+  return (
+    <Stack spacing={10} style={{ alignItems: 'center' }}>
+      <Text>State: {checked ? 'Checked' : 'Unchecked'}</Text>
+      <Checkbox checked={checked} onChange={handleChange} />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const CustomizeIcon: Story = {
+  render: (args) => (
+    <Stack direction="row" spacing={10}>
+      <Checkbox
+        icon={<FavoriteBorderIcon />}
+        checkedIcon={<FavoriteIcon />}
+        {...args}
+      />
+      <Checkbox
+        icon={<BookmarkBorderIcon />}
+        checkedIcon={<BookmarkIcon />}
+        {...args}
+      />
+    </Stack>
+  )
+};
+
+export const BasicIndeterminate: Story = {
+  render: () => <BasicIndeterminateTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicIndeterminateTemplate = () => {
+  const [checkedList, setCheckedList] = useState([false, false]);
+
+  const handleParentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedList([e.target.checked, e.target.checked]);
+  };
+  const handleChild1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedList([e.target.checked, checkedList[1]]);
+  };
+  const handleChild2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedList([checkedList[0], e.target.checked]);
+  };
+
+  return (
+    <>
+      <Label content="Parent">
+        <Checkbox
+          checked={checkedList[0] && checkedList[1]}
+          indeterminate={checkedList[0] !== checkedList[1]}
+          onChange={handleParentChange}
+        />
+      </Label>
+      <Stack style={{ marginLeft: 20 }}>
+        <Label content="Child1">
+          <Checkbox
+            name="child"
+            value="child1"
+            checked={checkedList[0]}
+            onChange={handleChild1Change}
+          />
+        </Label>
+        <Label content="Child2">
+          <Checkbox
+            name="child"
+            value="child2"
+            checked={checkedList[1]}
+            onChange={handleChild2Change}
+          />
+        </Label>
+      </Stack>
+    </>
+  );
+};
+`.trim()
+      }
+    }
+  }
+};
+
+export const IndeterminateIcon: Story = {
+  render: () => <IndeterminateIconTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const IndeterminateIconTemplate = () => {
+  const [checkedList, setCheckedList] = useState([false, false]);
+
+  const handleParentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedList([e.target.checked, e.target.checked]);
+  };
+  const handleChild1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedList([e.target.checked, checkedList[1]]);
+  };
+  const handleChild2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedList([checkedList[0], e.target.checked]);
+  };
+
+  return (
+    <>
+      <Label content="Parent">
+        <Checkbox
+          checked={checkedList[0] && checkedList[1]}
+          indeterminate={checkedList[0] !== checkedList[1]}
+          indeterminateIcon={<SquareIcon />}
+          onChange={handleParentChange}
+        />
+      </Label>
+      <Stack style={{ marginLeft: 20 }}>
+        <Label content="Child1">
+          <Checkbox
+            name="child"
+            value="child1"
+            checked={checkedList[0]}
+            onChange={handleChild1Change}
+          />
+        </Label>
+        <Label content="Child2">
+          <Checkbox
+            name="child"
+            value="child2"
+            checked={checkedList[1]}
+            onChange={handleChild2Change}
+          />
+        </Label>
+      </Stack>
+    </>
+  );
+};
+`.trim()
+      }
+    }
+  }
+};
+
+export const CheckboxWithForm: Story = {
+  render: () => <CheckboxWithFormTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CheckboxWithFormTemplate = () => {
+  const [error, setError] = useState(false);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const colors = formData.getAll('color');
+    const fruits = formData.getAll('fruit');
+    if (colors.length > 0) {
+      setError(false);
+      alert(
+        \`좋아하는 색상: \${colors.join(', ')}\\n좋아하는 과일: \${fruits.join(', ')}\`
+      );
+    } else {
+      setError(true);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Stack spacing={15}>
+        <Box as="fieldset">
+          <Text as="legend" className="typo-title-medium">
+            좋아하는 색상은? *
+          </Text>
+          <Stack direction="row" spacing={10}>
+            <Label content="빨간색">
+              <Checkbox name="color" value="red" />
+            </Label>
+            <Label content="노란색">
+              <Checkbox name="color" value="yellow" />
+            </Label>
+            <Label content="초록색">
+              <Checkbox name="color" value="green" />
+            </Label>
+          </Stack>
+          {error && (
+            <Text
+              className="typo-label-medium"
+              noMargin
+              style={{ color: 'error' }}
+            >
+              반드시 체크해야 합니다.
+            </Text>
+          )}
+        </Box>
+        <Box as="fieldset">
+          <Text as="legend" className="typo-title-medium">
+            좋아하는 과일은?
+          </Text>
+          <Stack direction="row" spacing={10}>
+            <Label content="사과">
+              <Checkbox name="fruit" value="apple" />
+            </Label>
+            <Label content="바나나">
+              <Checkbox name="fruit" value="banana" />
+            </Label>
+            <Label content="수박">
+              <Checkbox name="fruit" value="watermelon" />
+            </Label>
+          </Stack>
+        </Box>
+        <Button fullWidth>제출</Button>
+      </Stack>
+    </form>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Disabled: Story = {
@@ -194,33 +557,11 @@ export const Color: Story = {
   )
 };
 
-export const Icon: Story = {
+export const RippleEffect: Story = {
   render: (args) => (
     <Stack direction="row" spacing={10}>
-      <Checkbox
-        icon={<FavoriteBorderIcon />}
-        checkedIcon={<FavoriteIcon />}
-        {...args}
-      />
-      <Checkbox
-        icon={<BookmarkBorderIcon />}
-        checkedIcon={<BookmarkIcon />}
-        {...args}
-      />
+      <Checkbox rippleStartLocation="clicked" {...args} />
+      <Checkbox disableRipple {...args} />
     </Stack>
-  )
-};
-
-export const ControlledCheckbox: Story = {
-  render: (args) => <ControlledCheckboxTemplate {...args} />
-};
-
-export const DefaultIndeterminate: Story = {
-  render: (args) => <IndeterminateTemplate {...args} />
-};
-
-export const IndeterminateIcon: Story = {
-  render: (args) => (
-    <IndeterminateTemplate indeterminateIcon={<SquareIcon />} {...args} />
   )
 };

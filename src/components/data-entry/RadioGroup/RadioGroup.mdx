@@ -1,0 +1,59 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as RadioGroupStories from './RadioGroup.stories';
+
+<Meta of={RadioGroupStories} />
+
+# RadioGroup
+
+radio 모음
+
+## Import
+
+```js
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
+```
+
+## Usage
+
+### Basic RadioGroup
+
+- `children`: Radio 컴포넌트들
+- `name`: 하위 모든 radio들에 지정할 name
+- `defaultValue`: 기본적으로, check된 radio의 value (uncontrolled 상태일 때 적용 가능)
+
+<Canvas of={RadioGroupStories.BasicRadioGroup} />
+
+### Controlled RadioGroup
+
+- `value` prop을 통해 radio group을 control 가능
+- `value`: check된 radio의 value
+- `onChange`: checked state가 변경됐을 때 호출되는 함수
+  - `event.target.checked` (boolean)을 통해 new checked state에 접근 가능
+  - `event.target.value` (string)을 통해 new value에 접근 가능
+
+<Canvas of={RadioGroupStories.ControlledRadioGroup} />
+
+### Customize Icon
+
+- `icon`: unchecked 됐을 때 나타나는 icon
+- `checkedIcon`: checked 됐을 때 나타나는 icon
+
+<Canvas of={RadioGroupStories.CustomizeIcon} />
+
+### Color
+
+- `color`: checked radio 색상
+
+<Canvas of={RadioGroupStories.Color} />
+
+### Ripple Effect
+
+- `rippleColor`: ripple 색상
+- `rippleStartLocation`: ripple 시작점
+- `disableRipple`: true이면, ripple effect가 비활성화됨
+
+<Canvas of={RadioGroupStories.RippleEffect} />
+
+## Props
+
+<ArgTypes of={RadioGroupStories} sort="alpha" />

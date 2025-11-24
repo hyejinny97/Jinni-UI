@@ -8,7 +8,7 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { Alert } from '@/components/feedback/Alert';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 import { Motion } from '@/components/motion/Motion';
 
 const meta: Meta<typeof Toast> = {
@@ -172,13 +172,13 @@ const ToastPositionTemplate = () => {
     <Stack spacing={20}>
       <Grid columns={3}>
         {POSITIONS.map((position, idx) => (
-          <RadioLabel key={position.label} label={position.label}>
+          <Label key={position.label} content={position.label}>
             <Radio
               value={idx}
               checked={checkedValue === idx}
               onChange={check}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
       <Button onClick={openToast}>Open Toast</Button>
@@ -431,7 +431,7 @@ export const ToastAction: Story = {
                 padding: '4px',
                 borderRadius: '50%'
               }}
-              aria-label="close"
+              aria-content="close"
             >
               <CloseIcon size={20} color="white" />
             </ButtonBase>
@@ -481,13 +481,13 @@ export const ToastPosition: Story = {
     <Stack spacing={20}>
       <Grid columns={3}>
         {POSITIONS.map((position, idx) => (
-          <RadioLabel key={position.label} label={position.label}>
+          <Label key={position.label} content={position.label}>
             <Radio
               value={idx}
               checked={checkedValue === idx}
               onChange={check}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
       <Button onClick={openToast}>Open Toast</Button>

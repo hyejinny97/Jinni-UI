@@ -6,7 +6,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
 import { TimeOptions } from '@/components/data-entry/TimeField';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof DigitalClock> = {
   component: DigitalClock,
@@ -169,13 +169,13 @@ const LocaleTemplate = () => {
     <Stack>
       <Grid columns={LOCALES.length}>
         {LOCALES.map((locale) => (
-          <RadioLabel key={locale} label={locale}>
+          <Label key={locale} content={locale}>
             <Radio
               value={locale}
               checked={selectedLocale === locale}
               onChange={handleChange}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
       <Stack key={selectedLocale} style={{ alignItems: 'center' }}>
@@ -207,13 +207,13 @@ const OptionsTemplate = () => {
     <Stack>
       <Grid columns={OPTIONS.length}>
         {OPTIONS.map((option, idx) => (
-          <RadioLabel key={idx} label={JSON.stringify(option)}>
+          <Label key={idx} content={JSON.stringify(option)}>
             <Radio
               value={idx}
               checked={selectedOptionsIdx === idx}
               onChange={() => handleChange(idx)}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
       <Stack key={selectedOptionsIdx} style={{ alignItems: 'center' }}>

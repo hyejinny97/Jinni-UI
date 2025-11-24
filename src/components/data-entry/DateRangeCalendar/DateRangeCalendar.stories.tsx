@@ -7,7 +7,7 @@ import { Text } from '@/components/general/Text';
 import { DateOptions } from '@/components/data-entry/DateField';
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof DateRangeCalendar> = {
   component: DateRangeCalendar,
@@ -321,13 +321,13 @@ const LocaleTemplate = () => {
     <Stack>
       <Grid columns={LOCALES.length}>
         {LOCALES.map((locale) => (
-          <RadioLabel key={locale} label={locale}>
+          <Label key={locale} content={locale}>
             <Radio
               value={locale}
               checked={selectedLocale === locale}
               onChange={handleChange}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
       <Stack key={selectedLocale}>
@@ -356,13 +356,13 @@ const HorizontalDayCalendarsTemplate = () => {
     <Stack>
       <Grid columns={CALENDARS.length}>
         {CALENDARS.map((calendarNum) => (
-          <RadioLabel key={calendarNum} label={`${calendarNum}개`}>
+          <Label key={calendarNum} content={`${calendarNum}개`}>
             <Radio
               value={calendarNum}
               checked={selectedCalendars === calendarNum}
               onChange={handleChange}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
       <Stack key={selectedCalendars}>
@@ -388,13 +388,13 @@ const HorizontalMonthCalendarsTemplate = () => {
     <Stack>
       <Grid columns={CALENDARS.length}>
         {CALENDARS.map((calendarNum) => (
-          <RadioLabel key={calendarNum} label={`${calendarNum}개`}>
+          <Label key={calendarNum} content={`${calendarNum}개`}>
             <Radio
               value={calendarNum}
               checked={selectedCalendars === calendarNum}
               onChange={handleChange}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
       <Stack key={selectedCalendars}>

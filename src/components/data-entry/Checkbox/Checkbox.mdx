@@ -17,16 +17,47 @@ import { Checkbox } from '@/components/data-entry/Checkbox';
 
 ### Basic Checkbox
 
-- type='checkbox'인 input 요소의 props 전부 가능 (ex) name, value, required 등)
-- `disableRipple`: true이면, ripple effect가 사라짐
+- `defaultChecked`: true이면, 기본적으로 check 됨 (uncontrolled 상태일 때 적용 가능)
 
 <Canvas of={CheckboxStories.BasicCheckbox} />
 
-### Checked by default
+### Controlled Checkbox
 
-- `defaultChecked`: true이면, 기본적으로 check 됨 (uncontrolled 상태일 때 적용 가능)
+- `checked` prop을 통해 checkbox를 control 가능
+- `checked`: true이면, check 됨
+- `onChange`: checked state가 변경됐을 때 호출되는 함수
+  - `event.target.checked`(boolean)을 통해 new checked state에 접근 가능
+  - `event.target.value`(string)을 통해 new value에 접근 가능
 
-<Canvas of={CheckboxStories.CheckedByDefault} />
+<Canvas of={CheckboxStories.ControlledCheckbox} />
+
+### Customize Icon
+
+- `icon`: unchecked 됐을 때 나타나는 icon
+- `checkedIcon`: checked 됐을 때 나타나는 icon
+
+<Canvas of={CheckboxStories.CustomizeIcon} />
+
+### Indeterminate
+
+#### 1) Basic
+
+- `indeterminate`: true이면, indeterminate check 됨
+
+<Canvas of={CheckboxStories.BasicIndeterminate} />
+
+#### 2) Customize indeterminate icon
+
+- `indeterminateIcon`: indeterminate icon
+
+<Canvas of={CheckboxStories.IndeterminateIcon} />
+
+### Checkbox with form
+
+- type='checkbox'인 input 요소의 props 전부 가능
+  - ex) name, value, required 등
+
+<Canvas of={CheckboxStories.CheckboxWithForm} />
 
 ### Disabled
 
@@ -42,38 +73,17 @@ import { Checkbox } from '@/components/data-entry/Checkbox';
 
 ### Color
 
-- `color`: checkbox 색상
+- `color`: checked checkbox 색상
 
 <Canvas of={CheckboxStories.Color} />
 
-### Icon
+### Ripple effect
 
-- `icon`: unchecked 됐을 때 나타나는 icon
-- `checkedIcon`: checked 됐을 때 나타나는 icon
+- `rippleColor`: ripple 색상
+- `rippleStartLocation`: ripple 시작점
+- `disableRipple`: true이면, ripple effect가 비활성화됨
 
-<Canvas of={CheckboxStories.Icon} />
-
-### Controlled Checkbox
-
-- `checked` 와 `onChange` prop을 통해 checkbox를 control 가능
-- `checked`: true이면, check 됨
-- `onChange`: checked/unchecked state가 변경됐을 때 호출되는 함수
-
-<Canvas of={CheckboxStories.ControlledCheckbox} />
-
-### Indeterminate
-
-#### 1) default
-
-- `indeterminate`: true이면, indeterminate check 됨
-
-<Canvas of={CheckboxStories.DefaultIndeterminate} />
-
-#### 2) indeterminate icon
-
-- `indeterminateIcon`: indeterminate icon
-
-<Canvas of={CheckboxStories.IndeterminateIcon} />
+<Canvas of={CheckboxStories.RippleEffect} />
 
 ## Props
 

@@ -5,7 +5,7 @@ import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 
@@ -132,9 +132,9 @@ const ModalSizeTemplate = () => {
       <Grid columns={6}>
         {SIZES.map((size, idx) => {
           return (
-            <RadioLabel
+            <Label
               key={size.label}
-              label={size.label}
+              content={size.label}
               {...(idx === SIZES.length - 1 && {
                 style: { gridColumn: 'span 6' }
               })}
@@ -144,7 +144,7 @@ const ModalSizeTemplate = () => {
                 checked={checkedValue === idx}
                 onChange={check}
               />
-            </RadioLabel>
+            </Label>
           );
         })}
       </Grid>
@@ -185,13 +185,13 @@ const ModalScrollBehaviorTemplate = () => {
       <Grid columns={2}>
         {SCROLLS.map((scroll) => {
           return (
-            <RadioLabel key={scroll} label={scroll}>
+            <Label key={scroll} content={scroll}>
               <Radio
                 value={scroll}
                 checked={checkedValue === scroll}
                 onChange={check}
               />
-            </RadioLabel>
+            </Label>
           );
         })}
       </Grid>
@@ -383,7 +383,7 @@ export const BasicModal: Story = {
               borderRadius: '50%'
             }}
             onClick={closeModal}
-            aria-label="close"
+            aria-content="close"
           >
             <CloseIcon size={20} />
           </ButtonBase>
@@ -440,9 +440,9 @@ export const Sizes: Story = {
       <Grid columns={6}>
         {SIZES.map((size, idx) => {
           return (
-            <RadioLabel
+            <Label
               key={size.label}
-              label={size.label}
+              content={size.label}
               {...(idx === SIZES.length - 1 && {
                 style: { gridColumn: 'span 6' }
               })}
@@ -452,7 +452,7 @@ export const Sizes: Story = {
                 checked={checkedValue === idx}
                 onChange={check}
               />
-            </RadioLabel>
+            </Label>
           );
         })}
       </Grid>
@@ -502,13 +502,13 @@ export const ScrollBehavior: Story = {
       <Grid columns={2}>
         {SCROLLS.map((scroll) => {
           return (
-            <RadioLabel key={scroll} label={scroll}>
+            <Label key={scroll} content={scroll}>
               <Radio
                 value={scroll}
                 checked={checkedValue === scroll}
                 onChange={check}
               />
-            </RadioLabel>
+            </Label>
           );
         })}
       </Grid>

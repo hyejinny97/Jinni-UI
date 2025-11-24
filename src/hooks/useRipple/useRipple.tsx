@@ -2,13 +2,13 @@ import './ripple.scss';
 import { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 
 export interface UseRippleProps {
-  rippleColor: 'white' | 'black';
+  rippleColor?: 'white' | 'black';
   rippleStartLocation?: 'center' | 'clicked';
   disableRipple?: boolean;
 }
 
 const useRipple = ({
-  rippleColor,
+  rippleColor = 'black',
   rippleStartLocation = 'clicked',
   disableRipple = false
 }: UseRippleProps) => {
