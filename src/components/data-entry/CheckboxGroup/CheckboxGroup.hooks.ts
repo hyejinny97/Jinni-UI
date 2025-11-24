@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { CheckboxGroupProps } from './CheckboxGroup';
-import CheckboxGroupContext from './Checkbox.contexts';
+import CheckboxGroupContext from './CheckboxGroup.contexts';
 
 type useCheckProps = Required<Pick<CheckboxGroupProps, 'defaultValue'>> &
   Pick<CheckboxGroupProps, 'value' | 'onChange'>;

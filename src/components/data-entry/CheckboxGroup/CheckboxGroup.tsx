@@ -1,7 +1,7 @@
 import { UseRippleProps } from '@/hooks/useRipple';
 import { ColorType } from '@/types/color';
 import { useCheck } from './CheckboxGroup.hooks';
-import CheckboxGroupContext from './Checkbox.contexts';
+import CheckboxGroupContext from './CheckboxGroup.contexts';
 
 export type CheckboxGroupProps = UseRippleProps & {
   children: React.ReactNode;
