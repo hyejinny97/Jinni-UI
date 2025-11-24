@@ -264,7 +264,7 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
           <Backdrop
             ref={backdropElRef}
             disablePortal
-            disableScroll
+            disableScroll={open}
             data-testid="swipeable-drawer-backdrop"
             onClick={handleBackdropClick}
           />
