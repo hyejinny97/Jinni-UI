@@ -1,0 +1,94 @@
+@mixin styles-by-placement {
+  &.left {
+    width: var(--drawer-size);
+    height: 100%;
+    top: 0;
+    left: 0;
+    .JinniSwipeableDrawerContent {
+      width: inherit;
+      height: 100%;
+    }
+  }
+  &.right {
+    width: var(--drawer-size);
+    height: 100%;
+    top: 0;
+    right: 0;
+    .JinniSwipeableDrawerContent {
+      width: inherit;
+      height: 100%;
+    }
+  }
+  &.top {
+    width: 100%;
+    height: var(--drawer-size);
+    top: 0;
+    left: 0;
+    .JinniSwipeableDrawerContent {
+      width: 100%;
+      height: inherit;
+    }
+  }
+  &.bottom {
+    width: 100%;
+    height: var(--drawer-size);
+    bottom: 0;
+    left: 0;
+    .JinniSwipeableDrawerContent {
+      width: 100%;
+      height: inherit;
+    }
+  }
+}
+
+.JinniSwipeableDrawerContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--jinni-z-index-drawer);
+  visibility: hidden;
+
+  .JinniBackdrop {
+    z-index: -1;
+  }
+
+  .JinniSwipeableDrawer {
+    position: fixed;
+    @include styles-by-placement;
+
+    .JinniSwipeableDrawerContent {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      background-color: var(--jinni-color-surface-container-lowest);
+      overflow-y: auto;
+
+      .JinniSwipeableDrawerHeader {
+        padding: 16px 24px;
+        font-size: 20px;
+        font-weight: var(--jinni-font-weight-medium);
+      }
+
+      .JinniSwipeableDrawerBody {
+        flex: 1;
+        padding: 20px 24px;
+        font-size: 16px;
+        font-weight: var(--jinni-font-weight-regular);
+      }
+
+      .JinniSwipeableDrawerHeader + .JinniSwipeableDrawerBody {
+        padding-top: 0px;
+      }
+
+      .JinniSwipeableDrawerFooter {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        column-gap: 10px;
+        padding: 8px;
+      }
+    }
+  }
+}
