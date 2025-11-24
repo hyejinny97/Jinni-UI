@@ -65,12 +65,24 @@ const meta: Meta<typeof Checkbox> = {
         defaultValue: { summary: '<IndeterminateCheckIcon />' }
       }
     },
+    name: {
+      description: 'input name',
+      table: {
+        type: { summary: 'string' }
+      }
+    },
     onChange: {
       description: 'checked state가 변경됐을 때 호출되는 함수',
       table: {
         type: {
           summary: '(event: React.ChangeEvent<HTMLInputElement>) => void'
         }
+      }
+    },
+    required: {
+      description: 'input required',
+      table: {
+        type: { summary: 'boolean' }
       }
     },
     rippleColor: {
@@ -92,6 +104,12 @@ const meta: Meta<typeof Checkbox> = {
       table: {
         type: { summary: `'sm' | 'md' | 'lg' | string` },
         defaultValue: { summary: `'md'` }
+      }
+    },
+    value: {
+      description: 'input value',
+      table: {
+        type: { summary: 'string | number' }
       }
     }
   }
