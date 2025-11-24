@@ -8,7 +8,7 @@ import { Button } from '@/components/general/Button';
 import { Box } from '@/components/layout/Box';
 import { RefreshIcon } from '@/components/icons/RefreshIcon';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof Motion> = {
   component: Motion,
@@ -222,13 +222,13 @@ const TransitionTimingFunctionTemplate = () => {
     <>
       <Grid rows={2} columns={3}>
         {TIMING_FUNCTIONS.map((timingFunction) => (
-          <RadioLabel key={timingFunction} label={timingFunction}>
+          <Label key={timingFunction} content={timingFunction}>
             <Radio
               value={timingFunction}
               checked={checkedValue === timingFunction}
               onChange={handleChange}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
       <WithResetButton longGrayBox>
@@ -259,13 +259,13 @@ const TransitionDurationTemplate = () => {
     <>
       <Grid rows={4} columns={4}>
         {DURATIONS.map((duration) => (
-          <RadioLabel key={duration} label={duration}>
+          <Label key={duration} content={duration}>
             <Radio
               value={duration}
               checked={checkedValue === duration}
               onChange={handleChange}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
       <WithResetButton longGrayBox>

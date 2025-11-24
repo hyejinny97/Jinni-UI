@@ -7,7 +7,7 @@ import { Button } from '@/components/general/Button';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 import { EASING_SET, DURATIONS } from '@/constants/motion';
 import { TRANSITION_ARGTYPES } from '@/constants/motion';
 
@@ -156,13 +156,13 @@ const TimingFunctionTemplate = () => {
         {TIMING_FUNCTIONS.map((timing, idx) => {
           const label = JSON.stringify(timing);
           return (
-            <RadioLabel key={label} label={label}>
+            <Label key={label} content={label}>
               <Radio
                 value={idx}
                 checked={checkedValue === idx}
                 onChange={handleChange}
               />
-            </RadioLabel>
+            </Label>
           );
         })}
       </Grid>
@@ -184,13 +184,13 @@ const DurationTemplate = () => {
         {TRANSITION_DURATIONS.map((duration, idx) => {
           const label = JSON.stringify(duration);
           return (
-            <RadioLabel key={label} label={label}>
+            <Label key={label} content={label}>
               <Radio
                 value={idx}
                 checked={checkedValue === idx}
                 onChange={handleChange}
               />
-            </RadioLabel>
+            </Label>
           );
         })}
       </Grid>

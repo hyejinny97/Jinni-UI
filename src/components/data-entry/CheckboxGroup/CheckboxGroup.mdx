@@ -1,0 +1,59 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as CheckboxGroupStories from './CheckboxGroup.stories';
+
+<Meta of={CheckboxGroupStories} />
+
+# CheckboxGroup
+
+checkbox 모음
+
+## Import
+
+```js
+import { CheckboxGroup } from '@/components/data-entry/CheckboxGroup';
+```
+
+## Usage
+
+### Basic CheckboxGroup
+
+- `children`: Checkbox 컴포넌트들
+- `name`: 하위 모든 checkbox들에 지정할 name
+- `defaultValue`: 기본적으로, check된 checkbox의 value (uncontrolled 상태일 때 적용 가능)
+
+<Canvas of={CheckboxGroupStories.BasicCheckboxGroup} />
+
+### Controlled CheckboxGroup
+
+- `value` prop을 통해 checkbox group을 control 가능
+- `value`: check된 checkbox의 value
+- `onChange`: checked state가 변경됐을 때 호출되는 함수
+  - `event.target.checked` (boolean)을 통해 new checked state에 접근 가능
+  - `event.target.value` (string)을 통해 new value에 접근 가능
+
+<Canvas of={CheckboxGroupStories.ControlledCheckboxGroup} />
+
+### Customize Icon
+
+- `icon`: unchecked 됐을 때 나타나는 icon
+- `checkedIcon`: checked 됐을 때 나타나는 icon
+
+<Canvas of={CheckboxGroupStories.CustomizeIcon} />
+
+### Color
+
+- `color`: checked checkbox 색상
+
+<Canvas of={CheckboxGroupStories.Color} />
+
+### Ripple Effect
+
+- `rippleColor`: ripple 색상
+- `rippleStartLocation`: ripple 시작점
+- `disableRipple`: true이면, ripple effect가 비활성화됨
+
+<Canvas of={CheckboxGroupStories.RippleEffect} />
+
+## Props
+
+<ArgTypes of={CheckboxGroupStories} sort="alpha" />

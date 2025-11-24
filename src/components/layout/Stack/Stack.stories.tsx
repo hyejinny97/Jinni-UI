@@ -5,7 +5,7 @@ import { Box } from '@/components/layout/Box';
 import { Divider } from '@/components/layout/Divider';
 import { ColorType } from '@/types/color';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof Stack> = {
   component: Stack,
@@ -97,13 +97,13 @@ const DirectionPlayground = () => {
     <Stack spacing={20}>
       <Stack direction="row" spacing={10}>
         {DIRECTION.map((direction) => (
-          <RadioLabel key={direction} label={direction}>
+          <Label key={direction} content={direction}>
             <Radio
               value={direction}
               checked={checkedValue === direction}
               onChange={handleChange}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Stack>
       <Section>
@@ -146,13 +146,13 @@ export const Direction: Story = {
     <Stack spacing={20}>
       <Stack direction="row" spacing={10}>
         {DIRECTION.map((direction) => (
-          <RadioLabel key={direction} label={direction}>
+          <Label key={direction} content={direction}>
             <Radio
               value={direction}
               checked={checkedValue === direction}
               onChange={handleChange}
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Stack>
       <Section>

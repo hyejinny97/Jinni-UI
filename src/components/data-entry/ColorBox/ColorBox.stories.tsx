@@ -5,7 +5,7 @@ import { ColorType } from '@/types/color';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Radio } from '@/components/data-entry/Radio';
-import { RadioLabel } from '@/components/data-entry/RadioLabel';
+import { Label } from '@/components/data-entry/Label';
 import { RgbaObject } from '@/utils/colorFormat';
 
 const meta: Meta<typeof ColorBox> = {
@@ -72,14 +72,14 @@ const DynamicColorBox = () => {
           'hsl(180,60%,34%)',
           'hsla(180,60%,34%,0.6)'
         ].map((color) => (
-          <RadioLabel key={color} label={color}>
+          <Label key={color} content={color}>
             <Radio
               value={color}
               checked={value === color}
               onChange={handleRadioChange}
               size="sm"
             />
-          </RadioLabel>
+          </Label>
         ))}
       </Grid>
     </Stack>

@@ -45,12 +45,24 @@ const meta: Meta<typeof Radio> = {
         defaultValue: { summary: '<RadioButtonUncheckedIcon />' }
       }
     },
+    name: {
+      description: 'input name',
+      table: {
+        type: { summary: 'string' }
+      }
+    },
     onChange: {
       description: 'checked state가 변경됐을 때 호출되는 함수',
       table: {
         type: {
           summary: '(event: React.ChangeEvent<HTMLInputElement>) => void'
         }
+      }
+    },
+    required: {
+      description: 'input required',
+      table: {
+        type: { summary: 'boolean' }
       }
     },
     rippleColor: {
@@ -72,6 +84,12 @@ const meta: Meta<typeof Radio> = {
       table: {
         type: { summary: `'sm' | 'md' | 'lg' | string` },
         defaultValue: { summary: `'md'` }
+      }
+    },
+    value: {
+      description: 'input value',
+      table: {
+        type: { summary: 'string' }
       }
     }
   }
