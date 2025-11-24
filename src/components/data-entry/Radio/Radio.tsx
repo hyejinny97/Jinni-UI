@@ -9,12 +9,16 @@ import { useRipple, UseRippleProps } from '@/hooks/useRipple';
 import { useLabelContext } from '@/components/data-entry/Label';
 import useColor from '@/hooks/useColor';
 import { toRgbaObject } from '@/utils/colorFormat';
+import { useRadioGroupContext } from '@/components/data-entry/RadioGroup';
+import { useCheck } from './Radio.hooks';
 
 export type RadioProps<T extends AsType = 'input'> = Omit<
   DefaultComponentProps<T>,
   'onChange' | 'size'
 > &
   UseRippleProps & {
+    name?: string;
+    value?: string;
     checked?: boolean;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     icon?: React.ReactNode;
@@ -27,18 +31,21 @@ export type RadioProps<T extends AsType = 'input'> = Omit<
 
 const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
   const labelContext = useLabelContext();
+  const radioGroupContext = useRadioGroupContext();
   const {
+    name = radioGroupContext?.name,
+    value,
     checked,
     onChange,
-    icon = <RadioUncheckedIcon />,
-    checkedIcon = <RadioCheckedIcon />,
+    icon = radioGroupContext?.icon || <RadioUncheckedIcon />,
+    checkedIcon = radioGroupContext?.checkedIcon || <RadioCheckedIcon />,
     disabled = labelContext?.disabled,
     required = labelContext?.required,
-    color = 'primary',
+    color = radioGroupContext?.color || 'primary',
     size = labelContext?.size || 'md',
-    rippleColor = 'black',
-    rippleStartLocation = 'center',
-    disableRipple,
+    rippleColor = radioGroupContext?.rippleColor || 'black',
+    rippleStartLocation = radioGroupContext?.rippleStartLocation || 'center',
+    disableRipple = radioGroupContext?.disableRipple,
     className,
     style,
     as: Component = 'input',
@@ -50,6 +57,7 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
     rippleStartLocation,
     disableRipple
   });
+  const { isChecked, handleChange } = useCheck({ checked, onChange, value });
   const computedColor = useColor(color);
   const { r, g, b } = toRgbaObject(computedColor);
   const newStyle = useStyle({
@@ -64,7 +72,7 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
       ref={rippleTargetRef}
       className={cn(
         'JinniRadio',
-        { checked, disabled, [size]: isKeywordSize },
+        { isChecked, disabled, [size]: isKeywordSize },
         className
       )}
       style={newStyle}
@@ -73,13 +81,15 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
       <Component
         className="JinniRadioInput"
         type="radio"
-        checked={checked}
-        onChange={onChange}
+        name={name}
+        value={value}
+        checked={isChecked}
+        onChange={handleChange}
         disabled={disabled}
         required={required}
         {...rest}
       />
-      {checked ? checkedIcon : icon}
+      {isChecked ? checkedIcon : icon}
     </span>
   );
 };

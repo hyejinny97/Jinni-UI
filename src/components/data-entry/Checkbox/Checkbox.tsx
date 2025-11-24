@@ -19,7 +19,7 @@ export type CheckboxProps<T extends AsType = 'input'> = Omit<
 > &
   UseRippleProps & {
     name?: string;
-    value?: string | number;
+    value?: string;
     defaultChecked?: boolean;
     checked?: boolean;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;

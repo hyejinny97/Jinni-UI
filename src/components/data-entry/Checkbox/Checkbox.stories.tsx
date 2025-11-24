@@ -109,7 +109,7 @@ const meta: Meta<typeof Checkbox> = {
     value: {
       description: 'input value',
       table: {
-        type: { summary: 'string | number' }
+        type: { summary: 'string' }
       }
     }
   }
