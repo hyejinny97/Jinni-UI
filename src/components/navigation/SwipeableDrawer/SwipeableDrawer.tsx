@@ -260,6 +260,7 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
         <div
           ref={drawerContainerElRef}
           className={cn('JinniSwipeableDrawerContainer')}
+          data-testid="swipeable-drawer-container"
         >
           <Backdrop
             ref={backdropElRef}
