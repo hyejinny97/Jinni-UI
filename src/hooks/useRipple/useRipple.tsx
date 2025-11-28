@@ -1,5 +1,11 @@
 import './ripple.scss';
-import { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useCallback,
+  MutableRefObject
+} from 'react';
 
 export interface UseRippleProps {
   rippleColor?: 'white' | 'black';
@@ -14,20 +20,28 @@ const useRipple = ({
 }: UseRippleProps) => {
   const rippleTargetRef = useRef<HTMLElement>(null);
   const rippleContainerRef = useRef<HTMLDivElement>(null);
+  const rippleTriggerRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
     const rippleTargetEl = rippleTargetRef.current;
     if (!rippleTargetEl) return;
 
-    const rippleTargetPosition = rippleTargetEl.style.position;
+    const rippleTargetPosition =
+      window.getComputedStyle(rippleTargetEl).position;
     if (!rippleTargetPosition || rippleTargetPosition === 'static') {
       rippleTargetEl.style.position = 'relative';
+    }
+
+    if (!rippleTriggerRef.current) {
+      (rippleTriggerRef as MutableRefObject<HTMLElement>).current =
+        rippleTargetEl;
     }
   }, []);
 
   useEffect(() => {
     const rippleTargetEl = rippleTargetRef.current;
-    if (!rippleTargetEl || disableRipple) return;
+    const rippleTriggerEl = rippleTriggerRef.current;
+    if (!rippleTargetEl || !rippleTriggerEl || disableRipple) return;
 
     const createRipple = (e: MouseEvent | KeyboardEvent) => {
       const rippleContainerEl = rippleContainerRef.current;
@@ -65,11 +79,11 @@ const useRipple = ({
     const handleKeyDown = (e: KeyboardEvent) =>
       (e.code === 'Enter' || e.code === 'Space') && createRipple(e);
 
-    rippleTargetEl.addEventListener('mousedown', createRipple);
-    rippleTargetEl.addEventListener('keydown', handleKeyDown);
+    rippleTriggerEl.addEventListener('mousedown', createRipple);
+    rippleTriggerEl.addEventListener('keydown', handleKeyDown);
     return () => {
-      rippleTargetEl.removeEventListener('mousedown', createRipple);
-      rippleTargetEl.removeEventListener('keydown', handleKeyDown);
+      rippleTriggerEl.removeEventListener('mousedown', createRipple);
+      rippleTriggerEl.removeEventListener('keydown', handleKeyDown);
     };
   }, [rippleColor, rippleStartLocation, disableRipple]);
 
@@ -78,7 +92,7 @@ const useRipple = ({
     []
   );
 
-  return { rippleTargetRef, RippleContainer };
+  return { rippleTriggerRef, rippleTargetRef, RippleContainer };
 };
 
 export default useRipple;

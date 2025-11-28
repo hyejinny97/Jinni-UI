@@ -5,7 +5,7 @@ import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import { Stack } from '@/components/layout/Stack';
 import { Switch } from '@/components/data-entry/Switch';
-import { SwitchLabel } from '@/components/data-entry/SwitchLabel';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof Tree> = {
   component: Tree,
@@ -305,18 +305,18 @@ const AutomaticSelectionTemplate = () => {
   return (
     <>
       <Stack direction="row" spacing={20}>
-        <SwitchLabel label="parents">
+        <Label content="parents">
           <Switch
             checked={propagation.parents}
             onChange={handleSwitchChange('parents')}
           />
-        </SwitchLabel>
-        <SwitchLabel label="descendants">
+        </Label>
+        <Label content="descendants">
           <Switch
             checked={propagation.descendants}
             onChange={handleSwitchChange('descendants')}
           />
-        </SwitchLabel>
+        </Label>
       </Stack>
       <TreeBox>
         <Tree multiSelect checkboxSelection selectionPropagation={propagation}>

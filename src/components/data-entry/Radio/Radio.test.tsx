@@ -37,7 +37,7 @@ describe('<Radio />', () => {
     };
     render(<Template />);
 
-    const inputs = screen.getAllByRole('radio');
+    const inputs = screen.getAllByRole('radio') as HTMLInputElement[];
     expect(inputs[0]).toHaveAttribute('value', 'red');
     expect(inputs[1]).toHaveAttribute('value', 'yellow');
 
@@ -64,7 +64,7 @@ describe('<Radio />', () => {
     };
     render(<Template />);
 
-    const input = screen.getByRole('radio');
+    const input = screen.getByRole('radio') as HTMLInputElement;
     expect(input.checked).toBe(false);
     expect(screen.queryByTestId('icon-on')).toBeNull();
     expect(screen.queryByTestId('icon-off')).toBeInTheDocument();

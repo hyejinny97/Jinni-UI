@@ -17,15 +17,26 @@ import { Switch } from '@/components/data-entry/Switch';
 
 ### Basic Switch
 
-- type='checkbox'인 input 요소의 props 전부 가능 (ex) name, value, required 등)
+- `defaultChecked`: true이면, 기본적으로 check 됨 (uncontrolled 상태일 때 적용 가능)
 
 <Canvas of={SwitchStories.BasicSwitch} />
 
-### Checked by default
+### Controlled Switch
 
-- `defaultChecked`: true이면, 기본적으로 check 됨 (uncontrolled 상태일 때 적용 가능)
+- `checked` prop을 통해 switch를 control 가능
+- `checked`: true이면, check 됨
+- `onChange`: checked state가 변경됐을 때 호출되는 함수
+  - `event.target.checked`(boolean)을 통해 new checked state에 접근 가능
+  - `event.target.value`(string)을 통해 new value에 접근 가능
 
-<Canvas of={SwitchStories.CheckedByDefault} />
+<Canvas of={SwitchStories.ControlledSwitch} />
+
+### Switch with form
+
+- type='checkbox'인 input 요소의 props 전부 가능
+  - ex) name, value, required 등
+
+<Canvas of={SwitchStories.SwitchWithForm} />
 
 ### Disabled
 
@@ -35,23 +46,22 @@ import { Switch } from '@/components/data-entry/Switch';
 
 ### Size
 
-- `size`: switch 크기
+- `size`: switch 크기 (정확히는, height 높이)
 
 <Canvas of={SwitchStories.Size} />
 
 ### Color
 
-- `color`: switch 색상
+- `color`: checked switch 색상
 
 <Canvas of={SwitchStories.Color} />
 
-### Controlled Switch
+### Ripple effect
 
-- `checked` 와 `onChange` prop을 통해 switch를 control 가능
-- `checked`: true이면, check 됨
-- `onChange`: checked/unchecked state가 변경됐을 때 호출되는 함수
+- `rippleColor`: ripple 색상
+- `disableRipple`: true이면, ripple effect가 비활성화됨
 
-<Canvas of={SwitchStories.ControlledSwitch} />
+<Canvas of={SwitchStories.RippleEffect} />
 
 ### Customization
 

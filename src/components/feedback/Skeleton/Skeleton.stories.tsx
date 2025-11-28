@@ -8,7 +8,7 @@ import {
   DEFAULT_DESIGN_SYSTEM
 } from '@/components/_share/JinniProvider';
 import { Switch } from '@/components/data-entry/Switch';
-import { SwitchLabel } from '@/components/data-entry/SwitchLabel';
+import { Label } from '@/components/data-entry/Label';
 import { Text, TextProps } from '@/components/general/Text';
 import { AsType } from '@/types/default-component-props';
 import { Avatar } from '@/components/data-display/Avatar';
@@ -65,12 +65,12 @@ const ColorByThemeWithSwitch = () => {
   return (
     <Stack spacing={20}>
       <Grid columns={2} spacing={20}>
-        <SwitchLabel label="Dark Theme">
+        <Label content="Dark Theme">
           <Switch checked={darkTheme} onChange={changeTheme} />
-        </SwitchLabel>
-        <SwitchLabel label="Wave animation">
+        </Label>
+        <Label content="Wave animation">
           <Switch checked={wave} onChange={changeAnimation} />
-        </SwitchLabel>
+        </Label>
       </Grid>
       <JinniProvider
         designSystem={{
@@ -247,12 +247,12 @@ export const ColorByTheme: Story = {
   return (
     <Stack spacing={20}>
       <Grid columns={2} spacing={20}>
-        <SwitchLabel label="Dark Theme">
+        <Label content="Dark Theme">
           <Switch checked={darkTheme} onChange={changeTheme} />
-        </SwitchLabel>
-        <SwitchLabel label="Wave animation">
+        </Label>
+        <Label content="Wave animation">
           <Switch checked={wave} onChange={changeAnimation} />
-        </SwitchLabel>
+        </Label>
       </Grid>
       <JinniProvider
         designSystem={{

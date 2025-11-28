@@ -33,7 +33,8 @@
 }
 
 @mixin overlay-effect {
-  &:not(.disabled):hover {
+  &:not(.disabled):hover,
+  &:not(.disabled):focus-within {
     background-image: linear-gradient(var(--overlay-color));
   }
 }
