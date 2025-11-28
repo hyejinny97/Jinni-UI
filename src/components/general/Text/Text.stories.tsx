@@ -5,7 +5,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Popper } from '@/components/_share/Popper';
 import { ButtonGroup } from '@/components/general/ButtonGroup';
 import { Button } from '@/components/general/Button';
-import { SwitchLabel } from '@/components/data-entry/SwitchLabel';
+import { Label } from '@/components/data-entry/Label';
 import { Switch } from '@/components/data-entry/Switch';
 
 const meta: Meta<typeof Text> = {
@@ -38,9 +38,9 @@ const HTMLSemanticElementWithMarginSwitch = () => {
 
   return (
     <Stack spacing={20}>
-      <SwitchLabel label="No Margin" style={{ gap: '5px' }}>
+      <Label content="No Margin" style={{ gap: '5px' }}>
         <Switch checked={checked} onChange={handleChange} />
-      </SwitchLabel>
+      </Label>
       <Stack>
         <Text as="h1" noMargin={checked}>
           h1
@@ -119,9 +119,9 @@ const TypographyWithMarginSwitch = () => {
 
   return (
     <Stack spacing={20}>
-      <SwitchLabel label="No Margin" style={{ gap: '5px' }}>
+      <Label content="No Margin" style={{ gap: '5px' }}>
         <Switch checked={checked} onChange={handleChange} />
-      </SwitchLabel>
+      </Label>
       <Stack>
         <Text className="typo-display-large" noMargin={checked}>
           display-large
@@ -297,9 +297,9 @@ export const HTMLSemanticElement: Story = {
 
   return (
     <Stack spacing={20}>
-      <SwitchLabel label="No Margin" style={{ gap: '5px' }}>
+      <Label content="No Margin" style={{ gap: '5px' }}>
         <Switch checked={checked} onChange={handleChange} />
-      </SwitchLabel>
+      </Label>
       <Stack>
         <Text as="h1" noMargin={checked}>
           h1
@@ -387,9 +387,9 @@ export const Typography: Story = {
 
   return (
     <Stack spacing={20}>
-      <SwitchLabel label="No Margin" style={{ gap: '5px' }}>
+      <Label content="No Margin" style={{ gap: '5px' }}>
         <Switch checked={checked} onChange={handleChange} />
-      </SwitchLabel>
+      </Label>
       <Stack>
         <Text className="typo-display-large" noMargin={checked}>
           display-large

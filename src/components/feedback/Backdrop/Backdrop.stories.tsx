@@ -8,7 +8,7 @@ import {
   DEFAULT_DESIGN_SYSTEM
 } from '@/components/_share/JinniProvider';
 import { Switch } from '@/components/data-entry/Switch';
-import { SwitchLabel } from '@/components/data-entry/SwitchLabel';
+import { Label } from '@/components/data-entry/Label';
 import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof Backdrop> = {
@@ -93,9 +93,9 @@ const BackdropColorByThemeTemplate = () => {
       }}
     >
       <Stack spacing={20}>
-        <SwitchLabel label="Dark Theme">
+        <Label content="Dark Theme">
           <Switch checked={darkTheme} onChange={changeTheme} />
-        </SwitchLabel>
+        </Label>
         <Button onClick={openBackdrop}>Open Backdrop</Button>
         {open && (
           <Backdrop
@@ -264,9 +264,9 @@ export const BackdropColorByTheme: Story = {
       }}
     >
       <Stack spacing={20}>
-        <SwitchLabel label="Dark Theme">
+        <Label content="Dark Theme">
           <Switch checked={darkTheme} onChange={changeTheme} />
-        </SwitchLabel>
+        </Label>
         <Button onClick={openBackdrop}>Open Backdrop</Button>
         {open && (
           <Backdrop

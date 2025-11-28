@@ -9,7 +9,7 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import { Button } from '@/components/general/Button';
 import { ButtonGroup } from '@/components/general/ButtonGroup';
 import { Switch } from '@/components/data-entry/Switch';
-import { SwitchLabel } from '@/components/data-entry/SwitchLabel';
+import { Label } from '@/components/data-entry/Label';
 import dogImage from '@/assets/images/dog-1.jpg';
 
 const meta: Meta<typeof Badge> = {
@@ -113,12 +113,12 @@ const Visibility = () => {
             -
           </Button>
         </ButtonGroup>
-        <SwitchLabel label="Show Badge">
+        <Label content="Show Badge">
           <Switch
             checked={visible}
             onChange={(e) => setVisible(e.target.checked)}
           />
-        </SwitchLabel>
+        </Label>
       </Stack>
       <Box
         round="md"
@@ -292,12 +292,12 @@ export const BadgeVisibility: Story = {
             -
           </Button>
         </ButtonGroup>
-        <SwitchLabel label="Show Badge">
+        <Label label="Show Badge">
           <Switch
             checked={visible}
             onChange={(e) => setVisible(e.target.checked)}
           />
-        </SwitchLabel>
+        </Label>
       </Stack>
       <Box
         round="md"
