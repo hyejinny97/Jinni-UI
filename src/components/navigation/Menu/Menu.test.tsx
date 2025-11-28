@@ -173,10 +173,16 @@ describe('<Menu />', () => {
     menuItems[0].focus();
     expect(menuItems[0]).toHaveFocus();
 
-    await user.keyboard('{ArrowDown}');
+    await user.keyboard('{ArrowUp}');
     expect(menuItems[1]).toHaveFocus();
 
     await user.keyboard('{ArrowUp}');
+    expect(menuItems[0]).toHaveFocus();
+
+    await user.keyboard('{ArrowDown}');
+    expect(menuItems[1]).toHaveFocus();
+
+    await user.keyboard('{ArrowDown}');
     expect(menuItems[0]).toHaveFocus();
   });
 
