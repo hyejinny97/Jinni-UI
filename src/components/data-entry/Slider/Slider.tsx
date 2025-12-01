@@ -1,21 +1,19 @@
 import './Slider.scss';
 import cn from 'classnames';
 import React, { useRef, useMemo } from 'react';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
 import {
   useSliderValue,
-  useMouseAndTouchEvent,
-  useKeyEvent
+  usePointerEvent,
+  useKeyEvent,
+  useUtils
 } from './Slider.hooks';
 import {
-  getTrackStyle,
-  getPositionStyle,
   generateStepValueArray,
   generateMarksValueArray,
-  generateMarksLabelArray,
-  isMarkOnTrack
+  generateMarksLabelArray
 } from './Slider.utils';
 import { Tooltip, TooltipProps } from '@/components/data-display/Tooltip';
 
@@ -24,8 +22,8 @@ export type MarksType =
   | Array<{ value: number; label?: React.ReactNode }>
   | boolean;
 
-export type SliderProps<T extends AsType = 'input'> = Omit<
-  DefaultComponentProps<T>,
+export type SliderProps = Omit<
+  DefaultComponentProps<'input'>,
   'defaultValue' | 'value' | 'onChange' | 'size' | 'step'
 > & {
   defaultValue?: SliderValueType;
@@ -55,7 +53,7 @@ export type SliderProps<T extends AsType = 'input'> = Omit<
   tooltipLabelFormat?: (scaledValue: number, index: number) => React.ReactNode;
 };
 
-const Slider = <T extends AsType = 'input'>(props: SliderProps<T>) => {
+const Slider = (props: SliderProps) => {
   const {
     defaultValue,
     value,
@@ -77,11 +75,10 @@ const Slider = <T extends AsType = 'input'>(props: SliderProps<T>) => {
     tooltipLabelFormat = (scaledValue: number) => scaledValue,
     className,
     style,
-    as: Component = 'input',
     ...rest
   } = props;
   const sliderElRef = useRef<HTMLDivElement>(null);
-  const thumbsElRef = useRef<Array<HTMLSpanElement>>([]);
+  const thumbsElRef = useRef<Array<HTMLInputElement>>([]);
   const stepValueArray = useMemo(
     () => generateStepValueArray({ min, max, step, marks }),
     [min, max, step, marks]
@@ -98,8 +95,9 @@ const Slider = <T extends AsType = 'input'>(props: SliderProps<T>) => {
     disableSwap,
     disabled
   });
-  const { handleMouseDown, handleTouchStart } = useMouseAndTouchEvent({
+  usePointerEvent({
     sliderElRef,
+    thumbsElRef,
     sliderValue,
     stepValueArray,
     min,
@@ -109,12 +107,19 @@ const Slider = <T extends AsType = 'input'>(props: SliderProps<T>) => {
     handleChange,
     handleChangeEnd
   });
-  const { handleKeyDown, handleKeyUp, handleFocus, handleBlur } = useKeyEvent({
+  useKeyEvent({
     thumbsElRef,
     sliderValue,
     stepValueArray,
     handleChange,
     handleChangeEnd
+  });
+  const { trackStyle, isMarkOnTrack, getPositionStyle } = useUtils({
+    sliderValue,
+    min,
+    max,
+    orientation,
+    track
   });
   const newStyle = useStyle({
     '--color': disabled ? 'gray-400' : color,
@@ -131,44 +136,32 @@ const Slider = <T extends AsType = 'input'>(props: SliderProps<T>) => {
         size,
         className
       )}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
       style={newStyle}
     >
       <div className={cn('JinniSliderRail', orientation)} />
-      <div
-        className={cn(
-          'JinniSliderTrack',
-          { noTrack: track === false },
-          orientation
-        )}
-        style={getTrackStyle({ sliderValue, min, max, orientation })}
-      />
+      <div className={cn('JinniSliderTrack', orientation)} style={trackStyle} />
       {marksValueArray.map((value) => (
         <span
           key={value}
           className={cn(
             'JinniSliderMark',
-            {
-              onTrack: isMarkOnTrack({
-                sliderValue,
-                value,
-                min,
-                max,
-                orientation
-              })
-            },
+            { onTrack: isMarkOnTrack(value) },
             orientation,
             size
           )}
-          style={getPositionStyle({ value, min, max, orientation })}
+          style={getPositionStyle(value)}
         />
       ))}
       {marksLabelArray.map(({ value, label }) => (
         <span
           key={value}
-          className={cn('JinniSliderMarkLabel', orientation, size)}
-          style={getPositionStyle({ value, min, max, orientation })}
+          className={cn(
+            'JinniSliderMarkLabel',
+            { onTrack: isMarkOnTrack(value) },
+            orientation,
+            size
+          )}
+          style={getPositionStyle(value)}
         >
           {label}
         </span>
@@ -182,27 +175,21 @@ const Slider = <T extends AsType = 'input'>(props: SliderProps<T>) => {
           {...TooltipProps}
         >
           <span
-            ref={(element) => {
-              if (!element) return;
-              thumbsElRef.current[idx] = element;
-            }}
             className={cn('JinniSliderThumb', { disabled }, orientation, size)}
-            tabIndex={0}
-            onKeyDown={handleKeyDown(idx)}
-            onKeyUp={handleKeyUp}
-            onFocus={() => handleFocus(idx)}
-            onBlur={() => handleBlur(idx)}
-            style={getPositionStyle({ value, min, max, orientation })}
+            style={getPositionStyle(value)}
           >
-            <Component
+            <input
+              ref={(element) => {
+                if (!element) return;
+                thumbsElRef.current[idx] = element;
+              }}
               className="JinniSliderInput"
-              tabIndex={-1}
               type="range"
               value={value}
               onChange={() => {}}
               min={min}
               max={max}
-              step={step}
+              step={step === null ? undefined : step}
               disabled={disabled}
               aria-valuenow={scale(value)}
               aria-valuemin={scale(min)}

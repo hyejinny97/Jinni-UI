@@ -13,13 +13,23 @@ export const getTrackStyle = <T extends 'horizontal' | 'vertical'>({
   sliderValue,
   min,
   max,
-  orientation
+  orientation,
+  track
 }: {
   sliderValue: Array<number>;
   min: number;
   max: number;
   orientation: T;
+  track: 'normal' | false;
 }): TrackStyle<T> => {
+  if (track === false) {
+    return (
+      orientation === 'horizontal'
+        ? { width: '0px', left: '0px' }
+        : { height: '0px', bottom: '0px' }
+    ) as TrackStyle<T>;
+  }
+
   const maxSliderValue = Math.max(...sliderValue);
   const minSliderValue =
     sliderValue.length === 1 ? min : Math.min(...sliderValue);
@@ -72,9 +82,9 @@ export const generateStepValueArray = ({
   marks: MarksType;
 }): Array<number> => {
   if (step === null) {
-    const marksValueArray = Array.isArray(marks)
-      ? marks.map(({ value }) => value)
-      : [];
+    if (!Array.isArray(marks)) return [];
+
+    const marksValueArray = marks.map(({ value }) => value);
     if (marksValueArray[0] !== min) marksValueArray.unshift(min);
     if (marksValueArray.at(-1) !== max) marksValueArray.push(max);
     return marksValueArray;
@@ -138,7 +148,7 @@ export const findClosestValueIdx = ({
     : closerValuesIdx[0];
 };
 
-export const computeValue = (
+export const preprocessValue = (
   value: SliderValueType | undefined,
   stepValueArray: Array<number>
 ): Array<number> | undefined => {
@@ -175,16 +185,28 @@ export const isMarkOnTrack = ({
   value,
   min,
   max,
-  orientation
+  orientation,
+  track
 }: {
   sliderValue: Array<number>;
   value: number;
   min: number;
   max: number;
   orientation: 'horizontal' | 'vertical';
+  track: 'normal' | false;
 }): boolean => {
   const markPosition = getPositionStyle({ value, min, max, orientation });
-  const trackStyle = getTrackStyle({ sliderValue, min, max, orientation });
+  const trackStyle = getTrackStyle({
+    sliderValue,
+    min,
+    max,
+    orientation,
+    track
+  });
+
+  if (track === false) {
+    return sliderValue.includes(value);
+  }
 
   if (orientation === 'horizontal') {
     const { left: markLeft } = markPosition as PositionStyle<'horizontal'>;
