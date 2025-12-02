@@ -62,7 +62,7 @@ const ScaleFade = ({ children, enterDelay, leaveDelay }: ScaleFadeProps) => {
   );
 };
 
-const Tooltip = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
+const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
   const {
     children,
     content,
@@ -128,8 +128,13 @@ const Tooltip = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
       ...tooltipAnchorProps,
       ref: (el: HTMLElement | null) => {
         if (el) {
-          if (element.ref)
-            (element.ref as MutableRefObject<HTMLElement>).current = el;
+          if (element.ref) {
+            if (typeof element.ref === 'function') {
+              element.ref(el);
+            } else if ('current' in element.ref) {
+              (element.ref as MutableRefObject<HTMLElement>).current = el;
+            }
+          }
           (anchorElRef as MutableRefObject<HTMLElement>).current = el;
         }
       },
@@ -202,5 +207,9 @@ const Tooltip = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
     </>
   );
 };
+
+const Tooltip = React.memo(
+  TooltipComponent
+) as unknown as typeof TooltipComponent;
 
 export default Tooltip;

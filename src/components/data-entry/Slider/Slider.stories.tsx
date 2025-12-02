@@ -1,9 +1,12 @@
 import './SliderCustom.scss';
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Slider } from '@/components/data-entry/Slider';
 import { Text } from '@/components/general/Text';
 import { Stack } from '@/components/layout/Stack';
+import { Button } from '@/components/general/Button';
+import { Switch } from '@/components/data-entry/Switch';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof Slider> = {
   component: Slider,
@@ -16,7 +19,7 @@ const meta: Meta<typeof Slider> = {
       }
     },
     defaultValue: {
-      description: 'slider의 기본 value',
+      description: '초기 slider value',
       table: {
         type: { summary: 'Array<number> | number' }
       }
@@ -39,7 +42,7 @@ const meta: Meta<typeof Slider> = {
       description:
         'slider의 value를 사용자 친화적인 이름으로 변경해주는 함수 (screen reader 사용자에게 중요한 정보)',
       table: {
-        type: { summary: '(scaledValue: number, index: number) => string' },
+        type: { summary: '(scaledValue: number, thumbIdx: number) => string' },
         defaultValue: { summary: `(scaledValue: number) ⇒ String(scaledValue)` }
       }
     },
@@ -69,16 +72,16 @@ const meta: Meta<typeof Slider> = {
       type: 'string'
     },
     onChange: {
-      description: 'slider의 value가 변경됐을 때 호출되는 함수',
+      description: 'slider value가 변경됐을 때 호출되는 함수',
       table: {
         type: {
           summary:
-            '(event: React.SyntheticEvent | Event, value: number | Array<number>, activeThumbIdx: number) => void }'
+            '(event: React.SyntheticEvent | Event, value: number | Array<number>, activeThumbIdx: number) => void'
         }
       }
     },
     onChangeEnd: {
-      description: 'slider의 연이은 value 변경이 끝날 때 호출되는 함수',
+      description: 'slider value 변경이 끝날 때 호출되는 함수',
       table: {
         type: {
           summary:
@@ -117,7 +120,7 @@ const meta: Meta<typeof Slider> = {
     tooltipLabelFormat: {
       description: 'tooltip의 value label의 format을 변경하는 function',
       table: {
-        type: { summary: `(scaledValue: number, index: number) => node` },
+        type: { summary: `(scaledValue: number, thumbIdx: number) => node` },
         defaultValue: { summary: `(scaledValue: number) ⇒ scaledValue` }
       }
     },
@@ -135,7 +138,7 @@ const meta: Meta<typeof Slider> = {
       }
     },
     value: {
-      description: 'slider의 value',
+      description: 'slider value',
       table: {
         type: { summary: `Array<number> | number` }
       }
@@ -146,7 +149,7 @@ const meta: Meta<typeof Slider> = {
 export default meta;
 type Story = StoryObj<typeof Slider>;
 
-const ControlledSliderTemplate = ({ ...props }) => {
+const ControlledSliderTemplate = () => {
   const [value, setValue] = useState<number>(60);
 
   const handleChange = (
@@ -156,23 +159,45 @@ const ControlledSliderTemplate = ({ ...props }) => {
     setValue(newValue as number);
   };
 
-  return <Slider value={value} onChange={handleChange} {...props} />;
+  return (
+    <Stack style={{ width: '300px' }}>
+      <Text noMargin>Slider value: {value}</Text>
+      <Slider value={value} onChange={handleChange} />
+    </Stack>
+  );
 };
 
-const ControlledRangeSliderTemplate = ({ ...props }) => {
-  const [value, setValue] = useState<Array<number>>([30, 60, 90]);
+const FinalValueTemplate = () => {
+  const [value, setValue] = useState<number>(60);
+  const [finalValue, setFinalValue] = useState<number | null>(null);
 
   const handleChange = (
     _: React.SyntheticEvent | Event,
     newValue: number | Array<number>
   ) => {
-    setValue(newValue as Array<number>);
+    setValue(newValue as number);
+  };
+  const handleChangeEnd = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>
+  ) => {
+    setFinalValue(newValue as number);
   };
 
-  return <Slider value={value} onChange={handleChange} {...props} />;
+  return (
+    <Stack style={{ width: '300px' }}>
+      <Text noMargin>Slider value: {value}</Text>
+      <Text noMargin>Final value: {finalValue}</Text>
+      <Slider
+        value={value}
+        onChange={handleChange}
+        onChangeEnd={handleChangeEnd}
+      />
+    </Stack>
+  );
 };
 
-const MarksLabelCustomTemplate = ({ ...props }) => {
+const CustomMarksLabelTemplate = () => {
   const [value, setValue] = useState(30);
 
   const handleChange = (
@@ -183,13 +208,12 @@ const MarksLabelCustomTemplate = ({ ...props }) => {
   };
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', width: '300px' }}>
       <Slider
         value={value}
         onChange={handleChange}
         step={10}
         marks={[{ value: 0 }, { value: 100 }]}
-        {...props}
       />
       <div
         style={{
@@ -203,15 +227,46 @@ const MarksLabelCustomTemplate = ({ ...props }) => {
           alignItems: 'center'
         }}
       >
-        <Text onClick={() => setValue(0)}>0 min</Text>
-        <Text onClick={() => setValue(100)}>100 max</Text>
+        <Text
+          className="typo-label-medium"
+          onClick={() => setValue(0)}
+          noMargin
+        >
+          0 min
+        </Text>
+        <Text
+          className="typo-label-medium"
+          onClick={() => setValue(100)}
+          noMargin
+        >
+          100 max
+        </Text>
       </div>
     </div>
   );
 };
 
-const MinimumDistanceTemplate1 = ({ ...props }) => {
-  const minDistance = 10;
+const ControlledRangeSliderTemplate = () => {
+  const [value, setValue] = useState<Array<number>>([30, 60]);
+
+  const handleChange = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>
+  ) => {
+    setValue(newValue as Array<number>);
+  };
+
+  return (
+    <Stack style={{ width: '300px' }}>
+      <Text noMargin>First value: {value[0]}</Text>
+      <Text noMargin>Second value: {value[1]}</Text>
+      <Slider value={value} onChange={handleChange} />
+    </Stack>
+  );
+};
+
+const EnforceMinimumDistanceTemplate = () => {
+  const MIN_DISTANCE = 10;
   const [value, setValue] = useState([30, 70]);
 
   const handleChange = (
@@ -224,19 +279,21 @@ const MinimumDistanceTemplate1 = ({ ...props }) => {
     }
 
     if (activeThumbIdx === 0) {
-      setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
+      setValue([Math.min(newValue[0], value[1] - MIN_DISTANCE), value[1]]);
     } else {
-      setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
+      setValue([value[0], Math.max(newValue[1], value[0] + MIN_DISTANCE)]);
     }
   };
 
   return (
-    <Slider value={value} onChange={handleChange} disableSwap {...props} />
+    <Stack style={{ width: '300px' }}>
+      <Slider value={value} onChange={handleChange} disableSwap />
+    </Stack>
   );
 };
 
-const MinimumDistanceTemplate2 = ({ ...props }) => {
-  const minDistance = 10;
+const ShiftRangeTemplate = () => {
+  const MIN_DISTANCE = 10;
   const [value, setValue] = useState([30, 70]);
 
   const handleChange = (
@@ -248,13 +305,13 @@ const MinimumDistanceTemplate2 = ({ ...props }) => {
       return;
     }
 
-    if (newValue[1] - newValue[0] < minDistance) {
+    if (newValue[1] - newValue[0] < MIN_DISTANCE) {
       if (activeThumbIdx === 0) {
-        const clamped = Math.min(newValue[0], 100 - minDistance);
-        setValue([clamped, clamped + minDistance]);
+        const clamped = Math.min(newValue[0], 100 - MIN_DISTANCE);
+        setValue([clamped, clamped + MIN_DISTANCE]);
       } else {
-        const clamped = Math.max(newValue[1], minDistance);
-        setValue([clamped - minDistance, clamped]);
+        const clamped = Math.max(newValue[1], MIN_DISTANCE);
+        setValue([clamped - MIN_DISTANCE, clamped]);
       }
     } else {
       setValue(newValue as number[]);
@@ -262,11 +319,13 @@ const MinimumDistanceTemplate2 = ({ ...props }) => {
   };
 
   return (
-    <Slider value={value} onChange={handleChange} disableSwap {...props} />
+    <Stack style={{ width: '300px' }}>
+      <Slider value={value} onChange={handleChange} disableSwap />
+    </Stack>
   );
 };
 
-const NonLinearScaleTemplate = ({ ...props }) => {
+const NonLinearScaleTemplate = () => {
   const [value, setValue] = useState<number>(5);
 
   const handleChange = (
@@ -300,89 +359,139 @@ const NonLinearScaleTemplate = ({ ...props }) => {
         max={30}
         step={1}
         value={value}
-        scale={calculateValue}
         onChange={handleChange}
+        scale={calculateValue}
         tooltipLabelFormat={formatValueLabel}
         getAriaValueText={formatValueLabel}
         TooltipProps={{ placement: 'bottom' }}
-        {...props}
+        style={{ width: '300px' }}
       />
     </>
   );
 };
 
-export const BasicSlider: Story = {
-  render: () => (
-    <Stack style={{ width: '300px' }}>
-      <Slider name="temperature" required />
-    </Stack>
-  )
-};
+const TooltipOpenTemplate = () => {
+  const [openTooltip, setOpenTooltip] = useState(false);
 
-export const GetAriaValueText: Story = {
-  render: () => (
-    <Stack style={{ width: '300px' }}>
+  const toggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOpenTooltip(event.target.checked);
+  };
+
+  return (
+    <Stack spacing={10} style={{ alignItems: 'start' }}>
       <Slider
-        name="temperature"
-        getAriaValueText={(scaledValue) => `${scaledValue} celsius`}
+        defaultValue={[20, 40]}
+        TooltipProps={{ open: openTooltip }}
+        style={{ width: '300px' }}
       />
+      <Label content="Open Tooltip" labelPlacement="start">
+        <Switch checked={openTooltip} onChange={toggle} />
+      </Label>
     </Stack>
-  )
+  );
 };
 
-export const SlidedByDefault: Story = {
-  render: () => (
+export const BasicSlider: Story = {
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <Slider defaultValue={30} />
+      <Slider {...args} />
+      <Slider defaultValue={30} {...args} />
     </Stack>
   )
 };
 
 export const ControlledSlider: Story = {
-  render: () => (
+  render: () => <ControlledSliderTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledSliderTemplate = () => {
+  const [value, setValue] = useState<number>(60);
+
+  const handleChange = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>
+  ) => {
+    setValue(newValue as number);
+  };
+
+  return (
     <Stack style={{ width: '300px' }}>
-      <ControlledSliderTemplate />
+      <Text noMargin>Slider value: {value}</Text>
+      <Slider value={value} onChange={handleChange} />
     </Stack>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
-export const ChangeEnd: Story = {
-  render: () => (
+export const FinalValue: Story = {
+  render: () => <FinalValueTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const FinalValueTemplate = () => {
+  const [value, setValue] = useState<number>(60);
+  const [finalValue, setFinalValue] = useState<number | null>(null);
+
+  const handleChange = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>
+  ) => {
+    setValue(newValue as number);
+  };
+  const handleChangeEnd = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>
+  ) => {
+    setFinalValue(newValue as number);
+  };
+
+  return (
     <Stack style={{ width: '300px' }}>
-      <ControlledSliderTemplate
-        onChangeEnd={(
-          _: React.SyntheticEvent | Event,
-          newValue: number | Array<number>
-        ) => console.info(newValue)}
+      <Text noMargin>Slider value: {value}</Text>
+      <Text noMargin>Final value: {finalValue}</Text>
+      <Slider
+        value={value}
+        onChange={handleChange}
+        onChangeEnd={handleChangeEnd}
       />
     </Stack>
-  )
+  );
+};
+`.trim()
+      }
+    }
+  }
 };
 
 export const MinimumMaximumValue: Story = {
-  render: () => (
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <Slider min={10} max={20} />
+      <Slider min={10} max={20} {...args} />
     </Stack>
   )
 };
 
 export const DiscreteSlider: Story = {
-  render: () => (
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <Slider step={20} />
-      <Slider step={30} />
+      <Slider step={20} {...args} />
+      <Slider step={30} {...args} />
     </Stack>
   )
 };
 
-export const Marks: Story = {
-  render: () => (
+export const BasicMarks: Story = {
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <Slider step={10} marks />
+      <Slider step={10} marks {...args} />
       <Slider
         step={10}
         marks={[{ value: 10 }, { value: 30 }, { value: 100 }]}
+        {...args}
       />
       <Slider
         step={10}
@@ -391,6 +500,7 @@ export const Marks: Story = {
           { value: 30, label: '30℃' },
           { value: 100, label: '100℃' }
         ]}
+        {...args}
       />
     </Stack>
   )
@@ -402,178 +512,478 @@ export const StepOnMarks: Story = {
       <Slider
         step={null}
         marks={[
-          { value: 10, label: <Text style={{ color: 'primary' }}>10℃</Text> },
-          { value: 30, label: <Text style={{ color: 'primary' }}>30℃</Text> },
-          { value: 100, label: <Text style={{ color: 'primary' }}>100℃</Text> }
+          { value: 10, label: <Text className="typo-label-medium">10℃</Text> },
+          { value: 30, label: <Text className="typo-label-medium">30℃</Text> },
+          { value: 100, label: <Text className="typo-label-medium">100℃</Text> }
         ]}
       />
     </Stack>
-  )
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack style={{ width: '300px' }}>
+  <Slider
+    step={null}
+    marks={[
+      { value: 10, label: <Text className="typo-label-medium">10℃</Text> },
+      { value: 30, label: <Text className="typo-label-medium">30℃</Text> },
+      { value: 100, label: <Text className="typo-label-medium">100℃</Text> }
+    ]}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
 };
 
 export const CustomMarksLabel: Story = {
-  render: () => (
+  render: () => <CustomMarksLabelTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomMarksLabelTemplate = () => {
+  const [value, setValue] = useState(30);
+
+  const handleChange = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>
+  ) => {
+    setValue(newValue as number);
+  };
+
+  return (
+    <div style={{ position: 'relative', width: '300px' }}>
+      <Slider
+        value={value}
+        onChange={handleChange}
+        step={10}
+        marks={[{ value: 0 }, { value: 100 }]}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          left: 0,
+          top: '100%',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <Text
+          className="typo-label-medium"
+          onClick={() => setValue(0)}
+          noMargin
+        >
+          0 min
+        </Text>
+        <Text
+          className="typo-label-medium"
+          onClick={() => setValue(100)}
+          noMargin
+        >
+          100 max
+        </Text>
+      </div>
+    </div>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const RangeSliderDefaultValue: Story = {
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <MarksLabelCustomTemplate />
+      <Slider defaultValue={[30, 60]} {...args} />
+      <Slider defaultValue={[30, 60, 90]} {...args} />
     </Stack>
   )
 };
 
-export const RangeSlider: Story = {
-  render: () => (
+export const RangeSliderValue: Story = {
+  render: () => <ControlledRangeSliderTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledRangeSliderTemplate = () => {
+  const [value, setValue] = useState<Array<number>>([30, 60]);
+
+  const handleChange = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>
+  ) => {
+    setValue(newValue as Array<number>);
+  };
+
+  return (
     <Stack style={{ width: '300px' }}>
-      <Slider defaultValue={[30, 60]} />
-      <ControlledRangeSliderTemplate />
+      <Text noMargin>First value: {value[0]}</Text>
+      <Text noMargin>Second value: {value[1]}</Text>
+      <Slider value={value} onChange={handleChange} />
     </Stack>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const DisableSwap: Story = {
-  render: () => (
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <Slider step={10} defaultValue={[30, 60]} disableSwap />
+      <Slider step={10} defaultValue={[30, 60]} disableSwap {...args} />
     </Stack>
   )
 };
 
-export const MinimumDistance: Story = {
-  render: () => (
+export const EnforceMinimumDistance: Story = {
+  render: () => <EnforceMinimumDistanceTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const EnforceMinimumDistanceTemplate = () => {
+  const MIN_DISTANCE = 10;
+  const [value, setValue] = useState([30, 70]);
+
+  const handleChange = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>,
+    activeThumbIdx: number
+  ) => {
+    if (!Array.isArray(newValue)) {
+      return;
+    }
+
+    if (activeThumbIdx === 0) {
+      setValue([Math.min(newValue[0], value[1] - MIN_DISTANCE), value[1]]);
+    } else {
+      setValue([value[0], Math.max(newValue[1], value[0] + MIN_DISTANCE)]);
+    }
+  };
+
+  return (
     <Stack style={{ width: '300px' }}>
-      <MinimumDistanceTemplate1 />
-      <MinimumDistanceTemplate2 />
+      <Slider value={value} onChange={handleChange} disableSwap />
     </Stack>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const ShiftRange: Story = {
+  render: () => <ShiftRangeTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ShiftRangeTemplate = () => {
+  const MIN_DISTANCE = 10;
+  const [value, setValue] = useState([30, 70]);
+
+  const handleChange = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>,
+    activeThumbIdx: number
+  ) => {
+    if (!Array.isArray(newValue)) {
+      return;
+    }
+
+    if (newValue[1] - newValue[0] < MIN_DISTANCE) {
+      if (activeThumbIdx === 0) {
+        const clamped = Math.min(newValue[0], 100 - MIN_DISTANCE);
+        setValue([clamped, clamped + MIN_DISTANCE]);
+      } else {
+        const clamped = Math.max(newValue[1], MIN_DISTANCE);
+        setValue([clamped - MIN_DISTANCE, clamped]);
+      }
+    } else {
+      setValue(newValue as number[]);
+    }
+  };
+
+  return (
+    <Stack style={{ width: '300px' }}>
+      <Slider value={value} onChange={handleChange} disableSwap />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const SliderWithForm: Story = {
+  render: (args) => (
+    <form
+      onSubmit={(e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const temperature = formData.get('temperature');
+        alert(`temperature: ${temperature}`);
+      }}
+    >
+      <Stack direction="row" spacing={20}>
+        <Slider
+          name="temperature"
+          getAriaValueText={(scaledValue) => `${scaledValue} celsius`}
+          style={{ width: '300px' }}
+          {...args}
+        />
+        <Button>제출</Button>
+      </Stack>
+    </form>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<form
+  onSubmit={(e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const temperature = formData.get('temperature');
+    alert(\`temperature: \${temperature}\`);
+  }}
+>
+  <Stack direction="row" spacing={20}>
+    <Slider
+      name="temperature"
+      getAriaValueText={(scaledValue) => \`\${scaledValue} celsius\`}
+      style={{ width: '300px' }}
+    />
+    <Button>제출</Button>
+  </Stack>
+</form>`.trim()
+      }
+    }
+  }
+};
+
+export const NonLinearScale: Story = {
+  render: () => <NonLinearScaleTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const NonLinearScaleTemplate = () => {
+  const [value, setValue] = useState<number>(5);
+
+  const handleChange = (
+    _: React.SyntheticEvent | Event,
+    newValue: number | Array<number>
+  ) => {
+    setValue(newValue as number);
+  };
+
+  const calculateValue = (value: number) => {
+    return 2 ** value;
+  };
+
+  const formatValueLabel = (scaledValue: number) => {
+    const units = ['KB', 'MB', 'GB', 'TB'];
+
+    let unitIndex = 0;
+    let value = scaledValue;
+    while (value >= 1024 && unitIndex < units.length - 1) {
+      unitIndex += 1;
+      value /= 1024;
+    }
+    return \`\${value} \${units[unitIndex]}\`;
+  };
+
+  return (
+    <>
+      <Text>Storage: {formatValueLabel(calculateValue(value))}</Text>
+      <Slider
+        min={5}
+        max={30}
+        step={1}
+        value={value}
+        onChange={handleChange}
+        scale={calculateValue}
+        tooltipLabelFormat={formatValueLabel}
+        getAriaValueText={formatValueLabel}
+        TooltipProps={{ placement: 'bottom' }}
+        style={{ width: '300px' }}
+      />
+    </>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const VerticalSlider: Story = {
-  render: () => (
+  render: (args) => (
     <Stack direction="row" style={{ height: '300px' }}>
-      <Slider orientation="vertical" />
+      <Slider orientation="vertical" {...args} />
       <Slider
         orientation="vertical"
         marks={[
-          { value: 10, label: <Text style={{ color: 'primary' }}>10℃</Text> },
-          { value: 30, label: <Text style={{ color: 'primary' }}>30℃</Text> },
-          { value: 100, label: <Text style={{ color: 'primary' }}>100℃</Text> }
+          { value: 10, label: '10℃' },
+          { value: 30, label: '30℃' },
+          { value: 100, label: '100℃' }
         ]}
+        {...args}
       />
     </Stack>
   )
 };
 
 export const Disabled: Story = {
-  render: () => (
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <Slider defaultValue={30} disabled />
-      <Slider defaultValue={[30, 60]} disabled />
+      <Slider defaultValue={30} disabled {...args} />
+      <Slider defaultValue={[30, 60]} disabled {...args} />
     </Stack>
   )
 };
 
 export const Color: Story = {
-  render: () => (
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <Slider color="secondary" />
-      <Slider color="yellow-400" />
+      <Slider color="secondary" {...args} />
+      <Slider color="yellow-400" {...args} />
     </Stack>
   )
 };
 
 export const Size: Story = {
-  render: () => (
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
       <Slider
         size="sm"
         marks={[
-          { value: 10, label: <Text style={{ color: 'primary' }}>10℃</Text> },
-          { value: 30, label: <Text style={{ color: 'primary' }}>30℃</Text> },
-          { value: 100, label: <Text style={{ color: 'primary' }}>100℃</Text> }
+          { value: 10, label: '10℃' },
+          { value: 30, label: '30℃' },
+          { value: 100, label: '100℃' }
         ]}
+        {...args}
       />
       <Slider
         size="md"
         marks={[
-          { value: 10, label: <Text style={{ color: 'primary' }}>10℃</Text> },
-          { value: 30, label: <Text style={{ color: 'primary' }}>30℃</Text> },
-          { value: 100, label: <Text style={{ color: 'primary' }}>100℃</Text> }
+          { value: 10, label: '10℃' },
+          { value: 30, label: '30℃' },
+          { value: 100, label: '100℃' }
         ]}
+        {...args}
       />
       <Slider
         size="lg"
         marks={[
-          { value: 10, label: <Text style={{ color: 'primary' }}>10℃</Text> },
-          { value: 30, label: <Text style={{ color: 'primary' }}>30℃</Text> },
-          { value: 100, label: <Text style={{ color: 'primary' }}>100℃</Text> }
+          { value: 10, label: '10℃' },
+          { value: 30, label: '30℃' },
+          { value: 100, label: '100℃' }
         ]}
+        {...args}
       />
     </Stack>
   )
 };
 
 export const Track: Story = {
-  render: () => (
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <Slider defaultValue={20} track={false} />
-    </Stack>
-  )
-};
-
-export const CustomizeTooltipOpen: Story = {
-  render: () => (
-    <Stack style={{ width: '300px' }}>
-      <Slider TooltipProps={{ open: true }} defaultValue={[20, 37]} />
-      <Slider TooltipProps={{ open: false }} />
-    </Stack>
-  )
-};
-
-export const CustomizeTooltipPlacement: Story = {
-  render: () => (
-    <Stack style={{ width: '300px' }}>
-      <Slider TooltipProps={{ placement: 'bottom' }} />
-    </Stack>
-  )
-};
-
-export const CustomizeTooltipArrow: Story = {
-  render: () => (
-    <Stack style={{ width: '300px' }}>
-      <Slider TooltipProps={{ arrow: false }} />
-    </Stack>
-  )
-};
-
-export const CustomizeTooltipOffset: Story = {
-  render: () => (
-    <Stack style={{ width: '300px' }}>
-      <Slider TooltipProps={{ offset: 0 }} />
-    </Stack>
-  )
-};
-
-export const TooltipLabelFormat: Story = {
-  render: () => (
-    <Stack style={{ width: '300px' }}>
+      <Slider defaultValue={30} track={false} {...args} />
       <Slider
-        tooltipLabelFormat={(scaledValue: number) => `${scaledValue} ℃`}
+        defaultValue={30}
+        marks={[
+          { value: 10, label: '10℃' },
+          { value: 30, label: '30℃' },
+          { value: 100, label: '100℃' }
+        ]}
+        track={false}
+        {...args}
       />
     </Stack>
   )
 };
 
-export const NonLinearScale: Story = {
-  render: () => (
+export const TooltipOpen: Story = {
+  render: () => <TooltipOpenTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const TooltipOpenTemplate = () => {
+  const [openTooltip, setOpenTooltip] = useState(false);
+
+  const toggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOpenTooltip(event.target.checked);
+  };
+
+  return (
+    <Stack spacing={10} style={{ alignItems: 'start' }}>
+      <Slider
+        defaultValue={[20, 40]}
+        TooltipProps={{ open: openTooltip }}
+        style={{ width: '300px' }}
+      />
+      <Label content="Open Tooltip" labelPlacement="start">
+        <Switch checked={openTooltip} onChange={toggle} />
+      </Label>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const TooltipPlacement: Story = {
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <NonLinearScaleTemplate />
+      <Slider TooltipProps={{ placement: 'bottom' }} {...args} />
     </Stack>
   )
 };
 
-export const Customization: Story = {
-  render: () => (
+export const TooltipArrow: Story = {
+  render: (args) => (
     <Stack style={{ width: '300px' }}>
-      <Slider className="iOS-style" />
-      <Slider className="pretto-style" />
+      <Slider TooltipProps={{ arrow: false }} {...args} />
+    </Stack>
+  )
+};
+
+export const TooltipOffset: Story = {
+  render: (args) => (
+    <Stack style={{ width: '300px' }}>
+      <Slider TooltipProps={{ offset: 5 }} {...args} />
+    </Stack>
+  )
+};
+
+export const TooltipLabelFormat: Story = {
+  render: (args) => (
+    <Stack style={{ width: '300px' }}>
+      <Slider
+        tooltipLabelFormat={(scaledValue: number) => `${scaledValue} ℃`}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack style={{ width: '300px' }}>
+  <Slider tooltipLabelFormat={(scaledValue: number) => \`\${scaledValue} ℃\`} />
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const Customization: Story = {
+  render: (args) => (
+    <Stack style={{ width: '300px' }}>
+      <Slider className="iOS-style" defaultValue={20} {...args} />
+      <Slider className="pretto-style" defaultValue={20} {...args} />
     </Stack>
   )
 };

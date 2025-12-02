@@ -97,6 +97,7 @@ $mark-diameter: (
   box-sizing: content-box;
   border-radius: 12px;
   cursor: pointer;
+  touch-action: none;
   @include slider-margin;
   &.disabled {
     cursor: default;
@@ -132,9 +133,6 @@ $mark-diameter: (
     height: inherit;
     border-radius: inherit;
     background-color: var(--color);
-    &.noTrack {
-      opacity: 0;
-    }
     &.horizontal {
       left: 0;
       top: 50%;
@@ -172,6 +170,9 @@ $mark-diameter: (
     font-weight: var(--jinni-font-weight-medium);
     user-select: none;
     @include font-size;
+    &:not(.onTrack) {
+      color: var(--jinni-color-gray-400);
+    }
     &.horizontal {
       left: 0;
       transform: translate(-50%, -50%);
@@ -226,7 +227,7 @@ $mark-diameter: (
       opacity: 0.1;
     }
     &:hover::after,
-    &:focus::after,
+    &:focus-within::after,
     &:active::after {
       width: 200%;
       height: 200%;
