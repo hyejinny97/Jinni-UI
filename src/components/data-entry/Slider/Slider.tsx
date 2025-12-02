@@ -49,8 +49,11 @@ export type SliderProps = Omit<
   track?: 'normal' | false;
   scale?: (value: number) => number;
   TooltipProps?: Partial<TooltipProps>;
-  getAriaValueText?: (scaledValue: number, index: number) => string;
-  tooltipLabelFormat?: (scaledValue: number, index: number) => React.ReactNode;
+  getAriaValueText?: (scaledValue: number, thumbIdx: number) => string;
+  tooltipLabelFormat?: (
+    scaledValue: number,
+    thumbIdx: number
+  ) => React.ReactNode;
 };
 
 const Slider = (props: SliderProps) => {
