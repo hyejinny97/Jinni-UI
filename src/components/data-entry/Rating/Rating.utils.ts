@@ -21,3 +21,19 @@ export const ceilByStep = ({
   }
   return ceiledValue;
 };
+
+export const floorByStep = ({
+  value,
+  step,
+  max
+}: {
+  value: number;
+  step: number;
+  max: number;
+}) => {
+  let floorValue = max;
+  while (floorValue > value) {
+    floorValue -= step;
+  }
+  return floorValue;
+};

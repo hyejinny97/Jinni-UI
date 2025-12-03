@@ -1,33 +1,59 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { RatingProps } from './Rating';
 import { isNumber } from '@/utils/isNumber';
-import { ceilByStep } from './Rating.utils';
+import { ceilByStep, floorByStep } from './Rating.utils';
 
 type UseRatingValueProps = Pick<
   RatingProps,
   'value' | 'onChange' | 'readOnly'
 > &
-  Required<Pick<RatingProps, 'defaultValue' | 'step'>>;
+  Required<Pick<RatingProps, 'defaultValue' | 'step' | 'max'>>;
 
 export const useRatingValue = ({
   defaultValue,
   value,
   step,
+  max,
   readOnly,
   onChange
 }: UseRatingValueProps) => {
+  const inputElRef = useRef<HTMLInputElement>(null);
+  const isDownKeyboardPressedRef = useRef<boolean>(false);
   const isControlled = value !== undefined && isNumber(value);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (readOnly) return;
+
+    const isDownKeyboardPressed = isDownKeyboardPressedRef.current;
     const value = Number(event.target.value);
-    const newRatingValue = ceilByStep({ value, step });
+    const newRatingValue = isDownKeyboardPressed
+      ? floorByStep({ value, step, max })
+      : ceilByStep({ value, step });
+    isDownKeyboardPressedRef.current = false;
+
     if (!isControlled) setUncontrolledValue(newRatingValue);
     if (onChange) onChange(event, newRatingValue);
   };
 
+  useEffect(() => {
+    const inputEl = inputElRef.current;
+    if (!inputEl) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
+        isDownKeyboardPressedRef.current = true;
+      }
+    };
+
+    inputEl.addEventListener('keydown', handleKeyDown);
+    return () => {
+      inputEl.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return {
+    inputElRef,
     ratingValue: isControlled ? value : uncontrolledValue,
     handleChange
   };

@@ -17,6 +17,7 @@ export type RatingProps = Omit<
   DefaultComponentProps<'input'>,
   'onChange' | 'size'
 > & {
+  name?: string;
   defaultValue?: number;
   value?: number;
   onChange?: (
@@ -39,6 +40,7 @@ export type RatingProps = Omit<
 
 const Rating = (props: RatingProps) => {
   const {
+    name,
     defaultValue = 0,
     value,
     onChange,
@@ -58,10 +60,11 @@ const Rating = (props: RatingProps) => {
     style,
     ...rest
   } = props;
-  const { ratingValue, handleChange } = useRatingValue({
+  const { inputElRef, ratingValue, handleChange } = useRatingValue({
     defaultValue,
     value,
     step,
+    max,
     readOnly,
     onChange
   });
@@ -121,8 +124,10 @@ const Rating = (props: RatingProps) => {
         />
       </span>
       <input
+        ref={inputElRef}
         className={cn('JinniRatingInput', { readOnly, disabled }, className)}
         type="range"
+        name={name}
         value={ratingValue}
         onChange={handleChange}
         step={0.0001}
