@@ -17,45 +17,44 @@ import { Rating } from '@/components/data-entry/Rating';
 
 ### Basic Rating
 
-- type='range'인 input 요소의 props 전부 가능 (ex) name, required 등)
+- `defaultValue`: 초기 rating value (uncontrolled state일 때만 적용 가능)
 
 <Canvas of={RatingStories.BasicRating} />
 
-- `getLabelText`: 현재 rating value에 대한 사용자 친화적인 이름을 제공하는 함수 (screen reader 사용자에서 중요한 정보)
-
-<Canvas of={RatingStories.LabelText} />
-
-### Default Value
-
-- `defaultValue`: rating의 기본 value (uncontrolled state일 때만 적용 가능)
-
-<Canvas of={RatingStories.DefaultValue} />
-
 ### Controlled Rating
 
-- `value`와 `onChange` prop을 통해 rating을 control 할 수 있음
+#### 1. Basic
+
+- `value` prop을 통해 rating을 control 할 수 있음
 - `value`: rating value
 - `onChange`: rating value가 변경됐을 때 호출되는 함수
 
 <Canvas of={RatingStories.ControlledRating} />
 
-### Hover Feedback
+#### 2. Hover feedback
 
 - `onHoverChange`: hover value가 변경됐을 때 호출되는 함수
 
 <Canvas of={RatingStories.HoverFeedback} />
 
-### Step
+### Rating with form
 
-- `step`: value step
+- type='range'인 input 요소의 props 전부 가능 (ex) name, required 등)
+- `getLabelText`: 현재 rating value에 대한 사용자 친화적인 이름을 제공하는 함수 (screen reader 사용자에서 중요한 정보)
 
-<Canvas of={RatingStories.Step} />
+<Canvas of={RatingStories.RatingWithForm} />
 
 ### Maximum Value
 
 - `max`: rating value 최댓값
 
 <Canvas of={RatingStories.MaximumValue} />
+
+### Step
+
+- `step`: value step
+
+<Canvas of={RatingStories.Step} />
 
 ### Color
 
@@ -72,7 +71,7 @@ import { Rating } from '@/components/data-entry/Rating';
 
 ### Read Only
 
-- `readOnly`: true이면, hover effect가 비활성화되고 value를 변경할 수 없음
+- `readOnly`: true이면, 읽기만 가능
 
 <Canvas of={RatingStories.ReadOnly} />
 
@@ -87,6 +86,13 @@ import { Rating } from '@/components/data-entry/Rating';
 - `size`: rating 크기
 
 <Canvas of={RatingStories.Size} />
+
+### Disable hover effect
+
+- `disableHoverColored`: true이면, hover 시 연하게 colored되는 효과가 비활성화 됨
+- `disableHoverScaled`: true이면, hover 시 scaled되는 효과가 비활성화 됨
+
+<Canvas of={RatingStories.DisableHoverEffect} />
 
 ## Props
 

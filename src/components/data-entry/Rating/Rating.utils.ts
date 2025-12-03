@@ -1,5 +1,3 @@
-import { SizeType } from './Rating';
-
 export const getContainerWidthStyle = ({
   value,
   max
@@ -8,31 +6,6 @@ export const getContainerWidthStyle = ({
   max: number;
 }) => {
   return { width: `${(value / max) * 100}%` };
-};
-
-export const getIconsSizeStyle = ({
-  size,
-  max
-}: {
-  size: SizeType;
-  max: number;
-}) => {
-  let iconWidth;
-  switch (size) {
-    case 'sm':
-      iconWidth = 18;
-      break;
-    case 'md':
-      iconWidth = 24;
-      break;
-    case 'lg':
-      iconWidth = 30;
-  }
-
-  return {
-    width: `${iconWidth * max}px`,
-    height: `${iconWidth}px`
-  };
 };
 
 export const ceilByStep = ({
@@ -47,4 +20,20 @@ export const ceilByStep = ({
     ceiledValue += step;
   }
   return ceiledValue;
+};
+
+export const floorByStep = ({
+  value,
+  step,
+  max
+}: {
+  value: number;
+  step: number;
+  max: number;
+}) => {
+  let floorValue = max;
+  while (floorValue > value) {
+    floorValue -= step;
+  }
+  return floorValue;
 };

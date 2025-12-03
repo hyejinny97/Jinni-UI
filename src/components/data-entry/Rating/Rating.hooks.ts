@@ -1,26 +1,60 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { RatingProps } from './Rating';
 import { isNumber } from '@/utils/isNumber';
-import { ceilByStep } from './Rating.utils';
+import { ceilByStep, floorByStep } from './Rating.utils';
+
+type UseRatingValueProps = Pick<
+  RatingProps,
+  'value' | 'onChange' | 'readOnly'
+> &
+  Required<Pick<RatingProps, 'defaultValue' | 'step' | 'max'>>;
 
 export const useRatingValue = ({
   defaultValue,
   value,
+  step,
+  max,
   readOnly,
   onChange
-}: Pick<RatingProps, 'defaultValue' | 'value' | 'onChange' | 'readOnly'>) => {
-  const isControlledRating = value !== undefined && isNumber(value);
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue || 0);
+}: UseRatingValueProps) => {
+  const inputElRef = useRef<HTMLInputElement>(null);
+  const isDownKeyboardPressedRef = useRef<boolean>(false);
+  const isControlled = value !== undefined && isNumber(value);
+  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (readOnly) return;
-    const newValue = Number(event.target.value);
-    if (!isControlledRating) setUncontrolledValue(newValue);
-    if (onChange) onChange(event, newValue);
+
+    const isDownKeyboardPressed = isDownKeyboardPressedRef.current;
+    const value = Number(event.target.value);
+    const newRatingValue = isDownKeyboardPressed
+      ? floorByStep({ value, step, max })
+      : ceilByStep({ value, step });
+    isDownKeyboardPressedRef.current = false;
+
+    if (!isControlled) setUncontrolledValue(newRatingValue);
+    if (onChange) onChange(event, newRatingValue);
   };
 
+  useEffect(() => {
+    const inputEl = inputElRef.current;
+    if (!inputEl) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
+        isDownKeyboardPressedRef.current = true;
+      }
+    };
+
+    inputEl.addEventListener('keydown', handleKeyDown);
+    return () => {
+      inputEl.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return {
-    ratingValue: isControlledRating ? value : uncontrolledValue,
+    inputElRef,
+    ratingValue: isControlled ? value : uncontrolledValue,
     handleChange
   };
 };
@@ -36,42 +70,42 @@ export const useHoverValue = ({
   step: number;
 }) => {
   const [hoverValue, setHoverValue] = useState(0);
-  const isPressedRef = useRef<boolean>(false);
+  const ratingElRef = useRef<HTMLElement>(null);
 
-  const handleHoverChange = (event: React.MouseEvent, newValue: number) => {
-    if (readOnly || disabled) return;
-    if (newValue === hoverValue) return;
-    if (onHoverChange) onHoverChange(event, newValue);
-    setHoverValue(newValue);
-  };
-
-  return {
-    hoverValue,
-    handleMouseDown: (event: React.MouseEvent) => {
-      isPressedRef.current = true;
-      handleHoverChange(event, 0);
+  const handleHoverChange = useCallback(
+    (event: MouseEvent, newValue: number) => {
+      if (readOnly || disabled) return;
+      if (newValue === hoverValue) return;
+      if (onHoverChange) onHoverChange(event, newValue);
+      setHoverValue(newValue);
     },
-    handleMouseUp: () => {
-      isPressedRef.current = false;
-    },
-    handleMouseMove: (event: React.MouseEvent) => {
-      const ratingEl = event.currentTarget;
-      const isPressed = isPressedRef.current;
-      if (!ratingEl || isPressed) return;
+    [disabled, readOnly, hoverValue, onHoverChange]
+  );
 
+  useEffect(() => {
+    const ratingEl = ratingElRef.current;
+    if (!ratingEl) return;
+
+    const handleMouseMove = (event: MouseEvent) => {
       const { left: ratingElLeft, width: ratingElWidth } =
         ratingEl.getBoundingClientRect();
       const mouseX = event.clientX;
       const offsetLeft = mouseX - ratingElLeft;
-      const newHoverValue = ceilByStep({
-        value: (offsetLeft * max) / ratingElWidth,
-        step
-      });
+      const value = (offsetLeft * max) / ratingElWidth;
+      const newHoverValue = ceilByStep({ value, step });
       handleHoverChange(event, newHoverValue);
-    },
-    handleMouseOut: (event: React.MouseEvent) => {
-      isPressedRef.current = false;
+    };
+    const handleMouseOut = (event: MouseEvent) => {
       handleHoverChange(event, 0);
-    }
-  };
+    };
+
+    ratingEl.addEventListener('mousemove', handleMouseMove);
+    ratingEl.addEventListener('mouseout', handleMouseOut);
+    return () => {
+      ratingEl.removeEventListener('mousemove', handleMouseMove);
+      ratingEl.removeEventListener('mouseout', handleMouseOut);
+    };
+  }, [handleHoverChange, max, step]);
+
+  return { ratingElRef, hoverValue };
 };

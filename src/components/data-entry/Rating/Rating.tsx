@@ -1,30 +1,30 @@
 import './Rating.scss';
 import cn from 'classnames';
-import { useState } from 'react';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { StarIcon } from '@/components/icons/StarIcon';
 import { StarBorderIcon } from '@/components/icons/StarBorderIcon';
 import { lighten } from '@/utils/colorLuminance';
 import { ColorType } from '@/types/color';
 import { useRatingValue, useHoverValue } from './Rating.hooks';
-import { getContainerWidthStyle, getIconsSizeStyle } from './Rating.utils';
-import Icons from './Icons';
+import { getContainerWidthStyle } from './Rating.utils';
+import RatingIcons from './RatingIcons';
 import useColor from '@/hooks/useColor';
 
-export type SizeType = 'sm' | 'md' | 'lg';
+export type SizeType = 'sm' | 'md' | 'lg' | string;
 
-export type RatingProps<T extends AsType = 'input'> = Omit<
-  DefaultComponentProps<T>,
+export type RatingProps = Omit<
+  DefaultComponentProps<'input'>,
   'onChange' | 'size'
 > & {
+  name?: string;
   defaultValue?: number;
   value?: number;
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement>,
     value: number
   ) => void;
-  onHoverChange?: (event: React.MouseEvent, value: number) => void;
+  onHoverChange?: (event: MouseEvent, value: number) => void;
   max?: number;
   step?: number;
   filledIcon?: React.ReactNode;
@@ -34,11 +34,14 @@ export type RatingProps<T extends AsType = 'input'> = Omit<
   readOnly?: boolean;
   disabled?: boolean;
   getLabelText?: (value: number) => string;
+  disableHoverColored?: boolean;
+  disableHoverScaled?: boolean;
 };
 
-const Rating = <T extends AsType = 'input'>(props: RatingProps<T>) => {
+const Rating = (props: RatingProps) => {
   const {
-    defaultValue,
+    name,
+    defaultValue = 0,
     value,
     onChange,
     onHoverChange,
@@ -51,32 +54,28 @@ const Rating = <T extends AsType = 'input'>(props: RatingProps<T>) => {
     readOnly,
     disabled,
     getLabelText = (value: number) => `${value} Star${value > 1 ? 's' : ''}`,
+    disableHoverColored,
+    disableHoverScaled,
     className,
     style,
-    as: Component = 'input',
     ...rest
   } = props;
-  const [isFocused, setIsFocused] = useState(false);
-  const { ratingValue, handleChange } = useRatingValue({
+  const { inputElRef, ratingValue, handleChange } = useRatingValue({
     defaultValue,
     value,
+    step,
+    max,
     readOnly,
     onChange
   });
-  const {
-    hoverValue,
-    handleMouseDown,
-    handleMouseUp,
-    handleMouseMove,
-    handleMouseOut
-  } = useHoverValue({
+  const { ratingElRef, hoverValue } = useHoverValue({
     max,
     step,
     readOnly,
     disabled,
     onHoverChange
   });
-  const iconsSize = getIconsSizeStyle({ size, max });
+  const scaledIconIdx = disableHoverScaled ? -1 : Math.ceil(hoverValue) - 1;
   const normalizedColor = useColor(color);
   const newStyle = useStyle(style);
 
@@ -84,54 +83,58 @@ const Rating = <T extends AsType = 'input'>(props: RatingProps<T>) => {
 
   return (
     <span
-      className={cn('JinniRating', { isFocused, disabled })}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      onMouseOut={handleMouseOut}
+      ref={ratingElRef}
+      className={cn('JinniRating', { disabled })}
       style={newStyle}
     >
-      <Icons
+      <RatingIcons
         className="emptyIcons"
         icon={emptyIcon}
         count={max}
-        style={iconsSize}
+        size={size}
+        scaledIconIdx={scaledIconIdx}
+        style={{ '--color': 'gray-400' }}
       />
+      {!disableHoverColored && (
+        <span
+          className="JinniRatingIconsContainer"
+          style={getContainerWidthStyle({ value: hoverValue, max })}
+        >
+          <RatingIcons
+            className="hoveredIcons"
+            icon={filledIcon}
+            count={max}
+            size={size}
+            scaledIconIdx={scaledIconIdx}
+            style={{ '--color': lighten(normalizedColor, 0.7) }}
+          />
+        </span>
+      )}
       <span
-        className="JinniRatingIconContainer"
-        style={getContainerWidthStyle({ value: hoverValue, max })}
-      >
-        <Icons
-          className="hoveredIcons"
-          icon={filledIcon}
-          count={max}
-          style={{ color: lighten(normalizedColor, 0.6), ...iconsSize }}
-        />
-      </span>
-      <span
-        className="JinniRatingIconContainer"
+        className="JinniRatingIconsContainer"
         style={getContainerWidthStyle({ value: ratingValue, max })}
       >
-        <Icons
+        <RatingIcons
           className="filledIcons"
           icon={filledIcon}
           count={max}
-          style={{ color, ...iconsSize }}
+          size={size}
+          scaledIconIdx={scaledIconIdx}
+          style={{ '--color': color }}
         />
       </span>
-      <Component
+      <input
+        ref={inputElRef}
         className={cn('JinniRatingInput', { readOnly, disabled }, className)}
         type="range"
+        name={name}
         value={ratingValue}
         onChange={handleChange}
-        step={step}
+        step={0.0001}
         min={0}
         max={max}
         disabled={disabled}
-        onFocus={(event: React.FocusEvent) =>
-          event.currentTarget.matches(':focus-visible') && setIsFocused(true)
-        }
-        onBlur={() => setIsFocused(false)}
+        readOnly={readOnly}
         aria-label={getLabelText(ratingValue)}
         {...rest}
       />
