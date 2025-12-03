@@ -1,11 +1,29 @@
+$icon-size: (
+  sm: 18px,
+  md: 24px,
+  lg: 30px
+);
+
+@mixin rating-icon-size {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      width: map-get($map: $icon-size, $key: $size);
+      height: map-get($map: $icon-size, $key: $size);
+    }
+  }
+  &:not(.sm, .md, .lg) {
+    width: var(--size);
+    height: var(--size);
+  }
+}
+
 .JinniRating {
   position: relative;
   display: inline-flex;
   width: max-content;
   box-sizing: border-box;
-  &.isFocused {
-    border: 2px solid var(--jinni-color-gray-300);
-    border-radius: 4px;
+  &:has(.JinniRatingInput:focus-visible) {
+    outline: var(--jinni-color-gray-300) solid 2px;
   }
   &.disabled {
     opacity: 0.4;
@@ -13,14 +31,19 @@
 
   .JinniRatingIcons {
     display: inline-flex;
-    &.emptyIcons {
-      color: var(--jinni-color-gray-400);
-    }
+    color: var(--color);
 
     .JinniRatingIcon {
       flex: 1;
       display: inline-flex;
       box-sizing: border-box;
+      transition: transform var(--jinni-duration-short1)
+        var(--jinni-easing-emphasized);
+      &.scaled {
+        transform: scale(1.2);
+      }
+      @include rating-icon-size;
+
       svg {
         width: inherit;
         height: inherit;
@@ -31,10 +54,11 @@
     }
   }
 
-  .JinniRatingIconContainer {
+  .JinniRatingIconsContainer {
     position: absolute;
     top: 0;
     left: 0;
+    display: inline-flex;
     overflow: hidden;
   }
 
