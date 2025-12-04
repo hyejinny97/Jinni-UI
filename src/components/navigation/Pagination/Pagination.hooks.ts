@@ -2,34 +2,36 @@ import { useState } from 'react';
 import { PaginationProps, FIRST_PAGE } from './Pagination';
 import { isNumber } from '@/utils/isNumber';
 
+type UsePageProps = Required<
+  Pick<PaginationProps, 'defaultPage' | 'displayCount'>
+> &
+  Pick<PaginationProps, 'page' | 'onChange' | 'count'>;
+
 export const usePage = ({
   count,
-  pageDisplayCount,
+  displayCount,
   defaultPage,
   page,
   onChange
-}: Pick<PaginationProps, 'defaultPage' | 'page' | 'onChange' | 'count'> & {
-  pageDisplayCount: number;
-}) => {
+}: UsePageProps) => {
   const isControlled = page !== undefined && isNumber(page);
   const calculateRound = (page: number) =>
-    Math.floor((page - FIRST_PAGE) / pageDisplayCount);
+    Math.floor((page - FIRST_PAGE) / displayCount);
 
-  const [uncontrolledPage, setUncontrolledPage] = useState<number>(
-    defaultPage || FIRST_PAGE
-  );
+  const [uncontrolledPage, setUncontrolledPage] = useState<number>(defaultPage);
   const [round, setRound] = useState<number>(
     isControlled ? calculateRound(page) : calculateRound(uncontrolledPage)
   );
-  const roundFirstPage = round * pageDisplayCount + FIRST_PAGE;
-  const roundLastPage = Math.min(roundFirstPage + pageDisplayCount - 1, count);
+  const roundFirstPage = round * displayCount + FIRST_PAGE;
+  const roundLastPage = Math.min(roundFirstPage + displayCount - 1, count);
 
   const handleChange = (newPage: number) => (event: React.SyntheticEvent) => {
     if (!isControlled) setUncontrolledPage(newPage);
     if (onChange) onChange(event, newPage);
-
-    const newRound = calculateRound(newPage);
-    if (newPage > roundLastPage || newPage < roundFirstPage) setRound(newRound);
+    if (newPage > roundLastPage || newPage < roundFirstPage) {
+      const newRound = calculateRound(newPage);
+      setRound(newRound);
+    }
   };
 
   return {

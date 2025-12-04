@@ -4,21 +4,24 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { VariantType } from '@/components/general/Button';
 import { ColorType } from '@/types/color';
-import PaginationItem, {
+import {
+  PaginationItem,
   PaginationItemProps,
   PageButtonType,
   ShapeType,
   SizeType
 } from './PaginationItem';
-import Ellipsis, { EllipsisProps } from './Ellipsis';
+import PaginationEllipsis, {
+  PaginationEllipsisProps
+} from './PaginationEllipsis';
 import { usePage } from './Pagination.hooks';
 import {
-  convertToPositiveInteger,
   generatePageArray,
   isEllipsis,
   isPaginationItem
 } from './Pagination.utils';
 import { WithKey } from './Pagination.types';
+import { validatePositiveInteger } from '@/utils/isNumber';
 
 export type PaginationProps<
   T extends AsType = 'ul',
@@ -35,7 +38,7 @@ export type PaginationProps<
   renderPaginationItem?: (itemProps: PaginationItemProps<P>) => React.ReactNode;
   variant?: {
     selectedPage: VariantType;
-    notSelectedPage: VariantType;
+    page: VariantType;
   };
   color?: ColorType;
   disabled?: boolean;
@@ -43,11 +46,12 @@ export type PaginationProps<
   size?: SizeType;
 };
 
+export const FIRST_PAGE = 1;
+
 const VARIANT = {
   selectedPage: 'filled' as VariantType,
-  notSelectedPage: 'text' as VariantType
+  page: 'text' as VariantType
 };
-export const FIRST_PAGE = 1;
 
 const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
   props: PaginationProps<T, P>
@@ -55,7 +59,7 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
   const {
     count,
     displayCount = 5,
-    defaultPage,
+    defaultPage = FIRST_PAGE,
     page,
     onChange,
     displayMethod = 'default',
@@ -74,10 +78,16 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
     as: Component = 'ul',
     ...rest
   } = props;
-  const pageCount = convertToPositiveInteger(count);
-  const pageDisplayCount = convertToPositiveInteger(displayCount);
+  const pageCount = validatePositiveInteger({ value: count });
+  const pageDisplayCount = validatePositiveInteger({ value: displayCount });
   const { roundFirstPage, roundLastPage, selectedPage, handleChange } = usePage(
-    { count, pageDisplayCount, defaultPage, page, onChange }
+    {
+      count,
+      displayCount: pageDisplayCount,
+      defaultPage,
+      page,
+      onChange
+    }
   );
   const pageArray = generatePageArray({
     displayMethod,
@@ -89,72 +99,71 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
   });
   const newStyle = useStyle(style);
 
-  const items: Array<WithKey<PaginationItemProps<P>> | WithKey<EllipsisProps>> =
-    [
-      {
-        key: 'first',
-        type: 'first',
-        page: FIRST_PAGE,
-        onClick: handleChange(FIRST_PAGE),
-        disabled: selectedPage === FIRST_PAGE || disabled,
-        shape,
-        size
-      },
-      {
-        key: 'prev',
-        type: 'prev',
-        page: selectedPage - 1,
-        onClick: handleChange(selectedPage - 1),
-        disabled: selectedPage === FIRST_PAGE || disabled,
-        shape,
-        size
-      },
-      ...pageArray.map(({ key, type, page }) => {
-        switch (type) {
-          case 'page':
-            return {
-              key,
-              type: 'page',
-              page,
-              selected: selectedPage === page,
-              onClick: handleChange(page),
-              variant:
-                selectedPage === page
-                  ? variant.selectedPage
-                  : variant.notSelectedPage,
-              color,
-              disabled,
-              shape,
-              size
-            } as WithKey<PageButtonType<P>>;
-          case 'ellipsis':
-            return {
-              key,
-              type: 'ellipsis',
-              page,
-              size
-            } as WithKey<EllipsisProps>;
-        }
-      }),
-      {
-        key: 'next',
-        type: 'next',
-        page: selectedPage + 1,
-        onClick: handleChange(selectedPage + 1),
-        disabled: selectedPage === pageCount || disabled,
-        shape,
-        size
-      },
-      {
-        key: 'last',
-        type: 'last',
-        page: pageCount,
-        onClick: handleChange(pageCount),
-        disabled: selectedPage === pageCount || disabled,
-        shape,
-        size
+  const items: Array<
+    WithKey<PaginationItemProps<P>> | WithKey<PaginationEllipsisProps>
+  > = [
+    {
+      key: 'first',
+      type: 'first',
+      page: FIRST_PAGE,
+      onClick: handleChange(FIRST_PAGE),
+      disabled: selectedPage === FIRST_PAGE || disabled,
+      shape,
+      size
+    },
+    {
+      key: 'prev',
+      type: 'prev',
+      page: selectedPage - 1,
+      onClick: handleChange(selectedPage - 1),
+      disabled: selectedPage === FIRST_PAGE || disabled,
+      shape,
+      size
+    },
+    ...pageArray.map(({ key, type, page }) => {
+      switch (type) {
+        case 'page':
+          return {
+            key,
+            type: 'page',
+            page,
+            selected: selectedPage === page,
+            onClick: handleChange(page),
+            variant:
+              selectedPage === page ? variant.selectedPage : variant.page,
+            color,
+            disabled,
+            shape,
+            size
+          } as WithKey<PageButtonType<P>>;
+        case 'ellipsis':
+          return {
+            key,
+            type: 'ellipsis',
+            page,
+            size
+          } as WithKey<PaginationEllipsisProps>;
       }
-    ];
+    }),
+    {
+      key: 'next',
+      type: 'next',
+      page: selectedPage + 1,
+      onClick: handleChange(selectedPage + 1),
+      disabled: selectedPage === pageCount || disabled,
+      shape,
+      size
+    },
+    {
+      key: 'last',
+      type: 'last',
+      page: pageCount,
+      onClick: handleChange(pageCount),
+      disabled: selectedPage === pageCount || disabled,
+      shape,
+      size
+    }
+  ];
 
   return (
     <Component
@@ -164,7 +173,7 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
     >
       {items.map(({ key, ...itemProps }) => (
         <li key={key}>
-          {isEllipsis<P>(itemProps) && <Ellipsis {...itemProps} />}
+          {isEllipsis<P>(itemProps) && <PaginationEllipsis {...itemProps} />}
           {isPaginationItem<P>(itemProps) && renderPaginationItem(itemProps)}
         </li>
       ))}
