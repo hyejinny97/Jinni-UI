@@ -22,11 +22,29 @@ import { PaginationItem } from '@/components/navigation/Pagination';
 
 <Canvas of={PaginationItemStories.Type} />
 
-### Variant
+### Button props
 
-- `variant`: pagination item 종류
+- 내부적으로 `Button` 컴포넌트를 반환하므로, `Button` 의 모든 props 사용 가능
+
+#### 1. Variant
 
 <Canvas of={PaginationItemStories.Variant} />
+
+#### 2. Disabled
+
+<Canvas of={PaginationItemStories.Disabled} />
+
+#### 3. Overlay effect
+
+<Canvas of={PaginationItemStories.OverlayEffect} />
+
+#### 4. Ripple effect
+
+<Canvas of={PaginationItemStories.RippleEffect} />
+
+#### 5. Elevation effect
+
+<Canvas of={PaginationItemStories.ElevationEffect} />
 
 ### Selected
 
@@ -39,12 +57,6 @@ import { PaginationItem } from '@/components/navigation/Pagination';
 - `color`: selected page 색상
 
 <Canvas of={PaginationItemStories.Color} />
-
-### Disabled
-
-- `disabled`: true이면, 비활성화됨
-
-<Canvas of={PaginationItemStories.Disabled} />
 
 ### Shape
 
