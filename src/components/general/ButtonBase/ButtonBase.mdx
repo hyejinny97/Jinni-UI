@@ -23,8 +23,7 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 
 ### Link Button
 
-- `href`: 링크 url
-  - 이 prop이 설정되면 기존 button 태그에서 a 태그를 변환됨
+- `href`: 링크 url (이 prop이 설정되면 기존 button 태그에서 a 태그로 변환됨)
 
 <Canvas of={ButtonBaseStories.LinkButton} />
 
@@ -32,13 +31,13 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 
 - overlay effect: (disabled가 아닌 경우) hover 시 반투명의 overlay가 생성됨
 
-#### 1) Overlay Color
+#### 1. Overlay color
 
 - `overlayColor`: overlay 색상
 
 <Canvas of={ButtonBaseStories.OverlayColor} />
 
-#### 2) Disable Overlay
+#### 2. Disable overlay
 
 - `disableOverlay`: true이면, overlay가 나타나지 않음
 
@@ -48,19 +47,19 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 
 - ripple effect: (disabled가 아닌 경우) 클릭 시 ripple 애니메이션이 생성됨
 
-#### 1) Ripple Color
+#### 1. Ripple color
 
 - `rippleColor`: ripple 색상
 
 <Canvas of={ButtonBaseStories.RippleColor} />
 
-#### 2) Disable Ripple
+#### 2. Disable ripple
 
 - `disableRipple`: true이면, ripple effect가 비활성화됨
 
 <Canvas of={ButtonBaseStories.DisableRipple} />
 
-#### 3) Ripple Start Location
+#### 3. Ripple start location
 
 - `rippleStartLocation`: ripple 시작점
   - 'center': 버튼 중앙에서 ripple이 시작됨
@@ -77,11 +76,11 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 
 ### Disabled
 
-- `disabled`: true이면, 비활성화됨 (opacity: 0.5 적용됨)
+- `disabled`: true이면, 비활성화됨
 
 <Canvas of={ButtonBaseStories.Disabled} />
 
-### Complex Button
+### Complex button
 
 <Canvas of={ButtonBaseStories.ComplexButton} />
 

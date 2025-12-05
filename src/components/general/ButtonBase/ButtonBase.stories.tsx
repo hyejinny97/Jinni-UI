@@ -8,7 +8,7 @@ const meta: Meta<typeof ButtonBase> = {
   component: ButtonBase,
   argTypes: {
     children: {
-      description: '버튼 내부 내용(label)'
+      description: '버튼 내부 내용'
     },
     disabled: {
       description: 'true이면, 비활성화됨',
@@ -48,6 +48,12 @@ const meta: Meta<typeof ButtonBase> = {
       table: {
         type: { summary: `'center' | 'clicked'` },
         defaultValue: { summary: `'clicked'` }
+      }
+    },
+    type: {
+      description: 'button type',
+      table: {
+        type: { summary: `'button' | 'submit' | 'reset'` }
       }
     }
   }
@@ -95,13 +101,13 @@ const ComplexButtonTemplate = () => {
 };
 
 export const BasicButtonBase: Story = {
-  render: (args) => <ButtonBase {...args}>Label</ButtonBase>
+  render: (args) => <ButtonBase {...args}>Button Base</ButtonBase>
 };
 
 export const LinkButton: Story = {
   render: (args) => (
     <ButtonBase href="#" style={BUTTON_STYLE} {...args}>
-      Label
+      Button Base
     </ButtonBase>
   )
 };
@@ -194,5 +200,46 @@ export const Disabled: Story = {
 };
 
 export const ComplexButton: Story = {
-  render: (args) => <ComplexButtonTemplate {...args} />
+  render: (args) => <ComplexButtonTemplate {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ComplexButtonTemplate = () => {
+  const FOODS = [
+    {
+      type: 'Korean Food',
+      imageSrc:
+        'https://cdn.foodnews.co.kr/news/photo/201406/51074_8016_4424.jpg'
+    },
+    {
+      type: 'Chinese food',
+      imageSrc:
+        'https://img.etoday.co.kr/pto_db/2024/10/20241014163438_2088728_600_394.jpg'
+    },
+    {
+      type: 'Japanese food',
+      imageSrc:
+        'https://jstart.co.kr/data/editor/2204/20220411161255_d95e74c5fa579b9bd7b9c94b445cf7fc_5zeb.jpg'
+    }
+  ];
+
+  return (
+    <>
+      {FOODS.map(({ type, imageSrc }) => {
+        return (
+          <ButtonBase key={type} className={cn('complex-button', type)}>
+            <span
+              className="image"
+              style={{ backgroundImage: \`url(\${imageSrc})\` }}
+            />
+            <span className="title">{type}</span>
+          </ButtonBase>
+        );
+      })}
+    </>
+  );
+};`.trim()
+      }
+    }
+  }
 };
