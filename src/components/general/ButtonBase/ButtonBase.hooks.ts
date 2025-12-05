@@ -1,19 +1,16 @@
-import { useEffect } from 'react';
-import useJinni from '@/hooks/useJinni';
+import { useEffect, useRef } from 'react';
 import { ELEVATION_LEVELS } from '@/constants/elevation';
 import { ElevationLevelType } from '@/types/elevation';
 import { isNumber } from '@/utils/isNumber';
 
 export const useElevationEffect = ({
-  buttonBaseElRef,
   elevation,
   disabled
 }: {
-  buttonBaseElRef: React.RefObject<HTMLElement>;
   elevation?: ElevationLevelType;
   disabled?: boolean;
 }) => {
-  const jinniContext = useJinni();
+  const buttonBaseElRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const elevationMaxValue = Math.max(...ELEVATION_LEVELS);
@@ -21,12 +18,20 @@ export const useElevationEffect = ({
     const buttonBaseEl = buttonBaseElRef.current;
     if (!hasElevation || !buttonBaseEl || disabled) return;
 
+    const applyElevation = (elevationLevel: ElevationLevelType) => {
+      const elevationClass = Array.from(buttonBaseEl.classList).find(
+        (className) => className.startsWith('elevation-')
+      );
+      if (elevationClass) buttonBaseEl.classList.remove(elevationClass);
+      buttonBaseEl.classList.add(`elevation-${elevationLevel}`);
+    };
+
     const lift = () => {
       const highElevationLevel = Math.min(
         elevation + 2,
         elevationMaxValue
       ) as ElevationLevelType;
-      buttonBaseEl.style.boxShadow = jinniContext.boxShadow[highElevationLevel];
+      applyElevation(highElevationLevel);
     };
 
     const liftHigh = () => {
@@ -34,11 +39,11 @@ export const useElevationEffect = ({
         elevation + 5,
         elevationMaxValue
       ) as ElevationLevelType;
-      buttonBaseEl.style.boxShadow = jinniContext.boxShadow[highElevationLevel];
+      applyElevation(highElevationLevel);
     };
 
     const drop = () => {
-      buttonBaseEl.style.boxShadow = jinniContext.boxShadow[elevation];
+      applyElevation(elevation);
     };
 
     const handleKeyDown = (e: KeyboardEvent) =>
@@ -63,5 +68,7 @@ export const useElevationEffect = ({
       buttonBaseEl.removeEventListener('keydown', handleKeyDown);
       buttonBaseEl.removeEventListener('keyup', lift);
     };
-  }, [buttonBaseElRef, elevation, jinniContext.boxShadow, disabled]);
+  }, [elevation, disabled]);
+
+  return { buttonBaseElRef };
 };
