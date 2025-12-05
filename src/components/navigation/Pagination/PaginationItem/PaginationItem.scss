@@ -1,0 +1,20 @@
+$item-size: (
+  sm: 26px,
+  md: 32px,
+  lg: 38px
+);
+
+@mixin pagination-item-size {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      width: map-get($map: $item-size, $key: $size);
+      height: map-get($map: $item-size, $key: $size);
+    }
+  }
+}
+
+button.JinniPaginationItem.JinniButtonBase.JinniButton,
+a.JinniPaginationItem.JinniButtonBase.JinniButton {
+  padding: 0;
+  @include pagination-item-size;
+}

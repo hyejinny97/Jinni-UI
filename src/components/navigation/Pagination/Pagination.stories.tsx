@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Pagination from './Pagination';
-import PaginationItem from './PaginationItem';
+import { PaginationItem } from './PaginationItem';
 import { Stack } from '@/components/layout/Stack';
 import { Text } from '@/components/general/Text';
 import { Tooltip } from '@/components/data-display/Tooltip';
@@ -25,7 +25,8 @@ const meta: Meta<typeof Pagination> = {
       description: '전체 페이지 수'
     },
     defaultPage: {
-      description: '초기 selected page'
+      description: '초기 selected page',
+      defaultValue: { summary: `1` }
     },
     disabled: {
       description: 'true이면, 비활성화됨',
@@ -85,15 +86,18 @@ const meta: Meta<typeof Pagination> = {
       description: 'pagination item 종류',
       table: {
         type: {
-          summary: `{ selectedPage: VariantType, notSelectedPage: VariantType }`
+          summary: `{ selectedPage: 'filled' | 'subtle-filled' | 'outlined' | 'text', page: 'filled' | 'subtle-filled' | 'outlined' | 'text' }`
         },
         defaultValue: {
-          summary: `{ selectedPage: 'filled', notSelectedPage: 'text' }`
+          summary: `{ selectedPage: 'filled', page: 'text' }`
         }
       }
     }
   }
 };
+
+export default meta;
+type Story = StoryObj<typeof Pagination>;
 
 const ControlledPaginationTemplate = () => {
   const [page, setPage] = useState(2);
@@ -121,7 +125,7 @@ const RouterIntegrationTemplate = () => {
       renderPaginationItem={(itemProps) => (
         <PaginationItem
           as={Link}
-          href={`/inbox${itemProps.page === 1 ? '' : `?page=${itemProps.page}`}`}
+          href={`/${itemProps.page === 1 ? '' : `?page=${itemProps.page}`}`}
           {...itemProps}
         />
       )}
@@ -133,6 +137,7 @@ const HideControlButtonTemplate = () => {
   return (
     <Pagination
       count={10}
+      displayCount={10}
       renderPaginationItem={(itemProps) =>
         ['first', 'last', 'prev', 'next'].includes(itemProps.type) ? (
           <PaginationItem style={{ display: 'none' }} {...itemProps} />
@@ -144,62 +149,42 @@ const HideControlButtonTemplate = () => {
   );
 };
 
-const CustomControlButtonIconTemplate = () => {
+const CustomIconTemplate = () => {
+  const ITEMS = {
+    prev: { label: 'prev', tooltipContent: 'go prev-page' },
+    next: { label: 'next', tooltipContent: 'go next-page' },
+    first: { label: 'first', tooltipContent: 'go first-page' },
+    last: { label: 'last', tooltipContent: 'go last-page' }
+  } as const;
+
+  const isControlType = (
+    type: string
+  ): type is 'prev' | 'next' | 'first' | 'last' =>
+    ['prev', 'next', 'first', 'last'].includes(type);
+
   return (
     <Pagination
       count={10}
       renderPaginationItem={(itemProps) => {
-        switch (itemProps.type) {
-          case 'prev':
-            return (
-              <Tooltip content="go prev-page" arrow>
-                <PaginationItem
-                  icon="prev"
-                  style={{ minWidth: 'max-content' }}
-                  {...itemProps}
-                />
-              </Tooltip>
-            );
-          case 'next':
-            return (
-              <Tooltip content="go next-page" arrow>
-                <PaginationItem
-                  icon="next"
-                  style={{ minWidth: 'max-content' }}
-                  {...itemProps}
-                />
-              </Tooltip>
-            );
-          case 'first':
-            return (
-              <Tooltip content="go first-page" arrow>
-                <PaginationItem
-                  icon="first"
-                  style={{ minWidth: 'max-content' }}
-                  {...itemProps}
-                />
-              </Tooltip>
-            );
-          case 'last':
-            return (
-              <Tooltip content="go last-page" arrow>
-                <PaginationItem
-                  icon="last"
-                  style={{ minWidth: 'max-content' }}
-                  {...itemProps}
-                />
-              </Tooltip>
-            );
-          default:
-            return <PaginationItem {...itemProps} />;
+        const { type } = itemProps;
+        if (isControlType(type)) {
+          return (
+            <Tooltip content={ITEMS[type].tooltipContent} arrow>
+              <PaginationItem
+                style={{ minWidth: 'max-content' }}
+                {...itemProps}
+              >
+                {ITEMS[type].label}
+              </PaginationItem>
+            </Tooltip>
+          );
+        } else {
+          return <PaginationItem {...itemProps} />;
         }
       }}
     />
   );
 };
-
-export default meta;
-type Story = StoryObj<typeof Pagination>;
 
 export const BasicPagination: Story = {
   render: (args) => (
@@ -207,30 +192,54 @@ export const BasicPagination: Story = {
       <Pagination count={10} {...args} />
       <Pagination count={10} displayCount={10} {...args} />
       <Pagination count={10} displayCount={3} {...args} />
+      <Pagination count={10} defaultPage={4} {...args} />
     </Stack>
   )
 };
 
-export const DefaultPage: Story = {
-  render: (args) => <Pagination count={10} defaultPage={4} {...args} />
-};
-
 export const ControlledPagination: Story = {
-  render: (args) => <ControlledPaginationTemplate {...args} />
+  render: () => <ControlledPaginationTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledPaginationTemplate = () => {
+  const [page, setPage] = useState(2);
+
+  const handleChange = (_: React.SyntheticEvent, newPage: number) => {
+    setPage(newPage);
+  };
+
+  return (
+    <>
+      <Text>Current Page: {page}</Text>
+      <Pagination count={10} page={page} onChange={handleChange} />
+    </>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const DisplayMethod: Story = {
+  render: (args) => (
+    <Pagination
+      count={10}
+      displayCount={10}
+      defaultPage={5}
+      displayMethod="ellipsis"
+      {...args}
+    />
+  )
+};
+
+export const RestrictDisplayedCount: Story = {
   render: (args) => (
     <Stack spacing={20}>
       <Pagination
         count={10}
         displayCount={10}
-        displayMethod="ellipsis"
-        {...args}
-      />
-      <Pagination
-        count={10}
-        displayCount={10}
+        defaultPage={5}
         displayMethod="ellipsis"
         siblingCount={0}
         {...args}
@@ -238,6 +247,7 @@ export const DisplayMethod: Story = {
       <Pagination
         count={10}
         displayCount={10}
+        defaultPage={5}
         displayMethod="ellipsis"
         boundaryCount={2}
         {...args}
@@ -247,7 +257,31 @@ export const DisplayMethod: Story = {
 };
 
 export const RouterIntegration: Story = {
-  render: (args) => <RouterIntegrationTemplate {...args} />
+  render: () => <RouterIntegrationTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const RouterIntegrationTemplate = () => {
+  const query = new URLSearchParams(window.location.search);
+  const page = parseInt(query.get('page') || '1', 10);
+
+  return (
+    <Pagination
+      count={10}
+      page={page}
+      renderPaginationItem={(itemProps) => (
+        <PaginationItem
+          as={Link}
+          href={\`/\${itemProps.page === 1 ? '' : \`?page=\${itemProps.page}\`}\`}
+          {...itemProps}
+        />
+      )}
+    />
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Variant: Story = {
@@ -255,14 +289,14 @@ export const Variant: Story = {
     <Stack spacing={20}>
       <Pagination
         count={10}
-        variant={{ selectedPage: 'outlined', notSelectedPage: 'text' }}
+        variant={{ selectedPage: 'outlined', page: 'text' }}
         {...args}
       />
       <Pagination
         count={10}
         variant={{
           selectedPage: 'filled',
-          notSelectedPage: 'subtle-filled'
+          page: 'subtle-filled'
         }}
         {...args}
       />
@@ -298,9 +332,73 @@ export const Size: Story = {
 };
 
 export const HideControlButton: Story = {
-  render: (args) => <HideControlButtonTemplate {...args} />
+  render: () => <HideControlButtonTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const HideControlButtonTemplate = () => {
+  return (
+    <Pagination
+      count={10}
+      displayCount={10}
+      renderPaginationItem={(itemProps) =>
+        ['first', 'last', 'prev', 'next'].includes(itemProps.type) ? (
+          <PaginationItem style={{ display: 'none' }} {...itemProps} />
+        ) : (
+          <PaginationItem {...itemProps} />
+        )
+      }
+    />
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
-export const CustomControlButtonIcon: Story = {
-  render: (args) => <CustomControlButtonIconTemplate {...args} />
+export const CustomIcon: Story = {
+  render: () => <CustomIconTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomIconTemplate = () => {
+  const ITEMS = {
+    prev: { label: 'prev', tooltipContent: 'go prev-page' },
+    next: { label: 'next', tooltipContent: 'go next-page' },
+    first: { label: 'first', tooltipContent: 'go first-page' },
+    last: { label: 'last', tooltipContent: 'go last-page' }
+  } as const;
+
+  const isControlType = (
+    type: string
+  ): type is 'prev' | 'next' | 'first' | 'last' =>
+    ['prev', 'next', 'first', 'last'].includes(type);
+
+  return (
+    <Pagination
+      count={10}
+      renderPaginationItem={(itemProps) => {
+        const { type } = itemProps;
+        if (isControlType(type)) {
+          return (
+            <Tooltip content={ITEMS[type].tooltipContent} arrow>
+              <PaginationItem
+                style={{ minWidth: 'max-content' }}
+                {...itemProps}
+              >
+                {ITEMS[type].label}
+              </PaginationItem>
+            </Tooltip>
+          );
+        } else {
+          return <PaginationItem {...itemProps} />;
+        }
+      }}
+    />
+  );
+};
+`.trim()
+      }
+    }
+  }
 };

@@ -1,14 +1,11 @@
 import { AsType } from '@/types/default-component-props';
-import { FIRST_PAGE, PaginationProps } from './Pagination';
+import { PaginationProps } from './Pagination';
 import { PaginationItemProps } from './PaginationItem';
-import { EllipsisProps } from './Ellipsis';
+import { PaginationEllipsisProps } from './PaginationEllipsis';
 
 type PageType =
   | { key: number; type: 'page'; page: number }
   | { key: number; type: 'ellipsis'; page: null };
-
-export const convertToPositiveInteger = (value: number): number =>
-  Math.round(Math.max(value, FIRST_PAGE));
 
 export const generatePageArray = ({
   displayMethod,
@@ -78,10 +75,10 @@ export const generatePageArray = ({
 };
 
 export const isEllipsis = <P extends AsType = 'button'>(
-  props: PaginationItemProps<P> | EllipsisProps
-): props is EllipsisProps => props.type === 'ellipsis';
+  props: PaginationItemProps<P> | PaginationEllipsisProps
+): props is PaginationEllipsisProps => props.type === 'ellipsis';
 
 export const isPaginationItem = <P extends AsType = 'button'>(
-  props: PaginationItemProps<P> | EllipsisProps
+  props: PaginationItemProps<P> | PaginationEllipsisProps
 ): props is PaginationItemProps<P> =>
   ['first', 'last', 'prev', 'next', 'page'].includes(props.type);

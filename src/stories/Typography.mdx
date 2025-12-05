@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/blocks';
+import { DEFAULT_TYPOGRAPHY } from '../constants/typography';
 
 <Meta title="Design System/Typography" />
 
@@ -41,7 +42,7 @@ export const TYPO_TYPES = [
     return (
       <>
         <span style={{ color: 'gray' }}>{type}</span>
-        <p className={`sb-unstyled typo-${type}`}>{SAMPLE_TEXT}</p>
+        <p style={DEFAULT_TYPOGRAPHY[type]}>{SAMPLE_TEXT}</p>
       </>
     );
   })}
