@@ -109,7 +109,8 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
       onClick: handleChange(FIRST_PAGE),
       disabled: selectedPage === FIRST_PAGE || disabled,
       shape,
-      size
+      size,
+      'aria-label': 'go to first page'
     },
     {
       key: 'prev',
@@ -118,24 +119,28 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
       onClick: handleChange(selectedPage - 1),
       disabled: selectedPage === FIRST_PAGE || disabled,
       shape,
-      size
+      size,
+      'aria-label': 'go to previous page'
     },
     ...pageArray.map(({ key, type, page }) => {
       switch (type) {
-        case 'page':
+        case 'page': {
+          const selected = selectedPage === page;
           return {
             key,
             type: 'page',
             page,
-            selected: selectedPage === page,
+            selected,
             onClick: handleChange(page),
-            variant:
-              selectedPage === page ? variant.selectedPage : variant.page,
+            variant: selected ? variant.selectedPage : variant.page,
             color,
             disabled,
             shape,
-            size
+            size,
+            'aria-label': `go to page ${page}`,
+            'aria-current': selected ? 'page' : undefined
           } as WithKey<PageButtonType<P>>;
+        }
         case 'ellipsis':
           return {
             key,
@@ -152,7 +157,8 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
       onClick: handleChange(selectedPage + 1),
       disabled: selectedPage === pageCount || disabled,
       shape,
-      size
+      size,
+      'aria-label': 'go to next page'
     },
     {
       key: 'last',
@@ -161,12 +167,15 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
       onClick: handleChange(pageCount),
       disabled: selectedPage === pageCount || disabled,
       shape,
-      size
+      size,
+      'aria-label': 'go to last page'
     }
   ];
 
   return (
     <Component
+      role="navigation"
+      aria-label="pagination navigation"
       className={cn('JinniPagination', size, className)}
       style={newStyle}
       {...rest}
