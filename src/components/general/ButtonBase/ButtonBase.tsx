@@ -1,6 +1,6 @@
 import './ButtonBase.scss';
 import cn from 'classnames';
-import { MutableRefObject, useRef, forwardRef } from 'react';
+import { MutableRefObject, forwardRef } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useRipple, UseRippleProps } from '@/hooks/useRipple';
@@ -9,7 +9,7 @@ import { useElevationEffect } from './ButtonBase.hooks';
 
 export type ButtonBaseProps<T extends AsType = 'button'> =
   DefaultComponentProps<T> &
-    Partial<UseRippleProps> & {
+    UseRippleProps & {
       type?: 'button' | 'submit' | 'reset';
       children?: React.ReactNode;
       href?: string;
@@ -40,18 +40,16 @@ const ButtonBase = forwardRef(
       as: Component = href ? 'a' : 'button',
       ...rest
     } = props;
-    const buttonBaseElRef = useRef<HTMLElement>(null);
+    const { buttonBaseElRef } = useElevationEffect({
+      elevation,
+      disabled
+    });
     const { rippleTargetRef, RippleContainer } = useRipple({
       rippleColor,
       rippleStartLocation,
       disableRipple
     });
-    useElevationEffect({
-      buttonBaseElRef,
-      elevation,
-      disabled
-    });
-    const newStyle = useStyle({ elevation, ...style });
+    const newStyle = useStyle(style);
 
     return (
       <Component
@@ -70,7 +68,11 @@ const ButtonBase = forwardRef(
         }}
         className={cn(
           'JinniButtonBase',
-          { [`overlay-${overlayColor}`]: !disableOverlay, disabled },
+          {
+            [`overlay-${overlayColor}`]: !disableOverlay,
+            [`elevation-${elevation}`]: elevation,
+            disabled
+          },
           className
         )}
         type={type}
