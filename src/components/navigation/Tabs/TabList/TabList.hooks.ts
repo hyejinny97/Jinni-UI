@@ -218,8 +218,14 @@ export const useKeyboardAccessibility = ({
           if (e.key === 'ArrowDown') focusNextTab();
         }
       }
-      if (e.key === 'Home') focusFirstTab();
-      if (e.key === 'End') focusLastTab();
+      if (e.key === 'Home') {
+        e.preventDefault();
+        focusFirstTab();
+      }
+      if (e.key === 'End') {
+        e.preventDefault();
+        focusLastTab();
+      }
     };
     const handleFocusOut = () => {
       focusedTabIdx = selectedTabIdx;
