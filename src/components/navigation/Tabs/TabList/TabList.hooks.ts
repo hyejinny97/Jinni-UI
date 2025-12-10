@@ -173,34 +173,35 @@ export const useKeyboardAccessibility = ({
     if (!tabListEl) return;
 
     const tabEls = Array.from(
-      tabListEl.querySelectorAll<HTMLElement>('.JinniTab')
+      tabListEl.querySelectorAll<HTMLButtonElement>('.JinniTab')
     );
     const selectedTabIdx = tabEls.findIndex(
       (tabEl) => tabEl.dataset.value === selectedValue
     );
     if (tabEls.length === 0 || selectedTabIdx === -1) return;
 
-    const lastTabIdx = tabEls.length - 1;
+    const focusableTabEls = tabEls.filter((tabEl) => !tabEl.disabled);
+    const lastTabIdx = focusableTabEls.length - 1;
     let focusedTabIdx = selectedTabIdx;
     const focusPrevTab = () => {
       const prevTabIdx = focusedTabIdx - 1 < 0 ? lastTabIdx : focusedTabIdx - 1;
-      const prevTab = tabEls[prevTabIdx];
+      const prevTab = focusableTabEls[prevTabIdx];
       prevTab.focus();
       focusedTabIdx = prevTabIdx;
     };
     const focusNextTab = () => {
       const nextTabIdx = focusedTabIdx + 1 > lastTabIdx ? 0 : focusedTabIdx + 1;
-      const nextTab = tabEls[nextTabIdx];
+      const nextTab = focusableTabEls[nextTabIdx];
       nextTab.focus();
       focusedTabIdx = nextTabIdx;
     };
     const focusFirstTab = () => {
-      const firstTab = tabEls[0];
+      const firstTab = focusableTabEls[0];
       firstTab.focus();
       focusedTabIdx = 0;
     };
     const focusLastTab = () => {
-      const lastTab = tabEls[lastTabIdx];
+      const lastTab = focusableTabEls[lastTabIdx];
       lastTab.focus();
       focusedTabIdx = lastTabIdx;
     };
