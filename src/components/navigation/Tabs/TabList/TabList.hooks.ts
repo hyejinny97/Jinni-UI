@@ -58,15 +58,23 @@ export const useIndicator = ({
       height var(--jinni-easing-emphasized) var(--jinni-duration-short3)`;
     }
 
-    switch (tabListOrientation) {
-      case 'horizontal':
-        indicatorEl.style.transform = `translateX(${selectedTabEl.offsetLeft}px)`;
-        indicatorEl.style.width = `${selectedTabEl.offsetWidth}px`;
-        break;
-      case 'vertical':
-        indicatorEl.style.transform = `translateY(${selectedTabEl.offsetTop}px)`;
-        indicatorEl.style.height = `${selectedTabEl.offsetHeight}px`;
-    }
+    const setIndicatorStyle = () => {
+      switch (tabListOrientation) {
+        case 'horizontal':
+          indicatorEl.style.transform = `translateX(${selectedTabEl.offsetLeft}px)`;
+          indicatorEl.style.width = `${selectedTabEl.offsetWidth}px`;
+          break;
+        case 'vertical':
+          indicatorEl.style.transform = `translateY(${selectedTabEl.offsetTop}px)`;
+          indicatorEl.style.height = `${selectedTabEl.offsetHeight}px`;
+      }
+    };
+    setIndicatorStyle();
+    const resizeObserver = new ResizeObserver(setIndicatorStyle);
+    resizeObserver.observe(tabListEl);
+    return () => {
+      resizeObserver.unobserve(tabListEl);
+    };
   }, [
     tabListContainerElRef,
     tabListElRef,
