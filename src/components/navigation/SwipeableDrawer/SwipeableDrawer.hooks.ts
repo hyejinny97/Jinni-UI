@@ -2,7 +2,7 @@ import { useEffect, useRef, useContext } from 'react';
 import { SwipeableDrawerProps } from './SwipeableDrawer';
 import SwipeableDrawerContext from './SwipeableDrawer.contexts';
 import { TRIGGER_REGION } from './SwipeableDrawer.constants';
-import { getTranslate } from './SwipeableDrawer.utils';
+import { getTranslate } from '@/utils/getTranslate';
 
 export const useSwipeableDrawerContext = () => {
   const value = useContext(SwipeableDrawerContext);
