@@ -73,7 +73,10 @@ const TabList = <T extends AsType = 'div'>(props: TabListProps<T>) => {
     scrollable,
     tabListOrientation
   });
-  useKeyboardAccessibility({ tabListElRef, tabListOrientation });
+  useKeyboardAccessibility({
+    tabListElRef,
+    tabListOrientation
+  });
   const newStyle = useStyle({ '--color': color, ...style });
 
   return (

@@ -9,6 +9,7 @@ import { TabListOrientation } from '../Tabs.types';
 import TabListContext from './TabList.context';
 import { useTabsContext } from '../Tabs.hooks';
 import { useMountRef } from '@/hooks/useMount';
+import { scrollIntoViewWithin } from './TabList.utils';
 
 export const useTabListContext = () => {
   const value = useContext(TabListContext);
@@ -45,10 +46,9 @@ export const useIndicator = ({
     );
     if (!selectedTabEl) return;
 
-    selectedTabEl.scrollIntoView({
-      block: 'nearest',
-      inline: 'nearest',
-      behavior: 'instant'
+    scrollIntoViewWithin({
+      container: tabListContainerEl,
+      target: selectedTabEl
     });
 
     if (isMounted) {
@@ -221,9 +221,14 @@ export const useKeyboardAccessibility = ({
       if (e.key === 'Home') focusFirstTab();
       if (e.key === 'End') focusLastTab();
     };
+    const handleFocusOut = () => {
+      focusedTabIdx = selectedTabIdx;
+    };
     tabListEl.addEventListener('keydown', handleKeyDown);
+    tabListEl.addEventListener('focusout', handleFocusOut);
     return () => {
       tabListEl.removeEventListener('keydown', handleKeyDown);
+      tabListEl.removeEventListener('focusout', handleFocusOut);
     };
   }, [tabListElRef, selectedValue, tabListOrientation]);
 };
