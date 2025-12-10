@@ -1,5 +1,10 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as TabsStories from './Tabs.stories';
+import * as TabListStories from './TabList/TabList.stories';
+import * as TabStories from './Tab/Tab.stories';
+import * as TabPanelStories from './TabPanel/TabPanel.stories';
+import * as TabPrevButtonStories from './TabPrevButton/TabPrevButton.stories';
+import * as TabNextButtonStories from './TabNextButton/TabNextButton.stories';
 
 <Meta of={TabsStories} />
 
@@ -10,68 +15,81 @@ import * as TabsStories from './Tabs.stories';
 ## Import
 
 ```js
-import { Tabs } from '@/components/navigation/Tabs';
+import {
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
+  TabPrevButton,
+  TabNextButton
+} from '@/components/navigation/Tabs';
 ```
 
 ## Usage
 
 ### Basic Tabs
 
-- `value`: selected tab value
-- `onChange`: selected tab value가 변경됐을 때 호출되는 함수
+- `Tabs` 컴포넌트
+  - `defaultValue`: 초기 selected tab value
+- `Tab` 컴포넌틑
+  - `value`: 다른 tab과 구별되는 유일한 값
+- `TabPanel` 컴포넌트
+  - `value`: 다른 tab panel과 구별되는 유일한 값
 
 <Canvas of={TabsStories.BasicTabs} />
 
+### Controlled Tabs
+
+- `Tabs` 컴포넌트
+  - `value`: selected tab value
+  - `onChange`: selected tab value가 변경됐을 때 호출되는 함수
+
+<Canvas of={TabsStories.ControlledTabs} />
+
 ### Variant
 
-- `variant`: tabs의 형태
+- `TabList` 컴포넌트
+  - `variant`: tab의 형태
 
 <Canvas of={TabsStories.Variant} />
 
-### Color
-
-- `color`: selected tab과 indicator의 색상
-
-<Canvas of={TabsStories.Color} />
-
-### Disabled
-
-<Canvas of={TabsStories.Disabled} />
-
 ### Size
 
-- `size`: tab의 크기
+- `Tabs` 컴포넌트
+  - `tabSize`: tab 크기
 
 <Canvas of={TabsStories.Size} />
 
+### Color
+
+- `TabList` 컴포넌트
+  - `color`: selected tab과 indicator의 색상
+
+<Canvas of={TabsStories.Color} />
+
 ### Full Width
 
-- `fullWidth`: true이면, 허용 가능한 너비에 동일한 비율로 꽉 채워짐
+- `TabList` 컴포넌트
+  - `fullWidth`: true이면, 허용 가능한 너비에 동일한 비율로 꽉 채워짐
 
 <Canvas of={TabsStories.FullWidth} />
 
-### Scrollable
+### Button props
 
-#### 1) scrollable
+- `Tab` 컴포넌트는 내부적으로 `Button` 컴포넌트를 반환함
+- `TabList` 컴포넌트를 통해 하위 모든 `Tab` 컴포넌트에 `Button` 컴포넌트의 일부 props를 일괄 적용 가능
 
-- `scrollable`: true이면, 수평(또는 수직) scrolling(swiping)이 가능함
+#### 1. Disabled
 
-<Canvas of={TabsStories.Scrollable} />
+<Canvas of={TabsStories.Disabled} />
 
-#### 2) ScrollButtons
+#### 2. Overlay effect
 
-- `scrollButtons`: scrollable가 true일 때, scroll buttons이 나타나는 방식
-  - `'auto'`: 뷰포트가 desktop(1200px) 크기 이상일 때만 나타나고, 미만이면 나타나지 않음
-  - `false`: 뷰포트 크기에 상관없이 항상 나타나지 않음
-  - `true`: 뷰포트 크기에 상관없이 항상 나타남
+<Canvas of={TabsStories.OverlayEffect} />
 
-<Canvas of={TabsStories.ScrollButtons} />
+#### 3. Ripple effect
 
-### Vertical Tabs
-
-- `orientation`: tabs의 정렬 방향
-
-<Canvas of={TabsStories.VerticalTabs} />
+<Canvas of={TabsStories.RippleEffect} />
 
 ### Icon Tabs
 
@@ -81,12 +99,61 @@ import { Tabs } from '@/components/navigation/Tabs';
 
 <Canvas of={TabsStories.NavTabs} />
 
-### Customization
+### Scrollable
 
-- className과 `style` prop을 통해 tabs, tab, indicator 커스텀 가능
+#### 1. Basic
 
-<Canvas of={TabsStories.Customization} />
+- `TabList` 컴포넌트
+  - `scrollable`: true이면, 수평(또는 수직) scrolling(swiping)이 가능함
+
+<Canvas of={TabsStories.Scrollable} />
+
+#### 2. Scroll buttons
+
+- `TabPrevButton`와 `TabNextButton` 컴포넌트를 사용해 tab 하나씩 이동 가능함
+- `TabPrevButton`, `TabNextButton` 컴포넌트는 내부적으로 `Button` 컴포넌트를 렌더하고 있기 때문에 ButtonProps 적용 가능
+
+<Canvas of={TabsStories.ScrollButtons} />
+
+#### 3. Custom scroll buttons
+
+<Canvas of={TabsStories.CustomScrollButtons} />
+
+### TabList orientation
+
+- `Tabs` 컴포넌트
+  - `tabListOrientation`: `TabList`의 정렬 방향
+
+<Canvas of={TabsStories.TabListOrientation} />
+
+### Customize tabs
+
+- className과 `style` prop을 통해 tabList, tab, indicator 커스텀 가능
+
+<Canvas of={TabsStories.CustomizeTabs} />
 
 ## Props
 
+### Tabs
+
 <ArgTypes of={TabsStories} sort="alpha" />
+
+### TabList
+
+<ArgTypes of={TabListStories} sort="alpha" />
+
+### Tab
+
+<ArgTypes of={TabStories} sort="alpha" />
+
+### TabPanel
+
+<ArgTypes of={TabPanelStories} sort="alpha" />
+
+### TabPrevButton
+
+<ArgTypes of={TabPrevButtonStories} sort="alpha" />
+
+### TabNextButton
+
+<ArgTypes of={TabNextButtonStories} sort="alpha" />

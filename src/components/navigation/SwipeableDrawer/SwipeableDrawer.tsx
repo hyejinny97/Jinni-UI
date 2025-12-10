@@ -13,7 +13,7 @@ import {
 } from './SwipeableDrawer.hooks';
 import SwipeableDrawerContext from './SwipeableDrawer.contexts';
 import { TRIGGER_REGION } from './SwipeableDrawer.constants';
-import { getTranslate } from './SwipeableDrawer.utils';
+import { getTranslate } from '@/utils/getTranslate';
 
 export type CloseReason = 'escapeKeydown' | 'backdropClick' | 'snap';
 type SnapPoint = {

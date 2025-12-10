@@ -1,11 +1,20 @@
 .tabs-custom.JinniTabs {
-  box-sizing: border-box;
-  border-bottom: 1px solid var(--jinni-color-gray-300);
-
   .JinniTabListContainer {
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--jinni-color-gray-300);
+
     .JinniTabList {
       left: 50%;
       transform: translateX(-50%);
+
+      .JinniTab[aria-selected='true'] {
+        font-weight: 700;
+      }
+
+      .JinniTabListIndicator.horizontal {
+        background-color: var(--jinni-color-gray-600);
+        height: 3px;
+      }
     }
   }
 }

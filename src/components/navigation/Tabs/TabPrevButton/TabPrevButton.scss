@@ -1,0 +1,23 @@
+$button-size: (
+  sm: 26px,
+  md: 32px,
+  lg: 38px
+);
+
+@mixin tab-button-size {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      width: map-get($map: $button-size, $key: $size);
+      height: map-get($map: $button-size, $key: $size);
+    }
+  }
+}
+
+button.JinniTabPrevButton.JinniButtonBase.JinniButton,
+a.JinniTabPrevButton.JinniButtonBase.JinniButton {
+  padding: 0;
+  border-radius: 0;
+  &:not(.fullWidth) {
+    @include tab-button-size;
+  }
+}
