@@ -10,12 +10,15 @@ type TabPanelProps<T extends AsType = 'div'> = Omit<BoxProps<T>, 'value'> & {
 
 const TabPanel = <T extends AsType = 'div'>(props: TabPanelProps<T>) => {
   const { value, children, className, ...rest } = props;
-  const { selectedValue } = useTabsContext();
+  const { tabsId, selectedValue } = useTabsContext();
   const selected = selectedValue === value;
 
   return (
     <Box
+      role="tabpanel"
       className={cn('JinniTabPanel', className)}
+      id={`${tabsId}-${value}-panel`}
+      aria-labelledby={`${tabsId}-${value}-tab`}
       hidden={!selected}
       {...rest}
     >

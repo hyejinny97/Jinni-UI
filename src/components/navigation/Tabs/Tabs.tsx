@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { useId } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import TabsContext from './Tabs.context';
@@ -30,7 +31,7 @@ const Tabs = <T extends AsType = 'div'>(props: TabsProps<T>) => {
     as: Component = 'div',
     ...rest
   } = props;
-
+  const tabsId = useId();
   const { selectedValue, handleChange } = useTabValue({
     defaultValue,
     value,
@@ -45,6 +46,7 @@ const Tabs = <T extends AsType = 'div'>(props: TabsProps<T>) => {
   return (
     <TabsContext.Provider
       value={{
+        tabsId,
         selectedValue,
         handleChange,
         tabListOrientation,

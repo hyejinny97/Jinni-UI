@@ -12,7 +12,7 @@ type TabProps<T extends AsType = 'button'> = Omit<ButtonProps<T>, 'value'> & {
 
 const Tab = <T extends AsType = 'button'>(props: TabProps<T>) => {
   const { value, children, className, ...rest } = props;
-  const { selectedValue, handleChange, tabSize } = useTabsContext();
+  const { tabsId, selectedValue, handleChange, tabSize } = useTabsContext();
   const {
     variant,
     color,
@@ -31,6 +31,8 @@ const Tab = <T extends AsType = 'button'>(props: TabProps<T>) => {
       role="tab"
       className={cn('JinniTab', className)}
       onClick={(e: React.MouseEvent) => handleChange(e, value)}
+      id={`${tabsId}-${value}-tab`}
+      aria-controls={`${tabsId}-${value}-panel`}
       tabIndex={selected ? 0 : -1}
       aria-selected={selected}
       data-value={value}

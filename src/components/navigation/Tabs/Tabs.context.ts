@@ -3,6 +3,7 @@ import { ValueType, TabListOrientation } from './Tabs.types';
 import { ButtonProps } from '@/components/general/Button';
 
 type TabsContextProps = {
+  tabsId: string;
   selectedValue: ValueType | null;
   handleChange: (event: React.SyntheticEvent, value: ValueType) => void;
   tabListOrientation: TabListOrientation;

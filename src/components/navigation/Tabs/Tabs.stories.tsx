@@ -95,7 +95,7 @@ const ControlledTabsTemplate = () => {
     <Stack spacing={20}>
       <Alert>{`Selected tab value: ${selectedTabValue}`}</Alert>
       <Tabs value={selectedTabValue} onChange={handleChange}>
-        <TabList>
+        <TabList aria-label="주요 메뉴">
           <Tab value="one">ITEM ONE</Tab>
           <Tab value="two">ITEM TWO</Tab>
           <Tab value="three">ITEM THREE</Tab>
@@ -141,7 +141,7 @@ const TabSizeTemplate = () => {
         onChange={handleTabChange}
         tabSize={tabSize}
       >
-        <TabList>
+        <TabList aria-label="주요 메뉴">
           <Tab value="one">ITEM ONE</Tab>
           <Tab value="two">ITEM TWO</Tab>
           <Tab value="three">ITEM THREE</Tab>
@@ -160,7 +160,7 @@ const NavTabsTemplate = () => {
 
   return (
     <Tabs value={selectedTabValue}>
-      <TabList>
+      <TabList aria-label="주요 메뉴">
         <Tab value="one" href="?value=one">
           ITEM ONE
         </Tab>
@@ -181,7 +181,7 @@ const NavTabsTemplate = () => {
 export const BasicTabs: Story = {
   render: (args) => (
     <Tabs defaultValue="one" {...args}>
-      <TabList>
+      <TabList aria-label="주요 메뉴">
         <Tab value="one">ITEM ONE</Tab>
         <Tab value="two">ITEM TWO</Tab>
         <Tab value="three">ITEM THREE</Tab>
@@ -211,7 +211,7 @@ export const ControlledTabs: Story = {
     <Stack spacing={20}>
       <Alert>{\`Selected tab value: \${selectedTabValue}\`}</Alert>
       <Tabs value={selectedTabValue} onChange={handleChange}>
-        <TabList>
+        <TabList aria-label="주요 메뉴">
           <Tab value="one">ITEM ONE</Tab>
           <Tab value="two">ITEM TWO</Tab>
           <Tab value="three">ITEM THREE</Tab>
@@ -231,7 +231,10 @@ export const ControlledTabs: Story = {
 export const Variant: Story = {
   render: (args) => (
     <Tabs defaultValue="one" {...args}>
-      <TabList variant={{ selectedTab: 'subtle-filled', tab: 'text' }}>
+      <TabList
+        variant={{ selectedTab: 'subtle-filled', tab: 'text' }}
+        aria-label="주요 메뉴"
+      >
         <Tab value="one">ITEM ONE</Tab>
         <Tab value="two">ITEM TWO</Tab>
         <Tab value="three">ITEM THREE</Tab>
@@ -281,7 +284,7 @@ export const Size: Story = {
         onChange={handleTabChange}
         tabSize={tabSize}
       >
-        <TabList>
+        <TabList aria-label="주요 메뉴">
           <Tab value="one">ITEM ONE</Tab>
           <Tab value="two">ITEM TWO</Tab>
           <Tab value="three">ITEM THREE</Tab>
@@ -301,7 +304,7 @@ export const Size: Story = {
 export const Color: Story = {
   render: (args) => (
     <Tabs defaultValue="one" {...args}>
-      <TabList color="yellow-400">
+      <TabList color="yellow-400" aria-label="주요 메뉴">
         <Tab value="one">ITEM ONE</Tab>
         <Tab value="two">ITEM TWO</Tab>
         <Tab value="three">ITEM THREE</Tab>
@@ -316,7 +319,7 @@ export const Color: Story = {
 export const FullWidth: Story = {
   render: (args) => (
     <Tabs defaultValue="one" style={{ width: '500px' }} {...args}>
-      <TabList fullWidth>
+      <TabList fullWidth aria-label="주요 메뉴">
         <Tab value="one">ITEM ONE</Tab>
         <Tab value="two">ITEM TWO</Tab>
         <Tab value="three">ITEM THREE</Tab>
@@ -331,7 +334,7 @@ export const FullWidth: Story = {
 export const Disabled: Story = {
   render: (args) => (
     <Tabs defaultValue="one" {...args}>
-      <TabList>
+      <TabList aria-label="주요 메뉴">
         <Tab value="one">ITEM ONE</Tab>
         <Tab value="two" disabled>
           ITEM TWO
@@ -348,7 +351,7 @@ export const Disabled: Story = {
 export const OverlayEffect: Story = {
   render: (args) => (
     <Tabs defaultValue="one" {...args}>
-      <TabList disableOverlay>
+      <TabList disableOverlay aria-label="주요 메뉴">
         <Tab value="one">ITEM ONE</Tab>
         <Tab value="two">ITEM TWO</Tab>
         <Tab value="three">ITEM THREE</Tab>
@@ -363,7 +366,7 @@ export const OverlayEffect: Story = {
 export const RippleEffect: Story = {
   render: (args) => (
     <Tabs defaultValue="one" {...args}>
-      <TabList rippleStartLocation="center">
+      <TabList rippleStartLocation="center" aria-label="주요 메뉴">
         <Tab value="one">ITEM ONE</Tab>
         <Tab value="two">ITEM TWO</Tab>
         <Tab value="three">ITEM THREE</Tab>
@@ -378,7 +381,7 @@ export const RippleEffect: Story = {
 export const IconTabs: Story = {
   render: (args) => (
     <Tabs defaultValue="home" {...args}>
-      <TabList>
+      <TabList aria-label="주요 메뉴">
         <Tab value="home" startAdornment={<HomeIcon color="gray-600" />}>
           HOME
         </Tab>
@@ -407,7 +410,7 @@ export const NavTabs: Story = {
 
   return (
     <Tabs value={selectedTabValue}>
-      <TabList>
+      <TabList aria-label="주요 메뉴">
         <Tab value="one" href="?value=one">
           ITEM ONE
         </Tab>
@@ -432,7 +435,7 @@ export const NavTabs: Story = {
 export const Scrollable: Story = {
   render: (args) => (
     <Tabs defaultValue="eleven" style={{ width: '600px' }} {...args}>
-      <TabList scrollable>
+      <TabList scrollable aria-label="주요 메뉴">
         {MANY_TAB_ITEMS.map((item) => (
           <Tab key={item.value} value={item.value}>
             {item.label}
@@ -453,7 +456,7 @@ export const ScrollButtons: Story = {
     <Tabs defaultValue="eleven" style={{ width: '600px' }} {...args}>
       <Stack direction="row">
         <TabPrevButton />
-        <TabList scrollable>
+        <TabList scrollable aria-label="주요 메뉴">
           {MANY_TAB_ITEMS.map((item) => (
             <Tab key={item.value} value={item.value}>
               {item.label}
@@ -475,7 +478,7 @@ export const CustomScrollButtons: Story = {
   render: (args) => (
     <Tabs defaultValue="eleven" style={{ width: '600px' }} {...args}>
       <Stack direction="row" spacing={10}>
-        <TabList scrollable>
+        <TabList scrollable aria-label="주요 메뉴">
           {MANY_TAB_ITEMS.map((item) => (
             <Tab key={item.value} value={item.value}>
               {item.label}
@@ -526,7 +529,11 @@ export const TabListOrientation: Story = {
     >
       <Stack>
         <TabPrevButton fullWidth />
-        <TabList scrollable style={{ maxHeight: '200px' }}>
+        <TabList
+          scrollable
+          style={{ maxHeight: '200px' }}
+          aria-label="주요 메뉴"
+        >
           {MANY_TAB_ITEMS.map((item) => (
             <Tab key={item.value} value={item.value}>
               {item.label}
@@ -552,7 +559,7 @@ export const CustomizeTabs: Story = {
       style={{ width: '600px' }}
       {...args}
     >
-      <TabList>
+      <TabList aria-label="주요 메뉴">
         <Tab value="one">ITEM ONE</Tab>
         <Tab value="two">ITEM TWO</Tab>
         <Tab value="three">ITEM THREE</Tab>

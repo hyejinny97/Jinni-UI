@@ -97,12 +97,12 @@ const TabList = <T extends AsType = 'div'>(props: TabListProps<T>) => {
         ref={tabListContainerElRef}
         className={cn('JinniTabListContainer', tabListOrientation, className)}
         style={newStyle}
-        {...rest}
       >
         <div
           ref={tabListElRef}
           role="tablist"
           className={cn('JinniTabList', { fullWidth }, tabListOrientation)}
+          {...rest}
         >
           {children}
           <div
