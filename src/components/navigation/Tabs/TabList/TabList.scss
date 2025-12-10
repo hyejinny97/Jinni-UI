@@ -1,0 +1,48 @@
+@use '@/styles/mixins' as mixins;
+
+.JinniTabListContainer {
+  position: relative;
+  overflow: auto;
+  @include mixins.hide-scroll-bar();
+  &.horizontal {
+    width: 100%;
+  }
+  &.vertical {
+    width: auto;
+    height: 100%;
+  }
+
+  .JinniTabList {
+    position: relative;
+    display: inline-flex;
+    align-items: end;
+    justify-content: start;
+    touch-action: none;
+    &.horizontal {
+      flex-direction: row;
+    }
+    &.vertical {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    &.fullWidth {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .JinniTabListIndicator {
+      position: absolute;
+      background-color: var(--color);
+      &.horizontal {
+        left: 0;
+        bottom: 0;
+        height: 2px;
+      }
+      &.vertical {
+        top: 0;
+        right: 0;
+        width: 2px;
+      }
+    }
+  }
+}
