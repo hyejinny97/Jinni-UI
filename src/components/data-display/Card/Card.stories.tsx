@@ -49,9 +49,61 @@ const meta: Meta<typeof Card> = {
 export default meta;
 type Story = StoryObj<typeof Card>;
 
-const CardTemplate = ({ ...props }) => {
+const ClickableCardTemplate = () => {
+  const CARD_ITEMS = [
+    {
+      id: 1,
+      title: 'Plants',
+      description: 'Plants are essential for all life.'
+    },
+    {
+      id: 2,
+      title: 'Animals',
+      description: 'Animals are a part of nature.'
+    },
+    {
+      id: 3,
+      title: 'Humans',
+      description: 'Humans depend on plants and animals for survival.'
+    }
+  ];
+  const [selectedCard, setSelectedCard] = useState(0);
+
   return (
-    <Card style={{ maxWidth: '270px' }} {...props}>
+    <Grid columns={2} spacing={20}>
+      {CARD_ITEMS.map(({ id, title, description }) => (
+        <Card
+          key={id}
+          as={ButtonBase}
+          style={{
+            backgroundColor: id === selectedCard ? 'gray-200' : 'white'
+          }}
+          onClick={() => setSelectedCard(id)}
+        >
+          <CardHeader className="typo-title-medium">{title}</CardHeader>
+          <CardBody className="typo-body-medium">{description}</CardBody>
+        </Card>
+      ))}
+    </Grid>
+  );
+};
+
+export const BasicCard: Story = {
+  render: (args) => (
+    <Card {...args}>
+      <CardHeader>Card Header</CardHeader>
+      <CardBody>Card Body</CardBody>
+      <CardFooter>
+        <Button>Learn More</Button>
+        <Button variant="text">Delete Card</Button>
+      </CardFooter>
+    </Card>
+  )
+};
+
+export const Elevation: Story = {
+  render: (args) => (
+    <Card style={{ maxWidth: '270px' }} elevation={10} {...args}>
       <CardHeader style={{ paddingBottom: '8px' }}>
         <Text as="h3" className="typo-title-large" style={{ margin: '5px 0' }}>
           Card Title
@@ -59,13 +111,14 @@ const CardTemplate = ({ ...props }) => {
         <Text
           as="h4"
           className="typo-title-medium"
-          style={{ color: 'gray-400', margin: '0' }}
+          noMargin
+          style={{ color: 'gray-400' }}
         >
           Card SubTitle
         </Text>
       </CardHeader>
       <CardBody>
-        <Text className="typo-body-medium" style={{ margin: '0' }}>
+        <Text className="typo-body-medium" noMargin>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
           quibusdam doloremque optio. Ipsum nobis eligendi temporibus nemo
           consequuntur, similique architecto.
@@ -75,12 +128,116 @@ const CardTemplate = ({ ...props }) => {
         <Button variant="text">Learn More</Button>
       </CardFooter>
     </Card>
-  );
+  )
 };
 
-const ComplexCardTemplate = () => {
-  return (
-    <Card style={{ maxWidth: '300px' }}>
+export const Outlined: Story = {
+  render: (args) => (
+    <Card style={{ maxWidth: '270px' }} outlined elevation={0} {...args}>
+      <CardHeader style={{ paddingBottom: '8px' }}>
+        <Text as="h3" className="typo-title-large" style={{ margin: '5px 0' }}>
+          Card Title
+        </Text>
+        <Text
+          as="h4"
+          className="typo-title-medium"
+          noMargin
+          style={{ color: 'gray-400' }}
+        >
+          Card SubTitle
+        </Text>
+      </CardHeader>
+      <CardBody>
+        <Text className="typo-body-medium" noMargin>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+          quibusdam doloremque optio. Ipsum nobis eligendi temporibus nemo
+          consequuntur, similique architecto.
+        </Text>
+      </CardBody>
+      <CardFooter>
+        <Button variant="text">Learn More</Button>
+      </CardFooter>
+    </Card>
+  )
+};
+
+export const Round: Story = {
+  render: (args) => (
+    <Stack direction="row" spacing={20}>
+      {(['sm', 'md', 'lg'] as const).map((round) => (
+        <Card style={{ maxWidth: '270px' }} round={round} {...args}>
+          <CardHeader style={{ paddingBottom: '8px' }}>
+            <Text
+              as="h3"
+              className="typo-title-large"
+              style={{ margin: '5px 0' }}
+            >
+              Card Title
+            </Text>
+            <Text
+              as="h4"
+              className="typo-title-medium"
+              noMargin
+              style={{ color: 'gray-400' }}
+            >
+              Card SubTitle
+            </Text>
+          </CardHeader>
+          <CardBody>
+            <Text className="typo-body-medium" noMargin>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+              quibusdam doloremque optio. Ipsum nobis eligendi temporibus nemo
+              consequuntur, similique architecto.
+            </Text>
+          </CardBody>
+          <CardFooter>
+            <Button variant="text">Learn More</Button>
+          </CardFooter>
+        </Card>
+      ))}
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Stack direction="row" spacing={20}>
+  {(['sm', 'md', 'lg'] as const).map((round) => (
+    <Card style={{ maxWidth: '270px' }} round={round}>
+      <CardHeader style={{ paddingBottom: '8px' }}>
+        <Text as="h3" className="typo-title-large" style={{ margin: '5px 0' }}>
+          Card Title
+        </Text>
+        <Text
+          as="h4"
+          className="typo-title-medium"
+          noMargin
+          style={{ color: 'gray-400' }}
+        >
+          Card SubTitle
+        </Text>
+      </CardHeader>
+      <CardBody>
+        <Text className="typo-body-medium" noMargin>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
+          quibusdam doloremque optio. Ipsum nobis eligendi temporibus nemo
+          consequuntur, similique architecto.
+        </Text>
+      </CardBody>
+      <CardFooter>
+        <Button variant="text">Learn More</Button>
+      </CardFooter>
+    </Card>
+  ))}
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const ComplexCard: Story = {
+  render: (args) => (
+    <Card style={{ maxWidth: '400px' }} {...args}>
       <CardHeader
         style={{
           display: 'flex',
@@ -93,12 +250,13 @@ const ComplexCardTemplate = () => {
           H
         </Avatar>
         <Box style={{ flex: '1' }}>
-          <Text as="h3" className="typo-title-medium" style={{ margin: '0' }}>
+          <Text as="h3" className="typo-title-medium" noMargin>
             Pasta
           </Text>
           <Text
             className="typo-label-medium"
-            style={{ color: 'gray-400', margin: '0' }}
+            noMargin
+            style={{ color: 'gray-400' }}
           >
             2025.03.20
           </Text>
@@ -116,9 +274,11 @@ const ComplexCardTemplate = () => {
       <img
         src="https://recipe1.ezmember.co.kr/cache/recipe/2022/09/30/8e7eb8e3019532a8dc6d39a9a325aad41.jpg"
         alt="pasta"
+        height="200px"
+        style={{ objectFit: 'cover' }}
       />
       <CardBody>
-        <Text className="typo-body-medium" style={{ margin: '0' }}>
+        <Text className="typo-body-medium" noMargin>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
           quibusdam doloremque optio. Ipsum nobis eligendi temporibus nemo
           consequuntur, similique architecto.
@@ -148,10 +308,15 @@ const ComplexCardTemplate = () => {
         </Text>
       </CardFooter>
     </Card>
-  );
+  )
 };
 
-const ClickableCardTemplate = () => {
+export const ClickableCard: Story = {
+  render: () => <ClickableCardTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ClickableCardTemplate = () => {
   const CARD_ITEMS = [
     {
       id: 1,
@@ -175,8 +340,8 @@ const ClickableCardTemplate = () => {
     <Grid columns={2} spacing={20}>
       {CARD_ITEMS.map(({ id, title, description }) => (
         <Card
-          as={ButtonBase}
           key={id}
+          as={ButtonBase}
           style={{
             backgroundColor: id === selectedCard ? 'gray-200' : 'white'
           }}
@@ -188,43 +353,8 @@ const ClickableCardTemplate = () => {
       ))}
     </Grid>
   );
-};
-
-export const BasicCard: Story = {
-  render: (args) => (
-    <Card {...args}>
-      <CardHeader>Card Header</CardHeader>
-      <CardBody>Card Body</CardBody>
-      <CardFooter>
-        <Button>Learn More</Button>
-        <Button variant="text">Delete Card</Button>
-      </CardFooter>
-    </Card>
-  )
-};
-
-export const Elevation: Story = {
-  render: (args) => <CardTemplate elevation={10} {...args} />
-};
-
-export const Outlined: Story = {
-  render: (args) => <CardTemplate outlined elevation={0} {...args} />
-};
-
-export const Round: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <CardTemplate round="sm" {...args} />
-      <CardTemplate round="md" {...args} />
-      <CardTemplate round="lg" {...args} />
-    </Stack>
-  )
-};
-
-export const ComplexCard: Story = {
-  render: (args) => <ComplexCardTemplate {...args} />
-};
-
-export const ClickableCard: Story = {
-  render: (args) => <ClickableCardTemplate {...args} />
+};`.trim()
+      }
+    }
+  }
 };
