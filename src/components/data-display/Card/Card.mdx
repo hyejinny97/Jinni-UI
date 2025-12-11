@@ -7,6 +7,12 @@ import * as CardStories from './Card.stories';
 
 카드
 
+- 구성 컴포넌트
+  - `Card` 컴포넌트: 하위 카드 관련 컴포넌트들을 감싸는 최상위 wrapper
+  - `CardHeader` 컴포넌트: card header를 감싸는 wrapper
+  - `CardBody` 컴포넌트: card content를 감싸는 wrapper
+  - `CardFooter` 컴포넌트: card actions를 감싸는 wrapper
+
 ## Import
 
 ```js
@@ -17,35 +23,19 @@ import { Card } from '@/components/data-display/Card';
 
 ### Basic Card
 
-- `Card` 컴포넌트
-  - 하위 카드 관련 컴포넌트들을 감싸는 최상위 wrapper
-- `CardHeader` 컴포넌트
-  - card header를 감싸는 wrapper
-- `CardBody` 컴포넌트
-  - card content를 감싸는 wrapper
-- `CardFooter` 컴포넌트
-  - card actions를 감싸는 wrapper
-
 <Canvas of={CardStories.BasicCard} />
 
 ### Elevation
 
-- `Card` 컴포넌트
-  - `elevation`: 높낮이
+- `Card` 컴포넌트는 내부적으로 `Box` 컴포넌트를 렌더하기 때문에 BoxProps 적용 가능
 
 <Canvas of={CardStories.Elevation} />
 
 ### Outlined
 
-- `Card` 컴포넌트
-  - `outlined`: true이면, outline이 생성됨
-
 <Canvas of={CardStories.Outlined} />
 
 ### Round
-
-- `Card` 컴포넌트
-  - `round`: card의 border-radius
 
 <Canvas of={CardStories.Round} />
 
@@ -59,6 +49,6 @@ import { Card } from '@/components/data-display/Card';
 
 ## Props
 
-> `Card` 컴포넌트: `Box` 컴포넌트의 모든 props를 상속 받음
+### Card
 
 <ArgTypes of={CardStories} sort="alpha" />

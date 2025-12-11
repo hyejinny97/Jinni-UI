@@ -9,11 +9,11 @@ type CardProps<T extends AsType = 'div'> = BoxProps<T> & {
 
 const Card = <T extends AsType = 'div'>(props: CardProps<T>) => {
   const {
-    children,
-    className,
     elevation = 3,
     round = 'sm',
     outlined = false,
+    children,
+    className,
     style,
     ...rest
   } = props;
