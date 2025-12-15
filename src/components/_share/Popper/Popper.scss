@@ -1,4 +1,4 @@
 .JinniPopper {
-  position: absolute;
+  position: var(--position);
   z-index: var(--jinni-z-index-popper);
 }

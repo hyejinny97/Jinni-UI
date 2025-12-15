@@ -4,7 +4,7 @@ import { forwardRef, MutableRefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { PopperType } from '@/types/popper';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { usePopperAbsolutePosition } from './Popper.hooks';
+import { usePopperPosition } from './Popper.hooks';
 import useStyle from '@/hooks/useStyle';
 
 export type PopperProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
@@ -13,6 +13,7 @@ export type PopperProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   anchorOrigin?: PopperType['anchorOrigin'];
   anchorPosition?: PopperType['anchorPosition'];
   popperOrigin: PopperType['popperOrigin'];
+  positionType?: 'absolute' | 'fixed';
 };
 
 const Popper = forwardRef(
@@ -27,19 +28,21 @@ const Popper = forwardRef(
       anchorOrigin,
       anchorPosition,
       popperOrigin,
+      positionType = 'absolute',
       className,
       style,
       as: Component = 'div',
       ...rest
     } = props;
-    const { popperRef } = usePopperAbsolutePosition({
+    const { popperRef } = usePopperPosition({
       anchorReference,
       anchorElRef,
       anchorOrigin,
       anchorPosition,
-      popperOrigin
+      popperOrigin,
+      positionType
     });
-    const newStyle = useStyle(style);
+    const newStyle = useStyle({ '--position': positionType, ...style });
 
     return (
       <>
