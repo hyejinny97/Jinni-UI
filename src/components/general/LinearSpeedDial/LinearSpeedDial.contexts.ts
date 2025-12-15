@@ -1,12 +1,10 @@
 import { createContext } from 'react';
-import { DirectionType } from './LinearSpeedDial';
+import { PlacementType } from './LinearSpeedDial';
 
 type LinearSpeedDialContextType = {
-  direction: DirectionType;
+  open: boolean;
+  placement: PlacementType;
 };
 
-const LinearSpeedDialContext = createContext<LinearSpeedDialContextType | null>(
-  null
-);
-
-export default LinearSpeedDialContext;
+export const LinearSpeedDialContext =
+  createContext<LinearSpeedDialContextType | null>(null);

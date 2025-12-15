@@ -1,10 +1,10 @@
+import './LinearSpeedDialAction.scss';
 import cn from 'classnames';
-import { useContext } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { Button, ButtonProps } from '@/components/general/Button';
 import { Tooltip, TooltipProps } from '@/components/data-display/Tooltip';
-import LinearSpeedDialContext from './LinearSpeedDial.contexts';
-import { getTooltipPlacement } from './LinearSpeedDial.utils';
+import { getTooltipPlacement } from './LinearSpeedDialAction.utils';
+import { useLinearDial } from '../LinearSpeedDial.hooks';
 
 export type LinearSpeedDialActionProps<T extends AsType = 'button'> =
   ButtonProps<T> & {
@@ -22,32 +22,28 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
     elevation = 3,
     shape = 'pill',
     className,
-    style,
     ...rest
   } = props;
-  const linearSpeedDialContextValue = useContext(LinearSpeedDialContext);
-
-  if (!linearSpeedDialContextValue)
-    throw new Error('CircularSpeedDialContext 값을 가져올 수 없습니다.');
+  const { open, placement } = useLinearDial();
 
   return (
     <Tooltip
-      placement={getTooltipPlacement(linearSpeedDialContextValue.direction)}
+      triggers={['hover', 'focus']}
+      placement={getTooltipPlacement(placement)}
       {...TooltipProps}
     >
-      <Button
-        className={cn('JinniLinearSpeedDialAction', className)}
-        variant={variant}
-        color={color}
-        size={size}
-        elevation={elevation}
-        shape={shape}
-        style={{
-          padding: '8px',
-          ...style
-        }}
-        {...rest}
-      />
+      <span className={cn('JinniLinearSpeedDialActionWrapper', { open })}>
+        <Button
+          className={cn('JinniLinearSpeedDialAction', { open }, className)}
+          variant={variant}
+          color={color}
+          size={size}
+          elevation={elevation}
+          shape={shape}
+          tabIndex={-1}
+          {...rest}
+        />
+      </span>
     </Tooltip>
   );
 };

@@ -1,14 +1,13 @@
-import { DirectionType } from './LinearSpeedDial';
+import { PlacementType } from './LinearSpeedDial';
 import {
   HORIZONTAL_CENTER_VERTICAL_TOP,
   HORIZONTAL_CENTER_VERTICAL_BOTTOM,
   HORIZONTAL_LEFT_VERTICAL_CENTER,
   HORIZONTAL_RIGHT_VERTICAL_CENTER
 } from './LinearSpeedDial.constants';
-import { PlacementType } from '@/types/popper';
 
-export const getAnchorOrigin = (direction: DirectionType) => {
-  switch (direction) {
+export const getAnchorOrigin = (placement: PlacementType) => {
+  switch (placement) {
     case 'up':
       return HORIZONTAL_CENTER_VERTICAL_TOP;
     case 'down':
@@ -20,8 +19,8 @@ export const getAnchorOrigin = (direction: DirectionType) => {
   }
 };
 
-export const getPopperOrigin = (direction: DirectionType) => {
-  switch (direction) {
+export const getPopperOrigin = (placement: PlacementType) => {
+  switch (placement) {
     case 'up':
       return HORIZONTAL_CENTER_VERTICAL_BOTTOM;
     case 'down':
@@ -33,15 +32,22 @@ export const getPopperOrigin = (direction: DirectionType) => {
   }
 };
 
-export const getTooltipPlacement = (
-  direction: DirectionType
-): PlacementType => {
-  switch (direction) {
-    case 'down':
-    case 'up':
-      return 'left';
-    case 'left':
-    case 'right':
-      return 'top';
+export const findSpeedDialActionsByLayer = (
+  root: HTMLElement
+): HTMLElement[] => {
+  const result: HTMLElement[] = [];
+  const queue: HTMLElement[] = [];
+
+  queue.push(...(Array.from(root.children) as HTMLElement[]));
+
+  while (queue.length > 0) {
+    const current = queue.shift()!;
+    if (current.classList.contains('JinniLinearSpeedDialAction')) {
+      result.push(current);
+      continue;
+    }
+    queue.push(...(Array.from(current.children) as HTMLElement[]));
   }
+
+  return result;
 };

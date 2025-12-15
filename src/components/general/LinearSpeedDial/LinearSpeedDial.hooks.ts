@@ -1,61 +1,179 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useContext, useLayoutEffect } from 'react';
 import { LinearSpeedDialProps } from './LinearSpeedDial';
+import { LinearSpeedDialContext } from './LinearSpeedDial.contexts';
+import { findSpeedDialActionsByLayer } from './LinearSpeedDial.utils';
 
-export const useHandleEvent = ({
-  anchorElRef,
-  speedDialRef,
-  open,
-  onOpen,
-  onClose
-}: Pick<LinearSpeedDialProps, 'anchorElRef' | 'open' | 'onOpen' | 'onClose'> & {
-  speedDialRef: React.RefObject<HTMLElement>;
-}) => {
+type UseCloseProps = Pick<
+  LinearSpeedDialProps,
+  'anchorElRef' | 'open' | 'onClose'
+>;
+
+type UseKeyboardAccessibilityProps = Pick<LinearSpeedDialProps, 'open'> &
+  Required<Pick<LinearSpeedDialProps, 'placement'>> & {
+    speedDialContentElRef: React.RefObject<HTMLDivElement>;
+  };
+
+type UseStaggeredTransitionProps = Pick<
+  LinearSpeedDialProps,
+  'open' | 'disableStaggeredTransition'
+> & { speedDialContentElRef: React.RefObject<HTMLDivElement> };
+
+export const useClose = ({ open, onClose, anchorElRef }: UseCloseProps) => {
+  const speedDialElRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
-    const anchorEl = anchorElRef.current;
-    if (!anchorEl) return;
+    const speedDialEl = speedDialElRef.current;
+    const anchorEl = anchorElRef?.current;
+    if (!open || !speedDialEl) return;
 
-    const handleClick = (event: MouseEvent | TouchEvent) => {
-      const target = event.target as Node;
-      const clickAnchorEl = anchorEl.contains(target);
-      if (clickAnchorEl && onOpen) onOpen(event, 'anchorClick');
-      if (!clickAnchorEl && onClose) onClose(event, 'backgroundClick');
+    const handleClick = (e: MouseEvent) => {
+      if (!e.target) return;
+      const target = e.target as Node;
+
+      if (speedDialEl.contains(target) || anchorEl?.contains(target)) return;
+      onClose?.(e, 'backgroundClick');
     };
-    const handleMouseEnter = (event: MouseEvent) => {
-      if (!onOpen) return;
-      onOpen(event, 'mouseEnter');
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!e.target) return;
+      const target = e.target as Node;
+
+      if (speedDialEl.contains(target) || anchorEl?.contains(target)) return;
+      onClose?.(e, 'mouseLeave');
     };
-    const handleMouseLeave = (event: MouseEvent) => {
-      const relatedTarget = event.relatedTarget as Node;
-      const speedDialEl = speedDialRef.current;
-      if (speedDialEl && speedDialEl.contains(relatedTarget)) return;
-      if (!onClose) return;
-      onClose(event, 'mouseLeave');
+    const handleFocusIn = (e: FocusEvent) => {
+      if (!e.target) return;
+      const target = e.target as Node;
+
+      if (speedDialEl.contains(target) || anchorEl?.contains(target)) return;
+      onClose?.(e, 'blur');
     };
-    const handleFocus = (event: FocusEvent) => {
-      if (!onOpen) return;
-      onOpen(event, 'focus');
-    };
-    const handleBlur = (event: FocusEvent) => {
-      if (!onClose) return;
-      onClose(event, 'blur');
-    };
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code === 'Escape' && onClose) onClose(event, 'escapeKeyDown');
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose?.(e, 'escapeKeyDown');
+        if (anchorEl) anchorEl.focus();
+      }
     };
 
-    document.addEventListener('click', handleClick);
-    anchorEl.addEventListener('mouseenter', handleMouseEnter);
-    anchorEl.addEventListener('mouseleave', handleMouseLeave);
-    anchorEl.addEventListener('focus', handleFocus);
-    anchorEl.addEventListener('blur', handleBlur);
-    anchorEl.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('click', handleClick);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('focusin', handleFocusIn);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener('click', handleClick);
-      anchorEl.removeEventListener('mouseenter', handleMouseEnter);
-      anchorEl.removeEventListener('mouseleave', handleMouseLeave);
-      anchorEl.removeEventListener('focus', handleFocus);
-      anchorEl.removeEventListener('blur', handleBlur);
-      anchorEl.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('click', handleClick);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('focusin', handleFocusIn);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [anchorElRef, speedDialRef, open, onOpen, onClose]);
+  }, [open, onClose, anchorElRef]);
+
+  return { speedDialElRef };
+};
+
+export const useKeyboardAccessibility = ({
+  open,
+  placement,
+  speedDialContentElRef
+}: UseKeyboardAccessibilityProps) => {
+  useEffect(() => {
+    const speedDialContentEl = speedDialContentElRef.current;
+    if (!open || !speedDialContentEl) return;
+
+    const actions = findSpeedDialActionsByLayer(speedDialContentEl);
+    const MAX = actions.length;
+    let activeActionIdx: number | null = null;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        ![
+          'ArrowUp',
+          'ArrowDown',
+          'ArrowLeft',
+          'ArrowRight',
+          'Home',
+          'End'
+        ].includes(e.key)
+      )
+        return;
+
+      e.preventDefault();
+      const getNextActiveActionIdx = () =>
+        activeActionIdx === null ? 0 : (activeActionIdx + 1) % MAX;
+      const getPrevActiveActionIdx = () =>
+        activeActionIdx === null ? MAX - 1 : (activeActionIdx - 1 + MAX) % MAX;
+
+      let newActiveActionIdx: number = -1;
+      if (e.key === 'Home') {
+        newActiveActionIdx = 0;
+      } else if (e.key === 'End') {
+        newActiveActionIdx = MAX - 1;
+      } else {
+        switch (placement) {
+          case 'up': {
+            if (e.key === 'ArrowUp')
+              newActiveActionIdx = getNextActiveActionIdx();
+            if (e.key === 'ArrowDown')
+              newActiveActionIdx = getPrevActiveActionIdx();
+            break;
+          }
+          case 'down': {
+            if (e.key === 'ArrowDown')
+              newActiveActionIdx = getNextActiveActionIdx();
+            if (e.key === 'ArrowUp')
+              newActiveActionIdx = getPrevActiveActionIdx();
+            break;
+          }
+          case 'left': {
+            if (e.key === 'ArrowLeft')
+              newActiveActionIdx = getNextActiveActionIdx();
+            if (e.key === 'ArrowRight')
+              newActiveActionIdx = getPrevActiveActionIdx();
+            break;
+          }
+          case 'right': {
+            if (e.key === 'ArrowRight')
+              newActiveActionIdx = getNextActiveActionIdx();
+            if (e.key === 'ArrowLeft')
+              newActiveActionIdx = getPrevActiveActionIdx();
+          }
+        }
+      }
+
+      actions[newActiveActionIdx].focus();
+      activeActionIdx = newActiveActionIdx;
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [open, placement, speedDialContentElRef]);
+};
+
+export const useStaggeredTransition = ({
+  open,
+  disableStaggeredTransition,
+  speedDialContentElRef
+}: UseStaggeredTransitionProps) => {
+  useLayoutEffect(() => {
+    const speedDialContentEl = speedDialContentElRef.current;
+    if (disableStaggeredTransition || !speedDialContentEl) return;
+
+    const actions = findSpeedDialActionsByLayer(speedDialContentEl);
+    const reversedActions = [...actions].reverse();
+
+    const DELAY_STEP = 0.1;
+    let count = 0;
+    (open ? actions : reversedActions).forEach((action) => {
+      action.style.transitionDelay = `${count * DELAY_STEP}s`;
+      count += 1;
+    });
+  }, [disableStaggeredTransition, open, speedDialContentElRef]);
+
+  return { speedDialContentElRef };
+};
+
+export const useLinearDial = () => {
+  const value = useContext(LinearSpeedDialContext);
+  if (!value)
+    throw new Error('LinearSpeedDialContext 값을 가져올 수 없습니다.');
+  return value;
 };
