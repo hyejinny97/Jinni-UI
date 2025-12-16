@@ -1,4 +1,4 @@
-import { useEffect, useRef, useContext, useLayoutEffect } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import { LinearSpeedDialProps } from './LinearSpeedDial';
 import { LinearSpeedDialContext } from './LinearSpeedDial.contexts';
 import { findSpeedDialActionsByLayer } from './LinearSpeedDial.utils';
@@ -12,11 +12,6 @@ type UseKeyboardAccessibilityProps = Pick<LinearSpeedDialProps, 'open'> &
   Required<Pick<LinearSpeedDialProps, 'placement'>> & {
     speedDialContentElRef: React.RefObject<HTMLDivElement>;
   };
-
-type UseStaggeredTransitionProps = Pick<
-  LinearSpeedDialProps,
-  'open' | 'disableStaggeredTransition'
-> & { speedDialContentElRef: React.RefObject<HTMLDivElement> };
 
 export const useClose = ({ open, onClose, anchorElRef }: UseCloseProps) => {
   const speedDialElRef = useRef<HTMLElement>(null);
@@ -33,11 +28,18 @@ export const useClose = ({ open, onClose, anchorElRef }: UseCloseProps) => {
       if (speedDialEl.contains(target) || anchorEl?.contains(target)) return;
       onClose?.(e, 'backgroundClick');
     };
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleSpeedDialMouseLeave = (e: MouseEvent) => {
       if (!e.target) return;
-      const target = e.target as Node;
+      const relatedTarget = e.relatedTarget as Node;
 
-      if (speedDialEl.contains(target) || anchorEl?.contains(target)) return;
+      if (anchorEl?.contains(relatedTarget)) return;
+      onClose?.(e, 'mouseLeave');
+    };
+    const handleAnchorMouseLeave = (e: MouseEvent) => {
+      if (!e.target) return;
+      const relatedTarget = e.relatedTarget as Node;
+
+      if (speedDialEl.contains(relatedTarget)) return;
       onClose?.(e, 'mouseLeave');
     };
     const handleFocusIn = (e: FocusEvent) => {
@@ -50,17 +52,21 @@ export const useClose = ({ open, onClose, anchorElRef }: UseCloseProps) => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose?.(e, 'escapeKeyDown');
-        if (anchorEl) anchorEl.focus();
+      }
+      if (e.key === 'Tab') {
+        anchorEl?.focus();
       }
     };
 
     window.addEventListener('click', handleClick);
-    window.addEventListener('mousemove', handleMouseMove);
+    speedDialEl.addEventListener('mouseleave', handleSpeedDialMouseLeave);
+    anchorEl?.addEventListener('mouseleave', handleAnchorMouseLeave);
     window.addEventListener('focusin', handleFocusIn);
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('click', handleClick);
-      window.removeEventListener('mousemove', handleMouseMove);
+      speedDialEl.removeEventListener('mouseleave', handleSpeedDialMouseLeave);
+      anchorEl?.removeEventListener('mouseleave', handleAnchorMouseLeave);
       window.removeEventListener('focusin', handleFocusIn);
       window.removeEventListener('keydown', handleKeyDown);
     };
@@ -146,29 +152,6 @@ export const useKeyboardAccessibility = ({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [open, placement, speedDialContentElRef]);
-};
-
-export const useStaggeredTransition = ({
-  open,
-  disableStaggeredTransition,
-  speedDialContentElRef
-}: UseStaggeredTransitionProps) => {
-  useLayoutEffect(() => {
-    const speedDialContentEl = speedDialContentElRef.current;
-    if (disableStaggeredTransition || !speedDialContentEl) return;
-
-    const actions = findSpeedDialActionsByLayer(speedDialContentEl);
-    const reversedActions = [...actions].reverse();
-
-    const DELAY_STEP = 0.1;
-    let count = 0;
-    (open ? actions : reversedActions).forEach((action) => {
-      action.style.transitionDelay = `${count * DELAY_STEP}s`;
-      count += 1;
-    });
-  }, [disableStaggeredTransition, open, speedDialContentElRef]);
-
-  return { speedDialContentElRef };
 };
 
 export const useLinearDial = () => {

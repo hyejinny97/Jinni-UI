@@ -24,7 +24,7 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
     className,
     ...rest
   } = props;
-  const { open, placement } = useLinearDial();
+  const { placement } = useLinearDial();
 
   return (
     <Tooltip
@@ -32,9 +32,9 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
       placement={getTooltipPlacement(placement)}
       {...TooltipProps}
     >
-      <span className={cn('JinniLinearSpeedDialActionWrapper', { open })}>
+      <span className={cn('JinniLinearSpeedDialActionWrapper')}>
         <Button
-          className={cn('JinniLinearSpeedDialAction', { open }, className)}
+          className={cn('JinniLinearSpeedDialAction', variant, className)}
           variant={variant}
           color={color}
           size={size}

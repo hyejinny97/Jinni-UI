@@ -13,30 +13,17 @@ $item-size: (
   }
 }
 
-@mixin scale-transition-by-open-state {
-  visibility: hidden;
-  transform: scale(0);
-  transition:
-    visibility var(--jinni-duration-short3) var(--jinni-easing-emphasized),
-    transform var(--jinni-duration-short3) var(--jinni-easing-emphasized);
-  &.open {
-    visibility: visible;
-    transform: scale(1);
-  }
-}
-
 .JinniLinearSpeedDialActionWrapper {
   display: inline-block;
-  pointer-events: none;
-  &.open {
-    pointer-events: auto;
-  }
   @include action-size;
 
   button.JinniLinearSpeedDialAction.JinniButtonBase.JinniButton,
   a.JinniLinearSpeedDialAction.JinniButtonBase.JinniButton {
     padding: 0;
+    &.outlined,
+    &.text {
+      background-color: white;
+    }
     @include action-size;
-    @include scale-transition-by-open-state;
   }
 }
