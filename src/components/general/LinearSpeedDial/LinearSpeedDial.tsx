@@ -3,7 +3,11 @@ import cn from 'classnames';
 import { useRef } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { Popper, PopperProps } from '@/components/_share/Popper';
-import { getAnchorOrigin, getPopperOrigin } from './LinearSpeedDial.utils';
+import {
+  getAnchorOrigin,
+  getPopperOrigin,
+  getOrientation
+} from './LinearSpeedDial.utils';
 import { useClose, useKeyboardAccessibility } from './LinearSpeedDial.hooks';
 import { LinearSpeedDialContext } from './LinearSpeedDial.contexts';
 
@@ -65,6 +69,8 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
         >
           <Popper
             ref={speedDialElRef}
+            role="menu"
+            aria-orientation={getOrientation(placement)}
             className={cn('JinniLinearSpeedDial', className)}
             anchorReference={anchorReference}
             anchorElRef={anchorElRef}

@@ -142,10 +142,15 @@ const BasicLinearSpeedDialTemplate = () => {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}
@@ -231,10 +236,15 @@ const LinearSpeedDialWithFABTemplate = () => {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}
@@ -323,10 +333,15 @@ const PlacementTemplate = () => {
               : 'translate(-50%, -50%)',
             transition: 'transform 0.3s'
           }}
+          aria-haspopup="true"
+          aria-expanded={open}
+          aria-controls="basic-speed-dial"
         >
           <AddIcon color="white" size={20} />
         </Button>
         <LinearSpeedDial
+          id="basic-speed-dial"
+          aria-label="useful tools"
           anchorElRef={anchorElRef}
           open={open}
           onClose={closeSpeedDial}
@@ -392,10 +407,15 @@ const DistanceFromAnchorTemplate = () => {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}
@@ -448,7 +468,12 @@ const AnchorPositionTemplate = () => {
         width: '500px'
       }}
     >
-      <p onContextMenu={handleContextMenu}>
+      <p
+        onContextMenu={handleContextMenu}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
+      >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
         bibendum vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed
@@ -460,6 +485,8 @@ const AnchorPositionTemplate = () => {
         volutpat maximus.
       </p>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorReference="anchorPosition"
         anchorPosition={coordinate}
         open={open}
@@ -524,10 +551,15 @@ const CustomizeButtonTemplate = () => {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}
@@ -595,10 +627,15 @@ const CustomizeTooltipTemplate = () => {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}
@@ -672,10 +709,15 @@ export const BasicLinearSpeedDial: Story = {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}
@@ -692,8 +734,7 @@ export const BasicLinearSpeedDial: Story = {
       </LinearSpeedDial>
     </Box>
   );
-};
-`.trim()
+};`.trim()
       }
     }
   }
@@ -771,10 +812,15 @@ export const LinearSpeedDialWithFAB: Story = {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}
@@ -872,10 +918,15 @@ export const Placement: Story = {
               : 'translate(-50%, -50%)',
             transition: 'transform 0.3s'
           }}
+          aria-haspopup="true"
+          aria-expanded={open}
+          aria-controls="basic-speed-dial"
         >
           <AddIcon color="white" size={20} />
         </Button>
         <LinearSpeedDial
+          id="basic-speed-dial"
+          aria-label="useful tools"
           anchorElRef={anchorElRef}
           open={open}
           onClose={closeSpeedDial}
@@ -950,10 +1001,15 @@ export const DistanceFromAnchor: Story = {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}
@@ -1015,7 +1071,12 @@ export const AnchorPosition: Story = {
         width: '500px'
       }}
     >
-      <p onContextMenu={handleContextMenu}>
+      <p
+        onContextMenu={handleContextMenu}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
+      >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
         bibendum vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed
@@ -1027,6 +1088,8 @@ export const AnchorPosition: Story = {
         volutpat maximus.
       </p>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorReference="anchorPosition"
         anchorPosition={coordinate}
         open={open}
@@ -1100,10 +1163,15 @@ export const CustomizeButton: Story = {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}
@@ -1180,10 +1248,15 @@ export const CustomizeTooltip: Story = {
           transform: open ? 'rotate(45deg)' : 'none',
           transition: 'transform 0.3s'
         }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
       >
         <AddIcon color="white" size={20} />
       </Button>
       <LinearSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
         anchorElRef={anchorElRef}
         open={open}
         onClose={closeSpeedDial}

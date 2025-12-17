@@ -1,5 +1,6 @@
 import './LinearSpeedDialAction.scss';
 import cn from 'classnames';
+import { useId } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { Button, ButtonProps } from '@/components/general/Button';
 import { Tooltip, TooltipProps } from '@/components/data-display/Tooltip';
@@ -24,10 +25,12 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
     className,
     ...rest
   } = props;
+  const id = useId();
   const { placement, positionType, container } = useLinearDial();
 
   return (
     <Tooltip
+      id={id}
       triggers={['hover', 'focus']}
       placement={getTooltipPlacement(placement)}
       positionType={positionType}
@@ -36,6 +39,7 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
     >
       <span className={cn('JinniLinearSpeedDialActionWrapper')}>
         <Button
+          role="menuitem"
           className={cn('JinniLinearSpeedDialAction', variant, className)}
           variant={variant}
           color={color}
@@ -43,6 +47,7 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
           elevation={elevation}
           shape={shape}
           tabIndex={-1}
+          aria-labelledby={id}
           {...rest}
         />
       </span>

@@ -51,3 +51,14 @@ export const findSpeedDialActionsByLayer = (
 
   return result;
 };
+
+export const getOrientation = (placement: PlacementType) => {
+  switch (placement) {
+    case 'up':
+    case 'down':
+      return 'vertical';
+    case 'left':
+    case 'right':
+      return 'horizontal';
+  }
+};
