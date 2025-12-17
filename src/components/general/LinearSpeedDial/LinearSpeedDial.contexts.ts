@@ -1,9 +1,10 @@
 import { createContext } from 'react';
-import { PlacementType } from './LinearSpeedDial';
+import { LinearSpeedDialProps } from './LinearSpeedDial';
 
-type LinearSpeedDialContextType = {
-  placement: PlacementType;
-};
+type LinearSpeedDialContextType = Required<
+  Pick<LinearSpeedDialProps, 'placement'>
+> &
+  Pick<LinearSpeedDialProps, 'positionType' | 'container'>;
 
 export const LinearSpeedDialContext =
   createContext<LinearSpeedDialContextType | null>(null);

@@ -38,22 +38,31 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
     anchorElRef,
     anchorPosition,
     positionType,
+    container = document.body,
     className,
     style,
     ...rest
   } = props;
   const speedDialContentElRef = useRef<HTMLDivElement>(null);
-  const { speedDialElRef } = useClose({ open, onClose, anchorElRef });
+  const { speedDialElRef } = useClose({
+    open,
+    onClose,
+    anchorElRef,
+    container
+  });
   useKeyboardAccessibility({
     open,
     placement,
-    speedDialContentElRef
+    speedDialContentElRef,
+    container
   });
 
   return (
     <>
       {open && (
-        <LinearSpeedDialContext.Provider value={{ placement }}>
+        <LinearSpeedDialContext.Provider
+          value={{ placement, positionType, container }}
+        >
           <Popper
             ref={speedDialElRef}
             className={cn('JinniLinearSpeedDial', className)}
@@ -63,6 +72,7 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
             popperOrigin={getPopperOrigin(placement)}
             anchorPosition={anchorPosition}
             positionType={positionType}
+            container={container}
             style={{ '--offset': `${offset}px`, ...style }}
             {...rest}
           >

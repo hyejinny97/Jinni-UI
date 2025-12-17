@@ -7,14 +7,14 @@ import React, {
   cloneElement,
   MutableRefObject
 } from 'react';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { AsType } from '@/types/default-component-props';
 import { useOpen, useHandleTriggers } from './Tooltip.hooks';
 import { PlacementType } from '@/types/popper';
 import {
   placementToAnchorOrigin,
   placementToPopperOrigin
 } from '@/utils/popper';
-import { Popper } from '@/components/_share/Popper';
+import { Popper, PopperProps } from '@/components/_share/Popper';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
@@ -22,8 +22,13 @@ import { AnimatePresence } from '@/components/motion/AnimatePresence';
 export type TriggerType = 'click' | 'hover' | 'focus';
 
 export type TooltipProps<T extends AsType = 'div'> = Omit<
-  DefaultComponentProps<T>,
-  'content' | 'children'
+  Partial<PopperProps<T>>,
+  | 'anchorReference'
+  | 'anchorOrigin'
+  | 'popperOrigin'
+  | 'anchorElRef'
+  | 'anchorPosition'
+  | 'content'
 > & {
   children: React.ReactNode;
   content: React.ReactNode;
@@ -77,6 +82,8 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
     enterDelay = 0,
     leaveDelay = 0,
     TransitionComponent = ScaleFade,
+    positionType,
+    container,
     className,
     style,
     ...rest
@@ -174,6 +181,8 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
             anchorElRef={anchorElRef}
             anchorOrigin={anchorOrigin}
             popperOrigin={popperOrigin}
+            positionType={positionType}
+            container={container}
             style={{
               '--transform-origin': `${popperOrigin.horizontal} ${popperOrigin.vertical}`,
               '--offset': `${offset}px`,

@@ -14,6 +14,7 @@ export type PopperProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   anchorPosition?: PopperType['anchorPosition'];
   popperOrigin: PopperType['popperOrigin'];
   positionType?: 'absolute' | 'fixed';
+  container?: HTMLElement;
 };
 
 const Popper = forwardRef(
@@ -29,6 +30,7 @@ const Popper = forwardRef(
       anchorPosition,
       popperOrigin,
       positionType = 'absolute',
+      container = document.body,
       className,
       style,
       as: Component = 'div',
@@ -64,7 +66,7 @@ const Popper = forwardRef(
           >
             {children}
           </Component>,
-          document.body
+          container
         )}
       </>
     );

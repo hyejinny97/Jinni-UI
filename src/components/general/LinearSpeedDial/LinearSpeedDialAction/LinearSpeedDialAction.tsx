@@ -24,12 +24,14 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
     className,
     ...rest
   } = props;
-  const { placement } = useLinearDial();
+  const { placement, positionType, container } = useLinearDial();
 
   return (
     <Tooltip
       triggers={['hover', 'focus']}
       placement={getTooltipPlacement(placement)}
+      positionType={positionType}
+      container={container}
       {...TooltipProps}
     >
       <span className={cn('JinniLinearSpeedDialActionWrapper')}>

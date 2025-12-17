@@ -6,14 +6,20 @@ import { findSpeedDialActionsByLayer } from './LinearSpeedDial.utils';
 type UseCloseProps = Pick<
   LinearSpeedDialProps,
   'anchorElRef' | 'open' | 'onClose'
->;
+> &
+  Required<Pick<LinearSpeedDialProps, 'container'>>;
 
 type UseKeyboardAccessibilityProps = Pick<LinearSpeedDialProps, 'open'> &
-  Required<Pick<LinearSpeedDialProps, 'placement'>> & {
+  Required<Pick<LinearSpeedDialProps, 'placement' | 'container'>> & {
     speedDialContentElRef: React.RefObject<HTMLDivElement>;
   };
 
-export const useClose = ({ open, onClose, anchorElRef }: UseCloseProps) => {
+export const useClose = ({
+  open,
+  onClose,
+  anchorElRef,
+  container
+}: UseCloseProps) => {
   const speedDialElRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -58,19 +64,19 @@ export const useClose = ({ open, onClose, anchorElRef }: UseCloseProps) => {
       }
     };
 
-    window.addEventListener('click', handleClick);
+    container.addEventListener('click', handleClick);
     speedDialEl.addEventListener('mouseleave', handleSpeedDialMouseLeave);
     anchorEl?.addEventListener('mouseleave', handleAnchorMouseLeave);
-    window.addEventListener('focusin', handleFocusIn);
-    window.addEventListener('keydown', handleKeyDown);
+    container.addEventListener('focusin', handleFocusIn);
+    container.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('click', handleClick);
+      container.removeEventListener('click', handleClick);
       speedDialEl.removeEventListener('mouseleave', handleSpeedDialMouseLeave);
       anchorEl?.removeEventListener('mouseleave', handleAnchorMouseLeave);
-      window.removeEventListener('focusin', handleFocusIn);
-      window.removeEventListener('keydown', handleKeyDown);
+      container.removeEventListener('focusin', handleFocusIn);
+      container.removeEventListener('keydown', handleKeyDown);
     };
-  }, [open, onClose, anchorElRef]);
+  }, [open, onClose, anchorElRef, container]);
 
   return { speedDialElRef };
 };
@@ -78,7 +84,8 @@ export const useClose = ({ open, onClose, anchorElRef }: UseCloseProps) => {
 export const useKeyboardAccessibility = ({
   open,
   placement,
-  speedDialContentElRef
+  speedDialContentElRef,
+  container
 }: UseKeyboardAccessibilityProps) => {
   useEffect(() => {
     const speedDialContentEl = speedDialContentElRef.current;
@@ -147,11 +154,11 @@ export const useKeyboardAccessibility = ({
       actions[newActiveActionIdx].focus();
       activeActionIdx = newActiveActionIdx;
     };
-    window.addEventListener('keydown', handleKeyDown);
+    container.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      container.removeEventListener('keydown', handleKeyDown);
     };
-  }, [open, placement, speedDialContentElRef]);
+  }, [open, placement, speedDialContentElRef, container]);
 };
 
 export const useLinearDial = () => {
