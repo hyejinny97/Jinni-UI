@@ -1,26 +1,23 @@
 import './CircularSpeedDial.scss';
+import { useRef } from 'react';
 import cn from 'classnames';
-import { createPortal } from 'react-dom';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import useStyle from '@/hooks/useStyle';
-import usePopperPosition from '@/hooks/usePopperPosition';
-import {
-  getDefaultDirection,
-  getMainCircleRadius,
-  getRotationAngleList,
-  insertProps
-} from './CircularSpeedDial.utils';
+import { AsType } from '@/types/default-component-props';
+import { Popper, PopperProps } from '@/components/_share/Popper';
+import { getDefaultPlacement } from './CircularSpeedDial.utils';
 import { HORIZONTAL_CENTER_VERTICAL_CENTER } from './CircularSpeedDial.constants';
-import { useHandleEvent } from './CircularSpeedDial.hooks';
-import CircularSpeedDialContext from './CircularSpeedDial.contexts';
+import {
+  useSpeedDialContent,
+  useClose,
+  useKeyboardAccessibility
+} from './CircularSpeedDial.hooks';
+import { CircularSpeedDialContext } from './CircularSpeedDial.contexts';
 
 export type VariantType = 'circular' | 'semi-circular' | 'quarter-circular';
-export type DirectionMap = {
-  'semi-circular': 'down' | 'left' | 'right' | 'up';
-  'quarter-circular': 'down-left' | 'up-left' | 'down-right' | 'up-right';
+export type PlacementMap = {
   circular: undefined;
+  'semi-circular': 'up' | 'down' | 'left' | 'right';
+  'quarter-circular': 'up-left' | 'up-right' | 'down-left' | 'down-right';
 };
-export type OpenReason = 'anchorClick' | 'focus' | 'mouseEnter';
 export type CloseReason =
   | 'backgroundClick'
   | 'blur'
@@ -28,17 +25,15 @@ export type CloseReason =
   | 'escapeKeyDown';
 
 export type CircularSpeedDialProps<T extends AsType = 'div'> = Omit<
-  DefaultComponentProps<T>,
-  'children'
+  Partial<PopperProps<T>>,
+  'anchorOrigin' | 'popperOrigin'
 > & {
-  children: Array<JSX.Element>;
-  anchorElRef: React.RefObject<HTMLElement>;
+  children: React.ReactNode;
   open: boolean;
-  onOpen?: (event: Event | React.SyntheticEvent, reason: OpenReason) => void;
   onClose?: (event: Event | React.SyntheticEvent, reason: CloseReason) => void;
-  offset?: string;
   variant?: VariantType;
-  direction?: DirectionMap[VariantType];
+  placement?: PlacementMap[VariantType];
+  offset?: number;
 };
 
 const CircularSpeedDial = <T extends AsType = 'div'>(
@@ -46,73 +41,68 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
 ) => {
   const {
     children,
-    anchorElRef,
     open,
-    onOpen,
     onClose,
-    offset = '16px',
     variant = 'circular',
-    direction = getDefaultDirection(variant),
+    placement = getDefaultPlacement(variant),
+    offset = 16,
+    anchorReference = 'anchorEl',
+    anchorElRef,
+    anchorPosition,
+    positionType,
+    container = document.body,
     className,
     style,
-    as: Component = 'div',
     ...rest
   } = props;
-  const mainCircleRadius = getMainCircleRadius({
+  const speedDialContentElRef = useRef<HTMLDivElement>(null);
+  useSpeedDialContent({
+    open,
+    offset,
+    placement,
     anchorElRef,
-    offset
+    speedDialContentElRef
   });
-  const circularSpeedDialContentRadius = mainCircleRadius * 1.5;
-  const rotationAngleList = getRotationAngleList({
-    actionsNumber: children.length,
-    direction
+  const { speedDialElRef } = useClose({
+    open,
+    onClose,
+    anchorElRef,
+    container
   });
-  const { popperRef: speedDialRef, popperPosition: speedDialPosition } =
-    usePopperPosition({
-      anchorReference: 'anchorEl',
-      anchorElRef,
-      anchorOrigin: HORIZONTAL_CENTER_VERTICAL_CENTER,
-      popperOrigin: HORIZONTAL_CENTER_VERTICAL_CENTER,
-      open
-    });
-  useHandleEvent({ anchorElRef, speedDialRef, open, onOpen, onClose });
-  const newStyle = useStyle({
-    '--speedDialContentRadius': `${circularSpeedDialContentRadius}px`,
-    ...speedDialPosition,
-    ...style
+  useKeyboardAccessibility({
+    open,
+    speedDialContentElRef,
+    container
   });
 
   return (
-    <CircularSpeedDialContext.Provider
-      value={{
-        mainCircleRadius,
-        circularSpeedDialContentRadius,
-        rotationAngleList
-      }}
-    >
-      {open &&
-        createPortal(
-          <Component
-            ref={speedDialRef}
+    <>
+      {open && (
+        <CircularSpeedDialContext.Provider value={{ positionType, container }}>
+          <Popper
+            ref={speedDialElRef}
+            role="menu"
             className={cn('JinniCircularSpeedDial', className)}
-            style={newStyle}
-            onMouseEnter={(event: MouseEvent) => {
-              if (onOpen) onOpen(event, 'mouseEnter');
-              if (props.onMouseEnter) props.onMouseEnter(event);
-            }}
-            onMouseLeave={(event: MouseEvent) => {
-              if (onClose) onClose(event, 'mouseLeave');
-              if (props.onMouseLeave) props.onMouseLeave(event);
-            }}
+            anchorReference={anchorReference}
+            anchorElRef={anchorElRef}
+            anchorOrigin={anchorElRef && HORIZONTAL_CENTER_VERTICAL_CENTER}
+            popperOrigin={HORIZONTAL_CENTER_VERTICAL_CENTER}
+            anchorPosition={anchorPosition}
+            positionType={positionType}
+            container={container}
+            style={style}
             {...rest}
           >
-            <div className="JinniCircularSpeedDialContent">
-              {insertProps(children)}
+            <div
+              ref={speedDialContentElRef}
+              className={cn('JinniCircularSpeedDialContent', placement)}
+            >
+              {children}
             </div>
-          </Component>,
-          document.body
-        )}
-    </CircularSpeedDialContext.Provider>
+          </Popper>
+        </CircularSpeedDialContext.Provider>
+      )}
+    </>
   );
 };
 

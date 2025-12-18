@@ -1,6 +1,6 @@
 import { VariantType, CircularSpeedDialProps } from './CircularSpeedDial';
 
-export const getDefaultDirection = (variant: VariantType) => {
+export const getDefaultPlacement = (variant: VariantType) => {
   switch (variant) {
     case 'semi-circular':
       return 'up';
@@ -11,29 +11,42 @@ export const getDefaultDirection = (variant: VariantType) => {
   }
 };
 
-export const getMainCircleRadius = ({
-  anchorElRef,
-  offset
-}: Required<
-  Pick<CircularSpeedDialProps, 'anchorElRef' | 'offset'>
->): number => {
-  const anchorEl = anchorElRef.current;
-  const offsetNumber = parseInt(offset);
-  if (!anchorEl) return offsetNumber;
+export const findRadius = (element: HTMLElement) =>
+  Math.max(element.offsetWidth, element.offsetHeight) / 2;
 
-  const anchorRadius = anchorEl.offsetWidth / 2;
-  return anchorRadius + offsetNumber;
+export const findElementByLayer = ({
+  root,
+  elementClassNameToFind
+}: {
+  root: HTMLElement;
+  elementClassNameToFind: string;
+}): HTMLElement[] => {
+  const result: HTMLElement[] = [];
+  const queue: HTMLElement[] = [];
+
+  queue.push(...(Array.from(root.children) as HTMLElement[]));
+
+  while (queue.length > 0) {
+    const current = queue.shift()!;
+    if (current.classList.contains(elementClassNameToFind)) {
+      result.push(current);
+      continue;
+    }
+    queue.push(...(Array.from(current.children) as HTMLElement[]));
+  }
+
+  return result;
 };
 
 export const getRotationAngleList = ({
   actionsNumber,
-  direction
+  placement
 }: {
   actionsNumber: number;
-  direction: CircularSpeedDialProps['direction'];
+  placement: CircularSpeedDialProps['placement'];
 }) => {
   const rotationAngleList = Array.from({ length: actionsNumber });
-  switch (direction) {
+  switch (placement) {
     case 'up':
       return rotationAngleList.map(
         (_, index) => 180 + (180 / (actionsNumber - 1)) * index
@@ -71,47 +84,26 @@ export const getRotationAngleList = ({
   }
 };
 
-export const insertProps = (
-  elements: Array<JSX.Element>
-): Array<JSX.Element> => {
-  return elements.map((element, index) => ({
-    ...element,
-    props: {
-      ...element.props,
-      index
-    }
-  }));
-};
-
 export const calculateActionCenterPosition = ({
-  mainCircleRadius,
-  circularSpeedDialContentRadius,
+  speedDialContentRadius,
+  anchorRadius,
+  offset,
   actionRadius,
   rotationAngle
 }: {
-  mainCircleRadius: number;
-  circularSpeedDialContentRadius: number;
+  speedDialContentRadius: number;
+  anchorRadius: number;
+  offset: number;
   actionRadius: number;
   rotationAngle: number;
 }) => {
   const angleInRadians = (rotationAngle * Math.PI) / 180;
   return {
     cx:
-      circularSpeedDialContentRadius +
-      (mainCircleRadius + actionRadius) * Math.cos(angleInRadians),
+      speedDialContentRadius +
+      (anchorRadius + offset + actionRadius) * Math.cos(angleInRadians),
     cy:
-      circularSpeedDialContentRadius +
-      (mainCircleRadius + actionRadius) * Math.sin(angleInRadians)
+      speedDialContentRadius +
+      (anchorRadius + offset + actionRadius) * Math.sin(angleInRadians)
   };
-};
-
-export const getTooltipPlacement = ({
-  rotationAngle
-}: {
-  rotationAngle: number;
-}) => {
-  if (90 < rotationAngle && rotationAngle < 270) return 'left';
-  else if (rotationAngle < 90 || rotationAngle > 270) return 'right';
-  else if (rotationAngle === 90) return 'bottom';
-  else if (rotationAngle === 270) return 'top';
 };
