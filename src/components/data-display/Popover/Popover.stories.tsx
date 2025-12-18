@@ -173,7 +173,7 @@ const PopoverOriginTemplate = () => {
             <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
-                value={idx}
+                value={String(idx)}
                 onChange={check}
               />
             </Label>
@@ -251,7 +251,7 @@ const AnchorOriginTemplate = () => {
             <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
-                value={idx}
+                value={String(idx)}
                 onChange={check}
               />
             </Label>
