@@ -25,7 +25,7 @@ jobs:
 
       - name: Chromatic에 Storybook 배포
         id: chromatic
-        uses: chromaui/action@v1
+        uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}

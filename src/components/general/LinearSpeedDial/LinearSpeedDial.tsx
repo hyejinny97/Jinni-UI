@@ -1,32 +1,32 @@
 import './LinearSpeedDial.scss';
 import cn from 'classnames';
-import { createPortal } from 'react-dom';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import useStyle from '@/hooks/useStyle';
-import usePopperPosition from '@/hooks/usePopperPosition';
-import { getAnchorOrigin, getPopperOrigin } from './LinearSpeedDial.utils';
-import { useHandleEvent } from './LinearSpeedDial.hooks';
-import LinearSpeedDialContext from './LinearSpeedDial.contexts';
+import { useRef } from 'react';
+import { AsType } from '@/types/default-component-props';
+import { Popper, PopperProps } from '@/components/_share/Popper';
+import {
+  getAnchorOrigin,
+  getPopperOrigin,
+  getOrientation
+} from './LinearSpeedDial.utils';
+import { useClose, useKeyboardAccessibility } from './LinearSpeedDial.hooks';
+import { LinearSpeedDialContext } from './LinearSpeedDial.contexts';
 
-export type OpenReason = 'anchorClick' | 'focus' | 'mouseEnter';
 export type CloseReason =
   | 'backgroundClick'
   | 'blur'
   | 'mouseLeave'
   | 'escapeKeyDown';
-export type DirectionType = 'down' | 'left' | 'right' | 'up';
+export type PlacementType = 'down' | 'left' | 'right' | 'up';
 
 export type LinearSpeedDialProps<T extends AsType = 'div'> = Omit<
-  DefaultComponentProps<T>,
-  'children'
+  Partial<PopperProps<T>>,
+  'anchorOrigin' | 'popperOrigin'
 > & {
-  children: Array<JSX.Element>;
-  anchorElRef: React.RefObject<HTMLElement>;
+  children: React.ReactNode;
   open: boolean;
-  onOpen?: (event: Event | React.SyntheticEvent, reason: OpenReason) => void;
   onClose?: (event: Event | React.SyntheticEvent, reason: CloseReason) => void;
-  offset?: string;
-  direction?: DirectionType;
+  placement?: PlacementType;
+  offset?: number;
 };
 
 const LinearSpeedDial = <T extends AsType = 'div'>(
@@ -34,57 +34,64 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
 ) => {
   const {
     children,
-    anchorElRef,
     open,
-    onOpen,
     onClose,
-    offset = '16px',
-    direction = 'up',
+    placement = 'up',
+    offset = 16,
+    anchorReference = 'anchorEl',
+    anchorElRef,
+    anchorPosition,
+    positionType,
+    container = document.body,
     className,
     style,
-    as: Component = 'div',
     ...rest
   } = props;
-  const { popperRef: speedDialRef, popperPosition: speedDialPosition } =
-    usePopperPosition({
-      anchorReference: 'anchorEl',
-      anchorElRef,
-      anchorOrigin: getAnchorOrigin(direction),
-      popperOrigin: getPopperOrigin(direction),
-      open
-    });
-  useHandleEvent({ anchorElRef, speedDialRef, open, onOpen, onClose });
-  const newStyle = useStyle({
-    '--offset': offset,
-    ...speedDialPosition,
-    ...style
+  const speedDialContentElRef = useRef<HTMLDivElement>(null);
+  const { speedDialElRef } = useClose({
+    open,
+    onClose,
+    anchorElRef,
+    container
+  });
+  useKeyboardAccessibility({
+    open,
+    placement,
+    speedDialContentElRef,
+    container
   });
 
   return (
-    <LinearSpeedDialContext.Provider value={{ direction }}>
-      {open &&
-        createPortal(
-          <Component
-            ref={speedDialRef}
+    <>
+      {open && (
+        <LinearSpeedDialContext.Provider
+          value={{ placement, positionType, container }}
+        >
+          <Popper
+            ref={speedDialElRef}
+            role="menu"
+            aria-orientation={getOrientation(placement)}
             className={cn('JinniLinearSpeedDial', className)}
-            style={newStyle}
-            onMouseEnter={(event: MouseEvent) => {
-              if (onOpen) onOpen(event, 'mouseEnter');
-              if (props.onMouseEnter) props.onMouseEnter(event);
-            }}
-            onMouseLeave={(event: MouseEvent) => {
-              if (onClose) onClose(event, 'mouseLeave');
-              if (props.onMouseLeave) props.onMouseLeave(event);
-            }}
+            anchorReference={anchorReference}
+            anchorElRef={anchorElRef}
+            anchorOrigin={anchorElRef && getAnchorOrigin(placement)}
+            popperOrigin={getPopperOrigin(placement)}
+            anchorPosition={anchorPosition}
+            positionType={positionType}
+            container={container}
+            style={{ '--offset': `${offset}px`, ...style }}
             {...rest}
           >
-            <div className={cn('JinniLinearSpeedDialContent', direction)}>
+            <div
+              ref={speedDialContentElRef}
+              className={cn('JinniLinearSpeedDialContent', placement)}
+            >
               {children}
             </div>
-          </Component>,
-          document.body
-        )}
-    </LinearSpeedDialContext.Provider>
+          </Popper>
+        </LinearSpeedDialContext.Provider>
+      )}
+    </>
   );
 };
 

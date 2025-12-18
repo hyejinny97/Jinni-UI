@@ -1,0 +1,29 @@
+$item-size: (
+  sm: 26px,
+  md: 32px,
+  lg: 38px
+);
+
+@mixin action-size {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      width: map-get($map: $item-size, $key: $size);
+      height: map-get($map: $item-size, $key: $size);
+    }
+  }
+}
+
+.JinniLinearSpeedDialActionWrapper {
+  display: inline-block;
+  @include action-size;
+
+  button.JinniLinearSpeedDialAction.JinniButtonBase.JinniButton,
+  a.JinniLinearSpeedDialAction.JinniButtonBase.JinniButton {
+    padding: 0;
+    &.outlined,
+    &.text {
+      background-color: white;
+    }
+    @include action-size;
+  }
+}

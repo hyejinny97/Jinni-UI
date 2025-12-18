@@ -1,18 +1,24 @@
 import { useRef, useLayoutEffect } from 'react';
 import { getAnchorCoordinate, getPopperCoordinate } from '@/utils/popper';
-import { PopperType } from '@/types/popper';
+import { PopperProps } from './Popper';
 
-type UsePopperPositionProps = Partial<
-  Pick<PopperType, 'anchorElRef' | 'anchorPosition' | 'anchorOrigin'>
+type UsePopperPositionProps = Pick<
+  PopperProps,
+  | 'anchorReference'
+  | 'popperOrigin'
+  | 'anchorElRef'
+  | 'anchorPosition'
+  | 'anchorOrigin'
 > &
-  Pick<PopperType, 'anchorReference' | 'popperOrigin'>;
+  Required<Pick<PopperProps, 'positionType'>>;
 
-export const usePopperAbsolutePosition = ({
+export const usePopperPosition = ({
   anchorReference,
   anchorElRef,
   anchorOrigin,
   anchorPosition,
-  popperOrigin
+  popperOrigin,
+  positionType
 }: UsePopperPositionProps) => {
   const popperRef = useRef<HTMLDivElement>(null);
 
@@ -33,8 +39,15 @@ export const usePopperAbsolutePosition = ({
         popperEl
       });
 
-      popperEl.style.top = `${popperCoordinate.top + window.scrollY}px`;
-      popperEl.style.left = `${popperCoordinate.left + window.scrollX}px`;
+      switch (positionType) {
+        case 'absolute':
+          popperEl.style.top = `${popperCoordinate.top + window.scrollY}px`;
+          popperEl.style.left = `${popperCoordinate.left + window.scrollX}px`;
+          break;
+        case 'fixed':
+          popperEl.style.top = `${popperCoordinate.top}px`;
+          popperEl.style.left = `${popperCoordinate.left}px`;
+      }
     };
 
     setPopperPosition();
@@ -55,7 +68,8 @@ export const usePopperAbsolutePosition = ({
     anchorOrigin,
     anchorPosition,
     anchorReference,
-    popperOrigin
+    popperOrigin,
+    positionType
   ]);
 
   return { popperRef };
