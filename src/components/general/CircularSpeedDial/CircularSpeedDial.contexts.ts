@@ -1,12 +1,10 @@
 import { createContext } from 'react';
+import { CircularSpeedDialProps } from './CircularSpeedDial';
 
-export type CircularSpeedDialContextType = {
-  mainCircleRadius: number;
-  circularSpeedDialContentRadius: number;
-  rotationAngleList: Array<number>;
-};
+type CircularSpeedDialContextType = Pick<
+  CircularSpeedDialProps,
+  'positionType' | 'container'
+>;
 
-const CircularSpeedDialContext =
+export const CircularSpeedDialContext =
   createContext<CircularSpeedDialContextType | null>(null);
-
-export default CircularSpeedDialContext;
