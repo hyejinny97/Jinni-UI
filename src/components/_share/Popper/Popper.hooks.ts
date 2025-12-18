@@ -52,16 +52,27 @@ export const usePopperPosition = ({
 
     setPopperPosition();
     window.addEventListener('resize', setPopperPosition);
-    const observer = new ResizeObserver(setPopperPosition);
+    const resizeObserver = new ResizeObserver(setPopperPosition);
+    const mutationObserver = new MutationObserver(setPopperPosition);
+    const mutationOptions = {
+      attributes: true,
+      attributeFilter: ['top', 'bottom', 'left', 'right', 'transform']
+    };
     const anchorEl = anchorElRef?.current;
+    const popperEl = popperRef?.current;
     if (anchorEl) {
-      observer.observe(anchorEl);
+      resizeObserver.observe(anchorEl);
+      mutationObserver.observe(anchorEl, mutationOptions);
+    }
+    if (popperEl) {
+      resizeObserver.observe(popperEl);
+      mutationObserver.observe(popperEl, mutationOptions);
     }
     return () => {
       window.removeEventListener('resize', setPopperPosition);
-      if (anchorEl) {
-        observer.unobserve(anchorEl);
-      }
+      if (anchorEl) resizeObserver.unobserve(anchorEl);
+      if (popperEl) resizeObserver.unobserve(popperEl);
+      mutationObserver.disconnect();
     };
   }, [
     anchorElRef,
