@@ -119,7 +119,7 @@ const OrientationTemplate = () => {
           ))}
         </Stack>
       </RadioGroup>
-      <ButtonGroup orientation={selectedValue}>
+      <ButtonGroup orientation={selectedValue} aria-label="basic button group">
         <Button>One</Button>
         <Button>Two</Button>
         <Button>Three</Button>
@@ -148,7 +148,7 @@ const VariantTemplate = () => {
           ))}
         </Stack>
       </RadioGroup>
-      <ButtonGroup variant={selectedValue}>
+      <ButtonGroup variant={selectedValue} aria-label="basic button group">
         <Button>One</Button>
         <Button>Two</Button>
         <Button>Three</Button>
@@ -177,7 +177,7 @@ const SizeTemplate = () => {
           ))}
         </Stack>
       </RadioGroup>
-      <ButtonGroup size={selectedValue}>
+      <ButtonGroup size={selectedValue} aria-label="basic button group">
         <Button>One</Button>
         <Button>Two</Button>
         <Button>Three</Button>
@@ -208,7 +208,7 @@ const SplitButtonTemplate = () => {
 
   return (
     <>
-      <ButtonGroup ref={anchorElRef}>
+      <ButtonGroup ref={anchorElRef} aria-label="basic button group">
         <Button style={{ height: '34px' }}>{OPTIONS[selectedIdx].title}</Button>
         <Button onClick={openMenu}>
           <ArrowDownIcon color="white" size={20} />
@@ -240,7 +240,7 @@ const SplitButtonTemplate = () => {
 
 export const BasicButtonGroup: Story = {
   render: (args) => (
-    <ButtonGroup {...args}>
+    <ButtonGroup aria-label="basic button group" {...args}>
       <Button>One</Button>
       <Button>Two</Button>
       <Button>Three</Button>
@@ -277,7 +277,7 @@ export const Orientation: Story = {
           ))}
         </Stack>
       </RadioGroup>
-      <ButtonGroup orientation={selectedValue}>
+      <ButtonGroup orientation={selectedValue} aria-label="basic button group">
         <Button>One</Button>
         <Button>Two</Button>
         <Button>Three</Button>
@@ -294,7 +294,7 @@ export const Orientation: Story = {
 export const FullWidth: Story = {
   render: (args) => (
     <Box style={{ width: '500px' }}>
-      <ButtonGroup fullWidth {...args}>
+      <ButtonGroup fullWidth aria-label="basic button group" {...args}>
         <Button>One</Button>
         <Button>Two</Button>
         <Button>Three</Button>
@@ -328,7 +328,7 @@ export const Variant: Story = {
           ))}
         </Stack>
       </RadioGroup>
-      <ButtonGroup variant={selectedValue}>
+      <ButtonGroup variant={selectedValue} aria-label="basic button group">
         <Button>One</Button>
         <Button>Two</Button>
         <Button>Three</Button>
@@ -344,7 +344,7 @@ export const Variant: Story = {
 
 export const Color: Story = {
   render: (args) => (
-    <ButtonGroup color="yellow-400" {...args}>
+    <ButtonGroup color="yellow-400" aria-label="basic button group" {...args}>
       <Button>One</Button>
       <Button>Two</Button>
       <Button>Three</Button>
@@ -377,7 +377,7 @@ export const Size: Story = {
           ))}
         </Stack>
       </RadioGroup>
-      <ButtonGroup size={selectedValue}>
+      <ButtonGroup size={selectedValue} aria-label="basic button group">
         <Button>One</Button>
         <Button>Two</Button>
         <Button>Three</Button>
@@ -392,7 +392,7 @@ export const Size: Story = {
 
 export const OverlayColor: Story = {
   render: (args) => (
-    <ButtonGroup overlayColor="black" {...args}>
+    <ButtonGroup overlayColor="black" aria-label="basic button group" {...args}>
       <Button>One</Button>
       <Button>Two</Button>
       <Button>Three</Button>
@@ -402,7 +402,11 @@ export const OverlayColor: Story = {
 
 export const RippleStartLocation: Story = {
   render: (args) => (
-    <ButtonGroup rippleStartLocation="center" {...args}>
+    <ButtonGroup
+      rippleStartLocation="center"
+      aria-label="basic button group"
+      {...args}
+    >
       <Button>One</Button>
       <Button>Two</Button>
       <Button>Three</Button>
@@ -412,7 +416,7 @@ export const RippleStartLocation: Story = {
 
 export const Elevation: Story = {
   render: (args) => (
-    <ButtonGroup elevation={2} {...args}>
+    <ButtonGroup elevation={2} aria-label="basic button group" {...args}>
       <Button>One</Button>
       <Button>Two</Button>
       <Button>Three</Button>
@@ -422,7 +426,7 @@ export const Elevation: Story = {
 
 export const Disabled: Story = {
   render: (args) => (
-    <ButtonGroup disabled {...args}>
+    <ButtonGroup disabled aria-label="basic button group" {...args}>
       <Button>One</Button>
       <Button>Two</Button>
       <Button>Three</Button>
@@ -457,7 +461,7 @@ export const SplitButton: Story = {
 
   return (
     <>
-      <ButtonGroup ref={anchorElRef}>
+      <ButtonGroup ref={anchorElRef} aria-label="basic button group">
         <Button style={{ height: '34px' }}>{OPTIONS[selectedIdx].title}</Button>
         <Button onClick={openMenu}>
           <ArrowDownIcon color="white" size={20} />
