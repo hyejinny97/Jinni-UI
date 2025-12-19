@@ -6,6 +6,7 @@ import { AsType } from '@/types/default-component-props';
 import { getColorStyle } from './Button.utils';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import useColor from '@/hooks/useColor';
+import { useButtonGroupContext } from '@/components/general/ButtonGroup';
 
 export type ButtonProps<T extends AsType = 'button'> = Omit<
   ButtonBaseProps<T>,
@@ -26,6 +27,10 @@ const Button = forwardRef(
     props: ButtonProps<T>,
     ref: React.Ref<HTMLElement>
   ) => {
+    const buttonGroupValue = useButtonGroupContext();
+    const newProps = buttonGroupValue
+      ? { ...buttonGroupValue, ...props }
+      : props;
     const {
       children,
       variant = 'filled',
@@ -40,7 +45,7 @@ const Button = forwardRef(
       className,
       style,
       ...rest
-    } = props;
+    } = newProps;
     const normalizedColor = useColor(color);
     const { textColor, backgroundColor, borderColor } = getColorStyle({
       color: normalizedColor,
