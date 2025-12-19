@@ -3,6 +3,9 @@
 
   &.horizontal {
     flex-direction: row;
+    &.fullWidth {
+      width: 100%;
+    }
     .JinniButton:not(:last-child) {
       border-right: none;
       border-top-right-radius: 0;
@@ -17,6 +20,9 @@
 
   &.vertical {
     flex-direction: column;
+    &.fullWidth {
+      height: 100%;
+    }
     .JinniButton:not(:last-child) {
       border-bottom: none;
       border-bottom-left-radius: 0;

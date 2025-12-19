@@ -5,26 +5,27 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ButtonProps } from '@/components/general/Button';
 import { darken } from '@/utils/colorLuminance';
-import { insertProps } from './ButtonGroup.utils';
 import useColor from '@/hooks/useColor';
+import ButtonGroupContext from './ButtonGroup.contexts';
 
 export type SomeButtonProps = Pick<
   ButtonProps,
+  | 'fullWidth'
   | 'variant'
-  | 'size'
   | 'color'
-  | 'disabled'
+  | 'size'
   | 'overlayColor'
   | 'disableOverlay'
   | 'rippleColor'
   | 'rippleStartLocation'
   | 'disableRipple'
   | 'elevation'
+  | 'disabled'
 >;
 
 type ButtonGroupProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   SomeButtonProps & {
-    children: Array<JSX.Element>;
+    children: React.ReactNode;
     orientation?: 'horizontal' | 'vertical';
   };
 
@@ -35,17 +36,18 @@ const ButtonGroup = forwardRef(
   ) => {
     const {
       children,
-      variant = 'filled',
-      size = 'md',
-      color = 'primary',
-      disabled = false,
-      overlayColor = variant === 'filled' ? 'white' : 'black',
-      disableOverlay = false,
-      rippleColor = variant === 'filled' ? 'white' : 'black',
-      rippleStartLocation = 'clicked',
-      disableRipple = false,
-      elevation,
       orientation = 'horizontal',
+      fullWidth,
+      variant = 'filled',
+      color = 'primary',
+      size,
+      overlayColor,
+      disableOverlay,
+      rippleColor,
+      rippleStartLocation,
+      disableRipple,
+      elevation,
+      disabled,
       className,
       style,
       as: Component = 'div',
@@ -59,25 +61,36 @@ const ButtonGroup = forwardRef(
     });
 
     return (
-      <Component
-        ref={ref}
-        className={cn('JinniButtonGroup', orientation, className)}
-        style={newStyle}
-        {...rest}
-      >
-        {insertProps(children, {
+      <ButtonGroupContext.Provider
+        value={{
+          fullWidth,
           variant,
-          size,
           color,
-          disabled,
+          size,
           overlayColor,
           disableOverlay,
           rippleColor,
           rippleStartLocation,
           disableRipple,
-          elevation
-        })}
-      </Component>
+          elevation,
+          disabled
+        }}
+      >
+        <Component
+          ref={ref}
+          role="group"
+          className={cn(
+            'JinniButtonGroup',
+            { fullWidth },
+            orientation,
+            className
+          )}
+          style={newStyle}
+          {...rest}
+        >
+          {children}
+        </Component>
+      </ButtonGroupContext.Provider>
     );
   }
 );
