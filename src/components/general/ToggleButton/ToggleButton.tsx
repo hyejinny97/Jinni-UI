@@ -5,6 +5,7 @@ import { Button, ButtonProps } from '@/components/general/Button';
 import { useSelected } from './ToggleButton.hooks';
 import { lighten } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
+import { useToggleButtonGroup } from '@/components/general/ToggleButtonGroup';
 
 export type ValueType = number | string | boolean;
 
@@ -21,6 +22,20 @@ export type ToggleButtonProps<T extends AsType = 'button'> = Omit<
 const ToggleButton = <T extends AsType = 'button'>(
   props: ToggleButtonProps<T>
 ) => {
+  const toggleButtonGroupValue = useToggleButtonGroup();
+  let newProps = props;
+  if (toggleButtonGroupValue) {
+    const { selectedValue, handleChange, ...rest } = toggleButtonGroupValue;
+    const { value } = props;
+    newProps = {
+      selected: Array.isArray(selectedValue)
+        ? selectedValue.includes(value)
+        : value === selectedValue,
+      onChange: handleChange(value),
+      ...rest,
+      ...newProps
+    };
+  }
   const {
     defaultSelected = false,
     selected,
@@ -30,7 +45,7 @@ const ToggleButton = <T extends AsType = 'button'>(
     className,
     style,
     ...rest
-  } = props;
+  } = newProps;
   const normalizedColor = useColor(color);
   const { isSelected, handleChange } = useSelected({
     defaultSelected,
