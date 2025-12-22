@@ -17,73 +17,78 @@ import { ToggleButtonGroup } from '@/components/general/ToggleButtonGroup';
 
 ### Basic ToggleButtonGroup
 
-- Selection 종류
+- Selection 타입
 
   1. **Exclusive Selection**: 1개 이하의 toggle button만 선택 가능
   2. **Multiple Selection**: 0개 이상의 toggle button 선택 가능
 
 - 기본적으로 Exclusive Selection 상태임
-  - (uncontrolled인 경우)`defaultValue`나 (controlled인 경우)`value`가 array 타입이 아니면, Exclusive Selection 상태임
 
 <Canvas of={ToggleButtonGroupStories.BasicToggleButtonGroup} />
 
-### DefaultValue
+### Default value
 
 - `defaultValue`: 초기 selected value (uncontrolled 상태일 때만 적용 가능)
 
 #### 1) Exclusive Selection
 
-- `defaultValue` 타입이 `ValueType` | `null`인 경우
+- `defaultValue` 타입이 `string` | `number` | `boolean` | `null`인 경우
 
 <Canvas of={ToggleButtonGroupStories.ExclusiveDefaultValue} />
 
 #### 2) Multiple Selection
 
-- `defaultValue` 타입이 `Array<ValueType>`인 경우
+- `defaultValue` 타입이 `Array<string | number | boolean>`인 경우
 
 <Canvas of={ToggleButtonGroupStories.MultipleDefaultValue} />
 
 ### Controlled ToggleButtonGroup
 
-- `value`와 `onChange` prop을 통해 control 가능
+- `value` prop을 통해 ToggleButtonGroup을 control 가능
 - `value`: selected value
 - `onChange`: selected value가 변경됐을 때 호출되는 함수
 
 #### 1) Exclusive Selection
 
-- `value` 타입이 `ValueType` | `null`인 경우
+- `value` 타입이 `string` | `number` | `boolean` | `null` 인 경우
 
 <Canvas of={ToggleButtonGroupStories.ExclusiveControlled} />
 
 #### 2) Multiple Selection
 
-- `value` 타입이 `Array<ValueType>`인 경우
+- `value` 타입이 `Array<string | number | boolean>`인 경우
 
 <Canvas of={ToggleButtonGroupStories.MultipleControlled} />
 
-### Color
-
-- `color`: selected toggle button의 색상
-
-<Canvas of={ToggleButtonGroupStories.Color} />
-
-### Size
-
-- `size`: toggle button의 크기
-
-<Canvas of={ToggleButtonGroupStories.Size} />
-
-### Disabled
-
-- `disabled`: true이면, 비활성화됨
-
-<Canvas of={ToggleButtonGroupStories.Disabled} />
-
-### Vertical ToggleButtonGroup
+### Orientation
 
 - `orientation`: toggle buttons 방향
 
-<Canvas of={ToggleButtonGroupStories.VerticalToggleButtonGroup} />
+<Canvas of={ToggleButtonGroupStories.Orientation} />
+
+### ToggleButton props
+
+- `ToggleButtonGroup` 컴포넌트에 적용된 일부 ToggleButtonProps는 하위 모든 `ToggleButton`에 일괄 적용됨
+
+#### 1. Color
+
+<Canvas of={ToggleButtonGroupStories.Color} />
+
+#### 2. Size
+
+<Canvas of={ToggleButtonGroupStories.Size} />
+
+#### 3. Overlay effect
+
+<Canvas of={ToggleButtonGroupStories.OverlayEffect} />
+
+#### 4. Ripple effect
+
+<Canvas of={ToggleButtonGroupStories.RippleEffect} />
+
+#### 5. Disabled
+
+<Canvas of={ToggleButtonGroupStories.Disabled} />
 
 ### Select at least one
 
@@ -98,20 +103,5 @@ import { ToggleButtonGroup } from '@/components/general/ToggleButtonGroup';
 <Canvas of={ToggleButtonGroupStories.MultipleSelectAtLeastOne} />
 
 ## Props
-
-- `ToggleButtonGroup`은 일부 `Button` props를 가짐
-
-  - `isSquareSize`
-  - `color`
-  - `size`
-  - `disabled`
-  - `overlayColor`
-  - `disableOverlay`
-  - `elevation`
-  - `rippleColor`
-  - `disableRipple`
-  - `rippleStartLocation`
-
-- `ToggleButtonGroup`에 위 prop이 적용되면, 하위 모든 `ToggleButton`에 일괄 적용됨
 
 <ArgTypes of={ToggleButtonGroupStories} sort="alpha" />

@@ -17,22 +17,16 @@ import { ToggleButton } from '@/components/general/ToggleButton';
 
 ### Basic ToggleButton
 
-- `value`: toggle button을 구분하는 특정 값
+- `value`: toggle button을 구분하는 유일한 값
+- `defaultSelected`: 초기 selected 여부 (uncontrolled 상태일 때만 적용 가능함)
 
 <Canvas of={ToggleButtonStories.BasicToggleButton} />
 
-### Default Selected
-
-- `defaultSelected`: 초기 selected 여부 (uncontrolled 상태일 때만 적용 가능함)
-
-<Canvas of={ToggleButtonStories.DefaultSelected} />
-
 ### Controlled Toggle Button
 
-- `selected`와 `onChange` prop을 통해 control 가능
+- `selected` prop을 통해 ToggleButton을 control 가능
 - `selected`: selected 여부
 - `onChange`: selected state가 변경될 때 호출되는 함수
-  - `selected`: new selected state
 
 <Canvas of={ToggleButtonStories.ControlledToggleButton} />
 
@@ -48,9 +42,31 @@ import { ToggleButton } from '@/components/general/ToggleButton';
 
 <Canvas of={ToggleButtonStories.Size} />
 
-### Disabled
+### Button props
 
-- `disabled`: true이면, 비활성화됨
+- `ToggleButton` 컴포넌트는 내부적으로 `Button` 컴포넌트를 반환하므로, `Button` 의 일부 props 사용 가능
+
+#### 1. Adornment
+
+<Canvas of={ToggleButtonStories.Adornment} />
+
+#### 2. Shape
+
+<Canvas of={ToggleButtonStories.Shape} />
+
+#### 3. Overlay effect
+
+<Canvas of={ToggleButtonStories.OverlayEffect} />
+
+#### 4. Ripple effect
+
+<Canvas of={ToggleButtonStories.RippleEffect} />
+
+#### 5. Elevation effect
+
+<Canvas of={ToggleButtonStories.ElevationEffect} />
+
+#### 6. Disabled
 
 <Canvas of={ToggleButtonStories.Disabled} />
 
@@ -65,20 +81,5 @@ import { ToggleButton } from '@/components/general/ToggleButton';
 <Canvas of={ToggleButtonStories.CheckboxButtons} />
 
 ## Props
-
-- `ToggleButton`은 일부 `Button` props를 가짐
-
-  - `isSquareSize`
-  - `color`
-  - `centerIcon`, `leftIcon`, `rightIcon`
-  - `size`
-  - `children`
-  - `disabled`
-  - `overlayColor`
-  - `disableOverlay`
-  - `elevation`
-  - `rippleColor`
-  - `disableRipple`
-  - `rippleStartLocation`
 
 <ArgTypes of={ToggleButtonStories} sort="alpha" />

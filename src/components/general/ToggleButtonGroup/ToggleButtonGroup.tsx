@@ -2,31 +2,30 @@ import './ToggleButtonGroup.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { ButtonProps } from '@/components/general/Button';
+import { ToggleButtonProps } from '@/components/general/ToggleButton';
 import { ValueType } from '@/components/general/ToggleButton';
 import { useSelectedValue } from './ToggleButtonGroup.hooks';
-import { insertProps } from './ToggleButtonGroup.utils';
+import ToggleButtonGroupContext from './ToggleButtonGroup.contexts';
 
-export type SomeButtonProps = Pick<
-  ButtonProps,
-  | 'isSquareSize'
+export type SomeToggleButtonProps = Pick<
+  ToggleButtonProps,
   | 'color'
   | 'size'
-  | 'disabled'
   | 'overlayColor'
   | 'disableOverlay'
-  | 'elevation'
   | 'rippleColor'
   | 'disableRipple'
   | 'rippleStartLocation'
+  | 'elevation'
+  | 'disabled'
 >;
 
 export type ToggleButtonGroupProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'children' | 'defaultValue' | 'onChange'
 > &
-  SomeButtonProps & {
-    children: Array<JSX.Element>;
+  SomeToggleButtonProps & {
+    children: React.ReactNode;
     defaultValue?: ValueType | Array<ValueType> | null;
     value?: ValueType | Array<ValueType> | null;
     onChange?: (
@@ -41,20 +40,19 @@ const ToggleButtonGroup = <T extends AsType = 'div'>(
 ) => {
   const {
     children,
-    defaultValue,
+    defaultValue = null,
     value,
     onChange,
     orientation = 'horizontal',
-    isSquareSize,
     color,
     size,
-    disabled,
     overlayColor,
     disableOverlay,
-    elevation,
     rippleColor,
     disableRipple,
     rippleStartLocation,
+    elevation,
+    disabled,
     className,
     style,
     as: Component = 'div',
@@ -68,24 +66,30 @@ const ToggleButtonGroup = <T extends AsType = 'div'>(
   const newStyle = useStyle(style);
 
   return (
-    <Component
-      className={cn('JinniToggleButtonGroup', orientation, className)}
-      style={newStyle}
-      {...rest}
-    >
-      {insertProps(children, selectedValue, handleChange, {
-        isSquareSize,
+    <ToggleButtonGroupContext.Provider
+      value={{
+        selectedValue,
+        handleChange,
         color,
         size,
-        disabled,
         overlayColor,
         disableOverlay,
-        elevation,
         rippleColor,
         disableRipple,
-        rippleStartLocation
-      })}
-    </Component>
+        rippleStartLocation,
+        elevation,
+        disabled
+      }}
+    >
+      <Component
+        role="group"
+        className={cn('JinniToggleButtonGroup', orientation, className)}
+        style={newStyle}
+        {...rest}
+      >
+        {children}
+      </Component>
+    </ToggleButtonGroupContext.Provider>
   );
 };
 

@@ -1,0 +1,22 @@
+$item-size: (
+  sm: 26px,
+  md: 32px,
+  lg: 38px
+);
+
+@mixin button-size {
+  @each $size in sm, md, lg {
+    &.#{$size} {
+      width: map-get($map: $item-size, $key: $size);
+      height: map-get($map: $item-size, $key: $size);
+    }
+  }
+}
+
+button.JinniToggleButton.JinniButtonBase.JinniButton,
+a.JinniToggleButton.JinniButtonBase.JinniButton {
+  padding: 0;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  @include button-size;
+}
