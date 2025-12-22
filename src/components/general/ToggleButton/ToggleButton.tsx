@@ -1,3 +1,4 @@
+import './ToggleButton.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Button, ButtonProps } from '@/components/general/Button';
@@ -9,14 +10,7 @@ export type ValueType = number | string | boolean;
 
 export type ToggleButtonProps<T extends AsType = 'button'> = Omit<
   ButtonProps<T>,
-  | 'variant'
-  | 'shape'
-  | 'loading'
-  | 'loadingState'
-  | 'loadingStatePosition'
-  | 'fullWidth'
-  | 'href'
-  | 'onChange'
+  'variant' | 'fullWidth' | 'onChange'
 > & {
   value: ValueType;
   defaultSelected?: boolean;
@@ -28,13 +22,13 @@ const ToggleButton = <T extends AsType = 'button'>(
   props: ToggleButtonProps<T>
 ) => {
   const {
-    className,
-    color = 'gray-500',
-    isSquareSize = props.centerIcon && !props.children ? true : false,
     value,
     defaultSelected = false,
     selected,
     onChange,
+    color = 'gray-500',
+    size = 'md',
+    className,
     style,
     ...rest
   } = props;
@@ -47,20 +41,17 @@ const ToggleButton = <T extends AsType = 'button'>(
 
   return (
     <Button
-      className={cn('JinniToggleButton', className)}
+      className={cn('JinniToggleButton', size, className)}
       variant="outlined"
       color="gray-500"
-      size="md"
-      isSquareSize={isSquareSize}
-      style={
-        isSelected
-          ? {
-              '--text-color': color,
-              backgroundColor: lighten(normalizedColor, 0.8),
-              ...style
-            }
-          : style
-      }
+      size={size}
+      style={{
+        ...(isSelected && {
+          '--text-color': color,
+          '--background-color': lighten(normalizedColor, 0.8)
+        }),
+        ...style
+      }}
       value={value}
       onClick={handleChange}
       {...rest}
