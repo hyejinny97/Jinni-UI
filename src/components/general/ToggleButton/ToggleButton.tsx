@@ -22,7 +22,6 @@ const ToggleButton = <T extends AsType = 'button'>(
   props: ToggleButtonProps<T>
 ) => {
   const {
-    value,
     defaultSelected = false,
     selected,
     onChange,
@@ -42,6 +41,7 @@ const ToggleButton = <T extends AsType = 'button'>(
   return (
     <Button
       className={cn('JinniToggleButton', size, className)}
+      onClick={handleChange}
       variant="outlined"
       color="gray-500"
       size={size}
@@ -52,8 +52,7 @@ const ToggleButton = <T extends AsType = 'button'>(
         }),
         ...style
       }}
-      value={value}
-      onClick={handleChange}
+      aria-pressed={isSelected}
       {...rest}
     />
   );
