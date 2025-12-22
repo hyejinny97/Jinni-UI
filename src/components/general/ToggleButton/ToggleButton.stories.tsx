@@ -2,10 +2,16 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import ToggleButton, { ValueType } from './ToggleButton';
 import { Stack } from '@/components/layout/Stack';
+import { Text } from '@/components/general/Text';
 import { FormatAlignLeftIcon } from '@/components/icons/FormatAlignLeftIcon';
 import { FormatAlignCenterIcon } from '@/components/icons/FormatAlignCenterIcon';
 import { FormatAlignRightIcon } from '@/components/icons/FormatAlignRightIcon';
 import { FormatAlignJustifyIcon } from '@/components/icons/FormatAlignJustifyIcon';
+import { FormatBoldIcon } from '@/components/icons/FormatBoldIcon';
+import { FormatItalicIcon } from '@/components/icons/FormatItalicIcon';
+import { FormatUnderlinedIcon } from '@/components/icons/FormatUnderlinedIcon';
+import { CheckIcon } from '@/components/icons/CheckIcon';
+import { CloseIcon } from '@/components/icons/CloseIcon';
 
 const meta: Meta<typeof ToggleButton> = {
   component: ToggleButton,
@@ -14,7 +20,7 @@ const meta: Meta<typeof ToggleButton> = {
       description: 'selected toggle button의 색상',
       table: {
         type: { summary: 'ColorType' },
-        defaultValue: { summary: `'primary'` }
+        defaultValue: { summary: `'gray-500'` }
       }
     },
     defaultSelected: {
@@ -46,7 +52,7 @@ const meta: Meta<typeof ToggleButton> = {
       }
     },
     value: {
-      description: 'toggle button을 구분하는 특정 값',
+      description: 'toggle button을 구분하는 유일한 값',
       table: {
         type: { summary: `number | string | boolean` }
       }
@@ -57,13 +63,6 @@ const meta: Meta<typeof ToggleButton> = {
 export default meta;
 type Story = StoryObj<typeof ToggleButton>;
 
-const ITEMS = [
-  { value: 'left-alignment', icon: <FormatAlignLeftIcon /> },
-  { value: 'center-alignment', icon: <FormatAlignCenterIcon /> },
-  { value: 'right-alignment', icon: <FormatAlignRightIcon /> },
-  { value: 'justify-alignment', icon: <FormatAlignJustifyIcon /> }
-];
-
 const ControlledToggleButtonTemplate = () => {
   const [selected, setSelected] = useState<boolean>(false);
 
@@ -72,17 +71,61 @@ const ControlledToggleButtonTemplate = () => {
   };
 
   return (
+    <Stack spacing={10} style={{ alignItems: 'center' }}>
+      <Text>Selected: {selected ? 'true' : 'false'}</Text>
+      <ToggleButton
+        value="left-alignment"
+        selected={selected}
+        onChange={handleChange}
+      >
+        <FormatAlignLeftIcon color="gray-500" />
+      </ToggleButton>
+    </Stack>
+  );
+};
+
+const AdornmentTemplate = () => {
+  const [selected, setSelected] = useState<boolean>(false);
+
+  const handleChange = (_: React.MouseEvent, selected: boolean) => {
+    setSelected(selected);
+  };
+
+  return (
     <ToggleButton
-      value="left-alignment"
-      centerIcon={<FormatAlignLeftIcon />}
+      value="check"
       selected={selected}
       onChange={handleChange}
-    />
+      startAdornment={selected ? <CheckIcon /> : <CloseIcon />}
+      style={{
+        width: 'max-content',
+        height: 'max-content',
+        padding: '4px 16px'
+      }}
+    >
+      {selected ? 'Selected' : 'Unselected'}
+    </ToggleButton>
   );
 };
 
 const RadioButtonsTemplate = () => {
-  const [selectedValue, setSelectedValue] = useState<ValueType | undefined>();
+  const ITEMS = [
+    { value: 'left-alignment', icon: <FormatAlignLeftIcon color="gray-500" /> },
+    {
+      value: 'center-alignment',
+      icon: <FormatAlignCenterIcon color="gray-500" />
+    },
+    {
+      value: 'right-alignment',
+      icon: <FormatAlignRightIcon color="gray-500" />
+    },
+    {
+      value: 'justify-alignment',
+      icon: <FormatAlignJustifyIcon color="gray-500" />
+    }
+  ];
+  const [selectedValue, setSelectedValue] =
+    useState<ValueType>('left-alignment');
 
   const handleChange =
     (value: ValueType) => (_: React.MouseEvent, selected: boolean) => {
@@ -95,16 +138,28 @@ const RadioButtonsTemplate = () => {
         <ToggleButton
           key={value}
           value={value}
-          centerIcon={icon}
           selected={selectedValue === value}
           onChange={handleChange(value)}
-        />
+        >
+          {icon}
+        </ToggleButton>
       ))}
     </Stack>
   );
 };
 
 const CheckboxButtonsTemplate = () => {
+  const ITEMS = [
+    { value: 'bold', icon: <FormatBoldIcon color="gray-500" /> },
+    {
+      value: 'italic',
+      icon: <FormatItalicIcon color="gray-500" />
+    },
+    {
+      value: 'underlined',
+      icon: <FormatUnderlinedIcon color="gray-500" />
+    }
+  ];
   const [selectedValues, setSelectedValues] = useState<Array<ValueType>>([]);
 
   const handleChange =
@@ -124,10 +179,11 @@ const CheckboxButtonsTemplate = () => {
         <ToggleButton
           key={value}
           value={value}
-          centerIcon={icon}
           selected={selectedValues.includes(value)}
           onChange={handleChange(value)}
-        />
+        >
+          {icon}
+        </ToggleButton>
       ))}
     </Stack>
   );
@@ -135,97 +191,244 @@ const CheckboxButtonsTemplate = () => {
 
 export const BasicToggleButton: Story = {
   render: (args) => (
-    <ToggleButton
-      value="left-alignment"
-      centerIcon={<FormatAlignLeftIcon />}
-      {...args}
-    />
-  )
-};
-
-export const DefaultSelected: Story = {
-  render: (args) => (
-    <ToggleButton
-      value="left-alignment"
-      centerIcon={<FormatAlignLeftIcon />}
-      defaultSelected
-      {...args}
-    />
+    <Stack direction="row" spacing={20}>
+      <ToggleButton value="left-alignment" {...args}>
+        <FormatAlignLeftIcon color="gray-500" />
+      </ToggleButton>
+      <ToggleButton value="left-alignment" defaultSelected {...args}>
+        <FormatAlignLeftIcon color="gray-500" />
+      </ToggleButton>
+    </Stack>
   )
 };
 
 export const ControlledToggleButton: Story = {
-  render: (args) => <ControlledToggleButtonTemplate {...args} />
+  render: () => <ControlledToggleButtonTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledToggleButtonTemplate = () => {
+  const [selected, setSelected] = useState<boolean>(false);
+
+  const handleChange = (_: React.MouseEvent, selected: boolean) => {
+    setSelected(selected);
+  };
+
+  return (
+    <Stack spacing={10} style={{ alignItems: 'center' }}>
+      <Text>Selected: {selected ? 'true' : 'false'}</Text>
+      <ToggleButton
+        value="left-alignment"
+        selected={selected}
+        onChange={handleChange}
+      >
+        <FormatAlignLeftIcon color="gray-500" />
+      </ToggleButton>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Color: Story = {
   render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <ToggleButton
-        value="left-alignment"
-        centerIcon={<FormatAlignLeftIcon />}
-        color="primary"
-        defaultSelected
-        {...args}
-      />
-      <ToggleButton
-        value="left-alignment"
-        centerIcon={<FormatAlignLeftIcon />}
-        color="secondary"
-        defaultSelected
-        {...args}
-      />
-      <ToggleButton
-        value="left-alignment"
-        centerIcon={<FormatAlignLeftIcon />}
-        color="tertiary"
-        defaultSelected
-        {...args}
-      />
-    </Stack>
+    <ToggleButton
+      value="left-alignment"
+      color="tertiary"
+      defaultSelected
+      {...args}
+    >
+      <FormatAlignLeftIcon color="gray-500" />
+    </ToggleButton>
   )
 };
 
 export const Size: Story = {
   render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <ToggleButton
-        value="left-alignment"
-        centerIcon={<FormatAlignLeftIcon />}
-        size="sm"
-        {...args}
-      />
-      <ToggleButton
-        value="left-alignment"
-        centerIcon={<FormatAlignLeftIcon />}
-        size="md"
-        {...args}
-      />
-      <ToggleButton
-        value="left-alignment"
-        centerIcon={<FormatAlignLeftIcon />}
-        size="lg"
-        {...args}
-      />
+    <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
+      <ToggleButton value="left-alignment" size="sm" {...args}>
+        <FormatAlignLeftIcon color="gray-500" />
+      </ToggleButton>
+      <ToggleButton value="left-alignment" size="md" {...args}>
+        <FormatAlignLeftIcon color="gray-500" />
+      </ToggleButton>
+      <ToggleButton value="left-alignment" size="lg" {...args}>
+        <FormatAlignLeftIcon color="gray-500" />
+      </ToggleButton>
     </Stack>
+  )
+};
+
+export const Adornment: Story = {
+  render: () => <AdornmentTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const AdornmentTemplate = () => {
+  const [selected, setSelected] = useState<boolean>(false);
+
+  const handleChange = (_: React.MouseEvent, selected: boolean) => {
+    setSelected(selected);
+  };
+
+  return (
+    <ToggleButton
+      value="check"
+      selected={selected}
+      onChange={handleChange}
+      startAdornment={selected ? <CheckIcon /> : <CloseIcon />}
+      style={{
+        width: 'max-content',
+        height: 'max-content',
+        padding: '4px 16px'
+      }}
+    >
+      {selected ? 'Selected' : 'Unselected'}
+    </ToggleButton>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const Shape: Story = {
+  render: (args) => (
+    <ToggleButton value="left-alignment" shape="pill" {...args}>
+      <FormatAlignLeftIcon color="gray-500" />
+    </ToggleButton>
+  )
+};
+
+export const OverlayEffect: Story = {
+  render: (args) => (
+    <ToggleButton value="left-alignment" disableOverlay {...args}>
+      <FormatAlignLeftIcon color="gray-500" />
+    </ToggleButton>
+  )
+};
+
+export const RippleEffect: Story = {
+  render: (args) => (
+    <ToggleButton value="left-alignment" rippleStartLocation="center" {...args}>
+      <FormatAlignLeftIcon color="gray-500" />
+    </ToggleButton>
+  )
+};
+
+export const ElevationEffect: Story = {
+  render: (args) => (
+    <ToggleButton value="left-alignment" elevation={3} {...args}>
+      <FormatAlignLeftIcon color="gray-500" />
+    </ToggleButton>
   )
 };
 
 export const Disabled: Story = {
   render: (args) => (
-    <ToggleButton
-      value="left-alignment"
-      centerIcon={<FormatAlignLeftIcon />}
-      disabled
-      {...args}
-    />
+    <ToggleButton value="left-alignment" disabled {...args}>
+      <FormatAlignLeftIcon color="gray-500" />
+    </ToggleButton>
   )
 };
 
 export const RadioButtons: Story = {
-  render: (args) => <RadioButtonsTemplate {...args} />
+  render: () => <RadioButtonsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const RadioButtonsTemplate = () => {
+  const ITEMS = [
+    { value: 'left-alignment', icon: <FormatAlignLeftIcon color="gray-500" /> },
+    {
+      value: 'center-alignment',
+      icon: <FormatAlignCenterIcon color="gray-500" />
+    },
+    {
+      value: 'right-alignment',
+      icon: <FormatAlignRightIcon color="gray-500" />
+    },
+    {
+      value: 'justify-alignment',
+      icon: <FormatAlignJustifyIcon color="gray-500" />
+    }
+  ];
+  const [selectedValue, setSelectedValue] =
+    useState<ValueType>('left-alignment');
+
+  const handleChange =
+    (value: ValueType) => (_: React.MouseEvent, selected: boolean) => {
+      if (selected) setSelectedValue(value);
+    };
+
+  return (
+    <Stack direction="row" spacing={20}>
+      {ITEMS.map(({ value, icon }) => (
+        <ToggleButton
+          key={value}
+          value={value}
+          selected={selectedValue === value}
+          onChange={handleChange(value)}
+        >
+          {icon}
+        </ToggleButton>
+      ))}
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const CheckboxButtons: Story = {
-  render: (args) => <CheckboxButtonsTemplate {...args} />
+  render: () => <CheckboxButtonsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CheckboxButtonsTemplate = () => {
+  const ITEMS = [
+    { value: 'bold', icon: <FormatBoldIcon color="gray-500" /> },
+    {
+      value: 'italic',
+      icon: <FormatItalicIcon color="gray-500" />
+    },
+    {
+      value: 'underlined',
+      icon: <FormatUnderlinedIcon color="gray-500" />
+    }
+  ];
+  const [selectedValues, setSelectedValues] = useState<Array<ValueType>>([]);
+
+  const handleChange =
+    (value: ValueType) => (_: React.MouseEvent, selected: boolean) => {
+      if (selected) {
+        setSelectedValues((prevValue) => [...prevValue, value]);
+      } else {
+        setSelectedValues((prevValue) =>
+          prevValue.filter((val) => val !== value)
+        );
+      }
+    };
+
+  return (
+    <Stack direction="row" spacing={20}>
+      {ITEMS.map(({ value, icon }) => (
+        <ToggleButton
+          key={value}
+          value={value}
+          selected={selectedValues.includes(value)}
+          onChange={handleChange(value)}
+        >
+          {icon}
+        </ToggleButton>
+      ))}
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
