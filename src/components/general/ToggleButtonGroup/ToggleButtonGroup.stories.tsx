@@ -111,9 +111,13 @@ const ExclusiveControlledTemplate = () => {
   return (
     <Stack spacing={10} style={{ alignItems: 'center' }}>
       <Text>Selected value: {String(selectedValue)}</Text>
-      <ToggleButtonGroup value={selectedValue} onChange={handleChange}>
+      <ToggleButtonGroup
+        value={selectedValue}
+        onChange={handleChange}
+        aria-label="text alignment"
+      >
         {ITEMS.map(({ value, icon }) => (
-          <ToggleButton key={value} value={value}>
+          <ToggleButton key={value} value={value} aria-label={value}>
             {icon}
           </ToggleButton>
         ))}
@@ -146,9 +150,13 @@ const MultipleControlledTemplate = () => {
   return (
     <Stack spacing={10} style={{ alignItems: 'center' }}>
       <Text>Selected value: {selectedValue.join(', ')}</Text>
-      <ToggleButtonGroup value={selectedValue} onChange={handleChange}>
+      <ToggleButtonGroup
+        value={selectedValue}
+        onChange={handleChange}
+        aria-label="text style"
+      >
         {ITEMS.map(({ value, icon }) => (
-          <ToggleButton key={value} value={value}>
+          <ToggleButton key={value} value={value} aria-label={value}>
             {icon}
           </ToggleButton>
         ))}
@@ -183,9 +191,13 @@ const ExclusiveSelectAtLeastOneTemplate = () => {
   };
 
   return (
-    <ToggleButtonGroup value={selectedValue} onChange={handleChange}>
+    <ToggleButtonGroup
+      value={selectedValue}
+      onChange={handleChange}
+      aria-label="text alignment"
+    >
       {ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -219,9 +231,13 @@ const MultipleSelectAtLeastOneTemplate = () => {
   };
 
   return (
-    <ToggleButtonGroup value={selectedValue} onChange={handleChange}>
+    <ToggleButtonGroup
+      value={selectedValue}
+      onChange={handleChange}
+      aria-label="text style"
+    >
       {ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -231,9 +247,9 @@ const MultipleSelectAtLeastOneTemplate = () => {
 
 export const BasicToggleButtonGroup: Story = {
   render: (args) => (
-    <ToggleButtonGroup {...args}>
+    <ToggleButtonGroup aria-label="text alignment" {...args}>
       {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -243,9 +259,13 @@ export const BasicToggleButtonGroup: Story = {
 
 export const ExclusiveDefaultValue: Story = {
   render: (args) => (
-    <ToggleButtonGroup defaultValue="left-alignment" {...args}>
+    <ToggleButtonGroup
+      defaultValue="left-alignment"
+      aria-label="text alignment"
+      {...args}
+    >
       {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -255,9 +275,13 @@ export const ExclusiveDefaultValue: Story = {
 
 export const MultipleDefaultValue: Story = {
   render: (args) => (
-    <ToggleButtonGroup defaultValue={['bold', 'italic']} {...args}>
+    <ToggleButtonGroup
+      defaultValue={['bold', 'italic']}
+      aria-label="text style"
+      {...args}
+    >
       {FONT_ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -298,16 +322,21 @@ export const ExclusiveControlled: Story = {
   return (
     <Stack spacing={10} style={{ alignItems: 'center' }}>
       <Text>Selected value: {String(selectedValue)}</Text>
-      <ToggleButtonGroup value={selectedValue} onChange={handleChange}>
+      <ToggleButtonGroup
+        value={selectedValue}
+        onChange={handleChange}
+        aria-label="text alignment"
+      >
         {ITEMS.map(({ value, icon }) => (
-          <ToggleButton key={value} value={value}>
+          <ToggleButton key={value} value={value} aria-label={value}>
             {icon}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
     </Stack>
   );
-};`.trim()
+};
+`.trim()
       }
     }
   }
@@ -342,17 +371,20 @@ export const MultipleControlled: Story = {
   return (
     <Stack spacing={10} style={{ alignItems: 'center' }}>
       <Text>Selected value: {selectedValue.join(', ')}</Text>
-      <ToggleButtonGroup value={selectedValue} onChange={handleChange}>
+      <ToggleButtonGroup
+        value={selectedValue}
+        onChange={handleChange}
+        aria-label="text style"
+      >
         {ITEMS.map(({ value, icon }) => (
-          <ToggleButton key={value} value={value}>
+          <ToggleButton key={value} value={value} aria-label={value}>
             {icon}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
     </Stack>
   );
-};
-`.trim()
+};`.trim()
       }
     }
   }
@@ -360,9 +392,13 @@ export const MultipleControlled: Story = {
 
 export const Orientation: Story = {
   render: (args) => (
-    <ToggleButtonGroup orientation="vertical" {...args}>
+    <ToggleButtonGroup
+      orientation="vertical"
+      aria-label="text alignment"
+      {...args}
+    >
       {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -372,9 +408,14 @@ export const Orientation: Story = {
 
 export const Color: Story = {
   render: (args) => (
-    <ToggleButtonGroup defaultValue="left-alignment" color="tertiary" {...args}>
+    <ToggleButtonGroup
+      defaultValue="left-alignment"
+      color="tertiary"
+      aria-label="text alignment"
+      {...args}
+    >
       {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -385,23 +426,23 @@ export const Color: Story = {
 export const Size: Story = {
   render: (args) => (
     <Stack spacing={20} style={{ alignItems: 'center' }}>
-      <ToggleButtonGroup size="sm" {...args}>
+      <ToggleButtonGroup size="sm" aria-label="text alignment" {...args}>
         {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-          <ToggleButton key={value} value={value}>
+          <ToggleButton key={value} value={value} aria-label={value}>
             {icon}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
-      <ToggleButtonGroup size="md" {...args}>
+      <ToggleButtonGroup size="md" aria-label="text alignment" {...args}>
         {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-          <ToggleButton key={value} value={value}>
+          <ToggleButton key={value} value={value} aria-label={value}>
             {icon}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
-      <ToggleButtonGroup size="lg" {...args}>
+      <ToggleButtonGroup size="lg" aria-label="text alignment" {...args}>
         {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-          <ToggleButton key={value} value={value}>
+          <ToggleButton key={value} value={value} aria-label={value}>
             {icon}
           </ToggleButton>
         ))}
@@ -412,9 +453,9 @@ export const Size: Story = {
 
 export const OverlayEffect: Story = {
   render: (args) => (
-    <ToggleButtonGroup disableOverlay {...args}>
+    <ToggleButtonGroup disableOverlay aria-label="text alignment" {...args}>
       {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -424,9 +465,13 @@ export const OverlayEffect: Story = {
 
 export const RippleEffect: Story = {
   render: (args) => (
-    <ToggleButtonGroup rippleStartLocation="center" {...args}>
+    <ToggleButtonGroup
+      rippleStartLocation="center"
+      aria-label="text alignment"
+      {...args}
+    >
       {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -436,9 +481,9 @@ export const RippleEffect: Story = {
 
 export const Disabled: Story = {
   render: (args) => (
-    <ToggleButtonGroup disabled {...args}>
+    <ToggleButtonGroup disabled aria-label="text alignment" {...args}>
       {ALIGNMENT_ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
@@ -477,16 +522,19 @@ export const ExclusiveSelectAtLeastOne: Story = {
   };
 
   return (
-    <ToggleButtonGroup value={selectedValue} onChange={handleChange}>
+    <ToggleButtonGroup
+      value={selectedValue}
+      onChange={handleChange}
+      aria-label="text alignment"
+    >
       {ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}
     </ToggleButtonGroup>
   );
-};
-`.trim()
+};`.trim()
       }
     }
   }
@@ -523,9 +571,13 @@ export const MultipleSelectAtLeastOne: Story = {
   };
 
   return (
-    <ToggleButtonGroup value={selectedValue} onChange={handleChange}>
+    <ToggleButtonGroup
+      value={selectedValue}
+      onChange={handleChange}
+      aria-label="text style"
+    >
       {ITEMS.map(({ value, icon }) => (
-        <ToggleButton key={value} value={value}>
+        <ToggleButton key={value} value={value} aria-label={value}>
           {icon}
         </ToggleButton>
       ))}

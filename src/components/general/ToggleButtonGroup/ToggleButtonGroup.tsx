@@ -82,6 +82,7 @@ const ToggleButtonGroup = <T extends AsType = 'div'>(
       }}
     >
       <Component
+        role="group"
         className={cn('JinniToggleButtonGroup', orientation, className)}
         style={newStyle}
         {...rest}
