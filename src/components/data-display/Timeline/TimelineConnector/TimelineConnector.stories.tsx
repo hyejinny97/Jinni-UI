@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TimelineConnector } from '@/components/data-display/Timeline';
+import TimelineConnector from './TimelineConnector';
 
 const meta: Meta<typeof TimelineConnector> = {
   component: TimelineConnector,

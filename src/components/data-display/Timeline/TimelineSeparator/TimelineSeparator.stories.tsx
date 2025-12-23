@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TimelineSeparator } from '@/components/data-display/Timeline';
+import TimelineSeparator from './TimelineSeparator';
 
 const meta: Meta<typeof TimelineSeparator> = {
   component: TimelineSeparator,
