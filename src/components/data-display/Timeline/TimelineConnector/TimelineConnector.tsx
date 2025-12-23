@@ -1,7 +1,9 @@
+import './TimelineConnector.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
+import { useTimeline } from '../Timeline.hooks';
 
 type TimelineConnectorProps<T extends AsType = 'span'> =
   DefaultComponentProps<T> & {
@@ -20,11 +22,12 @@ const TimelineConnector = <T extends AsType = 'span'>(
     as: Component = 'span',
     ...rest
   } = props;
+  const { orientation } = useTimeline();
   const newStyle = useStyle({ '--connector-color': color, ...style });
 
   return (
     <Component
-      className={cn('JinniTimelineConnector', variant, className)}
+      className={cn('JinniTimelineConnector', variant, orientation, className)}
       style={newStyle}
       {...rest}
     />

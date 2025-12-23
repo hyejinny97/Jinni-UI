@@ -2,13 +2,15 @@ import './Timeline.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
+import TimelineContext from './Timeline.contexts';
 
-type TimelineProps<T extends AsType = 'ul'> = DefaultComponentProps<T> & {
-  orientation?: 'horizontal' | 'vertical';
-  alignment?: 'before' | 'after' | 'alternate' | 'alternate-reverse';
-  reverse?: boolean;
-  showLastConnector?: boolean;
-};
+export type TimelineProps<T extends AsType = 'ul'> =
+  DefaultComponentProps<T> & {
+    orientation?: 'horizontal' | 'vertical';
+    alignment?: 'before' | 'after' | 'alternate' | 'alternate-reverse';
+    reverse?: boolean;
+    showLastConnector?: boolean;
+  };
 
 const Timeline = <T extends AsType = 'ul'>(props: TimelineProps<T>) => {
   const {
@@ -25,19 +27,21 @@ const Timeline = <T extends AsType = 'ul'>(props: TimelineProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <Component
-      className={cn(
-        'JinniTimeline',
-        { reverse, showLastConnector },
-        orientation,
-        alignment,
-        className
-      )}
-      style={newStyle}
-      {...rest}
-    >
-      {children}
-    </Component>
+    <TimelineContext.Provider value={{ orientation }}>
+      <Component
+        className={cn(
+          'JinniTimeline',
+          { reverse, showLastConnector },
+          orientation,
+          alignment,
+          className
+        )}
+        style={newStyle}
+        {...rest}
+      >
+        {children}
+      </Component>
+    </TimelineContext.Provider>
   );
 };
 

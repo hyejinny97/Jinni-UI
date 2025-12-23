@@ -1,0 +1,41 @@
+.JinniTimelineItem {
+  display: flex;
+  min-height: 70px;
+
+  &.vertical {
+    flex-direction: row;
+    .JinniTimelineContent,
+    .JinniTimelineOppositeContent,
+    &::before,
+    &::after {
+      padding: 0 10px;
+    }
+  }
+  &.horizontal {
+    flex-direction: column;
+    .JinniTimelineContent,
+    .JinniTimelineOppositeContent,
+    &::before,
+    &::after {
+      padding: 10px 0;
+    }
+  }
+
+  .JinniTimelineContent {
+    flex: 1;
+  }
+  &:not(:has(.JinniTimelineOppositeContent))::after {
+    content: '';
+    display: block;
+    flex: 1;
+  }
+
+  .JinniTimelineOppositeContent {
+    flex: 1;
+  }
+  &:not(:has(.JinniTimelineContent))::before {
+    content: '';
+    display: block;
+    flex: 1;
+  }
+}

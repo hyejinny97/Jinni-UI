@@ -1,50 +1,3 @@
-@mixin orientation {
-  &.vertical {
-    flex-direction: column;
-    .JinniTimelineItem {
-      flex-direction: row;
-      .JinniTimelineContent,
-      .JinniTimelineOppositeContent,
-      &::before,
-      &::after {
-        padding: 0 10px;
-      }
-      .JinniTimelineSeparator {
-        flex-direction: column;
-        .JinniTimelineConnector {
-          width: 2px;
-          height: 100%;
-        }
-      }
-    }
-    &.reverse {
-      flex-direction: column-reverse;
-    }
-  }
-  &.horizontal {
-    flex-direction: row;
-    .JinniTimelineItem {
-      flex-direction: column;
-      .JinniTimelineContent,
-      .JinniTimelineOppositeContent,
-      &::before,
-      &::after {
-        padding: 10px 0;
-      }
-      .JinniTimelineSeparator {
-        flex-direction: row;
-        .JinniTimelineConnector {
-          width: 100%;
-          height: 2px;
-        }
-      }
-    }
-    &.reverse {
-      flex-direction: row-reverse;
-    }
-  }
-}
-
 @mixin order($content-order, $separator-order, $opposite-content-order) {
   .JinniTimelineContent,
   &::before {
@@ -134,61 +87,20 @@
   display: flex;
   margin: 0;
   padding: 0;
-  @include orientation;
   @include timeline-alignment;
   @include text-alignment;
   @include last-connector;
 
-  .JinniTimelineItem {
-    display: flex;
-    min-height: 70px;
-
-    .JinniTimelineContent {
-      flex: 1;
+  &.vertical {
+    flex-direction: column;
+    &.reverse {
+      flex-direction: column-reverse;
     }
-    &:not(:has(.JinniTimelineContent))::before {
-      content: '';
-      display: block;
-      flex: 1;
-    }
-
-    .JinniTimelineOppositeContent {
-      flex: 1;
-    }
-    &:not(:has(.JinniTimelineOppositeContent))::after {
-      content: '';
-      display: block;
-      flex: 1;
-    }
-
-    .JinniTimelineSeparator {
-      display: flex;
-      align-items: center;
-
-      .JinniTimelineDot {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        padding: 4px;
-        box-sizing: border-box;
-        aspect-ratio: 1/1;
-        border: 2px solid var(--dot-color);
-        border-radius: 1000px;
-        &.filled {
-          background-color: var(--dot-color);
-        }
-      }
-
-      .JinniTimelineConnector {
-        box-sizing: border-box;
-        border: 1px solid var(--connector-color);
-        &.dotted {
-          border-style: dotted;
-        }
-        &.dashed {
-          border-style: dashed;
-        }
-      }
+  }
+  &.horizontal {
+    flex-direction: row;
+    &.reverse {
+      flex-direction: row-reverse;
     }
   }
 }
