@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import TimelineContext from './Timeline.contexts';
+import { useTimelineItemChildren } from './Timeline.hooks';
 
 export type TimelineProps<T extends AsType = 'ul'> =
   DefaultComponentProps<T> & {
@@ -24,6 +25,7 @@ const Timeline = <T extends AsType = 'ul'>(props: TimelineProps<T>) => {
     as: Component = 'ul',
     ...rest
   } = props;
+  const { timelineItemChildren } = useTimelineItemChildren({ children });
   const newStyle = useStyle(style);
 
   return (
@@ -31,7 +33,7 @@ const Timeline = <T extends AsType = 'ul'>(props: TimelineProps<T>) => {
       <Component
         className={cn(
           'JinniTimeline',
-          { reverse, showLastConnector },
+          { showLastConnector },
           orientation,
           alignment,
           className
@@ -39,7 +41,7 @@ const Timeline = <T extends AsType = 'ul'>(props: TimelineProps<T>) => {
         style={newStyle}
         {...rest}
       >
-        {children}
+        {reverse ? timelineItemChildren.reverse() : timelineItemChildren}
       </Component>
     </TimelineContext.Provider>
   );

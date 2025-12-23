@@ -70,21 +70,14 @@
 
 @mixin last-connector {
   &:not(.showLastConnector) {
-    &:not(.reverse) {
-      .JinniTimelineItem:last-child .JinniTimelineConnector {
-        visibility: hidden;
-      }
-    }
-    &.reverse {
-      .JinniTimelineItem:first-child .JinniTimelineConnector {
-        visibility: hidden;
-      }
+    .JinniTimelineItem:last-child .JinniTimelineConnector {
+      visibility: hidden;
     }
   }
 }
 
 .JinniTimeline {
-  display: flex;
+  display: inline-flex;
   margin: 0;
   padding: 0;
   @include timeline-alignment;
@@ -93,14 +86,8 @@
 
   &.vertical {
     flex-direction: column;
-    &.reverse {
-      flex-direction: column-reverse;
-    }
   }
   &.horizontal {
     flex-direction: row;
-    &.reverse {
-      flex-direction: row-reverse;
-    }
   }
 }
