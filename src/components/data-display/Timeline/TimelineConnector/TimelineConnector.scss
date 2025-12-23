@@ -1,0 +1,23 @@
+@mixin variant {
+  &.dotted {
+    border-style: dotted;
+  }
+  &.dashed {
+    border-style: dashed;
+  }
+}
+
+.JinniTimelineConnector {
+  box-sizing: border-box;
+  border: 1px solid var(--connector-color);
+  @include variant;
+
+  &.vertical {
+    width: 2px;
+    height: 100%;
+  }
+  &.horizontal {
+    width: 100%;
+    height: 2px;
+  }
+}

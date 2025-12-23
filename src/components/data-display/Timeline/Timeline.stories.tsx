@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 import {
   Timeline,
   TimelineItem,
@@ -12,9 +13,11 @@ import { ShoppingCartIcon } from '@/components/icons/ShoppingCartIcon';
 import { LocalShippingIcon } from '@/components/icons/LocalShippingIcon';
 import { BoxIcon } from '@/components/icons/BoxIcon';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
-import { Divider } from '@/components/layout/Divider';
 import { Stack } from '@/components/layout/Stack';
-import { StyleType } from '@/types/style';
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import { Radio } from '@/components/data-entry/Radio';
+import { Switch } from '@/components/data-entry/Switch';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof Timeline> = {
   component: Timeline,
@@ -88,158 +91,239 @@ const ORDER_PROCESS = [
   }
 ];
 
-const VerticalTimelineTemplate = ({ ...props }) => {
+const AlignmentTemplate = () => {
+  const ORDER_PROCESS = [
+    { content: '1. Ordered' },
+    { content: '2. Shipped' },
+    { content: '3. Out for delivery' },
+    { content: '4. Estimated delivery date' }
+  ];
+  const ALIGNMENTS = [
+    'before',
+    'after',
+    'alternate',
+    'alternate-reverse'
+  ] as const;
+  const [align, setAlign] = useState<(typeof ALIGNMENTS)[number]>('before');
+  const [horizontal, setHorizontal] = useState<boolean>(false);
+  const [reverse, setReverse] = useState<boolean>(false);
+
+  const changeAlign = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAlign(event.target.value as (typeof ALIGNMENTS)[number]);
+  };
+  const changeOrientation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHorizontal(event.target.checked);
+  };
+  const changeReverse = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReverse(event.target.checked);
+  };
+
   return (
-    <Timeline {...props}>
-      {ORDER_PROCESS.map(({ content }) => {
-        return (
-          <TimelineItem key={content}>
-            <TimelineContent style={{ fontWeight: 700 }}>
-              {content}
-            </TimelineContent>
-            <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
-            </TimelineSeparator>
-          </TimelineItem>
-        );
-      })}
-    </Timeline>
+    <Stack spacing={30}>
+      <Stack
+        spacing={5}
+        style={{
+          padding: '6px 16px',
+          backgroundColor: 'gray-50',
+          borderRadius: '4px'
+        }}
+      >
+        <RadioGroup name="alignment" value={align} onChange={changeAlign}>
+          <Stack direction="row" spacing={5}>
+            {ALIGNMENTS.map((alignment) => (
+              <Label key={alignment} content={alignment}>
+                <Radio value={alignment} />
+              </Label>
+            ))}
+          </Stack>
+        </RadioGroup>
+        <Stack direction="row" spacing={5}>
+          <Label content="horizontal">
+            <Switch
+              value="horizontal"
+              checked={horizontal}
+              onChange={changeOrientation}
+            />
+          </Label>
+          <Label content="reverse">
+            <Switch
+              value="reverse"
+              checked={reverse}
+              onChange={changeReverse}
+            />
+          </Label>
+        </Stack>
+      </Stack>
+      <Timeline
+        alignment={align}
+        orientation={horizontal ? 'horizontal' : 'vertical'}
+        reverse={reverse}
+        {...(horizontal && { style: { height: '100px' } })}
+      >
+        {ORDER_PROCESS.map(({ content }) => {
+          return (
+            <TimelineItem key={content}>
+              <TimelineContent
+                {...(horizontal && { style: { marginRight: '15px' } })}
+              >
+                {content}
+              </TimelineContent>
+              <TimelineSeparator>
+                <TimelineDot />
+                <TimelineConnector />
+              </TimelineSeparator>
+            </TimelineItem>
+          );
+        })}
+      </Timeline>
+    </Stack>
   );
 };
 
-const HorizontalTimelineTemplate = ({ ...props }) => {
+const OppositeContentTemplate = () => {
+  const ORDER_PROCESS = [
+    {
+      content: '1. Ordered',
+      oppositeContent: 'May 13, 2024'
+    },
+    {
+      content: '2. Shipped',
+      oppositeContent: 'June 20, 2024'
+    },
+    {
+      content: '3. Out for delivery',
+      oppositeContent: 'July 2, 2024'
+    },
+    {
+      content: '4. Estimated delivery date',
+      oppositeContent: 'Aug 14, 2024'
+    }
+  ];
+  const ALIGNMENTS = [
+    'before',
+    'after',
+    'alternate',
+    'alternate-reverse'
+  ] as const;
+  const [align, setAlign] = useState<(typeof ALIGNMENTS)[number]>('before');
+  const [horizontal, setHorizontal] = useState<boolean>(false);
+  const [reverse, setReverse] = useState<boolean>(false);
+
+  const changeAlign = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAlign(event.target.value as (typeof ALIGNMENTS)[number]);
+  };
+  const changeOrientation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHorizontal(event.target.checked);
+  };
+  const changeReverse = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReverse(event.target.checked);
+  };
+
   return (
-    <Timeline orientation="horizontal" style={{ height: '100px' }} {...props}>
-      {ORDER_PROCESS.map(({ content }) => {
-        return (
-          <TimelineItem key={content}>
-            <TimelineContent style={{ fontWeight: 700, marginRight: '15px' }}>
-              {content}
-            </TimelineContent>
-            <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
-            </TimelineSeparator>
-          </TimelineItem>
-        );
-      })}
-    </Timeline>
+    <Stack spacing={30}>
+      <Stack
+        spacing={5}
+        style={{
+          padding: '6px 16px',
+          backgroundColor: 'gray-50',
+          borderRadius: '4px'
+        }}
+      >
+        <RadioGroup name="alignment" value={align} onChange={changeAlign}>
+          <Stack direction="row" spacing={5}>
+            {ALIGNMENTS.map((alignment) => (
+              <Label key={alignment} content={alignment}>
+                <Radio value={alignment} />
+              </Label>
+            ))}
+          </Stack>
+        </RadioGroup>
+        <Stack direction="row" spacing={5}>
+          <Label content="horizontal">
+            <Switch
+              value="horizontal"
+              checked={horizontal}
+              onChange={changeOrientation}
+            />
+          </Label>
+          <Label content="reverse">
+            <Switch
+              value="reverse"
+              checked={reverse}
+              onChange={changeReverse}
+            />
+          </Label>
+        </Stack>
+      </Stack>
+      <Timeline
+        alignment={align}
+        orientation={horizontal ? 'horizontal' : 'vertical'}
+        reverse={reverse}
+        {...(horizontal && { style: { height: '100px' } })}
+      >
+        {ORDER_PROCESS.map(({ content, oppositeContent }) => {
+          return (
+            <TimelineItem key={content}>
+              <TimelineContent
+                {...(horizontal && { style: { marginRight: '15px' } })}
+              >
+                {content}
+              </TimelineContent>
+              <TimelineSeparator>
+                <TimelineDot />
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineOppositeContent
+                style={{
+                  color: 'gray-400',
+                  fontSize: '12px',
+                  ...(horizontal && { marginRight: '15px' })
+                }}
+              >
+                {oppositeContent}
+              </TimelineOppositeContent>
+            </TimelineItem>
+          );
+        })}
+      </Timeline>
+    </Stack>
   );
 };
 
-const DotCustomizationTemplate = () => {
-  return (
-    <Timeline>
-      {ORDER_PROCESS.map(({ content }) => {
-        return (
-          <TimelineItem key={content}>
-            <TimelineContent style={{ fontWeight: 700 }}>
-              {content}
-            </TimelineContent>
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" color="yellow-400" />
-              <TimelineConnector />
-            </TimelineSeparator>
-          </TimelineItem>
-        );
-      })}
-    </Timeline>
-  );
-};
+const CustomizeTimelineTemplate = () => {
+  const ORDER_PROCESS = [
+    {
+      content: '1. Ordered',
+      oppositeContent: 'May 13, 2024',
+      icon: <ShoppingCartIcon color="white" />,
+      status: 'completed'
+    },
+    {
+      content: '2. Shipped',
+      oppositeContent: 'June 20, 2024',
+      icon: <LocalShippingIcon color="white" />,
+      status: 'completed'
+    },
+    {
+      content: '3. Out for delivery',
+      oppositeContent: 'July 2, 2024',
+      icon: <BoxIcon color="primary" />,
+      status: 'inProgress'
+    },
+    {
+      content: '4. Estimated delivery date',
+      oppositeContent: 'Aug 14, 2024',
+      icon: <DateRangeIcon color="white" />,
+      status: 'pending'
+    }
+  ];
 
-const ConnectorCustomizationTemplate = () => {
   return (
-    <Timeline>
-      {ORDER_PROCESS.map(({ content }) => {
-        return (
-          <TimelineItem key={content}>
-            <TimelineContent style={{ fontWeight: 700 }}>
-              {content}
-            </TimelineContent>
-            <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector variant="dashed" color="primary" />
-            </TimelineSeparator>
-          </TimelineItem>
-        );
-      })}
-    </Timeline>
-  );
-};
-
-const OppositeContentTemplate = ({ ...props }) => {
-  return (
-    <Timeline {...props}>
-      {ORDER_PROCESS.map(({ content, oppositeContent }) => {
-        return (
-          <TimelineItem key={content}>
-            <TimelineContent style={{ fontWeight: 700 }}>
-              {content}
-            </TimelineContent>
-            <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineOppositeContent
-              style={{
-                color: 'gray-400',
-                fontSize: '12px'
-              }}
-            >
-              {oppositeContent}
-            </TimelineOppositeContent>
-          </TimelineItem>
-        );
-      })}
-    </Timeline>
-  );
-};
-
-const TimelinePositionTemplate = ({
-  contentStyle,
-  oppositeContentStyle
-}: {
-  contentStyle?: StyleType;
-  oppositeContentStyle?: StyleType;
-}) => {
-  return (
-    <Timeline style={{ width: '500px', elevation: 3, padding: '10px 0' }}>
-      {ORDER_PROCESS.map(({ content, oppositeContent }) => {
-        return (
-          <TimelineItem key={content}>
-            <TimelineContent style={{ fontWeight: 700, ...contentStyle }}>
-              {content}
-            </TimelineContent>
-            <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineOppositeContent
-              style={{
-                color: 'gray-400',
-                fontSize: '12px',
-                ...oppositeContentStyle
-              }}
-            >
-              {oppositeContent}
-            </TimelineOppositeContent>
-          </TimelineItem>
-        );
-      })}
-    </Timeline>
-  );
-};
-
-const CustomizationTemplate = ({ ...props }) => {
-  return (
-    <Timeline {...props}>
+    <Timeline style={{ width: '500px' }}>
       {ORDER_PROCESS.map(({ content, oppositeContent, icon, status }) => {
         return (
           <TimelineItem key={content}>
-            <TimelineContent style={{ fontWeight: 700 }}>
-              {content}
-            </TimelineContent>
+            <TimelineContent>{content}</TimelineContent>
             <TimelineSeparator>
               <TimelineDot
                 color={
@@ -269,108 +353,469 @@ const CustomizationTemplate = ({ ...props }) => {
 };
 
 export const BasicTimeline: Story = {
-  render: (args) => <VerticalTimelineTemplate {...args} />
+  render: (args) => (
+    <Timeline style={{ width: '500px' }} {...args}>
+      {ORDER_PROCESS.map(({ content }) => {
+        return (
+          <TimelineItem key={content}>
+            <TimelineContent>{content}</TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  )
 };
 
 export const Orientation: Story = {
-  render: (args) => <HorizontalTimelineTemplate {...args} />
-};
-
-export const VerticalReverse: Story = {
-  render: (args) => <VerticalTimelineTemplate reverse {...args} />
-};
-
-export const HorizontalReverse: Story = {
-  render: (args) => <HorizontalTimelineTemplate reverse {...args} />
-};
-
-export const VerticalAlignment: Story = {
   render: (args) => (
-    <Stack spacing={10} divider={<Divider />}>
-      {['before', 'after', 'alternate', 'alternate-reverse'].map(
-        (alignment, idx) => (
-          <>
-            <h4>{`${idx + 1}. alignment = '${alignment}'`}</h4>
-            <VerticalTimelineTemplate
-              alignment={alignment}
-              style={{ minWidth: '500px' }}
-              {...args}
+    <Timeline orientation="horizontal" style={{ height: '100px' }} {...args}>
+      {ORDER_PROCESS.map(({ content }) => {
+        return (
+          <TimelineItem key={content}>
+            <TimelineContent style={{ marginRight: '15px' }}>
+              {content}
+            </TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  )
+};
+
+export const Reverse: Story = {
+  render: (args) => (
+    <Timeline reverse style={{ width: '500px' }} {...args}>
+      {ORDER_PROCESS.map(({ content }) => {
+        return (
+          <TimelineItem key={content}>
+            <TimelineContent>{content}</TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  )
+};
+
+export const Alignment: Story = {
+  render: () => <AlignmentTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const AlignmentTemplate = () => {
+  const ORDER_PROCESS = [
+    { content: '1. Ordered' },
+    { content: '2. Shipped' },
+    { content: '3. Out for delivery' },
+    { content: '4. Estimated delivery date' }
+  ];
+  const ALIGNMENTS = [
+    'before',
+    'after',
+    'alternate',
+    'alternate-reverse'
+  ] as const;
+  const [align, setAlign] = useState<(typeof ALIGNMENTS)[number]>('before');
+  const [horizontal, setHorizontal] = useState<boolean>(false);
+  const [reverse, setReverse] = useState<boolean>(false);
+
+  const changeAlign = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAlign(event.target.value as (typeof ALIGNMENTS)[number]);
+  };
+  const changeOrientation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHorizontal(event.target.checked);
+  };
+  const changeReverse = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReverse(event.target.checked);
+  };
+
+  return (
+    <Stack spacing={30}>
+      <Stack
+        spacing={5}
+        style={{
+          padding: '6px 16px',
+          backgroundColor: 'gray-50',
+          borderRadius: '4px'
+        }}
+      >
+        <RadioGroup name="alignment" value={align} onChange={changeAlign}>
+          <Stack direction="row" spacing={5}>
+            {ALIGNMENTS.map((alignment) => (
+              <Label key={alignment} content={alignment}>
+                <Radio value={alignment} />
+              </Label>
+            ))}
+          </Stack>
+        </RadioGroup>
+        <Stack direction="row" spacing={5}>
+          <Label content="horizontal">
+            <Switch
+              value="horizontal"
+              checked={horizontal}
+              onChange={changeOrientation}
             />
-          </>
-        )
-      )}
+          </Label>
+          <Label content="reverse">
+            <Switch
+              value="reverse"
+              checked={reverse}
+              onChange={changeReverse}
+            />
+          </Label>
+        </Stack>
+      </Stack>
+      <Timeline
+        alignment={align}
+        orientation={horizontal ? 'horizontal' : 'vertical'}
+        reverse={reverse}
+        {...(horizontal && { style: { height: '100px' } })}
+      >
+        {ORDER_PROCESS.map(({ content }) => {
+          return (
+            <TimelineItem key={content}>
+              <TimelineContent
+                {...(horizontal && { style: { marginRight: '15px' } })}
+              >
+                {content}
+              </TimelineContent>
+              <TimelineSeparator>
+                <TimelineDot />
+                <TimelineConnector />
+              </TimelineSeparator>
+            </TimelineItem>
+          );
+        })}
+      </Timeline>
     </Stack>
-  )
-};
-
-export const HorizontalAlignment: Story = {
-  render: (args) => (
-    <Stack spacing={15} divider={<Divider />}>
-      {['before', 'after', 'alternate', 'alternate-reverse'].map(
-        (alignment, idx) => (
-          <>
-            <h4>{`${idx + 1}. alignment = '${alignment}'`}</h4>
-            <HorizontalTimelineTemplate alignment={alignment} {...args} />
-          </>
-        )
-      )}
-    </Stack>
-  )
-};
-
-export const DotCustomization: Story = {
-  render: (args) => <DotCustomizationTemplate {...args} />
-};
-
-export const ConnectorCustomization: Story = {
-  render: (args) => <ConnectorCustomizationTemplate {...args} />
-};
-
-export const ShowLastConnector: Story = {
-  render: (args) => (
-    <>
-      <VerticalTimelineTemplate showLastConnector {...args} />
-      <HorizontalTimelineTemplate showLastConnector {...args} />
-    </>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const OppositeContent: Story = {
-  render: (args) => (
-    <>
-      <Stack spacing={10} divider={<Divider />}>
-        {['before', 'after', 'alternate', 'alternate-reverse'].map(
-          (alignment, idx) => (
-            <>
-              <h4>{`${idx + 1}. alignment = '${alignment}'`}</h4>
-              <OppositeContentTemplate
-                alignment={alignment}
-                style={{ minWidth: '500px' }}
-                {...args}
-              />
-            </>
-          )
-        )}
+  render: () => <OppositeContentTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const OppositeContentTemplate = () => {
+  const ORDER_PROCESS = [
+    {
+      content: '1. Ordered',
+      oppositeContent: 'May 13, 2024'
+    },
+    {
+      content: '2. Shipped',
+      oppositeContent: 'June 20, 2024'
+    },
+    {
+      content: '3. Out for delivery',
+      oppositeContent: 'July 2, 2024'
+    },
+    {
+      content: '4. Estimated delivery date',
+      oppositeContent: 'Aug 14, 2024'
+    }
+  ];
+  const ALIGNMENTS = [
+    'before',
+    'after',
+    'alternate',
+    'alternate-reverse'
+  ] as const;
+  const [align, setAlign] = useState<(typeof ALIGNMENTS)[number]>('before');
+  const [horizontal, setHorizontal] = useState<boolean>(false);
+  const [reverse, setReverse] = useState<boolean>(false);
+
+  const changeAlign = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAlign(event.target.value as (typeof ALIGNMENTS)[number]);
+  };
+  const changeOrientation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHorizontal(event.target.checked);
+  };
+  const changeReverse = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReverse(event.target.checked);
+  };
+
+  return (
+    <Stack spacing={30}>
+      <Stack
+        spacing={5}
+        style={{
+          padding: '6px 16px',
+          backgroundColor: 'gray-50',
+          borderRadius: '4px'
+        }}
+      >
+        <RadioGroup name="alignment" value={align} onChange={changeAlign}>
+          <Stack direction="row" spacing={5}>
+            {ALIGNMENTS.map((alignment) => (
+              <Label key={alignment} content={alignment}>
+                <Radio value={alignment} />
+              </Label>
+            ))}
+          </Stack>
+        </RadioGroup>
+        <Stack direction="row" spacing={5}>
+          <Label content="horizontal">
+            <Switch
+              value="horizontal"
+              checked={horizontal}
+              onChange={changeOrientation}
+            />
+          </Label>
+          <Label content="reverse">
+            <Switch
+              value="reverse"
+              checked={reverse}
+              onChange={changeReverse}
+            />
+          </Label>
+        </Stack>
       </Stack>
-    </>
-  )
+      <Timeline
+        alignment={align}
+        orientation={horizontal ? 'horizontal' : 'vertical'}
+        reverse={reverse}
+        {...(horizontal && { style: { height: '100px' } })}
+      >
+        {ORDER_PROCESS.map(({ content, oppositeContent }) => {
+          return (
+            <TimelineItem key={content}>
+              <TimelineContent
+                {...(horizontal && { style: { marginRight: '15px' } })}
+              >
+                {content}
+              </TimelineContent>
+              <TimelineSeparator>
+                <TimelineDot />
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineOppositeContent
+                style={{
+                  color: 'gray-400',
+                  fontSize: '12px',
+                  ...(horizontal && { marginRight: '15px' })
+                }}
+              >
+                {oppositeContent}
+              </TimelineOppositeContent>
+            </TimelineItem>
+          );
+        })}
+      </Timeline>
+    </Stack>
+  );
+};
+`.trim()
+      }
+    }
+  }
 };
 
 export const LeftTimelinePosition: Story = {
   render: (args) => (
-    <TimelinePositionTemplate
-      oppositeContentStyle={{ flex: '0.25' }}
+    <Timeline
+      style={{
+        width: '500px',
+        padding: '16px 0',
+        backgroundColor: 'gray-50',
+        borderRadius: '4px'
+      }}
       {...args}
-    />
+    >
+      {ORDER_PROCESS.map(({ content, oppositeContent }) => {
+        return (
+          <TimelineItem key={content}>
+            <TimelineContent>{content}</TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineOppositeContent
+              style={{
+                flex: '0.25',
+                color: 'gray-400',
+                fontSize: '12px'
+              }}
+            >
+              {oppositeContent}
+            </TimelineOppositeContent>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
   )
 };
 
 export const RightTimelinePosition: Story = {
   render: (args) => (
-    <TimelinePositionTemplate contentStyle={{ flex: '0.4' }} {...args} />
+    <Timeline
+      style={{
+        width: '500px',
+        padding: '16px 0',
+        backgroundColor: 'gray-50',
+        borderRadius: '4px'
+      }}
+      {...args}
+    >
+      {ORDER_PROCESS.map(({ content, oppositeContent }) => {
+        return (
+          <TimelineItem key={content}>
+            <TimelineContent style={{ flex: '0.4' }}>{content}</TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineOppositeContent
+              style={{
+                color: 'gray-400',
+                fontSize: '12px'
+              }}
+            >
+              {oppositeContent}
+            </TimelineOppositeContent>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
   )
 };
 
-export const Customization: Story = {
-  render: (args) => <CustomizationTemplate {...args} />
+export const DotCustomization: Story = {
+  render: (args) => (
+    <Timeline style={{ width: '500px' }} {...args}>
+      {ORDER_PROCESS.map(({ content }) => {
+        return (
+          <TimelineItem key={content}>
+            <TimelineContent>{content}</TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot variant="outlined" color="yellow-400" />
+              <TimelineConnector />
+            </TimelineSeparator>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  )
+};
+
+export const ConnectorCustomization: Story = {
+  render: (args) => (
+    <Timeline style={{ width: '500px' }} {...args}>
+      {ORDER_PROCESS.map(({ content }) => {
+        return (
+          <TimelineItem key={content}>
+            <TimelineContent>{content}</TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector variant="dashed" color="primary" />
+            </TimelineSeparator>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  )
+};
+
+export const ShowLastConnector: Story = {
+  render: (args) => (
+    <Timeline showLastConnector style={{ width: '500px' }} {...args}>
+      {ORDER_PROCESS.map(({ content }) => {
+        return (
+          <TimelineItem key={content}>
+            <TimelineContent>{content}</TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  )
+};
+
+export const CustomizeTimeline: Story = {
+  render: () => <CustomizeTimelineTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomizeTimelineTemplate = () => {
+  const ORDER_PROCESS = [
+    {
+      content: '1. Ordered',
+      oppositeContent: 'May 13, 2024',
+      icon: <ShoppingCartIcon color="white" />,
+      status: 'completed'
+    },
+    {
+      content: '2. Shipped',
+      oppositeContent: 'June 20, 2024',
+      icon: <LocalShippingIcon color="white" />,
+      status: 'completed'
+    },
+    {
+      content: '3. Out for delivery',
+      oppositeContent: 'July 2, 2024',
+      icon: <BoxIcon color="primary" />,
+      status: 'inProgress'
+    },
+    {
+      content: '4. Estimated delivery date',
+      oppositeContent: 'Aug 14, 2024',
+      icon: <DateRangeIcon color="white" />,
+      status: 'pending'
+    }
+  ];
+
+  return (
+    <Timeline style={{ width: '500px' }}>
+      {ORDER_PROCESS.map(({ content, oppositeContent, icon, status }) => {
+        return (
+          <TimelineItem key={content}>
+            <TimelineContent>{content}</TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot
+                color={
+                  status === 'completed' || status === 'inProgress'
+                    ? 'primary'
+                    : 'gray-400'
+                }
+                variant={status === 'inProgress' ? 'outlined' : 'filled'}
+              >
+                {icon}
+              </TimelineDot>
+              <TimelineConnector
+                color={status === 'completed' ? 'primary' : 'gray-400'}
+                variant={status === 'inProgress' ? 'dotted' : 'solid'}
+              />
+            </TimelineSeparator>
+            <TimelineOppositeContent
+              style={{ color: 'gray-400', fontSize: '12px' }}
+            >
+              {oppositeContent}
+            </TimelineOppositeContent>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  );
+};`.trim()
+      }
+    }
+  }
 };

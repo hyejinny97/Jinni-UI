@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TimelineOppositeContent } from '@/components/data-display/Timeline';
+import TimelineOppositeContent from './TimelineOppositeContent';
 
 const meta: Meta<typeof TimelineOppositeContent> = {
   component: TimelineOppositeContent,

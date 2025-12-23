@@ -1,0 +1,13 @@
+.JinniTimelineDot {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  box-sizing: border-box;
+  aspect-ratio: 1/1;
+  border: 2px solid var(--dot-color);
+  border-radius: 1000px;
+  &.filled {
+    background-color: var(--dot-color);
+  }
+}

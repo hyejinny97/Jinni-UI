@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TimelineContent } from '@/components/data-display/Timeline';
+import TimelineContent from './TimelineContent';
 
 const meta: Meta<typeof TimelineContent> = {
   component: TimelineContent,
