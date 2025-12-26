@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Step } from '@/components/navigation/Stepper';
+import Step from './Step';
 
 const meta: Meta<typeof Step> = {
   component: Step,

@@ -1,0 +1,13 @@
+.JinniStepDescription {
+  display: inline-block;
+  box-sizing: border-box;
+  &.pending {
+    color: var(--jinni-color-gray-400);
+    font-weight: var(--jinni-font-weight-regular);
+  }
+  &.completed,
+  &.active {
+    color: var(--jinni-color-gray-600);
+    font-weight: var(--jinni-font-weight-medium);
+  }
+}
