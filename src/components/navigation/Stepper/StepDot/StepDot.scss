@@ -1,0 +1,20 @@
+.JinniStepDot,
+.JinniStepDot.JinniButtonBase {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px;
+  padding: 5px;
+  min-width: max-content;
+  min-height: max-content;
+  aspect-ratio: 1 / 1;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 1000px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+
+  svg path {
+    fill: currentColor;
+  }
+}

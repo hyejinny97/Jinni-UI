@@ -1,16 +1,21 @@
+import './StepTitle.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
+import { useStep } from '../Step';
 
-type StepContentProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {};
+type StepTitleProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
+  children: React.ReactNode;
+};
 
-const StepContent = <T extends AsType = 'div'>(props: StepContentProps<T>) => {
+const StepTitle = <T extends AsType = 'div'>(props: StepTitleProps<T>) => {
   const { children, className, style, as: Component = 'div', ...rest } = props;
+  const { status } = useStep();
   const newStyle = useStyle(style);
 
   return (
     <Component
-      className={cn('JinniStepContent', className)}
+      className={cn('JinniStepTitle', status, className)}
       style={newStyle}
       {...rest}
     >
@@ -19,4 +24,4 @@ const StepContent = <T extends AsType = 'div'>(props: StepContentProps<T>) => {
   );
 };
 
-export default StepContent;
+export default StepTitle;

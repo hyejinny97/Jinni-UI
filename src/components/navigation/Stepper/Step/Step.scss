@@ -1,0 +1,307 @@
+$content-padding: 12px;
+
+@mixin connector-size-by-orientation {
+  &.horizontal {
+    width: 100%;
+    height: 1px;
+  }
+  &.vertical {
+    width: 1px;
+    height: 100%;
+  }
+}
+
+@mixin connector-color-by-orientation-and-alignment {
+  &.horizontal.right,
+  &.vertical {
+    &.completed {
+      .JinniStepConnector.after {
+        background-color: var(--connector-color);
+      }
+    }
+  }
+  &.horizontal.left {
+    &.completed {
+      & + .JinniStep .JinniStepConnector.before {
+        background-color: var(--connector-color);
+      }
+    }
+  }
+  &.horizontal.bottom,
+  &.horizontal.top {
+    &.completed {
+      .JinniStepConnector.after {
+        background-color: var(--connector-color);
+      }
+      & + .JinniStep .JinniStepConnector.before {
+        background-color: var(--connector-color);
+      }
+    }
+  }
+}
+
+@mixin structure-by-orientation-and-alignment {
+  &.horizontal {
+    &.right {
+      align-items: center;
+      grid-template-areas:
+        'dot title after-connector'
+        '. description description';
+      grid-template-rows: max-content minmax(max-content, 1fr);
+      grid-template-columns:
+        max-content
+        max-content
+        minmax(70px, 1fr);
+      .JinniStepTitle,
+      .JinniStepDescription {
+        padding-right: $content-padding;
+        text-align: left;
+      }
+      .JinniStepDescription {
+        align-self: flex-start;
+      }
+      &:last-child {
+        flex: 0;
+        grid-template-areas:
+          'dot title'
+          '. description';
+        grid-template-columns: max-content max-content;
+        .JinniStepDescription {
+          width: max-content;
+          max-width: 120px;
+          overflow-wrap: break-word;
+        }
+      }
+    }
+    &.left {
+      align-items: center;
+      justify-items: right;
+      grid-template-areas:
+        'before-connector title dot'
+        'description description .';
+      grid-template-rows: max-content minmax(max-content, 1fr);
+      grid-template-columns:
+        minmax(70px, 1fr)
+        max-content
+        max-content;
+      .JinniStepTitle,
+      .JinniStepDescription {
+        padding-left: $content-padding;
+        text-align: right;
+      }
+      .JinniStepDescription {
+        align-self: flex-start;
+      }
+      &:first-child {
+        flex: 0;
+        grid-template-areas:
+          'title dot'
+          'description .';
+        grid-template-columns: max-content max-content;
+        .JinniStepDescription {
+          width: max-content;
+          max-width: 120px;
+          overflow-wrap: break-word;
+        }
+      }
+    }
+    &.bottom {
+      align-items: center;
+      grid-template-areas:
+        'before-connector dot after-connector'
+        'title title title'
+        'description description description';
+      grid-template-rows: max-content max-content minmax(max-content, 1fr);
+      grid-template-columns:
+        minmax(35px, 1fr)
+        max-content
+        minmax(35px, 1fr);
+      .JinniStepTitle,
+      .JinniStepDescription {
+        padding-left: $content-padding;
+        padding-right: $content-padding;
+        text-align: center;
+        align-self: flex-start;
+      }
+      &:first-child {
+        .JinniStepConnector.before {
+          visibility: hidden;
+        }
+      }
+      &:last-child {
+        .JinniStepConnector.after {
+          visibility: hidden;
+        }
+      }
+    }
+    &.top {
+      align-items: center;
+      grid-template-areas:
+        'description description description'
+        'title title title'
+        'before-connector dot after-connector';
+      grid-template-rows: minmax(max-content, 1fr) max-content max-content;
+      grid-template-columns:
+        minmax(35px, 1fr)
+        max-content
+        minmax(35px, 1fr);
+      .JinniStepTitle,
+      .JinniStepDescription {
+        padding-left: $content-padding;
+        padding-right: $content-padding;
+        text-align: center;
+        align-self: flex-end;
+      }
+      &:first-child {
+        .JinniStepConnector.before {
+          visibility: hidden;
+        }
+      }
+      &:last-child {
+        .JinniStepConnector.after {
+          visibility: hidden;
+        }
+      }
+    }
+  }
+  &.vertical {
+    &.right {
+      grid-template-areas:
+        'dot title'
+        'after-connector description';
+      grid-template-rows: max-content minmax(70px, 1fr);
+      grid-template-columns: max-content 1fr;
+      .JinniStepTitle {
+        align-self: center;
+      }
+      .JinniStepDescription {
+        padding-bottom: $content-padding;
+      }
+      .JinniStepConnector.after {
+        justify-self: center;
+      }
+      &:last-child {
+        flex: 0;
+        grid-template-areas:
+          'dot title'
+          '. description';
+        grid-template-rows: max-content max-content;
+      }
+    }
+    &.left {
+      grid-template-areas:
+        'title dot'
+        'description after-connector';
+      grid-template-rows: max-content minmax(70px, 1fr);
+      grid-template-columns: 1fr max-content;
+      .JinniStepTitle {
+        justify-self: right;
+        align-self: center;
+      }
+      .JinniStepDescription {
+        justify-self: right;
+        padding-bottom: $content-padding;
+        text-align: right;
+      }
+      .JinniStepConnector.after {
+        justify-self: center;
+      }
+      &:last-child {
+        flex: 0;
+        grid-template-areas:
+          'title dot'
+          'description .';
+        grid-template-rows: max-content max-content;
+      }
+    }
+    &.bottom {
+      justify-items: center;
+      grid-template-areas:
+        'dot'
+        'title'
+        'description'
+        'after-connector';
+      grid-template-rows: max-content max-content max-content minmax(70px, 1fr);
+      grid-template-columns: 1fr;
+      .JinniStepTitle {
+        padding-bottom: $content-padding;
+      }
+      .JinniStepDescription + .JinniStepTitle,
+      .JinniStepTitle:has(+ .JinniStepDescription) {
+        padding-bottom: 0;
+      }
+      .JinniStepDescription {
+        padding-bottom: $content-padding;
+        text-align: center;
+      }
+      &:last-child {
+        flex: 0;
+        grid-template-areas:
+          'dot'
+          'title'
+          'description';
+        grid-template-rows: max-content max-content max-content;
+      }
+    }
+    &.top {
+      justify-items: center;
+      grid-template-areas:
+        'description'
+        'title'
+        'dot'
+        'after-connector';
+      grid-template-rows: max-content max-content max-content minmax(70px, 1fr);
+      grid-template-columns: 1fr;
+      .JinniStepTitle {
+        padding-top: $content-padding;
+      }
+      .JinniStepDescription + .JinniStepTitle,
+      .JinniStepTitle:has(+ .JinniStepDescription) {
+        padding-top: 0;
+      }
+      .JinniStepDescription {
+        padding-top: $content-padding;
+        text-align: center;
+      }
+      &:last-child {
+        flex: 0;
+        grid-template-areas:
+          'description'
+          'title'
+          'dot';
+        grid-template-rows: max-content max-content max-content;
+      }
+    }
+  }
+}
+
+.JinniStep {
+  display: grid;
+  flex: 1;
+  @include structure-by-orientation-and-alignment;
+  @include connector-color-by-orientation-and-alignment;
+
+  .JinniStepDot {
+    grid-area: dot;
+  }
+
+  .JinniStepTitle {
+    grid-area: title;
+  }
+
+  .JinniStepDescription {
+    grid-area: description;
+  }
+
+  .JinniStepConnector {
+    background-color: var(--jinni-color-gray-400);
+    @include connector-size-by-orientation;
+
+    &.before {
+      grid-area: before-connector;
+    }
+    &.after {
+      grid-area: after-connector;
+    }
+  }
+}

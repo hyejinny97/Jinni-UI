@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { StepTitle } from '@/components/navigation/Stepper';
+import StepTitle from './StepTitle';
 
 const meta: Meta<typeof StepTitle> = {
   component: StepTitle,
@@ -7,7 +7,7 @@ const meta: Meta<typeof StepTitle> = {
     children: {
       description: 'step title',
       table: {
-        type: { summary: `node` }
+        type: { summary: `React.ReactNode` }
       }
     }
   }

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { StepDot } from '@/components/navigation/Stepper';
+import StepDot from './StepDot';
 
 const meta: Meta<typeof StepDot> = {
   component: StepDot,
@@ -21,7 +21,7 @@ const meta: Meta<typeof StepDot> = {
       description: 'dot 종류',
       table: {
         type: {
-          summary: `{ completed: VariantType, active: VariantType, pending: VariantType }`
+          summary: `{ completed: 'filled' | 'subtle-filled' | 'outlined' | 'text', active: 'filled' | 'subtle-filled' | 'outlined' | 'text', pending: 'filled' | 'subtle-filled' | 'outlined' | 'text' }`
         },
         defaultValue: {
           summary: `{ completed: 'filled', active: 'filled', pending: 'filled' }`

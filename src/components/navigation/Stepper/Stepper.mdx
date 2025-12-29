@@ -1,11 +1,9 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as StepperStories from './Stepper.stories';
-import * as StepStories from './Step.stories';
-import * as StepDotStories from './StepDot.stories';
-import * as StepContentStories from './StepContent.stories';
-import * as StepTitleStories from './StepTitle.stories';
-import * as StepDescriptionStories from './StepDescription.stories';
-import * as StepConnectorStories from './StepConnector.stories';
+import * as StepStories from './Step/Step.stories';
+import * as StepDotStories from './StepDot/StepDot.stories';
+import * as StepTitleStories from './StepTitle/StepTitle.stories';
+import * as StepDescriptionStories from './StepDescription/StepDescription.stories';
 
 <Meta of={StepperStories} />
 
@@ -20,8 +18,6 @@ import {
   Stepper,
   Step,
   StepDot,
-  StepConnector,
-  StepContent,
   StepTitle,
   StepDescription
 } from '@/components/navigation/Stepper';
@@ -31,32 +27,8 @@ import {
 
 ### Basic Stepper
 
-- `Stepper` 컴포넌트
-
-  - `children`: `Step` 컴포넌트들
-
 - `Step` 컴포넌트
-
-  - `children`: `StepDot`, `StepContent`, `StepConnector` 컴포넌트
   - `status`: step 상태
-
-- `StepDot` 컴포넌트
-
-  - `children`: dot 내부 내용
-
-- `StepContent` 컴포넌트
-
-  - `children`: `StepTitle`, `StepDescription` 컴포넌트
-
-- `StepTitle` 컴포넌트
-
-  - `children`: step title
-
-- `StepDescription` 컴포넌트
-
-  - `children`: step description
-
-- `StepConnector` 컴포넌트
 
 <Canvas of={StepperStories.BasicStepper} />
 
@@ -78,67 +50,55 @@ import {
 
 ### Orientation
 
-- `orientation`: stepper 방향
+- `Stepper` 컴포넌트
+  - `orientation`: stepper 방향
 
 <Canvas of={StepperStories.Orientation} />
 
 ### Content Alignment
 
-- `alignment`: dot을 기준으로 content 위치
+- `Stepper` 컴포넌트
+  - `alignment`: dot을 기준으로 content 위치
 
-#### 1) horizontal stepper인 경우
+<Canvas of={StepperStories.ContentAlignment} />
 
-<Canvas of={StepperStories.ContentAlignmentHorizontal} />
-
-#### 2) vertical stepper인 경우
-
-<Canvas of={StepperStories.ContentAlignmentVertical} />
-
-### Dot Customization
+### Customize Dot
 
 - `StepDot` 컴포넌트
   - `color`: completed or active 상태일 때, dot 색상
   - `variant`: dot 종류
 
-<Canvas of={StepperStories.DotCustomization} />
+<Canvas of={StepperStories.CustomizeDot} />
 
-### Connector Customization
+### Customize Connector
 
-- `StepConnector` 컴포넌트
-  - `color`: completed 상태일 때, connector 색상
+- `Stepper` 컴포넌트
+  - `connectorColor`: completed 상태인 step의 connector 색상
 
-<Canvas of={StepperStories.ConnectorCustomization} />
+<Canvas of={StepperStories.CustomizeConnector} />
 
-### Customization
+### Customize Stepper
 
-<Canvas of={StepperStories.Customization} />
+<Canvas of={StepperStories.CustomizeStepper} />
 
 ## Props
 
-### 1) Stepper
+### 1. Stepper
 
 <ArgTypes of={StepperStories} sort="alpha" />
 
-### 2) Step
+### 2. Step
 
 <ArgTypes of={StepStories} sort="alpha" />
 
-### 3) StepDot
+### 3. StepDot
 
 <ArgTypes of={StepDotStories} sort="alpha" />
 
-### 4) StepContent
-
-<ArgTypes of={StepContentStories} sort="alpha" />
-
-### 5) StepTitle
+### 5. StepTitle
 
 <ArgTypes of={StepTitleStories} sort="alpha" />
 
-### 6) StepDescription
+### 6. StepDescription
 
 <ArgTypes of={StepDescriptionStories} sort="alpha" />
-
-### 7) StepConnector
-
-<ArgTypes of={StepConnectorStories} sort="alpha" />

@@ -1,11 +1,7 @@
 export { default as Stepper } from './Stepper';
-export { default as Step } from './Step';
-export { default as StepDot } from './StepDot';
-export { default as StepConnector } from './StepConnector';
-export { default as StepContent } from './StepContent';
-export { default as StepTitle } from './StepTitle';
-export { default as StepDescription } from './StepDescription';
+export { Step } from './Step';
+export { StepDot } from './StepDot';
+export { StepTitle } from './StepTitle';
+export { StepDescription } from './StepDescription';
 export type { StatusType } from './Step';
 export type { StepperProps } from './Stepper';
-export type { StepDotProps } from './StepDot';
-export type { StepConnectorProps } from './StepConnector';

@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import StepStatusContext from './Stepper.context';
+import StepperContext from './Stepper.contexts';
 
-export const useStepStatus = () => {
-  const stepStatus = useContext(StepStatusContext);
-  if (!stepStatus) throw Error('StepStatusContext value is null');
-  return stepStatus;
+export const useStepper = () => {
+  const value = useContext(StepperContext);
+  if (!value) throw new Error('StepperContext value is null');
+  return value;
 };

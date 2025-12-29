@@ -1,9 +1,10 @@
+import './StepDot.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
-import { useStepStatus } from './Stepper.hooks';
-import { getDotColorStyle } from './Stepper.utils';
+import { useStep } from '../Step';
+import { getDotColorStyle } from './StepDot.utils';
 import useColor from '@/hooks/useColor';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
@@ -19,10 +20,10 @@ export type StepDotProps<T extends AsType = 'span'> =
   };
 
 const DEFAULT_VARIANT = {
-  completed: 'filled' as VariantType,
-  active: 'filled' as VariantType,
-  pending: 'filled' as VariantType
-};
+  completed: 'filled',
+  active: 'filled',
+  pending: 'filled'
+} as const;
 
 const StepDot = <T extends AsType = 'span'>(props: StepDotProps<T>) => {
   const {
@@ -34,14 +35,13 @@ const StepDot = <T extends AsType = 'span'>(props: StepDotProps<T>) => {
     as: Component = 'span',
     ...rest
   } = props;
-  const stepStatus = useStepStatus();
-  const isCompleted = stepStatus === 'completed';
-  const isActive = stepStatus === 'active';
-  const colorByStatus = isCompleted || isActive ? color : 'gray-400';
-  const normalizedColorByStatus = useColor(colorByStatus);
+  const { status } = useStep();
+  const normalizedColor = useColor(
+    ['completed', 'active'].includes(status) ? color : 'gray-400'
+  );
   const { borderColor, backgroundColor, textColor } = getDotColorStyle({
-    color: normalizedColorByStatus,
-    variant: variant[stepStatus]
+    color: normalizedColor,
+    variant: variant[status]
   });
   const newStyle = useStyle({
     '--border-color': borderColor,
@@ -52,7 +52,7 @@ const StepDot = <T extends AsType = 'span'>(props: StepDotProps<T>) => {
 
   return (
     <Component
-      className={cn('JinniStepDot', { hasChildren: !!children }, className)}
+      className={cn('JinniStepDot', className)}
       style={newStyle}
       {...rest}
     >
