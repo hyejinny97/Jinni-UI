@@ -5,9 +5,9 @@ const meta: Meta<typeof Step> = {
   component: Step,
   argTypes: {
     children: {
-      description: 'StepDot, StepContent, StepConnector 컴포넌트',
+      description: 'StepDot, StepTitle, StepDescription 컴포넌트',
       table: {
-        type: { summary: `node` }
+        type: { summary: `React.ReactNode` }
       }
     },
     status: {

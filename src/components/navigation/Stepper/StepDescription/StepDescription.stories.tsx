@@ -7,7 +7,7 @@ const meta: Meta<typeof StepDescription> = {
     children: {
       description: 'step description',
       table: {
-        type: { summary: `node` }
+        type: { summary: `React.ReactNode` }
       }
     }
   }

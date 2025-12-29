@@ -1,0 +1,28 @@
+$gradient-color: linear-gradient(
+  136deg,
+  rgb(242, 113, 33) 0%,
+  rgb(233, 64, 87) 50%,
+  rgb(138, 35, 135) 100%
+);
+
+.custom-stepper.JinniStepper {
+  .JinniStep {
+    &.active {
+      .JinniStepDot {
+        background-image: $gradient-color;
+      }
+    }
+    &.completed {
+      .JinniStepDot {
+        background-image: $gradient-color;
+      }
+      .JinniStepConnector {
+        background-image: $gradient-color;
+      }
+    }
+
+    .JinniStepConnector {
+      height: 2px;
+    }
+  }
+}
