@@ -17,13 +17,6 @@ const meta: Meta<typeof Dot> = {
         defaultValue: { summary: `'primary'` }
       }
     },
-    selected: {
-      description: 'true이면, selected됨',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: `false` }
-      }
-    },
     size: {
       description: 'dot의 크기',
       table: {
@@ -34,7 +27,7 @@ const meta: Meta<typeof Dot> = {
       }
     },
     value: {
-      description: 'dot의 value',
+      description: '다른 dot과 구별되는 유일한 값',
       table: {
         type: { summary: 'number | string' }
       }
@@ -45,8 +38,4 @@ const meta: Meta<typeof Dot> = {
 export default meta;
 type Story = StoryObj<typeof Dot>;
 
-export const BasicDot: Story = {
-  render: (args) => {
-    return <Dot value={0} {...args} />;
-  }
-};
+export const BasicDot: Story = {};

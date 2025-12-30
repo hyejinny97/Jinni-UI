@@ -1,6 +1,6 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as DotsStories from './Dots.stories';
-import * as DotStories from './Dot.stories';
+import * as DotStories from './Dot/Dot.stories';
 
 <Meta of={DotsStories} />
 
@@ -18,20 +18,24 @@ import { Dots, Dot } from '@/components/navigation/Dots';
 
 ### Basic Dots
 
-- `count`: 총 dot 개수
-- `defaultValue`: 초기 active dot index (uncontrolled 상태일 때만 적용 가능)
-  - zero-based index
+- `children`: `Dot` 컴포넌트들
+- `defaultValue`: 초기 active dot의 value (uncontrolled 상태일 때만 적용 가능)
 
 <Canvas of={DotsStories.BasicDots} />
 
 ### Controlled Dots
 
-- `value`, `onChange` prop을 통해 control 가능
-- `value`: active dot index
-  - zero-based index
-- `onChange`: active dot이 변경됐을 때 호출되는 함수
+- `value` prop을 통해 `Dots`를 control 가능
+- `value`: active dot의 value
+- `onChange`: active dot value가 변경됐을 때 호출되는 함수
 
 <Canvas of={DotsStories.ControlledDots} />
+
+### Max Dots
+
+- `max`: 화면 상에 나타나는 최대 `Dot` 갯수
+
+<Canvas of={DotsStories.MaxDots} />
 
 ### Orientation
 
@@ -39,71 +43,49 @@ import { Dots, Dot } from '@/components/navigation/Dots';
 
 <Canvas of={DotsStories.Orientation} />
 
-### Color
+### Dot props
 
-- `color`: selected dot의 색상
+- `Dots` 컴포넌트에 적용된 일부 Dot props는 하위 모든 `Dot`에 일괄 적용됨
+- `Dot` 컴포넌트는 내부적으로 `ButtonBase` 컴포넌트를 반환하므로, `ButtonBase`의 일부 props 사용 가능
+
+#### 1. Color
 
 <Canvas of={DotsStories.Color} />
 
-### Size
-
-- `size`: dot의 크기
+#### 2. Size
 
 <Canvas of={DotsStories.Size} />
 
-### Disabled
-
-- `disabled`: true이면, 비활성화됨
-
-<Canvas of={DotsStories.Disabled} />
-
-### Overlay Effect
-
-- `overlayColor`: overlay 색상
-- `disableOverlay`: true이면, overlay가 나타나지 않음
+#### 3. Overlay Effect
 
 <Canvas of={DotsStories.OverlayEffect} />
 
-### Ripple Effect
-
-- `rippleColor`: ripple 색상
-- `rippleStartLocation`: ripple 시작점
-- `disableRipple`: true이면, ripple effect가 비활성화됨
+#### 4. Ripple Effect
 
 <Canvas of={DotsStories.RippleEffect} />
 
-### Elevation
-
-- `elevation`: elevation(box-shadow) 정도
+#### 5. Elevation Effect
 
 <Canvas of={DotsStories.Elevation} />
 
-### Dot Customization
+#### 6. Disabled
 
-- `renderDot`: dotProps를 인자로 받아 `Dot` 컴포넌트를 렌더하는 함수
+<Canvas of={DotsStories.Disabled} />
 
-<Canvas of={DotsStories.DotCustomization} />
+### Sequentially Scaled Dots
+
+<Canvas of={DotsStories.SequentiallyScaledDots} />
+
+### Customize Dots
+
+<Canvas of={DotsStories.CustomizeDots} />
 
 ## Props
 
-### 1) Dot 컴포넌트
-
-- 아래 prop을 제외한 `ButtonBase` 컴포넌트의 모든 props 사용 가능
-  - href
+### 1. Dot
 
 <ArgTypes of={DotStories} sort="alpha" />
 
-### 2) Dots 컴포넌트
-
-- `Dot` 컴포넌트의 일부 props 사용 가능
-  - color
-  - size
-  - disabled
-  - overlayColor
-  - disableOverlay
-  - elevation
-  - rippleColor
-  - rippleStartPosition
-  - disableRipple
+### 2. Dots
 
 <ArgTypes of={DotsStories} sort="alpha" />

@@ -2,49 +2,58 @@ import './Dots.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import Dot, { DotProps } from './Dot';
-import { useSelectedValue } from './Dots.hooks';
+import { DotProps, DotValueType } from './Dot';
+import { useSelectedValue, useMaxDots } from './Dots.hooks';
+import DotsContext from './Dots.contexts';
 
-type SomeDotProps = Pick<
+export type SomeDotProps = Pick<
   DotProps,
   | 'size'
   | 'color'
-  | 'disabled'
   | 'overlayColor'
   | 'disableOverlay'
-  | 'elevation'
   | 'rippleColor'
   | 'disableRipple'
   | 'rippleStartLocation'
+  | 'elevation'
+  | 'disabled'
 >;
 
-export type DotsProps<T extends AsType = 'span'> = Omit<
+export type DotsProps<T extends AsType = 'ol'> = Omit<
   DefaultComponentProps<T>,
   'defaultValue' | 'onChange'
 > &
   SomeDotProps & {
-    count?: number;
-    defaultValue?: number;
-    value?: number;
-    onChange?: (event: Event | React.SyntheticEvent, value: number) => void;
-    renderDot?: (dotProps: DotProps) => React.ReactNode;
+    defaultValue?: DotValueType | null;
+    value?: DotValueType;
+    onChange?: (
+      event: Event | React.SyntheticEvent,
+      value: DotValueType
+    ) => void;
+    max?: number;
     orientation?: 'horizontal' | 'vertical';
   };
 
-const Dots = <T extends AsType = 'span'>(props: DotsProps<T>) => {
+const Dots = <T extends AsType = 'ol'>(props: DotsProps<T>) => {
   const {
-    count = 5,
-    defaultValue = 0,
+    children,
+    defaultValue = null,
     value,
     onChange,
-    renderDot = (dotProps: DotProps, key: number) => (
-      <Dot key={key} {...dotProps} />
-    ),
-    size = 'md',
+    max,
     orientation = 'horizontal',
+    size = 'md',
+    color,
+    overlayColor,
+    disableOverlay,
+    rippleColor,
+    rippleStartLocation,
+    disableRipple,
+    elevation,
+    disabled,
     className,
     style,
-    as: Component = 'span',
+    as: Component = 'ol',
     ...rest
   } = props;
   const { selectedValue, handleChange } = useSelectedValue({
@@ -52,30 +61,42 @@ const Dots = <T extends AsType = 'span'>(props: DotsProps<T>) => {
     value,
     onChange
   });
+  const { dotsContainerElRef, dotsElRef } = useMaxDots({
+    max,
+    orientation,
+    selectedValue
+  });
   const newStyle = useStyle(style);
 
   return (
-    <Component
-      className={cn('JinniDots', size, orientation, className)}
-      style={newStyle}
-      {...rest}
+    <DotsContext.Provider
+      value={{
+        selectedValue,
+        handleChange,
+        size,
+        color,
+        overlayColor,
+        disableOverlay,
+        rippleColor,
+        rippleStartLocation,
+        disableRipple,
+        elevation,
+        disabled
+      }}
     >
-      {Array(count)
-        .fill(0)
-        .map((_, idx) =>
-          renderDot(
-            {
-              value: idx,
-              selected: idx === selectedValue,
-              onClick: (event: Event | React.SyntheticEvent) =>
-                handleChange(event, idx),
-              size,
-              ...rest
-            },
-            idx
-          )
-        )}
-    </Component>
+      <div ref={dotsContainerElRef} className="JinniDotsContainer">
+        <Component
+          ref={dotsElRef}
+          role="navigation"
+          aria-label="dot navigation"
+          className={cn('JinniDots', size, orientation, className)}
+          style={newStyle}
+          {...rest}
+        >
+          {children}
+        </Component>
+      </div>
+    </DotsContext.Provider>
   );
 };
 
