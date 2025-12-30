@@ -1,39 +1,30 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import Dots from './Dots';
-import Dot from './Dot';
+import { Dot, Dots, DotsProps } from '.';
 import { Stack } from '@/components/layout/Stack';
-import { isNumber } from '@/utils/isNumber';
+import { Text } from '@/components/general/Text';
 
 const meta: Meta<typeof Dots> = {
   component: Dots,
   argTypes: {
-    color: {
-      description: 'selected dot의 색상',
-      table: {
-        type: { summary: 'ColorType' },
-        defaultValue: { summary: `'primary'` }
-      }
-    },
-    count: {
-      description: '총 dot 개수',
-      table: {
-        type: { summary: 'number' },
-        defaultValue: { summary: `5` }
-      }
-    },
     defaultValue: {
-      description: '초기 active dot index',
+      description: '초기 active dot의 value',
       table: {
-        type: { summary: 'number' },
-        defaultValue: { summary: `0` }
+        type: { summary: 'number | string | null' },
+        defaultValue: { summary: `null` }
+      }
+    },
+    max: {
+      description: '화면 상에 나타나는 최대 Dot 갯수',
+      table: {
+        type: { summary: 'number' }
       }
     },
     onChange: {
-      description: 'active dot이 변경됐을 때 호출되는 함수',
+      description: 'active dot value가 변경됐을 때 호출되는 함수',
       table: {
         type: {
-          summary: `(event: Event | React.SyntheticEvent, value: number) => void`
+          summary: `(event: Event | React.SyntheticEvent, value: number | string) => void`
         }
       }
     },
@@ -44,28 +35,10 @@ const meta: Meta<typeof Dots> = {
         defaultValue: { summary: `'horizontal'` }
       }
     },
-    renderDot: {
-      description: 'dotProps를 인자로 받아 Dot 컴포넌트를 렌더하는 함수',
-      table: {
-        type: { summary: `(dotProps: DotProps) => node` },
-        defaultValue: {
-          summary: `(dotProps: DotProps) => <Dot {...dotProps} />`
-        }
-      }
-    },
-    size: {
-      description: 'dot의 크기',
-      table: {
-        type: { summary: `'sm' | 'md' | 'lg'` },
-        defaultValue: {
-          summary: `'md'`
-        }
-      }
-    },
     value: {
-      description: 'active dot index',
+      description: 'active dot의 value',
       table: {
-        type: { summary: 'number' }
+        type: { summary: 'number | string' }
       }
     }
   }
@@ -75,130 +48,320 @@ export default meta;
 type Story = StoryObj<typeof Dots>;
 
 const ControlledDotsTemplate = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState<DotsProps['value']>(1);
 
-  const handleChange = (_: Event | React.SyntheticEvent, newValue: number) => {
+  const handleChange: DotsProps['onChange'] = (_, newValue) => {
     setValue(newValue);
   };
 
-  return <Dots value={value} onChange={handleChange} />;
+  return (
+    <Stack style={{ alignItems: 'center' }}>
+      <Text>Selected Dot: {value}</Text>
+      <Dots value={value} onChange={handleChange}>
+        <Dot value={1} />
+        <Dot value={2} />
+        <Dot value={3} />
+      </Dots>
+    </Stack>
+  );
+};
+
+const SequentiallyScaledDotsTemplate = () => {
+  const SCALE_RATIO = 0.6;
+  const [value, setValue] = useState<number>(1);
+
+  const handleChange: DotsProps['onChange'] = (_, newValue) => {
+    setValue(newValue as number);
+  };
+
+  return (
+    <Stack style={{ alignItems: 'center' }}>
+      <Text>Selected Dot: {value}</Text>
+      <Dots value={value} onChange={handleChange} max={5}>
+        {Array(10)
+          .fill(0)
+          .map((_, idx) => {
+            const dotValue = idx + 1;
+            const isActiveDot = value === dotValue;
+            const scale = isActiveDot
+              ? 1
+              : SCALE_RATIO ** Math.abs(value - dotValue);
+            return (
+              <Dot
+                value={dotValue}
+                style={{
+                  transition: 'transform 0.1s ease',
+                  transform: `scale(${scale})`
+                }}
+              />
+            );
+          })}
+      </Dots>
+    </Stack>
+  );
+};
+
+const CustomizeDotsTemplate = () => {
+  const [value, setValue] = useState<DotsProps['value']>(1);
+
+  const handleChange: DotsProps['onChange'] = (_, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Dots value={value} onChange={handleChange}>
+      {Array(5)
+        .fill(0)
+        .map((_, idx) => {
+          const dotValue = idx + 1;
+          const isActiveDot = value === dotValue;
+          return (
+            <Dot
+              value={dotValue}
+              style={{
+                width: isActiveDot ? '30px' : '15px',
+                minHeight: '5px',
+                padding: '0px',
+                aspectRatio: 'auto',
+                borderRadius: '2px',
+                transition: 'width 0.1s'
+              }}
+            />
+          );
+        })}
+    </Dots>
+  );
 };
 
 export const BasicDots: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
-        <Dots {...args} />
-        <Dots count={10} defaultValue={3} {...args} />
+        <Dots {...args}>
+          <Dot value={1} />
+          <Dot value={2} />
+          <Dot value={3} />
+        </Dots>
+        <Dots defaultValue={1} {...args}>
+          <Dot value={1} />
+          <Dot value={2} />
+          <Dot value={3} />
+        </Dots>
       </Stack>
     );
   }
 };
 
 export const ControlledDots: Story = {
-  render: (args) => {
-    return <ControlledDotsTemplate {...args} />;
+  render: () => <ControlledDotsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledDotsTemplate = () => {
+  const [value, setValue] = useState<DotsProps['value']>(1);
+
+  const handleChange: DotsProps['onChange'] = (_, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack style={{ alignItems: 'center' }}>
+      <Text>Selected Dot: {value}</Text>
+      <Dots value={value} onChange={handleChange}>
+        <Dot value={1} />
+        <Dot value={2} />
+        <Dot value={3} />
+      </Dots>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
   }
+};
+
+export const MaxDots: Story = {
+  render: (args) => (
+    <Dots defaultValue={1} max={3} {...args}>
+      {Array(5)
+        .fill(0)
+        .map((_, idx) => {
+          return (
+            <Dot key={idx} value={idx + 1} style={{ color: 'white' }}>
+              {idx + 1}
+            </Dot>
+          );
+        })}
+    </Dots>
+  )
 };
 
 export const Orientation: Story = {
-  render: (args) => {
-    return <Dots orientation="vertical" {...args} />;
-  }
+  render: (args) => (
+    <Dots defaultValue={1} orientation="vertical" {...args}>
+      <Dot value={1} />
+      <Dot value={2} />
+      <Dot value={3} />
+    </Dots>
+  )
 };
 
 export const Color: Story = {
-  render: (args) => {
-    return <Dots color="yellow-400" {...args} />;
-  }
+  render: (args) => (
+    <Dots defaultValue={1} color="yellow-400" {...args}>
+      <Dot value={1} />
+      <Dot value={2} />
+      <Dot value={3} />
+    </Dots>
+  )
 };
 
 export const Size: Story = {
   render: (args) => {
     return (
-      <Stack spacing={20}>
-        <Dots size="sm" {...args} />
-        <Dots size="md" {...args} />
-        <Dots size="lg" {...args} />
+      <Stack spacing={20} style={{ alignItems: 'center' }}>
+        <Dots defaultValue={1} size="sm" {...args}>
+          <Dot value={1} />
+          <Dot value={2} />
+          <Dot value={3} />
+        </Dots>
+        <Dots defaultValue={1} size="md" {...args}>
+          <Dot value={1} />
+          <Dot value={2} />
+          <Dot value={3} />
+        </Dots>
+        <Dots defaultValue={1} size="lg" {...args}>
+          <Dot value={1} />
+          <Dot value={2} />
+          <Dot value={3} />
+        </Dots>
       </Stack>
     );
-  }
-};
-
-export const Disabled: Story = {
-  render: (args) => {
-    return <Dots disabled {...args} />;
   }
 };
 
 export const OverlayEffect: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={20}>
-        <Dots size="lg" overlayColor="white" {...args} />
-        <Dots size="lg" disableOverlay {...args} />
-      </Stack>
-    );
-  }
+  render: (args) => (
+    <Dots defaultValue={1} disableOverlay {...args}>
+      <Dot value={1} />
+      <Dot value={2} />
+      <Dot value={3} />
+    </Dots>
+  )
 };
 
 export const RippleEffect: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={20}>
-        <Dots
-          size="lg"
-          rippleColor="white"
-          rippleStartLocation="center"
-          {...args}
-        />
-        <Dots size="lg" disableRipple {...args} />
-      </Stack>
-    );
-  }
+  render: (args) => (
+    <Dots defaultValue={1} rippleColor="white" {...args}>
+      <Dot value={1} />
+      <Dot value={2} />
+      <Dot value={3} />
+    </Dots>
+  )
 };
 
 export const Elevation: Story = {
-  render: (args) => {
-    return <Dots size="lg" elevation={2} {...args} />;
+  render: (args) => (
+    <Dots defaultValue={1} elevation={2} {...args}>
+      <Dot value={1} />
+      <Dot value={2} />
+      <Dot value={3} />
+    </Dots>
+  )
+};
+
+export const Disabled: Story = {
+  render: (args) => (
+    <Dots defaultValue={1} disabled {...args}>
+      <Dot value={1} />
+      <Dot value={2} />
+      <Dot value={3} />
+    </Dots>
+  )
+};
+
+export const SequentiallyScaledDots: Story = {
+  render: () => <SequentiallyScaledDotsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SequentiallyScaledDotsTemplate = () => {
+  const SCALE_RATIO = 0.6;
+  const [value, setValue] = useState<number>(1);
+
+  const handleChange: DotsProps['onChange'] = (_, newValue) => {
+    setValue(newValue as number);
+  };
+
+  return (
+    <Stack style={{ alignItems: 'center' }}>
+      <Text>Selected Dot: {value}</Text>
+      <Dots value={value} onChange={handleChange} max={5}>
+        {Array(10)
+          .fill(0)
+          .map((_, idx) => {
+            const dotValue = idx + 1;
+            const isActiveDot = value === dotValue;
+            const scale = isActiveDot
+              ? 1
+              : SCALE_RATIO ** Math.abs(value - dotValue);
+            return (
+              <Dot
+                value={dotValue}
+                style={{
+                  transition: 'transform 0.1s ease',
+                  transform: \`scale(\${scale})\`
+                }}
+              />
+            );
+          })}
+      </Dots>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
-export const DotCustomization: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={20}>
-        <Dots
-          renderDot={({ value, selected, ...restDotProps }) => (
+export const CustomizeDots: Story = {
+  render: () => <CustomizeDotsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomizeDotsTemplate = () => {
+  const [value, setValue] = useState<DotsProps['value']>(1);
+
+  const handleChange: DotsProps['onChange'] = (_, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Dots value={value} onChange={handleChange}>
+      {Array(5)
+        .fill(0)
+        .map((_, idx) => {
+          const dotValue = idx + 1;
+          const isActiveDot = value === dotValue;
+          return (
             <Dot
-              value={value}
-              selected={selected}
-              style={selected ? { color: 'white' } : {}}
-              {...restDotProps}
-            >
-              {isNumber(value) && value + 1}
-            </Dot>
-          )}
-          {...args}
-        />
-        <Dots
-          renderDot={({ selected, ...restDotProps }) => (
-            <Dot
-              selected={selected}
+              value={dotValue}
               style={{
-                width: selected ? '30px' : '20px',
-                minHeight: '3px',
+                width: isActiveDot ? '30px' : '15px',
+                minHeight: '5px',
                 padding: '0px',
                 aspectRatio: 'auto',
                 borderRadius: '2px',
-                transition: 'width 0.3s'
+                transition: 'width 0.1s'
               }}
-              {...restDotProps}
             />
-          )}
-          {...args}
-        />
-      </Stack>
-    );
+          );
+        })}
+    </Dots>
+  );
+};
+`.trim()
+      }
+    }
   }
 };
