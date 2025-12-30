@@ -43,6 +43,7 @@ const Dot = <T extends AsType = 'button'>(props: DotProps<T>) => {
           '--dot-color': selectedValue === value ? color : 'gray-300',
           ...style
         }}
+        aria-label={`go to ${value}`}
         {...rest}
       >
         {children}

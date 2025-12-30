@@ -87,6 +87,8 @@ const Dots = <T extends AsType = 'ol'>(props: DotsProps<T>) => {
       <div ref={dotsContainerElRef} className="JinniDotsContainer">
         <Component
           ref={dotsElRef}
+          role="navigation"
+          aria-label="dot navigation"
           className={cn('JinniDots', size, orientation, className)}
           style={newStyle}
           {...rest}

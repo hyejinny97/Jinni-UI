@@ -142,10 +142,10 @@ export const BasicDots: Story = {
           <Dot value={2} />
           <Dot value={3} />
         </Dots>
-        <Dots defaultValue={1} {...args}>
-          <Dot value={1} />
-          <Dot value={2} />
-          <Dot value={3} />
+        <Dots defaultValue="first" {...args}>
+          <Dot value="first" aria-label="go to first page" />
+          <Dot value="second" aria-label="go to second page" />
+          <Dot value="third" aria-label="go to third page" />
         </Dots>
       </Stack>
     );
