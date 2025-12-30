@@ -28,6 +28,7 @@ const Dot = <T extends AsType = 'button'>(props: DotProps<T>) => {
     style,
     ...rest
   } = { ...restDotsContext, ...props };
+  const selected = selectedValue === value;
 
   const handleClick = (e: MouseEvent) => {
     handleChange(e, value);
@@ -40,10 +41,11 @@ const Dot = <T extends AsType = 'button'>(props: DotProps<T>) => {
         className={cn('JinniDotButton', size, className)}
         onClick={handleClick}
         style={{
-          '--dot-color': selectedValue === value ? color : 'gray-300',
+          '--dot-color': selected ? color : 'gray-300',
           ...style
         }}
         aria-label={`go to ${value}`}
+        aria-current={selected}
         {...rest}
       >
         {children}

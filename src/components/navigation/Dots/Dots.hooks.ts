@@ -68,7 +68,7 @@ export const useMaxDots = ({
   useEffect(() => {
     const dotsContainerEl = dotsContainerElRef.current;
     const dotsEl = dotsElRef.current;
-    if (!dotsContainerEl || !dotsEl) return;
+    if (!max || !dotsContainerEl || !dotsEl) return;
 
     const dotElList = Array.from(
       dotsEl.querySelectorAll<HTMLElement>('li.JinniDot')
@@ -103,7 +103,7 @@ export const useMaxDots = ({
         });
       }
     }
-  }, [selectedValue, orientation]);
+  }, [max, selectedValue, orientation]);
 
   return { dotsContainerElRef, dotsElRef };
 };
