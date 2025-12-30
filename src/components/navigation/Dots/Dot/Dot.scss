@@ -1,0 +1,40 @@
+@mixin dot-size {
+  &.sm {
+    padding: 3px;
+  }
+  &.md {
+    padding: 4px;
+  }
+  &.lg {
+    padding: 6px;
+  }
+}
+
+@mixin dot-button-size {
+  &.sm {
+    padding: 4px;
+  }
+  &.md {
+    padding: 5px;
+  }
+  &.lg {
+    padding: 6px;
+  }
+}
+
+.JinniDot {
+  display: inline-flex;
+  @include dot-size;
+
+  .JinniButtonBase.JinniDotButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: max-content;
+    min-height: max-content;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background-color: var(--dot-color);
+    @include dot-button-size;
+  }
+}
