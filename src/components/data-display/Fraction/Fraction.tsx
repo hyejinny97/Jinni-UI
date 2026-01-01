@@ -8,7 +8,6 @@ export type FractionProps<T extends AsType = 'span'> =
     count: number | string;
     value: number | string;
     size?: 'sm' | 'md' | 'lg';
-    orientation?: 'horizontal' | 'vertical';
   };
 
 const Fraction = <T extends AsType = 'span'>(props: FractionProps<T>) => {
@@ -16,7 +15,6 @@ const Fraction = <T extends AsType = 'span'>(props: FractionProps<T>) => {
     count,
     value,
     size = 'md',
-    orientation = 'horizontal',
     className,
     style,
     as: Component = 'span',
@@ -26,7 +24,7 @@ const Fraction = <T extends AsType = 'span'>(props: FractionProps<T>) => {
 
   return (
     <Component
-      className={cn('JinniFraction', size, orientation, className)}
+      className={cn('JinniFraction', size, className)}
       style={newStyle}
       {...rest}
     >

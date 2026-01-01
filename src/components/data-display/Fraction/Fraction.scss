@@ -13,20 +13,10 @@
   }
 }
 
-@mixin orientation {
-  &.horizontal {
-    flex-direction: row;
-  }
-  &.vertical {
-    flex-direction: column;
-  }
-}
-
 .JinniFraction {
   display: inline-flex;
   align-items: center;
   max-width: max-content;
   max-height: max-content;
   @include size;
-  @include orientation;
 }
