@@ -1,0 +1,23 @@
+@mixin progress-position {
+  &.top {
+    top: 0;
+    left: 0;
+  }
+  &.bottom {
+    bottom: 0;
+    left: 0;
+  }
+  &.left {
+    top: 0;
+    left: 0;
+  }
+  &.right {
+    top: 0;
+    right: 0;
+  }
+}
+
+.JinniCarouselProgress {
+  position: absolute;
+  @include progress-position;
+}

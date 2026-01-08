@@ -5,5 +5,5 @@ export { CarouselDots } from './CarouselDots';
 export { CarouselFraction } from './CarouselFraction';
 export { default as CarouselPrevButton } from './CarouselPrevButton';
 export { default as CarouselNextButton } from './CarouselNextButton';
-export { default as CarouselProgress } from './CarouselProgress';
+export { CarouselProgress } from './CarouselProgress';
 export type { CarouselProps } from './Carousel';
