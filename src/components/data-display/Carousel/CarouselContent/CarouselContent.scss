@@ -1,0 +1,13 @@
+@mixin orientation {
+  &.horizontal {
+    flex-direction: row;
+  }
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.JinniCarouselContent {
+  display: inline-flex;
+  @include orientation;
+}

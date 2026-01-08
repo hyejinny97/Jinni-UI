@@ -1,5 +1,5 @@
 import { isValidElement } from 'react';
-import CarouselContent, { CarouselContentProps } from './CarouselContent';
+import { CarouselContent, CarouselContentProps } from './CarouselContent';
 import CarouselItem from './CarouselItem';
 
 export const countCarouselItems = (children: React.ReactNode): number => {
