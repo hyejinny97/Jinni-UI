@@ -1,42 +1,33 @@
+import './CarouselFraction.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Fraction, FractionProps } from '@/components/data-display/Fraction';
-import { useCarouselContext } from './Carousel.hooks';
+import { useCarouselContext } from '../Carousel.hooks';
+import { NavigationPaginationPositionType } from '../Carousel.types';
 
 type CarouselFractionProps<T extends AsType = 'span'> = Omit<
   FractionProps<T>,
   'count' | 'value'
 > & {
-  position?:
-    | 'top-start'
-    | 'top-center'
-    | 'top-end'
-    | 'left-center'
-    | 'right-center'
-    | 'bottom-start'
-    | 'bottom-center'
-    | 'bottom-end';
+  position?: NavigationPaginationPositionType;
 };
 
 const CarouselFraction = <T extends AsType = 'span'>(
   props: CarouselFractionProps<T>
 ) => {
-  const { position, className, ...rest } = props;
   const { carouselItemsCount, carouselItemValue, orientation } =
     useCarouselContext();
-  const defaultPosition =
-    orientation === 'horizontal' ? 'bottom-center' : 'right-center';
+  const {
+    position = orientation === 'horizontal' ? 'bottom-center' : 'center-end',
+    className,
+    ...rest
+  } = props;
 
   return (
     <Fraction
-      className={cn(
-        'JinniCarouselFraction',
-        position || defaultPosition,
-        className
-      )}
+      className={cn('JinniCarouselFraction', position, className)}
       count={carouselItemsCount}
       value={carouselItemValue + 1}
-      orientation={orientation}
       {...rest}
     />
   );
