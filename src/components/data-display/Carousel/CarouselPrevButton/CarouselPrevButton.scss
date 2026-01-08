@@ -1,0 +1,7 @@
+@use '../mixins.scss' as mixins;
+
+.JinniCarouselPrevButton {
+  position: absolute;
+  display: inline-flex;
+  @include mixins.navigation-pagination-position;
+}
