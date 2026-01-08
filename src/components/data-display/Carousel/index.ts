@@ -1,6 +1,6 @@
 export { default as Carousel } from './Carousel';
 export { CarouselContent } from './CarouselContent';
-export { default as CarouselItem } from './CarouselItem';
+export { CarouselItem } from './CarouselItem';
 export { CarouselDots } from './CarouselDots';
 export { CarouselFraction } from './CarouselFraction';
 export { CarouselPrevButton } from './CarouselPrevButton';
