@@ -7,7 +7,7 @@ const meta: Meta<typeof CarouselContent> = {
     children: {
       description: 'CarouselItem 컴포넌트들',
       table: {
-        type: { summary: `React.ReactNode` }
+        type: { summary: `CarouselItemElement | CarouselItemElement[]` }
       }
     }
   }

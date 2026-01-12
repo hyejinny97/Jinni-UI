@@ -1,1 +1,1 @@
-export { default as CarouselDots } from './CarouselDots';
+export { CarouselDot, default as CarouselDots } from './CarouselDots';

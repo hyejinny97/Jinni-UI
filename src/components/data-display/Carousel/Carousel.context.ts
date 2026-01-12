@@ -1,18 +1,17 @@
 import { createContext } from 'react';
-import { OrientationType } from './Carousel';
+import { CarouselProps } from './Carousel';
 
 type CarouselContextProps = {
-  carouselItemsCount: number;
+  count: number;
+  slideValue: number;
+  goSlide: (newValue: number) => void;
+  goPrevSlide: () => void;
+  goNextSlide: () => void;
   noPrevSlide: boolean;
   noNextSlide: boolean;
-  carouselItemValue: number;
-  handleChange: (
-    value: { newSlideValue: number } | { newCarouselItemValue: number }
-  ) => void;
-  goNextSlide: () => void;
-  goPrevSlide: () => void;
-  orientation: OrientationType;
-};
+  isSwiping: boolean;
+  scrollEndLimitRef: React.MutableRefObject<number>;
+} & Required<Pick<CarouselProps, 'orientation' | 'spacing' | 'slideAlignment'>>;
 
 const CarouselContext = createContext<CarouselContextProps | null>(null);
 

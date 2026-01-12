@@ -4,7 +4,7 @@ import { AsType } from '@/types/default-component-props';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
-import { useCarouselContext } from '../Carousel.hooks';
+import { useCarousel } from '../Carousel.hooks';
 import { NavigationPaginationPositionType } from '../Carousel.types';
 
 type CarouselPrevButtonProps<T extends AsType = 'button'> = Omit<
@@ -17,7 +17,7 @@ type CarouselPrevButtonProps<T extends AsType = 'button'> = Omit<
 const CarouselPrevButton = <T extends AsType = 'button'>(
   props: CarouselPrevButtonProps<T>
 ) => {
-  const { noPrevSlide, goPrevSlide, orientation } = useCarouselContext();
+  const { goPrevSlide, noPrevSlide, orientation } = useCarousel();
   const {
     position = orientation === 'horizontal' ? 'center-start' : 'top-center',
     children = orientation === 'horizontal' ? (
@@ -30,9 +30,9 @@ const CarouselPrevButton = <T extends AsType = 'button'>(
     ...rest
   } = props;
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
     goPrevSlide();
-    onClick?.();
+    onClick?.(e);
   };
 
   return (

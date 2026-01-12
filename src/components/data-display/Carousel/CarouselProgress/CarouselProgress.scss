@@ -17,7 +17,14 @@
   }
 }
 
-.JinniCarouselProgress {
+@mixin progress-orientation {
+  &.horizontal {
+    width: 100%;
+  }
+}
+
+.JinniLinearProgress.JinniCarouselProgress {
   position: absolute;
   @include progress-position;
+  @include progress-orientation;
 }

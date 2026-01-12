@@ -3,14 +3,9 @@ import { useRef } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  useVariables,
-  useSlideValue,
-  useHandleEvent,
-  useAutoplay
-} from './Carousel.hooks';
+import { useSlideValue, useSwipe } from './Carousel.hooks';
 import CarouselContext from './Carousel.context';
-import { addFirstAndLastSlide } from './Carousel.utils';
+import { countCarouselItems } from './Carousel.utils';
 
 export type OrientationType = 'horizontal' | 'vertical';
 
@@ -20,97 +15,68 @@ export type CarouselProps<T extends AsType = 'div'> = Omit<
 > & {
   children: React.ReactNode;
   defaultValue?: number;
+  value?: number;
   onChange?: (value: number) => void;
   orientation?: OrientationType;
-  infinite?: boolean;
+  spacing?: number;
   autoplay?: boolean;
   autoplayDuration?: number;
   disableAutoplayOnInteraction?: boolean;
   onAutoplayLeftTimeChange?: (leftTime: number) => void;
+  slideAlignment?: 'start' | 'center';
+  disableBounceEffect?: boolean;
 };
 
 const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
   const {
     children,
     defaultValue = 0,
+    value,
     onChange,
     orientation = 'horizontal',
-    infinite,
-    autoplay,
-    autoplayDuration = 5000,
-    disableAutoplayOnInteraction = false,
-    onAutoplayLeftTimeChange,
+    spacing = 0,
+    // autoplay,
+    // autoplayDuration = 5000,
+    // disableAutoplayOnInteraction = false,
+    // onAutoplayLeftTimeChange,
+    slideAlignment = 'start',
+    disableBounceEffect,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
   const carouselElRef = useRef<HTMLElement>(null);
-  const {
-    carouselItemsCount,
-    slidesCount,
-    firstSlide,
-    lastSlide,
-    startSlide,
-    endSlide,
-    transformCarouselItemToSlide,
-    transformSlideToCarouselItem
-  } = useVariables({ children, infinite });
-  const {
-    carouselItemValue,
-    slideValue,
-    handleChange,
-    goNextSlide,
-    goPrevSlide,
-    noPrevSlide,
-    noNextSlide
-  } = useSlideValue({
-    carouselElRef,
+  const count = countCarouselItems(children);
+  const { slideValue, goSlide } = useSlideValue({
     defaultValue,
-    onChange,
-    infinite,
-    firstSlide,
-    lastSlide,
-    startSlide,
-    endSlide,
-    transformCarouselItemToSlide,
-    transformSlideToCarouselItem
+    value,
+    onChange
   });
-  useAutoplay({
+  const { isSwiping, scrollEndLimitRef } = useSwipe({
     carouselElRef,
-    slideValue,
-    autoplay,
-    autoplayDuration,
-    disableAutoplayOnInteraction,
-    onAutoplayLeftTimeChange,
-    goNextSlide,
-    noNextSlide
+    goSlide,
+    orientation,
+    slideAlignment,
+    disableBounceEffect
   });
-  useHandleEvent({
-    carouselElRef,
-    noPrevSlide,
-    noNextSlide,
-    goNextSlide,
-    goPrevSlide,
-    orientation
-  });
-  const newStyle = useStyle({
-    '--slides-count': slidesCount,
-    '--slide-value': slideValue,
-    ...style
-  });
+  const newStyle = useStyle(style);
 
   return (
     <CarouselContext.Provider
       value={{
-        carouselItemsCount,
-        carouselItemValue,
-        noPrevSlide,
-        noNextSlide,
-        handleChange,
-        goNextSlide,
-        goPrevSlide,
-        orientation
+        count,
+        slideValue,
+        goSlide,
+        goPrevSlide: () => goSlide(Math.max(0, slideValue - 1)),
+        goNextSlide: () => goSlide(Math.min(count, slideValue + 1)),
+        noPrevSlide: slideValue === 0,
+        noNextSlide: slideValue === count - 1,
+        isSwiping,
+        scrollEndLimitRef,
+        orientation,
+        spacing,
+        slideAlignment
       }}
     >
       <Component
@@ -119,7 +85,7 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
         style={newStyle}
         {...rest}
       >
-        {infinite ? addFirstAndLastSlide(children) : children}
+        {children}
       </Component>
     </CarouselContext.Provider>
   );
