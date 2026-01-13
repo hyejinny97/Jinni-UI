@@ -8,7 +8,8 @@ export const useScrollBySlideValue = () => {
     isSwiping,
     orientation,
     slideAlignment,
-    scrollEndLimitRef
+    scrollEndLimitRef,
+    scrollToActiveSlide
   } = useCarousel();
   const { carouselContainerElRef, itemValue } = useCarouselContent();
   const carouselItemElRef = useRef<HTMLElement>(null);
@@ -73,9 +74,9 @@ export const useScrollBySlideValue = () => {
   }, []);
 
   useEffect(() => {
-    if (isSwiping || !isActive) return;
+    if (isSwiping || !isActive || !scrollToActiveSlide) return;
     scrollToCurrentSlide({ behavior: 'smooth' });
-  }, [isSwiping, isActive, scrollToCurrentSlide]);
+  }, [isSwiping, isActive, scrollToActiveSlide, scrollToCurrentSlide]);
 
   return { carouselItemElRef };
 };

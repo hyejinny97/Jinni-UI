@@ -17,7 +17,8 @@ type CarouselNextButtonProps<T extends AsType = 'button'> = Omit<
 const CarouselNextButton = <T extends AsType = 'button'>(
   props: CarouselNextButtonProps<T>
 ) => {
-  const { goNextSlide, noNextSlide, orientation } = useCarousel();
+  const { goNextSlide, noNextSlide, orientation, enableScrollToActiveSlide } =
+    useCarousel();
   const {
     position = orientation === 'horizontal' ? 'center-end' : 'bottom-center',
     children = orientation === 'horizontal' ? (
@@ -31,6 +32,7 @@ const CarouselNextButton = <T extends AsType = 'button'>(
   } = props;
 
   const handleClick = (e: React.MouseEvent) => {
+    enableScrollToActiveSlide();
     goNextSlide();
     onClick?.(e);
   };

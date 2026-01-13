@@ -21,7 +21,8 @@ const CarouselDots = <T extends AsType = 'div'>(
     count,
     slideValue,
     goSlide,
-    orientation: carouselOrientation
+    orientation: carouselOrientation,
+    enableScrollToActiveSlide
   } = useCarousel();
   const {
     orientation = carouselOrientation,
@@ -33,11 +34,16 @@ const CarouselDots = <T extends AsType = 'div'>(
     ...rest
   } = props;
 
+  const handleChange: DotsProps['onChange'] = (_, value) => {
+    enableScrollToActiveSlide();
+    goSlide(value as number);
+  };
+
   return (
     <Dots
       className={cn('JinniCarouselDots', position, className)}
       value={slideValue}
-      onChange={(_, value) => goSlide(value as number)}
+      onChange={handleChange}
       orientation={orientation}
       {...rest}
     >

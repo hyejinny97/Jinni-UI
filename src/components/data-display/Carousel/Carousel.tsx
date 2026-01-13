@@ -3,7 +3,11 @@ import { useRef } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { useSlideValue, useSwipe } from './Carousel.hooks';
+import {
+  useSlideValue,
+  useSwipe,
+  useScrollToActiveSlide
+} from './Carousel.hooks';
 import CarouselContext from './Carousel.context';
 import { countCarouselItems } from './Carousel.utils';
 
@@ -24,6 +28,9 @@ export type CarouselProps<T extends AsType = 'div'> = Omit<
   disableAutoplayOnInteraction?: boolean;
   onAutoplayLeftTimeChange?: (leftTime: number) => void;
   slideAlignment?: 'start' | 'center';
+  snapMode?: 'snap' | 'free';
+  disableSlipEffect?: boolean;
+  slipSize?: 'small' | 'medium' | 'large';
   disableBounceEffect?: boolean;
 };
 
@@ -40,6 +47,9 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
     // disableAutoplayOnInteraction = false,
     // onAutoplayLeftTimeChange,
     slideAlignment = 'start',
+    snapMode = 'snap',
+    disableSlipEffect,
+    slipSize = 'medium',
     disableBounceEffect,
     className,
     style,
@@ -48,6 +58,11 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
   } = props;
   const carouselElRef = useRef<HTMLElement>(null);
   const count = countCarouselItems(children);
+  const {
+    scrollToActiveSlide,
+    enableScrollToActiveSlide,
+    disableScrollToActiveSlide
+  } = useScrollToActiveSlide({ value });
   const { slideValue, goSlide } = useSlideValue({
     defaultValue,
     value,
@@ -58,7 +73,11 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
     goSlide,
     orientation,
     slideAlignment,
-    disableBounceEffect
+    disableBounceEffect,
+    snapMode,
+    disableSlipEffect,
+    slipSize,
+    disableScrollToActiveSlide
   });
   const newStyle = useStyle(style);
 
@@ -74,6 +93,8 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
         noNextSlide: slideValue === count - 1,
         isSwiping,
         scrollEndLimitRef,
+        scrollToActiveSlide,
+        enableScrollToActiveSlide,
         orientation,
         spacing,
         slideAlignment

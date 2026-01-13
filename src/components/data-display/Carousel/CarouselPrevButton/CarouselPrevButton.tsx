@@ -17,7 +17,8 @@ type CarouselPrevButtonProps<T extends AsType = 'button'> = Omit<
 const CarouselPrevButton = <T extends AsType = 'button'>(
   props: CarouselPrevButtonProps<T>
 ) => {
-  const { goPrevSlide, noPrevSlide, orientation } = useCarousel();
+  const { goPrevSlide, noPrevSlide, orientation, enableScrollToActiveSlide } =
+    useCarousel();
   const {
     position = orientation === 'horizontal' ? 'center-start' : 'top-center',
     children = orientation === 'horizontal' ? (
@@ -31,6 +32,7 @@ const CarouselPrevButton = <T extends AsType = 'button'>(
   } = props;
 
   const handleClick = (e: React.MouseEvent) => {
+    enableScrollToActiveSlide();
     goPrevSlide();
     onClick?.(e);
   };
