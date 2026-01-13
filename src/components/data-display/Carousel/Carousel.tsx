@@ -6,10 +6,12 @@ import useStyle from '@/hooks/useStyle';
 import {
   useSlideValue,
   useSwipe,
-  useScrollToActiveSlide
+  useScrollToActiveSlide,
+  useAutoplay
 } from './Carousel.hooks';
 import CarouselContext from './Carousel.context';
 import { countCarouselItems } from './Carousel.utils';
+import { SECOND } from '@/constants/time';
 
 export type OrientationType = 'horizontal' | 'vertical';
 
@@ -42,10 +44,10 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
     onChange,
     orientation = 'horizontal',
     spacing = 0,
-    // autoplay,
-    // autoplayDuration = 5000,
-    // disableAutoplayOnInteraction = false,
-    // onAutoplayLeftTimeChange,
+    autoplay,
+    autoplayDuration = 5 * SECOND,
+    disableAutoplayOnInteraction,
+    onAutoplayLeftTimeChange,
     slideAlignment = 'start',
     snapMode = 'snap',
     disableSlipEffect,
@@ -63,7 +65,15 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
     enableScrollToActiveSlide,
     disableScrollToActiveSlide
   } = useScrollToActiveSlide({ value });
-  const { slideValue, goSlide } = useSlideValue({
+  const {
+    slideValue,
+    goSlide,
+    goPrevSlide,
+    goNextSlide,
+    noPrevSlide,
+    noNextSlide
+  } = useSlideValue({
+    count,
     defaultValue,
     value,
     onChange
@@ -79,6 +89,16 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
     slipSize,
     disableScrollToActiveSlide
   });
+  useAutoplay({
+    carouselElRef,
+    slideValue,
+    autoplay,
+    autoplayDuration,
+    disableAutoplayOnInteraction,
+    onAutoplayLeftTimeChange,
+    goNextSlide,
+    noNextSlide
+  });
   const newStyle = useStyle(style);
 
   return (
@@ -87,10 +107,10 @@ const Carousel = <T extends AsType = 'div'>(props: CarouselProps<T>) => {
         count,
         slideValue,
         goSlide,
-        goPrevSlide: () => goSlide(Math.max(0, slideValue - 1)),
-        goNextSlide: () => goSlide(Math.min(count, slideValue + 1)),
-        noPrevSlide: slideValue === 0,
-        noNextSlide: slideValue === count - 1,
+        goPrevSlide,
+        goNextSlide,
+        noPrevSlide,
+        noNextSlide,
         isSwiping,
         scrollEndLimitRef,
         scrollToActiveSlide,

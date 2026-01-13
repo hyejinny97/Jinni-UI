@@ -1,11 +1,14 @@
 import { useRef, useState, useEffect, useContext, useCallback } from 'react';
 import { CarouselProps } from './Carousel';
 import CarouselContext from './Carousel.context';
+import { useTimer } from '@/hooks/useTimer';
 
 type UseScrollToActiveSlideProps = Pick<CarouselProps, 'value'>;
 
 type UseSlideValueProps = Pick<CarouselProps, 'value' | 'onChange'> &
-  Required<Pick<CarouselProps, 'defaultValue'>>;
+  Required<Pick<CarouselProps, 'defaultValue'>> & {
+    count: number;
+  };
 
 type UseSwipeProps = Required<
   Pick<
@@ -17,6 +20,17 @@ type UseSwipeProps = Required<
     carouselElRef: React.RefObject<HTMLElement>;
     goSlide: (newValue: number) => void;
     disableScrollToActiveSlide: () => void;
+  };
+
+type UseAutoplayProps = Required<Pick<CarouselProps, 'autoplayDuration'>> &
+  Pick<
+    CarouselProps,
+    'autoplay' | 'disableAutoplayOnInteraction' | 'onAutoplayLeftTimeChange'
+  > & {
+    carouselElRef: React.RefObject<HTMLElement>;
+    slideValue: number;
+    goNextSlide: () => void;
+    noNextSlide: boolean;
   };
 
 export const useScrollToActiveSlide = ({
@@ -43,6 +57,7 @@ export const useScrollToActiveSlide = ({
 };
 
 export const useSlideValue = ({
+  count,
   defaultValue,
   value,
   onChange
@@ -62,7 +77,11 @@ export const useSlideValue = ({
 
   return {
     slideValue,
-    goSlide
+    goSlide,
+    goPrevSlide: () => goSlide(Math.max(0, slideValue - 1)),
+    goNextSlide: () => goSlide(Math.min(count, slideValue + 1)),
+    noPrevSlide: slideValue === 0,
+    noNextSlide: slideValue === count - 1
   };
 };
 
@@ -350,6 +369,84 @@ export const useSwipe = ({
   ]);
 
   return { isSwiping, scrollEndLimitRef };
+};
+
+export const useAutoplay = ({
+  carouselElRef,
+  slideValue,
+  autoplay,
+  autoplayDuration,
+  disableAutoplayOnInteraction,
+  onAutoplayLeftTimeChange,
+  goNextSlide,
+  noNextSlide
+}: UseAutoplayProps) => {
+  const { leftTime, startTimer, pauseTimer, resetTimer } = useTimer({
+    time: autoplayDuration
+  });
+  const isSwipingRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (!autoplay) return;
+    resetTimer();
+    startTimer();
+  }, [slideValue, autoplay, resetTimer, startTimer]);
+
+  useEffect(() => {
+    const carouselEl = carouselElRef.current;
+    if (!carouselEl || !autoplay || !disableAutoplayOnInteraction) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!carouselEl.contains(event.target as Node | null)) return;
+      isSwipingRef.current = true;
+      pauseTimer();
+    };
+    const handlePointerMove = () => {
+      if (!isSwipingRef.current) return;
+      pauseTimer();
+    };
+    const handlePointerUp = () => {
+      if (!isSwipingRef.current) return;
+      isSwipingRef.current = false;
+      startTimer();
+    };
+
+    carouselEl.addEventListener('mouseover', pauseTimer);
+    carouselEl.addEventListener('mousemove', pauseTimer);
+    carouselEl.addEventListener('mouseout', startTimer);
+    window.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    return () => {
+      carouselEl.removeEventListener('mouseover', pauseTimer);
+      carouselEl.removeEventListener('mousemove', pauseTimer);
+      carouselEl.removeEventListener('mouseout', startTimer);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+    };
+  }, [
+    carouselElRef,
+    autoplay,
+    disableAutoplayOnInteraction,
+    pauseTimer,
+    startTimer
+  ]);
+
+  useEffect(() => {
+    onAutoplayLeftTimeChange?.(leftTime);
+  }, [leftTime, onAutoplayLeftTimeChange]);
+
+  useEffect(() => {
+    if (leftTime !== 0) return;
+    if (noNextSlide) {
+      pauseTimer();
+    } else {
+      goNextSlide();
+      resetTimer();
+      startTimer();
+    }
+  }, [leftTime, noNextSlide, pauseTimer, resetTimer, startTimer, goNextSlide]);
 };
 
 export const useCarousel = () => {
