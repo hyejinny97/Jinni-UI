@@ -211,6 +211,11 @@ export const useSwipe = ({
       const offsetAxis =
         orientation === 'horizontal' ? 'offsetLeft' : 'offsetTop';
 
+      if (carouselContainerEl[scrollAxis] >= scrollEndLimit) {
+        goSlide(maxItemIdx);
+        return;
+      }
+
       let itemIdx: number = -1;
       switch (slideAlignment) {
         case 'start': {
