@@ -14,6 +14,7 @@ export const useScrollBySlideValue = () => {
   const { carouselContainerElRef, itemValue } = useCarouselContent();
   const carouselItemElRef = useRef<HTMLElement>(null);
   const isActive = slideValue === itemValue;
+  const isActiveRef = useRef(isActive);
 
   const scrollToCurrentSlide = useCallback(
     ({ behavior }: { behavior: 'instant' | 'smooth' }) => {
@@ -22,40 +23,22 @@ export const useScrollBySlideValue = () => {
       const scrollEndLimit = scrollEndLimitRef.current;
       if (!carouselContainerEl || !carouselItemEl) return;
 
-      let scrollAxis: 'left' | 'top' = 'left';
+      const scrollAxis = orientation === 'horizontal' ? 'left' : 'top';
+      const offsetAxis =
+        orientation === 'horizontal' ? 'offsetLeft' : 'offsetTop';
+      const clientSide =
+        orientation === 'horizontal' ? 'clientWidth' : 'clientHeight';
       let scrollSize: number = 0;
-      switch (orientation) {
-        case 'horizontal': {
-          scrollAxis = 'left';
-          switch (slideAlignment) {
-            case 'start': {
-              scrollSize = carouselItemEl.offsetLeft;
-              break;
-            }
-            case 'center': {
-              scrollSize =
-                carouselItemEl.offsetLeft +
-                carouselItemEl.clientWidth / 2 -
-                carouselContainerEl.clientWidth / 2;
-            }
-          }
+      switch (slideAlignment) {
+        case 'start': {
+          scrollSize = carouselItemEl[offsetAxis];
           break;
         }
-        case 'vertical': {
-          scrollAxis = 'top';
-          switch (slideAlignment) {
-            case 'start': {
-              scrollSize = carouselItemEl.offsetTop;
-              break;
-            }
-            case 'center': {
-              scrollSize =
-                carouselItemEl.offsetTop +
-                carouselItemEl.clientHeight / 2 -
-                carouselContainerEl.clientHeight / 2;
-            }
-          }
-          break;
+        case 'center': {
+          scrollSize =
+            carouselItemEl[offsetAxis] +
+            carouselItemEl[clientSide] / 2 -
+            carouselContainerEl[clientSide] / 2;
         }
       }
       carouselContainerEl.scroll({
@@ -67,16 +50,33 @@ export const useScrollBySlideValue = () => {
   );
 
   useLayoutEffect(() => {
-    if (isActive) {
+    if (isActiveRef.current) {
       scrollToCurrentSlide({ behavior: 'instant' });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [scrollToCurrentSlide]);
 
   useEffect(() => {
     if (isSwiping || !isActive || !scrollToActiveSlide) return;
     scrollToCurrentSlide({ behavior: 'smooth' });
   }, [isSwiping, isActive, scrollToActiveSlide, scrollToCurrentSlide]);
+
+  useEffect(() => {
+    isActiveRef.current = isActive;
+  }, [isActive]);
+
+  useEffect(() => {
+    const carouselContainerEl = carouselContainerElRef.current;
+    if (!carouselContainerEl) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (!isActiveRef.current) return;
+      scrollToCurrentSlide({ behavior: 'instant' });
+    });
+    resizeObserver.observe(carouselContainerEl);
+    return () => {
+      resizeObserver.unobserve(carouselContainerEl);
+    };
+  }, [carouselContainerElRef, scrollToCurrentSlide]);
 
   return { carouselItemElRef };
 };
