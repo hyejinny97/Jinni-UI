@@ -7,8 +7,7 @@ import {
   useSlideValue,
   useSwipe,
   useScrollToActiveSlide,
-  useAutoplay,
-  useProgress
+  useAutoplay
 } from './Carousel.hooks';
 import CarouselContext from './Carousel.context';
 import { countCarouselItems } from './Carousel.utils';
@@ -24,7 +23,6 @@ export type CarouselProps<T extends AsType = 'div'> = Omit<
   defaultValue?: number;
   value?: number;
   onChange?: (value: number) => void;
-  onProgressChange?: (progress: number) => void;
   orientation?: OrientationType;
   spacing?: number;
   autoplay?: boolean;
@@ -49,7 +47,6 @@ const Carousel = forwardRef(
       defaultValue = 0,
       value,
       onChange,
-      onProgressChange,
       orientation = 'horizontal',
       spacing = 0,
       autoplay,
@@ -108,12 +105,6 @@ const Carousel = forwardRef(
       onAutoplayLeftTimeChange,
       goNextSlide,
       noNextSlide
-    });
-    useProgress({
-      carouselElRef,
-      orientation,
-      slideAlignment,
-      onProgressChange
     });
     const newStyle = useStyle(style);
 

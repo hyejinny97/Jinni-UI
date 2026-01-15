@@ -2,7 +2,6 @@ import { useRef, useState, useEffect, useContext, useCallback } from 'react';
 import { CarouselProps } from './Carousel';
 import CarouselContext from './Carousel.context';
 import { useTimer } from '@/hooks/useTimer';
-import { roundToDecimal } from '@/utils/roundToDecimal';
 
 type UseScrollToActiveSlideProps = Pick<CarouselProps, 'value'>;
 
@@ -35,13 +34,6 @@ type UseAutoplayProps = Required<Pick<CarouselProps, 'autoplayDuration'>> &
     slideValue: number;
     goNextSlide: () => void;
     noNextSlide: boolean;
-  };
-
-type UseProgressProps = Required<
-  Pick<CarouselProps, 'orientation' | 'slideAlignment'>
-> &
-  Pick<CarouselProps, 'onProgressChange'> & {
-    carouselElRef: React.RefObject<HTMLElement>;
   };
 
 export const useScrollToActiveSlide = ({
@@ -465,104 +457,6 @@ export const useAutoplay = ({
       startTimer();
     }
   }, [leftTime, noNextSlide, pauseTimer, resetTimer, startTimer, goNextSlide]);
-};
-
-export const useProgress = ({
-  carouselElRef,
-  orientation,
-  slideAlignment,
-  onProgressChange
-}: UseProgressProps) => {
-  useEffect(() => {
-    const carouselEl = carouselElRef.current;
-    if (!carouselEl || !onProgressChange) return;
-
-    const carouselContainerEl = carouselEl.querySelector<HTMLElement>(
-      ':scope > .JinniCarouselContainer'
-    );
-    if (!carouselContainerEl) return;
-
-    const carouselContentEl = carouselContainerEl.querySelector<HTMLElement>(
-      ':scope > .JinniCarouselContent'
-    );
-    if (!carouselContentEl) return;
-
-    const carouselItemElList = carouselContentEl.querySelectorAll<HTMLElement>(
-      ':scope > .JinniCarouselItem'
-    );
-    const reversedCarouselItemElList = [...carouselItemElList].reverse();
-    const maxItemIdx = carouselItemElList.length - 1;
-
-    const handleScroll = () => {
-      const rectSide = orientation === 'horizontal' ? 'left' : 'top';
-      const rectSize = orientation === 'horizontal' ? 'width' : 'height';
-
-      let itemIdx: number = -1;
-      switch (slideAlignment) {
-        case 'start': {
-          itemIdx = reversedCarouselItemElList.findIndex(
-            (item) =>
-              item.getBoundingClientRect()[rectSide] <=
-              carouselContainerEl.getBoundingClientRect()[rectSide]
-          );
-          break;
-        }
-        case 'center': {
-          itemIdx = reversedCarouselItemElList.findIndex(
-            (item) =>
-              item.getBoundingClientRect()[rectSide] <=
-              carouselContainerEl.getBoundingClientRect()[rectSide] +
-                carouselContainerEl.getBoundingClientRect()[rectSize] / 2
-          );
-        }
-      }
-      if (itemIdx === -1) return;
-
-      const activeItemIdx = maxItemIdx - itemIdx;
-      const nextItemIdx = activeItemIdx + 1;
-      if (nextItemIdx > maxItemIdx) return;
-
-      const activeItem = carouselItemElList[activeItemIdx];
-      const nextItem = carouselItemElList[nextItemIdx];
-      let moveDistance: number = 0;
-      let totalDistance: number = 0;
-      switch (slideAlignment) {
-        case 'start': {
-          moveDistance =
-            carouselContainerEl.getBoundingClientRect()[rectSide] -
-            activeItem.getBoundingClientRect()[rectSide];
-          totalDistance =
-            nextItem.getBoundingClientRect()[rectSide] -
-            activeItem.getBoundingClientRect()[rectSide];
-          break;
-        }
-        case 'center': {
-          const carouselCenter =
-            carouselContainerEl.getBoundingClientRect()[rectSide] +
-            carouselContainerEl.getBoundingClientRect()[rectSize] / 2;
-          const activeItemCenter =
-            activeItem.getBoundingClientRect()[rectSide] +
-            activeItem.getBoundingClientRect()[rectSize] / 2;
-          const nextItemCenter =
-            nextItem.getBoundingClientRect()[rectSide] +
-            nextItem.getBoundingClientRect()[rectSize] / 2;
-          moveDistance = carouselCenter - activeItemCenter;
-          totalDistance = nextItemCenter - activeItemCenter;
-        }
-      }
-      onProgressChange(
-        roundToDecimal({
-          value: activeItemIdx + moveDistance / totalDistance,
-          digits: 2
-        })
-      );
-    };
-
-    carouselContainerEl.addEventListener('scroll', handleScroll);
-    return () => {
-      carouselContainerEl.removeEventListener('scroll', handleScroll);
-    };
-  }, [carouselElRef, orientation, slideAlignment, onProgressChange]);
 };
 
 export const useCarousel = () => {
