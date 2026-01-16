@@ -502,6 +502,7 @@ const GridTemplate = () => {
                   .fill(0)
                   .map((_, boxIdx) => (
                     <Box
+                      key={boxIdx}
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -579,7 +580,7 @@ const SlipSizeTemplate = () => {
       <RadioGroup name="slip-size" value={slipSize} onChange={changeSlipSize}>
         <Stack direction="row">
           {SLIP_SIZES.map((size) => (
-            <Label content={size}>
+            <Label key={size} content={size}>
               <Radio value={size} />
             </Label>
           ))}
