@@ -209,7 +209,7 @@ const OptionsTemplate = () => {
         {OPTIONS.map((option, idx) => (
           <Label key={idx} content={JSON.stringify(option)}>
             <Radio
-              value={idx}
+              value={String(idx)}
               checked={selectedOptionsIdx === idx}
               onChange={() => handleChange(idx)}
             />
