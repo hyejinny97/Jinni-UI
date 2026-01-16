@@ -42,6 +42,7 @@ const CarouselPrevButton = <T extends AsType = 'button'>(
       className={cn('JinniCarouselPrevButton', position, className)}
       onClick={handleClick}
       disabled={noPrevSlide}
+      aria-label="go previous slide"
       {...rest}
     >
       {children}

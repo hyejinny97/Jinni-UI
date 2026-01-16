@@ -42,6 +42,7 @@ const CarouselNextButton = <T extends AsType = 'button'>(
       className={cn('JinniCarouselNextButton', position, className)}
       onClick={handleClick}
       disabled={noNextSlide}
+      aria-label="go next slide"
       {...rest}
     >
       {children}

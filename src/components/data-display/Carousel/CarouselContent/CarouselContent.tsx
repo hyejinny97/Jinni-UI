@@ -12,18 +12,18 @@ export type CarouselItemElement = React.ReactElement<
   typeof CarouselItem
 >;
 
-export type CarouselContentProps<T extends AsType = 'div'> = Omit<
+export type CarouselContentProps<T extends AsType = 'ul'> = Omit<
   DefaultComponentProps<T>,
   'children'
 > & {
   children: CarouselItemElement | CarouselItemElement[];
 };
 
-const CarouselContent = <T extends AsType = 'div'>(
+const CarouselContent = <T extends AsType = 'ul'>(
   props: CarouselContentProps<T>
 ) => {
   const { orientation, spacing } = useCarousel();
-  const { children, className, style, as: Component = 'div', ...rest } = props;
+  const { children, className, style, as: Component = 'ul', ...rest } = props;
   const carouselContainerElRef = useRef<HTMLDivElement>(null);
   const newStyle = useStyle({ '--spacing': `${spacing}px`, ...style });
 
@@ -32,6 +32,7 @@ const CarouselContent = <T extends AsType = 'div'>(
       <Component
         className={cn('JinniCarouselContent', orientation, className)}
         style={newStyle}
+        aria-live="polite"
         {...rest}
       >
         {Children.map(children, (child, index) => (

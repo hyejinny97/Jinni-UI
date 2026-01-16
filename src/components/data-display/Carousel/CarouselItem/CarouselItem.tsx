@@ -4,8 +4,10 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useScrollBySlideValue } from './CarouselItem.hooks';
+import { useCarousel } from '../Carousel.hooks';
+import { useCarouselContent } from '../CarouselContent';
 
-type CarouselItemProps<T extends AsType = 'div'> = Omit<
+type CarouselItemProps<T extends AsType = 'li'> = Omit<
   DefaultComponentProps<T>,
   'children'
 > & {
@@ -13,22 +15,19 @@ type CarouselItemProps<T extends AsType = 'div'> = Omit<
 };
 
 const CarouselItem = forwardRef(
-  <T extends AsType = 'div'>(
+  <T extends AsType = 'li'>(
     props: CarouselItemProps<T>,
     ref: React.Ref<HTMLElement>
   ) => {
-    const {
-      children,
-      className,
-      style,
-      as: Component = 'div',
-      ...rest
-    } = props;
+    const { children, className, style, as: Component = 'li', ...rest } = props;
+    const { count } = useCarousel();
+    const { itemValue } = useCarouselContent();
     const { carouselItemElRef } = useScrollBySlideValue();
     const newStyle = useStyle(style);
 
     return (
       <Component
+        role="group"
         ref={(element: HTMLElement | null) => {
           if (element) {
             (carouselItemElRef as MutableRefObject<HTMLElement>).current =
@@ -42,6 +41,7 @@ const CarouselItem = forwardRef(
         }}
         className={cn('JinniCarouselItem', className)}
         style={newStyle}
+        aria-label={`${itemValue + 1} / ${count}`}
         {...rest}
       >
         {children}

@@ -29,7 +29,13 @@ const CarouselDots = <T extends AsType = 'div'>(
     position = orientation === 'horizontal' ? 'bottom-center' : 'center-end',
     children = Array(count)
       .fill(0)
-      .map((_, idx) => <CarouselDot key={idx} value={idx} />),
+      .map((_, idx) => (
+        <CarouselDot
+          key={idx}
+          value={idx}
+          aria-label={`go to slide ${idx + 1}`}
+        />
+      )),
     className,
     ...rest
   } = props;
