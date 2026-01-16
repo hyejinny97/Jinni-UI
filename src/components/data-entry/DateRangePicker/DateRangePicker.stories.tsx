@@ -448,7 +448,7 @@ export const CustomPopover: Story = {
         disableScroll: true,
         anchorOrigin: { horizontal: 'center', vertical: 'bottom' },
         popoverOrigin: { horizontal: 'center', vertical: 'top' },
-        PopoverContentProps: { elevation: 10 }
+        BoxProps: { elevation: 10 }
       }}
     />
   )
