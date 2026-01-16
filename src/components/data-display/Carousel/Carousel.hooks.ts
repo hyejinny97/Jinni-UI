@@ -25,7 +25,9 @@ type UseSwipeProps = Required<
     disableScrollToActiveSlide: () => void;
   };
 
-type UseAutoplayProps = Required<Pick<CarouselProps, 'autoplayDuration'>> &
+type UseAutoplayProps = Required<
+  Pick<CarouselProps, 'autoplayDuration' | 'autoplayIntervalTime'>
+> &
   Pick<
     CarouselProps,
     'autoplay' | 'disableAutoplayOnInteraction' | 'onAutoplayLeftTimeChange'
@@ -388,11 +390,13 @@ export const useAutoplay = ({
   autoplayDuration,
   disableAutoplayOnInteraction,
   onAutoplayLeftTimeChange,
+  autoplayIntervalTime,
   goNextSlide,
   noNextSlide
 }: UseAutoplayProps) => {
   const { leftTime, startTimer, pauseTimer, resetTimer } = useTimer({
-    time: autoplayDuration
+    time: autoplayDuration,
+    intervalTime: autoplayIntervalTime
   });
   const isSwipingRef = useRef<boolean>(false);
 

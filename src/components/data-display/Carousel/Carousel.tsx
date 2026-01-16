@@ -29,6 +29,7 @@ export type CarouselProps<T extends AsType = 'div'> = Omit<
   autoplayDuration?: number;
   disableAutoplayOnInteraction?: boolean;
   onAutoplayLeftTimeChange?: (leftTime: number) => void;
+  autoplayIntervalTime?: number;
   slideAlignment?: 'start' | 'center';
   snapMode?: 'snap' | 'free';
   disableSlipEffect?: boolean;
@@ -53,6 +54,7 @@ const Carousel = forwardRef(
       autoplayDuration = 5 * SECOND,
       disableAutoplayOnInteraction,
       onAutoplayLeftTimeChange,
+      autoplayIntervalTime = 1 * SECOND,
       slideAlignment = 'start',
       snapMode = 'snap',
       disableSlipEffect,
@@ -103,6 +105,7 @@ const Carousel = forwardRef(
       autoplayDuration,
       disableAutoplayOnInteraction,
       onAutoplayLeftTimeChange,
+      autoplayIntervalTime,
       goNextSlide,
       noNextSlide
     });
