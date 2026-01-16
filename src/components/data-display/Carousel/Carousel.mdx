@@ -1,18 +1,29 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as CarouselStories from './Carousel.stories';
-import * as CarouselContentStories from './CarouselContent.stories';
-import * as CarouselItemStories from './CarouselItem.stories';
-import * as CarouselDotsStories from './CarouselDots.stories';
-import * as CarouselFractionStories from './CarouselFraction.stories';
-import * as CarouselProgressStories from './CarouselProgress.stories';
-import * as CarouselPrevButtonStories from './CarouselPrevButton.stories';
-import * as CarouselNextButtonStories from './CarouselNextButton.stories';
+import * as CarouselContentStories from './CarouselContent/CarouselContent.stories';
+import * as CarouselItemStories from './CarouselItem//CarouselItem.stories';
+import * as CarouselDotsStories from './CarouselDots/CarouselDots.stories';
+import * as CarouselFractionStories from './CarouselFraction/CarouselFraction.stories';
+import * as CarouselProgressStories from './CarouselProgress/CarouselProgress.stories';
+import * as CarouselPrevButtonStories from './CarouselPrevButton/CarouselPrevButton.stories';
+import * as CarouselNextButtonStories from './CarouselNextButton/CarouselNextButton.stories';
 
 <Meta of={CarouselStories} />
 
 # Carousel
 
 각기 다른 content를 담은 slide 모음
+
+- 구성 컴포넌트
+  - `Carousel` 컴포넌트
+  - `CarouselContent` 컴포넌트: carousel 내 모든 slides를 감싸는 wrapper
+  - `CarouselItem` 컴포넌트: carousel 내 한 slide
+  - `CarouselDots` 컴포넌트 (`Dots` 컴포넌트를 기반으로 함)
+  - `CarouselDot` 컴포넌트 (`Dot` 컴포넌트를 기반으로 함)
+  - `CarouselFraction` 컴포넌트 (`Fraction` 컴포넌트를 기반으로 함)
+  - `CarouselProgress` 컴포넌트 (`LinearProgress` 컴포넌트를 기반으로 함)
+  - `CarouselPrevButton` 컴포넌트 (`ButtonBase` 컴포넌트를 기반으로 함)
+  - `CarouselNextButton` 컴포넌트 (`ButtonBase` 컴포넌트를 기반으로 함)
 
 ## Import
 
@@ -22,6 +33,7 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselDots,
+  CarouselDot,
   CarouselFraction,
   CarouselPrevButton,
   CarouselNextButton,
@@ -33,155 +45,241 @@ import {
 
 ### Basic Carousel
 
-- `Carousel` 컴포넌트
-
-  - `children`: `CarouselContent`, `CarouselDots`, `CarouselFraction`, `CarouselProgress`, `CarouselPrevButton`, `CarouselNextButton` 등의 컴포넌트들
-
-- `CarouselContent` 컴포넌트
-
-  - `children`: `CarouselItem` 컴포넌트들
-
-- `CarouselItem` 컴포넌트
-  - `children`: 한 slide에 들어갈 contents
-
 <Canvas of={CarouselStories.BasicCarousel} />
 
-### DefaultValue
+### Default Value
 
-- `Carousel` 컴포넌트
-  - `defaultValue`: 초기 active carousel item index (zero-based index)
+- `defaultValue`: 초기 active slide index (zero-based index)
 
 <Canvas of={CarouselStories.DefaultValue} />
 
-### Orientation
+### Controlled Carousel
 
-- `Carousel` 컴포넌트
-  - `orientation`: carousel 방향
+- `value` prop을 통해 carousel을 control 할 수 있음
+- `value`: active slide index (zero-based index)
+- `onChange`: active slide index가 변경됐을 때 호출되는 함수
 
-<Canvas of={CarouselStories.Orientation} />
-
-### Dots Pagination
-
-- `CarouselDots` 컴포넌트
-  - `Dots` 컴포넌트를 기반으로 하기 때문에, `Dots` 컴포넌트의 대부분의 props 적용 가능
-  - `position`: carousel 내에서 dots 위치
-
-#### 1) Customization
-
-<Canvas of={CarouselStories.CustomDotsPagination} />
-
-#### 2) Position
-
-<Canvas of={CarouselStories.DotsPaginationPosition} />
-
-### Fraction Pagination
-
-- `CarouselFraction` 컴포넌트
-  - `Fraction` 컴포넌트를 기반으로 하기 때문에, `Fraction` 컴포넌트의 대부분의 props 적용 가능
-  - `position`: carousel 내에서 fraction 위치
-
-#### 1) Customization
-
-<Canvas of={CarouselStories.CustomFractionPagination} />
-
-#### 2) Position
-
-<Canvas of={CarouselStories.FractionPaginationPosition} />
+<Canvas of={CarouselStories.ControlledCarousel} />
 
 ### Navigation
 
-- `CarouselPrevButton`, `CarouselNextButton` 컴포넌트
-  - `ButtonBase` 컴포넌트를 기반으로 하기 때문에, `ButtonBase` 컴포넌트의 대부분의 props 적용 가능
-  - `children` prop을 통해 icon 변경 가능
-  - `position`: carousel 내에서 button 위치
+#### 1. Basic control buttons
 
-#### 1) Customization
+<Canvas of={CarouselStories.BasicControlButtons} />
 
-<Canvas of={CarouselStories.CustomNavigation} />
+#### 2. Control buttons position
 
-#### 2) Position
+<Canvas of={CarouselStories.ControlButtonsPosition} />
 
-<Canvas of={CarouselStories.NavigationPosition} />
+#### 3. Custom control buttons
+
+<Canvas of={CarouselStories.CustomControlButtons} />
+
+### Dots Pagination
+
+#### 1. Basic dots
+
+<Canvas of={CarouselStories.BasicDots} />
+
+#### 2. Dots position
+
+<Canvas of={CarouselStories.DotsPosition} />
+
+#### 3. Custom dots
+
+<Canvas of={CarouselStories.CustomDots} />
+
+### Fraction Pagination
+
+#### 1. Basic fraction
+
+<Canvas of={CarouselStories.BasicFraction} />
+
+#### 2. Fraction position
+
+<Canvas of={CarouselStories.FractionPosition} />
+
+#### 3. Custom fraction
+
+<Canvas of={CarouselStories.CustomFraction} />
 
 ### Progress
 
-- `CarouselProgress` 컴포넌트
-  - `LinearProgress` 컴포넌트를 기반으로 하기 때문에, `LinearProgress` 컴포넌트의 대부분의 props 적용 가능
-  - `position`: carousel 내에서 linear progress 위치
+#### 1. Basic progress
 
-#### 1) Customization
+<Canvas of={CarouselStories.BasicProgress} />
+
+#### 2. Progress position
+
+<Canvas of={CarouselStories.ProgressPosition} />
+
+#### 3. Custom progress
 
 <Canvas of={CarouselStories.CustomProgress} />
 
-#### 2) Position
+### Orientation
 
-<Canvas of={CarouselStories.ProgressPosition} />
+- `orientation`: carousel 방향
+
+<Canvas of={CarouselStories.Orientation} />
+
+### Autoplay
+
+#### 1. Basic Autoplay
+
+- `autoplay`: true이면, 자동으로 slide가 넘어감
+
+<Canvas of={CarouselStories.BasicAutoplay} />
+
+#### 2. Detect left time change
+
+- `onAutoplayLeftTimeChange`: 다음 slide로 넘어가기까지 남은 시간이 변경될 때 마다 호출되는 함수
+- `autoplayIntervalTime`: `onAutoplayLeftTimeChange` 함수가 호출되는 시간 간격
+
+<Canvas of={CarouselStories.DetectLeftTimeChange} />
+
+#### 3. Autoplay duration
+
+- `autoplayDuration`: 한 slide당 유지 시간
+
+<Canvas of={CarouselStories.AutoplayDuration} />
+
+#### 4. Disable autoplay on interaction
+
+- `disableAutoplayOnInteraction`: true이면, carousel를 hover하거나 swipe한 상태인 경우 autoplay 타이머가 잠시 중지됨
+
+<Canvas of={CarouselStories.DisableAutoplayOnInteraction} />
+
+### Spacing
+
+- `spacing`: slide 간 gap
+
+<Canvas of={CarouselStories.Spacing} />
+
+### Slides per view
+
+#### 1. Slide proportional to carousel size
+
+<Canvas of={CarouselStories.SlidePerViewProportional} />
+
+#### 2. Slide not proportional to carousel size
+
+<Canvas of={CarouselStories.SlidePerViewNotProportional} />
+
+#### 3. Grid
+
+<Canvas of={CarouselStories.Grid} />
+
+### Slide Alignment
+
+- `slideAlignment`: container 내 active slide의 위치
+  - 'start': container의 시작 지점에 active slide를 정렬
+  - 'center': container의 중앙 지점에 active slide를 정렬
+
+#### 1. Slide proportional to carousel size
+
+<Canvas of={CarouselStories.SlideAlignmentProportional} />
+
+#### 2. Slide not proportional to carousel size
+
+<Canvas of={CarouselStories.SlideAlignmentNotProportional} />
+
+### Snap free
+
+#### 1. Snap free mode
+
+- `snapMode`: snap 여부
+  - 'snap': swipe가 끝났을 때, 임의의 기준점에 맞춰 자동으로 위치를 정렬
+  - 'free': swipe 하는 만큼 이동함
+
+<Canvas of={CarouselStories.SnapFreeMode} />
+
+#### 2. Slip effect
+
+- Slip Effect: swipe를 멈췄을 때, 멈출 때의 속도에 따라서 같은 방향으로 미끄러지는 효과
+- free mode인 경우, 기본적으로 slip effect가 발생함
+- `disableSlipEffect`: true이면, Slip Effect가 비활성화 됨
+
+<Canvas of={CarouselStories.SlipEffect} />
+
+#### 3. Slipping size
+
+- `slipSize`: 미끄러지는 정도
+
+<Canvas of={CarouselStories.SlipSize} />
 
 ### Nested Carousel
 
 <Canvas of={CarouselStories.NestedCarousel} />
 
-### Infinite Loop
+### Swipe effect
 
-- `Carousel` 컴포넌트
-  - `infinite`: true이면, infinite slides가 됨
+- Swipe Effect: 스와이프에 의한 슬라이드 이동 효과
+- `disableSwipeEffect`: true이면, Swipe Effect가 비활성화 됨
 
-<Canvas of={CarouselStories.InfiniteLoop} />
+<Canvas of={CarouselStories.SwipeEffect} />
 
-### Autoplay
+### Bounce effect
 
-- `Carousel` 컴포넌트
-  - `autoplay`: true이면, 자동으로 slide가 넘어감
-  - `autoplayDuration`: 한 slide당 유지 시간
-  - `disableAutoplayOnInteraction`: true이면, carousel를 hover하거나 focus하거나 touch한 상태인 경우 autoplay 타이머가 잠시 중지됨
-  - `onAutoplayLeftTimeChange`: 다음 slide로 넘어가기까지 남은 시간이 변경될 때 마다 호출되는 함수
+- Bounce Effect: 양쪽 끝 slide가 bounce 되는 효과
+- `disableBounceEffect`: true이면, Bounce Effect가 비활성화 됨
 
-#### 1) Basic
+<Canvas of={CarouselStories.BounceEffect} />
 
-<Canvas of={CarouselStories.Autoplay} />
+### Detect progress change
 
-#### 2) Duration
+#### 1. Dots animation
 
-<Canvas of={CarouselStories.AutoplayDuration} />
+<Canvas of={CarouselStories.DotsAnimation} />
 
-#### 3) Disable Autoplay On Interaction
+#### 2. Coverflow effect
 
-<Canvas of={CarouselStories.DisableAutoplayOnInteraction} />
+<Canvas of={CarouselStories.CoverflowEffect} />
 
-#### 4) Autoplay Progress
+### Customize Carousel
 
-<Canvas of={CarouselStories.AutoplayLeftTime} />
+#### 1. Start-offset slides
+
+<Canvas of={CarouselStories.StartOffsetSlides} />
+
+#### 2. Sequentially scaled dots
+
+<Canvas of={CarouselStories.SequentiallyScaledDots} />
+
+#### 3. Fade effect
+
+<Canvas of={CarouselStories.FadeEffect} />
 
 ## Props
 
-### 1) Carousel
+### 1. Carousel
 
 <ArgTypes of={CarouselStories} sort="alpha" />
 
-### 2) CarouselContent
+### 2. CarouselContent
 
 <ArgTypes of={CarouselContentStories} sort="alpha" />
 
-### 3) CarouselItem
+### 3. CarouselItem
 
 <ArgTypes of={CarouselItemStories} sort="alpha" />
 
-### 4) CarouselDots
+### 4. CarouselDots
 
 <ArgTypes of={CarouselDotsStories} sort="alpha" />
 
-### 5) CarouselFraction
+### 5. CarouselFraction
 
 <ArgTypes of={CarouselFractionStories} sort="alpha" />
 
-### 6) CarouselProgress
+### 6. CarouselProgress
 
 <ArgTypes of={CarouselProgressStories} sort="alpha" />
 
-### 7) CarouselPrevButton
+### 7. CarouselPrevButton
 
 <ArgTypes of={CarouselPrevButtonStories} sort="alpha" />
 
-### 8) CarouselNextButton
+### 8. CarouselNextButton
 
 <ArgTypes of={CarouselNextButtonStories} sort="alpha" />
