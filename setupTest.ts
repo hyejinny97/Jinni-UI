@@ -8,3 +8,7 @@ afterEach(() => {
 });
 
 vi.stubGlobal('ResizeObserver', ResizeObserverMock);
+
+if (!Element.prototype.scroll) {
+  Element.prototype.scroll = vi.fn();
+}
