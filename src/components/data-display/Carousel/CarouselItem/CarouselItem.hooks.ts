@@ -41,10 +41,12 @@ export const useScrollBySlideValue = () => {
             carouselContainerEl[clientSide] / 2;
         }
       }
-      carouselContainerEl.scroll({
-        [scrollAxis]: Math.min(scrollEndLimit, scrollSize),
-        behavior
-      });
+      if (typeof carouselContainerEl.scroll === 'function') {
+        carouselContainerEl.scroll({
+          [scrollAxis]: Math.min(scrollEndLimit, scrollSize),
+          behavior
+        });
+      }
     },
     [carouselContainerElRef, orientation, slideAlignment, scrollEndLimitRef]
   );

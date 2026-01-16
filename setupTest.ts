@@ -9,6 +9,11 @@ afterEach(() => {
 
 vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 
+// Mock Element.prototype.scroll for jsdom test environment
 if (!Element.prototype.scroll) {
-  Element.prototype.scroll = vi.fn();
+  Object.defineProperty(Element.prototype, 'scroll', {
+    value: vi.fn(),
+    configurable: true,
+    writable: true
+  });
 }
