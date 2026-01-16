@@ -1,0 +1,40 @@
+$offset: 10px;
+
+@mixin navigation-pagination-position {
+  &.top-start {
+    top: $offset;
+    left: $offset;
+  }
+  &.top-center {
+    top: $offset;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  &.top-end {
+    top: $offset;
+    right: $offset;
+  }
+  &.center-start {
+    top: 50%;
+    left: $offset;
+    transform: translate(0, -50%);
+  }
+  &.center-end {
+    top: 50%;
+    right: $offset;
+    transform: translate(0, -50%);
+  }
+  &.bottom-start {
+    bottom: $offset;
+    left: $offset;
+  }
+  &.bottom-center {
+    bottom: $offset;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  &.bottom-end {
+    bottom: $offset;
+    right: $offset;
+  }
+}

@@ -140,7 +140,7 @@ const ModalSizeTemplate = () => {
               })}
             >
               <Radio
-                value={idx}
+                value={String(idx)}
                 checked={checkedValue === idx}
                 onChange={check}
               />

@@ -102,7 +102,7 @@ const TimingFunctionTemplate = () => {
           return (
             <Label key={label} content={label}>
               <Radio
-                value={idx}
+                value={String(idx)}
                 checked={checkedValue === idx}
                 onChange={handleChange}
               />
@@ -130,7 +130,7 @@ const DurationTemplate = () => {
           return (
             <Label key={label} content={label}>
               <Radio
-                value={idx}
+                value={String(idx)}
                 checked={checkedValue === idx}
                 onChange={handleChange}
               />

@@ -12,3 +12,10 @@
     display: none; /* Chrome, Safari, Opera */
   }
 }
+
+@mixin no-highlight {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

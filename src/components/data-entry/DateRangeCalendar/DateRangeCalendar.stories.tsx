@@ -358,7 +358,7 @@ const HorizontalDayCalendarsTemplate = () => {
         {CALENDARS.map((calendarNum) => (
           <Label key={calendarNum} content={`${calendarNum}개`}>
             <Radio
-              value={calendarNum}
+              value={String(calendarNum)}
               checked={selectedCalendars === calendarNum}
               onChange={handleChange}
             />
@@ -390,7 +390,7 @@ const HorizontalMonthCalendarsTemplate = () => {
         {CALENDARS.map((calendarNum) => (
           <Label key={calendarNum} content={`${calendarNum}개`}>
             <Radio
-              value={calendarNum}
+              value={String(calendarNum)}
               checked={selectedCalendars === calendarNum}
               onChange={handleChange}
             />

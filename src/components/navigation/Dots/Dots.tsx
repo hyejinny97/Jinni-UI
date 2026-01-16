@@ -84,12 +84,15 @@ const Dots = <T extends AsType = 'ol'>(props: DotsProps<T>) => {
         disabled
       }}
     >
-      <div ref={dotsContainerElRef} className="JinniDotsContainer">
+      <div
+        ref={dotsContainerElRef}
+        className={cn('JinniDotsContainer', className)}
+      >
         <Component
           ref={dotsElRef}
           role="navigation"
           aria-label="dot navigation"
-          className={cn('JinniDots', size, orientation, className)}
+          className={cn('JinniDots', size, orientation)}
           style={newStyle}
           {...rest}
         >

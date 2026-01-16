@@ -7,7 +7,7 @@ import { Text } from '@/components/general/Text';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Box } from '@/components/layout/Box';
-import { Dots } from '@/components/navigation/Dots';
+import { Dots, Dot } from '@/components/navigation/Dots';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
@@ -154,9 +154,9 @@ const TourTemplate = ({ ...props }) => {
   };
   const handleDotChange = (
     _: Event | React.SyntheticEvent,
-    activeDotIdx: number
+    activeDotIdx: string | number
   ) => {
-    setTourValue(TOUR_LIST[activeDotIdx].value);
+    setTourValue(TOUR_LIST[activeDotIdx as number].value);
   };
 
   return (
@@ -216,11 +216,13 @@ const TourTemplate = ({ ...props }) => {
                 >
                   <ArrowLeftIcon />
                 </ButtonBase>
-                <Dots
-                  count={TOUR_LIST.length}
-                  value={idx}
-                  onChange={handleDotChange}
-                />
+                <Dots value={idx} onChange={handleDotChange}>
+                  {Array(TOUR_LIST.length)
+                    .fill(0)
+                    .map((_, idx) => (
+                      <Dot key={idx} value={idx} />
+                    ))}
+                </Dots>
                 <ButtonBase
                   onClick={() => setTourValue(TOUR_LIST[idx + 1].value)}
                   disabled={idx === TOUR_LIST.length - 1}
@@ -258,9 +260,9 @@ const PlacementTemplate = () => {
   };
   const handleDotChange = (
     _: Event | React.SyntheticEvent,
-    activeDotIdx: number
+    activeDotIdx: string | number
   ) => {
-    setTourValue(PLACEMENT_TOUR_LIST[activeDotIdx].value);
+    setTourValue(PLACEMENT_TOUR_LIST[activeDotIdx as number].value);
   };
 
   return (
@@ -337,11 +339,13 @@ const PlacementTemplate = () => {
                   >
                     <ArrowLeftIcon />
                   </ButtonBase>
-                  <Dots
-                    count={PLACEMENT_TOUR_LIST.length}
-                    value={idx}
-                    onChange={handleDotChange}
-                  />
+                  <Dots value={idx} onChange={handleDotChange}>
+                    {Array(PLACEMENT_TOUR_LIST.length)
+                      .fill(0)
+                      .map((_, idx) => (
+                        <Dot key={idx} value={idx} />
+                      ))}
+                  </Dots>
                   <ButtonBase
                     onClick={() =>
                       setTourValue(PLACEMENT_TOUR_LIST[idx + 1].value)

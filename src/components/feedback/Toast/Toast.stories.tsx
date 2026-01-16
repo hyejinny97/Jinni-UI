@@ -174,7 +174,7 @@ const ToastPositionTemplate = () => {
         {POSITIONS.map((position, idx) => (
           <Label key={position.label} content={position.label}>
             <Radio
-              value={idx}
+              value={String(idx)}
               checked={checkedValue === idx}
               onChange={check}
             />

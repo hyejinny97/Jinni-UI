@@ -18,11 +18,11 @@ const meta: Meta<typeof CarouselDots> = {
       description: 'carousel 내에서 dots 위치',
       table: {
         type: {
-          summary: `'top-start' | 'top-center' | 'top-end' | 'left-center' | 'right-center' | 'bottom-start' | 'bottom-center' | 'bottom-end'`
+          summary: `'top-start' | 'top-center' | 'top-end' | 'center-start' | 'center-end' | 'bottom-start' | 'bottom-center' | 'bottom-end'`
         },
         defaultValue: {
           summary: `- carousel이 horizontal인 경우, 'bottom-center'\n
-- carousel이 vertical인 경우, 'right-center'`
+- carousel이 vertical인 경우, 'center-end'`
         }
       }
     }

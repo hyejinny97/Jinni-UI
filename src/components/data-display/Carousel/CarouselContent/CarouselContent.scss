@@ -1,0 +1,33 @@
+@mixin orientation {
+  &.horizontal {
+    flex-direction: row;
+  }
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.JinniCarouselContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  .JinniCarouselContent {
+    position: relative;
+    display: inline-flex;
+    gap: var(--spacing);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    @include orientation;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      flex: 0 0 100%;
+    }
+  }
+}

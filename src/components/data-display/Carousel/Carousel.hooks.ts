@@ -1,281 +1,386 @@
-import {
-  useRef,
-  useState,
-  useLayoutEffect,
-  useEffect,
-  useContext,
-  useCallback
-} from 'react';
-import { flushSync } from 'react-dom';
-import { CarouselProps, OrientationType } from './Carousel';
+import { useRef, useState, useEffect, useContext, useCallback } from 'react';
+import { CarouselProps } from './Carousel';
 import CarouselContext from './Carousel.context';
-import { countCarouselItems } from './Carousel.utils';
-import { SECOND } from '@/constants/time';
+import { useTimer } from '@/hooks/useTimer';
 
-type UseSlideVariablesProps = Pick<CarouselProps, 'children' | 'infinite'>;
-type UseSlideValueProps = Pick<CarouselProps, 'onChange' | 'infinite'> &
+type UseScrollToActiveSlideProps = Pick<CarouselProps, 'value'>;
+
+type UseSlideValueProps = Pick<CarouselProps, 'value' | 'onChange'> &
   Required<Pick<CarouselProps, 'defaultValue'>> & {
-    carouselElRef: React.RefObject<HTMLElement>;
-    firstSlide: number;
-    lastSlide: number;
-    startSlide: number;
-    endSlide: number;
-    transformCarouselItemToSlide: (value: number) => number;
-    transformSlideToCarouselItem: (value: number) => number;
+    count: number;
   };
-type UseAutoplayProps = Pick<
-  CarouselProps,
-  'autoplay' | 'disableAutoplayOnInteraction' | 'onAutoplayLeftTimeChange'
+
+type UseSwipeProps = Required<
+  Pick<
+    CarouselProps,
+    'orientation' | 'slideAlignment' | 'snapMode' | 'slipSize'
+  >
 > &
-  Required<Pick<CarouselProps, 'autoplayDuration'>> & {
+  Pick<
+    CarouselProps,
+    'disableBounceEffect' | 'disableSlipEffect' | 'disableSwipeEffect'
+  > & {
+    carouselElRef: React.RefObject<HTMLElement>;
+    goSlide: (newValue: number) => void;
+    disableScrollToActiveSlide: () => void;
+  };
+
+type UseAutoplayProps = Required<
+  Pick<CarouselProps, 'autoplayDuration' | 'autoplayIntervalTime'>
+> &
+  Pick<
+    CarouselProps,
+    'autoplay' | 'disableAutoplayOnInteraction' | 'onAutoplayLeftTimeChange'
+  > & {
     carouselElRef: React.RefObject<HTMLElement>;
     slideValue: number;
     goNextSlide: () => void;
     noNextSlide: boolean;
   };
 
-export const useCarouselContext = () => {
-  const carouselContext = useContext(CarouselContext);
-  if (!carouselContext) throw Error('CarouselContext value is null');
-  return carouselContext;
-};
+export const useScrollToActiveSlide = ({
+  value
+}: UseScrollToActiveSlideProps) => {
+  const [scrollToActiveSlide, setScrollToActiveSlide] = useState<boolean>(true);
 
-export const useVariables = ({
-  children,
-  infinite
-}: UseSlideVariablesProps) => {
-  const carouselItemsCount = countCarouselItems(children);
-  const slidesCount = infinite ? carouselItemsCount + 2 : carouselItemsCount;
-  const firstSlide = 0;
-  const lastSlide = slidesCount - 1;
-  const startSlide = infinite ? firstSlide + 1 : firstSlide;
-  const endSlide = infinite ? lastSlide - 1 : lastSlide;
+  const enableScrollToActiveSlide = useCallback(() => {
+    setScrollToActiveSlide(true);
+  }, []);
+  const disableScrollToActiveSlide = useCallback(() => {
+    setScrollToActiveSlide(false);
+  }, []);
 
-  const transformCarouselItemToSlide = useCallback(
-    (value: number) => {
-      return infinite ? value + 1 : value;
-    },
-    [infinite]
-  );
-
-  const transformSlideToCarouselItem = useCallback(
-    (value: number) => {
-      return infinite
-        ? (value + carouselItemsCount - 1) % carouselItemsCount
-        : value;
-    },
-    [infinite, carouselItemsCount]
-  );
+  useEffect(() => {
+    enableScrollToActiveSlide();
+  }, [value, enableScrollToActiveSlide]);
 
   return {
-    carouselItemsCount,
-    slidesCount,
-    firstSlide,
-    lastSlide,
-    startSlide,
-    endSlide,
-    transformCarouselItemToSlide,
-    transformSlideToCarouselItem
+    scrollToActiveSlide,
+    enableScrollToActiveSlide,
+    disableScrollToActiveSlide
   };
 };
 
 export const useSlideValue = ({
-  carouselElRef,
-  defaultValue: carouselItemDefaultValue,
-  onChange,
-  infinite,
-  firstSlide,
-  lastSlide,
-  startSlide,
-  endSlide,
-  transformCarouselItemToSlide,
-  transformSlideToCarouselItem
+  count,
+  defaultValue,
+  value,
+  onChange
 }: UseSlideValueProps) => {
-  const [slideValue, setSlideValue] = useState(
-    transformCarouselItemToSlide(carouselItemDefaultValue)
-  );
+  const isControlled = value !== undefined;
+  const [uncontrolledSlideValue, setUncontrolledSlideValue] =
+    useState(defaultValue);
+  const slideValue = isControlled ? value : uncontrolledSlideValue;
 
-  const handleChange = useCallback(
-    (value: { newSlideValue: number } | { newCarouselItemValue: number }) => {
-      if ('newSlideValue' in value) {
-        const { newSlideValue } = value;
-        setSlideValue(newSlideValue);
-        if (onChange) onChange(transformSlideToCarouselItem(newSlideValue));
-      } else {
-        const { newCarouselItemValue } = value;
-        setSlideValue(transformCarouselItemToSlide(newCarouselItemValue));
-        if (onChange) onChange(newCarouselItemValue);
-      }
+  const goSlide = useCallback(
+    (newValue: number) => {
+      if (!isControlled) setUncontrolledSlideValue(newValue);
+      if (onChange) onChange(newValue);
     },
-    [onChange, transformSlideToCarouselItem, transformCarouselItemToSlide]
+    [isControlled, onChange]
   );
-
-  const goNextSlide = useCallback(() => {
-    const nextSlide = slideValue + 1;
-    if (nextSlide > lastSlide) return;
-    handleChange({ newSlideValue: nextSlide });
-  }, [slideValue, handleChange, lastSlide]);
-
-  const goPrevSlide = useCallback(() => {
-    const prevSlide = slideValue - 1;
-    if (prevSlide < firstSlide) return;
-    handleChange({ newSlideValue: prevSlide });
-  }, [slideValue, handleChange, firstSlide]);
-
-  useEffect(() => {
-    const carouselEl = carouselElRef.current;
-    const carouselContentEl = carouselEl?.querySelector(
-      '.JinniCarouselContent'
-    );
-    if (!infinite || !carouselContentEl) return;
-
-    const handleTransitionEnd = () => {
-      if (slideValue === lastSlide) {
-        carouselContentEl.classList.add('no-transition');
-        flushSync(() => {
-          handleChange({ newSlideValue: startSlide });
-        });
-        setTimeout(() => {
-          carouselContentEl.classList.remove('no-transition');
-        }, 0);
-      }
-      if (slideValue === firstSlide) {
-        carouselContentEl.classList.add('no-transition');
-        flushSync(() => {
-          handleChange({ newSlideValue: endSlide });
-        });
-        setTimeout(() => {
-          carouselContentEl.classList.remove('no-transition');
-        }, 0);
-      }
-    };
-    carouselContentEl.addEventListener('transitionend', handleTransitionEnd);
-    return () => {
-      carouselContentEl.removeEventListener(
-        'transitionend',
-        handleTransitionEnd
-      );
-    };
-  }, [
-    carouselElRef,
-    infinite,
-    slideValue,
-    lastSlide,
-    firstSlide,
-    startSlide,
-    endSlide,
-    handleChange
-  ]);
 
   return {
-    carouselItemValue: transformSlideToCarouselItem(slideValue),
     slideValue,
-    handleChange,
-    goNextSlide,
-    goPrevSlide,
-    noPrevSlide: infinite ? false : slideValue === firstSlide,
-    noNextSlide: infinite ? false : slideValue === lastSlide
+    goSlide,
+    goPrevSlide: () => goSlide(Math.max(0, slideValue - 1)),
+    goNextSlide: () => goSlide(Math.min(count, slideValue + 1)),
+    noPrevSlide: slideValue === 0,
+    noNextSlide: slideValue === count - 1
   };
 };
 
-export const useHandleEvent = ({
+export const useSwipe = ({
   carouselElRef,
-  noPrevSlide,
-  noNextSlide,
-  goNextSlide,
-  goPrevSlide,
-  orientation
-}: {
-  carouselElRef: React.RefObject<HTMLElement>;
-  noPrevSlide: boolean;
-  noNextSlide: boolean;
-  goNextSlide: (event: Event | React.SyntheticEvent) => void;
-  goPrevSlide: (event: Event | React.SyntheticEvent) => void;
-  orientation: OrientationType;
-}) => {
-  const isPressedRef = useRef<boolean>(false);
-  const pressedPositionRef = useRef<number | null>(null);
-  const dragThresholdRef = useRef<number | null>(null);
-
-  useLayoutEffect(() => {
-    const carouselEl = carouselElRef.current;
-    if (!carouselEl) return;
-
-    const { width, height } = carouselEl.getBoundingClientRect();
-    switch (orientation) {
-      case 'horizontal':
-        dragThresholdRef.current = width / 5;
-        break;
-      case 'vertical':
-        dragThresholdRef.current = height / 5;
-    }
-  }, [carouselElRef, orientation]);
+  goSlide,
+  orientation,
+  slideAlignment,
+  disableBounceEffect,
+  snapMode,
+  disableSlipEffect,
+  slipSize,
+  disableScrollToActiveSlide,
+  disableSwipeEffect
+}: UseSwipeProps) => {
+  const [isSwiping, setSwiping] = useState<boolean>(false);
+  const scrollEndLimitRef = useRef<number>(Number.MAX_VALUE);
+  const prevTimeStampRef = useRef<number>(0);
+  const velocityRef = useRef<number>(0);
+  const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const carouselEl = carouselElRef.current;
-    if (!carouselEl) return;
+    if (!carouselEl || disableSwipeEffect) return;
 
-    const getPosition = (event: MouseEvent | TouchEvent) => {
-      const isMouseEvent = event instanceof MouseEvent;
-      switch (orientation) {
-        case 'horizontal':
-          return isMouseEvent ? event.clientX : event.touches[0].clientX;
-        case 'vertical':
-          return isMouseEvent ? event.clientY : event.touches[0].clientY;
+    const carouselContainerEl = carouselEl.querySelector<HTMLElement>(
+      ':scope > .JinniCarouselContainer'
+    );
+    if (!carouselContainerEl) return;
+
+    const carouselContentEl = carouselContainerEl.querySelector<HTMLElement>(
+      ':scope > .JinniCarouselContent'
+    );
+    if (!carouselContentEl) return;
+
+    const carouselItemElList = carouselContentEl.querySelectorAll<HTMLElement>(
+      ':scope > .JinniCarouselItem'
+    );
+    const reversedCarouselItemElList = [...carouselItemElList].reverse();
+    const maxItemIdx = carouselItemElList.length - 1;
+    const firstItem = carouselItemElList[0];
+    const lastItem = carouselItemElList[maxItemIdx];
+
+    const calculateScrollLimit = () => {
+      const offsetAxis =
+        orientation === 'horizontal' ? 'offsetLeft' : 'offsetTop';
+      const clientSize =
+        orientation === 'horizontal' ? 'clientWidth' : 'clientHeight';
+      let scrollStartLimit: number = 0;
+      let scrollEndLimit: number = carouselContentEl.scrollWidth;
+      switch (slideAlignment) {
+        case 'start': {
+          scrollStartLimit = firstItem[offsetAxis];
+          scrollEndLimit =
+            lastItem[offsetAxis] +
+            lastItem[clientSize] -
+            carouselContainerEl[clientSize];
+          break;
+        }
+        case 'center': {
+          scrollStartLimit =
+            firstItem[offsetAxis] -
+            (carouselContainerEl[clientSize] - firstItem[clientSize]) / 2;
+          scrollEndLimit =
+            lastItem[offsetAxis] -
+            (carouselContainerEl[clientSize] - lastItem[clientSize]) / 2;
+        }
+      }
+      return { scrollStartLimit, scrollEndLimit };
+    };
+    const { scrollStartLimit, scrollEndLimit } = calculateScrollLimit();
+    scrollEndLimitRef.current = scrollEndLimit;
+
+    const checkScrollOverLimits = () => {
+      const scrollAxis =
+        orientation === 'horizontal' ? 'scrollLeft' : 'scrollTop';
+      return {
+        isOverStartLimit: carouselContainerEl[scrollAxis] < scrollStartLimit,
+        isOverEndLimit: carouselContainerEl[scrollAxis] > scrollEndLimit,
+        scrollSizeOverStartLimit: Math.max(
+          0,
+          scrollStartLimit - carouselContainerEl[scrollAxis]
+        ),
+        scrollSizeOverEndLimit: Math.max(
+          0,
+          carouselContainerEl[scrollAxis] - scrollEndLimit
+        )
+      };
+    };
+    const restrictWithinLimits = ({ scrollValue }: { scrollValue: number }) => {
+      return Math.max(scrollStartLimit, Math.min(scrollEndLimit, scrollValue));
+    };
+    const translate = (event: PointerEvent) => {
+      const scrollAxis =
+        orientation === 'horizontal' ? 'scrollLeft' : 'scrollTop';
+      const movement =
+        orientation === 'horizontal' ? event.movementX : event.movementY;
+      let scrollSize: number = carouselContainerEl[scrollAxis] - movement;
+      if (disableBounceEffect) {
+        scrollSize = restrictWithinLimits({
+          scrollValue: scrollSize
+        });
+      } else {
+        const {
+          isOverStartLimit,
+          isOverEndLimit,
+          scrollSizeOverStartLimit,
+          scrollSizeOverEndLimit
+        } = checkScrollOverLimits();
+        if (isOverStartLimit) {
+          scrollSize =
+            carouselContainerEl[scrollAxis] -
+            movement / Math.sqrt(scrollSizeOverStartLimit);
+        }
+        if (isOverEndLimit) {
+          scrollSize =
+            carouselContainerEl[scrollAxis] -
+            movement / Math.sqrt(scrollSizeOverEndLimit);
+        }
+      }
+      carouselContainerEl[scrollAxis] = scrollSize;
+    };
+    const setSlideValue = () => {
+      const rectSide = orientation === 'horizontal' ? 'left' : 'top';
+      const rectSize = orientation === 'horizontal' ? 'width' : 'height';
+      const scrollAxis =
+        orientation === 'horizontal' ? 'scrollLeft' : 'scrollTop';
+      const offsetAxis =
+        orientation === 'horizontal' ? 'offsetLeft' : 'offsetTop';
+
+      if (carouselContainerEl[scrollAxis] >= scrollEndLimit) {
+        goSlide(maxItemIdx);
+        return;
+      }
+
+      let itemIdx: number = -1;
+      switch (slideAlignment) {
+        case 'start': {
+          itemIdx = reversedCarouselItemElList.findIndex(
+            (item) =>
+              item.getBoundingClientRect()[rectSide] <=
+              carouselContainerEl.getBoundingClientRect()[rectSide]
+          );
+          break;
+        }
+        case 'center': {
+          itemIdx = reversedCarouselItemElList.findIndex(
+            (item) =>
+              item.getBoundingClientRect()[rectSide] <=
+              carouselContainerEl.getBoundingClientRect()[rectSide] +
+                carouselContainerEl.getBoundingClientRect()[rectSize] / 2
+          );
+        }
+      }
+      if (itemIdx === -1) return;
+
+      let activeItemIdx = maxItemIdx - itemIdx;
+      if (slideAlignment === 'start') {
+        const activeItem = carouselItemElList[activeItemIdx];
+        const isOverMiddleOfItem =
+          carouselContainerEl[scrollAxis] >=
+          activeItem[offsetAxis] +
+            activeItem.getBoundingClientRect()[rectSize] / 2;
+        if (isOverMiddleOfItem) {
+          activeItemIdx = Math.min(maxItemIdx, activeItemIdx + 1);
+        }
+      }
+      goSlide(activeItemIdx);
+    };
+    const scrollWithinLimits = () => {
+      const scrollAxis = orientation === 'horizontal' ? 'left' : 'top';
+      const { isOverStartLimit, isOverEndLimit } = checkScrollOverLimits();
+      if (isOverStartLimit) {
+        carouselContainerEl.scroll({
+          [scrollAxis]: scrollStartLimit,
+          behavior: 'smooth'
+        });
+      }
+      if (isOverEndLimit) {
+        carouselContainerEl.scroll({
+          [scrollAxis]: scrollEndLimit,
+          behavior: 'smooth'
+        });
       }
     };
+    const stopInterval = () => {
+      if (intervalIdRef.current) {
+        clearInterval(intervalIdRef.current);
+        intervalIdRef.current = null;
+      }
+    };
+    const slip = () => {
+      const scrollAxis =
+        orientation === 'horizontal' ? 'scrollLeft' : 'scrollTop';
+      const INTERVAL_TIME = 1; // 단위: ms
+      const ACCELERATION = 0.1; // 단위: px/ms
 
-    const handleStart = (event: MouseEvent | TouchEvent) => {
-      isPressedRef.current = true;
-      pressedPositionRef.current = getPosition(event);
+      let amplification: number = 1;
+      switch (slipSize) {
+        case 'small':
+          amplification = 2;
+          break;
+        case 'medium':
+          amplification = 4;
+          break;
+        case 'large':
+          amplification = 6;
+          break;
+      }
+      velocityRef.current *= amplification;
+
+      intervalIdRef.current = setInterval(() => {
+        const firstVelocity = velocityRef.current; // 단위: px/ms
+        const oppositeSign = Math.sign(firstVelocity) * -1;
+        const lastVelocity =
+          firstVelocity + ACCELERATION * oppositeSign * INTERVAL_TIME;
+        const preprocessedLastVelocity =
+          Math.sign(firstVelocity) > 0
+            ? Math.max(0, lastVelocity)
+            : Math.min(0, lastVelocity);
+        const movement = preprocessedLastVelocity * INTERVAL_TIME;
+        if (
+          movement === 0 ||
+          carouselContainerEl[scrollAxis] <= scrollStartLimit ||
+          carouselContainerEl[scrollAxis] >= scrollEndLimit
+        ) {
+          stopInterval();
+          return;
+        }
+
+        carouselContainerEl[scrollAxis] = restrictWithinLimits({
+          scrollValue: carouselContainerEl[scrollAxis] - movement
+        });
+        velocityRef.current = preprocessedLastVelocity;
+        setSlideValue();
+      }, INTERVAL_TIME);
     };
 
-    const handleMove = (event: MouseEvent | TouchEvent) => {
-      const isPressed = isPressedRef.current;
-      const dragThreshold = dragThresholdRef.current;
-      const pressedPosition = pressedPositionRef.current;
-      if (!isPressed || dragThreshold === null || pressedPosition === null)
-        return;
-
-      const currentPosition = getPosition(event);
-      const dragLengthVector = pressedPosition - currentPosition;
-      if (Math.abs(dragLengthVector) < dragThreshold) return;
-
-      if (dragLengthVector > 0 && !noNextSlide) goNextSlide(event);
-      else if (dragLengthVector < 0 && !noPrevSlide) goPrevSlide(event);
-      pressedPositionRef.current = currentPosition;
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!carouselContentEl.contains(event.target as Node | null)) return;
+      if (snapMode === 'free') disableScrollToActiveSlide();
+      prevTimeStampRef.current = event.timeStamp;
+      stopInterval();
+      setSwiping(true);
+      translate(event);
+      setSlideValue();
+    };
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!isSwiping) return;
+      velocityRef.current =
+        event.movementX / (event.timeStamp - prevTimeStampRef.current);
+      prevTimeStampRef.current = event.timeStamp;
+      translate(event);
+      setSlideValue();
+    };
+    const handlePointerUp = () => {
+      if (!isSwiping) return;
+      const { isOverStartLimit, isOverEndLimit } = checkScrollOverLimits();
+      if (
+        snapMode === 'free' &&
+        !disableSlipEffect &&
+        velocityRef.current !== 0 &&
+        !isOverStartLimit &&
+        !isOverEndLimit
+      ) {
+        slip();
+      }
+      setSwiping(false);
+      scrollWithinLimits();
     };
 
-    const handleEnd = () => {
-      isPressedRef.current = false;
-      pressedPositionRef.current = null;
-    };
-
-    carouselEl.addEventListener('mousedown', handleStart);
-    carouselEl.addEventListener('mousemove', handleMove);
-    carouselEl.addEventListener('mouseup', handleEnd);
-    carouselEl.addEventListener('mouseleave', handleEnd);
-    carouselEl.addEventListener('touchstart', handleStart);
-    carouselEl.addEventListener('touchmove', handleMove);
-    carouselEl.addEventListener('touchend', handleEnd);
-
+    window.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
     return () => {
-      carouselEl.removeEventListener('mousedown', handleStart);
-      carouselEl.removeEventListener('mousemove', handleMove);
-      carouselEl.removeEventListener('mouseup', handleEnd);
-      carouselEl.removeEventListener('mouseleave', handleEnd);
-      carouselEl.removeEventListener('touchstart', handleStart);
-      carouselEl.removeEventListener('touchmove', handleMove);
-      carouselEl.removeEventListener('touchend', handleEnd);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
     };
   }, [
     carouselElRef,
-    noPrevSlide,
-    noNextSlide,
-    goNextSlide,
-    goPrevSlide,
-    orientation
+    isSwiping,
+    goSlide,
+    orientation,
+    slideAlignment,
+    disableBounceEffect,
+    snapMode,
+    disableSlipEffect,
+    slipSize,
+    disableScrollToActiveSlide,
+    disableSwipeEffect
   ]);
+
+  return { isSwiping, scrollEndLimitRef };
 };
 
 export const useAutoplay = ({
@@ -285,84 +390,81 @@ export const useAutoplay = ({
   autoplayDuration,
   disableAutoplayOnInteraction,
   onAutoplayLeftTimeChange,
+  autoplayIntervalTime,
   goNextSlide,
   noNextSlide
 }: UseAutoplayProps) => {
-  const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
-  const prevSlideValueRef = useRef<number>(slideValue);
-  const [leftTime, setLeftTime] = useState<number>(autoplayDuration);
-
-  const pauseAutoplay = useCallback(() => {
-    if (intervalIdRef.current) {
-      clearInterval(intervalIdRef.current);
-      intervalIdRef.current = null;
-    }
-  }, []);
-
-  const startAutoplay = useCallback(() => {
-    pauseAutoplay();
-    intervalIdRef.current = setInterval(() => {
-      setLeftTime((prev) => Math.max(prev - SECOND, 0));
-    }, SECOND);
-  }, [pauseAutoplay]);
-
-  const resetAutoplay = useCallback(() => {
-    setLeftTime(autoplayDuration);
-    startAutoplay();
-  }, [autoplayDuration, startAutoplay]);
+  const { leftTime, startTimer, pauseTimer, resetTimer } = useTimer({
+    time: autoplayDuration,
+    intervalTime: autoplayIntervalTime
+  });
+  const isSwipingRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (autoplay && !noNextSlide) {
-      resetAutoplay();
-    } else {
-      pauseAutoplay();
-    }
-
-    return pauseAutoplay;
-  }, [autoplay, noNextSlide, resetAutoplay, pauseAutoplay]);
-
-  useEffect(() => {
-    if (leftTime === 0) {
-      goNextSlide();
-      if (!noNextSlide && autoplay) {
-        setLeftTime(autoplayDuration);
-      }
-    }
-  }, [leftTime, autoplay, noNextSlide, autoplayDuration, goNextSlide]);
-
-  useEffect(() => {
-    if (prevSlideValueRef.current !== slideValue) {
-      prevSlideValueRef.current = slideValue;
-      if (autoplay && !noNextSlide) {
-        resetAutoplay();
-      }
-    }
-  }, [slideValue, autoplay, noNextSlide, resetAutoplay]);
-
-  useEffect(() => {
-    if (onAutoplayLeftTimeChange) onAutoplayLeftTimeChange(leftTime);
-  }, [leftTime, onAutoplayLeftTimeChange]);
+    if (!autoplay) return;
+    resetTimer();
+    startTimer();
+  }, [slideValue, autoplay, resetTimer, startTimer]);
 
   useEffect(() => {
     const carouselEl = carouselElRef.current;
-    if (!carouselEl || !disableAutoplayOnInteraction) return;
+    if (!carouselEl || !autoplay || !disableAutoplayOnInteraction) return;
 
-    carouselEl.addEventListener('mouseover', pauseAutoplay);
-    carouselEl.addEventListener('mouseout', startAutoplay);
-    carouselEl.addEventListener('touchstart', pauseAutoplay);
-    carouselEl.addEventListener('touchmove', pauseAutoplay);
-    carouselEl.addEventListener('touchend', startAutoplay);
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!carouselEl.contains(event.target as Node | null)) return;
+      isSwipingRef.current = true;
+      pauseTimer();
+    };
+    const handlePointerMove = () => {
+      if (!isSwipingRef.current) return;
+      pauseTimer();
+    };
+    const handlePointerUp = () => {
+      if (!isSwipingRef.current) return;
+      isSwipingRef.current = false;
+      startTimer();
+    };
+
+    carouselEl.addEventListener('mouseover', pauseTimer);
+    carouselEl.addEventListener('mousemove', pauseTimer);
+    carouselEl.addEventListener('mouseout', startTimer);
+    window.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
     return () => {
-      carouselEl.removeEventListener('mouseover', pauseAutoplay);
-      carouselEl.removeEventListener('mouseout', startAutoplay);
-      carouselEl.removeEventListener('touchstart', pauseAutoplay);
-      carouselEl.removeEventListener('touchmove', pauseAutoplay);
-      carouselEl.removeEventListener('touchend', startAutoplay);
+      carouselEl.removeEventListener('mouseover', pauseTimer);
+      carouselEl.removeEventListener('mousemove', pauseTimer);
+      carouselEl.removeEventListener('mouseout', startTimer);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
     };
   }, [
     carouselElRef,
+    autoplay,
     disableAutoplayOnInteraction,
-    pauseAutoplay,
-    startAutoplay
+    pauseTimer,
+    startTimer
   ]);
+
+  useEffect(() => {
+    onAutoplayLeftTimeChange?.(leftTime);
+  }, [leftTime, onAutoplayLeftTimeChange]);
+
+  useEffect(() => {
+    if (leftTime !== 0) return;
+    if (noNextSlide) {
+      pauseTimer();
+    } else {
+      goNextSlide();
+      resetTimer();
+      startTimer();
+    }
+  }, [leftTime, noNextSlide, pauseTimer, resetTimer, startTimer, goNextSlide]);
+};
+
+export const useCarousel = () => {
+  const value = useContext(CarouselContext);
+  if (!value) throw Error('CarouselContext value is null');
+  return value;
 };

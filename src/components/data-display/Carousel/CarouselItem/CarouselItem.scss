@@ -1,0 +1,7 @@
+@use '@/styles/mixins' as mixins;
+
+.JinniCarouselItem {
+  flex: 0 0 100%;
+  list-style: none;
+  @include mixins.no-highlight;
+}

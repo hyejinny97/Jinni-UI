@@ -280,7 +280,7 @@ export const CustomPopover: Story = {
       PopoverProps={{
         anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
         popoverOrigin: { horizontal: 'left', vertical: 'top' },
-        PopoverContentProps: { elevation: 15, round: 10 }
+        BoxProps: { elevation: 15, round: 10 }
       }}
       {...args}
     />
