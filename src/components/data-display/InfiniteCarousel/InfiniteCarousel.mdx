@@ -1,0 +1,88 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as InfiniteCarouselStories from './InfiniteCarousel.stories';
+
+<Meta of={InfiniteCarouselStories} />
+
+# InfiniteCarousel
+
+infinite loop을 도는 carousel
+
+## Import
+
+```js
+import {
+  InfiniteCarousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselDots,
+  CarouselDot,
+  CarouselFraction,
+  CarouselPrevButton,
+  CarouselNextButton,
+  CarouselProgress
+} from '@/components/data-display/InfiniteCarousel';
+```
+
+## Usage
+
+### Basic InfiniteCarousel
+
+<Canvas of={InfiniteCarouselStories.BasicInfiniteCarousel} />
+
+### Default value
+
+- `defaultValue`: 초기 active slide index (zero-based index)
+
+<Canvas of={InfiniteCarouselStories.DefaultValue} />
+
+### Navigation
+
+<Canvas of={InfiniteCarouselStories.Navigation} />
+
+### Dots Pagination
+
+<Canvas of={InfiniteCarouselStories.DotsPagination} />
+
+### Fraction Pagination
+
+<Canvas of={InfiniteCarouselStories.FractionPagination} />
+
+### Progress
+
+<Canvas of={InfiniteCarouselStories.Progress} />
+
+### Carousel props
+
+- `InfiniteCarousel` 컴포넌트는 내부적으로 `Carousel` 컴포넌트를 반환하므로, `Carousel` 의 일부 props 사용 가능
+
+#### 1. Orientation
+
+<Canvas of={InfiniteCarouselStories.Orientation} />
+
+#### 2. Autoplay
+
+<Canvas of={InfiniteCarouselStories.Autoplay} />
+
+#### 3. Spacing
+
+<Canvas of={InfiniteCarouselStories.Spacing} />
+
+#### 4. Slide per view
+
+<Canvas of={InfiniteCarouselStories.SlidePerView} />
+
+#### 5. Slide Alignment
+
+<Canvas of={InfiniteCarouselStories.SlideAlignment} />
+
+#### 6. Snap free
+
+<Canvas of={InfiniteCarouselStories.SnapFree} />
+
+#### 7. Swipe effect
+
+<Canvas of={InfiniteCarouselStories.SwipeEffect} />
+
+## Props
+
+<ArgTypes of={InfiniteCarouselStories} sort="alpha" />

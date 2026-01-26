@@ -6,6 +6,7 @@ import {
   LinearProgressProps
 } from '@/components/feedback/LinearProgress';
 import { useCarousel } from '../Carousel.hooks';
+import { useInfiniteCarousel } from '@/components/data-display/InfiniteCarousel';
 
 type CarouselProgressProps<T extends AsType = 'div'> =
   LinearProgressProps<T> & {
@@ -15,7 +16,15 @@ type CarouselProgressProps<T extends AsType = 'div'> =
 const CarouselProgress = <T extends AsType = 'div'>(
   props: CarouselProgressProps<T>
 ) => {
-  const { count, slideValue, orientation: carouselOrientation } = useCarousel();
+  const infiniteCarouselContext = useInfiniteCarousel();
+  const carouselContext = useCarousel();
+  const {
+    count,
+    slideValue,
+    orientation: carouselOrientation
+  } = infiniteCarouselContext
+    ? { ...carouselContext, ...infiniteCarouselContext }
+    : carouselContext;
   const {
     orientation = carouselOrientation,
     position = orientation === 'horizontal' ? 'top' : 'left',

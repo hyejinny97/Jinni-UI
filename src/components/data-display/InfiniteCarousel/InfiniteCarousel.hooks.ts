@@ -4,8 +4,7 @@ import {
   useLayoutEffect,
   useRef,
   useEffect,
-  useCallback,
-  useMemo
+  useCallback
 } from 'react';
 import InfiniteCarouselContext from './InfiniteCarousel.contexts';
 import { InfiniteCarouselProps } from './InfiniteCarousel';
@@ -64,15 +63,11 @@ export const useAddItems = ({
   infiniteCarouselElRef,
   children,
   orientation,
-  spacing,
   slideAlignment,
   defaultValue,
   handleChange
 }: UseAddItemsProps) => {
-  const baseCarouselItems = useMemo(
-    () => findCarouselItems(children),
-    [children]
-  );
+  const baseCarouselItems = findCarouselItems(children);
   const baseCount = baseCarouselItems.length;
   const [itemsAddedToFront, setItemsAddedToFront] = useState<
     CarouselItemElement[]
@@ -110,14 +105,14 @@ export const useAddItems = ({
         orientation === 'horizontal' ? 'clientWidth' : 'clientHeight';
       const sizeToFill =
         slideAlignment === 'start'
-          ? carouselContainerEl[clientSize]
-          : carouselContainerEl[clientSize] - firstItem[clientSize] / 2;
+          ? lastItem[clientSize]
+          : (carouselContainerEl[clientSize] + lastItem[clientSize]) / 2;
 
       let itemsNmToAdded = 0;
       let sizeAddedItems = 0;
       while (sizeToFill >= sizeAddedItems) {
         const slideIdx = baseCount - 1 - (itemsNmToAdded % baseCount);
-        sizeAddedItems += baseItems[slideIdx][clientSize] + spacing;
+        sizeAddedItems += baseItems[slideIdx][clientSize];
         itemsNmToAdded += 1;
       }
 
@@ -138,13 +133,13 @@ export const useAddItems = ({
       const sizeToFill =
         slideAlignment === 'start'
           ? carouselContainerEl[clientSize]
-          : carouselContainerEl[clientSize] - lastItem[clientSize] / 2;
+          : (carouselContainerEl[clientSize] + firstItem[clientSize]) / 2;
 
       let itemsNmToAdded = 0;
       let sizeAddedItems = 0;
       while (sizeToFill >= sizeAddedItems) {
         const slideIdx = itemsNmToAdded % baseCount;
-        sizeAddedItems += baseItems[slideIdx][clientSize] + spacing;
+        sizeAddedItems += baseItems[slideIdx][clientSize];
         itemsNmToAdded += 1;
       }
 
@@ -158,14 +153,22 @@ export const useAddItems = ({
           };
         });
     };
+    const setItems = () => {
+      const frontItems = generateItemsAddedToFront();
+      const backItems = generateItemsAddedToBack();
+      setItemsAddedToFront(frontItems);
+      setItemsAddedToBack(backItems);
+      handleChange(defaultValue + frontItems.length);
+    };
 
-    const frontItems = generateItemsAddedToFront();
-    const backItems = generateItemsAddedToBack();
-    setItemsAddedToFront(frontItems);
-    setItemsAddedToBack(backItems);
-    handleChange(defaultValue + frontItems.length);
+    setItems();
+    const resizeObserver = new ResizeObserver(setItems);
+    resizeObserver.observe(carouselContainerEl);
+    return () => {
+      resizeObserver.disconnect();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [baseCarouselItems]);
+  }, []);
 
   return {
     itemsAddedToFront,
@@ -237,110 +240,109 @@ export const useCarouselJumpOnLimit = ({
     const carouselItemElList = carouselContentEl.querySelectorAll<HTMLElement>(
       ':scope > .JinniCarouselItem'
     );
-    const frontLimitItemIdx = itemsAddedToBack.length - 1;
+    const frontLimitItemIdx = itemsAddedToFront.length - 1;
     const backLimitItemIdx = itemsAddedToFront.length + baseCount;
     const frontLimitItem = carouselItemElList[frontLimitItemIdx];
     const backLimitItem = carouselItemElList[backLimitItemIdx];
-
-    if (
-      carouselValue === frontLimitItemIdx ||
-      carouselValue === backLimitItemIdx
-    ) {
-      freezeCarouselValueRef.current = true;
-    }
 
     const offsetAxis =
       orientation === 'horizontal' ? 'offsetLeft' : 'offsetTop';
     const scrollAxis =
       orientation === 'horizontal' ? 'scrollLeft' : 'scrollTop';
-    const rectStart = orientation === 'horizontal' ? 'left' : 'top';
-    const rectEnd = orientation === 'horizontal' ? 'right' : 'bottom';
-    const rectSize = orientation === 'horizontal' ? 'width' : 'height';
+    const clientSize =
+      orientation === 'horizontal' ? 'clientWidth' : 'clientHeight';
 
-    const frontIntersectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const { boundingClientRect, rootBounds } = entry;
-          if (rootBounds) {
-            let isCrossing = false;
-            switch (slideAlignment) {
-              case 'start': {
-                isCrossing =
-                  boundingClientRect[rectStart] < rootBounds[rectEnd] &&
-                  rootBounds[rectEnd] <= boundingClientRect[rectEnd];
-                break;
-              }
-              case 'center': {
-                const targetCenter =
-                  boundingClientRect[rectStart] +
-                  boundingClientRect[rectSize] / 2;
-                const rootCenter =
-                  rootBounds[rectStart] + rootBounds[rectSize] / 2;
-                isCrossing =
-                  rootCenter <= targetCenter &&
-                  boundingClientRect[rectStart] < rootCenter;
-              }
-            }
-            if (isCrossing) {
-              freezeCarouselValueRef.current = false;
-              const itemIdxToJump = frontLimitItemIdx + baseCount;
-              carouselContainerEl[scrollAxis] =
-                carouselItemElList[itemIdxToJump][offsetAxis];
-              handleChange(itemIdxToJump);
-            }
-          }
-        });
-      },
-      {
-        root: carouselContainerEl,
-        threshold: Array.from({ length: 101 }, (_, i) => i / 100)
-      }
-    );
-    const backIntersectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const { boundingClientRect, rootBounds } = entry;
-          if (rootBounds) {
-            let isCrossing = false;
-            switch (slideAlignment) {
-              case 'start': {
-                isCrossing =
-                  boundingClientRect[rectStart] <= rootBounds[rectStart] &&
-                  rootBounds[rectStart] < boundingClientRect[rectEnd];
-                break;
-              }
-              case 'center': {
-                const targetCenter =
-                  boundingClientRect[rectStart] +
-                  boundingClientRect[rectSize] / 2;
-                const rootCenter =
-                  rootBounds[rectStart] + rootBounds[rectSize] / 2;
-                isCrossing =
-                  targetCenter <= rootCenter &&
-                  rootCenter < boundingClientRect[rectEnd];
-              }
-            }
-            if (isCrossing) {
-              freezeCarouselValueRef.current = false;
-              const itemIdxToJump = backLimitItemIdx - baseCount;
-              carouselContainerEl[scrollAxis] =
-                carouselItemElList[itemIdxToJump][offsetAxis];
-              handleChange(itemIdxToJump);
-            }
-          }
-        });
-      },
-      {
-        root: carouselContainerEl,
-        threshold: Array.from({ length: 101 }, (_, i) => i / 100)
-      }
-    );
+    const frontLimitItemStart = frontLimitItem[offsetAxis];
+    const frontLimitItemCenter =
+      frontLimitItemStart + frontLimitItem[clientSize] / 2;
+    const backLimitItemStart = backLimitItem[offsetAxis];
+    const backLimitItemEnd = backLimitItemStart + backLimitItem[clientSize];
+    const backLimitItemCenter =
+      backLimitItemStart + backLimitItem[clientSize] / 2;
 
-    frontIntersectionObserver.observe(frontLimitItem);
-    backIntersectionObserver.observe(backLimitItem);
+    switch (slideAlignment) {
+      case 'start': {
+        if (
+          carouselContainerEl[scrollAxis] ===
+          carouselItemElList[carouselValue][offsetAxis]
+        ) {
+          freezeCarouselValueRef.current = false;
+        }
+        break;
+      }
+      case 'center': {
+        const containerSize = carouselContainerEl[clientSize];
+        const activeItemSize = carouselItemElList[carouselValue][clientSize];
+        if (
+          carouselContainerEl[scrollAxis] ===
+          Math.round(
+            carouselItemElList[carouselValue][offsetAxis] -
+              (containerSize - activeItemSize) / 2
+          )
+        ) {
+          freezeCarouselValueRef.current = false;
+        }
+      }
+    }
+
+    const handleScroll = () => {
+      const containerStart = carouselContainerEl[scrollAxis];
+      const containerCenter =
+        containerStart + carouselContainerEl[clientSize] / 2;
+
+      let isCrossingFrontLimitItem = false;
+      let isCrossingBackLimitItem = false;
+      switch (slideAlignment) {
+        case 'start': {
+          isCrossingFrontLimitItem = containerStart <= frontLimitItemStart;
+          isCrossingBackLimitItem =
+            backLimitItemStart <= containerStart &&
+            containerStart < backLimitItemEnd;
+          break;
+        }
+        case 'center': {
+          isCrossingFrontLimitItem =
+            containerCenter <= Math.round(frontLimitItemCenter) &&
+            frontLimitItemStart < containerCenter;
+          isCrossingBackLimitItem =
+            Math.round(backLimitItemCenter) <= containerCenter &&
+            containerCenter < backLimitItemEnd;
+        }
+      }
+
+      if (isCrossingFrontLimitItem || isCrossingBackLimitItem) {
+        freezeCarouselValueRef.current = false;
+        const itemIdxToJump = isCrossingFrontLimitItem
+          ? frontLimitItemIdx + baseCount
+          : backLimitItemIdx - baseCount;
+        switch (slideAlignment) {
+          case 'start': {
+            carouselContainerEl[scrollAxis] =
+              carouselItemElList[itemIdxToJump][offsetAxis];
+            break;
+          }
+          case 'center': {
+            carouselContainerEl[scrollAxis] =
+              carouselItemElList[itemIdxToJump][offsetAxis] -
+              (carouselContainerEl[clientSize] -
+                carouselItemElList[itemIdxToJump][clientSize]) /
+                2;
+          }
+        }
+        handleChange(itemIdxToJump);
+      } else {
+        freezeCarouselValueRef.current = true;
+      }
+    };
+    const handleScrollEnd = () => {
+      freezeCarouselValueRef.current = false;
+    };
+
+    carouselContainerEl.addEventListener('scroll', handleScroll);
+    carouselContainerEl.addEventListener('scrollend', handleScrollEnd);
     return () => {
-      frontIntersectionObserver.disconnect();
-      backIntersectionObserver.disconnect();
+      carouselContainerEl.removeEventListener('scroll', handleScroll);
+      carouselContainerEl.removeEventListener('scrollend', handleScrollEnd);
     };
   }, [
     infiniteCarouselElRef,
