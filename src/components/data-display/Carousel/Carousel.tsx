@@ -5,6 +5,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import {
   useSlideValue,
+  useScrollLimit,
   useSwipe,
   useScrollToActiveSlide,
   useAutoplay
@@ -86,8 +87,16 @@ const Carousel = forwardRef(
       value,
       onChange
     });
-    const { isSwiping, scrollEndLimitRef } = useSwipe({
+    const { scrollStartLimit, scrollEndLimit } = useScrollLimit({
       carouselElRef,
+      orientation,
+      slideAlignment,
+      children
+    });
+    const { isSwiping } = useSwipe({
+      carouselElRef,
+      scrollStartLimit,
+      scrollEndLimit,
       goSlide,
       orientation,
       slideAlignment,
@@ -122,7 +131,7 @@ const Carousel = forwardRef(
           noPrevSlide,
           noNextSlide,
           isSwiping,
-          scrollEndLimitRef,
+          scrollEndLimit,
           scrollToActiveSlide,
           enableScrollToActiveSlide,
           orientation,

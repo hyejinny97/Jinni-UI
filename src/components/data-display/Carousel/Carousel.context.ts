@@ -10,7 +10,7 @@ type CarouselContextProps = {
   noPrevSlide: boolean;
   noNextSlide: boolean;
   isSwiping: boolean;
-  scrollEndLimitRef: React.MutableRefObject<number>;
+  scrollEndLimit: number;
   scrollToActiveSlide: boolean;
   enableScrollToActiveSlide: () => void;
 } & Required<Pick<CarouselProps, 'orientation' | 'spacing' | 'slideAlignment'>>;

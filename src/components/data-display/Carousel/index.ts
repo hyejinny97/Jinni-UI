@@ -7,3 +7,7 @@ export { CarouselPrevButton } from './CarouselPrevButton';
 export { CarouselNextButton } from './CarouselNextButton';
 export { CarouselProgress } from './CarouselProgress';
 export type { CarouselProps } from './Carousel';
+export type {
+  CarouselContentProps,
+  CarouselItemElement
+} from './CarouselContent';

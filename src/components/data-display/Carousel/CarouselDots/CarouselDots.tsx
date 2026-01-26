@@ -4,6 +4,7 @@ import { AsType } from '@/types/default-component-props';
 import { Dots, DotsProps, Dot } from '@/components/navigation/Dots';
 import { useCarousel } from '../Carousel.hooks';
 import { NavigationPaginationPositionType } from '../Carousel.types';
+import { useInfiniteCarousel } from '@/components/data-display/InfiniteCarousel';
 
 type CarouselDotsProps<T extends AsType = 'div'> = Omit<
   DotsProps<T>,
@@ -17,13 +18,18 @@ export const CarouselDot = Dot;
 const CarouselDots = <T extends AsType = 'div'>(
   props: CarouselDotsProps<T>
 ) => {
+  const infiniteCarouselContext = useInfiniteCarousel();
+  const carouselContext = useCarousel();
   const {
     count,
     slideValue,
     goSlide,
     orientation: carouselOrientation,
     enableScrollToActiveSlide
-  } = useCarousel();
+  } = infiniteCarouselContext
+    ? { ...carouselContext, ...infiniteCarouselContext }
+    : carouselContext;
+
   const {
     orientation = carouselOrientation,
     position = orientation === 'horizontal' ? 'bottom-center' : 'center-end',
@@ -42,7 +48,11 @@ const CarouselDots = <T extends AsType = 'div'>(
 
   const handleChange: DotsProps['onChange'] = (_, value) => {
     enableScrollToActiveSlide();
-    goSlide(value as number);
+    const valueNm = value as number;
+    const newValue = infiniteCarouselContext
+      ? infiniteCarouselContext.transformToCarouselItemIdx(valueNm)
+      : valueNm;
+    goSlide(newValue);
   };
 
   return (

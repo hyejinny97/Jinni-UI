@@ -10,6 +10,13 @@ type UseSlideValueProps = Pick<CarouselProps, 'value' | 'onChange'> &
     count: number;
   };
 
+type UseScrollLimitProps = Required<
+  Pick<CarouselProps, 'orientation' | 'slideAlignment'>
+> &
+  Pick<CarouselProps, 'children'> & {
+    carouselElRef: React.RefObject<HTMLElement>;
+  };
+
 type UseSwipeProps = Required<
   Pick<
     CarouselProps,
@@ -21,6 +28,8 @@ type UseSwipeProps = Required<
     'disableBounceEffect' | 'disableSlipEffect' | 'disableSwipeEffect'
   > & {
     carouselElRef: React.RefObject<HTMLElement>;
+    scrollStartLimit: number;
+    scrollEndLimit: number;
     goSlide: (newValue: number) => void;
     disableScrollToActiveSlide: () => void;
   };
@@ -90,27 +99,20 @@ export const useSlideValue = ({
   };
 };
 
-export const useSwipe = ({
+export const useScrollLimit = ({
   carouselElRef,
-  goSlide,
   orientation,
   slideAlignment,
-  disableBounceEffect,
-  snapMode,
-  disableSlipEffect,
-  slipSize,
-  disableScrollToActiveSlide,
-  disableSwipeEffect
-}: UseSwipeProps) => {
-  const [isSwiping, setSwiping] = useState<boolean>(false);
-  const scrollEndLimitRef = useRef<number>(Number.MAX_VALUE);
-  const prevTimeStampRef = useRef<number>(0);
-  const velocityRef = useRef<number>(0);
-  const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
+  children
+}: UseScrollLimitProps) => {
+  const [scrollStartLimit, setScrollStartLimit] = useState<number>(0);
+  const [scrollEndLimit, setScrollEndLimit] = useState<number>(
+    Number.MAX_VALUE
+  );
 
   useEffect(() => {
     const carouselEl = carouselElRef.current;
-    if (!carouselEl || disableSwipeEffect) return;
+    if (!carouselEl) return;
 
     const carouselContainerEl = carouselEl.querySelector<HTMLElement>(
       ':scope > .JinniCarouselContainer'
@@ -125,12 +127,11 @@ export const useSwipe = ({
     const carouselItemElList = carouselContentEl.querySelectorAll<HTMLElement>(
       ':scope > .JinniCarouselItem'
     );
-    const reversedCarouselItemElList = [...carouselItemElList].reverse();
     const maxItemIdx = carouselItemElList.length - 1;
     const firstItem = carouselItemElList[0];
     const lastItem = carouselItemElList[maxItemIdx];
 
-    const calculateScrollLimit = () => {
+    const setScrollLimit = () => {
       const offsetAxis =
         orientation === 'horizontal' ? 'offsetLeft' : 'offsetTop';
       const clientSize =
@@ -155,10 +156,56 @@ export const useSwipe = ({
             (carouselContainerEl[clientSize] - lastItem[clientSize]) / 2;
         }
       }
-      return { scrollStartLimit, scrollEndLimit };
+      setScrollStartLimit(scrollStartLimit);
+      setScrollEndLimit(scrollEndLimit);
     };
-    const { scrollStartLimit, scrollEndLimit } = calculateScrollLimit();
-    scrollEndLimitRef.current = scrollEndLimit;
+    setScrollLimit();
+  }, [carouselElRef, orientation, slideAlignment, children]);
+
+  return {
+    scrollStartLimit,
+    scrollEndLimit
+  };
+};
+
+export const useSwipe = ({
+  carouselElRef,
+  scrollStartLimit,
+  scrollEndLimit,
+  goSlide,
+  orientation,
+  slideAlignment,
+  disableBounceEffect,
+  snapMode,
+  disableSlipEffect,
+  slipSize,
+  disableScrollToActiveSlide,
+  disableSwipeEffect
+}: UseSwipeProps) => {
+  const [isSwiping, setSwiping] = useState<boolean>(false);
+  const prevTimeStampRef = useRef<number>(0);
+  const velocityRef = useRef<number>(0);
+  const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const carouselEl = carouselElRef.current;
+    if (!carouselEl || disableSwipeEffect) return;
+
+    const carouselContainerEl = carouselEl.querySelector<HTMLElement>(
+      ':scope > .JinniCarouselContainer'
+    );
+    if (!carouselContainerEl) return;
+
+    const carouselContentEl = carouselContainerEl.querySelector<HTMLElement>(
+      ':scope > .JinniCarouselContent'
+    );
+    if (!carouselContentEl) return;
+
+    const carouselItemElList = carouselContentEl.querySelectorAll<HTMLElement>(
+      ':scope > .JinniCarouselItem'
+    );
+    const reversedCarouselItemElList = [...carouselItemElList].reverse();
+    const maxItemIdx = carouselItemElList.length - 1;
 
     const checkScrollOverLimits = () => {
       const scrollAxis =
@@ -368,6 +415,8 @@ export const useSwipe = ({
     };
   }, [
     carouselElRef,
+    scrollStartLimit,
+    scrollEndLimit,
     isSwiping,
     goSlide,
     orientation,
@@ -380,7 +429,7 @@ export const useSwipe = ({
     disableSwipeEffect
   ]);
 
-  return { isSwiping, scrollEndLimitRef };
+  return { isSwiping };
 };
 
 export const useAutoplay = ({

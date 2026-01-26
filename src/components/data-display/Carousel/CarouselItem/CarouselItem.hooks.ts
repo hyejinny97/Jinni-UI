@@ -8,7 +8,7 @@ export const useScrollBySlideValue = () => {
     isSwiping,
     orientation,
     slideAlignment,
-    scrollEndLimitRef,
+    scrollEndLimit,
     scrollToActiveSlide
   } = useCarousel();
   const { carouselContainerElRef, itemValue } = useCarouselContent();
@@ -20,7 +20,6 @@ export const useScrollBySlideValue = () => {
     ({ behavior }: { behavior: 'instant' | 'smooth' }) => {
       const carouselContainerEl = carouselContainerElRef.current;
       const carouselItemEl = carouselItemElRef.current;
-      const scrollEndLimit = scrollEndLimitRef.current;
       if (!carouselContainerEl || !carouselItemEl) return;
 
       const scrollAxis = orientation === 'horizontal' ? 'left' : 'top';
@@ -48,7 +47,7 @@ export const useScrollBySlideValue = () => {
         });
       }
     },
-    [carouselContainerElRef, orientation, slideAlignment, scrollEndLimitRef]
+    [carouselContainerElRef, orientation, slideAlignment, scrollEndLimit]
   );
 
   useLayoutEffect(() => {
