@@ -278,8 +278,16 @@ const ListWithCheckboxTemplate = () => {
               style={{ gap: '10px' }}
               onClick={() => handleClick(idx)}
             >
-              <Checkbox checked={checkedItems.includes(idx)} />
-              <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
+              <Checkbox
+                checked={checkedItems.includes(idx)}
+                aria-labelledby={`list-item-${idx}`}
+              />
+              <Text
+                id={`list-item-${idx}`}
+                className="typo-body-medium"
+                noMargin
+                style={{ flex: 1 }}
+              >
                 {title}
               </Text>
             </ListItemButton>
@@ -321,12 +329,18 @@ const ListWithSwitchTemplate = () => {
           {ITEMS.map(({ title, icon }, idx) => (
             <ListItem key={title} style={{ gap: '10px' }}>
               {icon}
-              <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
+              <Text
+                id={`list-item-${idx}`}
+                className="typo-body-medium"
+                noMargin
+                style={{ flex: 1 }}
+              >
                 {title}
               </Text>
               <Switch
                 checked={checkedItems.includes(idx)}
                 onClick={() => handleClick(idx)}
+                aria-labelledby={`list-item-${idx}`}
               />
             </ListItem>
           ))}
@@ -415,6 +429,7 @@ export const ListWithIconAndAvatar: Story = {
                 {title}
               </Text>
               <ButtonBase
+                aria-label="delete"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -451,7 +466,7 @@ export const ClickableList: Story = {
           backgroundColor: 'white'
         }}
       >
-        <List as="nav" {...args}>
+        <List as="nav" aria-label="item navigation" {...args}>
           {ITEMS.map(({ title, icon, disabled }) => (
             <ListItemButton
               key={title}
@@ -707,8 +722,16 @@ export const ListWithCheckbox: Story = {
               style={{ gap: '10px' }}
               onClick={() => handleClick(idx)}
             >
-              <Checkbox checked={checkedItems.includes(idx)} />
-              <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
+              <Checkbox
+                checked={checkedItems.includes(idx)}
+                aria-labelledby={\`list-item-\${idx}\`}
+              />
+              <Text
+                id={\`list-item-\${idx}\`}
+                className="typo-body-medium"
+                noMargin
+                style={{ flex: 1 }}
+              >
                 {title}
               </Text>
             </ListItemButton>
@@ -759,12 +782,18 @@ export const ListWithSwitch: Story = {
           {ITEMS.map(({ title, icon }, idx) => (
             <ListItem key={title} style={{ gap: '10px' }}>
               {icon}
-              <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
+              <Text
+                id={\`list-item-\${idx}\`}
+                className="typo-body-medium"
+                noMargin
+                style={{ flex: 1 }}
+              >
                 {title}
               </Text>
               <Switch
                 checked={checkedItems.includes(idx)}
                 onClick={() => handleClick(idx)}
+                aria-labelledby={\`list-item-\${idx}\`}
               />
             </ListItem>
           ))}
@@ -772,8 +801,7 @@ export const ListWithSwitch: Story = {
       </Box>
     </Box>
   );
-};
-`.trim()
+};`.trim()
       }
     }
   }
