@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ListItem } from '.';
+import ListItem from './ListItem';
 
 const meta: Meta<typeof ListItem> = {
   component: ListItem,
@@ -7,7 +7,7 @@ const meta: Meta<typeof ListItem> = {
     children: {
       description: 'list item content',
       table: {
-        type: { summary: `node` }
+        type: { summary: `React.ReactNode` }
       }
     }
   }

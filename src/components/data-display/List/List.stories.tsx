@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import React, { useState, Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import { List, ListItem, ListItemButton } from '.';
 import { Avatar } from '@/components/data-display/Avatar';
 import { Text } from '@/components/general/Text';
@@ -10,9 +10,10 @@ import { MailIcon } from '@/components/icons/MailIcon';
 import { FavoriteIcon } from '@/components/icons/FavoriteIcon';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
-import { StyleType } from '@/types/style';
 import { Checkbox } from '@/components/data-entry/Checkbox';
 import { Switch } from '@/components/data-entry/Switch';
+import { Box } from '@/components/layout/Box';
+import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof List> = {
   component: List,
@@ -20,7 +21,15 @@ const meta: Meta<typeof List> = {
     children: {
       description: 'list items',
       table: {
-        type: { summary: `node` }
+        type: { summary: `React.ReactNode` }
+      }
+    },
+    dense: {
+      description:
+        'true이면, ListItem과 ListItemButton의 padding과 font-size가 작아짐',
+      table: {
+        type: { summary: `boolean` },
+        defaultValue: { summary: 'false' }
       }
     }
   }
@@ -34,21 +43,21 @@ const ITEMS = [
     title: 'Item 1',
     description: 'This is item 1.',
     avatar: 'A',
-    icon: <HomeIcon />,
+    icon: <HomeIcon color="gray-600" />,
     disabled: false
   },
   {
     title: 'Item 2',
     description: 'This is item 2.',
     avatar: 'B',
-    icon: <MailIcon />,
+    icon: <MailIcon color="gray-600" />,
     disabled: false
   },
   {
     title: 'Item 3',
     description: 'This is item 3.',
     avatar: 'C',
-    icon: <FavoriteIcon />,
+    icon: <FavoriteIcon color="gray-600" />,
     disabled: true
   }
 ];
@@ -112,37 +121,6 @@ const ITEMS_GROUP = [
   }
 ];
 
-const ListTemplate = ({
-  children,
-  style,
-  ...props
-}: {
-  children: React.ReactNode;
-  style?: StyleType;
-}) => {
-  return (
-    <List style={{ backgroundColor: 'gray-50', ...style }} {...props}>
-      {children}
-    </List>
-  );
-};
-
-const SubListTemplate = () => {
-  return (
-    <ListTemplate style={{ padding: 0 }}>
-      {SUB_ITEMS.map(({ title }) => (
-        <ListItem key={title} style={{ padding: 0 }}>
-          <ListItemButton href="#" style={{ gap: '10px', paddingLeft: '50px' }}>
-            <Text className="typo-body-medium" style={{ flex: 1 }}>
-              {title}
-            </Text>
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </ListTemplate>
-  );
-};
-
 const NestedListTemplate = () => {
   const [open, setOpen] = useState(false);
 
@@ -152,27 +130,60 @@ const NestedListTemplate = () => {
   const toggleIcon = open ? <ArrowUpIcon /> : <ArrowDownIcon />;
 
   return (
-    <ListTemplate>
-      {ITEMS.map(({ title, icon }, idx) => {
-        const isLastItem = idx === ITEMS.length - 1;
-        return (
-          <ListItem key={title} style={{ padding: 0 }}>
-            <ListItemButton
-              href={isLastItem ? undefined : '#'}
-              onClick={isLastItem ? toggle : undefined}
-              style={{ gap: '10px' }}
-            >
-              {icon}
-              <Text className="typo-body-medium" style={{ flex: 1 }}>
-                {title}
-              </Text>
-              {isLastItem && toggleIcon}
-            </ListItemButton>
-          </ListItem>
-        );
-      })}
-      {open && <SubListTemplate />}
-    </ListTemplate>
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List as="nav">
+          {ITEMS.map(({ title, icon }, idx) => {
+            const isLastItem = idx === ITEMS.length - 1;
+            return (
+              <ListItemButton
+                key={title}
+                style={{ gap: '10px' }}
+                {...(isLastItem ? { onClick: toggle } : { href: '#' })}
+              >
+                {icon}
+                <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
+                  {title}
+                </Text>
+                {isLastItem && toggleIcon}
+              </ListItemButton>
+            );
+          })}
+          {open && (
+            <List as="div" style={{ padding: 0 }}>
+              {SUB_ITEMS.map(({ title }) => (
+                <ListItemButton
+                  key={title}
+                  href="#"
+                  style={{ gap: '10px', paddingLeft: '50px' }}
+                >
+                  <Text
+                    className="typo-body-medium"
+                    noMargin
+                    style={{ flex: 1 }}
+                  >
+                    {title}
+                  </Text>
+                </ListItemButton>
+              ))}
+            </List>
+          )}
+        </List>
+      </Box>
+    </Box>
   );
 };
 
@@ -184,34 +195,52 @@ const SelectedListTemplate = () => {
   };
 
   return (
-    <ListTemplate>
-      {ITEMS.map(({ title, description, icon }, idx) => (
-        <ListItem key={title} style={{ padding: 0 }}>
-          <ListItemButton
-            selected={selectedItemIdx === idx}
-            onClick={() => handleClick(idx)}
-            style={{ gap: '10px', alignItems: 'start' }}
-          >
-            {icon}
-            <div
-              style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                rowGap: '5px'
-              }}
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List as="div">
+          {ITEMS.map(({ title, description, icon }, idx) => (
+            <ListItemButton
+              key={title}
+              selected={selectedItemIdx === idx}
+              onClick={() => handleClick(idx)}
+              style={{ gap: '10px', alignItems: 'start' }}
             >
-              <Text className="typo-body-medium" style={{ margin: '0' }}>
-                {title}
-              </Text>
-              <Text className="typo-label-medium" style={{ margin: '0' }}>
-                {description}
-              </Text>
-            </div>
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </ListTemplate>
+              {icon}
+              <Stack
+                spacing={5}
+                style={{
+                  flex: 1
+                }}
+              >
+                <Text className="typo-body-medium" noMargin>
+                  {title}
+                </Text>
+                <Text
+                  className="typo-label-medium"
+                  noMargin
+                  style={{ color: 'gray-500' }}
+                >
+                  {description}
+                </Text>
+              </Stack>
+            </ListItemButton>
+          ))}
+        </List>
+      </Box>
+    </Box>
   );
 };
 
@@ -227,24 +256,45 @@ const ListWithCheckboxTemplate = () => {
   };
 
   return (
-    <ListTemplate>
-      {ITEMS.map(({ title }, idx) => (
-        <ListItem key={title} style={{ padding: 0 }}>
-          <ListItemButton
-            style={{ gap: '10px' }}
-            onClick={() => handleClick(idx)}
-          >
-            <Checkbox checked={checkedItems.includes(idx)} />
-            <Text
-              className="typo-body-medium"
-              style={{ flex: 1, margin: '5px 0' }}
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List as="nav">
+          {ITEMS.map(({ title }, idx) => (
+            <ListItemButton
+              key={title}
+              style={{ gap: '10px' }}
+              onClick={() => handleClick(idx)}
             >
-              {title}
-            </Text>
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </ListTemplate>
+              <Checkbox
+                checked={checkedItems.includes(idx)}
+                aria-labelledby={`list-item-${idx}`}
+              />
+              <Text
+                id={`list-item-${idx}`}
+                className="typo-body-medium"
+                noMargin
+                style={{ flex: 1 }}
+              >
+                {title}
+              </Text>
+            </ListItemButton>
+          ))}
+        </List>
+      </Box>
+    </Box>
   );
 };
 
@@ -260,136 +310,499 @@ const ListWithSwitchTemplate = () => {
   };
 
   return (
-    <ListTemplate>
-      {ITEMS.map(({ title, icon }, idx) => (
-        <ListItem key={title} style={{ gap: '10px' }}>
-          {icon}
-          <Text
-            className="typo-body-medium"
-            style={{ flex: 1, margin: '5px 0' }}
-          >
-            {title}
-          </Text>
-          <Switch
-            checked={checkedItems.includes(idx)}
-            onClick={() => handleClick(idx)}
-          />
-        </ListItem>
-      ))}
-    </ListTemplate>
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List>
+          {ITEMS.map(({ title, icon }, idx) => (
+            <ListItem key={title} style={{ gap: '10px' }}>
+              {icon}
+              <Text
+                id={`list-item-${idx}`}
+                className="typo-body-medium"
+                noMargin
+                style={{ flex: 1 }}
+              >
+                {title}
+              </Text>
+              <Switch
+                checked={checkedItems.includes(idx)}
+                onClick={() => handleClick(idx)}
+                aria-labelledby={`list-item-${idx}`}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </Box>
   );
 };
 
 export const BasicList: Story = {
   render: (args) => (
-    <ListTemplate {...args}>
-      {ITEMS.map(({ title }) => (
-        <ListItem key={title}>{title}</ListItem>
-      ))}
-    </ListTemplate>
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List {...args}>
+          {ITEMS.map(({ title }) => (
+            <ListItem key={title}>{title}</ListItem>
+          ))}
+        </List>
+      </Box>
+    </Box>
+  )
+};
+
+export const Dense: Story = {
+  render: (args) => (
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List dense {...args}>
+          {ITEMS.map(({ title }) => (
+            <ListItem key={title}>{title}</ListItem>
+          ))}
+        </List>
+      </Box>
+    </Box>
   )
 };
 
 export const ListWithIconAndAvatar: Story = {
   render: (args) => (
-    <ListTemplate {...args}>
-      {ITEMS.map(({ title, avatar }) => (
-        <ListItem key={title} style={{ gap: '10px' }}>
-          <Avatar size="xs">{avatar}</Avatar>
-          <Text
-            className="typo-body-medium"
-            style={{ flex: 1, margin: '5px 0' }}
-          >
-            {title}
-          </Text>
-          <ButtonBase
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              padding: '5px',
-              height: 'max-content',
-              aspectRatio: '1/1',
-              borderRadius: '50%'
-            }}
-          >
-            <TrashcanIcon />
-          </ButtonBase>
-        </ListItem>
-      ))}
-    </ListTemplate>
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List {...args}>
+          {ITEMS.map(({ title, avatar }) => (
+            <ListItem key={title} style={{ gap: '10px' }}>
+              <Avatar size="xs">{avatar}</Avatar>
+              <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
+                {title}
+              </Text>
+              <ButtonBase
+                aria-label="delete"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '5px',
+                  height: 'max-content',
+                  aspectRatio: '1/1',
+                  borderRadius: '50%'
+                }}
+              >
+                <TrashcanIcon />
+              </ButtonBase>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </Box>
   )
 };
 
 export const ClickableList: Story = {
   render: (args) => (
-    <ListTemplate {...args}>
-      {ITEMS.map(({ title, icon, disabled }) => (
-        <ListItem key={title} style={{ padding: 0 }}>
-          <ListItemButton style={{ gap: '10px' }} disabled={disabled}>
-            {icon}
-            <Text
-              className="typo-body-medium"
-              style={{ flex: 1, margin: '5px 0' }}
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List as="nav" aria-label="item navigation" {...args}>
+          {ITEMS.map(({ title, icon, disabled }) => (
+            <ListItemButton
+              key={title}
+              style={{ gap: '10px' }}
+              disabled={disabled}
             >
-              {title}
-            </Text>
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </ListTemplate>
+              {icon}
+              <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
+                {title}
+              </Text>
+            </ListItemButton>
+          ))}
+        </List>
+      </Box>
+    </Box>
   )
 };
 
 export const NestedList: Story = {
-  render: (args) => <NestedListTemplate {...args} />
+  render: () => <NestedListTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const NestedListTemplate = () => {
+  const [open, setOpen] = useState(false);
+
+  const toggle = () => {
+    setOpen((prev) => !prev);
+  };
+  const toggleIcon = open ? <ArrowUpIcon /> : <ArrowDownIcon />;
+
+  return (
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List as="nav">
+          {ITEMS.map(({ title, icon }, idx) => {
+            const isLastItem = idx === ITEMS.length - 1;
+            return (
+              <ListItemButton
+                key={title}
+                style={{ gap: '10px' }}
+                {...(isLastItem ? { onClick: toggle } : { href: '#' })}
+              >
+                {icon}
+                <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
+                  {title}
+                </Text>
+                {isLastItem && toggleIcon}
+              </ListItemButton>
+            );
+          })}
+          {open && (
+            <List as="div" style={{ padding: 0 }}>
+              {SUB_ITEMS.map(({ title }) => (
+                <ListItemButton
+                  key={title}
+                  href="#"
+                  style={{ gap: '10px', paddingLeft: '50px' }}
+                >
+                  <Text
+                    className="typo-body-medium"
+                    noMargin
+                    style={{ flex: 1 }}
+                  >
+                    {title}
+                  </Text>
+                </ListItemButton>
+              ))}
+            </List>
+          )}
+        </List>
+      </Box>
+    </Box>
+  );
+};
+`.trim()
+      }
+    }
+  }
 };
 
 export const SelectedList: Story = {
-  render: (args) => <SelectedListTemplate {...args} />
+  render: () => <SelectedListTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SelectedListTemplate = () => {
+  const [selectedItemIdx, setSelectedItemIdx] = useState(0);
+
+  const handleClick = (itemIdx: number) => {
+    setSelectedItemIdx(itemIdx);
+  };
+
+  return (
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List as="div">
+          {ITEMS.map(({ title, description, icon }, idx) => (
+            <ListItemButton
+              key={title}
+              selected={selectedItemIdx === idx}
+              onClick={() => handleClick(idx)}
+              style={{ gap: '10px', alignItems: 'start' }}
+            >
+              {icon}
+              <Stack
+                spacing={5}
+                style={{
+                  flex: 1
+                }}
+              >
+                <Text className="typo-body-medium" noMargin>
+                  {title}
+                </Text>
+                <Text
+                  className="typo-label-medium"
+                  noMargin
+                  style={{ color: 'gray-500' }}
+                >
+                  {description}
+                </Text>
+              </Stack>
+            </ListItemButton>
+          ))}
+        </List>
+      </Box>
+    </Box>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const ListWithLabel: Story = {
   render: (args) => (
-    <ListTemplate
+    <Box
       style={{
-        position: 'relative',
-        height: '200px',
-        overflow: 'auto',
-        padding: 0
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
       }}
-      {...args}
     >
-      {ITEMS_GROUP.map(({ label, items }) => (
-        <Fragment key={label}>
-          <ListItem
-            className="typo-title-medium"
-            style={{
-              position: 'sticky',
-              top: 0,
-              left: 0,
-              zIndex: 1,
-              backgroundColor: 'gray-100'
-            }}
-          >
-            {label}
-          </ListItem>
-          {items.map(({ title }) => (
-            <ListItem key={title} style={{ padding: 0 }}>
-              <ListItemButton className="typo-body-medium">
-                {title}
-              </ListItemButton>
-            </ListItem>
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List
+          as="nav"
+          style={{
+            position: 'relative',
+            height: '188px',
+            overflow: 'auto',
+            padding: 0
+          }}
+          {...args}
+        >
+          {ITEMS_GROUP.map(({ label, items }) => (
+            <Fragment key={label}>
+              <ListItem
+                as="div"
+                className="typo-title-medium"
+                style={{
+                  position: 'sticky',
+                  top: 0,
+                  left: 0,
+                  zIndex: 1,
+                  backgroundColor: 'gray-500',
+                  color: 'white'
+                }}
+              >
+                {label}
+              </ListItem>
+              {items.map(({ title }) => (
+                <ListItemButton key={title} className="typo-body-medium">
+                  {title}
+                </ListItemButton>
+              ))}
+            </Fragment>
           ))}
-        </Fragment>
-      ))}
-    </ListTemplate>
+        </List>
+      </Box>
+    </Box>
   )
 };
 
 export const ListWithCheckbox: Story = {
-  render: (args) => <ListWithCheckboxTemplate {...args} />
+  render: () => <ListWithCheckboxTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ListWithCheckboxTemplate = () => {
+  const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
+
+  const handleClick = (itemIdx: number) => {
+    if (checkedItems.includes(itemIdx)) {
+      setCheckedItems((prev) => prev.filter((item) => itemIdx !== item));
+    } else {
+      setCheckedItems((prev) => [...prev, itemIdx]);
+    }
+  };
+
+  return (
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List as="nav">
+          {ITEMS.map(({ title }, idx) => (
+            <ListItemButton
+              key={title}
+              style={{ gap: '10px' }}
+              onClick={() => handleClick(idx)}
+            >
+              <Checkbox
+                checked={checkedItems.includes(idx)}
+                aria-labelledby={\`list-item-\${idx}\`}
+              />
+              <Text
+                id={\`list-item-\${idx}\`}
+                className="typo-body-medium"
+                noMargin
+                style={{ flex: 1 }}
+              >
+                {title}
+              </Text>
+            </ListItemButton>
+          ))}
+        </List>
+      </Box>
+    </Box>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const ListWithSwitch: Story = {
-  render: (args) => <ListWithSwitchTemplate {...args} />
+  render: () => <ListWithSwitchTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ListWithSwitchTemplate = () => {
+  const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
+
+  const handleClick = (itemIdx: number) => {
+    if (checkedItems.includes(itemIdx)) {
+      setCheckedItems((prev) => prev.filter((item) => itemIdx !== item));
+    } else {
+      setCheckedItems((prev) => [...prev, itemIdx]);
+    }
+  };
+
+  return (
+    <Box
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '25px',
+        backgroundColor: 'gray-50'
+      }}
+    >
+      <Box
+        style={{
+          width: '300px',
+          backgroundColor: 'white'
+        }}
+      >
+        <List>
+          {ITEMS.map(({ title, icon }, idx) => (
+            <ListItem key={title} style={{ gap: '10px' }}>
+              {icon}
+              <Text
+                id={\`list-item-\${idx}\`}
+                className="typo-body-medium"
+                noMargin
+                style={{ flex: 1 }}
+              >
+                {title}
+              </Text>
+              <Switch
+                checked={checkedItems.includes(idx)}
+                onClick={() => handleClick(idx)}
+                aria-labelledby={\`list-item-\${idx}\`}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </Box>
+  );
+};`.trim()
+      }
+    }
+  }
 };
