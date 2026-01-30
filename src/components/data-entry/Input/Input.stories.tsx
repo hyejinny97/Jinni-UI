@@ -98,6 +98,8 @@ const PasswordTemplate = () => {
             padding: '3px',
             borderRadius: '50%'
           }}
+          aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 표시'}
+          aria-pressed={showPassword}
         >
           {showPassword ? (
             <VisibilityOffIcon color="gray-500" />
@@ -210,7 +212,7 @@ export const BasicInput: Story = {
             <TableRow>
               <TableCell align="center">'date'</TableCell>
               <TableCell align="center">
-                <Input type="date" {...args} />
+                <Input type="date" aria-label="날짜 선택" {...args} />
               </TableCell>
               <TableCell align="center">
                 <Input
@@ -218,6 +220,7 @@ export const BasicInput: Story = {
                   defaultValue="2025-05-13"
                   min="2025-05-03"
                   max="2025-05-20"
+                  aria-label="날짜 선택"
                   {...args}
                 />
               </TableCell>
@@ -225,12 +228,17 @@ export const BasicInput: Story = {
             <TableRow>
               <TableCell align="center">'datetime-local'</TableCell>
               <TableCell align="center">
-                <Input type="datetime-local" {...args} />
+                <Input
+                  type="datetime-local"
+                  aria-label="날짜 및 시간 선택"
+                  {...args}
+                />
               </TableCell>
               <TableCell align="center">
                 <Input
                   type="datetime-local"
                   defaultValue="2017-06-03T08:30"
+                  aria-label="날짜 및 시간 선택"
                   {...args}
                 />
               </TableCell>
@@ -238,84 +246,125 @@ export const BasicInput: Story = {
             <TableRow>
               <TableCell align="center">'email'</TableCell>
               <TableCell align="center">
-                <Input type="email" {...args} />
+                <Input type="email" aria-label="이메일 입력" {...args} />
               </TableCell>
               <TableCell align="center">
-                <Input type="email" defaultValue="1234@naver.com" {...args} />
+                <Input
+                  type="email"
+                  defaultValue="1234@naver.com"
+                  aria-label="이메일 입력"
+                  {...args}
+                />
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell align="center">'month'</TableCell>
               <TableCell align="center">
-                <Input type="month" {...args} />
+                <Input type="month" aria-label="달 선택" {...args} />
               </TableCell>
               <TableCell align="center">
-                <Input type="month" defaultValue="2025-05" {...args} />
+                <Input
+                  type="month"
+                  defaultValue="2025-05"
+                  aria-label="달 선택"
+                  {...args}
+                />
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell align="center">'number'</TableCell>
               <TableCell align="center">
-                <Input type="number" {...args} />
+                <Input type="number" aria-label="숫자 입력" {...args} />
               </TableCell>
               <TableCell align="center">
-                <Input type="number" defaultValue={3} {...args} />
+                <Input
+                  type="number"
+                  defaultValue={3}
+                  aria-label="숫자 입력"
+                  {...args}
+                />
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell align="center">'password'</TableCell>
               <TableCell align="center">
-                <Input type="password" {...args} />
+                <Input type="password" aria-label="비밀번호 입력" {...args} />
               </TableCell>
               <TableCell align="center">
-                <Input type="password" defaultValue="1234" {...args} />
+                <Input
+                  type="password"
+                  defaultValue="1234"
+                  aria-label="비밀번호 입력"
+                  {...args}
+                />
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell align="center">'search'</TableCell>
               <TableCell align="center">
-                <Input type="search" {...args} />
+                <Input type="search" aria-label="검색어 입력" {...args} />
               </TableCell>
               <TableCell align="center">
-                <Input type="search" defaultValue="프로그래밍이란" {...args} />
+                <Input
+                  type="search"
+                  defaultValue="프로그래밍이란"
+                  aria-label="검색어 입력"
+                  {...args}
+                />
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell align="center">'tel'</TableCell>
               <TableCell align="center">
-                <Input type="tel" {...args} />
+                <Input type="tel" aria-label="전화번호 입력" {...args} />
               </TableCell>
               <TableCell align="center">
-                <Input type="tel" defaultValue="123-456-7890" {...args} />
+                <Input
+                  type="tel"
+                  defaultValue="123-456-7890"
+                  aria-label="전화번호 입력"
+                  {...args}
+                />
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell align="center">'text'</TableCell>
               <TableCell align="center">
-                <Input type="text" {...args} />
+                <Input type="text" aria-label="텍스트 입력" {...args} />
               </TableCell>
               <TableCell align="center">
-                <Input type="text" defaultValue="텍스트" {...args} />
+                <Input
+                  type="text"
+                  defaultValue="텍스트"
+                  aria-label="텍스트 입력"
+                  {...args}
+                />
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell align="center">'time'</TableCell>
               <TableCell align="center">
-                <Input type="time" {...args} />
+                <Input type="time" aria-label="시간 선택" {...args} />
               </TableCell>
               <TableCell align="center">
-                <Input type="time" defaultValue="08:30" {...args} />
+                <Input
+                  type="time"
+                  defaultValue="08:30"
+                  aria-label="시간 선택"
+                  {...args}
+                />
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell align="center">'url'</TableCell>
               <TableCell align="center">
-                <Input type="url" {...args} />
+                <Input type="url" aria-label="url 입력" {...args} />
               </TableCell>
               <TableCell align="center">
                 <Input
                   type="url"
                   defaultValue="https://example.com"
+                  aria-label="url 입력"
                   {...args}
                 />
               </TableCell>
@@ -323,10 +372,15 @@ export const BasicInput: Story = {
             <TableRow>
               <TableCell align="center">'week'</TableCell>
               <TableCell align="center">
-                <Input type="week" {...args} />
+                <Input type="week" aria-label="주 선택" {...args} />
               </TableCell>
               <TableCell align="center">
-                <Input type="week" defaultValue="2018-W18" {...args} />
+                <Input
+                  type="week"
+                  defaultValue="2018-W18"
+                  aria-label="주 선택"
+                  {...args}
+                />
               </TableCell>
             </TableRow>
           </TableBody>
@@ -473,7 +527,9 @@ export const AdornmentsPassword: Story = {
             display: 'inline-flex',
             padding: '3px',
             borderRadius: '50%'
-          }}
+            }}
+          aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 표시'}
+          aria-pressed={showPassword}
         >
           {showPassword ? (
             <VisibilityOffIcon color="gray-500" />
@@ -617,6 +673,7 @@ export const Customization: Story = {
             borderBottomRightRadius: '0',
             borderRight: 'none'
           }}
+          aria-label="검색"
           {...args}
         />
         <Button
@@ -624,6 +681,7 @@ export const Customization: Story = {
             borderTopLeftRadius: '0',
             borderBottomLeftRadius: '0'
           }}
+          aria-label="검색 실행"
         >
           <SearchIcon color="white" size={22} />
         </Button>
