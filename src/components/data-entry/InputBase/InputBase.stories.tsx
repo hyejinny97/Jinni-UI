@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import InputBase from './InputBase';
 import { Stack } from '@/components/layout/Stack';
+import { Box } from '@/components/layout/Box';
 
 const meta: Meta<typeof InputBase> = {
   component: InputBase,
@@ -18,32 +19,22 @@ const meta: Meta<typeof InputBase> = {
         defaultValue: { summary: `'gray-400'` }
       }
     },
-    focusedColor: {
-      description: 'focused color',
-      table: {
-        type: { summary: 'ColorType' },
-        defaultValue: { summary: `'primary'` }
-      }
-    },
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
+        type: { summary: 'boolean' }
       }
     },
     disableFocusEffect: {
       description: 'true이면, focus effect가 비활성화됨',
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
+        type: { summary: 'boolean' }
       }
     },
     disableHoverEffect: {
       description: 'true이면, hover effect가 비활성화됨',
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
+        type: { summary: 'boolean' }
       }
     },
     endAdornment: {
@@ -54,17 +45,22 @@ const meta: Meta<typeof InputBase> = {
     },
     focused: {
       description:
-        'true이면, (disableFocusEffect=false인 경우) focus effect가 나타남',
+        '(disableFocusEffect=false인 경우) true이면, focused style이 생성됨',
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
+        type: { summary: 'boolean' }
+      }
+    },
+    focusedColor: {
+      description: 'focused color',
+      table: {
+        type: { summary: 'ColorType' },
+        defaultValue: { summary: `'primary'` }
       }
     },
     fullWidth: {
       description: 'true이면, input이 container 안에 꽉 채워지게 됨',
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
+        type: { summary: 'boolean' }
       }
     },
     size: {
@@ -96,9 +92,12 @@ export default meta;
 type Story = StoryObj<typeof InputBase>;
 
 export const BasicInputBase: Story = {
-  render: (args) => {
-    return <InputBase {...args} />;
-  }
+  render: (args) => (
+    <Stack spacing={20}>
+      <InputBase {...args} />
+      <InputBase {...args}>Base</InputBase>
+    </Stack>
+  )
 };
 
 export const Variants: Story = {
@@ -161,34 +160,37 @@ export const Disabled: Story = {
   }
 };
 
+export const Focus: Story = {
+  render: (args) => {
+    return (
+      <Stack spacing={20}>
+        <InputBase variant="outlined" focused {...args}>
+          Outlined
+        </InputBase>
+        <InputBase variant="filled" focused {...args}>
+          Filled
+        </InputBase>
+        <InputBase variant="underlined" focused {...args}>
+          Underlined
+        </InputBase>
+        <InputBase variant="borderless" focused {...args}>
+          Borderless
+        </InputBase>
+      </Stack>
+    );
+  }
+};
+
 export const Color: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
-        <Stack direction="row" spacing={20}>
-          <InputBase color="error" {...args}>
-            Error
-          </InputBase>
-          <InputBase color="yellow-400" {...args}>
-            Yellow-400
-          </InputBase>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <InputBase focusedColor="error" {...args}>
-            Error
-          </InputBase>
-          <InputBase focusedColor="yellow-400" {...args}>
-            Yellow-400
-          </InputBase>
-        </Stack>
-        <Stack direction="row" spacing={20}>
-          <InputBase color="error" focusedColor="error" {...args}>
-            Error
-          </InputBase>
-          <InputBase color="yellow-400" focusedColor="yellow-400" {...args}>
-            Yellow-400
-          </InputBase>
-        </Stack>
+        <InputBase color="error" focusedColor="error" {...args}>
+          <input value="Error" />
+        </InputBase>
+        <InputBase color="yellow-400" focusedColor="yellow-400" {...args}>
+          <input value="Yellow-400" />
+        </InputBase>
       </Stack>
     );
   }
@@ -196,9 +198,11 @@ export const Color: Story = {
 
 export const FullWidth: Story = {
   render: (args) => (
-    <InputBase fullWidth {...args}>
-      Full Width
-    </InputBase>
+    <Box style={{ width: '500px' }}>
+      <InputBase fullWidth {...args}>
+        Full Width
+      </InputBase>
+    </Box>
   )
 };
 
@@ -217,10 +221,10 @@ export const DisableEffect: Story = {
     return (
       <Stack spacing={20}>
         <InputBase variant="filled" disableHoverEffect {...args}>
-          Disable Hover Effect
+          <input value="Disable Hover Effect" />
         </InputBase>
         <InputBase variant="filled" disableFocusEffect {...args}>
-          Disable Focus Effect
+          <input value="Disable Focus Effect" />
         </InputBase>
       </Stack>
     );
