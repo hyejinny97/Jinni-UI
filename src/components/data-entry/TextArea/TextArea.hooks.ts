@@ -1,29 +1,40 @@
-import { useState, useRef, useLayoutEffect, useCallback } from 'react';
+import {
+  useState,
+  useRef,
+  useLayoutEffect,
+  useCallback,
+  useEffect
+} from 'react';
 import { TextAreaProps } from './TextArea';
-import { validate } from './TextArea.utils';
+import { validatePositiveInteger } from '@/utils/isNumber';
+
+type UseTextAreaValueProps = Required<Pick<TextAreaProps, 'defaultValue'>> &
+  Pick<TextAreaProps, 'value' | 'onChange'> & {
+    adjustRows: () => void;
+  };
 
 export const useTextAreaValue = ({
   defaultValue,
   value,
   onChange,
   adjustRows
-}: Pick<TextAreaProps, 'value' | 'onChange' | 'defaultValue'> & {
-  adjustRows: () => void;
-}) => {
+}: UseTextAreaValueProps) => {
   const isControlled = value !== undefined;
-  const [uncontrolledValue, setUncontrolledValue] = useState<
-    string | number | undefined
-  >(defaultValue);
+  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
+  const textAreaValue = isControlled ? value : uncontrolledValue;
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
     if (!isControlled) setUncontrolledValue(newValue);
     if (onChange) onChange(event);
-    adjustRows();
   };
 
+  useEffect(() => {
+    adjustRows();
+  }, [textAreaValue, adjustRows]);
+
   return {
-    textAreaValue: isControlled ? value : uncontrolledValue,
+    textAreaValue,
     handleChange
   };
 };
@@ -35,9 +46,12 @@ export const useRows = ({
 }: Pick<TextAreaProps, 'rows' | 'minRows' | 'maxRows'>) => {
   const textAreaElRef = useRef<HTMLTextAreaElement>(null);
   const singleLineHeightRef = useRef<number>();
-  const hasRowsValue = rows !== undefined && validate(rows);
-  const hasMinRowsValue = minRows !== undefined && validate(minRows);
-  const hasMaxRowsValue = maxRows !== undefined && validate(maxRows);
+  const hasRowsValue =
+    rows !== undefined && validatePositiveInteger({ value: rows });
+  const hasMinRowsValue =
+    minRows !== undefined && validatePositiveInteger({ value: minRows });
+  const hasMaxRowsValue =
+    maxRows !== undefined && validatePositiveInteger({ value: maxRows });
 
   const checkTextAreaEl = useCallback(() => {
     const textAreaEl = textAreaElRef.current;

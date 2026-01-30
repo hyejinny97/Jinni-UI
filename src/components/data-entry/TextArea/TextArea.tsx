@@ -6,13 +6,13 @@ import {
 } from '@/components/data-entry/InputBase';
 import { DefaultComponentProps } from '@/types/default-component-props';
 import { useTextAreaValue, useRows } from './TextArea.hooks';
+import { useLabelContext } from '@/components/data-entry/Label';
 
 export type TextAreaProps = Omit<DefaultComponentProps<'textarea'>, 'size'> &
   RootInputBaseProps & {
     defaultValue?: string;
     value?: string;
     onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-    disabled?: boolean;
     rows?: number;
     minRows?: number;
     maxRows?: number;
@@ -21,22 +21,24 @@ export type TextAreaProps = Omit<DefaultComponentProps<'textarea'>, 'size'> &
   };
 
 const TextArea = (props: TextAreaProps) => {
+  const labelContext = useLabelContext();
   const {
-    defaultValue,
+    defaultValue = '',
     value,
     onChange,
-    disabled,
     startAdornment,
     endAdornment,
     variant,
-    size,
+    size = (labelContext?.size || 'md') as RootInputBaseProps['size'],
     color,
     focusedColor,
+    disabled = labelContext?.disabled,
     disableHoverEffect,
     disableFocusEffect,
     fullWidth,
+    required = labelContext?.required,
     rows,
-    minRows,
+    minRows = 1,
     maxRows,
     resize = false,
     resizeDirection = 'both',
@@ -58,15 +60,15 @@ const TextArea = (props: TextAreaProps) => {
 
   return (
     <InputBase
-      className={cn('JinniTextArea', { resize }, resizeDirection, className)}
+      className={cn('JinniTextArea', className)}
       style={style}
-      disabled={disabled}
       startAdornment={startAdornment}
       endAdornment={endAdornment}
       variant={variant}
       size={size}
       color={color}
       focusedColor={focusedColor}
+      disabled={disabled}
       disableHoverEffect={disableHoverEffect}
       disableFocusEffect={disableFocusEffect}
       fullWidth={fullWidth}
@@ -77,6 +79,7 @@ const TextArea = (props: TextAreaProps) => {
         value={textAreaValue}
         onChange={handleChange}
         disabled={disabled}
+        required={required}
         {...rest}
       />
     </InputBase>
