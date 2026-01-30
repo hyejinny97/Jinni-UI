@@ -24,68 +24,59 @@ import { Input } from '@/components/data-entry/Input';
 
 ### Controlled Input
 
-- `value`와 `onChange` prop을 통해 control 가능
+- `value` prop을 통해 control 가능
 - `value`: input value
 - `onChange`: value가 변경됐을 때 호출되는 함수
   - `event.target.value`를 통해 new value 접근 가능
 
 <Canvas of={InputStories.ControlledInput} />
 
-### Variants
+### InputBase props
 
-- `variant`: input 형태
+- `Input` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### 1. Variants
 
 <Canvas of={InputStories.Variants} />
 
-### Sizes
-
-- `size`: input 크기
+#### 2. Sizes
 
 <Canvas of={InputStories.Sizes} />
 
-### Disabled
-
-- `disabled`: true이면, 비활성화됨
+#### 3. Disabled
 
 <Canvas of={InputStories.Disabled} />
 
-### Color
-
-- `color`: base color
-- `focusedColor`: focused color
+#### 4. Color
 
 <Canvas of={InputStories.Color} />
 
-### Full Width
-
-- `fullWidth`: true이면, input이 container 안에 꽉 채워지게 됨
+#### 5. Full Width
 
 <Canvas of={InputStories.FullWidth} />
 
-### Adornments
+#### 6. Adornments
 
-- `startAdornment`: input 앞에 위치하는 부가 요소 (icon ,text 등)
-- `endAdornment`: input 뒤에 위치하는 부가 요소 (icon ,text 등)
+1. Basic
 
-<Canvas of={InputStories.Adornments} />
+<Canvas of={InputStories.AdornmentsBasic} />
 
-### With label and helper text
+2. Show/hide password
 
-<Canvas of={InputStories.WithLabelAndHelperText} />
+<Canvas of={InputStories.AdornmentsPassword} />
 
-### Disable Effect
-
-- `disableHoverEffect`: true이면, hover effect가 비활성화됨
-- `disableFocusEffect`: true이면, focus effect가 비활성화됨
+#### 7. Disable Effect
 
 <Canvas of={InputStories.DisableEffect} />
+
+### Input with form
+
+<Canvas of={InputStories.InputWithForm} />
 
 ### Customization
 
 <Canvas of={InputStories.Customization} />
 
 ## Props
-
-- `InputBase` 컴포넌트의 모든 props 사용 가능
 
 <ArgTypes of={InputStories} sort="alpha" />
