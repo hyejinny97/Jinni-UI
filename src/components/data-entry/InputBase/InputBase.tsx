@@ -38,11 +38,11 @@ const InputBase = forwardRef(
       size = 'md',
       color = 'gray-400',
       focusedColor = 'primary',
-      disabled = false,
+      disabled,
       disableHoverEffect = disabled,
       disableFocusEffect = disabled,
-      fullWidth = false,
-      focused = false,
+      fullWidth,
+      focused,
       className,
       style,
       as: Component = 'div',
@@ -79,7 +79,6 @@ const InputBase = forwardRef(
           className
         )}
         style={newStyle}
-        tabIndex={0}
         {...rest}
       >
         {startAdornment && (
