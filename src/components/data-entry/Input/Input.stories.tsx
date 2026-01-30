@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Input from './Input';
 import { Stack } from '@/components/layout/Stack';
@@ -6,10 +6,21 @@ import { Box } from '@/components/layout/Box';
 import { Fraction } from '@/components/data-display/Fraction';
 import { Text } from '@/components/general/Text';
 import { Button } from '@/components/general/Button';
+import { ButtonBase } from '@/components/general/ButtonBase';
+import { Label } from '@/components/data-entry/Label';
+import { Alert } from '@/components/feedback/Alert';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { VisibilityIcon } from '@/components/icons/VisibilityIcon';
 import { VisibilityOffIcon } from '@/components/icons/VisibilityOffIcon';
 import { SearchIcon } from '@/components/icons/SearchIcon';
+import {
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell
+} from '@/components/data-display/Table';
 
 const meta: Meta<typeof Input> = {
   component: Input,
@@ -17,14 +28,8 @@ const meta: Meta<typeof Input> = {
     defaultValue: {
       description: '초기 input value',
       table: {
-        type: { summary: `string | number` }
-      }
-    },
-    disabled: {
-      description: 'true이면, 비활성화됨',
-      table: {
-        type: { summary: `boolean` },
-        defaultValue: { summary: 'false' }
+        type: { summary: `string | number` },
+        defaultValue: { summary: `''` }
       }
     },
     onChange: {
@@ -53,37 +58,17 @@ const meta: Meta<typeof Input> = {
 export default meta;
 type Story = StoryObj<typeof Input>;
 
-const Domain = ({
-  title,
-  children
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <Box>
-      <h3 className="typo-title-medium" style={{ margin: '5px 0 10px 0' }}>
-        {title}
-      </h3>
-      <Stack direction="row" spacing={30}>
-        {children}
-      </Stack>
-    </Box>
-  );
-};
-
 const ControlledInputTemplate = () => {
   const [value, setValue] = useState('');
   const MAX_COUNT = 20;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
-    if (newValue.length > MAX_COUNT) return;
     setValue(newValue);
   };
 
   return (
-    <Stack direction="row" spacing={10} style={{ alignItems: 'center' }}>
+    <Stack spacing={10} style={{ alignItems: 'end' }}>
       <Input
         value={value}
         onChange={handleChange}
@@ -106,166 +91,290 @@ const PasswordTemplate = () => {
     <Input
       type={showPassword ? 'text' : 'password'}
       endAdornment={
-        showPassword ? (
-          <VisibilityOffIcon onClick={toggle} />
-        ) : (
-          <VisibilityIcon onClick={toggle} />
-        )
+        <ButtonBase
+          onClick={toggle}
+          style={{
+            display: 'inline-flex',
+            padding: '3px',
+            borderRadius: '50%'
+          }}
+        >
+          {showPassword ? (
+            <VisibilityOffIcon color="gray-500" />
+          ) : (
+            <VisibilityIcon color="gray-500" />
+          )}
+        </ButtonBase>
       }
     />
   );
 };
 
-const WithLabelAndHelperTextTemplate = () => {
-  const [value, setValue] = useState('');
-  const empty = !value;
+const InputWithFormTemplate = () => {
+  const [message, setMessage] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+  const validateEmail = (email: string) => {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return regex.test(email);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const tel = formData.get('tel');
+    if (email && typeof email === 'string' && !validateEmail(email)) {
+      setMessage('E-mail 형식이 올바르지 않습니다.');
+      return;
+    }
+    setMessage('');
+    alert(`name: ${name}\nemail: ${email}\ntel: ${tel}`);
   };
 
   return (
-    <>
-      <label
-        htmlFor="user-name"
-        style={{ display: 'flex', flexDirection: 'column', rowGap: '3px' }}
-      >
-        User Name *
-        <Input
-          id="user-name"
-          type="text"
-          value={value}
-          onChange={handleChange}
-          style={
-            empty ? { borderColor: 'error', boxShadow: 'none' } : undefined
-          }
-        />
-      </label>
-      {empty && (
-        <Text
-          className="typo-label-medium"
-          style={{ color: 'error', margin: '3px 0' }}
-        >
-          필수로 입력해야 합니다.
-        </Text>
+    <form onSubmit={handleSubmit}>
+      {message && (
+        <Alert status="error" style={{ marginBottom: '5px' }}>
+          {message}
+        </Alert>
       )}
-    </>
+      <Stack spacing={10}>
+        <Label
+          content="Name"
+          labelPlacement="top"
+          required
+          style={{ alignItems: 'start' }}
+        >
+          <Input name="name" type="text" placeholder="ex) 홍길동" />
+        </Label>
+        <Label
+          content="Email"
+          labelPlacement="top"
+          style={{ alignItems: 'start' }}
+        >
+          <Input
+            name="email"
+            type="email"
+            placeholder="mail@example.com"
+            {...(message && { borderColor: 'error' })}
+          />
+        </Label>
+        <Stack>
+          <Label
+            content="tel"
+            labelPlacement="top"
+            style={{ alignItems: 'start' }}
+          >
+            <Input
+              name="tel"
+              aria-describedby="tel-helper-text"
+              type="tel"
+              placeholder="ex) xxx-xxxx-xxxx"
+              inputMode="numeric"
+              pattern="[0-9]*"
+            />
+          </Label>
+          <Text
+            id="tel-helper-text"
+            className="typo-label-medium"
+            style={{ margin: '0 16px', color: 'gray-500' }}
+          >
+            '-' 없이 숫자만 기입하세요.
+          </Text>
+        </Stack>
+      </Stack>
+      <Stack
+        direction="row"
+        style={{ justifyContent: 'end', marginTop: '10px' }}
+      >
+        <Button type="submit">제출</Button>
+      </Stack>
+    </form>
   );
 };
 
 export const BasicInput: Story = {
   render: (args) => {
     return (
-      <Stack spacing={20}>
-        <Domain title={`type='date'`}>
-          <Input type="date" {...args} />
-          <Input
-            type="date"
-            defaultValue="2025-05-13"
-            min="2025-05-03"
-            max="2025-05-20"
-            {...args}
-          />
-        </Domain>
-        <Domain title={`type='datetime-local'`}>
-          <Input type="datetime-local" {...args} />
-          <Input
-            type="datetime-local"
-            defaultValue="2017-06-03T08:30"
-            {...args}
-          />
-        </Domain>
-        <Domain title={`type='email'`}>
-          <Input type="email" {...args} />
-          <Input type="email" defaultValue="1234@naver.com" {...args} />
-        </Domain>
-        <Domain title={`type='month'`}>
-          <Input type="month" {...args} />
-          <Input type="month" defaultValue="2025-05" {...args} />
-        </Domain>
-        <Domain title={`type='number'`}>
-          <Input type="number" {...args} />
-          <Input type="number" defaultValue={3} {...args} />
-        </Domain>
-        <Domain title={`type='password'`}>
-          <Input type="password" {...args} />
-          <Input type="password" defaultValue="1234" {...args} />
-        </Domain>
-        <Domain title={`type='search'`}>
-          <Input type="search" {...args} />
-          <Input type="search" defaultValue="프로그래밍이란" {...args} />
-        </Domain>
-        <Domain title={`type='tel'`}>
-          <Input type="tel" {...args} />
-          <Input type="tel" defaultValue="123-456-7890" {...args} />
-        </Domain>
-        <Domain title={`type='text'`}>
-          <Input type="text" {...args} />
-          <Input type="text" defaultValue="텍스트" {...args} />
-        </Domain>
-        <Domain title={`type='time'`}>
-          <Input type="time" {...args} />
-          <Input type="time" defaultValue="08:30" {...args} />
-        </Domain>
-        <Domain title={`type='url'`}>
-          <Input type="url" {...args} />
-          <Input type="url" defaultValue="https://example.com" {...args} />
-        </Domain>
-        <Domain title={`type='week'`}>
-          <Input type="week" {...args} />
-          <Input type="week" defaultValue="2018-W18" {...args} />
-        </Domain>
-      </Stack>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">type</TableCell>
+              <TableCell align="center">Input</TableCell>
+              <TableCell align="center">Input with default value</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell align="center">'date'</TableCell>
+              <TableCell align="center">
+                <Input type="date" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input
+                  type="date"
+                  defaultValue="2025-05-13"
+                  min="2025-05-03"
+                  max="2025-05-20"
+                  {...args}
+                />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'datetime-local'</TableCell>
+              <TableCell align="center">
+                <Input type="datetime-local" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input
+                  type="datetime-local"
+                  defaultValue="2017-06-03T08:30"
+                  {...args}
+                />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'email'</TableCell>
+              <TableCell align="center">
+                <Input type="email" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input type="email" defaultValue="1234@naver.com" {...args} />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'month'</TableCell>
+              <TableCell align="center">
+                <Input type="month" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input type="month" defaultValue="2025-05" {...args} />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'number'</TableCell>
+              <TableCell align="center">
+                <Input type="number" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input type="number" defaultValue={3} {...args} />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'password'</TableCell>
+              <TableCell align="center">
+                <Input type="password" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input type="password" defaultValue="1234" {...args} />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'search'</TableCell>
+              <TableCell align="center">
+                <Input type="search" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input type="search" defaultValue="프로그래밍이란" {...args} />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'tel'</TableCell>
+              <TableCell align="center">
+                <Input type="tel" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input type="tel" defaultValue="123-456-7890" {...args} />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'text'</TableCell>
+              <TableCell align="center">
+                <Input type="text" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input type="text" defaultValue="텍스트" {...args} />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'time'</TableCell>
+              <TableCell align="center">
+                <Input type="time" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input type="time" defaultValue="08:30" {...args} />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'url'</TableCell>
+              <TableCell align="center">
+                <Input type="url" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input
+                  type="url"
+                  defaultValue="https://example.com"
+                  {...args}
+                />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell align="center">'week'</TableCell>
+              <TableCell align="center">
+                <Input type="week" {...args} />
+              </TableCell>
+              <TableCell align="center">
+                <Input type="week" defaultValue="2018-W18" {...args} />
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
   }
 };
 
 export const ControlledInput: Story = {
-  render: (args) => <ControlledInputTemplate {...args} />
+  render: () => <ControlledInputTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledInputTemplate = () => {
+  const [value, setValue] = useState('');
+  const MAX_COUNT = 20;
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={10} style={{ alignItems: 'end' }}>
+      <Input
+        value={value}
+        onChange={handleChange}
+        placeholder={\`\${MAX_COUNT}자까지 입력 가능합니다\`}
+        maxLength={MAX_COUNT}
+      />
+      <Fraction value={value.length} count={MAX_COUNT} />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Variants: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
-        <Domain title={`type='text'`}>
-          <Input variant="outlined" placeholder="Outlined" {...args} />
-          <Input variant="filled" placeholder="Filled" {...args} />
-          <Input variant="underlined" placeholder="Underlined" {...args} />
-          <Input variant="borderless" placeholder="Borderless" {...args} />
-        </Domain>
-        <Domain title={`type='number'`}>
-          <Input
-            type="number"
-            variant="outlined"
-            placeholder="Outlined"
-            {...args}
-          />
-          <Input
-            type="number"
-            variant="filled"
-            placeholder="Filled"
-            {...args}
-          />
-          <Input
-            type="number"
-            variant="underlined"
-            placeholder="Underlined"
-            {...args}
-          />
-          <Input
-            type="number"
-            variant="borderless"
-            placeholder="Borderless"
-            {...args}
-          />
-        </Domain>
-        <Domain title={`type='date'`}>
-          <Input type="date" variant="outlined" {...args} />
-          <Input type="date" variant="filled" {...args} />
-          <Input type="date" variant="underlined" {...args} />
-          <Input type="date" variant="borderless" {...args} />
-        </Domain>
+        <Input type="date" variant="outlined" {...args} />
+        <Input type="date" variant="filled" {...args} />
+        <Input type="date" variant="underlined" {...args} />
+        <Input type="date" variant="borderless" {...args} />
       </Stack>
     );
   }
@@ -287,58 +396,10 @@ export const Disabled: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
-        <Domain title={`type='text'`}>
-          <Input variant="outlined" placeholder="Outlined" disabled {...args} />
-          <Input variant="filled" placeholder="Filled" disabled {...args} />
-          <Input
-            variant="underlined"
-            placeholder="Underlined"
-            disabled
-            {...args}
-          />
-          <Input
-            variant="borderless"
-            placeholder="Borderless"
-            disabled
-            {...args}
-          />
-        </Domain>
-        <Domain title={`type='number'`}>
-          <Input
-            type="number"
-            variant="outlined"
-            placeholder="Outlined"
-            disabled
-            {...args}
-          />
-          <Input
-            type="number"
-            variant="filled"
-            placeholder="Filled"
-            disabled
-            {...args}
-          />
-          <Input
-            type="number"
-            variant="underlined"
-            placeholder="Underlined"
-            disabled
-            {...args}
-          />
-          <Input
-            type="number"
-            variant="borderless"
-            placeholder="Borderless"
-            disabled
-            {...args}
-          />
-        </Domain>
-        <Domain title={`type='date'`}>
-          <Input type="date" variant="outlined" disabled {...args} />
-          <Input type="date" variant="filled" disabled {...args} />
-          <Input type="date" variant="underlined" disabled {...args} />
-          <Input type="date" variant="borderless" disabled {...args} />
-        </Domain>
+        <Input type="date" variant="outlined" disabled {...args} />
+        <Input type="date" variant="filled" disabled {...args} />
+        <Input type="date" variant="underlined" disabled {...args} />
+        <Input type="date" variant="borderless" disabled {...args} />
       </Stack>
     );
   }
@@ -366,10 +427,14 @@ export const Color: Story = {
 };
 
 export const FullWidth: Story = {
-  render: (args) => <Input placeholder="Full Width" fullWidth {...args} />
+  render: (args) => (
+    <Box style={{ width: '500px' }}>
+      <Input placeholder="Full Width" fullWidth {...args} />
+    </Box>
+  )
 };
 
-export const Adornments: Story = {
+export const AdornmentsBasic: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
@@ -381,14 +446,48 @@ export const Adornments: Story = {
           placeholder="email"
           {...args}
         />
-        <PasswordTemplate {...args} />
       </Stack>
     );
   }
 };
 
-export const WithLabelAndHelperText: Story = {
-  render: (args) => <WithLabelAndHelperTextTemplate {...args} />
+export const AdornmentsPassword: Story = {
+  render: () => <PasswordTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const PasswordTemplate = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggle = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  return (
+    <Input
+      type={showPassword ? 'text' : 'password'}
+      endAdornment={
+        <ButtonBase
+          onClick={toggle}
+          style={{
+            display: 'inline-flex',
+            padding: '3px',
+            borderRadius: '50%'
+          }}
+        >
+          {showPassword ? (
+            <VisibilityOffIcon color="gray-500" />
+          ) : (
+            <VisibilityIcon color="gray-500" />
+          )}
+        </ButtonBase>
+      }
+    />
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const DisableEffect: Story = {
@@ -409,6 +508,99 @@ export const DisableEffect: Story = {
         />
       </Stack>
     );
+  }
+};
+
+export const InputWithForm: Story = {
+  render: () => <InputWithFormTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const InputWithFormTemplate = () => {
+  const [message, setMessage] = useState('');
+
+  const validateEmail = (email: string) => {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$/;
+    return regex.test(email);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const tel = formData.get('tel');
+    if (email && typeof email === 'string' && !validateEmail(email)) {
+      setMessage('E-mail 형식이 올바르지 않습니다.');
+      return;
+    }
+    setMessage('');
+    alert(\`name: \${name}\\nemail: \${email}\\ntel: \${tel}\`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {message && (
+        <Alert status="error" style={{ marginBottom: '5px' }}>
+          {message}
+        </Alert>
+      )}
+      <Stack spacing={10}>
+        <Label
+          content="Name"
+          labelPlacement="top"
+          required
+          style={{ alignItems: 'start' }}
+        >
+          <Input name="name" type="text" placeholder="ex) 홍길동" />
+        </Label>
+        <Label
+          content="Email"
+          labelPlacement="top"
+          style={{ alignItems: 'start' }}
+        >
+          <Input
+            name="email"
+            type="email"
+            placeholder="mail@example.com"
+            {...(message && { borderColor: 'error' })}
+          />
+        </Label>
+        <Stack>
+          <Label
+            content="tel"
+            labelPlacement="top"
+            style={{ alignItems: 'start' }}
+          >
+            <Input
+              name="tel"
+              aria-describedby="tel-helper-text"
+              type="tel"
+              placeholder="ex) xxx-xxxx-xxxx"
+              inputMode="numeric"
+              pattern="[0-9]*"
+            />
+          </Label>
+          <Text
+            id="tel-helper-text"
+            className="typo-label-medium"
+            style={{ margin: '0 16px', color: 'gray-500' }}
+          >
+            '-' 없이 숫자만 기입하세요.
+          </Text>
+        </Stack>
+      </Stack>
+      <Stack
+        direction="row"
+        style={{ justifyContent: 'end', marginTop: '10px' }}
+      >
+        <Button type="submit">제출</Button>
+      </Stack>
+    </form>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
