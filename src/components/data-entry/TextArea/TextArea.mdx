@@ -23,7 +23,7 @@ import { TextArea } from '@/components/data-entry/TextArea';
 
 ### Controlled TextArea
 
-- `value`와 `onChange` prop을 통해 control 가능
+- `value` prop을 통해 control 가능
 - `value`: textarea value
 - `onChange`: value가 변경됐을 때 호출되는 함수
   - `event.target.value`를 통해 new value 접근 가능
@@ -33,73 +33,75 @@ import { TextArea } from '@/components/data-entry/TextArea';
 ### Rows
 
 - 기본적으로, textarea는 한 줄이고 라인 수가 증가할 때마다 높이가 자동으로 일정하게 증가함
+
+#### 1. Rows
+
 - `rows`: rows 개수
-  - 이 속성을 설정하면, `maxRows`나 `minRows` 값을 지정해도 반영이 안되고 줄 수(높이)가 고정됨
-- `maxRows`: 최대 rows 개수
-  - `rows` 개수가 `maxRows` 이하라면, textarea는 라인 수가 증가할 때마다 높이가 자동으로 일정하게 증가함
-- `minRows`: 최소 rows 개수
-  - `rows` 개수가 `minRows` 이상라면, textarea는 라인 수가 증가할 때마다 높이가 자동으로 일정하게 증가함
+- 이 속성을 설정하면, `maxRows`나 `minRows` 값을 지정해도 반영이 안되고 줄 수(높이)가 고정됨
 
 <Canvas of={TextAreaStories.Rows} />
+
+#### 2. Max rows
+
+- `maxRows`: 최대 rows 개수
+- rows 값이 `maxRows` 이하이면, textarea는 라인 수가 증가할 때마다 높이가 자동으로 일정하게 증가함
+
+<Canvas of={TextAreaStories.MaxRows} />
+
+#### 3. Min rows
+
+- `minRows`: 최소 rows 개수
+- rows 값이 `minRows` 이상이면, textarea는 라인 수가 증가할 때마다 높이가 자동으로 일정하게 증가함
+
+<Canvas of={TextAreaStories.MinRows} />
+
+#### 4. Max and Min rows
+
+<Canvas of={TextAreaStories.MinAndMaxRows} />
 
 ### Resize TextArea
 
 - `resize`: textarea 사이즈 조절 가능 여부
-- `resizeDirection`: 사이즈 조절 방향
+- `resizeDirection`: textarea 사이즈 조절 방향
 
 <Canvas of={TextAreaStories.ResizeTextArea} />
 
-### Variants
+### InputBase props
 
-- `variant`: textarea 형태
+- `TextArea` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### 1. Variants
 
 <Canvas of={TextAreaStories.Variants} />
 
-### Sizes
-
-- `size`: textarea 크기
+#### 2. Sizes
 
 <Canvas of={TextAreaStories.Sizes} />
 
-### Disabled
-
-- `disabled`: true이면, 비활성화됨
+#### 3. Disabled
 
 <Canvas of={TextAreaStories.Disabled} />
 
-### Color
-
-- `color`: base color
-- `focusedColor`: focused color
+#### 4. Color
 
 <Canvas of={TextAreaStories.Color} />
 
-### Full Width
-
-- `fullWidth`: true이면, textarea이 container 안에 꽉 채워지게 됨
+#### 5. Full Width
 
 <Canvas of={TextAreaStories.FullWidth} />
 
-### Adornments
-
-- `startAdornment`: textarea 앞에 위치하는 부가 요소 (icon ,text 등)
-- `endAdornment`: textarea 뒤에 위치하는 부가 요소 (icon ,text 등)
+#### 6. Adornments
 
 <Canvas of={TextAreaStories.Adornments} />
 
-### With label and helper text
-
-<Canvas of={TextAreaStories.WithLabelAndHelperText} />
-
-### Disable Effect
-
-- `disableHoverEffect`: true이면, hover effect가 비활성화됨
-- `disableFocusEffect`: true이면, focus effect가 비활성화됨
+#### 7. Disable Effect
 
 <Canvas of={TextAreaStories.DisableEffect} />
 
-## Props
+### TextArea with form
 
-- `InputBase` 컴포넌트의 모든 props 사용 가능
+<Canvas of={TextAreaStories.TextAreaWithForm} />
+
+## Props
 
 <ArgTypes of={TextAreaStories} sort="alpha" />
