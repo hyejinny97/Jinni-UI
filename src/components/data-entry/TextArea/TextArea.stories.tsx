@@ -126,10 +126,12 @@ const TextAreaWithFormTemplate = () => {
                 {...(empty && {
                   style: { borderColor: 'error', boxShadow: 'none' }
                 })}
+                aria-describedby="textarea-help"
               />
             </Label>
             {empty && (
               <Text
+                id="textarea-help"
                 className="typo-label-medium"
                 noMargin
                 style={{ color: 'error', marginLeft: '16px' }}
@@ -410,10 +412,12 @@ export const TextAreaWithForm: Story = {
                 {...(empty && {
                   style: { borderColor: 'error', boxShadow: 'none' }
                 })}
+                aria-describedby="textarea-help"
               />
             </Label>
             {empty && (
               <Text
+                id="textarea-help"
                 className="typo-label-medium"
                 noMargin
                 style={{ color: 'error', marginLeft: '16px' }}

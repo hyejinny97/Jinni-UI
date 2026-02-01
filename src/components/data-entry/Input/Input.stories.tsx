@@ -35,7 +35,9 @@ const meta: Meta<typeof Input> = {
     onChange: {
       description: 'value가 변경됐을 때 호출되는 함수',
       table: {
-        type: { summary: `(event: ChangeEvent) => void` }
+        type: {
+          summary: `(event: React.ChangeEvent<HTMLInputElement>) => void`
+        }
       }
     },
     type: {
