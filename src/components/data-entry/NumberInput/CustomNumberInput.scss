@@ -1,0 +1,23 @@
+.spin-button-within-input.JinniNumberInput.JinniInputBase {
+  min-width: 0;
+
+  .JinniInputBaseContent {
+    box-sizing: border-box;
+    width: 100px;
+  }
+
+  .JinniInputBaseAdornment {
+    &.start {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--jinni-color-gray-400);
+    }
+    &.end {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-left: 1px solid var(--jinni-color-gray-400);
+    }
+  }
+}
