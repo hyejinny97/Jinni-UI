@@ -1,0 +1,10 @@
+.JinniInputBase.JinniNumberInput {
+  .JinniInputBaseAdornment {
+    &.end {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-left: 1px solid var(--jinni-color-gray-400);
+    }
+  }
+}

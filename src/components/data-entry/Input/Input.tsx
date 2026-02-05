@@ -7,7 +7,10 @@ import { DefaultComponentProps } from '@/types/default-component-props';
 import { useInputValue } from './Input.hooks';
 import { useLabelContext } from '@/components/data-entry/Label';
 
-export type InputProps = Omit<DefaultComponentProps<'input'>, 'size'> &
+export type InputProps = Omit<
+  DefaultComponentProps<'input'>,
+  'size' | 'defaultValue' | 'value' | 'onChange'
+> &
   RootInputBaseProps & {
     type?:
       | 'date'
