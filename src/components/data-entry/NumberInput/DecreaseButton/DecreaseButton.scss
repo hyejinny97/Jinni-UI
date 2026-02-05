@@ -1,0 +1,6 @@
+@use '../mixins.scss' as mixins;
+
+.JinniButtonBase.JinniDecreaseButton {
+  display: inline-flex;
+  @include mixins.spin-button-style-by-size;
+}

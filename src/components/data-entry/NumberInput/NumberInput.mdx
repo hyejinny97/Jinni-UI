@@ -1,0 +1,127 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as NumberInputStories from './NumberInput.stories';
+import * as IncreaseButtonStories from './IncreaseButton/IncreaseButton.stories';
+import * as DecreaseButtonStories from './DecreaseButton/DecreaseButton.stories';
+
+<Meta of={NumberInputStories} />
+
+# NumberInput
+
+숫자 입력 영역
+
+## Import
+
+```js
+import {
+  NumberInput,
+  DecreaseButton,
+  IncreaseButton
+} from '@/components/data-entry/NumberInput';
+```
+
+## Usage
+
+### Basic NumberInput
+
+- `defaultValue`: 초기 input value
+
+<Canvas of={NumberInputStories.BasicNumberInput} />
+
+### Controlled NumberInput
+
+- `value` prop을 통해 control 가능
+- `value`: input value
+- `onChange`: input value가 변경됐을 때 호출되는 함수
+  - value: new input value
+
+<Canvas of={NumberInputStories.ControlledNumberInput} />
+
+### Step
+
+- `step`: value step
+
+<Canvas of={NumberInputStories.Step} />
+
+### Minimum and maximum value
+
+- `min`: input value 최솟값
+- `max`: input value 최댓값
+
+<Canvas of={NumberInputStories.MinimumAndMaximumValue} />
+
+### InputBase props
+
+- `NumberInput` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### 1. Variants
+
+<Canvas of={NumberInputStories.Variants} />
+
+#### 2. Sizes
+
+<Canvas of={NumberInputStories.Sizes} />
+
+#### 3. Disabled
+
+<Canvas of={NumberInputStories.Disabled} />
+
+#### 4. Color
+
+<Canvas of={NumberInputStories.Color} />
+
+#### 5. Full Width
+
+<Canvas of={NumberInputStories.FullWidth} />
+
+#### 6. Adornments
+
+<Canvas of={NumberInputStories.Adornments} />
+
+#### 7. Disable Effect
+
+<Canvas of={NumberInputStories.DisableEffect} />
+
+### NumberInput with form
+
+<Canvas of={NumberInputStories.NumberInputWithForm} />
+
+### Allowing out of range values
+
+- Clamp Effect: 입력값을 min/max 범위 내로 재조정하는 효과
+- 기본적으로 입력란이 blur될 때 clamp effect가 발생함
+- `disableClampOnBlur`: true이면, 입력란이 blur될 때 clamp effect가 비활성화 됨
+
+<Canvas of={NumberInputStories.AllowingOutOfRangeValues} />
+
+### Formatting the value
+
+- `formatter`: ''(empty string)이나 숫자 타입의 value를 입력값으로 받아 입력란에 나타낼 문자열을 렌더하는 함수
+- `parser`: 입력란에 나타낸 문자열을 ''(empty string)이나 숫자 타입의 value로 변환하는 함수
+
+#### 1. Percent
+
+<Canvas of={NumberInputStories.Percent} />
+
+#### 2. Currency
+
+<Canvas of={NumberInputStories.Currency} />
+
+### Mobile spin button
+
+- `IncreaseButton`과 `DecreaseButton` 컴포넌트는 내부적으로 `ButtonBase` 컴포넌트를 반환하므로, `ButtonBase` 의 모든 props 사용 가능
+
+<Canvas of={NumberInputStories.MobileSpinButton} />
+
+## Props
+
+### NumberInput
+
+<ArgTypes of={NumberInputStories} sort="alpha" />
+
+### IncreaseButton
+
+<ArgTypes of={IncreaseButtonStories} sort="alpha" />
+
+### DecreaseButton
+
+<ArgTypes of={DecreaseButtonStories} sort="alpha" />

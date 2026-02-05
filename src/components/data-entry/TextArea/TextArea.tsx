@@ -8,7 +8,10 @@ import { DefaultComponentProps } from '@/types/default-component-props';
 import { useTextAreaValue, useRows } from './TextArea.hooks';
 import { useLabelContext } from '@/components/data-entry/Label';
 
-export type TextAreaProps = Omit<DefaultComponentProps<'textarea'>, 'size'> &
+export type TextAreaProps = Omit<
+  DefaultComponentProps<'textarea'>,
+  'size' | 'defaultValue' | 'value' | 'onChange'
+> &
   RootInputBaseProps & {
     defaultValue?: string;
     value?: string;
