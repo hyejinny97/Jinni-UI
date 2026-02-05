@@ -19,6 +19,7 @@ const IncreaseButton = (props: IncreaseButtonProps) => {
       className={cn('JinniIncreaseButton', size, className)}
       disabled={disabled}
       tabIndex={-1}
+      aria-label="increase"
       {...rest}
     >
       <ArrowUpIcon color="gray-600" />

@@ -19,6 +19,7 @@ const DecreaseButton = (props: DecreaseButtonProps) => {
       className={cn('JinniDecreaseButton', size, className)}
       disabled={disabled}
       tabIndex={-1}
+      aria-label="decrease"
       {...rest}
     >
       <ArrowDownIcon color="gray-600" />
