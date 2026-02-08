@@ -10,16 +10,17 @@ import { useSelectedValue, useSelectedOption } from './Select.hooks';
 import SelectContext from './Select.contexts';
 import { ANCHOR_ORIGIN, MENU_ORIGIN } from './Select.constants';
 import { OptionValueType } from './Option';
+import { useLabelContext } from '@/components/data-entry/Label';
 
-export type OptionType = { value: OptionValueType; label: React.ReactNode };
-export type SelectedOptionType<Multiple extends boolean> = Multiple extends true
-  ? Array<OptionType>
-  : OptionType;
+export type SelectedOptionType = Array<{
+  value: OptionValueType;
+  label: React.ReactNode;
+}>;
 
 export type SelectProps<
   Multiple extends boolean = false,
   T extends AsType = 'div'
-> = Omit<InputBaseProps<T>, 'defaultValue'> & {
+> = Omit<InputBaseProps<T>, 'defaultValue' | 'value' | 'onChange'> & {
   name?: string;
   children: React.ReactNode;
   placeholder?: string;
@@ -30,16 +31,15 @@ export type SelectProps<
     event: Event | React.SyntheticEvent,
     value: Multiple extends true ? OptionValueType[] : OptionValueType
   ) => void;
-  renderValue?: (
-    selectedOption: SelectedOptionType<Multiple>
-  ) => React.ReactNode;
-  required?: boolean;
+  renderValue?: (selectedOption: SelectedOptionType) => React.ReactNode;
   MenuProps?: Partial<MenuProps>;
+  required?: boolean;
 };
 
 const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
   props: SelectProps<Multiple, T>
 ) => {
+  const labelContext = useLabelContext();
   const {
     name,
     children,
@@ -49,24 +49,22 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
     value,
     onChange,
     renderValue = (selectedOption) =>
-      Array.isArray(selectedOption)
-        ? selectedOption.map((option) => option.label).join(', ')
-        : selectedOption.label,
-    required,
+      selectedOption.map((option) => option.label).join(', '),
     MenuProps,
     startAdornment,
     endAdornment = (
       <ArrowDownIcon className="arrow-down" color="gray-600" size={16} />
     ),
     variant,
-    size,
+    size = (labelContext?.size || 'md') as InputBaseProps['size'],
     color,
     focusedColor,
-    disabled,
+    disabled = labelContext?.disabled,
     disableHoverEffect,
     disableFocusEffect,
     fullWidth,
     focused,
+    required = labelContext?.required,
     className,
     ...rest
   } = props;
@@ -80,11 +78,9 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
   });
   const selectedOption = useSelectedOption({
     children,
-    multiple,
     selectedValue
   });
-  const notSelected =
-    selectedValue === undefined || (multiple && selectedValue.length === 0);
+  const notSelected = selectedValue.length === 0;
 
   const openMenu = () => {
     if (disabled) return;
@@ -123,7 +119,9 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
         {
           <select
             name={name}
-            value={selectedValue.map(String)}
+            value={
+              multiple ? selectedValue.map(String) : String(selectedValue[0])
+            }
             onChange={() => {}}
             multiple={multiple}
             required={required}

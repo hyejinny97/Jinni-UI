@@ -11,9 +11,9 @@ const meta: Meta<typeof Option> = {
       }
     },
     value: {
-      description: 'option의 value',
+      description: '다른 options와 구별되는 식별자',
       table: {
-        type: { summary: `string` }
+        type: { summary: `string | number` }
       }
     }
   }

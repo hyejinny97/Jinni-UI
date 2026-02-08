@@ -10,10 +10,7 @@ type UseSelectedValueProps<Multiple extends boolean> = Pick<
   'defaultValue' | 'value' | 'onChange' | 'multiple'
 >;
 
-type UseSelectedOptionProps<Multiple extends boolean> = Pick<
-  SelectProps<Multiple>,
-  'children' | 'multiple'
-> & {
+type UseSelectedOptionProps = Pick<SelectProps, 'children'> & {
   selectedValue: OptionValueType[];
 };
 
@@ -49,9 +46,15 @@ export const useSelectedValue = <Multiple extends boolean>({
     event: Event | React.SyntheticEvent,
     selectedOptionValue: OptionValueType
   ) => {
-    const newSelectedValue = selectedValue.includes(selectedOptionValue)
-      ? remove(selectedValue, selectedOptionValue)
-      : insert(selectedValue, selectedOptionValue);
+    let newSelectedValue = [];
+    if (multiple) {
+      newSelectedValue = selectedValue.includes(selectedOptionValue)
+        ? remove(selectedValue, selectedOptionValue)
+        : insert(selectedValue, selectedOptionValue);
+    } else {
+      newSelectedValue = [selectedOptionValue];
+    }
+
     if (!isControlled) setUncontrolledValue(newSelectedValue);
     if (onChange)
       onChange(
@@ -70,20 +73,15 @@ export const useSelectedValue = <Multiple extends boolean>({
   };
 };
 
-export const useSelectedOption = <Multiple extends boolean>({
+export const useSelectedOption = ({
   children,
-  multiple,
   selectedValue
-}: UseSelectedOptionProps<Multiple>) => {
+}: UseSelectedOptionProps): SelectedOptionType => {
   const optionsInfo = useMemo(() => getOptionsInfo(children), [children]);
-  const selectedOption = selectedValue.map((value) => ({
+  return selectedValue.map((value) => ({
     value,
     label: optionsInfo[value]
   }));
-
-  return (
-    multiple ? selectedOption : selectedOption[0]
-  ) as SelectedOptionType<Multiple>;
 };
 
 export const useSelectContext = () => {

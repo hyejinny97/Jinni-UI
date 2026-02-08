@@ -1,39 +1,35 @@
 import { FormEvent, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Select from './Select';
-import Option from './Option';
+import { Option, OptionValueType } from './Option';
 import { Stack } from '@/components/layout/Stack';
+import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import { Checkbox } from '@/components/data-entry/Checkbox';
 import { Chip } from '@/components/data-display/Chip';
 import { Button } from '@/components/general/Button';
+import { ListItem } from '@/components/data-display/List';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof Select> = {
   component: Select,
   argTypes: {
     children: {
-      description: '선택지 (Option 컴포넌트들)',
+      description: 'Option 컴포넌트들',
       table: {
-        type: { summary: `Array<JSX.Element>` }
+        type: { summary: `React.ReactNode` }
       }
     },
     defaultValue: {
       description: '초기 selected value',
       table: {
-        type: { summary: `string | Array<string>` }
+        type: { summary: `string | number | Array<string | number>` }
       }
     },
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
-        type: { summary: `boolean` },
-        defaultValue: { summary: 'false' }
-      }
-    },
-    InputBaseProps: {
-      description: 'InputBase 컴포넌트의 props',
-      table: {
-        type: { summary: `InputBaseProps` }
+        type: { summary: `boolean` }
       }
     },
     MenuProps: {
@@ -45,8 +41,7 @@ const meta: Meta<typeof Select> = {
     multiple: {
       description: 'true이면, multiple selections이 가능함',
       table: {
-        type: { summary: `boolean` },
-        defaultValue: { summary: 'false' }
+        type: { summary: `boolean` }
       }
     },
     name: {
@@ -59,7 +54,7 @@ const meta: Meta<typeof Select> = {
       description: 'selected value가 변경됐을 때 호출되는 함수',
       table: {
         type: {
-          summary: `(event: Event | React.SyntheticEvent, value: string | Array<string>) => void;`
+          summary: `(event: Event | React.SyntheticEvent, value: string | number | Array<string | number>) => void;`
         }
       }
     },
@@ -71,18 +66,26 @@ const meta: Meta<typeof Select> = {
     },
     renderValue: {
       description:
-        'selected value를 입력값으로 받아, input 내부 content를 반환하는 함수',
+        'selected option의 value와 label을 입력값으로 받아, input 내부 content를 반환하는 함수',
       table: {
-        type: { summary: `(value: string | Array<string>) => void` },
+        type: {
+          summary: `(selectedOption: Array<{ value: string | number, label: React.ReactNode }>) => React.ReactNode;`
+        },
         defaultValue: {
-          summary: `(value: string | Array<string>) => Array.isArray(value) ? value.join(', ') : value`
+          summary: `(selectedOption) => selectedOption.map((option) => option.label).join(', ');`
         }
+      }
+    },
+    required: {
+      description: 'true이면, 필수 선택해야 함',
+      table: {
+        type: { summary: `boolean` }
       }
     },
     value: {
       description: 'selected value',
       table: {
-        type: { summary: `string | Array<string>` }
+        type: { summary: `string | number | Array<string | number>` }
       }
     }
   }
@@ -91,156 +94,102 @@ const meta: Meta<typeof Select> = {
 export default meta;
 type Story = StoryObj<typeof Select>;
 
-const options = ['Option1', 'Option2', 'Option3', 'Option4', 'Option5'];
-
-const Form = ({ children }: { children: React.ReactNode }) => {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const value = formData.getAll('options');
-    alert(`value: ${value}`);
-  };
-
-  return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ display: 'flex', columnGap: '10px', alignItems: 'center' }}
-    >
-      {children}
-      <Button type="submit">submit</Button>
-    </form>
-  );
-};
-
-const SelectTemplate = ({ ...props }) => {
-  return (
-    <Select {...props}>
-      {options.map((option) => (
-        <Option key={option} value={option}>
-          {option}
-        </Option>
-      ))}
-    </Select>
-  );
-};
-
-const MultipleSelectTemplate = ({ ...props }) => {
-  return (
-    <Select multiple InputBaseProps={{ style: { width: '300px' } }} {...props}>
-      {options.map((option) => (
-        <Option
-          key={option}
-          value={option}
-          style={{ width: '300px', boxSizing: 'border-box' }}
-        >
-          {option}
-        </Option>
-      ))}
-    </Select>
-  );
-};
+const OPTIONS = [
+  { value: 'option1', label: 'Option1' },
+  { value: 'option2', label: 'Option2' },
+  { value: 'option3', label: 'Option3' },
+  { value: 'option4', label: 'Option4' },
+  { value: 'option5', label: 'Option5' }
+];
 
 const ControlledSelectTemplate = () => {
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<OptionValueType>('');
 
   const handleChange = (
     _: Event | React.SyntheticEvent,
-    selectValue: string
+    selectedValue: OptionValueType
   ) => {
-    setValue(selectValue);
-  };
-
-  return <SelectTemplate value={value} onChange={handleChange} />;
-};
-
-const ControlledMultipleSelectTemplate = () => {
-  const [value, setValue] = useState<string[]>();
-
-  const handleChange = (
-    _: Event | React.SyntheticEvent,
-    selectValue: string[]
-  ) => {
-    setValue(selectValue);
-  };
-
-  return (
-    <MultipleSelectTemplate
-      value={value}
-      onChange={handleChange}
-      placeholder="controlled select"
-    />
-  );
-};
-
-const WithLabelAndTextTemplate = () => {
-  const [value, setValue] = useState<string>();
-  const empty = !value;
-
-  const handleChange = (
-    _: Event | React.SyntheticEvent,
-    selectValue: string
-  ) => {
-    setValue(selectValue);
+    setValue(selectedValue);
   };
 
   return (
     <>
-      <label
-        htmlFor="color"
-        style={{ display: 'flex', flexDirection: 'column', rowGap: '3px' }}
-      >
-        Color *
-        <Select id="color" value={value} onChange={handleChange}>
-          <Option value="red">Red</Option>
-          <Option value="yellow">Yellow</Option>
-          <Option value="green">Green</Option>
-        </Select>
-      </label>
-      {empty && (
-        <Text
-          className="typo-label-medium"
-          style={{ color: 'error', margin: '3px 0' }}
-        >
-          반드시 선택해야 합니다.
-        </Text>
-      )}
+      <Text>Selected value: {value}</Text>
+      <Select value={value} onChange={handleChange}>
+        {OPTIONS.map(({ value, label }) => (
+          <Option key={value} value={value}>
+            {label}
+          </Option>
+        ))}
+      </Select>
     </>
   );
 };
 
 const OptionsWithCheckboxTemplate = () => {
-  const [value, setValue] = useState<string[]>([]);
+  const [selectedValue, setSelectedValue] = useState<OptionValueType[]>([]);
 
   const handleChange = (
     _: Event | React.SyntheticEvent,
-    selectValue: string[]
+    value: OptionValueType[]
   ) => {
-    setValue(selectValue);
+    setSelectedValue(value);
   };
 
   return (
     <Select
-      multiple
-      value={value}
+      value={selectedValue}
       onChange={handleChange}
-      InputBaseProps={{ style: { width: '300px' } }}
+      multiple
+      renderValue={(selectedOption) =>
+        selectedOption
+          .map(({ value }) => {
+            const idx = OPTIONS.findIndex((option) => option.value === value);
+            return OPTIONS[idx].label;
+          })
+          .join(', ')
+      }
+      style={{ width: '300px' }}
     >
-      {options.map((option) => (
-        <Option
-          key={option}
-          value={option}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            width: '300px',
-            boxSizing: 'border-box'
-          }}
-        >
-          <Checkbox checked={value.includes(option)} />
-          {option}
+      {OPTIONS.map(({ value, label }) => (
+        <Option key={value} value={value} style={{ width: '300px' }}>
+          <Checkbox checked={selectedValue.includes(value)} />
+          {label}
         </Option>
       ))}
     </Select>
+  );
+};
+
+const SelectWithFormTemplate = () => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const color = formData.get('color');
+    alert(`color: ${color}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Label
+        content="Color"
+        labelPlacement="top"
+        required
+        style={{ alignItems: 'start' }}
+      >
+        <Select name="color">
+          <Option value="red">Red</Option>
+          <Option value="yellow">Yellow</Option>
+          <Option value="green">Green</Option>
+        </Select>
+      </Label>
+      <Stack
+        direction="row"
+        style={{ justifyContent: 'end', margin: '10px 16px' }}
+      >
+        <Button type="submit">제출</Button>
+      </Stack>
+    </form>
   );
 };
 
@@ -248,96 +197,103 @@ export const BasicSelect: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <SelectTemplate {...args} />
-        <SelectTemplate defaultValue="Option1" {...args} />
+        <Select {...args}>
+          {OPTIONS.map(({ value, label }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
+        </Select>
+        <Select defaultValue="option1" {...args}>
+          {OPTIONS.map(({ value, label }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
+        </Select>
       </Stack>
-    );
-  }
-};
-
-export const SelectInsideForm: Story = {
-  render: (args) => {
-    return (
-      <Form>
-        <SelectTemplate name="options" {...args} />
-      </Form>
     );
   }
 };
 
 export const ControlledSelect: Story = {
-  render: (args) => {
-    return <ControlledSelectTemplate {...args} />;
+  render: () => <ControlledSelectTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledSelectTemplate = () => {
+  const [value, setValue] = useState<OptionValueType>('');
+
+  const handleChange = (
+    _: Event | React.SyntheticEvent,
+    selectedValue: OptionValueType
+  ) => {
+    setValue(selectedValue);
+  };
+
+  return (
+    <>
+      <Text>Selected value: {value}</Text>
+      <Select value={value} onChange={handleChange}>
+        {OPTIONS.map(({ value, label }) => (
+          <Option key={value} value={value}>
+            {label}
+          </Option>
+        ))}
+      </Select>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const Placeholder: Story = {
-  render: (args) => {
-    return (
-      <Stack direction="row" spacing={20}>
-        <SelectTemplate placeholder="Select Option" {...args} />
-        <SelectTemplate
-          placeholder={
-            <Text className="typo-label-medium" style={{ margin: 0 }}>
-              Select Option
-            </Text>
-          }
-          {...args}
-        />
-      </Stack>
-    );
-  }
+  render: (args) => (
+    <Select placeholder="Select Option" {...args}>
+      {OPTIONS.map(({ value, label }) => (
+        <Option key={value} value={value}>
+          {label}
+        </Option>
+      ))}
+    </Select>
+  )
 };
 
-export const DisabledSelect: Story = {
-  render: (args) => {
-    return <SelectTemplate disabled {...args} />;
-  }
+export const Disabled: Story = {
+  render: (args) => (
+    <Select disabled {...args}>
+      {OPTIONS.map(({ value, label }) => (
+        <Option key={value} value={value}>
+          {label}
+        </Option>
+      ))}
+    </Select>
+  )
 };
 
-export const DisabledOption: Story = {
+export const MultipleSelect: Story = {
+  render: (args) => (
+    <Select multiple defaultValue={['option1', 'option2']} {...args}>
+      {OPTIONS.map(({ value, label }) => (
+        <Option key={value} value={value}>
+          {label}
+        </Option>
+      ))}
+    </Select>
+  )
+};
+
+export const GroupOption: Story = {
   render: (args) => {
     return (
       <Select {...args}>
-        <Option value="Option 1">Option 1</Option>
-        <Option value="Option 2" disabled>
-          Option 2
-        </Option>
-        <Option value="Option 3">Option 3</Option>
-      </Select>
-    );
-  }
-};
-
-export const WithLabelAndHelperText: Story = {
-  render: (args) => {
-    return <WithLabelAndTextTemplate {...args} />;
-  }
-};
-
-export const GroupMenu: Story = {
-  render: (args) => {
-    return (
-      <Select {...args}>
-        <Option
-          value=""
-          className="typo-title-medium"
-          disabled
-          style={{ margin: 0, color: 'gray-500' }}
-        >
-          Category 1
-        </Option>
+        <ListItem className="typo-title-medium">Category 1</ListItem>
         <Option value="Option 1">Option 1</Option>
         <Option value="Option 2">Option 2</Option>
         <Option value="Option 3">Option 3</Option>
-        <Option
-          value=""
-          className="typo-title-medium"
-          disabled
-          style={{ margin: 0, color: 'gray-500' }}
-        >
-          Category 2
-        </Option>
+        <ListItem className="typo-title-medium">Category 2</ListItem>
         <Option value="Option 4">Option 4</Option>
         <Option value="Option 5">Option 5</Option>
         <Option value="Option 6">Option 6</Option>
@@ -346,153 +302,297 @@ export const GroupMenu: Story = {
   }
 };
 
-export const DefaultMultipleSelect: Story = {
+export const RenderingValuesInChip: Story = {
   render: (args) => {
     return (
-      <Stack spacing={20}>
-        <MultipleSelectTemplate placeholder="uncontrolled select" {...args} />
-        <MultipleSelectTemplate
-          defaultValue={['Option1', 'Option2']}
-          {...args}
-        />
-        <ControlledMultipleSelectTemplate {...args} />
-      </Stack>
-    );
-  }
-};
-
-export const MultipleSelectInsideForm: Story = {
-  render: (args) => {
-    return (
-      <Form>
-        <MultipleSelectTemplate name="options" {...args} />
-      </Form>
-    );
-  }
-};
-
-export const OptionWithCheckbox: Story = {
-  render: (args) => {
-    return <OptionsWithCheckboxTemplate {...args} />;
-  }
-};
-
-export const ChipValue: Story = {
-  render: (args) => {
-    return (
-      <MultipleSelectTemplate
-        renderValue={(values: string[]) => (
+      <Select
+        multiple
+        defaultValue={['option1']}
+        renderValue={(selectedOptions) => (
           <Stack
             direction="row"
             spacing={5}
             style={{ width: '100%', overflow: 'visible', flexWrap: 'wrap' }}
           >
-            {values.map((value) => (
+            {selectedOptions.map(({ value, label }) => (
               <Chip key={value} variant="subtle-filled">
-                {value}
+                {label}
               </Chip>
             ))}
           </Stack>
         )}
         {...args}
-      />
+      >
+        {OPTIONS.map(({ value, label }) => (
+          <Option key={value} value={value}>
+            {label}
+          </Option>
+        ))}
+      </Select>
     );
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<Select
+  multiple
+  defaultValue={['option1']}
+  renderValue={(selectedOptions) => (
+    <Stack
+      direction="row"
+      spacing={5}
+      style={{ width: '100%', overflow: 'visible', flexWrap: 'wrap' }}
+    >
+      {selectedOptions.map(({ value, label }) => (
+        <Chip key={value} variant="subtle-filled">
+          {label}
+        </Chip>
+      ))}
+    </Stack>
+  )}
+>
+  {OPTIONS.map(({ value, label }) => (
+    <Option key={value} value={value}>
+      {label}
+    </Option>
+  ))}
+</Select>`.trim()
+      }
+    }
+  }
+};
+
+export const OptionWithCheckbox: Story = {
+  render: () => <OptionsWithCheckboxTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const OptionsWithCheckboxTemplate = () => {
+  const [selectedValue, setSelectedValue] = useState<OptionValueType[]>([]);
+
+  const handleChange = (
+    _: Event | React.SyntheticEvent,
+    value: OptionValueType[]
+  ) => {
+    setSelectedValue(value);
+  };
+
+  return (
+    <Select
+      value={selectedValue}
+      onChange={handleChange}
+      multiple
+      renderValue={(selectedOption) =>
+        selectedOption
+          .map(({ value }) => {
+            const idx = OPTIONS.findIndex((option) => option.value === value);
+            return OPTIONS[idx].label;
+          })
+          .join(', ')
+      }
+      style={{ width: '300px' }}
+    >
+      {OPTIONS.map(({ value, label }) => (
+        <Option key={value} value={value} style={{ width: '300px' }}>
+          <Checkbox checked={selectedValue.includes(value)} />
+          {label}
+        </Option>
+      ))}
+    </Select>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const SelectWithForm: Story = {
+  render: () => <SelectWithFormTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SelectWithFormTemplate = () => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const color = formData.get('color');
+    alert(\`color: \${color}\`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Label
+        content="Color"
+        labelPlacement="top"
+        required
+        style={{ alignItems: 'start' }}
+      >
+        <Select name="color">
+          <Option value="red">Red</Option>
+          <Option value="yellow">Yellow</Option>
+          <Option value="green">Green</Option>
+        </Select>
+      </Label>
+      <Stack
+        direction="row"
+        style={{ justifyContent: 'end', margin: '10px 16px' }}
+      >
+        <Button type="submit">제출</Button>
+      </Stack>
+    </form>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
 export const Variants: Story = {
-  render: (args) => {
-    return (
-      <Stack direction="row" spacing={20}>
-        <SelectTemplate InputBaseProps={{ variant: 'filled' }} {...args} />
-        <SelectTemplate InputBaseProps={{ variant: 'outlined' }} {...args} />
-        <SelectTemplate InputBaseProps={{ variant: 'underlined' }} {...args} />
-        <SelectTemplate InputBaseProps={{ variant: 'borderless' }} {...args} />
-      </Stack>
-    );
-  }
+  render: (args) => (
+    <Stack spacing={20}>
+      {(['outlined', 'filled', 'underlined', 'borderless'] as const).map(
+        (variant) => (
+          <Select
+            key={variant}
+            variant={variant}
+            placeholder={variant}
+            {...args}
+          >
+            {OPTIONS.map(({ value, label }) => (
+              <Option key={value} value={value}>
+                {label}
+              </Option>
+            ))}
+          </Select>
+        )
+      )}
+    </Stack>
+  )
 };
 
 export const Sizes: Story = {
-  render: (args) => {
-    return (
-      <Stack direction="row" spacing={20}>
-        <SelectTemplate InputBaseProps={{ size: 'sm' }} {...args} />
-        <SelectTemplate InputBaseProps={{ size: 'md' }} {...args} />
-        <SelectTemplate InputBaseProps={{ size: 'lg' }} {...args} />
-      </Stack>
-    );
-  }
+  render: (args) => (
+    <Stack spacing={20}>
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <Select key={size} size={size} placeholder={size} {...args}>
+          {OPTIONS.map(({ value, label }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
+        </Select>
+      ))}
+    </Stack>
+  )
 };
 
 export const Color: Story = {
-  render: (args) => {
-    return (
-      <Stack direction="row" spacing={20}>
-        <SelectTemplate
-          InputBaseProps={{ color: 'secondary', focusedColor: 'secondary' }}
+  render: (args) => (
+    <Stack spacing={20}>
+      {(['error', 'yellow'] as const).map((color) => (
+        <Select
+          key={color}
+          color={color}
+          focusedColor={color}
+          placeholder={color}
           {...args}
-        />
-        <SelectTemplate
-          InputBaseProps={{ color: 'yellow-400', focusedColor: 'yellow-400' }}
-          {...args}
-        />
-      </Stack>
-    );
-  }
+        >
+          {OPTIONS.map(({ value, label }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
+        </Select>
+      ))}
+    </Stack>
+  )
+};
+
+export const FullWidth: Story = {
+  render: (args) => (
+    <Box style={{ width: '300px' }}>
+      <Select fullWidth {...args}>
+        {OPTIONS.map(({ value, label }) => (
+          <Option key={value} value={value}>
+            {label}
+          </Option>
+        ))}
+      </Select>
+    </Box>
+  )
 };
 
 export const Adornments: Story = {
-  render: (args) => {
-    return (
-      <SelectTemplate
-        InputBaseProps={{
-          endAdornment: '↓'
-        }}
-        {...args}
-      />
-    );
-  }
+  render: (args) => (
+    <Select startAdornment="🔅" {...args}>
+      {OPTIONS.map(({ value, label }) => (
+        <Option key={value} value={value}>
+          {label}
+        </Option>
+      ))}
+    </Select>
+  )
 };
 
 export const DisableEffects: Story = {
   render: (args) => {
     return (
-      <Stack direction="row" spacing={20}>
-        <SelectTemplate
-          InputBaseProps={{ disableHoverEffect: true }}
+      <Stack spacing={20}>
+        <Select
+          variant="filled"
+          placeholder="Disable hover effect"
+          disableHoverEffect
           {...args}
-        />
-        <SelectTemplate
-          InputBaseProps={{ disableFocusEffect: true }}
+        >
+          {OPTIONS.map(({ value, label }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
+        </Select>
+        <Select
+          variant="filled"
+          placeholder="Disable focus effect"
+          disableFocusEffect
           {...args}
-        />
+        >
+          {OPTIONS.map(({ value, label }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
+        </Select>
       </Stack>
     );
   }
 };
 
 export const Dense: Story = {
-  render: (args) => {
-    return (
-      <SelectTemplate
-        MenuProps={{ MenuListProps: { dense: true } }}
-        {...args}
-      />
-    );
-  }
+  render: (args) => (
+    <Select MenuProps={{ MenuListProps: { dense: true } }} {...args}>
+      {OPTIONS.map(({ value, label }) => (
+        <Option key={value} value={value}>
+          {label}
+        </Option>
+      ))}
+    </Select>
+  )
 };
 
 export const MenuPosition: Story = {
-  render: (args) => {
-    return (
-      <SelectTemplate
-        MenuProps={{
-          anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
-          menuOrigin: { horizontal: 'left', vertical: 'top' }
-        }}
-        {...args}
-      />
-    );
-  }
+  render: (args) => (
+    <Select
+      MenuProps={{
+        anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
+        menuOrigin: { horizontal: 'left', vertical: 'top' }
+      }}
+      {...args}
+    >
+      {OPTIONS.map(({ value, label }) => (
+        <Option key={value} value={value}>
+          {label}
+        </Option>
+      ))}
+    </Select>
+  )
 };
