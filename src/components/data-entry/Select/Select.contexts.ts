@@ -1,12 +1,14 @@
 import { createContext } from 'react';
+import { OptionValueType } from './Option';
 
 type SelectContextType = {
-  selectValue: string | string[] | undefined;
+  multiple?: boolean;
+  selectedValue: OptionValueType[];
   handleChange: (
     event: Event | React.SyntheticEvent,
-    selectedOptionValue: string
+    selectedOptionValue: OptionValueType
   ) => void;
-  multiple: boolean;
+  closeMenu: () => void;
 };
 
 const SelectContext = createContext<SelectContextType | null>(null);

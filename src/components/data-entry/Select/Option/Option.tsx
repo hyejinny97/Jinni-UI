@@ -1,25 +1,29 @@
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { MenuItem, MenuItemProps } from '@/components/navigation/MenuItem';
-import { useSelectContext } from './Select.hooks';
+import { useSelectContext } from '../Select.hooks';
 
-type OptionProps<T extends AsType = 'li'> = MenuItemProps<T> & {
+export type OptionValueType = string | number;
+
+export type OptionProps<T extends AsType = 'li'> = MenuItemProps<T> & {
   children: React.ReactNode;
-  value: string;
+  value: OptionValueType;
 };
 
 const Option = <T extends AsType = 'li'>(props: OptionProps<T>) => {
   const { children, value, className, ...rest } = props;
-  const { selectValue, handleChange, multiple } = useSelectContext();
+  const { multiple, selectedValue, handleChange, closeMenu } =
+    useSelectContext();
 
   const handleClick = (e: MouseEvent) => {
     handleChange(e, value);
+    if (!multiple) closeMenu();
   };
 
   return (
     <MenuItem
       className={cn('JinniOption', className)}
-      selected={multiple ? selectValue?.includes(value) : selectValue === value}
+      selected={selectedValue.includes(value)}
       onClick={handleClick}
       {...rest}
     >
