@@ -1,64 +1,87 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useMemo } from 'react';
 import SelectContext from './Select.contexts';
 import { transformToArray } from '@/utils/transformToArray';
+import { SelectProps, SelectedOptionType } from './Select';
+import { OptionValueType } from './Option';
+import { getOptionsInfo } from './Select.utils';
 
-type UseSelectValueProps<Multiple extends boolean> = {
-  multiple: Multiple;
-  defaultValue?: Multiple extends true ? string[] : string;
-  value?: Multiple extends true ? string[] : string;
-  onChange?: (
-    event: Event | React.SyntheticEvent,
-    value: Multiple extends true ? string[] : string
-  ) => void;
-  setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
+type UseSelectedValueProps<Multiple extends boolean> = Pick<
+  SelectProps<Multiple>,
+  'defaultValue' | 'value' | 'onChange' | 'multiple'
+>;
+
+type UseSelectedOptionProps = Pick<SelectProps, 'children'> & {
+  selectedValue: OptionValueType[];
 };
 
-export const useSelectValue = <Multiple extends boolean>({
+export const useSelectedValue = <Multiple extends boolean>({
   defaultValue,
   value,
   onChange,
-  setOpenMenu,
   multiple
-}: UseSelectValueProps<Multiple>) => {
+}: UseSelectedValueProps<Multiple>) => {
   const isControlled = value !== undefined;
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
+  const [uncontrolledValue, setUncontrolledValue] = useState<OptionValueType[]>(
+    transformToArray(defaultValue)
+  );
+  const selectedValue: OptionValueType[] = isControlled
+    ? transformToArray(value)
+    : uncontrolledValue;
 
-  const remove = (array: Array<string>, element: string) => {
+  const remove = (
+    array: OptionValueType[],
+    element: OptionValueType
+  ): OptionValueType[] => {
     return array.filter((ele) => ele !== element);
   };
 
-  const insert = (array: Array<string>, element: string) => {
+  const insert = (
+    array: OptionValueType[],
+    element: OptionValueType
+  ): OptionValueType[] => {
     return [...array, element];
-  };
-
-  const getNewSelectValue = (
-    selectedOptionValue: string
-  ): string | string[] => {
-    if (!multiple) return selectedOptionValue;
-    const valueArr = isControlled
-      ? transformToArray(value)
-      : transformToArray(uncontrolledValue);
-    return valueArr.includes(selectedOptionValue)
-      ? remove(valueArr, selectedOptionValue)
-      : insert(valueArr, selectedOptionValue);
   };
 
   const handleChange = (
     event: Event | React.SyntheticEvent,
-    selectedOptionValue: string
+    selectedOptionValue: OptionValueType
   ) => {
-    const newSelectValue = getNewSelectValue(
-      selectedOptionValue
-    ) as Multiple extends true ? string[] : string;
-    if (!isControlled) setUncontrolledValue(newSelectValue);
-    if (onChange) onChange(event, newSelectValue);
-    if (!multiple) setOpenMenu(false);
+    let newSelectedValue = [];
+    if (multiple) {
+      newSelectedValue = selectedValue.includes(selectedOptionValue)
+        ? remove(selectedValue, selectedOptionValue)
+        : insert(selectedValue, selectedOptionValue);
+    } else {
+      newSelectedValue = [selectedOptionValue];
+    }
+
+    if (!isControlled) setUncontrolledValue(newSelectedValue);
+    if (onChange)
+      onChange(
+        event,
+        (multiple
+          ? newSelectedValue
+          : newSelectedValue[0]) as Multiple extends true
+          ? OptionValueType[]
+          : OptionValueType
+      );
   };
 
   return {
-    selectValue: isControlled ? value : uncontrolledValue,
+    selectedValue,
     handleChange
   };
+};
+
+export const useSelectedOption = ({
+  children,
+  selectedValue
+}: UseSelectedOptionProps): SelectedOptionType => {
+  const optionsInfo = useMemo(() => getOptionsInfo(children), [children]);
+  return selectedValue.map((value) => ({
+    value,
+    label: optionsInfo[value]
+  }));
 };
 
 export const useSelectContext = () => {

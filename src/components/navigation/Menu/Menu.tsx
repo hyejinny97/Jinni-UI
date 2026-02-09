@@ -9,7 +9,7 @@ import { useKeyboardAccessibility } from './Menu.hooks';
 import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
 
-type CloseReason = 'escapeKeyDown' | 'tabKeyDown' | 'backdropClick';
+export type CloseReason = 'escapeKeyDown' | 'tabKeyDown' | 'backdropClick';
 
 export type MenuProps<T extends AsType = 'div'> = Omit<
   Partial<PopperProps<T>>,
