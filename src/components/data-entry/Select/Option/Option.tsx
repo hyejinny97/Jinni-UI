@@ -14,6 +14,7 @@ const Option = <T extends AsType = 'li'>(props: OptionProps<T>) => {
   const { children, value, className, ...rest } = props;
   const { multiple, selectedValue, handleChange, closeMenu } =
     useSelectContext();
+  const isSelected = selectedValue.includes(value);
 
   const handleClick = (e: MouseEvent) => {
     handleChange(e, value);
@@ -22,9 +23,11 @@ const Option = <T extends AsType = 'li'>(props: OptionProps<T>) => {
 
   return (
     <MenuItem
+      role="option"
       className={cn('JinniOption', className)}
-      selected={selectedValue.includes(value)}
+      selected={isSelected}
       onClick={handleClick}
+      aria-selected={isSelected}
       {...rest}
     >
       {children}

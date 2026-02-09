@@ -1,9 +1,9 @@
 import './Select.scss';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
-import { Menu, MenuProps } from '@/components/navigation/Menu';
+import { Menu, MenuProps, CloseReason } from '@/components/navigation/Menu';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { transformToArray } from '@/utils/transformToArray';
 import { useSelectedValue, useSelectedOption } from './Select.hooks';
@@ -81,20 +81,34 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
     selectedValue
   });
   const notSelected = selectedValue.length === 0;
+  const {
+    className: menuClassName,
+    onClose: menuOnClose,
+    MenuListProps: menuListProps,
+    ...restMenuProps
+  } = (MenuProps || {}) as Partial<MenuProps>;
 
   const openMenu = () => {
     if (disabled) return;
     setOpen(true);
   };
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setOpen(false);
-  };
+  }, []);
+  const handleMenuClose = useCallback(
+    (event: MouseEvent | KeyboardEvent, reason: CloseReason) => {
+      closeMenu();
+      menuOnClose?.(event, reason);
+    },
+    [closeMenu, menuOnClose]
+  );
 
   return (
     <SelectContext.Provider
       value={{ multiple, selectedValue, handleChange, closeMenu }}
     >
       <InputBase
+        role="combobox"
         ref={inputBaseElRef}
         className={cn(
           'JinniSelect',
@@ -102,6 +116,7 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
           className
         )}
         onClick={openMenu}
+        onKeyDown={(e: KeyboardEvent) => e.key === 'Enter' && openMenu()}
         startAdornment={startAdornment}
         endAdornment={endAdornment}
         variant={variant}
@@ -113,6 +128,9 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
         disableFocusEffect={disableFocusEffect}
         fullWidth={fullWidth}
         focused={focused || open}
+        tabIndex={0}
+        aria-expanded={open}
+        aria-haspopup="listbox"
         {...rest}
       >
         {notSelected ? placeholder : renderValue(selectedOption)}
@@ -135,13 +153,14 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
         }
       </InputBase>
       <Menu
-        className={cn('JinniSelectMenu', MenuProps?.className)}
+        className={cn('JinniSelectMenu', menuClassName)}
         anchorElRef={inputBaseElRef}
         open={open}
-        onClose={closeMenu}
+        onClose={handleMenuClose}
         anchorOrigin={ANCHOR_ORIGIN}
         menuOrigin={MENU_ORIGIN}
-        {...MenuProps}
+        MenuListProps={{ role: 'listbox', ...menuListProps }}
+        {...restMenuProps}
       >
         {children}
       </Menu>
