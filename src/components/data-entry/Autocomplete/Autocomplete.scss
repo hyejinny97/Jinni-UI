@@ -1,39 +1,62 @@
 @use '@/styles/mixins' as mixins;
 
-.JinniAutocomplete {
-  display: inline-block;
-
-  .JinniInputBase {
-    width: 300px;
-
-    .JinniInputBaseContent {
-      display: inline-flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      width: 100%;
-
-      .JinniAutocompleteInput {
-        flex: 1;
-        text-overflow: ellipsis;
-        min-height: initial;
-      }
-
-      .JinniChip {
+@mixin show-clear-button {
+  &.clearable {
+    &:hover,
+    &:focus-within,
+    &.open {
+      .JinniInputBaseAdornment.end .JinniButtonBase.clear {
         display: inline-flex;
-        max-width: 100%;
-        box-sizing: border-box;
-        .JinniChipLabel {
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
       }
     }
+  }
+}
 
-    .JinniInputBaseAdornment.end {
-      .JinniButtonBase.delete-button {
-        display: inline-flex;
-        border-radius: 50%;
+.JinniAutocomplete.JinniInputBase {
+  width: 300px;
+  @include show-clear-button;
+
+  &:not(.disabled):hover {
+    cursor: pointer;
+  }
+
+  .JinniInputBaseContent {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 100%;
+
+    input.JinniAutocompleteInput {
+      flex: 1;
+      text-overflow: ellipsis;
+      min-height: initial;
+    }
+
+    .JinniChip {
+      display: inline-flex;
+      max-width: 100%;
+      box-sizing: border-box;
+      .JinniChipLabel {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .JinniInputBaseAdornment.end {
+    .JinniButtonBase.clear {
+      display: none;
+      padding: 3px;
+      border-radius: 50%;
+    }
+
+    .JinniButtonBase.show-menu {
+      display: inline-flex;
+      padding: 3px;
+      border-radius: 50%;
+      &.open {
+        rotate: 180deg;
       }
     }
   }
@@ -48,7 +71,7 @@
     max-height: 300px;
     overflow-y: auto;
 
-    .JinniAutocompleteOption + .JinniAutocompleteOption.no-options {
+    .JinniAutocompleteOption + .JinniListItem.no-options {
       display: none;
       color: var(--jinni-color-gray-400);
     }

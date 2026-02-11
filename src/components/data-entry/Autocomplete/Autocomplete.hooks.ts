@@ -1,142 +1,168 @@
-import { useState, useContext, useEffect } from 'react';
+import {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo
+} from 'react';
 import { AutocompleteProps } from './Autocomplete';
 import AutocompleteContext from './Autocomplete.contexts';
 import { transformToArray } from '@/utils/transformToArray';
+import { OptionValueType } from './AutocompleteOption';
+import { getOptionsInfo } from './Autocomplete.utils';
 
-type UseValueProps<Multiple extends boolean = false> = {
-  multiple: Multiple;
-  defaultValue?: Multiple extends true ? string[] : string;
-  value?: Multiple extends true ? string[] : string;
-  onChange?: (
-    event: Event | React.SyntheticEvent,
-    value: Multiple extends true ? string[] : string
-  ) => void;
-  setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
-};
+type UseAutocompleteValueProps<Multiple extends boolean> = Pick<
+  AutocompleteProps<Multiple>,
+  'defaultValue' | 'value' | 'onChange' | 'multiple'
+>;
 
-export const useValue = <Multiple extends boolean = false>({
+type UseInputValueProps = Pick<
+  AutocompleteProps,
+  'inputValue' | 'onInputChange'
+>;
+
+type UseBackgroundClickProps<Multiple extends boolean = false> = Required<
+  Pick<AutocompleteProps, 'mode'>
+> &
+  Pick<AutocompleteProps<Multiple>, 'multiple'> & {
+    inputBaseElRef: React.RefObject<HTMLElement>;
+    autocompleteValue: OptionValueType[];
+    valueToLabel: (value: OptionValueType) => string;
+    changeInputValue: (
+      event: Event | React.SyntheticEvent,
+      newValue: string
+    ) => void;
+    initInputValue: (event: Event | React.SyntheticEvent) => void;
+    closeMenu: () => void;
+  };
+
+type UseAutocompleteValueLabel = Pick<AutocompleteProps, 'children'>;
+
+export const useAutocompleteValue = <Multiple extends boolean = false>({
   defaultValue,
   value,
   onChange,
-  setOpenMenu,
   multiple
-}: UseValueProps<Multiple>) => {
-  const INIT_VALUE = (multiple ? [] : '') as Multiple extends true
-    ? string[]
-    : string;
+}: UseAutocompleteValueProps<Multiple>) => {
   const isControlled = value !== undefined;
-  const [uncontrolledValue, setUncontrolledValue] = useState(
-    defaultValue || INIT_VALUE
+  const [uncontrolledValue, setUncontrolledValue] = useState<OptionValueType[]>(
+    transformToArray(defaultValue)
   );
+  const autocompleteValue: OptionValueType[] = isControlled
+    ? transformToArray(value)
+    : uncontrolledValue;
 
-  const remove = (array: Array<string>, element: string) => {
+  const remove = (array: OptionValueType[], element: OptionValueType) => {
     return array.filter((ele) => ele !== element);
   };
 
-  const insert = (array: Array<string>, element: string) => {
+  const insert = (array: OptionValueType[], element: OptionValueType) => {
     return [...array, element];
   };
 
-  const getNewAutocompleteValue = (newValue: string): string | string[] => {
-    if (!multiple) return newValue;
-    const valueArr = isControlled
-      ? transformToArray(value)
-      : transformToArray(uncontrolledValue);
-    return valueArr.includes(newValue)
-      ? remove(valueArr, newValue)
-      : insert(valueArr, newValue);
-  };
-
-  const handleValueChange = (
+  const changeAutocompleteValue = (
     event: Event | React.SyntheticEvent,
-    newValue: string
+    newValue: OptionValueType
   ) => {
-    const newAutocompleteValue = getNewAutocompleteValue(
-      newValue
-    ) as Multiple extends true ? string[] : string;
+    let newAutocompleteValue = [];
+    if (multiple) {
+      newAutocompleteValue = autocompleteValue.includes(newValue)
+        ? remove(autocompleteValue, newValue)
+        : insert(autocompleteValue, newValue);
+    } else {
+      newAutocompleteValue = [newValue];
+    }
+
     if (!isControlled) setUncontrolledValue(newAutocompleteValue);
-    if (onChange) onChange(event, newAutocompleteValue);
-    setOpenMenu(false);
+    if (onChange)
+      onChange(
+        event,
+        (multiple
+          ? newAutocompleteValue
+          : newAutocompleteValue[0]) as Multiple extends true
+          ? OptionValueType[]
+          : OptionValueType
+      );
   };
 
-  const initValue = (event: Event | React.SyntheticEvent) => {
-    if (!isControlled) setUncontrolledValue(INIT_VALUE);
-    if (onChange) onChange(event, INIT_VALUE);
+  const initAutocompleteValue = (event: Event | React.SyntheticEvent) => {
+    if (!isControlled) setUncontrolledValue([]);
+    if (onChange)
+      onChange(
+        event,
+        (multiple ? [] : '') as Multiple extends true
+          ? OptionValueType[]
+          : OptionValueType
+      );
   };
 
   return {
-    autocompleteValue: isControlled ? value : uncontrolledValue,
-    handleValueChange,
-    initValue
+    autocompleteValue,
+    changeAutocompleteValue,
+    initAutocompleteValue
   };
 };
 
 export const useInputValue = ({
   inputValue,
-  defaultInputValue,
   onInputChange
-}: Pick<AutocompleteProps, 'inputValue' | 'onInputChange'> & {
-  defaultInputValue?: string;
-}) => {
-  const INIT_INPUT_VALUE = '';
+}: UseInputValueProps) => {
   const isControlled = inputValue !== undefined;
-  const [uncontrolledInputValue, setUncontrolledInputValue] = useState<string>(
-    defaultInputValue || INIT_INPUT_VALUE
+  const [uncontrolledInputValue, setUncontrolledInputValue] =
+    useState<string>('');
+
+  const changeInputValue = useCallback(
+    (event: Event | React.SyntheticEvent, newValue: string) => {
+      if (!isControlled) setUncontrolledInputValue(newValue);
+      if (onInputChange) onInputChange(event, newValue);
+    },
+    [isControlled, onInputChange]
   );
 
-  const handleInputValueChange = (
-    event: Event | React.SyntheticEvent,
-    newValue: string
-  ) => {
-    if (!isControlled) setUncontrolledInputValue(newValue);
-    if (onInputChange) onInputChange(event, newValue);
-  };
-
-  const initInputValue = (event: Event | React.SyntheticEvent) =>
-    handleInputValueChange(event, INIT_INPUT_VALUE);
+  const initInputValue = useCallback(
+    (event: Event | React.SyntheticEvent) => changeInputValue(event, ''),
+    [changeInputValue]
+  );
 
   return {
     autocompleteInputValue: isControlled ? inputValue : uncontrolledInputValue,
-    handleInputValueChange,
+    changeInputValue,
     initInputValue
   };
 };
 
-export const useAutocompleteContext = () => {
-  const value = useContext(AutocompleteContext);
-  if (!value) throw Error('AutocompleteContext value is null');
-  return value;
-};
-
-export const useBackgroundClick = ({
+export const useBackgroundClick = <Multiple extends boolean = false>({
   inputBaseElRef,
-  menuListElRef,
   mode,
   multiple,
   autocompleteValue,
-  handleInputValueChange,
-  initInputValue
-}: {
-  inputBaseElRef: React.RefObject<HTMLElement>;
-  menuListElRef: React.RefObject<HTMLElement>;
-  autocompleteValue: string | string[];
-  multiple: boolean;
-  handleInputValueChange: (
-    event: Event | React.SyntheticEvent,
-    newValue: string
-  ) => void;
-  initInputValue: (event: Event | React.SyntheticEvent) => void;
-} & Required<Pick<AutocompleteProps, 'mode'>>) => {
+  valueToLabel,
+  changeInputValue,
+  initInputValue,
+  closeMenu
+}: UseBackgroundClickProps<Multiple>) => {
+  const menuListElRef = useRef<HTMLUListElement>(null);
+
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       const inputBaseEl = inputBaseElRef.current;
       const menuListEl = menuListElRef.current;
+      if (!inputBaseEl || !menuListEl) return;
+
       const clickedEl = event.target as Node;
-      const isBackgroundClicked =
-        !inputBaseEl?.contains(clickedEl) && !menuListEl?.contains(clickedEl);
+      const isBackgroundClicked = !(
+        inputBaseEl.contains(clickedEl) || menuListEl.contains(clickedEl)
+      );
+
       if (isBackgroundClicked && mode === 'strict') {
-        if (multiple || Array.isArray(autocompleteValue)) initInputValue(event);
-        else handleInputValueChange(event, autocompleteValue);
+        closeMenu();
+        if (multiple) initInputValue(event);
+        else
+          changeInputValue(
+            event,
+            autocompleteValue[0] ? valueToLabel(autocompleteValue[0]) : ''
+          );
       }
     };
 
@@ -146,11 +172,40 @@ export const useBackgroundClick = ({
     };
   }, [
     inputBaseElRef,
-    menuListElRef,
     mode,
     multiple,
     autocompleteValue,
-    handleInputValueChange,
-    initInputValue
+    valueToLabel,
+    changeInputValue,
+    initInputValue,
+    closeMenu
   ]);
+
+  return { menuListElRef };
+};
+
+export const useAutocompleteValueLabel = ({
+  children
+}: UseAutocompleteValueLabel) => {
+  const optionsInfo = useMemo(() => getOptionsInfo(children), [children]);
+
+  const valueToLabel = useCallback(
+    (value: OptionValueType): string => {
+      const label = optionsInfo[value];
+      if (label) return label;
+      if (typeof value === 'string') return value;
+      throw new Error('value에 해당되는 label이 없습니다.');
+    },
+    [optionsInfo]
+  );
+
+  return {
+    valueToLabel
+  };
+};
+
+export const useAutocompleteContext = () => {
+  const value = useContext(AutocompleteContext);
+  if (!value) throw Error('AutocompleteContext value is null');
+  return value;
 };
