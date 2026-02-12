@@ -25,39 +25,39 @@ import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { useLabelContext } from '@/components/data-entry/Label';
 import { ListItem } from '@/components/data-display/List';
 
-export type AutocompleteProps<Multiple extends boolean = false> =
-  DefaultComponentProps<'input'> &
-    RootInputBaseProps & {
-      name?: string;
-      children: React.ReactNode;
-      placeholder?: string;
-      mode?: 'strict' | 'free';
-      multiple?: Multiple;
-      defaultValue?: Multiple extends true
-        ? OptionValueType[]
-        : OptionValueType;
-      value?: Multiple extends true ? OptionValueType[] : OptionValueType;
-      inputValue?: string;
-      onChange?: (
-        event: Event | React.SyntheticEvent,
-        value: Multiple extends true ? OptionValueType[] : OptionValueType
-      ) => void;
-      onInputChange?: (
-        event: Event | React.SyntheticEvent,
-        inputValue: string
-      ) => void;
-      renderValue?: (
-        autocompleteValueLabel: Array<{
-          value: OptionValueType;
-          label: OptionLabelType;
-        }>,
-        onDelete?: (
-          e: Event | React.SyntheticEvent,
-          valueToDelete: OptionValueType
-        ) => void
-      ) => React.ReactNode;
-      MenuProps?: Partial<MenuProps>;
-    };
+export type AutocompleteProps<Multiple extends boolean = false> = Omit<
+  DefaultComponentProps<'input'>,
+  'defaultValue' | 'value' | 'onChange'
+> &
+  RootInputBaseProps & {
+    name?: string;
+    children: React.ReactNode;
+    placeholder?: string;
+    mode?: 'strict' | 'free';
+    multiple?: Multiple;
+    defaultValue?: Multiple extends true ? OptionValueType[] : OptionValueType;
+    value?: Multiple extends true ? OptionValueType[] : OptionValueType;
+    inputValue?: string;
+    onChange?: (
+      event: Event | React.SyntheticEvent,
+      value: Multiple extends true ? OptionValueType[] : OptionValueType
+    ) => void;
+    onInputChange?: (
+      event: Event | React.SyntheticEvent,
+      inputValue: string
+    ) => void;
+    renderValue?: (
+      autocompleteValueLabel: Array<{
+        value: OptionValueType;
+        label: OptionLabelType;
+      }>,
+      onDelete?: (
+        e: Event | React.SyntheticEvent,
+        valueToDelete: OptionValueType
+      ) => void
+    ) => React.ReactNode;
+    MenuProps?: Partial<MenuProps>;
+  };
 
 const defaultRenderValue = (
   autocompleteValueLabel: Array<{
@@ -163,9 +163,9 @@ const Autocomplete = <Multiple extends boolean = false>(
     setOpen((prev) => !prev);
   };
   const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && mode === 'free' && inputValue) {
+    if (event.key === 'Enter' && mode === 'free' && autocompleteInputValue) {
       event.preventDefault();
-      changeAutocompleteValue(event, inputValue);
+      changeAutocompleteValue(event, autocompleteInputValue);
       if (multiple) initInputValue(event);
     }
   };
