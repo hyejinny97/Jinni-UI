@@ -133,6 +133,7 @@ const Autocomplete = <Multiple extends boolean = false>(
   const inputElRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
+  const { valueToLabel } = useAutocompleteValueLabel({ children });
   const { autocompleteValue, changeAutocompleteValue, initAutocompleteValue } =
     useAutocompleteValue({
       defaultValue,
@@ -142,8 +143,11 @@ const Autocomplete = <Multiple extends boolean = false>(
     });
   const { autocompleteInputValue, changeInputValue, initInputValue } =
     useInputValue({
+      multiple,
+      autocompleteValue,
       inputValue,
-      onInputChange
+      onInputChange,
+      valueToLabel
     });
   const {
     className: menuClassName,
@@ -177,7 +181,6 @@ const Autocomplete = <Multiple extends boolean = false>(
     [closeMenu, menuOnClose]
   );
 
-  const { valueToLabel } = useAutocompleteValueLabel({ children });
   const { menuListElRef } = useBlur({
     inputElRef,
     mode,

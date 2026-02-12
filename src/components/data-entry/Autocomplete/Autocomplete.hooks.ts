@@ -17,10 +17,13 @@ type UseAutocompleteValueProps<Multiple extends boolean> = Pick<
   'defaultValue' | 'value' | 'onChange' | 'multiple'
 >;
 
-type UseInputValueProps = Pick<
-  AutocompleteProps,
-  'inputValue' | 'onInputChange'
->;
+type UseInputValueProps<Multiple extends boolean> = Pick<
+  AutocompleteProps<Multiple>,
+  'inputValue' | 'onInputChange' | 'multiple'
+> & {
+  autocompleteValue: OptionValueType[];
+  valueToLabel: (value: OptionValueType) => string;
+};
 
 type UseBlurProps<Multiple extends boolean = false> = Required<
   Pick<AutocompleteProps, 'mode'>
@@ -104,13 +107,19 @@ export const useAutocompleteValue = <Multiple extends boolean = false>({
   };
 };
 
-export const useInputValue = ({
+export const useInputValue = <Multiple extends boolean>({
+  multiple,
+  autocompleteValue,
   inputValue,
-  onInputChange
-}: UseInputValueProps) => {
+  onInputChange,
+  valueToLabel
+}: UseInputValueProps<Multiple>) => {
   const isControlled = inputValue !== undefined;
-  const [uncontrolledInputValue, setUncontrolledInputValue] =
-    useState<string>('');
+  const [uncontrolledInputValue, setUncontrolledInputValue] = useState<string>(
+    !multiple && autocompleteValue.length > 0
+      ? valueToLabel(autocompleteValue[0])
+      : ''
+  );
 
   const changeInputValue = useCallback(
     (event: Event | React.SyntheticEvent, newValue: string) => {
