@@ -19,7 +19,7 @@ import AutocompleteContext from './Autocomplete.contexts';
 import { OptionValueType, OptionLabelType } from './AutocompleteOption';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { ButtonBase } from '@/components/general/ButtonBase';
-import { Stack } from '@/components/layout/Stack';
+import { Box } from '@/components/layout/Box';
 import { CancelIcon } from '@/components/icons/CancelIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { useLabelContext } from '@/components/data-entry/Label';
@@ -114,7 +114,11 @@ const Autocomplete = <Multiple extends boolean = false>(
     renderValue = defaultRenderValue,
     MenuProps,
     startAdornment,
-    endAdornment,
+    endAdornment = (
+      <ButtonBase className="show-menu">
+        <ArrowDownIcon color="gray-600" size={16} />
+      </ButtonBase>
+    ),
     variant,
     size = (labelContext?.size || 'md') as InputBaseProps['size'],
     color,
@@ -214,24 +218,7 @@ const Autocomplete = <Multiple extends boolean = false>(
         onClick={openMenu}
         onKeyDown={handleKeyDown}
         startAdornment={startAdornment}
-        endAdornment={
-          endAdornment || (
-            <Stack direction="row" spacing={5} style={{ alignItems: 'center' }}>
-              <ButtonBase
-                className="clear"
-                onClick={(event: MouseEvent) => {
-                  initInputValue(event);
-                  initAutocompleteValue(event);
-                }}
-              >
-                <CloseIcon size={16} color="gray-500" />
-              </ButtonBase>
-              <ButtonBase className={cn('show-menu', { open })}>
-                <ArrowDownIcon color="gray-600" size={16} />
-              </ButtonBase>
-            </Stack>
-          )
-        }
+        endAdornment={endAdornment}
         variant={variant}
         size={size}
         color={color}
@@ -243,28 +230,41 @@ const Autocomplete = <Multiple extends boolean = false>(
         focused={focused || open}
         style={style}
       >
-        {multiple &&
-          renderValue(
-            autocompleteValue.map((value) => ({
-              value,
-              label: valueToLabel(value)
-            })),
-            (e: Event | React.SyntheticEvent, valueToDelete: OptionValueType) =>
-              changeAutocompleteValue(e, valueToDelete)
-          )}
-        <input
-          ref={inputElRef}
-          className="JinniAutocompleteInput"
-          type="text"
-          value={autocompleteInputValue}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            changeInputValue(event, event.target.value);
-            setIsFiltered(true);
+        <Box className="JinniAutocompleteContent">
+          {multiple &&
+            renderValue(
+              autocompleteValue.map((value) => ({
+                value,
+                label: valueToLabel(value)
+              })),
+              (
+                e: Event | React.SyntheticEvent,
+                valueToDelete: OptionValueType
+              ) => changeAutocompleteValue(e, valueToDelete)
+            )}
+          <input
+            ref={inputElRef}
+            className="JinniAutocompleteInput"
+            type="text"
+            value={autocompleteInputValue}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              changeInputValue(event, event.target.value);
+              setIsFiltered(true);
+            }}
+            placeholder={placeholder}
+            disabled={disabled}
+            {...rest}
+          />
+        </Box>
+        <ButtonBase
+          className="clear"
+          onClick={(event: MouseEvent) => {
+            initInputValue(event);
+            initAutocompleteValue(event);
           }}
-          placeholder={placeholder}
-          disabled={disabled}
-          {...rest}
-        />
+        >
+          <CloseIcon size={16} color="gray-500" />
+        </ButtonBase>
         {
           <input
             name={name}

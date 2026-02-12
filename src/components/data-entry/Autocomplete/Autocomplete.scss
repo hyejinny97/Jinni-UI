@@ -5,9 +5,35 @@
     &:hover,
     &:focus-within,
     &.open {
-      .JinniInputBaseAdornment.end .JinniButtonBase.clear {
+      .JinniInputBaseContent .JinniButtonBase.clear {
         display: inline-flex;
       }
+    }
+  }
+}
+
+@mixin animate-arrow-button {
+  &.open {
+    .JinniInputBaseAdornment.end .JinniButtonBase.show-menu {
+      rotate: 180deg;
+    }
+  }
+}
+
+@mixin clear-button-style-by-size {
+  &.sm {
+    .JinniButtonBase.clear {
+      margin-right: -6px;
+    }
+  }
+  &.md {
+    .JinniButtonBase.clear {
+      margin-right: -7px;
+    }
+  }
+  &.sm {
+    .JinniButtonBase.clear {
+      margin-right: -8px;
     }
   }
 }
@@ -15,6 +41,8 @@
 .JinniAutocomplete.JinniInputBase {
   width: 300px;
   @include show-clear-button;
+  @include animate-arrow-button;
+  @include clear-button-style-by-size;
 
   &:not(.disabled):hover {
     cursor: pointer;
@@ -22,42 +50,46 @@
 
   .JinniInputBaseContent {
     display: inline-flex;
-    flex-wrap: wrap;
     gap: 5px;
-    width: 100%;
+    align-items: center;
 
-    input.JinniAutocompleteInput {
+    .JinniAutocompleteContent {
       flex: 1;
-      text-overflow: ellipsis;
-      min-height: initial;
-    }
-
-    .JinniChip {
       display: inline-flex;
-      max-width: 100%;
-      box-sizing: border-box;
-      .JinniChipLabel {
-        overflow: hidden;
-        white-space: nowrap;
+      flex-wrap: wrap;
+      gap: 5px;
+      width: 100%;
+
+      input.JinniAutocompleteInput {
+        flex: 1;
         text-overflow: ellipsis;
+        min-height: initial;
+      }
+
+      .JinniChip {
+        display: inline-flex;
+        max-width: 100%;
+        box-sizing: border-box;
+        .JinniChipLabel {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
     }
-  }
 
-  .JinniInputBaseAdornment.end {
     .JinniButtonBase.clear {
       display: none;
       padding: 3px;
       border-radius: 50%;
     }
+  }
 
+  .JinniInputBaseAdornment.end {
     .JinniButtonBase.show-menu {
       display: inline-flex;
       padding: 3px;
       border-radius: 50%;
-      &.open {
-        rotate: 180deg;
-      }
     }
   }
 }
