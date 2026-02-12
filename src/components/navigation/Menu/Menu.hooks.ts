@@ -4,8 +4,12 @@ import { MenuProps } from './Menu';
 export const useKeyboardAccessibility = ({
   open,
   onClose,
-  anchorElRef
-}: Pick<MenuProps, 'open' | 'onClose' | 'anchorElRef'>) => {
+  anchorElRef,
+  disableMenuListFocused
+}: Pick<
+  MenuProps,
+  'open' | 'onClose' | 'anchorElRef' | 'disableMenuListFocused'
+>) => {
   const menuListElRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -13,7 +17,9 @@ export const useKeyboardAccessibility = ({
 
     const anchorEl = anchorElRef?.current;
     const menuListEl = menuListElRef.current;
-    menuListEl?.focus();
+    if (!disableMenuListFocused) {
+      menuListEl?.focus();
+    }
 
     const handleEscapeAndTap = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -30,7 +36,7 @@ export const useKeyboardAccessibility = ({
       document.removeEventListener('keydown', handleEscapeAndTap);
       anchorEl?.focus();
     };
-  }, [open, onClose, anchorElRef]);
+  }, [open, onClose, anchorElRef, disableMenuListFocused]);
 
   return { menuListElRef };
 };

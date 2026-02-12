@@ -22,11 +22,11 @@ type UseInputValueProps = Pick<
   'inputValue' | 'onInputChange'
 >;
 
-type UseBackgroundClickProps<Multiple extends boolean = false> = Required<
+type UseBlurProps<Multiple extends boolean = false> = Required<
   Pick<AutocompleteProps, 'mode'>
 > &
   Pick<AutocompleteProps<Multiple>, 'multiple'> & {
-    inputBaseElRef: React.RefObject<HTMLElement>;
+    inputElRef: React.RefObject<HTMLElement>;
     autocompleteValue: OptionValueType[];
     valueToLabel: (value: OptionValueType) => string;
     changeInputValue: (
@@ -132,8 +132,8 @@ export const useInputValue = ({
   };
 };
 
-export const useBackgroundClick = <Multiple extends boolean = false>({
-  inputBaseElRef,
+export const useBlur = <Multiple extends boolean = false>({
+  inputElRef,
   mode,
   multiple,
   autocompleteValue,
@@ -141,21 +141,21 @@ export const useBackgroundClick = <Multiple extends boolean = false>({
   changeInputValue,
   initInputValue,
   closeMenu
-}: UseBackgroundClickProps<Multiple>) => {
+}: UseBlurProps<Multiple>) => {
   const menuListElRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
-      const inputBaseEl = inputBaseElRef.current;
+    const inputEl = inputElRef.current;
+    if (!inputEl) return;
+
+    const handleBlur = (event: FocusEvent) => {
       const menuListEl = menuListElRef.current;
-      if (!inputBaseEl || !menuListEl) return;
+      if (!menuListEl) return;
 
-      const clickedEl = event.target as Node;
-      const isBackgroundClicked = !(
-        inputBaseEl.contains(clickedEl) || menuListEl.contains(clickedEl)
-      );
+      const focusedEl = event.relatedTarget as Node;
+      const isBackgroundFocused = !menuListEl.contains(focusedEl);
 
-      if (isBackgroundClicked && mode === 'strict') {
+      if (isBackgroundFocused && mode === 'strict') {
         closeMenu();
         if (multiple) initInputValue(event);
         else
@@ -166,12 +166,12 @@ export const useBackgroundClick = <Multiple extends boolean = false>({
       }
     };
 
-    document.addEventListener('click', handleClick, { capture: true });
+    inputEl.addEventListener('blur', handleBlur);
     return () => {
-      document.removeEventListener('click', handleClick);
+      inputEl.removeEventListener('blur', handleBlur);
     };
   }, [
-    inputBaseElRef,
+    inputElRef,
     mode,
     multiple,
     autocompleteValue,

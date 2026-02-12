@@ -12,7 +12,7 @@ import { Chip } from '@/components/data-display/Chip';
 import {
   useAutocompleteValue,
   useInputValue,
-  useBackgroundClick,
+  useBlur,
   useAutocompleteValueLabel
 } from './Autocomplete.hooks';
 import AutocompleteContext from './Autocomplete.contexts';
@@ -114,11 +114,7 @@ const Autocomplete = <Multiple extends boolean = false>(
     renderValue = defaultRenderValue,
     MenuProps,
     startAdornment,
-    endAdornment = (
-      <ButtonBase className="show-menu">
-        <ArrowDownIcon color="gray-600" size={16} />
-      </ButtonBase>
-    ),
+    endAdornment,
     variant,
     size = (labelContext?.size || 'md') as InputBaseProps['size'],
     color,
@@ -159,13 +155,14 @@ const Autocomplete = <Multiple extends boolean = false>(
   const openMenu = () => {
     if (disabled) return;
     setOpen(true);
-    setIsFiltered(false);
-    inputElRef.current?.focus();
   };
   const closeMenu = useCallback(() => {
     setOpen(false);
   }, []);
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const toggleMenu = () => {
+    setOpen((prev) => !prev);
+  };
+  const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && mode === 'free' && inputValue) {
       event.preventDefault();
       changeAutocompleteValue(event, inputValue);
@@ -181,8 +178,8 @@ const Autocomplete = <Multiple extends boolean = false>(
   );
 
   const { valueToLabel } = useAutocompleteValueLabel({ children });
-  const { menuListElRef } = useBackgroundClick({
-    inputBaseElRef,
+  const { menuListElRef } = useBlur({
+    inputElRef,
     mode,
     multiple,
     autocompleteValue,
@@ -215,10 +212,22 @@ const Autocomplete = <Multiple extends boolean = false>(
           },
           className
         )}
-        onClick={openMenu}
-        onKeyDown={handleKeyDown}
         startAdornment={startAdornment}
-        endAdornment={endAdornment}
+        endAdornment={
+          endAdornment || (
+            <ButtonBase
+              className="show-menu"
+              tabIndex={-1}
+              onClick={() => {
+                toggleMenu();
+                setIsFiltered(false);
+                inputElRef.current?.focus();
+              }}
+            >
+              <ArrowDownIcon color="gray-600" size={16} />
+            </ButtonBase>
+          )
+        }
         variant={variant}
         size={size}
         color={color}
@@ -251,6 +260,12 @@ const Autocomplete = <Multiple extends boolean = false>(
               changeInputValue(event, event.target.value);
               setIsFiltered(true);
             }}
+            onFocus={(e) => {
+              openMenu();
+              setIsFiltered(false);
+              e.currentTarget.select();
+            }}
+            onKeyDown={handleEnterKeyDown}
             placeholder={placeholder}
             disabled={disabled}
             {...rest}
@@ -262,6 +277,7 @@ const Autocomplete = <Multiple extends boolean = false>(
             initInputValue(event);
             initAutocompleteValue(event);
           }}
+          tabIndex={-1}
         >
           <CloseIcon size={16} color="gray-500" />
         </ButtonBase>
@@ -281,6 +297,7 @@ const Autocomplete = <Multiple extends boolean = false>(
         anchorElRef={inputBaseElRef}
         open={open}
         onClose={handleMenuClose}
+        disableMenuListFocused
         MenuListProps={{
           ref: menuListElRef,
           disableAlphabetKeyFocus: true,
