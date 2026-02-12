@@ -6,7 +6,7 @@
     &:focus-within,
     &.open {
       .JinniInputBaseContent .JinniButtonBase.clear {
-        display: inline-flex;
+        visibility: visible;
       }
     }
   }
@@ -79,9 +79,10 @@
     }
 
     .JinniButtonBase.clear {
-      display: none;
+      display: inline-flex;
       padding: 3px;
       border-radius: 50%;
+      visibility: hidden;
     }
   }
 
