@@ -1,11 +1,4 @@
-import {
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-  useRef,
-  useMemo
-} from 'react';
+import { useState, useContext, useEffect, useCallback, useMemo } from 'react';
 import { AutocompleteProps } from './Autocomplete';
 import AutocompleteContext from './Autocomplete.contexts';
 import { transformToArray } from '@/utils/transformToArray';
@@ -35,6 +28,7 @@ type UseBlurProps<Multiple extends boolean = false> = Required<
 > &
   Pick<AutocompleteProps<Multiple>, 'multiple'> & {
     inputElRef: React.RefObject<HTMLElement>;
+    menuListElRef: React.RefObject<HTMLUListElement>;
     autocompleteValue: OptionValueType[];
     valueToLabel: (value: OptionValueType) => string;
     changeInputValue: (
@@ -46,6 +40,11 @@ type UseBlurProps<Multiple extends boolean = false> = Required<
   };
 
 type UseAutocompleteValueLabel = Pick<AutocompleteProps, 'children'>;
+
+type UseKeyboardAccessibility = {
+  inputElRef: React.RefObject<HTMLElement>;
+  menuListElRef: React.RefObject<HTMLUListElement>;
+};
 
 export const useAutocompleteValue = <Multiple extends boolean = false>({
   defaultValue,
@@ -207,6 +206,7 @@ export const useMenuOpen = ({
 
 export const useBlur = <Multiple extends boolean = false>({
   inputElRef,
+  menuListElRef,
   mode,
   multiple,
   autocompleteValue,
@@ -215,8 +215,6 @@ export const useBlur = <Multiple extends boolean = false>({
   initInputValue,
   closeMenu
 }: UseBlurProps<Multiple>) => {
-  const menuListElRef = useRef<HTMLUListElement>(null);
-
   useEffect(() => {
     const inputEl = inputElRef.current;
     if (!inputEl) return;
@@ -245,6 +243,7 @@ export const useBlur = <Multiple extends boolean = false>({
     };
   }, [
     inputElRef,
+    menuListElRef,
     mode,
     multiple,
     autocompleteValue,
@@ -253,8 +252,31 @@ export const useBlur = <Multiple extends boolean = false>({
     initInputValue,
     closeMenu
   ]);
+};
 
-  return { menuListElRef };
+export const useKeyboardAccessibility = ({
+  inputElRef,
+  menuListElRef
+}: UseKeyboardAccessibility) => {
+  useEffect(() => {
+    const inputEl = inputElRef.current;
+    if (!inputEl) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const menuListEl = menuListElRef.current;
+      if (!menuListEl) return;
+
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        menuListEl.focus();
+      }
+    };
+
+    inputEl.addEventListener('keydown', handleKeyDown);
+    return () => {
+      inputEl.addEventListener('keydown', handleKeyDown);
+    };
+  }, [inputElRef, menuListElRef]);
 };
 
 export const useAutocompleteValueLabel = ({

@@ -1,5 +1,5 @@
 import './Autocomplete.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { DefaultComponentProps } from '@/types/default-component-props';
 import {
@@ -14,6 +14,7 @@ import {
   useInputValue,
   useMenuOpen,
   useBlur,
+  useKeyboardAccessibility,
   useAutocompleteValueLabel
 } from './Autocomplete.hooks';
 import AutocompleteContext from './Autocomplete.contexts';
@@ -141,8 +142,10 @@ const Autocomplete = <Multiple extends boolean = false>(
     style,
     ...rest
   } = props;
+  const menuListId = useId();
   const inputBaseElRef = useRef<HTMLElement>(null);
   const inputElRef = useRef<HTMLInputElement>(null);
+  const menuListElRef = useRef<HTMLUListElement>(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const { valueToLabel } = useAutocompleteValueLabel({ children });
   const {
@@ -170,8 +173,9 @@ const Autocomplete = <Multiple extends boolean = false>(
     onOpen,
     onClose
   });
-  const { menuListElRef } = useBlur({
+  useBlur({
     inputElRef,
+    menuListElRef,
     mode,
     multiple,
     autocompleteValue,
@@ -179,6 +183,10 @@ const Autocomplete = <Multiple extends boolean = false>(
     changeInputValue,
     initInputValue,
     closeMenu
+  });
+  useKeyboardAccessibility({
+    inputElRef,
+    menuListElRef
   });
   const {
     className: menuClassName,
@@ -245,7 +253,7 @@ const Autocomplete = <Multiple extends boolean = false>(
         disableHoverEffect={disableHoverEffect}
         disableFocusEffect={disableFocusEffect}
         fullWidth={fullWidth}
-        focused={focused || open}
+        focused={focused || isOpen}
         style={style}
       >
         <Box className="JinniAutocompleteContent">
@@ -258,6 +266,7 @@ const Autocomplete = <Multiple extends boolean = false>(
               deleteAutocompleteValue(e, valueToDelete)
           )}
           <input
+            role="combobox"
             ref={inputElRef}
             className="JinniAutocompleteInput"
             type="text"
@@ -274,6 +283,10 @@ const Autocomplete = <Multiple extends boolean = false>(
             onKeyDown={handleEnterKeyDown}
             placeholder={placeholder}
             disabled={disabled}
+            autoComplete="off"
+            aria-autocomplete="list"
+            aria-expanded={isOpen}
+            aria-controls={menuListId}
             {...rest}
           />
         </Box>
@@ -304,6 +317,7 @@ const Autocomplete = <Multiple extends boolean = false>(
         onClose={(event: MouseEvent | KeyboardEvent) => closeMenu(event)}
         disableMenuListFocused
         MenuListProps={{
+          id: menuListId,
           ref: menuListElRef,
           disableAlphabetKeyFocus: true,
           ...menuListProps
