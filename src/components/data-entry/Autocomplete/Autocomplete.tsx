@@ -182,6 +182,7 @@ const Autocomplete = <Multiple extends boolean = false>(
     valueToLabel,
     changeInputValue,
     initInputValue,
+    initAutocompleteValue,
     closeMenu
   });
   useKeyboardAccessibility({

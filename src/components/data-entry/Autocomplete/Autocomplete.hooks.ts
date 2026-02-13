@@ -27,7 +27,7 @@ type UseBlurProps<Multiple extends boolean = false> = Required<
   Pick<AutocompleteProps, 'mode'>
 > &
   Pick<AutocompleteProps<Multiple>, 'multiple'> & {
-    inputElRef: React.RefObject<HTMLElement>;
+    inputElRef: React.RefObject<HTMLInputElement>;
     menuListElRef: React.RefObject<HTMLUListElement>;
     autocompleteValue: OptionValueType[];
     valueToLabel: (value: OptionValueType) => string;
@@ -36,13 +36,14 @@ type UseBlurProps<Multiple extends boolean = false> = Required<
       newValue: string
     ) => void;
     initInputValue: (event: Event | React.SyntheticEvent) => void;
+    initAutocompleteValue: (event: Event | React.SyntheticEvent) => void;
     closeMenu: (event: Event | React.SyntheticEvent) => void;
   };
 
 type UseAutocompleteValueLabel = Pick<AutocompleteProps, 'children'>;
 
 type UseKeyboardAccessibility = {
-  inputElRef: React.RefObject<HTMLElement>;
+  inputElRef: React.RefObject<HTMLInputElement>;
   menuListElRef: React.RefObject<HTMLUListElement>;
 };
 
@@ -93,16 +94,19 @@ export const useAutocompleteValue = <Multiple extends boolean = false>({
       );
   };
 
-  const initAutocompleteValue = (event: Event | React.SyntheticEvent) => {
-    if (!isControlled) setUncontrolledValue([]);
-    if (onChange)
-      onChange(
-        event,
-        (multiple ? [] : '') as Multiple extends true
-          ? OptionValueType[]
-          : OptionValueType
-      );
-  };
+  const initAutocompleteValue = useCallback(
+    (event: Event | React.SyntheticEvent) => {
+      if (!isControlled) setUncontrolledValue([]);
+      if (onChange)
+        onChange(
+          event,
+          (multiple ? [] : '') as Multiple extends true
+            ? OptionValueType[]
+            : OptionValueType
+        );
+    },
+    [isControlled, multiple, onChange]
+  );
 
   const deleteAutocompleteValue = (
     event: Event | React.SyntheticEvent,
@@ -213,6 +217,7 @@ export const useBlur = <Multiple extends boolean = false>({
   valueToLabel,
   changeInputValue,
   initInputValue,
+  initAutocompleteValue,
   closeMenu
 }: UseBlurProps<Multiple>) => {
   useEffect(() => {
@@ -228,12 +233,18 @@ export const useBlur = <Multiple extends boolean = false>({
 
       if (isBackgroundFocused && mode === 'strict') {
         closeMenu(event);
-        if (multiple) initInputValue(event);
-        else
-          changeInputValue(
-            event,
-            autocompleteValue[0] ? valueToLabel(autocompleteValue[0]) : ''
-          );
+        if (multiple) {
+          initInputValue(event);
+        } else {
+          if (inputEl.value) {
+            changeInputValue(
+              event,
+              autocompleteValue[0] ? valueToLabel(autocompleteValue[0]) : ''
+            );
+          } else {
+            initAutocompleteValue(event);
+          }
+        }
       }
     };
 
@@ -250,6 +261,7 @@ export const useBlur = <Multiple extends boolean = false>({
     valueToLabel,
     changeInputValue,
     initInputValue,
+    initAutocompleteValue,
     closeMenu
   ]);
 };
