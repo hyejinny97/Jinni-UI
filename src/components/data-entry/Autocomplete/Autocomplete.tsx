@@ -318,6 +318,7 @@ const Autocomplete = <Multiple extends boolean = false>(
         onClose={(event: MouseEvent | KeyboardEvent) => closeMenu(event)}
         disableMenuListFocused
         MenuListProps={{
+          role: 'listbox',
           id: menuListId,
           ref: menuListElRef,
           disableAlphabetKeyFocus: true,
