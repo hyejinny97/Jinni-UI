@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CarouselPrevButton from './CarouselPrevButton';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof CarouselPrevButton> = {
   component: CarouselPrevButton,
@@ -26,7 +27,14 @@ const meta: Meta<typeof CarouselPrevButton> = {
         }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import IncreaseButton from './IncreaseButton';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof IncreaseButton> = {
   component: IncreaseButton,
@@ -11,7 +12,14 @@ const meta: Meta<typeof IncreaseButton> = {
         defaultValue: { summary: `<ArrowUpIcon color='gray-600' />` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TourStep from './TourStep';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TourStep> = {
   component: TourStep,
@@ -65,7 +66,14 @@ const meta: Meta<typeof TourStep> = {
         }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

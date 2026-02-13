@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import ListItemButton from './ListItemButton';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof ListItemButton> = {
   component: ListItemButton,
@@ -14,7 +15,14 @@ const meta: Meta<typeof ListItemButton> = {
       description: 'true이면, selected style이 보여짐',
       type: 'boolean'
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

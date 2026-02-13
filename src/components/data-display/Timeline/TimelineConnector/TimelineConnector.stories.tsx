@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TimelineConnector from './TimelineConnector';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineConnector> = {
   component: TimelineConnector,
@@ -18,7 +19,14 @@ const meta: Meta<typeof TimelineConnector> = {
         defaultValue: { summary: `'solid'` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

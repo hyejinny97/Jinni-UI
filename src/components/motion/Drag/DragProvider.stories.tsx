@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { DragProvider } from '.';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof DragProvider> = {
   component: DragProvider,
@@ -37,7 +38,14 @@ const meta: Meta<typeof DragProvider> = {
         defaultValue: { summary: `'medium'` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

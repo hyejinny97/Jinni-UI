@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import DecreaseButton from './DecreaseButton';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof DecreaseButton> = {
   component: DecreaseButton,
@@ -11,7 +12,14 @@ const meta: Meta<typeof DecreaseButton> = {
         defaultValue: { summary: `<ArrowDownIcon color='gray-600' />` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

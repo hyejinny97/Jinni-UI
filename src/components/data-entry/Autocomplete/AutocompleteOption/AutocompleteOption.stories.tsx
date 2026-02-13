@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import AutocompleteOption from './AutocompleteOption';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof AutocompleteOption> = {
   component: AutocompleteOption,
@@ -23,7 +24,14 @@ const meta: Meta<typeof AutocompleteOption> = {
         type: { summary: `string | number` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

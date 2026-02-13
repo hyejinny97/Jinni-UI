@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TableRow from './TableRow';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TableRow> = {
   component: TableRow,
@@ -16,7 +17,14 @@ const meta: Meta<typeof TableRow> = {
         type: { summary: `boolean` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TimelineOppositeContent from './TimelineOppositeContent';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineOppositeContent> = {
   component: TimelineOppositeContent,
@@ -10,7 +11,14 @@ const meta: Meta<typeof TimelineOppositeContent> = {
         type: { summary: `React.ReactNode` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

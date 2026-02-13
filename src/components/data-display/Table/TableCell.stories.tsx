@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TableCell from './TableCell';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TableCell> = {
   component: TableCell,
@@ -11,7 +12,14 @@ const meta: Meta<typeof TableCell> = {
         defaultValue: { summary: `'left'` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

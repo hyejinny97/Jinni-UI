@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Tab from './Tab';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof Tab> = {
   component: Tab,
@@ -22,7 +23,14 @@ const meta: Meta<typeof Tab> = {
         type: { summary: `string | number` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import AccordionDetails from './AccordionDetails';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof AccordionDetails> = {
   component: AccordionDetails,
@@ -17,7 +18,14 @@ const meta: Meta<typeof AccordionDetails> = {
         defaultValue: { summary: `Collapse` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TreeItem from './TreeItem';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TreeItem> = {
   component: TreeItem,
@@ -28,7 +29,14 @@ const meta: Meta<typeof TreeItem> = {
         type: { summary: `boolean` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

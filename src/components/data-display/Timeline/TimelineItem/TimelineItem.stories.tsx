@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TimelineItem from './TimelineItem';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineItem> = {
   component: TimelineItem,
@@ -11,7 +12,14 @@ const meta: Meta<typeof TimelineItem> = {
         type: { summary: `React.ReactNode` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

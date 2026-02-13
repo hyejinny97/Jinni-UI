@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Step from './Step';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof Step> = {
   component: Step,
@@ -17,7 +18,14 @@ const meta: Meta<typeof Step> = {
         defaultValue: { summary: `'pending'` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

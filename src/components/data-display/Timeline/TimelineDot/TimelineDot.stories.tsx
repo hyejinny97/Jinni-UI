@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TimelineDot from './TimelineDot';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineDot> = {
   component: TimelineDot,
@@ -24,7 +25,14 @@ const meta: Meta<typeof TimelineDot> = {
         defaultValue: { summary: `'filled'` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

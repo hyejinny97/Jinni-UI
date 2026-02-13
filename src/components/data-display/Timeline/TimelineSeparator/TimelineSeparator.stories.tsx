@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TimelineSeparator from './TimelineSeparator';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineSeparator> = {
   component: TimelineSeparator,
@@ -10,7 +11,14 @@ const meta: Meta<typeof TimelineSeparator> = {
         type: { summary: `React.ReactNode` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

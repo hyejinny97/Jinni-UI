@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import ListItem from './ListItem';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof ListItem> = {
   component: ListItem,
@@ -10,7 +11,14 @@ const meta: Meta<typeof ListItem> = {
         type: { summary: `React.ReactNode` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

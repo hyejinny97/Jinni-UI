@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TabList from './TabList';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TabList> = {
   component: TabList,
@@ -36,7 +37,14 @@ const meta: Meta<typeof TabList> = {
         }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

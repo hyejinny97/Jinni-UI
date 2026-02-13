@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CircularSpeedDialAction from './CircularSpeedDialAction';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof CircularSpeedDialAction> = {
   component: CircularSpeedDialAction,
@@ -10,7 +11,14 @@ const meta: Meta<typeof CircularSpeedDialAction> = {
         type: { summary: 'TooltipProps' }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;
