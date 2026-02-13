@@ -115,9 +115,11 @@
     max-height: 300px;
     overflow-y: auto;
 
+    .JinniListItem.no-options {
+      color: var(--jinni-color-gray-400);
+    }
     .JinniAutocompleteOption + .JinniListItem.no-options {
       display: none;
-      color: var(--jinni-color-gray-400);
     }
   }
 }

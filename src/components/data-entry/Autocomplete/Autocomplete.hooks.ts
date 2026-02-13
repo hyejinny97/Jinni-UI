@@ -25,6 +25,11 @@ type UseInputValueProps<Multiple extends boolean> = Pick<
   valueToLabel: (value: OptionValueType) => string;
 };
 
+type UseMenuOpen = Pick<
+  AutocompleteProps,
+  'open' | 'onOpen' | 'onClose' | 'disabled'
+>;
+
 type UseBlurProps<Multiple extends boolean = false> = Required<
   Pick<AutocompleteProps, 'mode'>
 > &
@@ -37,7 +42,7 @@ type UseBlurProps<Multiple extends boolean = false> = Required<
       newValue: string
     ) => void;
     initInputValue: (event: Event | React.SyntheticEvent) => void;
-    closeMenu: () => void;
+    closeMenu: (event: Event | React.SyntheticEvent) => void;
   };
 
 type UseAutocompleteValueLabel = Pick<AutocompleteProps, 'children'>;
@@ -159,6 +164,47 @@ export const useInputValue = <Multiple extends boolean>({
   };
 };
 
+export const useMenuOpen = ({
+  open,
+  disabled,
+  onOpen,
+  onClose
+}: UseMenuOpen) => {
+  const isControlled = open !== undefined;
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const isOpen = isControlled ? open : uncontrolledOpen;
+
+  const openMenu = useCallback(
+    (event: Event | React.SyntheticEvent) => {
+      if (disabled) return;
+      if (!isControlled) setUncontrolledOpen(true);
+      if (onOpen) onOpen(event);
+    },
+    [isControlled, disabled, onOpen]
+  );
+  const closeMenu = useCallback(
+    (event: Event | React.SyntheticEvent) => {
+      if (!isControlled) setUncontrolledOpen(false);
+      if (onClose) onClose(event);
+    },
+    [isControlled, onClose]
+  );
+  const toggleMenu = useCallback(
+    (event: Event | React.SyntheticEvent) => {
+      if (isOpen) closeMenu(event);
+      else openMenu(event);
+    },
+    [isOpen, openMenu, closeMenu]
+  );
+
+  return {
+    isOpen,
+    openMenu,
+    closeMenu,
+    toggleMenu
+  };
+};
+
 export const useBlur = <Multiple extends boolean = false>({
   inputElRef,
   mode,
@@ -183,7 +229,7 @@ export const useBlur = <Multiple extends boolean = false>({
       const isBackgroundFocused = !menuListEl.contains(focusedEl);
 
       if (isBackgroundFocused && mode === 'strict') {
-        closeMenu();
+        closeMenu(event);
         if (multiple) initInputValue(event);
         else
           changeInputValue(

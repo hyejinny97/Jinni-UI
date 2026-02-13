@@ -1,5 +1,5 @@
 import './Autocomplete.scss';
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState } from 'react';
 import cn from 'classnames';
 import { DefaultComponentProps } from '@/types/default-component-props';
 import {
@@ -7,11 +7,12 @@ import {
   InputBaseProps,
   RootInputBaseProps
 } from '@/components/data-entry/InputBase';
-import { Menu, MenuProps, CloseReason } from '@/components/navigation/Menu';
+import { Menu, MenuProps } from '@/components/navigation/Menu';
 import { Chip } from '@/components/data-display/Chip';
 import {
   useAutocompleteValue,
   useInputValue,
+  useMenuOpen,
   useBlur,
   useAutocompleteValueLabel
 } from './Autocomplete.hooks';
@@ -56,7 +57,10 @@ export type AutocompleteProps<Multiple extends boolean = false> = Omit<
         valueToDelete: OptionValueType
       ) => void
     ) => React.ReactNode;
-    MenuProps?: Partial<MenuProps>;
+    MenuProps?: Omit<Partial<MenuProps>, 'open' | 'onClose'>;
+    open?: boolean;
+    onOpen?: (event: Event | React.SyntheticEvent) => void;
+    onClose?: (event: Event | React.SyntheticEvent) => void;
   };
 
 const defaultRenderValue = (
@@ -130,13 +134,15 @@ const Autocomplete = <Multiple extends boolean = false>(
     fullWidth,
     focused,
     required = labelContext?.required,
+    open,
+    onOpen,
+    onClose,
     className,
     style,
     ...rest
   } = props;
   const inputBaseElRef = useRef<HTMLElement>(null);
   const inputElRef = useRef<HTMLInputElement>(null);
-  const [open, setOpen] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
   const { valueToLabel } = useAutocompleteValueLabel({ children });
   const {
@@ -158,40 +164,12 @@ const Autocomplete = <Multiple extends boolean = false>(
       onInputChange,
       valueToLabel
     });
-  const {
-    className: menuClassName,
-    onClose: menuOnClose,
-    MenuListProps: menuListProps,
-    ...restMenuProps
-  } = (MenuProps || {}) as Partial<MenuProps>;
-
-  const openMenu = () => {
-    if (disabled) return;
-    setOpen(true);
-  };
-  const closeMenu = useCallback(() => {
-    setOpen(false);
-  }, []);
-  const toggleMenu = () => {
-    setOpen((prev) => !prev);
-  };
-  const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      if (mode === 'free' && autocompleteInputValue) {
-        changeAutocompleteValue(event, autocompleteInputValue);
-        if (multiple) initInputValue(event);
-      }
-    }
-  };
-  const handleMenuClose = useCallback(
-    (event: MouseEvent | KeyboardEvent, reason: CloseReason) => {
-      closeMenu();
-      menuOnClose?.(event, reason);
-    },
-    [closeMenu, menuOnClose]
-  );
-
+  const { isOpen, openMenu, closeMenu, toggleMenu } = useMenuOpen({
+    open,
+    disabled,
+    onOpen,
+    onClose
+  });
   const { menuListElRef } = useBlur({
     inputElRef,
     mode,
@@ -202,6 +180,21 @@ const Autocomplete = <Multiple extends boolean = false>(
     initInputValue,
     closeMenu
   });
+  const {
+    className: menuClassName,
+    MenuListProps: menuListProps,
+    ...restMenuProps
+  } = (MenuProps || {}) as Partial<MenuProps>;
+
+  const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (mode === 'free' && autocompleteInputValue) {
+        changeAutocompleteValue(event, autocompleteInputValue);
+        if (multiple) initInputValue(event);
+      }
+    }
+  };
 
   return (
     <AutocompleteContext.Provider
@@ -234,8 +227,8 @@ const Autocomplete = <Multiple extends boolean = false>(
               className="show-menu"
               disabled={disabled}
               tabIndex={-1}
-              onClick={() => {
-                toggleMenu();
+              onClick={(event: MouseEvent) => {
+                toggleMenu(event);
                 setIsFiltered(false);
                 inputElRef.current?.focus();
               }}
@@ -273,10 +266,10 @@ const Autocomplete = <Multiple extends boolean = false>(
               changeInputValue(event, event.target.value);
               setIsFiltered(true);
             }}
-            onFocus={(e) => {
-              openMenu();
+            onFocus={(event: React.FocusEvent<HTMLInputElement>) => {
+              openMenu(event);
               setIsFiltered(false);
-              e.currentTarget.select();
+              event.currentTarget.select();
             }}
             onKeyDown={handleEnterKeyDown}
             placeholder={placeholder}
@@ -307,8 +300,8 @@ const Autocomplete = <Multiple extends boolean = false>(
       <Menu
         className={cn('JinniAutocompleteMenu', menuClassName)}
         anchorElRef={inputBaseElRef}
-        open={open}
-        onClose={handleMenuClose}
+        open={isOpen}
+        onClose={(event: MouseEvent | KeyboardEvent) => closeMenu(event)}
         disableMenuListFocused
         MenuListProps={{
           ref: menuListElRef,

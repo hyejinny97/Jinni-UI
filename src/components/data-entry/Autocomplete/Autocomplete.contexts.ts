@@ -15,7 +15,7 @@ type AutocompleteContextType = {
     newValue: string
   ) => void;
   initInputValue: (event: Event | React.SyntheticEvent) => void;
-  closeMenu: () => void;
+  closeMenu: (event: Event | React.SyntheticEvent) => void;
 };
 
 const AutocompleteContext = createContext<AutocompleteContextType | null>(null);

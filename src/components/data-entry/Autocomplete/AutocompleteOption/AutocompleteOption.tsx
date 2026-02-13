@@ -40,7 +40,7 @@ const AutocompleteOption = <T extends AsType = 'li'>(
       initInputValue(e);
     } else {
       changeInputValue(e, label);
-      closeMenu();
+      closeMenu(e);
     }
   };
 
