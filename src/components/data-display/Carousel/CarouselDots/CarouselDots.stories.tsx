@@ -1,5 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CarouselDots from './CarouselDots';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from '@/components/data-display/Carousel';
 
 const meta: Meta<typeof CarouselDots> = {
   component: CarouselDots,
@@ -26,7 +31,17 @@ const meta: Meta<typeof CarouselDots> = {
         }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <Carousel>
+        <CarouselContent>
+          <CarouselItem>1</CarouselItem>
+        </CarouselContent>
+        <Story />
+      </Carousel>
+    )
+  ]
 };
 
 export default meta;
