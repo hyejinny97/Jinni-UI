@@ -210,7 +210,7 @@ export const CustomSurplusAvatar: Story = {
             onClose={closePopover}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             popoverOrigin={{ vertical: 'top', horizontal: 'center' }}
-            PopoverContentProps={{ style: { marginTop: '10px' } }}
+            BoxProps={{ style: { marginTop: '10px' } }}
           >
             {\`\${surplus} avatars left\`}
           </Popover>
