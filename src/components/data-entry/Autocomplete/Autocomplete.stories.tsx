@@ -1,41 +1,40 @@
-import { useState, FormEvent, useEffect } from 'react';
+import './CustomAutocomplete.scss';
+import { useState, FormEvent, useEffect, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import Autocomplete from './Autocomplete';
-import AutocompleteOption from './AutocompleteOption';
+import { Autocomplete, AutocompleteOption, OptionValueType } from '.';
 import { Stack } from '@/components/layout/Stack';
+import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import { Chip } from '@/components/data-display/Chip';
 import { Button } from '@/components/general/Button';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CancelIcon } from '@/components/icons/CancelIcon';
+import { Radio } from '@/components/data-entry/Radio';
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import { Label } from '@/components/data-entry/Label';
+import { ListItem } from '@/components/data-display/List';
+import { Checkbox } from '@/components/data-entry/Checkbox';
 
 const meta: Meta<typeof Autocomplete> = {
   component: Autocomplete,
   argTypes: {
     children: {
-      description: 'autocomplete의 options (AutocompleteOption 컴포넌트들)',
+      description: 'AutocompleteOption 컴포넌트들',
       table: {
-        type: { summary: `Array<JSX.Element>` }
+        type: { summary: `React.ReactNode` }
       }
     },
     defaultValue: {
       description: '초기 autocomplete value',
       table: {
-        type: { summary: `string | Array<string>` }
+        type: { summary: `string | number | Array<string | number>` }
       }
     },
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
-        type: { summary: `boolean` },
-        defaultValue: { summary: 'false' }
-      }
-    },
-    InputBaseProps: {
-      description: 'InputBase 컴포넌트의 props',
-      table: {
-        type: { summary: `InputBaseProps` }
+        type: { summary: `boolean` }
       }
     },
     inputValue: {
@@ -60,8 +59,7 @@ const meta: Meta<typeof Autocomplete> = {
     multiple: {
       description: 'true이면, multiple selections이 가능함',
       table: {
-        type: { summary: `boolean` },
-        defaultValue: { summary: 'false' }
+        type: { summary: `boolean` }
       }
     },
     name: {
@@ -74,7 +72,15 @@ const meta: Meta<typeof Autocomplete> = {
       description: 'autocomplete value가 변경됐을 때 호출되는 함수',
       table: {
         type: {
-          summary: `(event: Event | React.SyntheticEvent, value: string | Array<string>) => void;`
+          summary: `(event: Event | React.SyntheticEvent, value: string | number | null | Array<string | number>) => void;`
+        }
+      }
+    },
+    onClose: {
+      description: 'close를 유발하는 이벤트가 발생 시 호출되는 함수',
+      table: {
+        type: {
+          summary: `(event: Event | React.SyntheticEvent) => void;`
         }
       }
     },
@@ -86,26 +92,42 @@ const meta: Meta<typeof Autocomplete> = {
         }
       }
     },
+    onOpen: {
+      description: 'open을 유발하는 이벤트가 발생 시 호출되는 함수',
+      table: {
+        type: {
+          summary: `(event: Event | React.SyntheticEvent) => void;`
+        }
+      }
+    },
+    open: {
+      description: 'true이면, menu가 open 됨',
+      table: {
+        type: {
+          summary: `boolean`
+        }
+      }
+    },
     placeholder: {
       description: 'input 의 placeholder',
       table: {
-        type: { summary: `string` },
-        defaultValue: {
-          summary: `''`
-        }
+        type: { summary: `string` }
       }
     },
     renderValue: {
       description:
-        'autocomplete value를 입력값으로 받아, input 내부 content를 반환하는 함수',
+        'autocomplete value와 label을 입력값으로 받아, input 내부에 content를 반환하는 함수',
       table: {
-        type: { summary: `(value: string | Array<string>) => React.ReactNode` }
+        type: {
+          summary: `(autocompleteValueLabel: Array<{ value: OptionValueType; label: OptionLabelType; }>, onDelete?: (e: Event | React.SyntheticEvent, valueToDelete: OptionValueType) => void) => React.ReactNode;`
+        },
+        defaultValue: { summary: `multiple ? defaultRenderValue : undefined` }
       }
     },
     value: {
       description: 'autocomplete value',
       table: {
-        type: { summary: `string | Array<string>` }
+        type: { summary: `string | number | null | Array<string | number>` }
       }
     }
   }
@@ -113,6 +135,11 @@ const meta: Meta<typeof Autocomplete> = {
 
 export default meta;
 type Story = StoryObj<typeof Autocomplete>;
+
+interface OptionType {
+  value: number | string;
+  label: string;
+}
 
 interface CountryType {
   code: string;
@@ -124,6 +151,14 @@ interface FilmType {
   label: string;
   year: number;
 }
+
+const OPTIONS: OptionType[] = [
+  { value: 1, label: 'Option 1' },
+  { value: 2, label: 'Option 2' },
+  { value: 3, label: 'Option 3' },
+  { value: 4, label: 'Option 4' },
+  { value: 5, label: 'Option 5' }
+];
 
 const COUNTRIES: readonly CountryType[] = [
   { code: 'AD', label: 'Andorra', phone: '376' },
@@ -672,25 +707,42 @@ const FILMS: readonly FilmType[] = [
   { label: 'Monty Python and the Holy Grail', year: 1975 }
 ];
 
-const OPTIONS = ['Option1', 'Option2', 'Option3', 'Option4', 'Option5'];
+const ControlledAutocompleteValueTemplate = () => {
+  const [value, setValue] = useState<OptionValueType | null>(1);
 
-const AutocompleteTemplate = ({ ...props }) => {
+  const handleChange = (
+    _: Event | React.SyntheticEvent,
+    newValue: OptionValueType | null
+  ) => {
+    setValue(newValue);
+  };
+
   return (
-    <Autocomplete {...props}>
-      {OPTIONS.map((option) => (
-        <AutocompleteOption key={option} value={option}>
-          {option}
-        </AutocompleteOption>
-      ))}
-    </Autocomplete>
+    <>
+      <Text noMargin>{`value: ${value}`}</Text>
+      <Autocomplete
+        value={value}
+        onChange={handleChange}
+        style={{ marginTop: '10px' }}
+      >
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
+    </>
   );
 };
 
-const ControlledAutocompleteTemplate = ({ ...props }) => {
-  const [value, setValue] = useState<string>('');
+const ControlledInputValueTemplate = () => {
+  const [value, setValue] = useState<OptionValueType | null>(null);
   const [inputValue, setInputValue] = useState('');
 
-  const handleChange = (_: Event | React.SyntheticEvent, newValue: string) => {
+  const handleChange = (
+    _: Event | React.SyntheticEvent,
+    newValue: OptionValueType | null
+  ) => {
     setValue(newValue);
   };
   const handleInputChange = (
@@ -702,63 +754,60 @@ const ControlledAutocompleteTemplate = ({ ...props }) => {
 
   return (
     <>
-      <Text style={{ margin: 0 }}>{`value: ${value}`}</Text>
-      <Text
-        style={{ margin: 0, marginBottom: '10px' }}
-      >{`inputValue: ${inputValue}`}</Text>
-      <AutocompleteTemplate
+      <Text noMargin>{`value: ${value}`}</Text>
+      <Text noMargin>{`inputValue: ${inputValue}`}</Text>
+      <Autocomplete
         value={value}
-        onChange={handleChange}
         inputValue={inputValue}
+        onChange={handleChange}
         onInputChange={handleInputChange}
-        {...props}
-      />
+        style={{ marginTop: '10px' }}
+      >
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
     </>
   );
 };
 
-const CountryAutocompleteTemplate = () => {
-  return (
-    <Autocomplete>
-      {COUNTRIES.map(({ code, label, phone }) => {
-        return (
-          <AutocompleteOption key={code} value={label}>
-            <img
-              loading="lazy"
-              width="20"
-              srcSet={`https://flagcdn.com/w40/${code.toLowerCase()}.png 2x`}
-              src={`https://flagcdn.com/w20/${code.toLowerCase()}.png`}
-              alt={`${label} gonfalon`}
-              style={{ marginRight: '10px' }}
-            />
-            {label} ({code}) +{phone}
-          </AutocompleteOption>
-        );
-      })}
-    </Autocomplete>
-  );
-};
+const ControlledMenuTemplate = () => {
+  const [open, setOpen] = useState(false);
 
-const SearchInputTemplate = () => {
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
   return (
-    <Autocomplete mode="free">
-      {FILMS.map(({ label }) => {
-        return (
-          <AutocompleteOption key={label} value={label}>
+    <>
+      <Text noMargin>{`open: ${open}`}</Text>
+      <Autocomplete
+        open={open}
+        onOpen={openMenu}
+        onClose={closeMenu}
+        style={{ marginTop: '10px' }}
+      >
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
             {label}
           </AutocompleteOption>
-        );
-      })}
-    </Autocomplete>
+        ))}
+      </Autocomplete>
+    </>
   );
 };
 
 const CreatableTemplate = () => {
   const [options, setOptions] = useState(OPTIONS);
   const [inputValue, setInputValue] = useState<string>('');
-  const filteredOptions = options
-    .map((option) => option.toLowerCase().includes(inputValue.toLowerCase()))
-    .filter(Boolean);
+  const matchedOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   const handleInputChange = (
     _: Event | React.SyntheticEvent,
@@ -766,20 +815,21 @@ const CreatableTemplate = () => {
   ) => {
     setInputValue(newValue);
   };
-  const addOption = (optionName: string) => {
-    setOptions((prev) => [...prev, optionName]);
+  const addOption = (value: string) => {
+    setOptions((prev) => [...prev, { value, label: value }]);
   };
 
-  let autocompleteOptions = options.map((name) => (
-    <AutocompleteOption key={name} value={name}>
-      {name}
+  let autocompleteOptions = options.map(({ value, label }) => (
+    <AutocompleteOption key={value} value={value} label={label}>
+      {label}
     </AutocompleteOption>
   ));
-  if (filteredOptions.length === 0) {
+  if (matchedOptions.length === 0) {
     const createdOption = (
       <AutocompleteOption
         key="created-option"
         value={inputValue}
+        label={inputValue}
         onClick={() => addOption(inputValue)}
       >
         Add '{inputValue}'
@@ -799,89 +849,140 @@ const CreatableTemplate = () => {
   );
 };
 
-const CustomSingleValueRenderingTemplate = () => {
-  const [value, setValue] = useState<string>('');
-  const [inputValue, setInputValue] = useState<string>('');
+const BasicMultipleTemplate = () => {
+  const MODES = ['strict', 'free'] as const;
+  const [mode, setMode] = useState<(typeof MODES)[number]>(MODES[0]);
 
-  const handleChange = (_: Event | React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-  const deleteValue = () => {
-    setValue('');
-  };
-  const handleInputChange = (
-    _: Event | React.SyntheticEvent,
-    newValue: string
-  ) => {
-    setInputValue(newValue);
+  const changeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMode(e.target.value as (typeof MODES)[number]);
   };
 
   return (
-    <AutocompleteTemplate
-      value={value}
-      onChange={handleChange}
-      inputValue={inputValue}
-      onInputChange={handleInputChange}
-      renderValue={(value: string) =>
-        value && (
-          <Chip
-            endAdornment={
-              <ButtonBase
-                aria-label="delete chip"
-                onClick={deleteValue}
-                disableOverlay
-                disableRipple
-                style={{ width: '100%', height: '100%' }}
-              >
-                <CancelIcon
-                  color="gray-700"
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </ButtonBase>
-            }
-          >
-            {value}
-          </Chip>
-        )
-      }
-    />
+    <Stack>
+      <RadioGroup name="mode" value={mode} onChange={changeMode}>
+        <Stack direction="row" spacing={10}>
+          {MODES.map((mode) => (
+            <Label key={mode} content={mode}>
+              <Radio value={mode} />
+            </Label>
+          ))}
+        </Stack>
+      </RadioGroup>
+      <Autocomplete mode={mode} multiple>
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
+    </Stack>
   );
 };
 
-const LimitTagsTemplate = ({ ...props }) => {
-  const LIMIT = 2;
-  const [value, setValue] = useState<string[]>([]);
+const FixedOptionsTemplate = () => {
+  const fixedOptionValue = 1;
+  const MODES = ['strict', 'free'] as const;
+  const [value, setValue] = useState<OptionValueType[]>([fixedOptionValue]);
+  const [mode, setMode] = useState<(typeof MODES)[number]>(MODES[0]);
 
   const handleChange = (
     _: Event | React.SyntheticEvent,
-    newValue: string[]
+    newValue: OptionValueType[]
   ) => {
-    setValue(newValue);
+    if (newValue.includes(fixedOptionValue)) setValue(newValue);
+    else setValue([fixedOptionValue, ...newValue]);
   };
-  const deleteValue = () => {
-    setValue([]);
+  const changeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMode(e.target.value as (typeof MODES)[number]);
   };
 
   return (
-    <AutocompleteTemplate
+    <Stack>
+      <RadioGroup name="mode" value={mode} onChange={changeMode}>
+        <Stack direction="row" spacing={10}>
+          {MODES.map((mode) => (
+            <Label key={mode} content={mode}>
+              <Radio value={mode} />
+            </Label>
+          ))}
+        </Stack>
+      </RadioGroup>
+      <Autocomplete
+        mode={mode}
+        multiple
+        value={value}
+        onChange={handleChange}
+        renderValue={(autocompleteValueLabel, onDelete) => (
+          <>
+            {autocompleteValueLabel.map(({ value, label }) => {
+              if (value === fixedOptionValue) {
+                return (
+                  <Chip key={value} variant="subtle-filled" color="gray-400">
+                    {label}
+                  </Chip>
+                );
+              } else {
+                return (
+                  <Chip
+                    key={value}
+                    variant="subtle-filled"
+                    color="gray-600"
+                    endAdornment={
+                      <ButtonBase
+                        onClick={(e: MouseEvent) => onDelete?.(e, value)}
+                        disableOverlay
+                        disableRipple
+                        style={{ width: '100%', height: '100%' }}
+                        aria-label="delete chip"
+                      >
+                        <CancelIcon
+                          color="gray-700"
+                          style={{ width: '100%', height: '100%' }}
+                        />
+                      </ButtonBase>
+                    }
+                  >
+                    {label}
+                  </Chip>
+                );
+              }
+            })}
+          </>
+        )}
+      >
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
+    </Stack>
+  );
+};
+
+const LimitTagsTemplate = () => {
+  const LIMIT = 3;
+
+  return (
+    <Autocomplete
       multiple
-      value={value}
-      onChange={handleChange}
-      renderValue={(values: string[]) => {
-        const displayedValues = values.slice(0, LIMIT);
-        const restCount = values.length - LIMIT;
+      renderValue={(autocompleteValueLabel, onDelete) => {
+        const displayedValues = autocompleteValueLabel.slice(0, LIMIT);
+        const restCount = autocompleteValueLabel.length - LIMIT;
         return (
           <>
-            {displayedValues.map((val) => (
+            {displayedValues.map(({ value, label }) => (
               <Chip
-                key={val}
+                key={value}
+                variant="subtle-filled"
+                color="gray-600"
                 endAdornment={
                   <ButtonBase
-                    aria-label="delete chip"
-                    onClick={deleteValue}
+                    onClick={(e: MouseEvent) => onDelete?.(e, value)}
                     disableOverlay
                     disableRipple
                     style={{ width: '100%', height: '100%' }}
+                    aria-label="delete chip"
                   >
                     <CancelIcon
                       color="gray-700"
@@ -890,23 +991,92 @@ const LimitTagsTemplate = ({ ...props }) => {
                   </ButtonBase>
                 }
               >
-                {val}
+                {label}
               </Chip>
             ))}
-            {restCount > 0 && (
-              <Text style={{ margin: 0 }}>{`+${restCount}`}</Text>
-            )}
+            {restCount > 0 && <Text noMargin>{`+${restCount}`}</Text>}
           </>
         );
       }}
-      {...props}
-    />
+    >
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          {label}
+        </AutocompleteOption>
+      ))}
+    </Autocomplete>
   );
 };
 
-const AutocompleteOptions = () => {
+const OptionWithCheckboxTemplate = () => {
+  const [autocompleteValues, setAutocompleteValues] = useState<
+    OptionValueType[]
+  >([]);
+
+  const handleChange = (
+    _: Event | React.SyntheticEvent,
+    newValue: OptionValueType[]
+  ) => {
+    setAutocompleteValues(newValue);
+  };
+
+  return (
+    <Autocomplete multiple value={autocompleteValues} onChange={handleChange}>
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          <Checkbox checked={autocompleteValues.includes(value)} />
+          {label}
+        </AutocompleteOption>
+      ))}
+    </Autocomplete>
+  );
+};
+
+const AutocompleteWithFormTemplate = () => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const option = formData.get('option');
+    alert(`option: ${option}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Label
+        content="Option"
+        labelPlacement="top"
+        required
+        style={{ alignItems: 'start' }}
+      >
+        <Autocomplete multiple name="option">
+          {OPTIONS.map(({ value, label }) => (
+            <AutocompleteOption key={value} value={value} label={label}>
+              {label}
+            </AutocompleteOption>
+          ))}
+        </Autocomplete>
+      </Label>
+      <Stack
+        direction="row"
+        style={{ justifyContent: 'end', margin: '10px 16px' }}
+      >
+        <Button type="submit">제출</Button>
+      </Stack>
+    </form>
+  );
+};
+
+const LoadOnOpenTemplate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [films, setFilms] = useState<FilmType[]>([]);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const fetchFilmsData = () => {
@@ -917,30 +1087,46 @@ const AutocompleteOptions = () => {
       }, 3000);
     };
 
-    fetchFilmsData();
-  }, []);
+    if (open && films.length === 0) fetchFilmsData();
+  }, [open, films]);
 
   return (
-    <>
+    <Autocomplete
+      open={open}
+      onOpen={openMenu}
+      onClose={closeMenu}
+      MenuProps={{ className: 'remove-no-option-item' }}
+    >
       {isLoading ? (
-        <AutocompleteOption value="" disabled selected={false}>
-          loading...
-        </AutocompleteOption>
+        <ListItem className="loading">loading...</ListItem>
       ) : (
         films.map(({ label }) => (
-          <AutocompleteOption key={label} value={label}>
+          <AutocompleteOption
+            key={label}
+            value={label}
+            label={label}
+            style={{ textAlign: 'start' }}
+          >
             {label}
           </AutocompleteOption>
         ))
       )}
-    </>
+    </Autocomplete>
   );
 };
 
 const SearchAsTypeTemplate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
-  const [options, setOptions] = useState<FilmType[]>([]);
+  const [options, setOptions] = useState<FilmType[]>(FILMS.slice(5));
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
+
+  const deleteTimeout = () => {
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+      timeoutIdRef.current = null;
+    }
+  };
 
   const handleInputChange = (
     _: Event | React.SyntheticEvent,
@@ -948,69 +1134,49 @@ const SearchAsTypeTemplate = () => {
   ) => {
     setInputValue(newInputValue);
     setIsLoading(true);
-    setTimeout(() => {
+    deleteTimeout();
+    timeoutIdRef.current = setTimeout(() => {
       const searchResult: FilmType[] = FILMS.filter(({ label }) =>
         label.toLowerCase().includes(newInputValue.toLowerCase())
       );
       setOptions(searchResult);
       setIsLoading(false);
-    }, 2000);
+    }, 1500);
   };
 
   return (
-    <Autocomplete inputValue={inputValue} onInputChange={handleInputChange}>
-      {isLoading
-        ? [
-            <AutocompleteOption
-              key="loading"
-              value={inputValue}
-              disabled
-              selected={false}
-            >
-              <CircularProgress progressColor="gray-400" size="sm" />
-            </AutocompleteOption>
-          ]
-        : options.map(({ label }) => {
-            return (
-              <AutocompleteOption key={label} value={label}>
-                {label}
-              </AutocompleteOption>
-            );
-          })}
-    </Autocomplete>
-  );
-};
-
-const WithLabelAndTextTemplate = () => {
-  const [value, setValue] = useState<string>();
-  const empty = !value;
-
-  const handleChange = (_: Event | React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
-  return (
-    <>
-      <label
-        htmlFor="color"
-        style={{ display: 'flex', flexDirection: 'column', rowGap: '3px' }}
-      >
-        Color *
-        <Autocomplete id="color" value={value} onChange={handleChange}>
-          <AutocompleteOption value="red">Red</AutocompleteOption>
-          <AutocompleteOption value="yellow">Yellow</AutocompleteOption>
-          <AutocompleteOption value="green">Green</AutocompleteOption>
-        </Autocomplete>
-      </label>
-      {empty && (
-        <Text
-          className="typo-label-medium"
-          style={{ color: 'error', margin: '3px 0' }}
+    <Autocomplete
+      inputValue={inputValue}
+      onInputChange={handleInputChange}
+      MenuProps={{ className: 'remove-no-option-item' }}
+    >
+      {isLoading ? (
+        <Box
+          className="loading"
+          style={{
+            display: 'flex',
+            height: '50px',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
         >
-          반드시 선택해야 합니다.
-        </Text>
+          <CircularProgress progressColor="gray-400" size="sm" />
+        </Box>
+      ) : (
+        options.map(({ label }) => {
+          return (
+            <AutocompleteOption
+              key={label}
+              value={label}
+              label={label}
+              style={{ textAlign: 'start' }}
+            >
+              {label}
+            </AutocompleteOption>
+          );
+        })
       )}
-    </>
+    </Autocomplete>
   );
 };
 
@@ -1018,177 +1184,839 @@ export const BasicAutocomplete: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
-        <AutocompleteTemplate {...args} />
-        <AutocompleteTemplate defaultValue={OPTIONS[0]} {...args} />
+        <Autocomplete {...args}>
+          {OPTIONS.map(({ value, label }) => (
+            <AutocompleteOption key={value} value={value} label={label}>
+              {label}
+            </AutocompleteOption>
+          ))}
+        </Autocomplete>
+        <Autocomplete defaultValue={1} {...args}>
+          {OPTIONS.map(({ value, label }) => (
+            <AutocompleteOption key={value} value={value} label={label}>
+              {label}
+            </AutocompleteOption>
+          ))}
+        </Autocomplete>
       </Stack>
     );
   }
 };
 
-export const ControlledAutocomplete: Story = {
-  render: (args) => <ControlledAutocompleteTemplate {...args} />
-};
+export const ControlledAutocompleteValue: Story = {
+  render: () => <ControlledAutocompleteValueTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledAutocompleteValueTemplate = () => {
+  const [value, setValue] = useState<OptionValueType | null>(1);
 
-export const StrictMode: Story = {
-  render: (args) => <CountryAutocompleteTemplate {...args} />
-};
+  const handleChange = (
+    _: Event | React.SyntheticEvent,
+    newValue: OptionValueType | null
+  ) => {
+    setValue(newValue);
+  };
 
-export const FreeModeSearchInput: Story = {
-  render: (args) => <SearchInputTemplate {...args} />
-};
-
-export const FreeModeCreatable: Story = {
-  render: (args) => <CreatableTemplate {...args} />
-};
-
-export const CustomSingleValueRendering: Story = {
-  render: (args) => <CustomSingleValueRenderingTemplate {...args} />
-};
-
-export const MultipleStrictMode: Story = {
-  render: (args) => <AutocompleteTemplate multiple {...args} />
-};
-
-export const LimitTags: Story = {
-  render: (args) => <LimitTagsTemplate {...args} />
-};
-
-export const MultipleFreeMode: Story = {
-  render: (args) => <AutocompleteTemplate multiple mode="free" {...args} />
-};
-
-export const SingleValueAutocompleteWithForm: Story = {
-  render: (args) => {
-    return (
-      <form
-        onSubmit={(e: FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const value = formData.get('options');
-          alert(`value: ${value}`);
-        }}
-        style={{ display: 'flex', columnGap: '10px' }}
+  return (
+    <>
+      <Text noMargin>{\`value: \${value}\`}</Text>
+      <Autocomplete
+        value={value}
+        onChange={handleChange}
+        style={{ marginTop: '10px' }}
       >
-        <AutocompleteTemplate name="options" {...args} />
-        <Button type="submit">제출</Button>
-      </form>
-    );
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
-export const MultipleValueAutocompleteWithForm: Story = {
-  render: (args) => {
-    return (
-      <form
-        onSubmit={(e: FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const values = formData.getAll('options');
-          alert(`values: ${values}`);
-        }}
-        style={{ display: 'flex', columnGap: '10px' }}
+export const ControlledInputValue: Story = {
+  render: () => <ControlledInputValueTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledInputValueTemplate = () => {
+  const [value, setValue] = useState<OptionValueType | null>(null);
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (
+    _: Event | React.SyntheticEvent,
+    newValue: OptionValueType | null
+  ) => {
+    setValue(newValue);
+  };
+  const handleInputChange = (
+    _: Event | React.SyntheticEvent,
+    newInputValue: string
+  ) => {
+    setInputValue(newInputValue);
+  };
+
+  return (
+    <>
+      <Text noMargin>{\`value: \${value}\`}</Text>
+      <Text noMargin>{\`inputValue: \${inputValue}\`}</Text>
+      <Autocomplete
+        value={value}
+        inputValue={inputValue}
+        onChange={handleChange}
+        onInputChange={handleInputChange}
+        style={{ marginTop: '10px' }}
       >
-        <AutocompleteTemplate name="options" multiple {...args} />
-        <Button type="submit">제출</Button>
-      </form>
-    );
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
+    </>
+  );
+};`.trim()
+      }
+    }
   }
 };
 
-export const LoadOnOpen: Story = {
-  render: (args) => (
-    <Autocomplete {...args}>
-      {[<AutocompleteOptions key="options" />]}
-    </Autocomplete>
-  )
-};
+export const ControlledMenu: Story = {
+  render: () => <ControlledMenuTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledMenuTemplate = () => {
+  const [open, setOpen] = useState(false);
 
-export const SearchAsYourType: Story = {
-  render: (args) => <SearchAsTypeTemplate {...args} />
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Text noMargin>{\`open: \${open}\`}</Text>
+      <Autocomplete
+        open={open}
+        onOpen={openMenu}
+        onClose={closeMenu}
+        style={{ marginTop: '10px' }}
+      >
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
+    </>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Placeholder: Story = {
   render: (args) => (
-    <AutocompleteTemplate placeholder="Select Option" {...args} />
-  )
-};
-
-export const DisabledAutocomplete: Story = {
-  render: (args) => (
-    <AutocompleteTemplate placeholder="Select Option" disabled {...args} />
-  )
-};
-
-export const DisabledAutocompleteOption: Story = {
-  render: (args) => (
-    <Autocomplete {...args}>
-      {OPTIONS.map((option, idx) => (
-        <AutocompleteOption key={option} value={option} disabled={idx === 1}>
-          {option}
+    <Autocomplete placeholder="Search..." {...args}>
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          {label}
         </AutocompleteOption>
       ))}
     </Autocomplete>
   )
 };
 
-export const WithLabelAndText: Story = {
-  render: (args) => <WithLabelAndTextTemplate {...args} />
-};
-
-export const GroupMenu: Story = {
+export const Disabled: Story = {
   render: (args) => (
-    <Autocomplete {...args}>
-      <AutocompleteOption
-        value=""
-        className="typo-title-medium"
-        disabled
-        selected={false}
-        style={{ margin: 0, color: 'gray-500' }}
-      >
-        Category 1
-      </AutocompleteOption>
-      <AutocompleteOption value="Option 1">Option 1</AutocompleteOption>
-      <AutocompleteOption value="Option 2">Option 2</AutocompleteOption>
-      <AutocompleteOption value="Option 3">Option 3</AutocompleteOption>
-      <AutocompleteOption
-        value=""
-        className="typo-title-medium"
-        disabled
-        selected={false}
-        style={{ margin: 0, color: 'gray-500' }}
-      >
-        Category 2
-      </AutocompleteOption>
-      <AutocompleteOption value="Option 4">Option 4</AutocompleteOption>
-      <AutocompleteOption value="Option 5">Option 5</AutocompleteOption>
-      <AutocompleteOption value="Option 6">Option 6</AutocompleteOption>
+    <Autocomplete disabled {...args}>
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          {label}
+        </AutocompleteOption>
+      ))}
     </Autocomplete>
   )
+};
+
+export const RenderingValuesInChip: Story = {
+  render: (args) => (
+    <Autocomplete
+      renderValue={(autocompleteValueLabel, onDelete) => (
+        <>
+          {autocompleteValueLabel.map(({ value, label }) => (
+            <Chip
+              key={value}
+              variant="outlined"
+              color="primary"
+              endAdornment={
+                <ButtonBase
+                  onClick={(e: MouseEvent) => onDelete(e, value)}
+                  disableOverlay
+                  disableRipple
+                  style={{ width: '100%', height: '100%' }}
+                  aria-label="delete chip"
+                >
+                  <CancelIcon
+                    color="gray-700"
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                </ButtonBase>
+              }
+            >
+              {label}
+            </Chip>
+          ))}
+        </>
+      )}
+      {...args}
+    >
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          {label}
+        </AutocompleteOption>
+      ))}
+    </Autocomplete>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Autocomplete
+  renderValue={(autocompleteValueLabel, onDelete) => (
+    <>
+      {autocompleteValueLabel.map(({ value, label }) => (
+        <Chip
+          key={value}
+          variant="outlined"
+          color="primary"
+          endAdornment={
+            <ButtonBase
+              onClick={(e: MouseEvent) => onDelete(e, value)}
+              disableOverlay
+              disableRipple
+              style={{ width: '100%', height: '100%' }}
+              aria-label="delete chip"
+            >
+              <CancelIcon
+                color="gray-700"
+                style={{ width: '100%', height: '100%' }}
+              />
+            </ButtonBase>
+          }
+        >
+          {label}
+        </Chip>
+      ))}
+    </>
+  )}
+>
+  {OPTIONS.map(({ value, label }) => (
+    <AutocompleteOption key={value} value={value} label={label}>
+      {label}
+    </AutocompleteOption>
+  ))}
+</Autocomplete>`.trim()
+      }
+    }
+  }
+};
+
+export const CountrySelect: Story = {
+  render: (args) => (
+    <Autocomplete {...args}>
+      {COUNTRIES.map(({ code, label, phone }) => {
+        return (
+          <AutocompleteOption
+            key={code}
+            value={label}
+            label={label}
+            style={{ alignItems: 'start', textAlign: 'start' }}
+          >
+            <img
+              loading="lazy"
+              width="20"
+              srcSet={`https://flagcdn.com/w40/${code.toLowerCase()}.png 2x`}
+              src={`https://flagcdn.com/w20/${code.toLowerCase()}.png`}
+              alt={`${label} gonfalon`}
+              style={{ marginRight: '10px' }}
+            />
+            {label} ({code}) +{phone}
+          </AutocompleteOption>
+        );
+      })}
+    </Autocomplete>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Autocomplete>
+  {COUNTRIES.map(({ code, label, phone }) => {
+    return (
+      <AutocompleteOption 
+        key={code}
+        value={label}
+        label={label}
+        style={{ alignItems: 'start', textAlign: 'start' }}
+      >
+        <img
+          loading="lazy"
+          width="20"
+          srcSet={\`https://flagcdn.com/w40/\${code.toLowerCase()}.png 2x\`}
+          src={\`https://flagcdn.com/w20/\${code.toLowerCase()}.png\`}
+          alt={\`\${label} gonfalon\`}
+          style={{ marginRight: '10px' }}
+        />
+        {label} ({code}) +{phone}
+      </AutocompleteOption>
+    );
+  })}
+</Autocomplete>`.trim()
+      }
+    }
+  }
+};
+
+export const SearchInput: Story = {
+  render: (args) => (
+    <Autocomplete mode="free" {...args}>
+      {FILMS.map(({ label, year }) => (
+        <AutocompleteOption
+          key={label}
+          value={label}
+          label={label}
+          style={{ textAlign: 'start' }}
+        >
+          {`${label} (${year})`}
+        </AutocompleteOption>
+      ))}
+    </Autocomplete>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Autocomplete mode="free">
+  {FILMS.map(({ label, year }) => (
+    <AutocompleteOption
+      key={label}
+      value={label}
+      label={label}
+      style={{ textAlign: 'start' }}
+    >
+      {\`\${label} (\${year})\`}
+    </AutocompleteOption>
+  ))}
+</Autocomplete>`.trim()
+      }
+    }
+  }
+};
+
+export const Creatable: Story = {
+  render: () => <CreatableTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CreatableTemplate = () => {
+  const [options, setOptions] = useState(OPTIONS);
+  const [inputValue, setInputValue] = useState<string>('');
+  const matchedOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
+  const handleInputChange = (
+    _: Event | React.SyntheticEvent,
+    newValue: string
+  ) => {
+    setInputValue(newValue);
+  };
+  const addOption = (value: string) => {
+    setOptions((prev) => [...prev, { value, label: value }]);
+  };
+
+  let autocompleteOptions = options.map(({ value, label }) => (
+    <AutocompleteOption key={value} value={value} label={label}>
+      {label}
+    </AutocompleteOption>
+  ));
+  if (matchedOptions.length === 0) {
+    const createdOption = (
+      <AutocompleteOption
+        key="created-option"
+        value={inputValue}
+        label={inputValue}
+        onClick={() => addOption(inputValue)}
+      >
+        Add '{inputValue}'
+      </AutocompleteOption>
+    );
+    autocompleteOptions = [...autocompleteOptions, createdOption];
+  }
+
+  return (
+    <Autocomplete
+      mode="free"
+      inputValue={inputValue}
+      onInputChange={handleInputChange}
+    >
+      {autocompleteOptions}
+    </Autocomplete>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const BasicMultiple: Story = {
+  render: () => <BasicMultipleTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicMultipleTemplate = () => {
+  const MODES = ['strict', 'free'] as const;
+  const [mode, setMode] = useState<(typeof MODES)[number]>(MODES[0]);
+
+  const changeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMode(e.target.value as (typeof MODES)[number]);
+  };
+
+  return (
+    <Stack>
+      <RadioGroup name="mode" value={mode} onChange={changeMode}>
+        <Stack direction="row" spacing={10}>
+          {MODES.map((mode) => (
+            <Label key={mode} content={mode}>
+              <Radio value={mode} />
+            </Label>
+          ))}
+        </Stack>
+      </RadioGroup>
+      <Autocomplete mode={mode} multiple>
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const FixedOptions: Story = {
+  render: () => <FixedOptionsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const FixedOptionsTemplate = () => {
+  const fixedOptionValue = 1;
+  const MODES = ['strict', 'free'] as const;
+  const [value, setValue] = useState<OptionValueType[]>([fixedOptionValue]);
+  const [mode, setMode] = useState<(typeof MODES)[number]>(MODES[0]);
+
+  const handleChange = (
+    _: Event | React.SyntheticEvent,
+    newValue: OptionValueType[]
+  ) => {
+    if (newValue.includes(fixedOptionValue)) setValue(newValue);
+    else setValue([fixedOptionValue, ...newValue]);
+  };
+  const changeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMode(e.target.value as (typeof MODES)[number]);
+  };
+
+  return (
+    <Stack>
+      <RadioGroup name="mode" value={mode} onChange={changeMode}>
+        <Stack direction="row" spacing={10}>
+          {MODES.map((mode) => (
+            <Label key={mode} content={mode}>
+              <Radio value={mode} />
+            </Label>
+          ))}
+        </Stack>
+      </RadioGroup>
+      <Autocomplete
+        mode={mode}
+        multiple
+        value={value}
+        onChange={handleChange}
+        renderValue={(autocompleteValueLabel, onDelete) => (
+          <>
+            {autocompleteValueLabel.map(({ value, label }) => {
+              if (value === fixedOptionValue) {
+                return (
+                  <Chip key={value} variant="subtle-filled" color="gray-400">
+                    {label}
+                  </Chip>
+                );
+              } else {
+                return (
+                  <Chip
+                    key={value}
+                    variant="subtle-filled"
+                    color="gray-600"
+                    endAdornment={
+                      <ButtonBase
+                        onClick={(e: MouseEvent) => onDelete?.(e, value)}
+                        disableOverlay
+                        disableRipple
+                        style={{ width: '100%', height: '100%' }}
+                        aria-label="delete chip"
+                      >
+                        <CancelIcon
+                          color="gray-700"
+                          style={{ width: '100%', height: '100%' }}
+                        />
+                      </ButtonBase>
+                    }
+                  >
+                    {label}
+                  </Chip>
+                );
+              }
+            })}
+          </>
+        )}
+      >
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const LimitTags: Story = {
+  render: () => <LimitTagsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const LimitTagsTemplate = () => {
+  const LIMIT = 3;
+
+  return (
+    <Autocomplete
+      multiple
+      renderValue={(autocompleteValueLabel, onDelete) => {
+        const displayedValues = autocompleteValueLabel.slice(0, LIMIT);
+        const restCount = autocompleteValueLabel.length - LIMIT;
+        return (
+          <>
+            {displayedValues.map(({ value, label }) => (
+              <Chip
+                key={value}
+                variant="subtle-filled"
+                color="gray-600"
+                endAdornment={
+                  <ButtonBase
+                    onClick={(e: MouseEvent) => onDelete?.(e, value)}
+                    disableOverlay
+                    disableRipple
+                    style={{ width: '100%', height: '100%' }}
+                    aria-label="delete chip"
+                  >
+                    <CancelIcon
+                      color="gray-700"
+                      style={{ width: '100%', height: '100%' }}
+                    />
+                  </ButtonBase>
+                }
+              >
+                {label}
+              </Chip>
+            ))}
+            {restCount > 0 && <Text noMargin>{\`+\${restCount}\`}</Text>}
+          </>
+        );
+      }}
+    >
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          {label}
+        </AutocompleteOption>
+      ))}
+    </Autocomplete>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const GroupOption: Story = {
+  render: (args) => (
+    <Autocomplete {...args}>
+      <ListItem className="typo-title-medium">Category 1</ListItem>
+      <AutocompleteOption value="Option 1" label="Option 1">
+        Option 1
+      </AutocompleteOption>
+      <AutocompleteOption value="Option 2" label="Option 2">
+        Option 2
+      </AutocompleteOption>
+      <AutocompleteOption value="Option 3" label="Option 3">
+        Option 3
+      </AutocompleteOption>
+      <ListItem className="typo-title-medium">Category 2</ListItem>
+      <AutocompleteOption value="Option 4" label="Option 4">
+        Option 4
+      </AutocompleteOption>
+      <AutocompleteOption value="Option 5" label="Option 5">
+        Option 5
+      </AutocompleteOption>
+      <AutocompleteOption value="Option 6" label="Option 6">
+        Option 6
+      </AutocompleteOption>
+    </Autocomplete>
+  )
+};
+
+export const OptionWithCheckbox: Story = {
+  render: () => <OptionWithCheckboxTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const OptionWithCheckboxTemplate = () => {
+  const [autocompleteValues, setAutocompleteValues] = useState<
+    OptionValueType[]
+  >([]);
+
+  const handleChange = (
+    _: Event | React.SyntheticEvent,
+    newValue: OptionValueType[]
+  ) => {
+    setAutocompleteValues(newValue);
+  };
+
+  return (
+    <Autocomplete multiple value={autocompleteValues} onChange={handleChange}>
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          <Checkbox checked={autocompleteValues.includes(value)} />
+          {label}
+        </AutocompleteOption>
+      ))}
+    </Autocomplete>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const AutocompleteWithForm: Story = {
+  render: () => <AutocompleteWithFormTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const AutocompleteWithFormTemplate = () => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const option = formData.get('option');
+    alert(\`option: \${option}\`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Label
+        content="Option"
+        labelPlacement="top"
+        required
+        style={{ alignItems: 'start' }}
+      >
+        <Autocomplete multiple name="option">
+          {OPTIONS.map(({ value, label }) => (
+            <AutocompleteOption key={value} value={value} label={label}>
+              {label}
+            </AutocompleteOption>
+          ))}
+        </Autocomplete>
+      </Label>
+      <Stack
+        direction="row"
+        style={{ justifyContent: 'end', margin: '10px 16px' }}
+      >
+        <Button type="submit">제출</Button>
+      </Stack>
+    </form>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const LoadOnOpen: Story = {
+  render: () => <LoadOnOpenTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const LoadOnOpenTemplate = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [films, setFilms] = useState<FilmType[]>([]);
+  const [open, setOpen] = useState(false);
+
+  const openMenu = () => {
+    setOpen(true);
+  };
+  const closeMenu = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const fetchFilmsData = () => {
+      setIsLoading(true);
+      setTimeout(() => {
+        setFilms([...FILMS]);
+        setIsLoading(false);
+      }, 3000);
+    };
+
+    if (open && films.length === 0) fetchFilmsData();
+  }, [open, films]);
+
+  return (
+    <Autocomplete
+      open={open}
+      onOpen={openMenu}
+      onClose={closeMenu}
+      MenuProps={{ className: 'remove-no-option-item' }}
+    >
+      {isLoading ? (
+        <ListItem className="loading">loading...</ListItem>
+      ) : (
+        films.map(({ label }) => (
+          <AutocompleteOption
+            key={label}
+            value={label}
+            label={label}
+            style={{ textAlign: 'start' }}
+          >
+            {label}
+          </AutocompleteOption>
+        ))
+      )}
+    </Autocomplete>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const SearchAsYourType: Story = {
+  render: () => <SearchAsTypeTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SearchAsTypeTemplate = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>('');
+  const [options, setOptions] = useState<FilmType[]>(FILMS.slice(5));
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
+
+  const deleteTimeout = () => {
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+      timeoutIdRef.current = null;
+    }
+  };
+
+  const handleInputChange = (
+    _: Event | React.SyntheticEvent,
+    newInputValue: string
+  ) => {
+    setInputValue(newInputValue);
+    setIsLoading(true);
+    deleteTimeout();
+    timeoutIdRef.current = setTimeout(() => {
+      const searchResult: FilmType[] = FILMS.filter(({ label }) =>
+        label.toLowerCase().includes(newInputValue.toLowerCase())
+      );
+      setOptions(searchResult);
+      setIsLoading(false);
+    }, 1500);
+  };
+
+  return (
+    <Autocomplete
+      inputValue={inputValue}
+      onInputChange={handleInputChange}
+      MenuProps={{ className: 'remove-no-option-item' }}
+    >
+      {isLoading ? (
+        <Box
+          className="loading"
+          style={{
+            display: 'flex',
+            height: '50px',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <CircularProgress progressColor="gray-400" size="sm" />
+        </Box>
+      ) : (
+        options.map(({ label }) => {
+          return (
+            <AutocompleteOption
+              key={label}
+              value={label}
+              label={label}
+              style={{ textAlign: 'start' }}
+            >
+              {label}
+            </AutocompleteOption>
+          );
+        })
+      )}
+    </Autocomplete>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Variants: Story = {
   render: (args) => (
     <Stack spacing={20}>
-      <AutocompleteTemplate
-        InputBaseProps={{ variant: 'filled' }}
-        placeholder="Filled"
-        {...args}
-      />
-      <AutocompleteTemplate
-        InputBaseProps={{ variant: 'outlined' }}
-        placeholder="Outlined"
-        {...args}
-      />
-      <AutocompleteTemplate
-        InputBaseProps={{ variant: 'underlined' }}
-        placeholder="Underlined"
-        {...args}
-      />
-      <AutocompleteTemplate
-        InputBaseProps={{ variant: 'borderless' }}
-        placeholder="Borderless"
-        {...args}
-      />
+      {(['outlined', 'filled', 'underlined', 'borderless'] as const).map(
+        (variant) => (
+          <Autocomplete
+            key={variant}
+            variant={variant}
+            placeholder={variant}
+            {...args}
+          >
+            {OPTIONS.map(({ value, label }) => (
+              <AutocompleteOption key={value} value={value} label={label}>
+                {label}
+              </AutocompleteOption>
+            ))}
+          </Autocomplete>
+        )
+      )}
     </Stack>
   )
 };
@@ -1196,97 +2024,126 @@ export const Variants: Story = {
 export const Sizes: Story = {
   render: (args) => (
     <Stack spacing={20}>
-      <AutocompleteTemplate
-        InputBaseProps={{ size: 'sm' }}
-        placeholder="sm"
-        {...args}
-      />
-      <AutocompleteTemplate
-        InputBaseProps={{ size: 'md' }}
-        placeholder="md"
-        {...args}
-      />
-      <AutocompleteTemplate
-        InputBaseProps={{ size: 'lg' }}
-        placeholder="lg"
-        {...args}
-      />
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <Autocomplete key={size} size={size} placeholder={size} {...args}>
+          {OPTIONS.map(({ value, label }) => (
+            <AutocompleteOption key={value} value={value} label={label}>
+              {label}
+            </AutocompleteOption>
+          ))}
+        </Autocomplete>
+      ))}
     </Stack>
   )
 };
 
 export const Color: Story = {
-  render: (args) => {
-    return (
-      <Stack spacing={20}>
-        <AutocompleteTemplate
-          InputBaseProps={{ color: 'secondary', focusedColor: 'secondary' }}
-          placeholder="secondary"
+  render: (args) => (
+    <Stack spacing={20}>
+      {(['error', 'yellow'] as const).map((color) => (
+        <Autocomplete
+          key={color}
+          color={color}
+          focusedColor={color}
+          placeholder={color}
           {...args}
-        />
-        <AutocompleteTemplate
-          InputBaseProps={{ color: 'yellow-400', focusedColor: 'yellow-400' }}
-          placeholder="yellow-400"
-          {...args}
-        />
-      </Stack>
-    );
-  }
+        >
+          {OPTIONS.map(({ value, label }) => (
+            <AutocompleteOption key={value} value={value} label={label}>
+              {label}
+            </AutocompleteOption>
+          ))}
+        </Autocomplete>
+      ))}
+    </Stack>
+  )
+};
+
+export const FullWidth: Story = {
+  render: (args) => (
+    <Box style={{ width: '500px' }}>
+      <Autocomplete fullWidth {...args}>
+        {OPTIONS.map(({ value, label }) => (
+          <AutocompleteOption key={value} value={value} label={label}>
+            {label}
+          </AutocompleteOption>
+        ))}
+      </Autocomplete>
+    </Box>
+  )
 };
 
 export const Adornments: Story = {
-  render: (args) => {
-    return (
-      <AutocompleteTemplate
-        InputBaseProps={{
-          startAdornment: '🛒'
-        }}
-        {...args}
-      />
-    );
-  }
+  render: (args) => (
+    <Autocomplete startAdornment="🛒" {...args}>
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          {label}
+        </AutocompleteOption>
+      ))}
+    </Autocomplete>
+  )
 };
 
 export const DisableEffects: Story = {
   render: (args) => {
     return (
-      <Stack direction="row" spacing={20}>
-        <AutocompleteTemplate
-          InputBaseProps={{ disableHoverEffect: true }}
-          placeholder="Disable Hover Effect"
+      <Stack spacing={20}>
+        <Autocomplete
+          variant="filled"
+          placeholder="Disable hover effect"
+          disableHoverEffect
           {...args}
-        />
-        <AutocompleteTemplate
-          InputBaseProps={{ disableFocusEffect: true }}
-          placeholder="Disable Focus Effect"
+        >
+          {OPTIONS.map(({ value, label }) => (
+            <AutocompleteOption key={value} value={value} label={label}>
+              {label}
+            </AutocompleteOption>
+          ))}
+        </Autocomplete>
+        <Autocomplete
+          variant="filled"
+          placeholder="Disable focus effect"
+          disableFocusEffect
           {...args}
-        />
+        >
+          {OPTIONS.map(({ value, label }) => (
+            <AutocompleteOption key={value} value={value} label={label}>
+              {label}
+            </AutocompleteOption>
+          ))}
+        </Autocomplete>
       </Stack>
     );
   }
 };
 
 export const Dense: Story = {
-  render: (args) => {
-    return (
-      <AutocompleteTemplate
-        MenuProps={{ MenuListProps: { dense: true } }}
-        {...args}
-      />
-    );
-  }
+  render: (args) => (
+    <Autocomplete MenuProps={{ MenuListProps: { dense: true } }} {...args}>
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          {label}
+        </AutocompleteOption>
+      ))}
+    </Autocomplete>
+  )
 };
 
 export const MenuPosition: Story = {
-  render: (args) => {
-    return (
-      <AutocompleteTemplate
-        MenuProps={{
-          anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
-          menuOrigin: { horizontal: 'left', vertical: 'top' }
-        }}
-        {...args}
-      />
-    );
-  }
+  render: (args) => (
+    <Autocomplete
+      MenuProps={{
+        anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
+        menuOrigin: { horizontal: 'left', vertical: 'top' }
+      }}
+      {...args}
+    >
+      {OPTIONS.map(({ value, label }) => (
+        <AutocompleteOption key={value} value={value} label={label}>
+          {label}
+        </AutocompleteOption>
+      ))}
+    </Autocomplete>
+  )
 };

@@ -1,6 +1,6 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as AutocompleteStories from './Autocomplete.stories';
-import * as AutocompleteOptionStories from './AutocompleteOption.stories';
+import * as AutocompleteOptionStories from './AutocompleteOption/AutocompleteOption.stories';
 
 <Meta of={AutocompleteStories} />
 
@@ -21,201 +21,166 @@ import {
 
 ### Basic Autocomplete
 
-- `Autocomplete` 컴포넌트
-  - `children`: autocomplete의 options (AutocompleteOption 컴포넌트)
-  - `defaultValue`: 초기 autocomplete value (uncontrolled 상태일 때만 적용 가능)
-- `AutocompleteOption` 컴포넌트
-  - `children`: option content
-  - `value`: option의 value
+- `defaultValue`: 초기 autocomplete value (uncontrolled 상태일 때만 적용 가능)
 
 <Canvas of={AutocompleteStories.BasicAutocomplete} />
 
 ### Controlled Autocomplete
 
-#### 1) Control Autocomplete Value
+#### 1. Control Autocomplete Value
 
-- `value`와 `onChange` prop을 통해 Autocomplete Value를 control 가능
-- `Autocomplete` 컴포넌트
-  - `value`: autocomplete value
-  - `onChange`: autocomplete value가 변경됐을 때 호출되는 함수
+- `value` prop을 통해 Autocomplete Value를 control 가능
+- `value`: autocomplete value
+- `onChange`: autocomplete value가 변경됐을 때 호출되는 함수
 
-#### 2) Control Input Value
+<Canvas of={AutocompleteStories.ControlledAutocompleteValue} />
 
-- `inputValue`와 `onInputChange` prop을 통해 Input Value를 control 가능
-- `Autocomplete` 컴포넌트
-  - `inputValue`: input value
-  - `onInputChange`: input value가 변경됐을 때 호출되는 함수
+#### 2. Control Input Value
 
-<Canvas of={AutocompleteStories.ControlledAutocomplete} />
+- `inputValue` prop을 통해 Input Value를 control 가능
+- `inputValue`: input value
+- `onInputChange`: input value가 변경됐을 때 호출되는 함수
 
-### Mode
+<Canvas of={AutocompleteStories.ControlledInputValue} />
 
-- `Autocomplete` 컴포넌트
-  - `mode`: autocomplete 모드
+#### 3. Control Menu
 
-#### 1) Strict Mode
+- `open` prop을 통해 `Menu`의 open state를 control 가능
+- `open`: true이면, menu가 open 됨
+- `onOpen`: open을 유발하는 이벤트가 발생 시 호출되는 함수
+- `onClose`: close를 유발하는 이벤트가 발생 시 호출되는 함수
 
-- strict mode: autocomplete value는 options value만 가질 수 있음
-
-- ex) country select
-  <Canvas of={AutocompleteStories.StrictMode} />
-
-#### 2) Free Mode
-
-- free mode: autocomplete value는 options value 이외의 임의의 값도 가질 수 있음
-
-- ex) search input
-
-  <Canvas of={AutocompleteStories.FreeModeSearchInput} />
-
-- ex) creatable option
-  <Canvas of={AutocompleteStories.FreeModeCreatable} />
-
-### Custom Single Value Rendering
-
-- `Autocomplete` 컴포넌트
-  - `renderValue`: autocomplete value를 입력값으로 받아, input 내부에 content를 반환하는 함수
-
-<Canvas of={AutocompleteStories.CustomSingleValueRendering} />
-
-### Multiple Values
-
-- `Autocomplete` 컴포넌트
-  - `multiple`: true이면, multiple selections이 가능함
-
-#### 1) Strict Mode
-
-- ex) Basic
-
-  <Canvas of={AutocompleteStories.MultipleStrictMode} />
-
-- ex) Limit Tags
-  <Canvas of={AutocompleteStories.LimitTags} />
-
-#### 2) Free Mode
-
-- ex) Basic
-  <Canvas of={AutocompleteStories.MultipleFreeMode} />
-
-### Autocomplete with form
-
-#### 1) Single value의 경우
-
-<Canvas of={AutocompleteStories.SingleValueAutocompleteWithForm} />
-
-#### 2) Multiple value의 경우
-
-<Canvas of={AutocompleteStories.MultipleValueAutocompleteWithForm} />
-
-### Asynchronous Requests
-
-#### 1) Load on Open
-
-<Canvas of={AutocompleteStories.LoadOnOpen} />
-
-#### 2) Search as your type
-
-<Canvas of={AutocompleteStories.SearchAsYourType} />
+<Canvas of={AutocompleteStories.ControlledMenu} />
 
 ### Placeholder
 
-- `Autocomplete` 컴포넌트
-  - `placeholder`: input 의 placeholder
+- `placeholder`: input 의 placeholder
 
 <Canvas of={AutocompleteStories.Placeholder} />
 
 ### Disabled
 
-#### 1) Disabled Autocomplete
+- `disabled`: true이면, 비활성화됨
 
-- `Autocomplete` 컴포넌트
-  - `disabled`: true이면, 비활성화됨
+<Canvas of={AutocompleteStories.Disabled} />
 
-<Canvas of={AutocompleteStories.DisabledAutocomplete} />
+### Rendering values in chip
 
-#### 2) Disabled AutocompleteOption
+- `renderValue`: autocomplete value와 label을 입력값으로 받아, input 내부에 content를 반환하는 함수
 
-- `AutocompleteOption` 컴포넌트
-  - `disabled`: true이면, 비활성화됨
+<Canvas of={AutocompleteStories.RenderingValuesInChip} />
 
-<Canvas of={AutocompleteStories.DisabledAutocompleteOption} />
+### Mode
 
-### With Label and Helper Text
+- `mode`: autocomplete 모드
+  - 'strict' mode: autocomplete value는 options value만 가질 수 있음
+  - 'free' mode: autocomplete value는 options value 이외의 임의의 값도 가질 수 있음
 
-<Canvas of={AutocompleteStories.WithLabelAndText} />
+#### 1. Strict Mode
 
-### Group Menu
+##### 1) country select
 
-<Canvas of={AutocompleteStories.GroupMenu} />
+<Canvas of={AutocompleteStories.CountrySelect} />
 
-### Customize InputBase
+#### 2. Free Mode
 
-- `Autocomplete` 컴포넌트
-  - `InputBaseProps`: InputBase 컴포넌트의 props
+##### 1) search input
 
-#### 1) Variants
+<Canvas of={AutocompleteStories.SearchInput} />
 
-- `variant`: input 형태
+##### 2) creatable option
+
+<Canvas of={AutocompleteStories.Creatable} />
+
+### Multiple Values
+
+- `multiple`: true이면, multiple selections이 가능함
+
+#### 1. Basic
+
+<Canvas of={AutocompleteStories.BasicMultiple} />
+
+#### 2. Fixed Options
+
+<Canvas of={AutocompleteStories.FixedOptions} />
+
+#### 3. Limit Tags
+
+<Canvas of={AutocompleteStories.LimitTags} />
+
+### Group Option
+
+<Canvas of={AutocompleteStories.GroupOption} />
+
+### Option with Checkbox
+
+<Canvas of={AutocompleteStories.OptionWithCheckbox} />
+
+### Autocomplete with form
+
+<Canvas of={AutocompleteStories.AutocompleteWithForm} />
+
+### Asynchronous Requests
+
+#### 1. Load on Open
+
+<Canvas of={AutocompleteStories.LoadOnOpen} />
+
+#### 2. Search as your type
+
+<Canvas of={AutocompleteStories.SearchAsYourType} />
+
+### InputBase Props
+
+- `Autocomplete` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### 1. Variants
 
 <Canvas of={AutocompleteStories.Variants} />
 
-#### 2) Sizes
-
-- `size`: input 크기
+#### 2. Sizes
 
 <Canvas of={AutocompleteStories.Sizes} />
 
-#### 3) Color
-
-- `color`: base color
-- `focusedColor`: focused color
+#### 3. Color
 
 <Canvas of={AutocompleteStories.Color} />
 
-#### 4) Adornments
+#### 4. Full Width
 
-- `startAdornment`: input 앞에 위치하는 부가 요소 (icon ,text 등)
-- `endAdornment`: input 뒤에 위치하는 부가 요소 (icon ,text 등)
+<Canvas of={AutocompleteStories.FullWidth} />
+
+#### 5. Adornments
 
 <Canvas of={AutocompleteStories.Adornments} />
 
-#### 5) Disable Effects
-
-- `disableHoverEffect`: true이면, hover effect가 비활성화됨
-- `disableFocusEffect`: true이면, focus effect가 비활성화됨
+#### 6. Disable Effects
 
 <Canvas of={AutocompleteStories.DisableEffects} />
 
 ### Customize Menu
 
-- `Autocomplete` 컴포넌트
-  - `MenuProps`: Menu 컴포넌트의 props
+- `Autocomplete` 컴포넌트는 내부적으로 `Menu` 컴포넌트를 반환하므로, `MenuProps`를 통해 `Menu`를 커스텀 가능
+- `MenuProps`: `Menu` 컴포넌트의 props
 
-#### 1) Dense
-
-- `MenuListProps`: `MenuList` 컴포넌트에 적용되는 props
-- `dense`: true이면, `MenuItem` 컴포넌트 내 padding과 font-size를 줄여줌
+#### 1. Dense
 
 <Canvas of={AutocompleteStories.Dense} />
 
-#### 2) Menu Position
-
-- `menuOrigin`: anchor의 origin에 부착할 menu의 origin
-- `anchorOrigin`: menu의 origin이 부착될 anchorEl의 origin
+#### 2. Menu Position
 
 <Canvas of={AutocompleteStories.MenuPosition} />
 
 ## Props
 
-### `Autocomplete` 컴포넌트
+### Autocomplete
 
 - `InputBase` 컴포넌트 + `Menu` 컴포넌트로 구성됨
 
 <ArgTypes of={AutocompleteStories} sort="alpha" />
 
-### `AutocompleteOption` 컴포넌트
+### AutocompleteOption
 
-- `MenuItem` 컴포넌트로 구성됨
-- 따라서, `MenuItem` 컴포넌트의 props 전부 사용 가능
+- `MenuItem` 컴포넌트로 구성됨 (`MenuItem` 컴포넌트의 props 전부 사용 가능)
 
 <ArgTypes of={AutocompleteOptionStories} sort="alpha" />

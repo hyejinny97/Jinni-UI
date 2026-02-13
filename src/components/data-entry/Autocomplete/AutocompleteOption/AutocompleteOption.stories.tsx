@@ -5,15 +5,22 @@ const meta: Meta<typeof AutocompleteOption> = {
   component: AutocompleteOption,
   argTypes: {
     children: {
-      description: 'option content',
+      description: '메뉴 내 option의 content',
       table: {
         type: { summary: `React.ReactNode` }
       }
     },
-    value: {
-      description: 'option의 value',
+    label: {
+      description:
+        '해당 option이 선택될 때 입력란에 보여질 label (Autocomplete 내에서 inputValue 값과 비교되는 값)',
       table: {
         type: { summary: `string` }
+      }
+    },
+    value: {
+      description: '다른 options와 구별되는 식별자',
+      table: {
+        type: { summary: `string | number` }
       }
     }
   }
