@@ -1,19 +1,21 @@
 import { createContext } from 'react';
+import { OptionValueType } from './AutocompleteOption';
 
 type AutocompleteContextType = {
+  multiple: boolean;
+  isFiltered: boolean;
+  autocompleteValue: OptionValueType[];
   autocompleteInputValue: string;
-  handleInputValueChange: (
+  changeAutocompleteValue: (
+    event: Event | React.SyntheticEvent,
+    newValue: OptionValueType
+  ) => void;
+  changeInputValue: (
     event: Event | React.SyntheticEvent,
     newValue: string
   ) => void;
   initInputValue: (event: Event | React.SyntheticEvent) => void;
-  autocompleteValue: string | string[];
-  handleValueChange: (
-    event: Event | React.SyntheticEvent,
-    newValue: string
-  ) => void;
-  multiple: boolean;
-  filterMenuOption: boolean;
+  closeMenu: (event: Event | React.SyntheticEvent) => void;
 };
 
 const AutocompleteContext = createContext<AutocompleteContextType | null>(null);

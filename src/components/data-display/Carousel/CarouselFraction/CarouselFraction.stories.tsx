@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CarouselFraction from './CarouselFraction';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof CarouselFraction> = {
   component: CarouselFraction,
@@ -16,7 +17,14 @@ const meta: Meta<typeof CarouselFraction> = {
         }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

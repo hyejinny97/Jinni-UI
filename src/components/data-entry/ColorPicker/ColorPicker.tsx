@@ -88,9 +88,9 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
           onClose={handleClose}
           {...PopoverProps}
           style={{ marginTop: '3px', ...PopoverProps?.style }}
-          PopoverContentProps={{
+          BoxProps={{
             style: { padding: 0 },
-            ...PopoverProps?.PopoverContentProps
+            ...PopoverProps?.BoxProps
           }}
         >
           {renderColorBox({

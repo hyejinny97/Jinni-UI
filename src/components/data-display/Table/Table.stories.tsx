@@ -603,7 +603,6 @@ const SelectableTableTemplate = () => {
   const { columns, rows } = getDessertData();
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
   const numSelected = selectedRows.size;
-  console.log(selectedRows);
 
   const getAlign = (dataType: string): 'left' | 'right' => {
     switch (dataType) {

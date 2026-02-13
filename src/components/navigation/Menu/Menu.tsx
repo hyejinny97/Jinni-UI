@@ -20,6 +20,7 @@ export type MenuProps<T extends AsType = 'div'> = Omit<
   onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
   MenuListProps?: MenuListProps;
   disableScroll?: boolean;
+  disableMenuListFocused?: boolean;
   TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
 };
 
@@ -57,6 +58,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
     anchorPosition,
     menuOrigin = DEFAULT_MENU_ORIGIN,
     disableScroll = false,
+    disableMenuListFocused,
     TransitionComponent = ScaleFade,
     className,
     style,
@@ -65,7 +67,8 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
   const { menuListElRef } = useKeyboardAccessibility({
     open,
     onClose,
-    anchorElRef
+    anchorElRef,
+    disableMenuListFocused
   });
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLElement>) => {

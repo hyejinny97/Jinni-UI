@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { DragIntersection } from '.';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof DragIntersection> = {
   component: DragIntersection,
@@ -31,7 +32,14 @@ const meta: Meta<typeof DragIntersection> = {
         defaultValue: { summary: `'container'` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

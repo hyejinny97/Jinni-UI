@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Dot from './Dot';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof Dot> = {
   component: Dot,
@@ -32,7 +33,14 @@ const meta: Meta<typeof Dot> = {
         type: { summary: 'number | string' }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

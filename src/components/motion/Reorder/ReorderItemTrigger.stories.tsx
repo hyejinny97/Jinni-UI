@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ReorderItemTrigger } from '.';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof ReorderItemTrigger> = {
   component: ReorderItemTrigger,
@@ -10,7 +11,14 @@ const meta: Meta<typeof ReorderItemTrigger> = {
         type: { summary: 'React.ReactNode' }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

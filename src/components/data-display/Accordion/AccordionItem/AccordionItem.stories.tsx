@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import AccordionItem from './AccordionItem';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof AccordionItem> = {
   component: AccordionItem,
@@ -28,7 +29,14 @@ const meta: Meta<typeof AccordionItem> = {
         }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

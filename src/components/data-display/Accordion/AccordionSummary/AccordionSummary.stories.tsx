@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import AccordionSummary from './AccordionSummary';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof AccordionSummary> = {
   component: AccordionSummary,
@@ -23,7 +24,14 @@ const meta: Meta<typeof AccordionSummary> = {
         defaultValue: { summary: '<ArrowDownIcon />' }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

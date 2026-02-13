@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import LinearSpeedDialAction from './LinearSpeedDialAction';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof LinearSpeedDialAction> = {
   component: LinearSpeedDialAction,
@@ -10,7 +11,14 @@ const meta: Meta<typeof LinearSpeedDialAction> = {
         type: { summary: 'TooltipProps' }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

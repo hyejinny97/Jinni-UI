@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CarouselItem from './CarouselItem';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof CarouselItem> = {
   component: CarouselItem,
@@ -10,7 +11,14 @@ const meta: Meta<typeof CarouselItem> = {
         type: { summary: `React.ReactNode` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

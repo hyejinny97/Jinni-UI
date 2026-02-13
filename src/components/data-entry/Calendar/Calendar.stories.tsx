@@ -340,7 +340,7 @@ const CalendarWithNotesTemplate = () => {
               marked={false}
               color="primary-container"
               onClick={(e) => {
-                onClick && onClick(e);
+                onClick?.(e);
                 handleOpen();
               }}
             >

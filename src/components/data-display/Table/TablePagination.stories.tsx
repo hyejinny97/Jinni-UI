@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TablePagination from './TablePagination';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TablePagination> = {
   component: TablePagination,
@@ -47,7 +48,14 @@ const meta: Meta<typeof TablePagination> = {
         }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

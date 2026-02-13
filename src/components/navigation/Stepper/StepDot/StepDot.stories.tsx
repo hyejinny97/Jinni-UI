@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import StepDot from './StepDot';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof StepDot> = {
   component: StepDot,
@@ -28,7 +29,14 @@ const meta: Meta<typeof StepDot> = {
         }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

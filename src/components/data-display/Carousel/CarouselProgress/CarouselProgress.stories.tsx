@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CarouselProgress from './CarouselProgress';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof CarouselProgress> = {
   component: CarouselProgress,
@@ -26,7 +27,14 @@ const meta: Meta<typeof CarouselProgress> = {
         }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

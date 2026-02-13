@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TabPrevButton from './TabPrevButton';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof TabPrevButton> = {
   component: TabPrevButton,
@@ -10,7 +11,14 @@ const meta: Meta<typeof TabPrevButton> = {
         type: { summary: 'React.ReactNode' }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;
