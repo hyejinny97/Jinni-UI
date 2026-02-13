@@ -1,2 +1,3 @@
 export { default as Autocomplete } from './Autocomplete';
-export { default as AutocompleteOption } from './AutocompleteOption/AutocompleteOption';
+export { AutocompleteOption } from './AutocompleteOption';
+export type { OptionValueType } from './AutocompleteOption';

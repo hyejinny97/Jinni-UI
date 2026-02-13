@@ -27,7 +27,7 @@ import { ListItem } from '@/components/data-display/List';
 
 export type AutocompleteProps<Multiple extends boolean = false> = Omit<
   DefaultComponentProps<'input'>,
-  'defaultValue' | 'value' | 'onChange'
+  'defaultValue' | 'value' | 'onChange' | 'size'
 > &
   RootInputBaseProps & {
     name?: string;
@@ -36,11 +36,11 @@ export type AutocompleteProps<Multiple extends boolean = false> = Omit<
     mode?: 'strict' | 'free';
     multiple?: Multiple;
     defaultValue?: Multiple extends true ? OptionValueType[] : OptionValueType;
-    value?: Multiple extends true ? OptionValueType[] : OptionValueType;
+    value?: Multiple extends true ? OptionValueType[] : OptionValueType | null;
     inputValue?: string;
     onChange?: (
       event: Event | React.SyntheticEvent,
-      value: Multiple extends true ? OptionValueType[] : OptionValueType
+      value: Multiple extends true ? OptionValueType[] : OptionValueType | null
     ) => void;
     onInputChange?: (
       event: Event | React.SyntheticEvent,
@@ -51,7 +51,7 @@ export type AutocompleteProps<Multiple extends boolean = false> = Omit<
         value: OptionValueType;
         label: OptionLabelType;
       }>,
-      onDelete?: (
+      onDelete: (
         e: Event | React.SyntheticEvent,
         valueToDelete: OptionValueType
       ) => void
@@ -77,7 +77,12 @@ const defaultRenderValue = (
         color="gray-800"
         endAdornment={
           <ButtonBase
-            onClick={(e: MouseEvent) => onDelete?.(e, value)}
+            type="button"
+            onClick={(e: MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onDelete(e, value);
+            }}
             disableOverlay
             disableRipple
             style={{ width: '100%', height: '100%' }}
@@ -111,7 +116,7 @@ const Autocomplete = <Multiple extends boolean = false>(
     inputValue,
     onChange,
     onInputChange,
-    renderValue = defaultRenderValue,
+    renderValue = multiple ? defaultRenderValue : undefined,
     MenuProps,
     startAdornment,
     endAdornment,
@@ -134,13 +139,17 @@ const Autocomplete = <Multiple extends boolean = false>(
   const [open, setOpen] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
   const { valueToLabel } = useAutocompleteValueLabel({ children });
-  const { autocompleteValue, changeAutocompleteValue, initAutocompleteValue } =
-    useAutocompleteValue({
-      defaultValue,
-      value,
-      onChange,
-      multiple
-    });
+  const {
+    autocompleteValue,
+    changeAutocompleteValue,
+    initAutocompleteValue,
+    deleteAutocompleteValue
+  } = useAutocompleteValue({
+    defaultValue,
+    value,
+    onChange,
+    multiple
+  });
   const { autocompleteInputValue, changeInputValue, initInputValue } =
     useInputValue({
       multiple,
@@ -167,10 +176,12 @@ const Autocomplete = <Multiple extends boolean = false>(
     setOpen((prev) => !prev);
   };
   const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && mode === 'free' && autocompleteInputValue) {
+    if (event.key === 'Enter') {
       event.preventDefault();
-      changeAutocompleteValue(event, autocompleteInputValue);
-      if (multiple) initInputValue(event);
+      if (mode === 'free' && autocompleteInputValue) {
+        changeAutocompleteValue(event, autocompleteInputValue);
+        if (multiple) initInputValue(event);
+      }
     }
   };
   const handleMenuClose = useCallback(
@@ -219,7 +230,9 @@ const Autocomplete = <Multiple extends boolean = false>(
         endAdornment={
           endAdornment || (
             <ButtonBase
+              type="button"
               className="show-menu"
+              disabled={disabled}
               tabIndex={-1}
               onClick={() => {
                 toggleMenu();
@@ -243,17 +256,14 @@ const Autocomplete = <Multiple extends boolean = false>(
         style={style}
       >
         <Box className="JinniAutocompleteContent">
-          {multiple &&
-            renderValue(
-              autocompleteValue.map((value) => ({
-                value,
-                label: valueToLabel(value)
-              })),
-              (
-                e: Event | React.SyntheticEvent,
-                valueToDelete: OptionValueType
-              ) => changeAutocompleteValue(e, valueToDelete)
-            )}
+          {renderValue?.(
+            autocompleteValue.map((value) => ({
+              value,
+              label: valueToLabel(value)
+            })),
+            (e: Event | React.SyntheticEvent, valueToDelete: OptionValueType) =>
+              deleteAutocompleteValue(e, valueToDelete)
+          )}
           <input
             ref={inputElRef}
             className="JinniAutocompleteInput"
@@ -275,6 +285,7 @@ const Autocomplete = <Multiple extends boolean = false>(
           />
         </Box>
         <ButtonBase
+          type="button"
           className="clear"
           onClick={(event: MouseEvent) => {
             initInputValue(event);
@@ -284,16 +295,14 @@ const Autocomplete = <Multiple extends boolean = false>(
         >
           <CloseIcon size={16} color="gray-500" />
         </ButtonBase>
-        {
-          <input
-            name={name}
-            value={autocompleteValue.map(String).join(', ')}
-            required={required}
-            readOnly
-            aria-hidden="true"
-            style={{ display: 'none' }}
-          />
-        }
+        <input
+          name={name}
+          value={autocompleteValue.map(String).join(', ')}
+          onChange={() => {}}
+          required={required}
+          aria-hidden="true"
+          tabIndex={-1}
+        />
       </InputBase>
       <Menu
         className={cn('JinniAutocompleteMenu', menuClassName)}

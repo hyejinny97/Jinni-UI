@@ -49,6 +49,7 @@
   }
 
   .JinniInputBaseContent {
+    position: relative;
     display: inline-flex;
     gap: 5px;
     align-items: center;
@@ -83,6 +84,16 @@
       padding: 3px;
       border-radius: 50%;
       visibility: hidden;
+    }
+
+    input[aria-hidden='true'] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
     }
   }
 

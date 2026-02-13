@@ -100,10 +100,28 @@ export const useAutocompleteValue = <Multiple extends boolean = false>({
       );
   };
 
+  const deleteAutocompleteValue = (
+    event: Event | React.SyntheticEvent,
+    newValue: OptionValueType
+  ) => {
+    const newAutocompleteValue = remove(autocompleteValue, newValue);
+    if (!isControlled) setUncontrolledValue(newAutocompleteValue);
+    if (onChange)
+      onChange(
+        event,
+        (multiple
+          ? newAutocompleteValue
+          : newAutocompleteValue[0]) as Multiple extends true
+          ? OptionValueType[]
+          : OptionValueType
+      );
+  };
+
   return {
     autocompleteValue,
     changeAutocompleteValue,
-    initAutocompleteValue
+    initAutocompleteValue,
+    deleteAutocompleteValue
   };
 };
 
