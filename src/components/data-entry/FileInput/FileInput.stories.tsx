@@ -109,7 +109,7 @@ const BasicFileInputTemplate = () => {
   let content = null;
   switch (appearance) {
     case 'Button':
-      content = <Button>Choose File</Button>;
+      content = <Button tabIndex={-1}>Choose File</Button>;
       break;
     case 'Square':
       content = (
@@ -208,7 +208,7 @@ const BasicFileInputTemplate = () => {
             </Text>
           </Box>
           <ButtonBase
-            aria-label="delete"
+            aria-label={`remove ${file.name} file`}
             onClick={removeFile}
             style={{
               display: 'inline-flex',
@@ -247,7 +247,7 @@ const BasicMultipleTemplate = () => {
       }}
     >
       <FileInput multiple value={files} onChange={updateFile}>
-        <Button>Choose File</Button>
+        <Button tabIndex={-1}>Choose File</Button>
       </FileInput>
       <Stack spacing={10} style={{ alignSelf: 'stretch' }}>
         {files.map((file, idx) => (
@@ -283,7 +283,7 @@ const BasicMultipleTemplate = () => {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={`remove ${file.name} file`}
               onClick={() => removeFile(idx)}
               style={{
                 display: 'inline-flex',
@@ -331,7 +331,7 @@ const DeduplicatedFilesTemplate = () => {
       }}
     >
       <FileInput multiple value={files} onChange={updateFile}>
-        <Button>Choose File</Button>
+        <Button tabIndex={-1}>Choose File</Button>
       </FileInput>
       <Stack spacing={10} style={{ alignSelf: 'stretch' }}>
         {files.map((file, idx) => (
@@ -367,7 +367,7 @@ const DeduplicatedFilesTemplate = () => {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={`remove ${file.name} file`}
               onClick={() => removeFile(idx)}
               style={{
                 display: 'inline-flex',
@@ -407,7 +407,7 @@ const BasicAcceptTemplate = () => {
       }}
     >
       <FileInput accept=".pdf" value={file} onChange={updateFile}>
-        <Button>Choose File</Button>
+        <Button tabIndex={-1}>Choose File</Button>
       </FileInput>
       {file && (
         <Box
@@ -441,7 +441,7 @@ const BasicAcceptTemplate = () => {
             </Text>
           </Box>
           <ButtonBase
-            aria-label="delete"
+            aria-label={`remove ${file.name} file`}
             onClick={removeFile}
             style={{
               display: 'inline-flex',
@@ -500,7 +500,7 @@ const ValidateAcceptTemplate = () => {
           value={file}
           onChange={updateFile}
         >
-          <Button>Choose File</Button>
+          <Button tabIndex={-1}>Choose File</Button>
         </FileInput>
         {file && (
           <Box
@@ -534,7 +534,7 @@ const ValidateAcceptTemplate = () => {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={`remove ${file.name} file`}
               onClick={removeFile}
               style={{
                 display: 'inline-flex',
@@ -580,7 +580,9 @@ const DisabledTemplate = () => {
       }}
     >
       <FileInput value={file} onChange={updateFile} disabled>
-        <Button disabled>Choose File</Button>
+        <Button tabIndex={-1} disabled>
+          Choose File
+        </Button>
       </FileInput>
       {file && (
         <Box
@@ -614,7 +616,7 @@ const DisabledTemplate = () => {
             </Text>
           </Box>
           <ButtonBase
-            aria-label="delete"
+            aria-label={`remove ${file.name} file`}
             onClick={removeFile}
             style={{
               display: 'inline-flex',
@@ -665,7 +667,7 @@ const MaxFileSizeTemplate = () => {
         }}
       >
         <FileInput value={file} onChange={updateFile}>
-          <Button>Choose File</Button>
+          <Button tabIndex={-1}>Choose File</Button>
         </FileInput>
         {file && (
           <Box
@@ -699,7 +701,7 @@ const MaxFileSizeTemplate = () => {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={`remove ${file.name} file`}
               onClick={removeFile}
               style={{
                 display: 'inline-flex',
@@ -755,7 +757,7 @@ const MaxFilesTemplate = () => {
         }}
       >
         <FileInput multiple value={files} onChange={updateFile}>
-          <Button>Choose File</Button>
+          <Button tabIndex={-1}>Choose File</Button>
         </FileInput>
         <Stack spacing={10} style={{ alignSelf: 'stretch' }}>
           {files.map((file, idx) => (
@@ -791,7 +793,7 @@ const MaxFilesTemplate = () => {
                 </Text>
               </Box>
               <ButtonBase
-                aria-label="delete"
+                aria-label={`remove ${file.name} file`}
                 onClick={() => removeFile(idx)}
                 style={{
                   display: 'inline-flex',
@@ -863,6 +865,7 @@ const FileInputWithFormTemplate = () => {
                 type="button"
                 startAdornment={<AddIcon color="white" />}
                 disabled={isSubmitting}
+                tabIndex={-1}
               >
                 Choose File
               </Button>
@@ -914,7 +917,7 @@ const FileInputWithFormTemplate = () => {
                 </Text>
               </Box>
               <ButtonBase
-                aria-label="delete"
+                aria-label={`remove ${file.name} file`}
                 onClick={removeFile}
                 style={{
                   display: 'inline-flex',
@@ -985,7 +988,7 @@ const FileInputWithPreviewImageTemplate = () => {
       }}
     >
       <FileInput accept="image/*" multiple value={files} onChange={updateFile}>
-        <Button>Choose File</Button>
+        <Button tabIndex={-1}>Choose File</Button>
       </FileInput>
       <Stack spacing={10} style={{ alignSelf: 'stretch' }}>
         {files.map((file, idx) => (
@@ -1034,7 +1037,7 @@ const FileInputWithPreviewImageTemplate = () => {
               </Box>
             </Stack>
             <ButtonBase
-              aria-label="delete"
+              aria-label={`remove ${file.name} file`}
               onClick={() => removeFile(idx)}
               style={{
                 display: 'inline-flex',
@@ -1141,7 +1144,7 @@ const DragAndDropTemplate = () => {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={`remove ${file.name} file`}
               onClick={() => removeFile(idx)}
               style={{
                 display: 'inline-flex',
@@ -1186,7 +1189,7 @@ export const BasicFileInput: Story = {
   let content = null;
   switch (appearance) {
     case 'Button':
-      content = <Button>Choose File</Button>;
+      content = <Button tabIndex={-1}>Choose File</Button>;
       break;
     case 'Square':
       content = (
@@ -1285,7 +1288,7 @@ export const BasicFileInput: Story = {
             </Text>
           </Box>
           <ButtonBase
-            aria-label="delete"
+            aria-label={\`remove \${file.name} file\`}
             onClick={removeFile}
             style={{
               display: 'inline-flex',
@@ -1333,7 +1336,7 @@ export const BasicMultiple: Story = {
       }}
     >
       <FileInput multiple value={files} onChange={updateFile}>
-        <Button>Choose File</Button>
+        <Button tabIndex={-1}>Choose File</Button>
       </FileInput>
       <Stack spacing={10} style={{ alignSelf: 'stretch' }}>
         {files.map((file, idx) => (
@@ -1369,7 +1372,7 @@ export const BasicMultiple: Story = {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={\`remove \${file.name} file\`}
               onClick={() => removeFile(idx)}
               style={{
                 display: 'inline-flex',
@@ -1426,7 +1429,7 @@ export const RemoveDuplicatedFiles: Story = {
       }}
     >
       <FileInput multiple value={files} onChange={updateFile}>
-        <Button>Choose File</Button>
+        <Button tabIndex={-1}>Choose File</Button>
       </FileInput>
       <Stack spacing={10} style={{ alignSelf: 'stretch' }}>
         {files.map((file, idx) => (
@@ -1462,7 +1465,7 @@ export const RemoveDuplicatedFiles: Story = {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={\`remove \${file.name} file\`}
               onClick={() => removeFile(idx)}
               style={{
                 display: 'inline-flex',
@@ -1511,7 +1514,7 @@ export const BasicAccept: Story = {
       }}
     >
       <FileInput accept=".pdf" value={file} onChange={updateFile}>
-        <Button>Choose File</Button>
+        <Button tabIndex={-1}>Choose File</Button>
       </FileInput>
       {file && (
         <Box
@@ -1545,7 +1548,7 @@ export const BasicAccept: Story = {
             </Text>
           </Box>
           <ButtonBase
-            aria-label="delete"
+            aria-label={\`remove \${file.name} file\`}
             onClick={removeFile}
             style={{
               display: 'inline-flex',
@@ -1613,7 +1616,7 @@ export const AcceptValidation: Story = {
           value={file}
           onChange={updateFile}
         >
-          <Button>Choose File</Button>
+          <Button tabIndex={-1}>Choose File</Button>
         </FileInput>
         {file && (
           <Box
@@ -1647,7 +1650,7 @@ export const AcceptValidation: Story = {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={\`remove \${file.name} file\`}
               onClick={removeFile}
               style={{
                 display: 'inline-flex',
@@ -1702,7 +1705,7 @@ export const Disabled: Story = {
       }}
     >
       <FileInput value={file} onChange={updateFile} disabled>
-        <Button disabled>Choose File</Button>
+        <Button tabIndex={-1} disabled>Choose File</Button>
       </FileInput>
       {file && (
         <Box
@@ -1736,7 +1739,7 @@ export const Disabled: Story = {
             </Text>
           </Box>
           <ButtonBase
-            aria-label="delete"
+            aria-label={\`remove \${file.name} file\`}
             onClick={removeFile}
             style={{
               display: 'inline-flex',
@@ -1796,7 +1799,7 @@ export const MaxFileSize: Story = {
         }}
       >
         <FileInput value={file} onChange={updateFile}>
-          <Button>Choose File</Button>
+          <Button tabIndex={-1}>Choose File</Button>
         </FileInput>
         {file && (
           <Box
@@ -1830,7 +1833,7 @@ export const MaxFileSize: Story = {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={\`remove \${file.name} file\`}
               onClick={removeFile}
               style={{
                 display: 'inline-flex',
@@ -1895,7 +1898,7 @@ export const MaxFiles: Story = {
         }}
       >
         <FileInput multiple value={files} onChange={updateFile}>
-          <Button>Choose File</Button>
+          <Button tabIndex={-1}>Choose File</Button>
         </FileInput>
         <Stack spacing={10} style={{ alignSelf: 'stretch' }}>
           {files.map((file, idx) => (
@@ -1931,7 +1934,7 @@ export const MaxFiles: Story = {
                 </Text>
               </Box>
               <ButtonBase
-                aria-label="delete"
+                aria-label={\`remove \${file.name} file\`}
                 onClick={() => removeFile(idx)}
                 style={{
                   display: 'inline-flex',
@@ -2012,6 +2015,7 @@ export const FileInputWithForm: Story = {
                 type="button"
                 startAdornment={<AddIcon color="white" />}
                 disabled={isSubmitting}
+                tabIndex={-1}
               >
                 Choose File
               </Button>
@@ -2063,7 +2067,7 @@ export const FileInputWithForm: Story = {
                 </Text>
               </Box>
               <ButtonBase
-                aria-label="delete"
+                aria-label={\`remove \${file.name} file\`}
                 onClick={removeFile}
                 style={{
                   display: 'inline-flex',
@@ -2143,7 +2147,7 @@ export const FileInputWithPreviewImage: Story = {
       }}
     >
       <FileInput accept="image/*" multiple value={files} onChange={updateFile}>
-        <Button>Choose File</Button>
+        <Button tabIndex={-1}>Choose File</Button>
       </FileInput>
       <Stack spacing={10} style={{ alignSelf: 'stretch' }}>
         {files.map((file, idx) => (
@@ -2192,7 +2196,7 @@ export const FileInputWithPreviewImage: Story = {
               </Box>
             </Stack>
             <ButtonBase
-              aria-label="delete"
+              aria-label={\`remove \${file.name} file\`}
               onClick={() => removeFile(idx)}
               style={{
                 display: 'inline-flex',
@@ -2308,7 +2312,7 @@ export const DragAndDrop: Story = {
               </Text>
             </Box>
             <ButtonBase
-              aria-label="delete"
+              aria-label={\`remove \${file.name} file\`}
               onClick={() => removeFile(idx)}
               style={{
                 display: 'inline-flex',
