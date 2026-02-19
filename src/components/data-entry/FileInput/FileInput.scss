@@ -1,14 +1,29 @@
 .JinniFileInput {
+  position: relative;
   display: inline-flex;
   max-width: max-content;
   max-height: max-content;
-  cursor: pointer;
-
-  &.disabled {
-    cursor: default;
+  &:has(.JinniFileInputRoot:focus) {
+    outline: auto;
   }
 
   .JinniFileInputRoot {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    &::-webkit-file-upload-button {
+      cursor: pointer;
+    }
+
+    &:disabled {
+      cursor: default;
+      &::-webkit-file-upload-button {
+        cursor: default;
+      }
+    }
   }
 }
