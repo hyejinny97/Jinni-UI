@@ -22,7 +22,7 @@ const Masonry = <T extends AsType = 'div'>(props: MasonryProps<T>) => {
     children,
     columns = DEFAULT_COLUMNS,
     spacing = DEFAULT_SPACING,
-    sequential = false,
+    sequential,
     className,
     style,
     as: Component = 'div',
@@ -32,7 +32,7 @@ const Masonry = <T extends AsType = 'div'>(props: MasonryProps<T>) => {
   const gap = useSpacing({ spacing });
   const columnsCount = useColumns({ columns });
   const newStyle = useStyle({
-    '--columnsCount': columnsCount,
+    '--columns-count': columnsCount,
     ...style
   });
 

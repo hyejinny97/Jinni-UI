@@ -22,23 +22,17 @@ import { Masonry } from '@/components/layout/Masonry';
 
 - `children`: masonry의 items
 
-#### 1) Default
-
 <Canvas of={MasonryStories.BasicMasonry} />
-
-#### 2) Image Masonry
-
-<Canvas of={MasonryStories.ImageMasonry} />
 
 ### Columns
 
 - `columns`: 컬럼 수
 
-#### 1) Default
+#### 1. Basic
 
-<Canvas of={MasonryStories.DefaultColumns} />
+<Canvas of={MasonryStories.BasicColumns} />
 
-#### 2) Responsive
+#### 2. Responsive
 
 <Canvas of={MasonryStories.ResponsiveColumns} />
 
@@ -46,11 +40,11 @@ import { Masonry } from '@/components/layout/Masonry';
 
 - `spacing`: items 사이 간격
 
-#### 1) Default
+#### 1. Basic
 
-<Canvas of={MasonryStories.DefaultSpacing} />
+<Canvas of={MasonryStories.BasicSpacing} />
 
-#### 2) Responsive
+#### 2. Responsive
 
 <Canvas of={MasonryStories.ResponsiveSpacing} />
 
@@ -62,21 +56,25 @@ import { Masonry } from '@/components/layout/Masonry';
 
 ### Changes in items
 
-#### 1) Add items
+#### 1. Add items
 
 <Canvas of={MasonryStories.AddItems} />
 
-#### 2) Delete item
+#### 2. Delete item
 
 <Canvas of={MasonryStories.DeleteItem} />
 
-#### 3) Change item height
+#### 3. Change item height
 
 <Canvas of={MasonryStories.ChangeItemHeight} />
 
-#### 4) Add item or change item height
+#### 4. Add item or change item height
 
 <Canvas of={MasonryStories.AddItemAndChangeItemHeight} />
+
+### Image Masonry
+
+<Canvas of={MasonryStories.ImageMasonry} />
 
 ## Props
 
