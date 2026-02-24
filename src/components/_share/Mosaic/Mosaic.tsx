@@ -4,23 +4,23 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
 
-type MosaicProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
+export type MosaicProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children: React.ReactNode;
-  color?: ColorType;
+  mosaicColor?: ColorType;
   size?: 'xs' | 'sm' | 'md' | 'lg';
 };
 
 const Mosaic = <T extends AsType = 'div'>(props: MosaicProps<T>) => {
   const {
     children,
-    color = 'gray-200',
+    mosaicColor = 'gray-200',
     size = 'md',
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
-  const newStyle = useStyle({ '--color': color, ...style });
+  const newStyle = useStyle({ '--color': mosaicColor, ...style });
 
   return (
     <Component

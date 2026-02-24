@@ -1,27 +1,38 @@
 import './ColorField.scss';
 import { forwardRef } from 'react';
 import cn from 'classnames';
-import useStyle from '@/hooks/useStyle';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
-import { ColorType } from '@/types/color';
-import { Mosaic } from '@/components/_share/Mosaic';
+import { Mosaic, MosaicProps } from '@/components/_share/Mosaic';
+import { ColorValueType } from '../ColorPicker.types';
+import { useToCssColor } from './ColorField.hooks';
 
-export type ColorFieldProps = InputBaseProps & {
-  value?: ColorType;
+type ColorBlockProps = Omit<MosaicProps, 'color' | 'children'> & {
+  color: ColorValueType;
 };
 
-const ColorBlock = ({ color }: { color: ColorType }) => {
-  const colorStyle = useStyle({ backgroundColor: color });
+export type ColorFieldProps = InputBaseProps & {
+  value?: ColorValueType;
+};
+
+export const ColorBlock = (props: ColorBlockProps) => {
+  const { color, className, ...rest } = props;
+  const { cssColor } = useToCssColor({ color });
+
   return (
-    <Mosaic>
-      <div className="JinniColorPreview" style={colorStyle} />
+    <Mosaic className={cn('JinniColorBlock', className)} {...rest}>
+      <div style={{ backgroundColor: cssColor }} />
     </Mosaic>
   );
 };
 
 const ColorField = forwardRef(
   (props: ColorFieldProps, ref: React.Ref<HTMLElement>) => {
-    const { value = 'primary', children, className, ...rest } = props;
+    const {
+      value = 'primary',
+      children = <ColorBlock color={value} />,
+      className,
+      ...rest
+    } = props;
 
     return (
       <InputBase
@@ -29,7 +40,7 @@ const ColorField = forwardRef(
         className={cn('JinniColorField', className)}
         {...rest}
       >
-        {children || <ColorBlock color={value} />}
+        {children}
       </InputBase>
     );
   }
