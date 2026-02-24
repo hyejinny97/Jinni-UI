@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ColorField from './ColorField';
+import ColorField, { ColorBlock } from './ColorField';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
+import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import { ColorLensIcon } from '@/components/icons/ColorLensIcon';
-import { ColorType } from '@/types/color';
+import { ColorValueType } from '../ColorPicker.types';
 
 const meta: Meta<typeof ColorField> = {
   component: ColorField,
@@ -19,7 +20,9 @@ const meta: Meta<typeof ColorField> = {
     value: {
       description: '색상',
       table: {
-        type: { summary: 'ColorType' },
+        type: {
+          summary: `#{string} | { r: number; g: number; b: number; a?: number; } | { h: number; s: number; b: number; a?: number; } | CSSColorKeywords | JinniColor | 'transparent'`
+        },
         defaultValue: { summary: `'primary'` }
       }
     }
@@ -29,39 +32,41 @@ const meta: Meta<typeof ColorField> = {
 export default meta;
 type Story = StoryObj<typeof ColorField>;
 
-const ColorDomain = ({ value }: { value: ColorType }) => {
-  return (
-    <Stack spacing={5} style={{ alignItems: 'center' }}>
-      <ColorField value={value} />
-      <Text className="typo-label-small" style={{ margin: 0 }}>
-        {value}
-      </Text>
-    </Stack>
-  );
-};
+const COLORS: ColorValueType[] = [
+  'red',
+  'transparent',
+  'tertiary',
+  'yellow-400',
+  '#123999',
+  '#1239995f',
+  '#135',
+  '#135a',
+  { r: 233, g: 12, b: 198 },
+  { r: 233, g: 12, b: 198, a: 0.4 },
+  { h: 180, s: 60, b: 34 },
+  { h: 180, s: 60, b: 34, a: 0.6 }
+];
 
 export const BasicColorField: Story = {
-  render: (args) => {
-    return <ColorField {...args} />;
-  }
+  render: (args) => <ColorField {...args} />
 };
 
 export const ColorValue: Story = {
   render: (args) => {
     return (
       <Grid columns={2} spacing={20} style={{ width: '500px' }}>
-        <ColorDomain value="red" {...args} />
-        <ColorDomain value="transparent" {...args} />
-        <ColorDomain value="primary" {...args} />
-        <ColorDomain value="yellow-400" {...args} />
-        <ColorDomain value="#123999" {...args} />
-        <ColorDomain value="#12399988" {...args} />
-        <ColorDomain value="#135" {...args} />
-        <ColorDomain value="#135c" {...args} />
-        <ColorDomain value="rgb(233, 12, 198)" {...args} />
-        <ColorDomain value="rgba(233, 12, 198, 0.4)" {...args} />
-        <ColorDomain value="hsl(180, 60%, 34%)" {...args} />
-        <ColorDomain value="hsla(180, 60%, 34%, 0.6)" {...args} />
+        {COLORS.map((color) => (
+          <Stack
+            key={JSON.stringify(color)}
+            spacing={5}
+            style={{ alignItems: 'center' }}
+          >
+            <ColorField value={color} {...args} />
+            <Text className="typo-label-small" noMargin>
+              {JSON.stringify(color)}
+            </Text>
+          </Stack>
+        ))}
       </Grid>
     );
   }
@@ -108,7 +113,11 @@ export const Color: Story = {
 
 export const FullWidth: Story = {
   render: (args) => {
-    return <ColorField fullWidth {...args} />;
+    return (
+      <Box style={{ width: '300px' }}>
+        <ColorField fullWidth {...args} />
+      </Box>
+    );
   }
 };
 
@@ -139,14 +148,11 @@ export const CustomColorField: Story = {
     return (
       <ColorField {...args}>
         <Stack direction="row" spacing={8} style={{ alignItems: 'center' }}>
-          <div
-            style={{
-              width: '30px',
-              height: '30px',
-              backgroundColor: 'yellowgreen'
-            }}
+          <ColorBlock
+            color="yellowgreen"
+            style={{ width: '30px', height: '30px' }}
           />
-          <Text className="typo-label-small" style={{ margin: 0 }}>
+          <Text className="typo-label-small" noMargin>
             yellowgreen
           </Text>
         </Stack>

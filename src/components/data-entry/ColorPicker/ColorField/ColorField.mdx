@@ -10,7 +10,7 @@ import * as ColorFieldStories from './ColorField.stories';
 ## Import
 
 ```js
-import { ColorField } from '@/components/data-entry/ColorField';
+import { ColorField } from '@/components/data-entry/ColorPicker';
 ```
 
 ## Usage
@@ -22,69 +22,47 @@ import { ColorField } from '@/components/data-entry/ColorField';
 ### Color Value
 
 - `value`: 색상
-  - type: `ColorType`
-    - CSSColorKeywords
-    - HEX (#RRGGBB[AA], #RGB[A])
-    - RGB, RGBA
-    - HSL, HSLA
-    - JinniColorTheme, JinniColorPalette
-    - 'transparent'
 
 <Canvas of={ColorFieldStories.ColorValue} />
 
-### Variants
+### InputBase props
 
-- `variant`: input base 형태
+- `ColorField` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### Variants
 
 <Canvas of={ColorFieldStories.Variants} />
 
-### Sizes
-
-- `size`: input base 크기
+#### Sizes
 
 <Canvas of={ColorFieldStories.Sizes} />
 
-### Disabled
-
-- `disabled`: true이면, 비활성화됨
+#### Disabled
 
 <Canvas of={ColorFieldStories.Disabled} />
 
-### Color
-
-- `color`: base color
-- `focusedColor`: focused color
+#### Color
 
 <Canvas of={ColorFieldStories.Color} />
 
-### Full Width
-
-- `fullWidth`: true이면, input이 container 안에 꽉 채워지게 됨
+#### Full Width
 
 <Canvas of={ColorFieldStories.FullWidth} />
 
-### Adornment
-
-- `startAdornment`: input base 앞에 위치하는 부가 요소 (icon ,text 등)
-- `endAdornment`: input base 뒤에 위치하는 부가 요소 (icon ,text 등)
+#### Adornment
 
 <Canvas of={ColorFieldStories.Adornment} />
 
-### Disable Effect
-
-- `disableHoverEffect`: true이면, hover effect가 비활성화됨
-- `disableFocusEffect`: true이면, focus effect가 비활성화됨
+#### Disable Effect
 
 <Canvas of={ColorFieldStories.DisableEffect} />
 
-### Custom Color Field
+### Custom ColorField
 
 - `children`: color field content
 
 <Canvas of={ColorFieldStories.CustomColorField} />
 
 ## Props
-
-- `InputBase` 컴포넌트의 모든 props 사용 가능
 
 <ArgTypes of={ColorFieldStories} sort="alpha" />
