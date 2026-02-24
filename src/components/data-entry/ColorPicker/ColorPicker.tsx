@@ -6,8 +6,11 @@ import useStyle from '@/hooks/useStyle';
 import {
   ColorField,
   ColorFieldProps
-} from '@/components/data-entry/ColorField';
-import { ColorBox, ColorBoxProps } from '@/components/data-entry/ColorBox';
+} from '@/components/data-entry/ColorPicker/ColorField';
+import {
+  ColorBox,
+  ColorBoxProps
+} from '@/components/data-entry/ColorPicker/ColorBox';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import { ColorType } from '@/types/color';
 import { RgbaObject } from '@/utils/colorFormat';

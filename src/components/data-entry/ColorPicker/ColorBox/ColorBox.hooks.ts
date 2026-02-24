@@ -132,18 +132,18 @@ export const usePalette = ({
     const width = canvasEl.width;
     const height = canvasEl.height;
 
-    // 기준 색상
+    // (Hue) 기준 색상
     ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
     ctx.fillRect(0, 0, width, height);
 
-    // 왼쪽 → 오른쪽: 흰색 → 투명
+    // (Saturation) 왼쪽 → 오른쪽: 흰색 → 투명
     const whiteGradient = ctx.createLinearGradient(0, 0, width, 0);
     whiteGradient.addColorStop(0, 'rgba(255,255,255,1)');
     whiteGradient.addColorStop(1, 'rgba(255,255,255,0)');
     ctx.fillStyle = whiteGradient;
     ctx.fillRect(0, 0, width, height);
 
-    // 위 → 아래: 투명 → 검정
+    // (Brightness) 위 → 아래: 투명 → 검정
     const blackGradient = ctx.createLinearGradient(0, 0, 0, height);
     blackGradient.addColorStop(0, 'rgba(0,0,0,0)');
     blackGradient.addColorStop(1, 'rgba(0,0,0,1)');

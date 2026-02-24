@@ -79,13 +79,16 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
         onMouseUp={handlePaletteMouseUp}
         onMouseLeave={handlePaletteMouseLeave}
         onMouseMove={handlePaletteMouseMove}
+        role="button"
+        tabIndex={0}
       >
         <canvas ref={svCanvasElRef} width={240} height={170} />
         <span
-          tabIndex={0}
           ref={paletteThumbElRef}
           className="JinniColorBoxPaletteThumb"
           onKeyDown={handlePaletteThumbKeyDown}
+          role="button"
+          tabIndex={0}
         />
       </div>
       <div className="JinniColorBoxControl">
@@ -127,7 +130,8 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
           <Select
             value={format}
             onChange={(_, value) => setFormat(value as (typeof FORMAT)[number])}
-            InputBaseProps={{ size: 'sm', variant: 'borderless' }}
+            size="sm"
+            variant="borderless"
             MenuProps={{
               MenuListProps: { dense: true },
               style: { minWidth: 'auto' }

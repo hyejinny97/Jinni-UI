@@ -1,6 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ColorPicker from './ColorPicker';
 import { useState } from 'react';
+import {
+  ColorField,
+  ColorFieldProps,
+  ColorBox,
+  ColorBoxProps,
+  ColorPicker
+} from '.';
 import { Stack } from '@/components/layout/Stack';
 import { ColorType } from '@/types/color';
 import {
@@ -9,11 +15,6 @@ import {
   rgbaObjectToHslaObject
 } from '@/utils/colorFormat';
 import { Button } from '@/components/general/Button';
-import {
-  ColorField,
-  ColorFieldProps
-} from '@/components/data-entry/ColorField';
-import { ColorBox, ColorBoxProps } from '@/components/data-entry/ColorBox';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Divider } from '@/components/layout/Divider';
