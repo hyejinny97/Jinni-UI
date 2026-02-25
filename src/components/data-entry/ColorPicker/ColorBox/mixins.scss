@@ -1,0 +1,8 @@
+@mixin thumb-style {
+  width: 10px;
+  height: 10px;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: var(--jinni-box-shadow-5);
+  cursor: pointer;
+}

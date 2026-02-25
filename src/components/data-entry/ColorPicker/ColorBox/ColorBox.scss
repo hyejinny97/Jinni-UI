@@ -1,11 +1,4 @@
-@mixin thumb-style {
-  width: 10px;
-  height: 10px;
-  border: 2px solid white;
-  border-radius: 50%;
-  box-shadow: var(--jinni-box-shadow-5);
-  cursor: pointer;
-}
+@use './mixins.scss' as mixins;
 
 @mixin rainbow-background {
   background: linear-gradient(
@@ -36,25 +29,6 @@
   flex-direction: column;
   padding: 10px;
   width: max-content;
-
-  .JinniColorBoxPalette {
-    position: relative;
-    width: 240px;
-    height: 170px;
-    overflow: hidden;
-
-    canvas {
-      width: inherit;
-      height: inherit;
-      border-radius: 4px;
-    }
-
-    .JinniColorBoxPaletteThumb {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      @include thumb-style;
-    }
-  }
 
   .JinniColorBoxControl {
     display: flex;
@@ -104,7 +78,7 @@
 
             .JinniSliderThumb {
               background-color: hsl(var(--hue), 100%, 50%);
-              @include thumb-style;
+              @include mixins.thumb-style;
             }
           }
         }
@@ -129,7 +103,7 @@
 
             .JinniSliderThumb {
               background-color: var(--hsla);
-              @include thumb-style;
+              @include mixins.thumb-style;
             }
           }
         }

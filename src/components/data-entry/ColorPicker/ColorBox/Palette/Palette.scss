@@ -1,0 +1,22 @@
+@use '../mixins.scss' as mixins;
+
+.JinniColorBoxPalette {
+  position: relative;
+  width: 240px;
+  height: 170px;
+  touch-action: none;
+
+  canvas {
+    width: inherit;
+    height: inherit;
+    border-radius: 4px;
+  }
+
+  .JinniColorBoxPaletteThumb {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    padding: 0;
+    @include mixins.thumb-style;
+  }
+}

@@ -1,9 +1,20 @@
 import { RGBObject, HSBObject } from './ColorPicker.types';
-import { RGB, RGBA } from '@/types/color';
+import { RGB, RGBA, HEX, CSSColorKeywords } from '@/types/color';
+import { CSS_COLOR_KEYWORDS } from '@/constants/color';
 import { isObject } from '@/utils/isObject';
 import { isNumber } from '@/utils/isNumber';
 
-// Color Validation
+const HEX_REG_EX = /^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+const RGB_REG_EX =
+  /^rgb\(\s*(\d{1,3})(?:\s*,\s*|\s+)?(\d{1,3})(?:\s*,\s*|\s+)?(\d{1,3})\s*\)$/;
+const RGBA_REG_EX =
+  /^rgba\(\s*(\d{1,3})(?:\s*,\s*|\s+)?(\d{1,3})(?:\s*,\s*|\s+)?(\d{1,3})(?:\s*,\s*|\s+)?((?:0(?:\.\d+)?|1(?:\.0+)?))\s*\)$/;
+
+// Color Validation (Simple)
+export const isHex = (value: unknown): value is HEX => {
+  return typeof value === 'string' && value.startsWith('#');
+};
+
 export const isRgbObject = (value: unknown): value is RGBObject => {
   if (!isObject(value)) return false;
 
@@ -12,6 +23,43 @@ export const isRgbObject = (value: unknown): value is RGBObject => {
   if (!['r', 'g', 'b'].every((key) => key in value)) return false;
   if (keys.length === 4 && !('a' in value)) return false;
 
+  return true;
+};
+
+export const isHsbObject = (value: unknown): value is HSBObject => {
+  if (!isObject(value)) return false;
+
+  const keys = Object.keys(value);
+  if (!(keys.length === 3 || keys.length === 4)) return false;
+  if (!['h', 's', 'b'].every((key) => key in value)) return false;
+  if (keys.length === 4 && !('a' in value)) return false;
+
+  return true;
+};
+
+export const isCssColorKeyword = (
+  value: unknown
+): value is CSSColorKeywords => {
+  return (
+    typeof value === 'string' &&
+    Object.keys(CSS_COLOR_KEYWORDS).some((keyword) => keyword === value)
+  );
+};
+
+export const isRgbCss = (value: unknown): value is RGB | RGBA => {
+  return (
+    typeof value === 'string' &&
+    (RGB_REG_EX.test(value) || RGBA_REG_EX.test(value))
+  );
+};
+
+// Color Validation (Delicate)
+export const validateHex = (hex: HEX): hex is HEX => {
+  if (!HEX_REG_EX.test(hex)) {
+    throw new Error(
+      `${hex}는 올바른 HEX 형태가 아닙니다.\n- #RRGGBB\n- #RRGGBBAA\n- #RGB\n- #RGBA\n- R/G/B/A는 16진수여야 함`
+    );
+  }
   return true;
 };
 
@@ -32,17 +80,6 @@ export const validateRgbObject = (rgbObj: RGBObject): rgbObj is RGBObject => {
       `${JSON.stringify(rgbObj)}는 올바른 RgbObject 형태가 아닙니다.\n- a: 0~1 number`
     );
   }
-
-  return true;
-};
-
-export const isHsbObject = (value: unknown): value is HSBObject => {
-  if (!isObject(value)) return false;
-
-  const keys = Object.keys(value);
-  if (!(keys.length === 3 || keys.length === 4)) return false;
-  if (!['h', 's', 'b'].every((key) => key in value)) return false;
-  if (keys.length === 4 && !('a' in value)) return false;
 
   return true;
 };
@@ -72,6 +109,19 @@ export const validateHsbObject = (hsbObj: HSBObject): hsbObj is HSBObject => {
 export const rgbObjToRgbCss = (rgbObj: RGBObject): RGB | RGBA => {
   const { r, g, b, a } = rgbObj;
   return a !== undefined ? `rgba(${r},${g},${b},${a})` : `rgb(${r},${g},${b})`;
+};
+
+export const rgbCssToRgbObj = (rgbCss: RGB | RGBA): RGBObject => {
+  const isRgba = rgbCss.startsWith('rgba');
+  const match = isRgba ? rgbCss.match(RGBA_REG_EX) : rgbCss.match(RGB_REG_EX);
+  if (!match) throw new Error('올바른 형태의 rgb(rgba)가 아닙니다.');
+
+  return {
+    r: parseInt(match[1]),
+    g: parseInt(match[2]),
+    b: parseInt(match[3]),
+    a: isRgba ? parseFloat(match[4]) : undefined
+  };
 };
 
 export const hsbObjToRgbObj = (hsbObj: HSBObject): RGBObject => {
@@ -121,4 +171,92 @@ export const hsbObjToRgbObj = (hsbObj: HSBObject): RGBObject => {
     b: Math.round((b1 + m) * 255),
     a
   };
+};
+
+export const rgbObjToHsbObj = (
+  rgbObj: RGBObject,
+  previousHue = 0
+): HSBObject => {
+  const { r, g, b, a } = rgbObj;
+
+  const rNorm = r / 255;
+  const gNorm = g / 255;
+  const bNorm = b / 255;
+
+  const max = Math.max(rNorm, gNorm, bNorm);
+  const min = Math.min(rNorm, gNorm, bNorm);
+  const delta = max - min;
+
+  const brightness = max;
+  const saturation = max === 0 ? 0 : delta / max;
+
+  let hue = previousHue;
+  if (delta !== 0) {
+    if (max === rNorm) {
+      hue = (gNorm - bNorm) / delta;
+    } else if (max === gNorm) {
+      hue = (bNorm - rNorm) / delta + 2;
+    } else {
+      hue = (rNorm - gNorm) / delta + 4;
+    }
+
+    hue *= 60;
+
+    if (hue < 0) {
+      hue += 360;
+    }
+  }
+
+  return {
+    h: hue,
+    s: saturation * 100,
+    b: brightness * 100,
+    a
+  };
+};
+
+const hexToRgbObj = (hex: HEX): RGBObject => {
+  const raw = hex.slice(1);
+
+  let r: number;
+  let g: number;
+  let b: number;
+  let a: number | undefined;
+
+  if (raw.length === 3 || raw.length === 4) {
+    r = parseInt(raw[0] + raw[0], 16);
+    g = parseInt(raw[1] + raw[1], 16);
+    b = parseInt(raw[2] + raw[2], 16);
+
+    if (raw.length === 4) {
+      a = parseInt(raw[3] + raw[3], 16) / 255;
+    }
+  } else {
+    r = parseInt(raw.slice(0, 2), 16);
+    g = parseInt(raw.slice(2, 4), 16);
+    b = parseInt(raw.slice(4, 6), 16);
+
+    if (raw.length === 8) {
+      a = parseInt(raw.slice(6, 8), 16) / 255;
+    }
+  }
+
+  return a !== undefined ? { r, g, b, a } : { r, g, b };
+};
+
+export const rgbObjToHex = (rgbObj: RGBObject): HEX => {
+  const { r, g, b, a } = rgbObj;
+  const toHex = (channel: number) => channel.toString(16).padStart(2, '0');
+  const rHex = toHex(r);
+  const gHex = toHex(g);
+  const bHex = toHex(b);
+
+  return a
+    ? `#${rHex}${gHex}${bHex}${toHex(a * 255)}`
+    : `#${rHex}${gHex}${bHex}`;
+};
+
+export const hexToHsbObj = (hex: HEX): HSBObject => {
+  const rgbObj = hexToRgbObj(hex);
+  return rgbObjToHsbObj(rgbObj);
 };
