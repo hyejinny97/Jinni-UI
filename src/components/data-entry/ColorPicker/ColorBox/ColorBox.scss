@@ -33,32 +33,6 @@
         display: flex;
         flex-direction: column;
         row-gap: 8px;
-
-        .JinniMosaic {
-          width: 100%;
-          height: 10px;
-          .JinniColorBoxAlphaSlider.JinniSlider {
-            padding: 0;
-            margin: 0;
-            width: inherit;
-            height: inherit;
-
-            .JinniSliderRail {
-              width: inherit;
-              background: linear-gradient(to right, transparent, var(--hsl));
-              opacity: 1;
-            }
-
-            .JinniSliderTrack {
-              display: none;
-            }
-
-            .JinniSliderThumb {
-              background-color: var(--hsla);
-              @include mixins.thumb-style;
-            }
-          }
-        }
       }
     }
 

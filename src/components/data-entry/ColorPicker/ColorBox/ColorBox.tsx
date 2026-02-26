@@ -16,6 +16,7 @@ import ColorBoxContext from './ColorBox.contexts';
 import { Palette } from './Palette';
 import { ColorBlock } from './ColorBlock';
 import { HueSlider } from './HueSlider';
+import { AlphaSlider } from './AlphaSlider';
 
 export type ColorBoxProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -64,20 +65,7 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
             <ColorBlock />
             <div className="JinniColorBoxSliderContainer">
               <HueSlider />
-              {/*  <Mosaic style={{ backgroundSize: '3% 50%' }}>
-                <Slider
-                  className="JinniColorBoxAlphaSlider"
-                  value={Math.round(hslaValue.a * 100)}
-                  onChange={(e, val) =>
-                    isNumber(val) && handleHslaChange(e, { a: val / 100 })
-                  }
-                  min={0}
-                  max={100}
-                  TooltipProps={{ open: false }}
-                />
-              </Mosaic>
-             
-              </div> */}
+              <AlphaSlider />
             </div>
           </div>
           {/* <div className="JinniColorBoxControlBottom">
