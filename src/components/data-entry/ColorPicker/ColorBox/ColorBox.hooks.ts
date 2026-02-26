@@ -18,6 +18,7 @@ import {
 import { CSS_COLOR_KEYWORDS } from '@/constants/color';
 import useJinni from '@/hooks/useJinni';
 import ColorBoxContext from './ColorBox.contexts';
+import { FORMAT } from './ColorBox.constants';
 
 type UseColorValueProps = Required<Pick<ColorBoxProps, 'defaultValue'>> &
   Pick<ColorBoxProps, 'value' | 'onChange'>;
@@ -88,6 +89,19 @@ export const useColorValue = ({
   return {
     colorValue,
     changeColorValue
+  };
+};
+
+export const useFormat = () => {
+  const [format, setFormat] = useState<(typeof FORMAT)[number]>('RGB');
+
+  const changeFormat = (newFormat: (typeof FORMAT)[number]) => {
+    setFormat(newFormat);
+  };
+
+  return {
+    format,
+    changeFormat
   };
 };
 

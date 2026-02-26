@@ -42,12 +42,6 @@
       align-items: end;
       column-gap: 5px;
 
-      .JinniSelect {
-        .JinniInputBase {
-          @include small-input-base-style(3px, 0px);
-        }
-      }
-
       .JinniInputsContainer {
         display: flex;
         align-items: center;

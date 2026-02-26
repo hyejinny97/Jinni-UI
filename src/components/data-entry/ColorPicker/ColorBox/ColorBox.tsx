@@ -3,7 +3,7 @@ import './ColorBox.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { useColorValue } from './ColorBox.hooks';
+import { useColorValue, useFormat } from './ColorBox.hooks';
 // import { Slider } from '@/components/data-entry/Slider';
 // import { Mosaic } from '@/components/_share/Mosaic';
 // import { isNumber } from '@/utils/isNumber';
@@ -17,6 +17,7 @@ import { Palette } from './Palette';
 import { ColorBlock } from './ColorBlock';
 import { HueSlider } from './HueSlider';
 import { AlphaSlider } from './AlphaSlider';
+import { FormatSelect } from './FormatSelect';
 
 export type ColorBoxProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -26,8 +27,6 @@ export type ColorBoxProps<T extends AsType = 'div'> = Omit<
   value?: ColorValueType;
   onChange?: (event: Event | React.SyntheticEvent, value: HSBObject) => void;
 };
-
-// const FORMAT = ['RGB', 'HSL', 'HEX'] as const;
 
 const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
   const {
@@ -44,7 +43,7 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
     value,
     onChange
   });
-  // const [format, setFormat] = useState<(typeof FORMAT)[number]>('RGB');
+  const { format, changeFormat } = useFormat();
   const newStyle = useStyle({
     // '--hue': hslaValue.h,
     // '--hsl': `hsl(${hslaValue.h}, ${hslaValue.s}%, ${hslaValue.l}%)`,
@@ -53,7 +52,9 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
   });
 
   return (
-    <ColorBoxContext.Provider value={{ colorValue, changeColorValue }}>
+    <ColorBoxContext.Provider
+      value={{ colorValue, format, changeColorValue, changeFormat }}
+    >
       <Component
         className={cn('JinniColorBox', className)}
         style={newStyle}
@@ -68,26 +69,9 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
               <AlphaSlider />
             </div>
           </div>
-          {/* <div className="JinniColorBoxControlBottom">
-            <Select
-              value={format}
-              onChange={(_, value) =>
-                setFormat(value as (typeof FORMAT)[number])
-              }
-              size="sm"
-              variant="borderless"
-              MenuProps={{
-                MenuListProps: { dense: true },
-                style: { minWidth: 'auto' }
-              }}
-            >
-              {FORMAT.map((val) => (
-                <Option key={val} value={val} style={{ textAlign: 'center' }}>
-                  {val}
-                </Option>
-              ))}
-            </Select>
-            {format === 'RGB' && (
+          <div className="JinniColorBoxControlBottom">
+            <FormatSelect />
+            {/*{format === 'RGB' && (
               <RgbaInputs
                 rgbaObject={rgbaValue}
                 handleRgbaChange={handleRgbaChange}
@@ -101,8 +85,8 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
             )}
             {format === 'HEX' && (
               <HexInput hexValue={hexValue} handleHexChange={handleHexChange} />
-            )}
-          </div>*/}
+            )}*/}
+          </div>
         </div>
       </Component>
     </ColorBoxContext.Provider>
