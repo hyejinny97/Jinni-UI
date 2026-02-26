@@ -1,16 +1,8 @@
 import './ColorBox.scss';
-// import { useState } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useColorValue, useFormat } from './ColorBox.hooks';
-// import { Slider } from '@/components/data-entry/Slider';
-// import { Mosaic } from '@/components/_share/Mosaic';
-// import { isNumber } from '@/utils/isNumber';
-// import { Select, Option } from '@/components/data-entry/Select';
-// import RgbaInputs from './RgbaInputs';
-// import HslInputs from './HslInputs';
-// import HexInput from './HexInput';
 import { ColorValueType, HSBObject } from '../ColorPicker.types';
 import ColorBoxContext from './ColorBox.contexts';
 import { Palette } from './Palette';
@@ -21,6 +13,7 @@ import { FormatSelect } from './FormatSelect';
 import { RgbInput } from './RgbInput';
 import { HsbInput } from './HsbInput';
 import { HexInput } from './HexInput';
+import { Stack } from '@/components/layout/Stack';
 
 export type ColorBoxProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -47,12 +40,7 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
     onChange
   });
   const { format, changeFormat } = useFormat();
-  const newStyle = useStyle({
-    // '--hue': hslaValue.h,
-    // '--hsl': `hsl(${hslaValue.h}, ${hslaValue.s}%, ${hslaValue.l}%)`,
-    // '--hsla': `hsla(${hslaValue.h}, ${hslaValue.s}%, ${hslaValue.l}%, ${hslaValue.a})`,
-    ...style
-  });
+  const newStyle = useStyle(style);
 
   return (
     <ColorBoxContext.Provider
@@ -64,21 +52,21 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
         {...rest}
       >
         <Palette />
-        <div className="JinniColorBoxControl">
-          <div className="JinniColorBoxControlTop">
+        <Stack className="JinniColorBoxControl" spacing={8}>
+          <Stack direction="row" spacing={8}>
             <ColorBlock />
-            <div className="JinniColorBoxSliderContainer">
+            <Stack spacing={8} style={{ flex: 1 }}>
               <HueSlider />
               <AlphaSlider />
-            </div>
-          </div>
-          <div className="JinniColorBoxControlBottom">
+            </Stack>
+          </Stack>
+          <Stack direction="row" spacing={5} style={{ alignItems: 'end' }}>
             <FormatSelect />
             {format === 'RGB' && <RgbInput />}
             {format === 'HSB' && <HsbInput />}
             {format === 'HEX' && <HexInput />}
-          </div>
-        </div>
+          </Stack>
+        </Stack>
       </Component>
     </ColorBoxContext.Provider>
   );

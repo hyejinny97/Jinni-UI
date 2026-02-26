@@ -5,29 +5,7 @@
   width: max-content;
 
   .JinniColorBoxControl {
-    display: flex;
-    flex-direction: column;
-    row-gap: 8px;
     padding-top: 10px;
     width: 240px;
-
-    .JinniColorBoxControlTop {
-      display: flex;
-      column-gap: 8px;
-
-      .JinniColorBoxSliderContainer {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        row-gap: 8px;
-      }
-    }
-
-    .JinniColorBoxControlBottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      column-gap: 5px;
-    }
   }
 }
