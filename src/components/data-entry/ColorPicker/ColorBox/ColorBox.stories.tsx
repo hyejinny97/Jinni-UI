@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import ColorBox from './ColorBox';
 import { useState } from 'react';
-import { ColorType } from '@/types/color';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
-import { RgbaObject } from '@/utils/colorFormat';
+import { ColorValueType, HSBObject } from '../ColorPicker.types';
 
 const meta: Meta<typeof ColorBox> = {
   component: ColorBox,
@@ -14,23 +14,27 @@ const meta: Meta<typeof ColorBox> = {
     defaultValue: {
       description: '초기 색상',
       table: {
-        type: { summary: 'ColorType' },
+        type: {
+          summary: `#{string} | { r: number; g: number; b: number; a?: number; } | { h: number; s: number; b: number; a?: number; } | CSSColorKeywords | JinniColor | 'transparent'`
+        },
         defaultValue: { summary: `'primary'` }
       }
     },
     onChange: {
-      description: '색상(value)이 변경됐을 때 호출되는 함수',
+      description: '색상이 변경됐을 때 호출되는 함수',
       table: {
         type: {
           summary:
-            '(event: Event | React.SyntheticEvent, value: RgbaObject) => void;'
+            '(event: Event | React.SyntheticEvent, value: { h: number; s: number; b: number; a?: number; }) => void;'
         }
       }
     },
     value: {
       description: '색상',
       table: {
-        type: { summary: 'ColorType' }
+        type: {
+          summary: `#{string} | { r: number; g: number; b: number; a?: number; } | { h: number; s: number; b: number; a?: number; } | CSSColorKeywords | JinniColor | 'transparent'`
+        }
       }
     }
   }
@@ -39,48 +43,52 @@ const meta: Meta<typeof ColorBox> = {
 export default meta;
 type Story = StoryObj<typeof ColorBox>;
 
-const DynamicColorBox = () => {
-  const [value, setValue] = useState<ColorType>();
+const COLORS: ColorValueType[] = [
+  'red',
+  'transparent',
+  'tertiary',
+  'yellow-400',
+  '#123999',
+  '#1239995f',
+  '#135',
+  '#135a',
+  { r: 233, g: 12, b: 198 },
+  { r: 233, g: 12, b: 198, a: 0.4 },
+  { h: 180, s: 60, b: 34 },
+  { h: 180, s: 60, b: 34, a: 0.6 }
+];
+
+const ControlledColorBoxTemplate = () => {
+  const [value, setValue] = useState<ColorValueType>(COLORS[0]);
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value as ColorType);
+    setValue(JSON.parse(e.target.value) as ColorValueType);
   };
-
   const handleColorChange = (
     _: Event | React.SyntheticEvent,
-    value: RgbaObject
+    value: HSBObject
   ) => {
-    const { r, g, b, a } = value;
-    setValue(`rgba(${r},${g},${b},${a})`);
+    setValue(value);
   };
 
   return (
     <Stack direction="row" spacing={20}>
       <ColorBox value={value} onChange={handleColorChange} />
       <Grid columns={2} columnSpacing={10}>
-        {[
-          'tertiary',
-          'transparent',
-          'red',
-          'yellow-400',
-          '#123999',
-          '#12399988',
-          '#135',
-          '#135c',
-          'rgb(233,12,198)',
-          'rgba(233,12,198,0.4)',
-          'hsl(180,60%,34%)',
-          'hsla(180,60%,34%,0.6)'
-        ].map((color) => (
-          <Label key={color} content={color}>
-            <Radio
-              value={color}
-              checked={value === color}
-              onChange={handleRadioChange}
-              size="sm"
-            />
-          </Label>
-        ))}
+        <RadioGroup
+          name="color"
+          value={JSON.stringify(value)}
+          onChange={handleRadioChange}
+        >
+          {COLORS.map((color) => {
+            const colorStr = JSON.stringify(color);
+            return (
+              <Label key={colorStr} content={colorStr}>
+                <Radio value={colorStr} size="sm" />
+              </Label>
+            );
+          })}
+        </RadioGroup>
       </Grid>
     </Stack>
   );
@@ -98,7 +106,46 @@ export const BasicColorBox: Story = {
 };
 
 export const ControlledColorBox: Story = {
-  render: (args) => {
-    return <DynamicColorBox {...args} />;
+  render: () => <ControlledColorBoxTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledColorBoxTemplate = () => {
+  const [value, setValue] = useState<ColorValueType>(COLORS[0]);
+
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(JSON.parse(e.target.value) as ColorValueType);
+  };
+  const handleColorChange = (
+    _: Event | React.SyntheticEvent,
+    value: HSBObject
+  ) => {
+    setValue(value);
+  };
+
+  return (
+    <Stack direction="row" spacing={20}>
+      <ColorBox value={value} onChange={handleColorChange} />
+      <Grid columns={2} columnSpacing={10}>
+        <RadioGroup
+          name="color"
+          value={JSON.stringify(value)}
+          onChange={handleRadioChange}
+        >
+          {COLORS.map((color) => {
+            const colorStr = JSON.stringify(color);
+            return (
+              <Label key={colorStr} content={colorStr}>
+                <Radio value={colorStr} size="sm" />
+              </Label>
+            );
+          })}
+        </RadioGroup>
+      </Grid>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
   }
 };
