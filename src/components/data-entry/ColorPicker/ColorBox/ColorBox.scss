@@ -1,16 +1,3 @@
-@use './mixins.scss' as mixins;
-
-@mixin small-input-base-style($padding-left: 3px, $padding-right: 3px) {
-  min-width: auto;
-  .JinniInputBaseContent {
-    padding-left: $padding-left;
-    padding-right: $padding-right;
-  }
-  .JinniInputBaseAdornment.end {
-    padding-right: 0px;
-  }
-}
-
 .JinniColorBox {
   display: flex;
   flex-direction: column;
@@ -41,23 +28,6 @@
       justify-content: space-between;
       align-items: end;
       column-gap: 5px;
-
-      .JinniHexInput {
-        width: 190px;
-        .JinniLabel {
-          .JinniInputBase {
-            min-width: auto;
-            width: 190px;
-            .JinniInputBaseAdornment.start {
-              font-size: 12px;
-              color: var(--jinni-color-gray-600);
-            }
-            .JinniInputBaseContent input {
-              text-align: center;
-            }
-          }
-        }
-      }
     }
   }
 }

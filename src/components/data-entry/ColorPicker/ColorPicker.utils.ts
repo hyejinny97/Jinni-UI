@@ -244,7 +244,7 @@ const hexToRgbObj = (hex: HEX): RGBObject => {
   return a !== undefined ? { r, g, b, a } : { r, g, b };
 };
 
-export const rgbObjToHex = (rgbObj: RGBObject): HEX => {
+const rgbObjToHex = (rgbObj: RGBObject): HEX => {
   const { r, g, b, a } = rgbObj;
   const toHex = (channel: number) => channel.toString(16).padStart(2, '0');
   const rHex = toHex(r);
@@ -252,11 +252,16 @@ export const rgbObjToHex = (rgbObj: RGBObject): HEX => {
   const bHex = toHex(b);
 
   return a
-    ? `#${rHex}${gHex}${bHex}${toHex(a * 255)}`
+    ? `#${rHex}${gHex}${bHex}${toHex(Math.round(a * 255))}`
     : `#${rHex}${gHex}${bHex}`;
 };
 
 export const hexToHsbObj = (hex: HEX): HSBObject => {
   const rgbObj = hexToRgbObj(hex);
   return rgbObjToHsbObj(rgbObj);
+};
+
+export const hsbObjToHex = (hsbObj: HSBObject): HEX => {
+  const rgbObj = hsbObjToRgbObj(hsbObj);
+  return rgbObjToHex(rgbObj);
 };

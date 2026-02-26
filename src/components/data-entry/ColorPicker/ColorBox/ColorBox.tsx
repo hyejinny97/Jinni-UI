@@ -20,6 +20,7 @@ import { AlphaSlider } from './AlphaSlider';
 import { FormatSelect } from './FormatSelect';
 import { RgbInput } from './RgbInput';
 import { HsbInput } from './HsbInput';
+import { HexInput } from './HexInput';
 
 export type ColorBoxProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -75,9 +76,7 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
             <FormatSelect />
             {format === 'RGB' && <RgbInput />}
             {format === 'HSB' && <HsbInput />}
-            {/*{format === 'HEX' && (
-              <HexInput hexValue={hexValue} handleHexChange={handleHexChange} />
-            )}*/}
+            {format === 'HEX' && <HexInput />}
           </div>
         </div>
       </Component>

@@ -7,13 +7,29 @@
   cursor: pointer;
 }
 
+@mixin input-label-style {
+  position: relative;
+
+  &::after {
+    content: var(--label);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--jinni-color-gray-600);
+  }
+}
+
 @mixin number-inputs-container-style {
   padding-top: 15px;
 
   .JinniNumberInput.JinniInputBase {
-    position: relative;
     min-width: auto;
     width: 45px;
+    @include input-label-style;
 
     &:not(.alpha) {
       &:not(:last-child) {
@@ -25,18 +41,6 @@
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
       }
-    }
-
-    &::after {
-      content: var(--label);
-      position: absolute;
-      bottom: 100%;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      font-size: 10px;
-      font-weight: 500;
-      color: var(--jinni-color-gray-600);
     }
 
     .JinniInputBaseContent {
