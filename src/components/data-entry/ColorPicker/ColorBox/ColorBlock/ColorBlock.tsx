@@ -1,4 +1,4 @@
-import './ColorBox.scss';
+import './ColorBlock.scss';
 import { Mosaic } from '@/components/_share/Mosaic';
 import { useColorBoxContext } from '../ColorBox.hooks';
 import { hsbObjToRgbObj, rgbObjToRgbCss } from '../../ColorPicker.utils';
@@ -9,7 +9,7 @@ const ColorBlock = () => {
   const rgbCss = rgbObjToRgbCss(rgbObj);
 
   return (
-    <Mosaic className="JinniColorBlock">
+    <Mosaic className="JinniColorBoxColorBlock">
       <div style={{ backgroundColor: rgbCss }} />
     </Mosaic>
   );

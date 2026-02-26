@@ -1,0 +1,41 @@
+@use '../mixins.scss' as mixins;
+
+@mixin rainbow-background {
+  background: linear-gradient(
+    to right,
+    red,
+    yellow,
+    lime,
+    cyan,
+    blue,
+    magenta,
+    red
+  );
+}
+
+.JinniMosaic.JinniColorBoxHueSlider {
+  width: 100%;
+  height: 10px;
+
+  .JinniSlider.horizontal {
+    padding: 0;
+    margin: 0;
+    width: inherit;
+    height: inherit;
+
+    .JinniSliderRail {
+      width: inherit;
+      opacity: 1;
+      @include rainbow-background;
+    }
+
+    .JinniSliderTrack {
+      display: none;
+    }
+
+    .JinniSliderThumb {
+      background-color: hsl(var(--hue), 100%, 50%);
+      @include mixins.thumb-style;
+    }
+  }
+}

@@ -15,6 +15,7 @@ import { ColorValueType, HSBObject } from '../ColorPicker.types';
 import ColorBoxContext from './ColorBox.contexts';
 import { Palette } from './Palette';
 import { ColorBlock } from './ColorBlock';
+import { HueSlider } from './HueSlider';
 
 export type ColorBoxProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -61,20 +62,9 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
         <div className="JinniColorBoxControl">
           <div className="JinniColorBoxControlTop">
             <ColorBlock />
-            {/* <div className="JinniColorBoxSliderContainer">
-              <Mosaic>
-                <Slider
-                  className="JinniColorBoxHueSlider"
-                  value={hslaValue.h}
-                  onChange={(e, val) =>
-                    isNumber(val) && handleHslaChange(e, { h: val })
-                  }
-                  min={0}
-                  max={360}
-                  TooltipProps={{ open: false }}
-                />
-              </Mosaic>
-              <Mosaic style={{ backgroundSize: '3% 50%' }}>
+            <div className="JinniColorBoxSliderContainer">
+              <HueSlider />
+              {/*  <Mosaic style={{ backgroundSize: '3% 50%' }}>
                 <Slider
                   className="JinniColorBoxAlphaSlider"
                   value={Math.round(hslaValue.a * 100)}
@@ -86,10 +76,11 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
                   TooltipProps={{ open: false }}
                 />
               </Mosaic>
-              */}
+             
+              </div> */}
+            </div>
           </div>
-        </div>
-        {/* <div className="JinniColorBoxControlBottom">
+          {/* <div className="JinniColorBoxControlBottom">
             <Select
               value={format}
               onChange={(_, value) =>
@@ -123,8 +114,8 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
             {format === 'HEX' && (
               <HexInput hexValue={hexValue} handleHexChange={handleHexChange} />
             )}
-          </div>
-        </div> */}
+          </div>*/}
+        </div>
       </Component>
     </ColorBoxContext.Provider>
   );

@@ -1,18 +1,5 @@
 @use './mixins.scss' as mixins;
 
-@mixin rainbow-background {
-  background: linear-gradient(
-    to right,
-    red,
-    yellow,
-    lime,
-    cyan,
-    blue,
-    magenta,
-    red
-  );
-}
-
 @mixin small-input-base-style($padding-left: 3px, $padding-right: 3px) {
   min-width: auto;
   .JinniInputBaseContent {
@@ -47,31 +34,6 @@
         flex-direction: column;
         row-gap: 8px;
 
-        .JinniMosaic {
-          width: 100%;
-          height: 10px;
-          .JinniColorBoxHueSlider.JinniSlider {
-            padding: 0;
-            margin: 0;
-            width: inherit;
-            height: inherit;
-
-            .JinniSliderRail {
-              width: inherit;
-              opacity: 1;
-              @include rainbow-background;
-            }
-
-            .JinniSliderTrack {
-              display: none;
-            }
-
-            .JinniSliderThumb {
-              background-color: hsl(var(--hue), 100%, 50%);
-              @include mixins.thumb-style;
-            }
-          }
-        }
         .JinniMosaic {
           width: 100%;
           height: 10px;
