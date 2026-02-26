@@ -5,6 +5,7 @@
   width: 240px;
   height: 170px;
   touch-action: none;
+  overflow: hidden;
 
   canvas {
     width: inherit;

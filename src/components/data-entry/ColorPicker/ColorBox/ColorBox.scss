@@ -42,39 +42,6 @@
       align-items: end;
       column-gap: 5px;
 
-      .JinniInputsContainer {
-        display: flex;
-        align-items: center;
-        column-gap: 5px;
-
-        .JinniThreeInputs {
-          display: flex;
-          align-items: center;
-
-          .JinniInputBase {
-            @include small-input-base-style(5px, 0px);
-            width: 45px;
-          }
-
-          .JinniLabel {
-            &:not(:last-child) .JinniInputBase {
-              border-right: none;
-              border-bottom-right-radius: 0;
-              border-top-right-radius: 0;
-            }
-            &:not(:first-child) .JinniInputBase {
-              border-bottom-left-radius: 0;
-              border-top-left-radius: 0;
-            }
-          }
-        }
-
-        .JinniAlphaInput.JinniInputBase {
-          width: 45px;
-          @include small-input-base-style(5px, 0px);
-        }
-      }
-
       .JinniHexInput {
         width: 190px;
         .JinniLabel {

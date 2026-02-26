@@ -17,7 +17,7 @@ import { DecreaseButton } from './DecreaseButton';
 import NumberInputContext from './NumberInput.contexts';
 import { isNumber } from '@/utils/isNumber';
 
-type ValueType = number | '';
+export type ValueType = number | '';
 
 export type NumberInputProps = Omit<
   DefaultComponentProps<'input'>,

@@ -3,7 +3,7 @@ import { useColorBoxContext } from '../ColorBox.hooks';
 
 export const usePalette = () => {
   const { colorValue, changeColorValue } = useColorBoxContext();
-  const { h, a } = colorValue;
+  const { h, s, b, a } = colorValue;
   const paletteElRef = useRef<HTMLDivElement>(null);
   const sbCanvasElRef = useRef<HTMLCanvasElement>(null);
   const paletteThumbElRef = useRef<HTMLButtonElement>(null);
@@ -90,20 +90,18 @@ export const usePalette = () => {
   };
 
   useLayoutEffect(() => {
+    drawSbCanvas(h);
+  }, [h]);
+
+  useLayoutEffect(() => {
     const canvasEl = sbCanvasElRef.current;
     if (!canvasEl) return;
 
-    const { s, b } = colorValue;
     movePaletteThumb({
       top: ((100 - b) / 100) * canvasEl.height,
       left: (s / 100) * canvasEl.width
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useLayoutEffect(() => {
-    drawSbCanvas(h);
-  }, [h]);
+  }, [s, b]);
 
   useEffect(() => {
     const paletteEl = paletteElRef.current;

@@ -21,7 +21,7 @@ const AlphaSlider = () => {
   return (
     <Mosaic className="JinniColorBoxAlphaSlider">
       <Slider
-        value={colorValue.a ? colorValue.a * 100 : 100}
+        value={colorValue.a !== undefined ? colorValue.a * 100 : 100}
         onChange={handleAlphaChange}
         min={0}
         max={100}

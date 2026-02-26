@@ -18,6 +18,7 @@ import { ColorBlock } from './ColorBlock';
 import { HueSlider } from './HueSlider';
 import { AlphaSlider } from './AlphaSlider';
 import { FormatSelect } from './FormatSelect';
+import { RgbInput } from './RgbInput';
 
 export type ColorBoxProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -71,13 +72,8 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
           </div>
           <div className="JinniColorBoxControlBottom">
             <FormatSelect />
-            {/*{format === 'RGB' && (
-              <RgbaInputs
-                rgbaObject={rgbaValue}
-                handleRgbaChange={handleRgbaChange}
-              />
-            )}
-            {format === 'HSL' && (
+            {format === 'RGB' && <RgbInput />}
+            {/*{format === 'HSL' && (
               <HslInputs
                 hslaObject={hslaValue}
                 handleHslaChange={handleHslaChange}
