@@ -41,16 +41,6 @@
       display: flex;
       column-gap: 8px;
 
-      .JinniMosaic {
-        border-radius: 4px;
-        .JinniColorBoxColorPreview {
-          width: 28px;
-          height: 28px;
-          border-radius: inherit;
-          border: 1px solid var(--jinni-color-gray-200);
-        }
-      }
-
       .JinniColorBoxSliderContainer {
         flex: 1;
         display: flex;

@@ -62,8 +62,8 @@ export const usePalette = () => {
       const canvasEl = sbCanvasElRef.current;
       if (!canvasEl) return;
 
-      const newSaturation = left / canvasEl.width;
-      const newBrightness = 1 - top / canvasEl.height;
+      const newSaturation = (left / canvasEl.width) * 100;
+      const newBrightness = (1 - top / canvasEl.height) * 100;
       changeColorValue(event, {
         h,
         s: newSaturation,

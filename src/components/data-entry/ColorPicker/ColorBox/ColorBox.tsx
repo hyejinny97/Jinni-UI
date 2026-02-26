@@ -14,6 +14,7 @@ import { useColorValue } from './ColorBox.hooks';
 import { ColorValueType, HSBObject } from '../ColorPicker.types';
 import ColorBoxContext from './ColorBox.contexts';
 import { Palette } from './Palette';
+import { ColorBlock } from './ColorBlock';
 
 export type ColorBoxProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -57,15 +58,10 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
         {...rest}
       >
         <Palette />
-        {/* <div className="JinniColorBoxControl">
+        <div className="JinniColorBoxControl">
           <div className="JinniColorBoxControlTop">
-            <Mosaic>
-              <div
-                className="JinniColorBoxColorPreview"
-                style={{ backgroundColor: hexValue }}
-              />
-            </Mosaic>
-            <div className="JinniColorBoxSliderContainer">
+            <ColorBlock />
+            {/* <div className="JinniColorBoxSliderContainer">
               <Mosaic>
                 <Slider
                   className="JinniColorBoxHueSlider"
@@ -90,9 +86,10 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
                   TooltipProps={{ open: false }}
                 />
               </Mosaic>
-            </div>
+              */}
           </div>
-          <div className="JinniColorBoxControlBottom">
+        </div>
+        {/* <div className="JinniColorBoxControlBottom">
             <Select
               value={format}
               onChange={(_, value) =>

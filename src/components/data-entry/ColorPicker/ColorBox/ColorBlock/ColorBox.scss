@@ -1,0 +1,10 @@
+.JinniColorBlock {
+  border-radius: 4px;
+
+  div {
+    width: 28px;
+    height: 28px;
+    border-radius: inherit;
+    border: 1px solid var(--jinni-color-gray-200);
+  }
+}
