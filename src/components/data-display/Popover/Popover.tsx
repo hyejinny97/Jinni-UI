@@ -9,7 +9,7 @@ import { Popper, PopperProps } from '@/components/_share/Popper';
 import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
 
-type CloseReason = 'escapeKeyDown' | 'backdropClick';
+export type CloseReason = 'escapeKeyDown' | 'backdropClick';
 
 export type PopoverProps<T extends AsType = 'div'> = Omit<
   Partial<PopperProps<T>>,
