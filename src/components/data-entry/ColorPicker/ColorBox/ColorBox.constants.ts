@@ -1,1 +1,1 @@
-export const FORMAT = ['RGB', 'HSL', 'HEX'] as const;
+export const FORMAT = ['RGB', 'HSB', 'HEX'] as const;
