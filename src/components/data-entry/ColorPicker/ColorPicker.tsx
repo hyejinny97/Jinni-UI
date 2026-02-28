@@ -13,6 +13,7 @@ import {
 import { useColorValue } from './ColorPicker.hooks';
 import { ColorValueType, HSBObject } from './ColorPicker.types';
 import { useLabelContext } from '@/components/data-entry/Label';
+import { isRgbObject, isHsbObject } from './ColorPicker.utils';
 
 export type ColorPickerProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -88,7 +89,11 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
     >
       <input
         name={name}
-        value={JSON.stringify(colorValue)}
+        value={
+          isRgbObject(colorValue) || isHsbObject(colorValue)
+            ? JSON.stringify(colorValue)
+            : colorValue
+        }
         required={required}
         disabled={disabled}
         hidden
