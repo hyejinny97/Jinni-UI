@@ -23,7 +23,7 @@ import { FORMAT } from './ColorBox.constants';
 type UseColorValueProps = Required<Pick<ColorBoxProps, 'defaultValue'>> &
   Pick<ColorBoxProps, 'value' | 'onChange'>;
 
-const useToHsbObject = () => {
+export const useToHsbObject = () => {
   const {
     color: { palette, scheme }
   } = useJinni();

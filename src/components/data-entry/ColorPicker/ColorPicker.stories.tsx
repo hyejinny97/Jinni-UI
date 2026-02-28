@@ -3,17 +3,16 @@ import { useState } from 'react';
 import {
   ColorField,
   ColorFieldProps,
+  ColorBlock,
   ColorBox,
   ColorBoxProps,
-  ColorPicker
+  ColorPicker,
+  useToHsbObject,
+  hsbObjToHex,
+  isRgbObject,
+  isHsbObject
 } from '.';
 import { Stack } from '@/components/layout/Stack';
-import { ColorType } from '@/types/color';
-import {
-  RgbaObject,
-  toRgbaObject,
-  rgbaObjectToHslaObject
-} from '@/utils/colorFormat';
 import { Button } from '@/components/general/Button';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
@@ -24,7 +23,11 @@ import {
   AccordionSummary,
   AccordionDetails
 } from '@/components/data-display/Accordion';
-import useColor from '@/hooks/useColor';
+import { ColorValueType, HSBObject } from './ColorPicker.types';
+import { Grid } from '@/components/layout/Grid';
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import { Radio } from '@/components/data-entry/Radio';
+import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof ColorPicker> = {
   component: ColorPicker,
@@ -32,15 +35,16 @@ const meta: Meta<typeof ColorPicker> = {
     defaultValue: {
       description: '초기 색상',
       table: {
-        type: { summary: 'ColorType' },
+        type: {
+          summary: `#{string} | { r: number; g: number; b: number; a?: number; } | { h: number; s: number; b: number; a?: number; } | CSSColorKeywords | JinniColor | 'transparent'`
+        },
         defaultValue: { summary: `'primary'` }
       }
     },
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: `false` }
+        type: { summary: 'boolean' }
       }
     },
     name: {
@@ -54,7 +58,7 @@ const meta: Meta<typeof ColorPicker> = {
       table: {
         type: {
           summary:
-            '(event: Event | React.SyntheticEvent, value: RgbaObject) => void;'
+            '(event: Event | React.SyntheticEvent, value: { h: number; s: number; b: number; a?: number; }) => void;'
         }
       }
     },
@@ -93,7 +97,9 @@ const meta: Meta<typeof ColorPicker> = {
     value: {
       description: '색상',
       table: {
-        type: { summary: 'ColorType' }
+        type: {
+          summary: `#{string} | { r: number; g: number; b: number; a?: number; } | { h: number; s: number; b: number; a?: number; } | CSSColorKeywords | JinniColor | 'transparent'`
+        }
       }
     }
   }
@@ -102,38 +108,154 @@ const meta: Meta<typeof ColorPicker> = {
 export default meta;
 type Story = StoryObj<typeof ColorPicker>;
 
-const ControlledColorPickerTemplate = () => {
-  const [value, setValue] = useState<ColorType>();
+const COLORS: ColorValueType[] = [
+  'red',
+  'transparent',
+  'tertiary',
+  'yellow-400',
+  '#123999',
+  '#1239995f',
+  '#135',
+  '#135a',
+  { r: 233, g: 12, b: 198 },
+  { r: 233, g: 12, b: 198, a: 0.4 },
+  { h: 180, s: 60, b: 34 },
+  { h: 180, s: 60, b: 34, a: 0.6 }
+];
 
+const ControlledColorPickerTemplate = () => {
+  const [value, setValue] = useState<ColorValueType>(COLORS[0]);
+
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(JSON.parse(e.target.value) as ColorValueType);
+  };
   const handleColorChange = (
     _: Event | React.SyntheticEvent,
-    value: RgbaObject
+    value: HSBObject
   ) => {
-    const { r, g, b, a } = value;
-    setValue(`rgba(${r},${g},${b},${a})`);
+    setValue(value);
+  };
+  const truncateValueToFirstDecimal = (obj: { [key: string]: number }) => {
+    const truncatedObj = { ...obj };
+    Object.keys(truncatedObj).forEach((key) => {
+      truncatedObj[key] = Math.round(truncatedObj[key] * 10) / 10;
+    });
+    return truncatedObj;
   };
 
-  return <ColorPicker value={value} onChange={handleColorChange} />;
+  const selectedColor =
+    isRgbObject(value) || isHsbObject(value)
+      ? truncateValueToFirstDecimal(value)
+      : value;
+
+  return (
+    <Stack direction="row" spacing={20}>
+      <Stack>
+        <Text
+          className="typo-title-medium"
+          style={{ width: '300px', height: '50px' }}
+        >
+          Selected Color: {JSON.stringify(selectedColor)}
+        </Text>
+        <ColorPicker value={value} onChange={handleColorChange} />
+      </Stack>
+      <Grid columns={2}>
+        <RadioGroup
+          name="color"
+          value={JSON.stringify(value)}
+          onChange={handleRadioChange}
+        >
+          {COLORS.map((color) => {
+            const colorStr = JSON.stringify(color);
+            return (
+              <Label key={colorStr} content={colorStr}>
+                <Radio value={colorStr} size="sm" />
+              </Label>
+            );
+          })}
+        </RadioGroup>
+      </Grid>
+    </Stack>
+  );
+};
+
+const ColorPickerWithFormTemplate = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const color = formData.get('color');
+    alert(`color: ${color}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Stack direction="row" spacing={10} style={{ alignItems: 'end' }}>
+        <Label
+          content="Color"
+          labelPlacement="top"
+          required
+          style={{ alignItems: 'start' }}
+        >
+          <ColorPicker name="color" />
+        </Label>
+        <Button type="submit" size="sm">
+          제출
+        </Button>
+      </Stack>
+    </form>
+  );
+};
+
+const CustomColorFieldTemplate = () => {
+  return (
+    <ColorPicker
+      renderColorField={(colorFieldProps: ColorFieldProps) => {
+        const { value = 'primary' } = colorFieldProps;
+        return (
+          <ColorField variant="filled" size="lg" {...colorFieldProps}>
+            <Stack
+              direction="row"
+              spacing={5}
+              style={{ width: '120px', alignItems: 'center' }}
+            >
+              <ColorBlock
+                color={value}
+                style={{ width: '30px', height: '30px' }}
+              />
+              <Text
+                className="typo-label-medium"
+                noMargin
+                style={{ flex: 1, textAlign: 'center' }}
+              >
+                {isHsbObject(value) ? hsbObjToHex(value) : value}
+              </Text>
+            </Stack>
+          </ColorField>
+        );
+      }}
+    />
+  );
 };
 
 const ColorPreset = ({
   color,
   onClick
 }: {
-  color: ColorType;
-  onClick: (e: MouseEvent, value: ColorType) => void;
+  color: ColorValueType;
+  onClick: (e: MouseEvent, value: ColorValueType) => void;
 }) => {
-  const PRESET = [-30, -20, -10, 0, 10, 20, 30];
-  const normalizedColor = useColor(color);
-  const rgbaObject = toRgbaObject(normalizedColor);
-  const hslaObject = rgbaObjectToHslaObject(rgbaObject);
-  const { h, s, l, a } = hslaObject;
+  const PRESET = [-60, -50, -40, -30, -20, -10, 0];
+  const { toHsbObject } = useToHsbObject();
+  const hsbObj = toHsbObject(color);
 
   return (
     <Stack direction="row" spacing={10}>
       {PRESET.map((diff) => {
-        const lightness = Math.max(Math.min(l + diff, 100), 0);
-        const hslaString: ColorType = `hsla(${h},${s}%,${lightness}%,${a})`;
+        const newHsbObj = {
+          ...hsbObj,
+          b: Math.max(Math.min(hsbObj.b + diff, 100), 0)
+        };
+        const hex = hsbObjToHex(newHsbObj);
         return (
           <Box
             key={diff}
@@ -142,10 +264,12 @@ const ColorPreset = ({
               width: '25px',
               height: '25px',
               borderRadius: '4px',
-              backgroundColor: hslaString,
+              backgroundColor: hex,
               cursor: 'pointer'
             }}
-            onClick={(e: MouseEvent) => onClick(e, hslaString)}
+            onClick={(e: MouseEvent) => onClick(e, hex)}
+            tabIndex={0}
+            aria-label={`preset color - ${hex}`}
           />
         );
       })}
@@ -154,37 +278,36 @@ const ColorPreset = ({
 };
 
 const CustomColorBoxTemplate = () => {
-  const COLORS: ColorType[] = ['red', 'yellow', 'green'];
-  const [color, setColor] = useState<ColorType>();
+  const COLORS = ['red', 'yellow', 'blue'] as const;
+  const [value, setValue] = useState<ColorValueType>(COLORS[0]);
 
-  const handleClick = (_: MouseEvent, value: ColorType) => {
-    setColor(value);
-  };
   const handleColorChange = (
     _: Event | React.SyntheticEvent,
-    value: RgbaObject
+    newValue: HSBObject
   ) => {
-    const { r, g, b, a } = value;
-    setColor(`rgba(${r},${g},${b},${a})`);
+    setValue(newValue);
+  };
+  const handleColorPresetClick = (_: MouseEvent, newValue: ColorValueType) => {
+    setValue(newValue);
   };
 
   return (
     <ColorPicker
-      value={color}
+      value={value}
       onChange={handleColorChange}
       renderColorBox={(colorBoxProps: ColorBoxProps) => {
         return (
-          <Stack direction="row">
-            <div>
+          <Stack direction="row" divider={<Divider orientation="vertical" />}>
+            <Box>
               <Text
                 className="typo-title-medium"
-                style={{ margin: 0, paddingTop: '10px', textAlign: 'center' }}
+                noMargin
+                style={{ marginTop: '10px', textAlign: 'center' }}
               >
                 Color Box
               </Text>
               <ColorBox {...colorBoxProps} />
-            </div>
-            <Divider orientation="vertical" />
+            </Box>
             <Accordion style={{ width: '250px' }}>
               {COLORS.map((color) => (
                 <AccordionItem
@@ -193,7 +316,10 @@ const CustomColorBoxTemplate = () => {
                 >
                   <AccordionSummary>{color.toUpperCase()}</AccordionSummary>
                   <AccordionDetails>
-                    <ColorPreset color={color} onClick={handleClick} />
+                    <ColorPreset
+                      color={color}
+                      onClick={handleColorPresetClick}
+                    />
                   </AccordionDetails>
                 </AccordionItem>
               ))}
@@ -216,63 +342,212 @@ export const BasicColorPicker: Story = {
   }
 };
 
-export const ColorPickerWithForm: Story = {
-  render: (args) => {
-    return (
-      <form
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const color = formData.get('color');
-          alert(`color: ${color}`);
-        }}
-        style={{ display: 'flex', columnGap: '10px', alignItems: 'center' }}
-      >
-        <ColorPicker name="color" {...args} />
-        <Button type="submit" size="sm">
-          제출
-        </Button>
-      </form>
-    );
-  }
-};
-
 export const ControlledColorPicker: Story = {
-  render: (args) => <ControlledColorPickerTemplate {...args} />
+  render: () => <ControlledColorPickerTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledColorPickerTemplate = () => {
+  const [value, setValue] = useState<ColorValueType>(COLORS[0]);
+
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(JSON.parse(e.target.value) as ColorValueType);
+  };
+  const handleColorChange = (
+    _: Event | React.SyntheticEvent,
+    value: HSBObject
+  ) => {
+    setValue(value);
+  };
+  const truncateValueToFirstDecimal = (obj: { [key: string]: number }) => {
+    const truncatedObj = { ...obj };
+    Object.keys(truncatedObj).forEach((key) => {
+      truncatedObj[key] = Math.round(truncatedObj[key] * 10) / 10;
+    });
+    return truncatedObj;
+  };
+
+  const selectedColor =
+    isRgbObject(value) || isHsbObject(value)
+      ? truncateValueToFirstDecimal(value)
+      : value;
+
+  return (
+    <Stack direction="row" spacing={20}>
+      <Stack>
+        <Text
+          className="typo-title-medium"
+          style={{ width: '300px', height: '50px' }}
+        >
+          Selected Color: {JSON.stringify(selectedColor)}
+        </Text>
+        <ColorPicker value={value} onChange={handleColorChange} />
+      </Stack>
+      <Grid columns={2}>
+        <RadioGroup
+          name="color"
+          value={JSON.stringify(value)}
+          onChange={handleRadioChange}
+        >
+          {COLORS.map((color) => {
+            const colorStr = JSON.stringify(color);
+            return (
+              <Label key={colorStr} content={colorStr}>
+                <Radio value={colorStr} size="sm" />
+              </Label>
+            );
+          })}
+        </RadioGroup>
+      </Grid>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Disabled: Story = {
   render: (args) => <ColorPicker disabled {...args} />
 };
 
+export const ColorPickerWithForm: Story = {
+  render: () => <ColorPickerWithFormTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ColorPickerWithFormTemplate = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const color = formData.get('color');
+    alert(\`color: \${color}\`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Stack direction="row" spacing={10} style={{ alignItems: 'end' }}>
+        <Label
+          content="Color"
+          labelPlacement="top"
+          required
+          style={{ alignItems: 'start' }}
+        >
+          <ColorPicker name="color" />
+        </Label>
+        <Button type="submit" size="sm">
+          제출
+        </Button>
+      </Stack>
+    </form>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
 export const CustomColorField: Story = {
-  render: (args) => (
+  render: () => <CustomColorFieldTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomColorFieldTemplate = () => {
+  return (
     <ColorPicker
       renderColorField={(colorFieldProps: ColorFieldProps) => {
+        const { value = 'primary' } = colorFieldProps;
         return (
           <ColorField variant="filled" size="lg" {...colorFieldProps}>
-            <Stack direction="row" spacing={8} style={{ alignItems: 'center' }}>
-              <Box
-                style={{
-                  width: '30px',
-                  height: '30px',
-                  backgroundColor: colorFieldProps.value
-                }}
+            <Stack
+              direction="row"
+              spacing={5}
+              style={{ width: '120px', alignItems: 'center' }}
+            >
+              <ColorBlock
+                color={value}
+                style={{ width: '30px', height: '30px' }}
               />
-              <Text className="typo-label-medium" style={{ margin: 0 }}>
-                {colorFieldProps.value}
+              <Text
+                className="typo-label-medium"
+                noMargin
+                style={{ flex: 1, textAlign: 'center' }}
+              >
+                {isHsbObject(value) ? hsbObjToHex(value) : value}
               </Text>
             </Stack>
           </ColorField>
         );
       }}
-      {...args}
     />
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const CustomColorBox: Story = {
-  render: (args) => <CustomColorBoxTemplate {...args} />
+  render: () => <CustomColorBoxTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomColorBoxTemplate = () => {
+  const COLORS = ['red', 'yellow', 'blue'] as const;
+  const [value, setValue] = useState<ColorValueType>(COLORS[0]);
+
+  const handleColorChange = (
+    _: Event | React.SyntheticEvent,
+    newValue: HSBObject
+  ) => {
+    setValue(newValue);
+  };
+  const handleColorPresetClick = (_: MouseEvent, newValue: ColorValueType) => {
+    setValue(newValue);
+  };
+
+  return (
+    <ColorPicker
+      value={value}
+      onChange={handleColorChange}
+      renderColorBox={(colorBoxProps: ColorBoxProps) => {
+        return (
+          <Stack direction="row" divider={<Divider orientation="vertical" />}>
+            <Box>
+              <Text
+                className="typo-title-medium"
+                noMargin
+                style={{ marginTop: '10px', textAlign: 'center' }}
+              >
+                Color Box
+              </Text>
+              <ColorBox {...colorBoxProps} />
+            </Box>
+            <Accordion style={{ width: '250px' }}>
+              {COLORS.map((color) => (
+                <AccordionItem
+                  key={color}
+                  defaultExpanded={color === COLORS[0]}
+                >
+                  <AccordionSummary>{color.toUpperCase()}</AccordionSummary>
+                  <AccordionDetails>
+                    <ColorPreset
+                      color={color}
+                      onClick={handleColorPresetClick}
+                    />
+                  </AccordionDetails>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Stack>
+        );
+      }}
+    />
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const CustomPopover: Story = {
