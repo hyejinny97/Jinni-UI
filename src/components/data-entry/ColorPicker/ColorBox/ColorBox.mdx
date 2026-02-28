@@ -10,7 +10,7 @@ import * as ColorBoxStories from './ColorBox.stories';
 ## Import
 
 ```js
-import { ColorBox } from '@/components/data-entry/ColorBox';
+import { ColorBox } from '@/components/data-entry/ColorPicker';
 ```
 
 ## Usage
@@ -23,9 +23,9 @@ import { ColorBox } from '@/components/data-entry/ColorBox';
 
 ### Controlled ColorBox
 
-- `value`와 `onChange` prop을 통해 control 가능
+- `value` prop을 통해 control 가능
 - `value`: 색상
-- `onChange`: 색상(value)이 변경됐을 때 호출되는 함수
+- `onChange`: 색상이 변경됐을 때 호출되는 함수
 
 <Canvas of={ColorBoxStories.ControlledColorBox} />
 

@@ -1,5 +1,7 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as ColorPickerStories from './ColorPicker.stories';
+import * as ColorFieldStories from './ColorField/ColorField.stories';
+import * as ColorBoxStories from './ColorBox/ColorBox.stories';
 
 <Meta of={ColorPickerStories} />
 
@@ -10,22 +12,26 @@ import * as ColorPickerStories from './ColorPicker.stories';
 ## Import
 
 ```js
-import { ColorPicker } from '@/components/data-entry/ColorPicker';
+import {
+  ColorPicker,
+  ColorBox,
+  ColorField
+} from '@/components/data-entry/ColorPicker';
 ```
 
 ## Usage
 
 ### Basic ColorPicker
 
-- `defaultValue`: 초기 색상
+- `defaultValue`: 초기 색상 (uncontrolled일 때만 적용 가능)
 
 <Canvas of={ColorPickerStories.BasicColorPicker} />
 
 ### Controlled ColorPicker
 
-- `value`와 `onChange` prop을 통해 control 가능
+- `value` prop을 통해 control 가능
 - `value`: 색상
-- `onChange`: 색상(value)이 변경됐을 때 호출되는 함수
+- `onChange`: 색상이 변경됐을 때 호출되는 함수
 
 <Canvas of={ColorPickerStories.ControlledColorPicker} />
 
@@ -35,26 +41,38 @@ import { ColorPicker } from '@/components/data-entry/ColorPicker';
 
 <Canvas of={ColorPickerStories.Disabled} />
 
+### ColorPicker with form
+
+<Canvas of={ColorPickerStories.ColorPickerWithForm} />
+
 ### Custom ColorField
 
 - `renderColorField`: colorFieldProps를 입력값으로 받아 `ColorField` 컴포넌트를 렌더하는 함수
 
 <Canvas of={ColorPickerStories.CustomColorField} />
 
-### Custom Custom ColorBox
+### Custom ColorBox
 
-- `renderColorBox`: colorBoxProps를 입력값으로 받아 `Custom ColorBox` 컴포넌트를 렌더하는 함수
+- `renderColorBox`: colorBoxProps를 입력값으로 받아 `ColorBox` 컴포넌트를 렌더하는 함수
 
 <Canvas of={ColorPickerStories.CustomColorBox} />
 
 ### Custom Popover
 
-- `PopoverProps`: Popover 컴포넌트의 props
+- `PopoverProps`: `Popover` 컴포넌트의 props
 
 <Canvas of={ColorPickerStories.CustomPopover} />
 
 ## Props
 
-- `ColorField` 컴포넌트 + `ColorBox` 컴포넌트 + `Popover` 컴포넌트
+### ColorPicker
 
 <ArgTypes of={ColorPickerStories} sort="alpha" />
+
+### ColorField
+
+<ArgTypes of={ColorFieldStories} sort="alpha" />
+
+### ColorBox
+
+<ArgTypes of={ColorBoxStories} sort="alpha" />

@@ -1,0 +1,5 @@
+@use '../mixins.scss' as mixins;
+
+.JinniColorBoxRgbInput {
+  @include mixins.number-inputs-container-style;
+}

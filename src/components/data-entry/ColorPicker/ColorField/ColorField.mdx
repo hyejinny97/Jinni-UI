@@ -1,0 +1,68 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ColorFieldStories from './ColorField.stories';
+
+<Meta of={ColorFieldStories} />
+
+# ColorField
+
+사용자가 선택한 색상을 보여주는 영역
+
+## Import
+
+```js
+import { ColorField } from '@/components/data-entry/ColorPicker';
+```
+
+## Usage
+
+### Basic ColorField
+
+<Canvas of={ColorFieldStories.BasicColorField} />
+
+### Color Value
+
+- `value`: 색상
+
+<Canvas of={ColorFieldStories.ColorValue} />
+
+### InputBase props
+
+- `ColorField` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### Variants
+
+<Canvas of={ColorFieldStories.Variants} />
+
+#### Sizes
+
+<Canvas of={ColorFieldStories.Sizes} />
+
+#### Disabled
+
+<Canvas of={ColorFieldStories.Disabled} />
+
+#### Color
+
+<Canvas of={ColorFieldStories.Color} />
+
+#### Full Width
+
+<Canvas of={ColorFieldStories.FullWidth} />
+
+#### Adornment
+
+<Canvas of={ColorFieldStories.Adornment} />
+
+#### Disable Effect
+
+<Canvas of={ColorFieldStories.DisableEffect} />
+
+### Custom ColorField
+
+- `children`: color field content
+
+<Canvas of={ColorFieldStories.CustomColorField} />
+
+## Props
+
+<ArgTypes of={ColorFieldStories} sort="alpha" />

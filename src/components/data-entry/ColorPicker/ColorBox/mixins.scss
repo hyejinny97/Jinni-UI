@@ -1,0 +1,51 @@
+@mixin thumb-style {
+  width: 10px;
+  height: 10px;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: var(--jinni-box-shadow-5);
+  cursor: pointer;
+}
+
+@mixin input-label-style {
+  position: relative;
+
+  &::after {
+    content: var(--label);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--jinni-color-gray-600);
+  }
+}
+
+@mixin number-inputs-container-style {
+  padding-top: 15px;
+
+  .JinniNumberInput.JinniInputBase {
+    min-width: auto;
+    width: 45px;
+    @include input-label-style;
+
+    &:not(.alpha) {
+      &:not(:last-child) {
+        border-right: none;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+      }
+      &:not(:first-child) {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+      }
+    }
+
+    .JinniInputBaseContent {
+      padding-left: 5px;
+      padding-right: 0px;
+    }
+  }
+}

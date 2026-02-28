@@ -1,0 +1,17 @@
+@use '../mixins.scss' as mixins;
+
+.JinniColorBoxHexInput.JinniInput.JinniInputBase {
+  min-width: auto;
+  width: 190px;
+  margin-top: 15px;
+  @include mixins.input-label-style;
+
+  .JinniInputBaseAdornment.start {
+    font-size: 12px;
+    color: var(--jinni-color-gray-600);
+  }
+
+  .JinniInputBaseContent input {
+    text-align: center;
+  }
+}

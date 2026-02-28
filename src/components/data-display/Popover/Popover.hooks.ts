@@ -29,7 +29,9 @@ export const useKeyboardAccessibility = ({
     const firstEl = focusableEls[0];
     const lastEl = focusableEls[focusableEls.length - 1];
 
-    (firstEl || boxEl).focus();
+    if (!boxEl.contains(document.activeElement)) {
+      (firstEl || boxEl).focus();
+    }
 
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
