@@ -1,8 +1,7 @@
 import { TimeFieldProps } from './TimeField';
 import { TOKENS } from './TimeField.constants';
-import { TimeStepManualType } from './TimeField.types';
-import { isObject } from '@/utils/isObject';
-import { isNumber } from '@/utils/isNumber';
+import { KEY_TIME_PARTS } from '@/constants/time-component';
+import { KeyTimePartType } from '@/types/time-component';
 
 export const isAvailableLocale = (locale: string | undefined): boolean => {
   if (locale === undefined) return true;
@@ -132,18 +131,6 @@ export const findDayPeriodTokenType = (dayPeriodValue: string) => {
   throw new Error(`dayPeriod token type을 찾을 수 없습니다.`);
 };
 
-export const dateToSeconds = (date: Date) => {
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const second = date.getSeconds();
-  return hour * 3600 + minute * 60 + second;
-};
-
-export const isTimeStepManualType = (
-  timeStep: unknown
-): timeStep is TimeStepManualType =>
-  isObject(timeStep) &&
-  Object.entries(timeStep).every(
-    ([key, value]) =>
-      ['hour', 'minute', 'second'].includes(key) && isNumber(value)
-  );
+export const isKeyTimePart = (
+  type: keyof Intl.DateTimeFormatPartTypesRegistry
+): type is KeyTimePartType => KEY_TIME_PARTS.some((part) => part === type);

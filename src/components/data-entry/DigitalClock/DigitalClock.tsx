@@ -2,33 +2,23 @@ import './DigitalClock.scss';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import DigitalClockContext from './DigitalClock.contexts';
 import { useSelectedTime } from './DigitalClock.hooks';
-import {
-  TimeOptions,
-  TimeStepManualType,
-  TimeMode,
-  DEFAULT_TIME_OPTIONS
-} from '@/components/data-entry/TimeField';
 import PresetDigitalClock from './PresetDigitalClock';
 import ManualDigitalClock from './ManualDigitalClock';
+import {
+  TimeMode,
+  TimeComponentProps,
+  TimeStepManualType
+} from '@/types/time-component';
+import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 
 export type DigitalClockProps<
   T extends AsType = 'div',
   Mode extends TimeMode = 'preset'
-> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> & {
-  mode?: Mode;
-  locale?: string;
-  options?: TimeOptions;
-  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  defaultValue?: Date;
-  value?: Date | null;
-  onChange?: (value: Date) => void;
-  readOnly?: boolean;
-  disabled?: boolean;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  skipDisabledTime?: boolean;
-};
+> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
+  TimeComponentProps<Mode> & {
+    mode?: Mode;
+    skipDisabledTime?: boolean;
+  };
 
 const TIME_STEP_PRESET_DEFAULT: number = 30 * 60;
 const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
@@ -45,21 +35,20 @@ const DigitalClock = <
 ) => {
   const {
     mode = 'preset' as Mode,
-    locale,
-    options = DEFAULT_TIME_OPTIONS,
-    timeStep = mode === 'preset'
-      ? TIME_STEP_PRESET_DEFAULT
-      : TIME_STEP_MANUAL_DEFAULT,
     defaultValue,
     value,
     onChange,
-    readOnly = false,
-    disabled = false,
+    locale,
+    options = DEFAULT_TIME_OPTIONS,
     minTime,
     maxTime,
     disabledTimes,
-    skipDisabledTime = false,
-    className,
+    timeStep = mode === 'preset'
+      ? TIME_STEP_PRESET_DEFAULT
+      : TIME_STEP_MANUAL_DEFAULT,
+    readOnly,
+    disabled,
+    skipDisabledTime,
     ...rest
   } = props;
   const dateTimeFormat = new Intl.DateTimeFormat(locale, options);

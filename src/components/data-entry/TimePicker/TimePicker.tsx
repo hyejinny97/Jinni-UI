@@ -3,15 +3,7 @@ import { useRef, useState } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  TimeField,
-  TimeMode,
-  TimeOptions,
-  TimeValidationError,
-  TimeStepManualType,
-  TimeFieldProps,
-  DEFAULT_TIME_OPTIONS
-} from '@/components/data-entry/TimeField';
+import { TimeField, TimeFieldProps } from '@/components/data-entry/TimeField';
 import {
   DigitalClock,
   DigitalClockProps
@@ -21,33 +13,26 @@ import { useTime } from './TimePicker.hooks';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
+import {
+  TimeMode,
+  TimeComponentProps,
+  TimeStepManualType
+} from '@/types/time-component';
+import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 
 export type TimePickerProps<
   T extends AsType = 'div',
   Mode extends TimeMode = 'preset'
-> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> & {
-  name?: string;
-  mode?: Mode;
-  locale?: string;
-  options?: TimeOptions;
-  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  defaultValue?: Date;
-  value?: Date | null;
-  onChange?: (
-    value: Date | null,
-    validationError?: TimeValidationError
-  ) => void;
-  readOnly?: boolean;
-  disabled?: boolean;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
-  TimeFieldProps?: TimeFieldProps;
-  renderDigitalClock?: (
-    digitalClockProps: DigitalClockProps<T, Mode>
-  ) => React.ReactNode;
-};
+> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
+  TimeComponentProps<Mode> & {
+    name?: string;
+    mode?: Mode;
+    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    TimeFieldProps?: TimeFieldProps;
+    renderDigitalClock?: (
+      digitalClockProps: DigitalClockProps<T, Mode>
+    ) => React.ReactNode;
+  };
 
 const TIME_STEP_PRESET_DEFAULT: number = 30 * 60;
 const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
@@ -60,21 +45,21 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
   props: TimePickerProps<T, Mode>
 ) => {
   const {
-    name,
     mode = 'preset' as Mode,
-    locale,
-    options = DEFAULT_TIME_OPTIONS,
-    timeStep = mode === 'preset'
-      ? TIME_STEP_PRESET_DEFAULT
-      : TIME_STEP_MANUAL_DEFAULT,
     defaultValue,
     value,
     onChange,
-    readOnly = false,
-    disabled = false,
+    locale,
+    options = DEFAULT_TIME_OPTIONS,
     minTime,
     maxTime,
     disabledTimes,
+    timeStep = mode === 'preset'
+      ? TIME_STEP_PRESET_DEFAULT
+      : TIME_STEP_MANUAL_DEFAULT,
+    readOnly,
+    disabled,
+    name,
     PopoverProps,
     TimeFieldProps,
     renderDigitalClock = (digitalClockProps: DigitalClockProps<T, Mode>) => (

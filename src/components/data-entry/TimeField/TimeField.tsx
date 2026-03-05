@@ -1,50 +1,40 @@
 import './TimeField.scss';
 import { forwardRef } from 'react';
 import cn from 'classnames';
-import { useState } from 'react';
+import { useRef, MutableRefObject } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
-import { useTimeValue, useTimeFormat, useInput } from './TimeField.hooks';
 import { AutoWidthInput } from '@/components/_share/AutoWidthInput';
 import {
+  useTimeValue,
+  useValidation,
+  useTimeFormat,
+  useInput,
+  useFocus
+} from './TimeField.hooks';
+import { isKeyTimePart } from './TimeField.utils';
+import {
+  TimeMode,
+  TimeComponentProps,
   TimeValidationError,
-  KeyTimePartType,
-  TimeStepManualType
-} from './TimeField.types';
-import { KEY_TIME_PARTS } from './TimeField.constants';
-import { TimeOptions } from './TimeField.types';
+  KeyTimePartType
+} from '@/types/time-component';
+import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
+import {
+  TIME_STEP_PRESET_DEFAULT,
+  TIME_STEP_MANUAL_DEFAULT
+} from './TimeField.constants';
 
-export type TimeMode = 'preset' | 'manual';
 export type TimeFieldProps<
   T extends AsType = 'div',
   Mode extends TimeMode = 'preset'
-> = Omit<InputBaseProps<T>, 'defaultValue' | 'onChange'> & {
-  placeholder?: string;
-  defaultValue?: Date;
-  value?: Date | null;
-  onChange?: (value: Date, validationError?: TimeValidationError) => void;
-  onErrorStatus?: (validationError?: TimeValidationError) => void;
-  locale?: string;
-  options?: TimeOptions;
-  format?: string;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  mode?: Mode;
-  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  readOnly?: boolean;
-  disabled?: boolean;
-};
-
-const TIME_STEP_PRESET_DEFAULT: number = 1;
-const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
-  hour: 1,
-  minute: 1,
-  second: 1
-};
-export const DEFAULT_TIME_OPTIONS: TimeOptions = {
-  timeStyle: 'short'
-};
+> = Omit<InputBaseProps<T>, 'defaultValue' | 'onChange'> &
+  TimeComponentProps<Mode> & {
+    mode?: Mode;
+    placeholder?: string;
+    format?: string;
+    onErrorStatus?: (validationError?: TimeValidationError) => void;
+  };
 
 const TimeField = forwardRef(
   <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
@@ -52,30 +42,31 @@ const TimeField = forwardRef(
     ref: React.Ref<HTMLElement>
   ) => {
     const {
-      placeholder = '',
+      mode = 'preset' as Mode,
       defaultValue,
       value,
       onChange,
-      onErrorStatus,
       locale,
       options = DEFAULT_TIME_OPTIONS,
-      format,
       minTime,
       maxTime,
       disabledTimes,
-      mode = 'preset' as Mode,
-      timeStep = mode === 'preset'
+      timeStep = (mode === 'preset'
         ? TIME_STEP_PRESET_DEFAULT
-        : TIME_STEP_MANUAL_DEFAULT,
-      readOnly = false,
-      disabled = false,
+        : TIME_STEP_MANUAL_DEFAULT) as TimeComponentProps<Mode>['timeStep'],
+      readOnly,
+      disabled,
+      placeholder,
+      format,
+      onErrorStatus,
       color,
       focusedColor,
-      focused,
       className,
+      onClick,
       ...rest
     } = props;
-    const [isFocused, setIsFocused] = useState<boolean>(focused || false);
+    const inputBaseElRef = useRef<HTMLElement>(null);
+    const timePartsElRef = useRef<Array<HTMLElement>>([]);
     const {
       localeHourValues,
       localeSecondValues,
@@ -89,76 +80,90 @@ const TimeField = forwardRef(
       options,
       format
     });
-    const { time, handleTimeChange, isValidationError } = useTimeValue({
+    const { time, handleTimeChange } = useTimeValue({
       defaultValue,
       value,
+      onChange,
+      dateToTimeObject,
+      timeObjectToDate
+    });
+    const { isValidationError } = useValidation<Mode>({
+      time,
       minTime,
       maxTime,
       disabledTimes,
       mode,
       timeStep,
-      onChange,
-      dateToTimeObject,
-      timeObjectToDate,
-      onErrorStatus
+      onErrorStatus,
+      timeObjectToDate
     });
-    const { timePartsElRef, handleInputChange } = useInput({
+    const { focusNextTimePartOrBlur } = useFocus({ timePartsElRef });
+    const { handleInputChange } = useInput({
       localeHourValues,
       localeSecondValues,
       localeMinuteValues,
       localeDayPeriodValues,
-      handleTimeChange
+      handleTimeChange,
+      focusNextTimePartOrBlur
     });
-    const isKeyTimePart = (
-      type: keyof Intl.DateTimeFormatPartTypesRegistry
-    ): type is KeyTimePartType => KEY_TIME_PARTS.some((part) => part === type);
-    const hasValue = Object.values(time).some((val) => val !== undefined);
-    const showPlaceholder = !hasValue && !isFocused;
+    const noValue = Object.values(time).every((val) => val === undefined);
+
+    const handleClick = (event: MouseEvent) => {
+      onClick?.(event);
+      const inputBaseEl = inputBaseElRef.current;
+      if (!inputBaseEl) return;
+      const inputBaseContentEl = inputBaseEl.querySelector(
+        '.JinniInputBaseContent'
+      );
+      if (inputBaseContentEl && !inputBaseContentEl.matches(':focus-within')) {
+        const timePartsEl = timePartsElRef.current;
+        timePartsEl[0]?.focus();
+      }
+    };
 
     return (
       <InputBase
-        ref={ref}
-        className={cn('JinniTimeField', className)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={(e: FocusEvent) => {
-          if (focused) return;
-          const relatedTarget = e.relatedTarget as HTMLElement;
-          const currentTarget = e.currentTarget as HTMLElement;
-          if (!currentTarget?.contains(relatedTarget)) setIsFocused(false);
+        ref={(element: HTMLElement | null) => {
+          if (element) {
+            (inputBaseElRef as MutableRefObject<HTMLElement>).current = element;
+            if (typeof ref === 'function') {
+              ref(element);
+            } else if (ref && 'current' in ref) {
+              (ref as MutableRefObject<HTMLElement>).current = element;
+            }
+          }
         }}
+        className={cn('JinniTimeField', { noValue }, className)}
         color={isValidationError ? 'error' : color}
         focusedColor={isValidationError ? 'error' : focusedColor}
         disabled={disabled}
-        focused={focused}
+        onClick={handleClick}
         {...rest}
       >
-        {showPlaceholder ? (
-          <span className="JinniTimeFieldPlaceholder">{placeholder}</span>
-        ) : (
-          timeParts.map((part, idx) => {
-            const hasBlank =
-              part.type === 'literal' && part.value.includes(' ');
-            return isKeyTimePart(part.type) ? (
-              <AutoWidthInput
-                key={part.type}
-                ref={(element) => {
-                  if (element && !timePartsElRef.current.includes(element)) {
-                    timePartsElRef.current.push(element);
-                  }
-                }}
-                className="JinniTimeFieldTimePart"
-                value={time[part.type] || part.value}
-                onChange={handleInputChange(part.type as KeyTimePartType)}
-                readOnly={readOnly}
-                disabled={disabled}
-              />
-            ) : (
-              <div key={idx} className="JinniTimeFieldTimePart">
-                {hasBlank ? part.value.replace(' ', '\u00A0') : part.value}
-              </div>
-            );
-          })
-        )}
+        {timeParts.map((part, idx) => {
+          const hasBlank = part.type === 'literal' && part.value.includes(' ');
+          return isKeyTimePart(part.type) ? (
+            <AutoWidthInput
+              key={part.type}
+              ref={(element) => {
+                if (element && !timePartsElRef.current.includes(element)) {
+                  timePartsElRef.current.push(element);
+                }
+              }}
+              className="JinniTimeFieldTimePart"
+              value={time[part.type] || part.value}
+              onChange={handleInputChange(part.type as KeyTimePartType)}
+              readOnly={readOnly}
+              disabled={disabled}
+              tabIndex={idx === 0 ? 0 : -1}
+            />
+          ) : (
+            <div key={idx} className="JinniTimeFieldTimePart">
+              {hasBlank ? part.value.replace(' ', '\u00A0') : part.value}
+            </div>
+          );
+        })}
+        <span className="JinniTimeFieldPlaceholder">{placeholder}</span>
       </InputBase>
     );
   }

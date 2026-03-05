@@ -1,9 +1,4 @@
-export const KEY_TIME_PARTS = [
-  'hour',
-  'minute',
-  'second',
-  'dayPeriod'
-] as const;
+import { TimeStepManualType } from '@/types/time-component';
 
 export const TOKENS = {
   HH: {
@@ -81,3 +76,11 @@ export const TOKENS = {
     case: 'upper'
   }
 } as const;
+
+export const TIME_STEP_PRESET_DEFAULT: number = 1;
+
+export const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
+  hour: 1,
+  minute: 1,
+  second: 1
+};
