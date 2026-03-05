@@ -186,7 +186,10 @@ export const useValidation = <Mode extends TimeMode = 'preset'>({
   );
 
   const validationError = useMemo<TimeValidationError | undefined>(
-    () => validateTime(timeObjectToDate(time)),
+    () =>
+      Object.keys(time).length > 0
+        ? validateTime(timeObjectToDate(time))
+        : undefined,
     [time, validateTime, timeObjectToDate]
   );
 
