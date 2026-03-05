@@ -194,7 +194,7 @@ export const useValidation = <Mode extends TimeMode = 'preset'>({
   );
 
   useLayoutEffect(() => {
-    onErrorStatus?.(validationError);
+    onErrorStatus?.(!!validationError, validationError);
   }, [validationError, onErrorStatus]);
 
   return {

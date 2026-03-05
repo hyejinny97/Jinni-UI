@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TimeField, TimeValidationError, TimeFieldProps } from '.';
+import { TimeField, TimeFieldProps } from '.';
+import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import { Radio } from '@/components/data-entry/Radio';
+import { Label } from '@/components/data-entry/Label';
+import { Chip } from '@/components/data-display/Chip';
+import { TimeValidationError } from '@/types/time-component';
 
 const meta: Meta<typeof TimeField> = {
+  title: 'components/data-entry/TimePicker/TimeField',
   component: TimeField,
   argTypes: {
     defaultValue: {
@@ -18,8 +25,7 @@ const meta: Meta<typeof TimeField> = {
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' }
+        type: { summary: 'boolean' }
       }
     },
     disabledTimes: {
@@ -63,7 +69,7 @@ const meta: Meta<typeof TimeField> = {
       description: 'value가 변경됐을 때 호출되는 함수',
       table: {
         type: {
-          summary: `(value: Date, validationError?: 'minTime' | 'maxTime' | 'timeStep' | 'disabledTime') => void;`
+          summary: `(value: Date | null) => void;`
         }
       }
     },
@@ -71,7 +77,7 @@ const meta: Meta<typeof TimeField> = {
       description: 'error 상태가 변경됐을 때 호출되는 함수',
       table: {
         type: {
-          summary: `(validationError?: 'minTime' | 'maxTime' | 'timeStep' | 'disabledTime') ⇒ void;`
+          summary: `(error: boolean, errorReason?: "minTime" | "maxTime" | "disabledTime" | "timeStep") => void;`
         }
       }
     },
@@ -106,8 +112,7 @@ hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
       table: {
         type: {
           summary: `boolean`
-        },
-        defaultValue: { summary: 'false' }
+        }
       }
     },
     timeStep: {
@@ -135,75 +140,266 @@ hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
 export default meta;
 type Story = StoryObj<typeof TimeField>;
 
-const LOCALES = ['ko-KR', 'en-US', 'fr-FR', 'ja-JP', 'zh-CN', 'ar-EG'];
-const OPTIONS: Array<TimeFieldProps['options']> = [
-  {
-    timeStyle: 'medium'
-  },
-  {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hourCycle: 'h24'
-  },
-  {
-    minute: 'numeric',
-    second: 'numeric'
-  },
-  {
-    hour: '2-digit',
-    hour12: true
-  }
-];
-const FORMATS = ['tt:mm a', 'HH:mm:ss', 'TT시 mm분'];
-
-const ControlledTimeFieldTemplate = ({ ...props }) => {
+const ControlledTimeFieldTemplate = () => {
   const [value, setValue] = useState<Date | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const hour = value?.getHours();
   const minute = value?.getMinutes();
-  const second = value?.getSeconds();
 
-  const handleChange = (
-    newValue: Date,
-    validationError?: TimeValidationError
-  ) => {
+  const handleChange = (newValue: Date | null) => {
     setValue(newValue);
-    if (validationError) {
-      switch (validationError) {
-        case 'minTime':
-          setErrorMessage('최소 시간보다 작습니다.');
-          break;
-        case 'maxTime':
-          setErrorMessage('최대 시간보다 큽니다.');
-          break;
-        case 'disabledTime':
-          setErrorMessage('해당 시간은 비활성화되어 있습니다.');
-          break;
-        case 'timeStep':
-          setErrorMessage('선택할 수 없는 시간입니다.');
-          break;
-        default:
-          setErrorMessage('유효하지 않은 시간입니다.');
-      }
-    } else {
-      setErrorMessage(undefined);
-    }
   };
 
   return (
-    <Stack>
-      <TimeField value={value} onChange={handleChange} {...props} />
-      {errorMessage ? (
-        <Text style={{ color: 'error' }}>{errorMessage}</Text>
-      ) : (
-        <Text style={{ display: 'inline-flex', gap: '5px' }}>
+    <Stack spacing={5}>
+      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
+        Time:
+        <span>{hour !== undefined && `${hour}시`}</span>
+        <span>{minute !== undefined && `${minute}분`}</span>
+      </Text>
+      <TimeField
+        value={value}
+        onChange={handleChange}
+        placeholder="Select Time"
+      />
+    </Stack>
+  );
+};
+
+const LocaleTemplate = () => {
+  const LOCALES = [
+    'ko-KR',
+    'en-US',
+    'fr-FR',
+    'ja-JP',
+    'zh-CN',
+    'ar-EG'
+  ] as const;
+  const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
+  const [value, setValue] = useState<Date | null>(new Date());
+
+  const handleLocaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setLocale(value as (typeof LOCALES)[number]);
+  };
+  const handleTimeChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Locale
+        </Chip>
+        <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
+          <Grid rows={2} columns={3} spacing={5}>
+            {LOCALES.map((locale) => (
+              <Label content={locale}>
+                <Radio value={locale} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeField
+        key={locale}
+        value={value}
+        onChange={handleTimeChange}
+        locale={locale}
+      />
+    </Stack>
+  );
+};
+
+const OptionsTemplate = () => {
+  const OPTIONS: Array<TimeFieldProps['options']> = [
+    {
+      timeStyle: 'medium'
+    },
+    {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h24'
+    },
+    {
+      minute: 'numeric',
+      second: 'numeric'
+    },
+    {
+      hour: '2-digit',
+      hour12: true
+    }
+  ] as const;
+  const [option, setOption] = useState<TimeFieldProps['options']>(OPTIONS[0]);
+  const [value, setValue] = useState<Date | null>(new Date());
+
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setOption(JSON.parse(value) as TimeFieldProps['options']);
+  };
+  const handleTimeChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Option
+        </Chip>
+        <RadioGroup
+          name="option"
+          value={JSON.stringify(option)}
+          onChange={handleOptionChange}
+        >
+          <Grid rows={OPTIONS.length} columns={1} spacing={5}>
+            {OPTIONS.map((option) => {
+              const optionStr = JSON.stringify(option);
+              return (
+                <Label content={optionStr}>
+                  <Radio value={optionStr} />
+                </Label>
+              );
+            })}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeField
+        key={JSON.stringify(option)}
+        value={value}
+        onChange={handleTimeChange}
+        options={option}
+      />
+    </Stack>
+  );
+};
+
+const TimeFormatTemplate = () => {
+  const FORMATS = ['tt:mm a', 'HH:mm:ss', 'TT시 mm분'] as const;
+  const [format, setFormat] = useState<(typeof FORMATS)[number]>(FORMATS[0]);
+  const [value, setValue] = useState<Date | null>(
+    new Date(1970, 0, 1, 0, 35, 20)
+  );
+
+  const handleFormatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setFormat(value as (typeof FORMATS)[number]);
+  };
+  const handleTimeChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Format
+        </Chip>
+        <RadioGroup name="format" value={format} onChange={handleFormatChange}>
+          <Grid rows={1} columns={3} spacing={5}>
+            {FORMATS.map((format) => (
+              <Label content={format}>
+                <Radio value={format} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeField
+        key={format}
+        value={value}
+        onChange={handleTimeChange}
+        format={format}
+      />
+    </Stack>
+  );
+};
+
+const DetectValidationErrorStatusTemplate = () => {
+  const TIMES = [
+    { label: 'T08:00', value: new Date('2025-06-30T08:00') },
+    { label: 'T22:30', value: new Date('2025-06-30T22:30') },
+    { label: 'T15:30', value: new Date('2025-06-30T15:30') },
+    { label: 'T10:20', value: new Date('2025-06-30T10:20') }
+  ] as const;
+  const [timeIdx, setTimeIdx] = useState<number>(-1);
+  const [validationError, setValidationError] = useState<TimeValidationError>();
+  const [value, setValue] = useState<Date | null>(new Date('2025-06-30T10:00'));
+  const hour = value?.getHours();
+  const minute = value?.getMinutes();
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const newTimeIdx = Number(value);
+    setTimeIdx(newTimeIdx);
+    setValue(TIMES[newTimeIdx].value);
+  };
+  const handleErrorStatus = (_: boolean, errorReason?: TimeValidationError) => {
+    setValidationError(errorReason);
+  };
+  const handleTimeChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Time that cause validation error
+        </Chip>
+        <RadioGroup
+          name="time"
+          value={String(timeIdx)}
+          onChange={handleRadioChange}
+        >
+          <Grid rows={1} columns={4} spacing={5}>
+            {TIMES.map((time, idx) => (
+              <Label content={time.label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <Stack>
+        <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
           Time:
           <span>{hour !== undefined && `${hour}시`}</span>
           <span>{minute !== undefined && `${minute}분`}</span>
-          <span>{second !== undefined && `${second}초`}</span>
         </Text>
-      )}
+        <Text noMargin>Validation Error: '{validationError}'</Text>
+      </Stack>
+      <TimeField
+        mode="preset"
+        value={value}
+        onChange={handleTimeChange}
+        placeholder="Select Time"
+        minTime={new Date('2025-06-30T09:00')}
+        maxTime={new Date('2025-06-30T22:00')}
+        disabledTimes={[
+          new Date('2025-06-30T12:30'),
+          new Date('2025-06-30T15:30')
+        ]}
+        timeStep={30 * 60}
+        onErrorStatus={handleErrorStatus}
+      />
     </Stack>
   );
 };
@@ -221,73 +417,330 @@ export const BasicTimeField: Story = {
       />
       <TimeField defaultValue={new Date(2025, 7, 20, 8, 45)} {...args} />
     </Grid>
-  )
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Grid columns={3} spacing={20}>
+  <TimeField />
+  <TimeField placeholder="Select Time" />
+  <TimeField defaultValue={new Date()} />
+  <TimeField defaultValue={new Date('2025-06-30T14:30')} />
+  <TimeField defaultValue={new Date('December 17, 1995 03:24:00')} />
+  <TimeField defaultValue={new Date(2025, 7, 20, 8, 45)} />
+</Grid>`.trim()
+      }
+    }
+  }
 };
 
 export const ControlledTimeField: Story = {
-  render: (args) => (
-    <ControlledTimeFieldTemplate placeholder="Controlled TimeField" {...args} />
-  )
+  render: () => <ControlledTimeFieldTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledTimeFieldTemplate = () => {
+  const [value, setValue] = useState<Date | null>(null);
+  const hour = value?.getHours();
+  const minute = value?.getMinutes();
+
+  const handleChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={5}>
+      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
+        Time:
+        <span>{hour !== undefined && \`\${hour}시\`}</span>
+        <span>{minute !== undefined && \`\${minute}분\`}</span>
+      </Text>
+      <TimeField
+        value={value}
+        onChange={handleChange}
+        placeholder="Select Time"
+      />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Locale: Story = {
-  render: (args) => (
-    <Grid columns={3} spacing={20}>
-      {LOCALES.map((locale) => (
-        <Stack key={locale}>
-          <Text>{`Locale: '${locale}'`}</Text>
-          <TimeField locale={locale} defaultValue={new Date()} {...args} />
-        </Stack>
-      ))}
-    </Grid>
-  )
+  render: () => <LocaleTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const LocaleTemplate = () => {
+  const LOCALES = [
+    'ko-KR',
+    'en-US',
+    'fr-FR',
+    'ja-JP',
+    'zh-CN',
+    'ar-EG'
+  ] as const;
+  const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
+  const [value, setValue] = useState<Date | null>(new Date());
+
+  const handleLocaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setLocale(value as (typeof LOCALES)[number]);
+  };
+  const handleTimeChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Locale
+        </Chip>
+        <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
+          <Grid rows={2} columns={3} spacing={5}>
+            {LOCALES.map((locale) => (
+              <Label content={locale}>
+                <Radio value={locale} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeField
+        key={locale}
+        value={value}
+        onChange={handleTimeChange}
+        locale={locale}
+      />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Options: Story = {
-  render: (args) => (
-    <Grid columns={1} spacing={20}>
-      {OPTIONS.map((options) => (
-        <Stack key={JSON.stringify(options)} direction="row" spacing={20}>
-          <TimeField options={options} defaultValue={new Date()} {...args} />
-          <Text
-            style={{ fontSize: '13px' }}
-          >{`Options: ${JSON.stringify(options)}`}</Text>
-        </Stack>
-      ))}
-    </Grid>
-  )
+  render: () => <OptionsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const OptionsTemplate = () => {
+  const OPTIONS: Array<TimeFieldProps['options']> = [
+    {
+      timeStyle: 'medium'
+    },
+    {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h24'
+    },
+    {
+      minute: 'numeric',
+      second: 'numeric'
+    },
+    {
+      hour: '2-digit',
+      hour12: true
+    }
+  ] as const;
+  const [option, setOption] = useState<TimeFieldProps['options']>(OPTIONS[0]);
+  const [value, setValue] = useState<Date | null>(new Date());
+
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setOption(JSON.parse(value) as TimeFieldProps['options']);
+  };
+  const handleTimeChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Option
+        </Chip>
+        <RadioGroup
+          name="option"
+          value={JSON.stringify(option)}
+          onChange={handleOptionChange}
+        >
+          <Grid rows={OPTIONS.length} columns={1} spacing={5}>
+            {OPTIONS.map((option) => {
+              const optionStr = JSON.stringify(option);
+              return (
+                <Label content={optionStr}>
+                  <Radio value={optionStr} />
+                </Label>
+              );
+            })}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeField
+        key={JSON.stringify(option)}
+        value={value}
+        onChange={handleTimeChange}
+        options={option}
+      />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
-export const CustomizeTimeFormat: Story = {
-  render: (args) => (
-    <Grid columns={3} spacing={20}>
-      {FORMATS.map((format) => (
-        <Stack key={format}>
-          <Text>{`Format: '${format}'`}</Text>
-          <TimeField format={format} defaultValue={new Date()} {...args} />
-        </Stack>
-      ))}
-    </Grid>
-  )
+export const TimeFormat: Story = {
+  render: () => <TimeFormatTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const TimeFormatTemplate = () => {
+  const FORMATS = ['tt:mm a', 'HH:mm:ss', 'TT시 mm분'] as const;
+  const [format, setFormat] = useState<(typeof FORMATS)[number]>(FORMATS[0]);
+  const [value, setValue] = useState<Date | null>(
+    new Date(1970, 0, 1, 0, 35, 20)
+  );
+
+  const handleFormatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setFormat(value as (typeof FORMATS)[number]);
+  };
+  const handleTimeChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Format
+        </Chip>
+        <RadioGroup name="format" value={format} onChange={handleFormatChange}>
+          <Grid rows={1} columns={3} spacing={5}>
+            {FORMATS.map((format) => (
+              <Label content={format}>
+                <Radio value={format} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeField
+        key={format}
+        value={value}
+        onChange={handleTimeChange}
+        format={format}
+      />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
-export const RestrictTime: Story = {
+export const MinTime: Story = {
   render: (args) => (
-    <Grid columns={3} spacing={20}>
-      <ControlledTimeFieldTemplate
-        placeholder="MinTime=14:30"
+    <Stack direction="row" spacing={20}>
+      <TimeField
+        placeholder="HH:mm"
         format="HH:mm"
         minTime={new Date('2025-06-30T14:30')}
         {...args}
       />
-      <ControlledTimeFieldTemplate
-        placeholder="MaxTime=17:25"
+      <TimeField
+        placeholder="HH:mm"
+        format="HH:mm"
+        minTime={new Date('2025-06-30T14:30')}
+        defaultValue={new Date('2025-06-30T12:00')}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack direction="row" spacing={20}>
+  <TimeField
+    placeholder="HH:mm"
+    format="HH:mm"
+    minTime={new Date('2025-06-30T14:30')}
+  />
+  <TimeField
+    placeholder="HH:mm"
+    format="HH:mm"
+    minTime={new Date('2025-06-30T14:30')}
+    defaultValue={new Date('2025-06-30T12:00')}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const MaxTime: Story = {
+  render: (args) => (
+    <Stack direction="row" spacing={20}>
+      <TimeField
+        placeholder="HH:mm"
         format="HH:mm"
         maxTime={new Date('2025-06-30T17:25')}
         {...args}
       />
-      <ControlledTimeFieldTemplate
-        placeholder="DisabledTimes=12:30,14:10"
+      <TimeField
+        placeholder="HH:mm"
+        format="HH:mm"
+        maxTime={new Date('2025-06-30T17:25')}
+        defaultValue={new Date('2025-06-30T18:00')}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack direction="row" spacing={20}>
+  <TimeField
+    placeholder="HH:mm"
+    format="HH:mm"
+    maxTime={new Date('2025-06-30T17:25')}
+  />
+  <TimeField
+    placeholder="HH:mm"
+    format="HH:mm"
+    maxTime={new Date('2025-06-30T17:25')}
+    defaultValue={new Date('2025-06-30T18:00')}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const DisabledTimes: Story = {
+  render: (args) => (
+    <Stack direction="row" spacing={20}>
+      <TimeField
+        placeholder="HH:mm"
         format="HH:mm"
         disabledTimes={[
           new Date('2025-06-30T14:10'),
@@ -295,34 +748,225 @@ export const RestrictTime: Story = {
         ]}
         {...args}
       />
-    </Grid>
-  )
+      <TimeField
+        placeholder="HH:mm"
+        format="HH:mm"
+        disabledTimes={[
+          new Date('2025-06-30T14:10'),
+          new Date('2025-06-30T12:30')
+        ]}
+        defaultValue={new Date('2025-06-30T14:10')}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack direction="row" spacing={20}>
+  <TimeField
+    placeholder="HH:mm"
+    format="HH:mm"
+    disabledTimes={[
+      new Date('2025-06-30T14:10'),
+      new Date('2025-06-30T12:30')
+    ]}
+  />
+  <TimeField
+    placeholder="HH:mm"
+    format="HH:mm"
+    disabledTimes={[
+      new Date('2025-06-30T14:10'),
+      new Date('2025-06-30T12:30')
+    ]}
+    defaultValue={new Date('2025-06-30T14:10')}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
 };
 
-export const TimeSteps: Story = {
+export const TimeStepInPresetMode: Story = {
   render: (args) => (
-    <Grid columns={2} spacing={20}>
-      <ControlledTimeFieldTemplate
+    <Stack direction="row" spacing={20}>
+      <TimeField
         mode="preset"
-        placeholder="TimeStep=30 minutes"
+        placeholder="HH:mm"
         format="HH:mm"
         timeStep={30 * 60}
         {...args}
       />
-      <ControlledTimeFieldTemplate
+      <TimeField
+        mode="preset"
+        placeholder="HH:mm"
+        format="HH:mm"
+        timeStep={30 * 60}
+        defaultValue={new Date('2025-06-30T15:20')}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack direction="row" spacing={20}>
+  <TimeField
+    mode="preset"
+    placeholder="HH:mm"
+    format="HH:mm"
+    timeStep={30 * 60}
+  />
+  <TimeField
+    mode="preset"
+    placeholder="HH:mm"
+    format="HH:mm"
+    timeStep={30 * 60}
+    defaultValue={new Date('2025-06-30T15:20')}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const TimeStepInManualMode: Story = {
+  render: (args) => (
+    <Stack direction="row" spacing={20}>
+      <TimeField
         mode="manual"
-        placeholder="TimeStep=2 hours/10 minutes/10 seconds"
+        placeholder="HH:mm:ss"
         format="HH:mm:ss"
         timeStep={{ hour: 2, minute: 10, second: 10 }}
         {...args}
       />
-    </Grid>
+      <TimeField
+        mode="manual"
+        placeholder="HH:mm:ss"
+        format="HH:mm:ss"
+        timeStep={{ hour: 2, minute: 10, second: 10 }}
+        defaultValue={new Date('2025-06-30T16:15')}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack direction="row" spacing={20}>
+  <TimeField
+    mode="manual"
+    placeholder="HH:mm:ss"
+    format="HH:mm:ss"
+    timeStep={{ hour: 2, minute: 10, second: 10 }}
+  />
+  <TimeField
+    mode="manual"
+    placeholder="HH:mm:ss"
+    format="HH:mm:ss"
+    timeStep={{ hour: 2, minute: 10, second: 10 }}
+    defaultValue={new Date('2025-06-30T16:15')}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const DetectValidationErrorStatus: Story = {
+  render: () => <DetectValidationErrorStatusTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const DetectValidationErrorStatusTemplate = () => {
+  const TIMES = [
+    { label: 'T08:00', value: new Date('2025-06-30T08:00') },
+    { label: 'T22:30', value: new Date('2025-06-30T22:30') },
+    { label: 'T15:30', value: new Date('2025-06-30T15:30') },
+    { label: 'T10:20', value: new Date('2025-06-30T10:20') }
+  ] as const;
+  const [timeIdx, setTimeIdx] = useState<number>(-1);
+  const [validationError, setValidationError] = useState<TimeValidationError>();
+  const [value, setValue] = useState<Date | null>(new Date('2025-06-30T10:00'));
+  const hour = value?.getHours();
+  const minute = value?.getMinutes();
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const newTimeIdx = Number(value);
+    setTimeIdx(newTimeIdx);
+    setValue(TIMES[newTimeIdx].value);
+  };
+  const handleErrorStatus = (_: boolean, errorReason?: TimeValidationError) => {
+    setValidationError(errorReason);
+  };
+  const handleTimeChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Time that cause validation error
+        </Chip>
+        <RadioGroup
+          name="time"
+          value={String(timeIdx)}
+          onChange={handleRadioChange}
+        >
+          <Grid rows={1} columns={4} spacing={5}>
+            {TIMES.map((time, idx) => (
+              <Label content={time.label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <Stack>
+        <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
+          Time:
+          <span>{hour !== undefined && \`\${hour}시\`}</span>
+          <span>{minute !== undefined && \`\${minute}분\`}</span>
+        </Text>
+        <Text noMargin>Validation Error: '{validationError}'</Text>
+      </Stack>
+      <TimeField
+        mode="preset"
+        value={value}
+        onChange={handleTimeChange}
+        placeholder="Select Time"
+        minTime={new Date('2025-06-30T09:00')}
+        maxTime={new Date('2025-06-30T22:00')}
+        disabledTimes={[
+          new Date('2025-06-30T12:30'),
+          new Date('2025-06-30T15:30')
+        ]}
+        timeStep={30 * 60}
+        onErrorStatus={handleErrorStatus}
+      />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const Readonly: Story = {
+  render: (args) => (
+    <TimeField defaultValue={new Date('2025-06-30T14:10')} readOnly {...args} />
   )
 };
 
 export const Variants: Story = {
   render: (args) => (
-    <Grid columns={4} spacing={20}>
+    <Stack spacing={20}>
       {(['filled', 'outlined', 'underlined', 'borderless'] as const).map(
         (variant) => (
           <TimeField
@@ -333,23 +977,17 @@ export const Variants: Story = {
           />
         )
       )}
-    </Grid>
+    </Stack>
   )
 };
 
 export const Sizes: Story = {
   render: (args) => (
-    <Grid columns={3} spacing={20}>
+    <Stack spacing={20}>
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <TimeField key={size} size={size} placeholder={size} {...args} />
       ))}
-    </Grid>
-  )
-};
-
-export const Readonly: Story = {
-  render: (args) => (
-    <TimeField defaultValue={new Date('2025-06-30T14:10')} readOnly {...args} />
+    </Stack>
   )
 };
 
@@ -362,7 +1000,7 @@ export const Disabled: Story = {
 export const Color: Story = {
   render: (args) => (
     <TimeField
-      placeholder='color="yellow-400"'
+      placeholder="Select Time"
       color="yellow-400"
       focusedColor="yellow-400"
       {...args}
@@ -371,13 +1009,17 @@ export const Color: Story = {
 };
 
 export const FullWidth: Story = {
-  render: (args) => <TimeField placeholder="fullWidth" fullWidth {...args} />
+  render: (args) => (
+    <Box style={{ width: '500px' }}>
+      <TimeField placeholder="Select Time" fullWidth {...args} />
+    </Box>
+  )
 };
 
 export const Adornments: Story = {
   render: (args) => (
     <TimeField
-      placeholder="startAdornment"
+      placeholder="Select Time"
       startAdornment={<AccessTimeIcon size={20} color="gray-500" />}
       {...args}
     />
@@ -386,17 +1028,9 @@ export const Adornments: Story = {
 
 export const DisableEffect: Story = {
   render: (args) => (
-    <Grid columns={2} spacing={20}>
-      <TimeField
-        placeholder="disableHoverEffect"
-        disableHoverEffect
-        {...args}
-      />
-      <TimeField
-        placeholder="disableFocusEffect"
-        disableFocusEffect
-        {...args}
-      />
-    </Grid>
+    <Stack spacing={20}>
+      <TimeField placeholder="Select Time" disableHoverEffect {...args} />
+      <TimeField placeholder="Select Time" disableFocusEffect {...args} />
+    </Stack>
   )
 };

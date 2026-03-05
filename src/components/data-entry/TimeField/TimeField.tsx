@@ -33,7 +33,7 @@ export type TimeFieldProps<
     mode?: Mode;
     placeholder?: string;
     format?: string;
-    onErrorStatus?: (validationError?: TimeValidationError) => void;
+    onErrorStatus?: (error: boolean, errorReason?: TimeValidationError) => void;
   };
 
 const TimeField = forwardRef(
