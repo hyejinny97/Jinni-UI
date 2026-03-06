@@ -9,11 +9,6 @@ import {
 import { TimeFieldProps } from './TimeField';
 import { TokensType, TimeObjectType } from './TimeField.types';
 import {
-  isAvailableLocale,
-  getLocaleHourValues,
-  getLocaleMinuteValues,
-  getLocaleSecondValues,
-  getLocaleDayPeriodValues,
   findHourTokenType,
   findMinuteTokenType,
   findSecondTokenType,
@@ -28,6 +23,13 @@ import {
   KeyTimePartType
 } from '@/types/time-component';
 import { dateToSeconds, isTimeStepManualType } from '@/utils/time-component';
+import {
+  isAvailableLocale,
+  getLocaleHourValues,
+  getLocaleMinuteValues,
+  getLocaleSecondValues,
+  getLocaleDayPeriodValues
+} from '@/utils/time-component';
 
 type TimeObjectToDate = ({
   hour,
