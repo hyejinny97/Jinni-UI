@@ -111,16 +111,33 @@ export const useTimeFormat = ({
     const minute = date.getMinutes();
     const second = date.getSeconds();
     return {
-      hour: isHour12 ? hour % 12 : hour,
+      hour,
       minute,
       second,
       dayPeriod: isHour12 ? Number(hour >= 12) : undefined
     };
   };
 
-  const timeObjectToDate = ({ hour, minute, second }: TimeObjectType): Date => {
+  const timeObjectToDate = ({
+    hour,
+    minute,
+    second,
+    dayPeriod
+  }: TimeObjectType): Date => {
     const date = new Date(1970, 0, 1);
-    if (hour !== undefined) date.setHours(hour);
+    if (hour !== undefined) {
+      if (dayPeriod !== undefined) {
+        if (dayPeriod === 0 && hour >= 12) {
+          date.setHours(hour - 12);
+        } else if (dayPeriod === 1 && hour < 12) {
+          date.setHours(hour + 12);
+        } else {
+          date.setHours(hour);
+        }
+      } else {
+        date.setHours(hour);
+      }
+    }
     if (minute !== undefined) date.setMinutes(minute);
     if (second !== undefined) date.setSeconds(second);
     return date;
@@ -324,11 +341,12 @@ export const useUnitItems = ({
   const onDayPeriodClick = useCallback(
     (itemId: number) => {
       let newHour = hour;
-      if (hour && hour >= 12 && itemId === 0) {
-        newHour = hour - 12;
-      }
-      if (hour && hour < 12 && itemId === 1) {
-        newHour = hour + 12;
+      if (hour === undefined) {
+        if (itemId === 0) newHour = 0;
+        if (itemId === 1) newHour = 12;
+      } else {
+        if (hour >= 12 && itemId === 0) newHour = hour - 12;
+        if (hour < 12 && itemId === 1) newHour = hour + 12;
       }
       return handleChange({ dayPeriod: itemId, hour: newHour });
     },
