@@ -5,20 +5,24 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { TimeField, TimeFieldProps } from '@/components/data-entry/TimeField';
 import {
-  DigitalClock,
-  DigitalClockProps
-} from '@/components/data-entry/DigitalClock';
+  ManualDigitalClock,
+  ManualDigitalClockProps
+} from '@/components/data-entry/ManualDigitalClock';
+import {
+  PresetDigitalClock,
+  PresetDigitalClockProps
+} from '@/components/data-entry/PresetDigitalClock';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import { useTime } from './TimePicker.hooks';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
-import {
-  TimeMode,
-  TimeComponentProps,
-  TimeStepManualType
-} from '@/types/time-component';
+import { TimeMode, TimeComponentProps } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
+import {
+  TIME_STEP_PRESET_DEFAULT,
+  TIME_STEP_MANUAL_DEFAULT
+} from './TimePicker.constants';
 
 export type TimePickerProps<
   T extends AsType = 'div',
@@ -30,16 +34,11 @@ export type TimePickerProps<
     PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
     TimeFieldProps?: TimeFieldProps;
     renderDigitalClock?: (
-      digitalClockProps: DigitalClockProps<T, Mode>
+      digitalClockProps: Mode extends 'preset'
+        ? PresetDigitalClockProps
+        : ManualDigitalClockProps
     ) => React.ReactNode;
   };
-
-const TIME_STEP_PRESET_DEFAULT: number = 30 * 60;
-const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
-  hour: 1,
-  minute: 1,
-  second: 1
-};
 
 const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
   props: TimePickerProps<T, Mode>
@@ -54,53 +53,61 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
     minTime,
     maxTime,
     disabledTimes,
-    timeStep = mode === 'preset'
+    timeStep = (mode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
-      : TIME_STEP_MANUAL_DEFAULT,
+      : TIME_STEP_MANUAL_DEFAULT) as TimeComponentProps<Mode>['timeStep'],
     readOnly,
     disabled,
     name,
     PopoverProps,
     TimeFieldProps,
-    renderDigitalClock = (digitalClockProps: DigitalClockProps<T, Mode>) => (
-      <DigitalClock {...digitalClockProps} />
-    ),
+    renderDigitalClock = ((digitalClockProps) =>
+      mode === 'preset' ? (
+        <PresetDigitalClock
+          {...(digitalClockProps as PresetDigitalClockProps)}
+        />
+      ) : (
+        <ManualDigitalClock
+          {...(digitalClockProps as ManualDigitalClockProps)}
+        />
+      )) as NonNullable<TimePickerProps<T, Mode>['renderDigitalClock']>,
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
   const anchorElRef = useRef<HTMLElement>(null);
-  const [open, setOpen] = useState(false);
   const prevTimeRef = useRef<Date | null>(null);
+  const [open, setOpen] = useState(false);
   const { time, handleChange } = useTime({ defaultValue, value, onChange });
   const newStyle = useStyle(style);
+  const { className: popoverClassName, ...restPopoverProps } = (PopoverProps ||
+    {}) as Partial<PopoverProps>;
 
-  const handleOpen = () => {
+  const openPopover = () => {
     prevTimeRef.current = time;
     if (readOnly || disabled) return;
     setOpen(true);
   };
-  const handleOk = () => {
+  const closePopover = () => {
     setOpen(false);
   };
   const handleCancel = () => {
     handleChange(prevTimeRef.current);
-    setOpen(false);
+    closePopover();
   };
 
   const commonProps = {
     value: time,
     onChange: handleChange,
-    mode,
     locale,
     options,
-    timeStep,
-    readOnly,
-    disabled,
     minTime,
     maxTime,
-    disabledTimes
+    disabledTimes,
+    timeStep,
+    readOnly,
+    disabled
   };
 
   return (
@@ -116,11 +123,12 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
       <input name={name} value={time?.toTimeString() || ''} hidden readOnly />
       <TimeField
         ref={anchorElRef}
+        mode={mode}
         endAdornment={
           <ButtonBase
             type="button"
             className={cn('JinniTimePickerOpenButton', { readOnly, disabled })}
-            onClick={handleOpen}
+            onClick={openPopover}
             disableOverlay={readOnly || disabled}
             disableRipple={readOnly || disabled}
           >
@@ -133,16 +141,21 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
       />
       <Popover
         anchorElRef={anchorElRef}
-        className="JinniTimePickerPopover"
+        className={cn('JinniTimePickerPopover', popoverClassName)}
         open={open}
-        {...PopoverProps}
+        onClose={closePopover}
+        {...restPopoverProps}
       >
-        {renderDigitalClock(commonProps as DigitalClockProps<T, Mode>)}
+        {renderDigitalClock(
+          commonProps as Mode extends 'preset'
+            ? PresetDigitalClockProps
+            : ManualDigitalClockProps
+        )}
         <div className="JinniTimePickerButtons">
           <Button variant="text" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button onClick={handleOk}>OK</Button>
+          <Button onClick={closePopover}>OK</Button>
         </div>
       </Popover>
     </Component>
