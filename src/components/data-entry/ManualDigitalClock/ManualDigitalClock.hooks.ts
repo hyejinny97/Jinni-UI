@@ -318,10 +318,10 @@ export const useUnitItems = ({
       id: dayP,
       label: localeDayPeriodValues[dayP],
       selected: dayPeriod === dayP,
-      disabled: false,
+      disabled: !!disabled,
       hide: false
     }));
-  }, [localeDayPeriodValues, dayPeriod]);
+  }, [localeDayPeriodValues, dayPeriod, disabled]);
 
   const onHourClick = useCallback(
     (itemId: number) => handleChange({ hour: itemId }),
