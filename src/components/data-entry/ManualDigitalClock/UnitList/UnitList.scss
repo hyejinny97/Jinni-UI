@@ -8,18 +8,26 @@
   .JinniMenuList {
     position: relative;
     padding: 0;
+    width: 100%;
     height: 180px;
-    overflow-y: auto;
-    scrollbar-width: thin;
     border-radius: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .JinniMenuItem {
-      &.selected {
+      &.selected .JinniMenuItemButton {
         background-color: var(--jinni-color-primary);
         color: white;
       }
       &.hide {
         display: none;
+      }
+
+      .JinniMenuItemButton {
+        justify-content: center;
       }
     }
   }
