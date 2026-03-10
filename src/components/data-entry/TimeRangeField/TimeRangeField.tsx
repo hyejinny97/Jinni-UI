@@ -3,14 +3,7 @@ import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
-import {
-  TimeField,
-  TimeStepManualType,
-  TimeOptions,
-  TimeMode,
-  TimeValidationError,
-  DEFAULT_TIME_OPTIONS
-} from '@/components/data-entry/TimeField';
+import { TimeField } from '@/components/data-entry/TimeField';
 import {
   RangeType,
   AdornmentType,
@@ -19,6 +12,13 @@ import {
 import { ArrowRightAltIcon } from '@/components/icons/ArrowRightAltIcon';
 import { useTimeRange, useIndicator } from './TimeRangeField.hooks';
 import { CHRONOLOGICAL_ORDER } from './TimeRangeField.constants';
+import {
+  TimeStepManualType,
+  TimeOptions,
+  TimeMode,
+  TimeValidationError
+} from '@/types/time-component';
+import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 
 export type TimeRangeFieldProps<
   T extends AsType = 'div',

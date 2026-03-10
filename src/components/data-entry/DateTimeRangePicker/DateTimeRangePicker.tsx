@@ -14,19 +14,20 @@ import {
   filterTimeOptions,
   filterDateOptions
 } from '@/components/data-entry/DateTimeField';
-import {
-  TimeMode,
-  TimeStepManualType
-} from '@/components/data-entry/TimeField';
+import { TimeMode, TimeStepManualType } from '@/types/time-component';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import {
   DateRangeCalendar,
   DateRangeCalendarProps
 } from '@/components/data-entry/DateRangeCalendar';
 import {
-  DigitalClock,
-  DigitalClockProps
-} from '@/components/data-entry/DigitalClock';
+  ManualDigitalClock,
+  ManualDigitalClockProps
+} from '@/components/data-entry/ManualDigitalClock';
+import {
+  PresetDigitalClock,
+  PresetDigitalClockProps
+} from '@/components/data-entry/PresetDigitalClock';
 import { useDateTimeRangeValue } from './DateTimeRangePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Button } from '@/components/general/Button';
@@ -63,7 +64,9 @@ export type DateTimeRangePickerProps<
     dateRangeCalendarProps: DateRangeCalendarProps
   ) => React.ReactNode;
   renderDigitalClock?: (
-    digitalClockProps: DigitalClockProps<T, Mode>
+    digitalClockProps: Mode extends 'preset'
+      ? PresetDigitalClockProps
+      : ManualDigitalClockProps
   ) => React.ReactNode;
 };
 
@@ -104,10 +107,20 @@ const DateTimeRangePicker = <
     renderDateRangeCalendar = (
       dateRangeCalendarProps: DateRangeCalendarProps
     ) => <DateRangeCalendar {...dateRangeCalendarProps} />,
-    renderDigitalClock = (
-      digitalClockProps: DigitalClockProps<T, Mode>,
-      key?: string
-    ) => <DigitalClock key={key} {...digitalClockProps} />,
+    renderDigitalClock = ((digitalClockProps, key?: string) =>
+      timeMode === 'preset' ? (
+        <PresetDigitalClock
+          key={key}
+          {...(digitalClockProps as PresetDigitalClockProps)}
+        />
+      ) : (
+        <ManualDigitalClock
+          key={key}
+          {...(digitalClockProps as ManualDigitalClockProps)}
+        />
+      )) as NonNullable<
+      DateTimeRangePickerProps<T, Mode>['renderDigitalClock']
+    >,
     className,
     style,
     as: Component = 'div',
@@ -264,7 +277,7 @@ const DateTimeRangePicker = <
                 : null,
               options: filterTimeOptions(options),
               onChange: handleTimeChange(focusedDateTime)
-            } as DigitalClockProps<T, Mode>,
+            },
             focusedDateTime
           )}
         </Stack>

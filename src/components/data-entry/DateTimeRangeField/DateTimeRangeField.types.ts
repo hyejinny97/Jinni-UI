@@ -1,5 +1,5 @@
 import { DateValidationError } from '@/components/data-entry/DateField';
-import { TimeValidationError } from '@/components/data-entry/TimeField';
+import { TimeValidationError } from '@/types/time-component';
 import {
   CHRONOLOGICAL_ORDER,
   INCLUDE_DISABLED_DATE

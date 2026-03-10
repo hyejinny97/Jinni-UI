@@ -3,10 +3,7 @@ import { useRef, useState } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  TimeMode,
-  TimeStepManualType
-} from '@/components/data-entry/TimeField';
+import { TimeMode, TimeStepManualType } from '@/types/time-component';
 import {
   DateTimeField,
   DateTimeFieldProps,
@@ -18,9 +15,13 @@ import {
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import { Calendar, CalendarProps } from '@/components/data-entry/Calendar';
 import {
-  DigitalClock,
-  DigitalClockProps
-} from '@/components/data-entry/DigitalClock';
+  ManualDigitalClock,
+  ManualDigitalClockProps
+} from '@/components/data-entry/ManualDigitalClock';
+import {
+  PresetDigitalClock,
+  PresetDigitalClockProps
+} from '@/components/data-entry/PresetDigitalClock';
 import { useDateTimeValue } from './DateTimePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Button } from '@/components/general/Button';
@@ -55,7 +56,9 @@ export type DateTimePickerProps<
   DateTimeFieldProps?: DateTimeFieldProps;
   renderCalendar?: (calendarProps: CalendarProps) => React.ReactNode;
   renderDigitalClock?: (
-    digitalClockProps: DigitalClockProps<T, Mode>
+    digitalClockProps: Mode extends 'preset'
+      ? PresetDigitalClockProps
+      : ManualDigitalClockProps
   ) => React.ReactNode;
 };
 
@@ -96,9 +99,16 @@ const DateTimePicker = <
     renderCalendar = (calendarProps: CalendarProps) => (
       <Calendar {...calendarProps} />
     ),
-    renderDigitalClock = (digitalClockProps: DigitalClockProps<T, Mode>) => (
-      <DigitalClock {...digitalClockProps} />
-    ),
+    renderDigitalClock = ((digitalClockProps) =>
+      timeMode === 'preset' ? (
+        <PresetDigitalClock
+          {...(digitalClockProps as PresetDigitalClockProps)}
+        />
+      ) : (
+        <ManualDigitalClock
+          {...(digitalClockProps as ManualDigitalClockProps)}
+        />
+      )) as NonNullable<DateTimePickerProps<T, Mode>['renderDigitalClock']>,
     className,
     style,
     as: Component = 'div',
@@ -214,7 +224,7 @@ const DateTimePicker = <
             ...timeProps,
             options: filterTimeOptions(options),
             onChange: handleTimeChange
-          } as DigitalClockProps<T, Mode>)}
+          })}
         </Stack>
         <div className="JinniDateTimePickerButtons">
           <Button variant="text" onClick={handleCancel}>

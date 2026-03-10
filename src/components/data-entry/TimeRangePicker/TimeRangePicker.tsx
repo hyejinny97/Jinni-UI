@@ -4,12 +4,6 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import {
-  TimeMode,
-  TimeOptions,
-  TimeStepManualType,
-  DEFAULT_TIME_OPTIONS
-} from '@/components/data-entry/TimeField';
-import {
   TimeRangeField,
   TimeRangeFieldProps,
   RangeType,
@@ -17,13 +11,23 @@ import {
 } from '@/components/data-entry/TimeRangeField';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import {
-  DigitalClock,
-  DigitalClockProps
-} from '@/components/data-entry/DigitalClock';
+  ManualDigitalClock,
+  ManualDigitalClockProps
+} from '@/components/data-entry/ManualDigitalClock';
+import {
+  PresetDigitalClock,
+  PresetDigitalClockProps
+} from '@/components/data-entry/PresetDigitalClock';
 import { useTimeRange } from './TimeRangePicker.hooks';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
+import {
+  TimeStepManualType,
+  TimeOptions,
+  TimeMode
+} from '@/types/time-component';
+import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 
 export type TimeRangePickerProps<
   T extends AsType = 'div',
@@ -48,7 +52,9 @@ export type TimeRangePickerProps<
   PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
   TimeRangeFieldProps?: TimeRangeFieldProps;
   renderDigitalClock?: (
-    digitalClockProps: DigitalClockProps<T, Mode>
+    digitalClockProps: Mode extends 'preset'
+      ? PresetDigitalClockProps
+      : ManualDigitalClockProps
   ) => React.ReactNode;
 };
 
@@ -85,10 +91,18 @@ const TimeRangePicker = <
     disabledTimes,
     PopoverProps,
     TimeRangeFieldProps,
-    renderDigitalClock = (
-      digitalClockProps: DigitalClockProps<T, Mode>,
-      key?: string
-    ) => <DigitalClock key={key} {...digitalClockProps} />,
+    renderDigitalClock = ((digitalClockProps, key?: string) =>
+      mode === 'preset' ? (
+        <PresetDigitalClock
+          key={key}
+          {...(digitalClockProps as PresetDigitalClockProps)}
+        />
+      ) : (
+        <ManualDigitalClock
+          key={key}
+          {...(digitalClockProps as ManualDigitalClockProps)}
+        />
+      )) as NonNullable<TimeRangePickerProps<T, Mode>['renderDigitalClock']>,
     className,
     style,
     as: Component = 'div',
