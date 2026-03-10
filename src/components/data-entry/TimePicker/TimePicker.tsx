@@ -1,5 +1,5 @@
 import './TimePicker.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
@@ -76,6 +76,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
     as: Component = 'div',
     ...rest
   } = props;
+  const popoverId = useId();
   const anchorElRef = useRef<HTMLElement>(null);
   const prevTimeRef = useRef<Date | null>(null);
   const [open, setOpen] = useState(false);
@@ -112,12 +113,14 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
 
   return (
     <Component
+      role="group"
       className={cn(
         'JinniTimePicker',
         { fullWidth: !!TimeFieldProps?.fullWidth },
         className
       )}
       style={newStyle}
+      aria-label="Time Picker"
       {...rest}
     >
       <input name={name} value={time?.toTimeString() || ''} hidden readOnly />
@@ -131,6 +134,10 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
             onClick={openPopover}
             disableOverlay={readOnly || disabled}
             disableRipple={readOnly || disabled}
+            aria-label="Choose Time"
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            aria-controls={popoverId}
           >
             <AccessTimeIcon size={20} color="gray-500" />
           </ButtonBase>
@@ -140,6 +147,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
         {...TimeFieldProps}
       />
       <Popover
+        id={popoverId}
         anchorElRef={anchorElRef}
         className={cn('JinniTimePickerPopover', popoverClassName)}
         open={open}
