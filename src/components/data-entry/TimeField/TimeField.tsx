@@ -158,7 +158,10 @@ const TimeField = forwardRef(
               tabIndex={idx === 0 ? 0 : -1}
             />
           ) : (
-            <div key={idx} className="JinniTimeFieldTimePart">
+            <div
+              key={idx}
+              className={cn('JinniTimeFieldTimePart', 'literal-type')}
+            >
               {hasBlank ? part.value.replace(' ', '\u00A0') : part.value}
             </div>
           );
