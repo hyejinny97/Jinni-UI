@@ -10,13 +10,10 @@ import {
 } from './DateTimeRangeField.types';
 import {
   DateTimeField,
-  DateTimeOptions,
-  DateTimeValidationError
+  DateTimeOptions
+  // DateTimeValidationError
 } from '@/components/data-entry/DateTimeField';
-import {
-  TimeMode,
-  TimeStepManualType
-} from '@/components/data-entry/TimeField';
+import { TimeMode, TimeStepManualType } from '@/types/time-component';
 import { ArrowRightAltIcon } from '@/components/icons/ArrowRightAltIcon';
 import {
   useDateTimeRangeValue,
@@ -146,9 +143,9 @@ const DateTimeRangeField = forwardRef(
       disabled,
       startAdornment: startAdornment?.[dateTimeFieldPosition],
       endAdornment: endAdornment?.[dateTimeFieldPosition],
-      onErrorStatus: (validationError?: DateTimeValidationError) => {
-        handleValidationError(dateTimeFieldPosition, validationError);
-      },
+      // onErrorStatus: (validationError?: DateTimeValidationError) => {
+      //   handleValidationError(dateTimeFieldPosition, validationError);
+      // },
       size,
       fullWidth
     });

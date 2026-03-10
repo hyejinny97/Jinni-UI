@@ -1,8 +1,22 @@
-.JinniInputBase.JinniTimeField {
-  .JinniInputBaseContent {
-    .JinniTimeFieldPlaceholder {
-      color: var(--jinni-color-gray-400);
+@mixin display-placeholder {
+  &.noValue {
+    .JinniInputBaseContent:not(.focused):not(:focus-within) {
+      .JinniTimeFieldTimePart {
+        opacity: 0;
+      }
+      .JinniTimeFieldPlaceholder {
+        display: inline-block;
+      }
     }
+  }
+}
+
+.JinniTimeField.JinniInputBase {
+  @include display-placeholder;
+
+  .JinniInputBaseContent {
+    position: relative;
+
     .JinniTimeFieldTimePart {
       display: inline-block;
       font: inherit;
@@ -13,6 +27,23 @@
       background: none;
       outline: none;
       box-sizing: content-box;
+
+      &.literal-type {
+        display: inline-flex;
+        align-items: center;
+      }
+    }
+
+    .JinniTimeFieldPlaceholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+      padding: inherit;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      color: var(--jinni-color-gray-400);
     }
   }
 }

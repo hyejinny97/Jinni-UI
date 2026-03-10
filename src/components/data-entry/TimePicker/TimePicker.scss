@@ -15,7 +15,7 @@
 }
 
 .JinniTimePickerPopover.JinniPopover {
-  .JinniPopoverContent {
+  .JinniPopoverContent.JinniBox {
     padding: 0;
     margin-top: 1px;
 
@@ -37,18 +37,18 @@
       width: 100%;
       max-width: none;
 
-      .JinniManualDigitalClockUnit {
+      .JinniUnitList {
         width: 100%;
         max-width: none;
         min-width: max-content;
-      }
 
-      .JinniMenuList {
-        width: 100%;
-
-        .JinniMenuItem {
-          box-sizing: border-box;
+        .JinniMenuList {
           width: 100%;
+
+          .JinniMenuItem {
+            box-sizing: border-box;
+            width: 100%;
+          }
         }
       }
     }

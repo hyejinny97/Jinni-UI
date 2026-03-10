@@ -1,49 +1,42 @@
-import { useState, useMemo, useRef, useLayoutEffect } from 'react';
-import { TimeFieldProps, TimeMode } from './TimeField';
 import {
+  useState,
+  useMemo,
+  useLayoutEffect,
+  useEffect,
+  useCallback,
+  MutableRefObject
+} from 'react';
+import { TimeFieldProps } from './TimeField';
+import { TokensType, TimeObjectType } from './TimeField.types';
+import {
+  findHourTokenType,
+  findMinuteTokenType,
+  findSecondTokenType,
+  findDayPeriodTokenType,
+  is2Digit
+} from './TimeField.utils';
+import { TOKENS } from './TimeField.constants';
+import { isNumber } from '@/utils/isNumber';
+import {
+  TimeMode,
   TimeValidationError,
-  KeyTimePartType,
-  TokensType,
-  TimeObjectType,
-  TimeStepManualType
-} from './TimeField.types';
+  KeyTimePartType
+} from '@/types/time-component';
+import { dateToSeconds, isTimeStepManualType } from '@/utils/time-component';
 import {
   isAvailableLocale,
   getLocaleHourValues,
   getLocaleMinuteValues,
   getLocaleSecondValues,
-  getLocaleDayPeriodValues,
-  findHourTokenType,
-  findMinuteTokenType,
-  findSecondTokenType,
-  findDayPeriodTokenType,
-  is2Digit,
-  dateToSeconds,
-  isTimeStepManualType
-} from './TimeField.utils';
-import { TOKENS } from './TimeField.constants';
-import { isNumber } from '@/utils/isNumber';
+  getLocaleDayPeriodValues
+} from '@/utils/time-component';
 
-type UseTimeProps = Pick<
-  TimeFieldProps,
-  | 'defaultValue'
-  | 'value'
-  | 'onChange'
-  | 'onErrorStatus'
-  | 'minTime'
-  | 'maxTime'
-  | 'disabledTimes'
-> & {
-  mode: TimeMode;
-  timeStep: number | TimeStepManualType;
-  dateToTimeObject: (date: Date | null | undefined) => TimeObjectType;
-  timeObjectToDate: ({
-    hour,
-    minute,
-    second,
-    dayPeriod
-  }: TimeObjectType) => Date;
-};
+type TimeObjectToDate = ({
+  hour,
+  minute,
+  second,
+  dayPeriod
+}: TimeObjectType) => Date;
 
 type HandleTimeChangeType = ({
   hour,
@@ -52,16 +45,44 @@ type HandleTimeChangeType = ({
   dayPeriod
 }: TimeObjectType) => void;
 
+type UseTimeProps = Pick<
+  TimeFieldProps,
+  'defaultValue' | 'value' | 'onChange'
+> & {
+  dateToTimeObject: (date: Date | null | undefined) => TimeObjectType;
+  timeObjectToDate: TimeObjectToDate;
+};
+
+type UseValidationProps<Mode extends TimeMode = 'preset'> = Pick<
+  TimeFieldProps<'div', Mode>,
+  | 'mode'
+  | 'minTime'
+  | 'maxTime'
+  | 'disabledTimes'
+  | 'timeStep'
+  | 'onErrorStatus'
+> & {
+  time: TimeObjectType;
+  timeObjectToDate: TimeObjectToDate;
+};
+
+type UseFocusProps = {
+  timePartsElRef: MutableRefObject<HTMLElement[]>;
+};
+
+type UseInputProps = {
+  localeHourValues: Array<string>;
+  localeSecondValues: Array<string>;
+  localeMinuteValues: Array<string>;
+  localeDayPeriodValues: Array<string>;
+  handleTimeChange: HandleTimeChangeType;
+  focusNextTimePartOrBlur: (currentTimePartEl: HTMLElement) => void;
+};
+
 export const useTimeValue = ({
   defaultValue,
   value,
-  minTime,
-  maxTime,
-  disabledTimes,
-  mode,
-  timeStep,
   onChange,
-  onErrorStatus,
   dateToTimeObject,
   timeObjectToDate
 }: UseTimeProps) => {
@@ -69,46 +90,9 @@ export const useTimeValue = ({
   const [uncontrolledTime, setUncontrolledTime] = useState<TimeObjectType>(
     dateToTimeObject(defaultValue)
   );
-  const [validationError, setValidationError] = useState<
-    TimeValidationError | undefined
-  >();
-  const time = isControlled ? dateToTimeObject(value) : uncontrolledTime;
-
-  const validateTime = (time: Date | null): TimeValidationError | undefined => {
-    if (time === null) return;
-    const timeInSeconds = dateToSeconds(time);
-    if (minTime) {
-      const minTimeInSeconds = dateToSeconds(minTime);
-      if (timeInSeconds < minTimeInSeconds) return 'minTime';
-    }
-    if (maxTime) {
-      const maxTimeInSeconds = dateToSeconds(maxTime);
-      if (timeInSeconds > maxTimeInSeconds) return 'maxTime';
-    }
-    if (disabledTimes) {
-      const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
-      if (disabledTimeInSeconds.includes(timeInSeconds)) return 'disabledTime';
-    }
-    if (mode === 'preset' && isNumber(timeStep)) {
-      if (timeInSeconds % timeStep !== 0) return 'timeStep';
-    } else if (mode === 'manual' && isTimeStepManualType(timeStep)) {
-      const {
-        hour: hourStep,
-        minute: minuteStep,
-        second: secondStep
-      } = timeStep;
-      const hour = time.getHours();
-      const minute = time.getMinutes();
-      const second = time.getSeconds();
-      if (
-        (hourStep && hour % hourStep !== 0) ||
-        (minuteStep && minute % minuteStep !== 0) ||
-        (secondStep && second % secondStep !== 0)
-      ) {
-        return 'timeStep';
-      }
-    }
-  };
+  const time: TimeObjectType = isControlled
+    ? dateToTimeObject(value)
+    : uncontrolledTime;
 
   const handleTimeChange: HandleTimeChangeType = ({
     hour,
@@ -117,30 +101,105 @@ export const useTimeValue = ({
     dayPeriod
   }) => {
     const newTime = {
-      ...time,
-      hour: hour !== undefined ? hour : time.hour,
-      minute: minute !== undefined ? minute : time.minute,
-      second: second !== undefined ? second : time.second,
-      dayPeriod: dayPeriod !== undefined ? dayPeriod : time.dayPeriod
+      hour: hour ?? time.hour,
+      minute: minute ?? time.minute,
+      second: second ?? time.second,
+      dayPeriod: dayPeriod ?? time.dayPeriod
     };
     const newDate = timeObjectToDate(newTime);
-    const validationError = validateTime(newDate);
     if (!isControlled) setUncontrolledTime(newTime);
-    if (onChange) onChange(newDate, validationError);
+    if (onChange) onChange(newDate);
   };
-
-  useLayoutEffect(() => {
-    const date = isControlled ? value : timeObjectToDate(uncontrolledTime);
-    const newValidationError = validateTime(date);
-    setValidationError(newValidationError);
-    if (newValidationError !== validationError && onErrorStatus) {
-      onErrorStatus(newValidationError);
-    }
-  }, [value, uncontrolledTime]);
 
   return {
     time,
-    handleTimeChange,
+    handleTimeChange
+  };
+};
+
+export const useValidation = <Mode extends TimeMode = 'preset'>({
+  time,
+  mode,
+  minTime,
+  maxTime,
+  disabledTimes,
+  timeStep,
+  onErrorStatus,
+  timeObjectToDate
+}: UseValidationProps<Mode>) => {
+  const minTimeInSeconds = useMemo<number | undefined>(
+    () => minTime && dateToSeconds(minTime),
+    [minTime]
+  );
+  const maxTimeInSeconds = useMemo<number | undefined>(
+    () => maxTime && dateToSeconds(maxTime),
+    [maxTime]
+  );
+  const disabledTimeInSeconds = useMemo<number[] | undefined>(
+    () => disabledTimes && disabledTimes.map(dateToSeconds),
+    [disabledTimes]
+  );
+
+  const validateTime = useCallback(
+    (time: Date | null): TimeValidationError | undefined => {
+      if (time === null) return;
+      const timeInSeconds = dateToSeconds(time);
+      if (isNumber(minTimeInSeconds) && timeInSeconds < minTimeInSeconds) {
+        return 'minTime';
+      }
+      if (isNumber(maxTimeInSeconds) && timeInSeconds > maxTimeInSeconds) {
+        return 'maxTime';
+      }
+      if (
+        disabledTimeInSeconds &&
+        disabledTimeInSeconds.includes(timeInSeconds)
+      ) {
+        return 'disabledTime';
+      }
+      switch (mode) {
+        case 'preset': {
+          if (isNumber(timeStep) && timeInSeconds % timeStep !== 0) {
+            return 'timeStep';
+          }
+          break;
+        }
+        case 'manual': {
+          if (isTimeStepManualType(timeStep)) {
+            const {
+              hour: hourStep,
+              minute: minuteStep,
+              second: secondStep
+            } = timeStep;
+            const hour = time.getHours();
+            const minute = time.getMinutes();
+            const second = time.getSeconds();
+            if (
+              (hourStep && hour % hourStep !== 0) ||
+              (minuteStep && minute % minuteStep !== 0) ||
+              (secondStep && second % secondStep !== 0)
+            ) {
+              return 'timeStep';
+            }
+          }
+        }
+      }
+    },
+    [mode, minTimeInSeconds, maxTimeInSeconds, disabledTimeInSeconds, timeStep]
+  );
+
+  const validationError = useMemo<TimeValidationError | undefined>(
+    () =>
+      Object.keys(time).length > 0
+        ? validateTime(timeObjectToDate(time))
+        : undefined,
+    [time, validateTime, timeObjectToDate]
+  );
+
+  useLayoutEffect(() => {
+    onErrorStatus?.(!!validationError, validationError);
+  }, [validationError, onErrorStatus]);
+
+  return {
     isValidationError: !!validationError
   };
 };
@@ -305,20 +364,79 @@ export const useTimeFormat = ({
   };
 };
 
+export const useFocus = ({ timePartsElRef }: UseFocusProps) => {
+  const focusPrevTimePart = useCallback(
+    (currentTimePartEl: HTMLElement): boolean => {
+      const currentIndex = timePartsElRef.current.indexOf(currentTimePartEl);
+      const prevIndex = currentIndex - 1;
+      if (prevIndex >= 0) {
+        const prevTimePartEl = timePartsElRef.current[prevIndex];
+        prevTimePartEl.focus();
+        return true;
+      }
+      return false;
+    },
+    [timePartsElRef]
+  );
+
+  const focusNextTimePart = useCallback(
+    (currentTimePartEl: HTMLElement): boolean => {
+      const currentIndex = timePartsElRef.current.indexOf(currentTimePartEl);
+      const nextIndex = currentIndex + 1;
+      if (nextIndex < timePartsElRef.current.length) {
+        const nextTimePartEl = timePartsElRef.current[nextIndex];
+        nextTimePartEl.focus();
+        return true;
+      }
+      return false;
+    },
+    [timePartsElRef]
+  );
+
+  const focusNextTimePartOrBlur = (currentTimePartEl: HTMLElement) => {
+    const focused = focusNextTimePart(currentTimePartEl);
+    if (!focused) {
+      currentTimePartEl.blur();
+    }
+  };
+
+  useEffect(() => {
+    const timePartsEl = timePartsElRef.current;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        focusPrevTimePart(event.currentTarget as HTMLElement);
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        focusNextTimePart(event.currentTarget as HTMLElement);
+      }
+    };
+
+    timePartsEl.forEach((timePartEl) => {
+      timePartEl.addEventListener('keydown', handleKeyDown);
+    });
+    return () => {
+      timePartsEl.forEach((timePartEl) => {
+        timePartEl.removeEventListener('keydown', handleKeyDown);
+      });
+    };
+  }, [timePartsElRef, focusPrevTimePart, focusNextTimePart]);
+
+  return {
+    focusNextTimePartOrBlur
+  };
+};
+
 export const useInput = ({
   localeHourValues,
   localeSecondValues,
   localeMinuteValues,
   localeDayPeriodValues,
-  handleTimeChange
-}: {
-  localeHourValues: Array<string>;
-  localeSecondValues: Array<string>;
-  localeMinuteValues: Array<string>;
-  localeDayPeriodValues: Array<string>;
-  handleTimeChange: HandleTimeChangeType;
-}) => {
-  const timePartsElRef = useRef<Array<HTMLElement>>([]);
+  handleTimeChange,
+  focusNextTimePartOrBlur
+}: UseInputProps) => {
   const is2DigitHour = useMemo(
     () => is2Digit(localeHourValues),
     [localeHourValues]
@@ -337,32 +455,21 @@ export const useInput = ({
     return localeHourValues.map((hour) =>
       hour[0] === ZERO ? hour.slice(1) : hour
     );
-  }, [localeHourValues]);
+  }, [is2DigitHour, localeHourValues]);
   const localeMinuteValuesNumeric = useMemo(() => {
     if (!is2DigitMinute) return localeMinuteValues;
     const ZERO = localeMinuteValues[0][0];
     return localeMinuteValues.map((minute) =>
       minute[0] === ZERO ? minute.slice(1) : minute
     );
-  }, [localeMinuteValues]);
+  }, [is2DigitMinute, localeMinuteValues]);
   const localeSecondValuesNumeric = useMemo(() => {
     if (!is2DigitSecond) return localeSecondValues;
     const ZERO = localeSecondValues[0][0];
     return localeSecondValues.map((second) =>
       second[0] === ZERO ? second.slice(1) : second
     );
-  }, [localeSecondValues]);
-
-  const focusNextTimePart = (currentTimePartEl: HTMLElement) => {
-    const currentIndex = timePartsElRef.current.indexOf(currentTimePartEl);
-    const nextIndex = currentIndex + 1;
-    if (nextIndex < timePartsElRef.current.length) {
-      const nextTimePartEl = timePartsElRef.current[nextIndex];
-      nextTimePartEl.focus();
-    } else {
-      currentTimePartEl.blur();
-    }
-  };
+  }, [is2DigitSecond, localeSecondValues]);
 
   const handleInputChange =
     (type: KeyTimePartType) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -370,7 +477,7 @@ export const useInput = ({
       if (value === undefined || value === null) return;
       switch (type) {
         case 'hour': {
-          let newValue = value.slice(-2);
+          const newValue = value.slice(-2);
           const candidatesIdx = localeHourValuesNumeric.reduce(
             (acc, hour, idx) =>
               hour.startsWith(newValue) ? [...acc, idx] : acc,
@@ -378,7 +485,7 @@ export const useInput = ({
           );
           if (candidatesIdx.length === 1) {
             handleTimeChange({ hour: localeHourValues[candidatesIdx[0]] });
-            focusNextTimePart(e.currentTarget);
+            focusNextTimePartOrBlur(e.currentTarget);
           } else if (candidatesIdx.length > 1) {
             if (is2DigitHour) {
               const ZERO = localeHourValues[1][0];
@@ -390,7 +497,7 @@ export const useInput = ({
           return;
         }
         case 'minute': {
-          let newValue = value.slice(-2);
+          const newValue = value.slice(-2);
           const candidatesIdx = localeMinuteValuesNumeric.reduce(
             (acc, minute, idx) =>
               minute.startsWith(newValue) ? [...acc, idx] : acc,
@@ -398,7 +505,7 @@ export const useInput = ({
           );
           if (candidatesIdx.length === 1) {
             handleTimeChange({ minute: localeMinuteValues[candidatesIdx[0]] });
-            focusNextTimePart(e.currentTarget);
+            focusNextTimePartOrBlur(e.currentTarget);
           } else if (candidatesIdx.length > 1) {
             if (is2DigitMinute) {
               const ZERO = localeMinuteValues[0][0];
@@ -410,7 +517,7 @@ export const useInput = ({
           return;
         }
         case 'second': {
-          let newValue = value.slice(-2);
+          const newValue = value.slice(-2);
           const candidatesIdx = localeSecondValuesNumeric.reduce(
             (acc, second, idx) =>
               second.startsWith(newValue) ? [...acc, idx] : acc,
@@ -418,7 +525,7 @@ export const useInput = ({
           );
           if (candidatesIdx.length === 1) {
             handleTimeChange({ second: localeSecondValues[candidatesIdx[0]] });
-            focusNextTimePart(e.currentTarget);
+            focusNextTimePartOrBlur(e.currentTarget);
           } else if (candidatesIdx.length > 1) {
             if (is2DigitSecond) {
               const ZERO = localeSecondValues[0][0];
@@ -435,7 +542,7 @@ export const useInput = ({
           );
           if (candidates.length === 1) {
             handleTimeChange({ dayPeriod: candidates[0] });
-            focusNextTimePart(e.currentTarget);
+            focusNextTimePartOrBlur(e.currentTarget);
           } else if (candidates.length > 1) {
             handleTimeChange({ dayPeriod: candidates[0] });
           }
@@ -445,7 +552,6 @@ export const useInput = ({
     };
 
   return {
-    timePartsElRef,
     handleInputChange
   };
 };

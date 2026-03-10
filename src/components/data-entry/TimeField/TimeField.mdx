@@ -24,7 +24,7 @@ import { TimeField } from '@/components/data-entry/TimeField';
 
 ### Controlled TimeField
 
-- `value`와 `onChange`를 통해 control 가능
+- `value`를 통해 control 가능
 - `value`: time
 - `onChange`: value가 변경됐을 때 호출되는 함수
 
@@ -32,55 +32,70 @@ import { TimeField } from '@/components/data-entry/TimeField';
 
 ### Locale and Options
 
-- `locale`: BCP47 언어 태그를 포함하는 문자열
-- `options`: time 속성
+#### 1. Locale
 
-#### 1) Locale
+- `locale`: BCP47 언어 태그를 포함하는 문자열
 
 <Canvas of={TimeFieldStories.Locale} />
 
-#### 2) Options
+#### 2. Options
+
+- `options`: time 속성
 
 <Canvas of={TimeFieldStories.Options} />
 
-### Customize Time Format
+### Time Format
 
 - `format`: time format
 
-  - `locale`, `options` 대신 time tokens를 사용해 자유롭게 포맷 설정 가능
+  - `options` 대신 time tokens를 사용해 자유롭게 포맷 설정 가능
+  - `format`과 `option` prop 동시 사용 시, `option` prop의 값은 무시되고 `format` prop 값이 적용됨
 
-- Time Tokens
-
+<details>
+  <summary>Time Tokens</summary>
   <Markdown>
     {`
-  | Token | Type | 특징 | 
-  | ----- | --------- | ---------------- | 
-  | HH | hour | 'h23', '2-digit' | 
-  | H | hour | 'h23', 'numeric' | 
-  | hh | hour | 'h11', '2-digit' | 
-  | h | hour | 'h11', 'numeric' | 
-  | TT | hour | 'h24', '2-digit' | 
-  | T | hour | 'h24', 'numeric' | 
-  | tt | hour | 'h12', '2-digit' | 
-  | t | hour | 'h12', 'numeric' | 
-  | mm | minute | '2-digit' | 
-  | m | minute | 'numeric' | 
-  | ss | second | '2-digit' | 
-  | s | second | 'numeric' | 
-  | a | dayPeriod | 'lowerCase' | 
-  | A | dayPeriod | 'upperCase' |
-  `}
+| Token | Type      | 특징             |
+| ----- | --------- | ---------------- |
+| HH    | hour      | 'h23', '2-digit' |
+| H     | hour      | 'h23', 'numeric' |
+| hh    | hour      | 'h11', '2-digit' |
+| h     | hour      | 'h11', 'numeric' |
+| TT    | hour      | 'h24', '2-digit' |
+| T     | hour      | 'h24', 'numeric' |
+| tt    | hour      | 'h12', '2-digit' |
+| t     | hour      | 'h12', 'numeric' |
+| mm    | minute    | '2-digit'        |
+| m     | minute    | 'numeric'        |
+| ss    | second    | '2-digit'        |
+| s     | second    | 'numeric'        |
+| a     | dayPeriod | 'lowerCase'      |
+| A     | dayPeriod | 'upperCase'      |
+`}
   </Markdown>
+</details>
 
-<Canvas of={TimeFieldStories.CustomizeTimeFormat} />
+<Canvas of={TimeFieldStories.TimeFormat} />
 
 ### Restrict Time
 
+#### 1. Min time
+
 - `minTime`: 선택 가능한 최소 시간
+
+<Canvas of={TimeFieldStories.MinTime} />
+
+#### 2. Max time
+
 - `maxTime`: 선택 가능한 최대 시간
+
+<Canvas of={TimeFieldStories.MaxTime} />
+
+#### 3. Disabled times
+
 - `disabledTimes`: 비활성화하는 특정 시간 모음
 
-<Canvas of={TimeFieldStories.RestrictTime} />
+<Canvas of={TimeFieldStories.DisabledTimes} />
 
 ### Time Steps
 
@@ -91,19 +106,19 @@ import { TimeField } from '@/components/data-entry/TimeField';
   - mode='preset'인 경우, `number` type (단위: s)
   - mode='manual'인 경우, `{hour: number, minute: number, second: number}` type
 
-<Canvas of={TimeFieldStories.TimeSteps} />
+#### 1. Time step in preset mode
 
-### Variants
+<Canvas of={TimeFieldStories.TimeStepInPresetMode} />
 
-- `variant`: input 형태
+#### 2. Time step in manual mode
 
-<Canvas of={TimeFieldStories.Variants} />
+<Canvas of={TimeFieldStories.TimeStepInManualMode} />
 
-### Sizes
+### Detect validation error status
 
-- `size`: input 크기
+- `onErrorStatus`: validation error status가 변경됐을 때 호출되는 함수
 
-<Canvas of={TimeFieldStories.Sizes} />
+<Canvas of={TimeFieldStories.DetectValidationErrorStatus} />
 
 ### Readonly
 
@@ -111,41 +126,38 @@ import { TimeField } from '@/components/data-entry/TimeField';
 
 <Canvas of={TimeFieldStories.Readonly} />
 
-### Disabled
+### InputBase props
 
-- `disabled`: true이면, 비활성화됨
+- `TimeField` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### 1. Variants
+
+<Canvas of={TimeFieldStories.Variants} />
+
+#### 2. Sizes
+
+<Canvas of={TimeFieldStories.Sizes} />
+
+#### 3. Disabled
 
 <Canvas of={TimeFieldStories.Disabled} />
 
-### Color
-
-- `color`: base color
-- `focusedColor`: focused color
+#### 4. Color
 
 <Canvas of={TimeFieldStories.Color} />
 
-### Full Width
-
-- `fullWidth`: true이면, input이 container 안에 꽉 채워지게 됨
+#### 5. Full Width
 
 <Canvas of={TimeFieldStories.FullWidth} />
 
-### Adornments
-
-- `startAdornment`: input 앞에 위치하는 부가 요소 (icon ,text 등)
-- `endAdornment`: input 뒤에 위치하는 부가 요소 (icon ,text 등)
+#### 6. Adornments
 
 <Canvas of={TimeFieldStories.Adornments} />
 
-### Disable Effect
-
-- `disableHoverEffect`: true이면, hover effect가 비활성화됨
-- `disableFocusEffect`: true이면, focus effect가 비활성화됨
+#### 7. Disable Effect
 
 <Canvas of={TimeFieldStories.DisableEffect} />
 
 ## Props
-
-- `InputBase` props 모두 사용 가능
 
 <ArgTypes of={TimeFieldStories} sort="alpha" />

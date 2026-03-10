@@ -1,7 +1,4 @@
-import {
-  TimeValidationError,
-  TimeOptions
-} from '@/components/data-entry/TimeField';
+import { TimeValidationError, TimeOptions } from '@/types/time-component';
 import {
   DateValidationError,
   DateOptions

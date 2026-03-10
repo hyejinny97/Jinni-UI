@@ -1,0 +1,34 @@
+.JinniUnitList.JinniBox {
+  display: inline-block;
+  max-width: max-content;
+  min-width: 60px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+
+  .JinniMenuList {
+    position: relative;
+    padding: 0;
+    width: 100%;
+    height: 180px;
+    border-radius: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .JinniMenuItem {
+      &.selected .JinniMenuItemButton {
+        background-color: var(--jinni-color-primary);
+        color: white;
+      }
+      &.hide {
+        display: none;
+      }
+
+      .JinniMenuItemButton {
+        justify-content: center;
+      }
+    }
+  }
+}

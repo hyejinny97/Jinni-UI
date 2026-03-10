@@ -6,11 +6,7 @@ import {
   TimeRangeValidationError,
   RangeType
 } from '@/components/data-entry/TimeRangeField';
-import {
-  TimeOptions,
-  TimeValidationError
-} from '@/components/data-entry/TimeField';
-import { DigitalClock } from '@/components/data-entry/DigitalClock';
+import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
@@ -20,6 +16,7 @@ import { Label } from '@/components/data-entry/Label';
 import { FlightLandIcon } from '@/components/icons/FlightLandIcon';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
+import { TimeOptions, TimeValidationError } from '@/types/time-component';
 
 const meta: Meta<typeof TimeRangePicker> = {
   component: TimeRangePicker,
@@ -373,7 +370,7 @@ const CustomDigitalClockTemplate = () => {
               <Title>Hours</Title>
               <Title>Minutes</Title>
             </Grid>
-            <DigitalClock skipDisabledTime {...digitalClockProps} />
+            <ManualDigitalClock skipDisabledTime {...digitalClockProps} />
           </>
         );
       }}

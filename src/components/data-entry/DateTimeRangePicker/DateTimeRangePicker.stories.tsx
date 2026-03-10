@@ -16,7 +16,7 @@ import { Text } from '@/components/general/Text';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { FlightLandIcon } from '@/components/icons/FlightLandIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
-import { DigitalClock } from '@/components/data-entry/DigitalClock';
+import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import {
   DateRangeCalendar,
   DateRangeCalendarProps
@@ -714,7 +714,7 @@ export const CustomDigitalClock: Story = {
     <DateTimeRangePicker
       maxTime={new Date(2025, 7, 4, 16, 30)}
       renderDigitalClock={(digitalClockProps) => {
-        return <DigitalClock skipDisabledTime {...digitalClockProps} />;
+        return <PresetDigitalClock skipDisabledTime {...digitalClockProps} />;
       }}
     />
   )

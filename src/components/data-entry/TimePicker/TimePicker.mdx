@@ -17,7 +17,7 @@ import { TimePicker } from '@/components/data-entry/TimePicker';
 
 ### Basic TimePicker
 
-#### 1) mode
+#### 1. Mode
 
 - `mode`: time 선택 방법
   - `'preset'`: '12:00', '12:30', '01:00' 처럼 미리 정의된 시간 목록에서 하나를 선택하는 방식
@@ -25,19 +25,15 @@ import { TimePicker } from '@/components/data-entry/TimePicker';
 
 <Canvas of={TimePickerStories.Mode} />
 
-#### 2) defaultValue
+#### 2. Default value
 
 - `defaultValue`: 초기 time (uncontrolled일 때만 적용 가능)
 
 <Canvas of={TimePickerStories.DefaultValue} />
 
-#### 3) form with timePicker
-
-<Canvas of={TimePickerStories.FormWithTimePicker} />
-
 ### Controlled TimePicker
 
-- `value`와 `onChange`를 통해 control 가능
+- `value`를 통해 control 가능
 - `value`: time
 - `onChange`: value가 변경됐을 때 호출되는 함수
 
@@ -45,39 +41,33 @@ import { TimePicker } from '@/components/data-entry/TimePicker';
 
 ### Locale and Options
 
-- `locale`: BCP47 언어 태그를 포함하는 문자열
-- `options`: time 속성
+#### 1. Locale
 
-#### 1) Locale
+- `locale`: BCP47 언어 태그를 포함하는 문자열
 
 <Canvas of={TimePickerStories.Locale} />
 
-#### 2) Options
+#### 2. Options
+
+- `options`: time 속성
 
 <Canvas of={TimePickerStories.Options} />
 
-### Readonly
-
-- `readOnly`: true이면, 수정 불가
-
-<Canvas of={TimePickerStories.Readonly} />
-
-### Disabled
-
-- `disabled`: true이면, 비활성화됨
-
-<Canvas of={TimePickerStories.Disabled} />
-
 ### Restrict Time
 
-#### 1) minTime, maxTime
+#### 1. Min time
 
 - `minTime`: 선택 가능한 최소 시간
+
+<Canvas of={TimePickerStories.MinTime} />
+
+#### 2. Max time
+
 - `maxTime`: 선택 가능한 최대 시간
 
-<Canvas of={TimePickerStories.MinMaxTime} />
+<Canvas of={TimePickerStories.MaxTime} />
 
-#### 2) disabledTimes
+#### 3. Disabled times
 
 - `disabledTimes`: 비활성화하는 특정 시간 모음
 
@@ -91,53 +81,39 @@ import { TimePicker } from '@/components/data-entry/TimePicker';
 
 <Canvas of={TimePickerStories.TimeSteps} />
 
-### Custom Popover
+### Readonly
 
-- `PopoverProps`: Popover 컴포넌트의 props
+- `readOnly`: true이면, 수정 불가
 
-<Canvas of={TimePickerStories.CustomPopover} />
+<Canvas of={TimePickerStories.Readonly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={TimePickerStories.Disabled} />
+
+### TimePicker with form
+
+<Canvas of={TimePickerStories.TimePickerWithForm} />
 
 ### Custom TimeField
 
 - `TimeFieldProps`: TimeField의 Props
 
-#### 1) Placeholder
-
-<Canvas of={TimePickerStories.Placeholder} />
-
-#### 2) Time Format
-
-<Canvas of={TimePickerStories.TimeFormat} />
-
-#### 3) Variants
-
-<Canvas of={TimePickerStories.Variants} />
-
-#### 4) Sizes
-
-<Canvas of={TimePickerStories.Sizes} />
-
-#### 5) Color
-
-<Canvas of={TimePickerStories.Color} />
-
-#### 6) Full Width
-
-<Canvas of={TimePickerStories.FullWidth} />
-
-#### 7) Adornments
-
-<Canvas of={TimePickerStories.Adornments} />
-
-#### 8) Disable Effect
-
-<Canvas of={TimePickerStories.DisableEffect} />
+<Canvas of={TimePickerStories.CustomTimeField} />
 
 ### Custom DigitalClock
 
-- `renderDigitalClock`: digitalClockProps를 입력값으로 받아 DigitalClock 컴포넌트를 렌더하는 함수
+- `renderDigitalClock`: digitalClockProps를 입력값으로 받아 mode에 따라 ManualDigitalClock 이나 PresetDigitalClock 컴포넌트를 렌더하는 함수
 
 <Canvas of={TimePickerStories.CustomDigitalClock} />
+
+### Custom Popover
+
+- `PopoverProps`: Popover 컴포넌트의 props
+
+<Canvas of={TimePickerStories.CustomPopover} />
 
 ## Props
 

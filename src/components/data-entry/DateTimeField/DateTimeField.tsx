@@ -8,13 +8,10 @@ import {
   DateTimeValidationError,
   DateTimeOptions
 } from './DateTimeField.types';
-import {
-  TimeField,
-  TimeMode,
-  TimeStepManualType
-} from '@/components/data-entry/TimeField';
+import { TimeField } from '@/components/data-entry/TimeField';
 import { useDateTimeValue, useFocus } from './DateTimeField.hooks';
 import { filterDateOptions, filterTimeOptions } from './DateTimeField.utils';
+import { TimeMode, TimeStepManualType } from '@/types/time-component';
 
 export type DateTimeFieldProps<
   T extends AsType = 'div',

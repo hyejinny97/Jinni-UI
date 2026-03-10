@@ -1,0 +1,29 @@
+.JinniPresetDigitalClock.JinniBox {
+  display: inline-block;
+  max-width: max-content;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--jinni-color-gray-300);
+
+  .JinniMenuList {
+    position: relative;
+    padding: 0;
+    height: 180px;
+    border-radius: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .JinniMenuItem {
+      &.selected .JinniMenuItemButton {
+        background-color: var(--jinni-color-primary);
+        color: white;
+      }
+      &.hide {
+        display: none;
+      }
+    }
+  }
+}

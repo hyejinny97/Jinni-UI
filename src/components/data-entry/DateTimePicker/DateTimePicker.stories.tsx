@@ -5,7 +5,7 @@ import {
   DateTimeValidationError,
   DateTimeOptions
 } from '@/components/data-entry/DateTimeField';
-import { DigitalClock } from '@/components/data-entry/DigitalClock';
+import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { Calendar, CalendarProps } from '@/components/data-entry/Calendar';
 import { Button } from '@/components/general/Button';
 import { Stack } from '@/components/layout/Stack';
@@ -508,7 +508,7 @@ export const CustomDigitalClock: Story = {
     <DateTimePicker
       maxTime={new Date(2025, 7, 4, 16, 30)}
       renderDigitalClock={(digitalClockProps) => {
-        return <DigitalClock skipDisabledTime {...digitalClockProps} />;
+        return <PresetDigitalClock skipDisabledTime {...digitalClockProps} />;
       }}
     />
   )

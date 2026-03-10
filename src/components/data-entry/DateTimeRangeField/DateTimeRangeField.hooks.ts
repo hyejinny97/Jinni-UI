@@ -14,7 +14,7 @@ import {
   CHRONOLOGICAL_ORDER,
   INCLUDE_DISABLED_DATE
 } from './DateTimeRangeField.constants';
-import { DEFAULT_TIME_OPTIONS } from '@/components/data-entry/TimeField';
+import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
 
