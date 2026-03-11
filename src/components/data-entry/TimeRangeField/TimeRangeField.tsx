@@ -80,7 +80,11 @@ const TimeRangeField = forwardRef(
       value,
       onChange
     });
-    const { isValidationError, handleErrorStatus } = useValidation({
+    const {
+      isValidationError,
+      onStartFieldErrorStatus,
+      onEndFieldErrorStatus
+    } = useValidation({
       locale,
       options,
       timeRangeValue
@@ -109,7 +113,8 @@ const TimeRangeField = forwardRef(
       fullWidth,
       disableHoverEffect: true,
       disableFocusEffect: true,
-      onErrorStatus: handleErrorStatus(rangeField)
+      onErrorStatus:
+        rangeField === 'start' ? onStartFieldErrorStatus : onEndFieldErrorStatus
     });
 
     return (

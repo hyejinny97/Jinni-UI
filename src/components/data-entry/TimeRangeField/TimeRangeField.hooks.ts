@@ -98,16 +98,23 @@ export const useValidation = ({
     }
   }, [timeRangeValue, chronologicalOrder, timeToSeconds]);
 
-  const handleErrorStatus = useCallback(
-    (rangeField: RangeFieldType) =>
-      (error: boolean, errorReason?: TimeValidationError) => {
-        if (error) {
-          setValidationError((prev) => ({
-            ...prev,
-            [rangeField]: errorReason
-          }));
-        }
-      },
+  const onStartFieldErrorStatus = useCallback(
+    (error: boolean, errorReason?: TimeValidationError) => {
+      setValidationError((prev) => ({
+        ...prev,
+        start: error ? errorReason : undefined
+      }));
+    },
+    []
+  );
+
+  const onEndFieldErrorStatus = useCallback(
+    (error: boolean, errorReason?: TimeValidationError) => {
+      setValidationError((prev) => ({
+        ...prev,
+        end: error ? errorReason : undefined
+      }));
+    },
     []
   );
 
@@ -117,7 +124,8 @@ export const useValidation = ({
       validationError.start ||
       validationError.end
     ),
-    handleErrorStatus
+    onStartFieldErrorStatus,
+    onEndFieldErrorStatus
   };
 };
 
