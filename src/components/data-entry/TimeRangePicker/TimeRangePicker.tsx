@@ -5,9 +5,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import {
   TimeRangeField,
-  TimeRangeFieldProps,
-  RangeType,
-  TimeRangeValidationError
+  TimeRangeFieldProps
 } from '@/components/data-entry/TimeRangeField';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import {
@@ -24,39 +22,26 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
 import {
   TimeStepManualType,
-  TimeOptions,
-  TimeMode
+  TimeMode,
+  TimeRangeComponentProps,
+  RangeType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 
 export type TimeRangePickerProps<
   T extends AsType = 'div',
   Mode extends TimeMode = 'preset'
-> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> & {
-  name?: RangeType<string>;
-  mode?: Mode;
-  locale?: string;
-  options?: TimeOptions;
-  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  defaultValue?: RangeType<Date>;
-  value?: RangeType<Date | null>;
-  onChange?: (
-    value: RangeType<Date | null>,
-    validationError?: TimeRangeValidationError
-  ) => void;
-  readOnly?: RangeType<boolean>;
-  disabled?: RangeType<boolean>;
-  minTime?: RangeType<Date>;
-  maxTime?: RangeType<Date>;
-  disabledTimes?: RangeType<Array<Date>>;
-  PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
-  TimeRangeFieldProps?: TimeRangeFieldProps;
-  renderDigitalClock?: (
-    digitalClockProps: Mode extends 'preset'
-      ? PresetDigitalClockProps
-      : ManualDigitalClockProps
-  ) => React.ReactNode;
-};
+> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
+  TimeRangeComponentProps<Mode> & {
+    name?: RangeType<string>;
+    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    TimeRangeFieldProps?: TimeRangeFieldProps;
+    renderDigitalClock?: (
+      digitalClockProps: Mode extends 'preset'
+        ? PresetDigitalClockProps
+        : ManualDigitalClockProps
+    ) => React.ReactNode;
+  };
 
 const TIME_STEP_PRESET_DEFAULT: number = 30 * 60;
 const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
@@ -114,7 +99,9 @@ const TimeRangePicker = <
     end: null
   });
   const [open, setOpen] = useState(false);
-  const [focusedTime, setFocusedTime] = useState<'start' | 'end' | undefined>();
+  const [focusedField, setFocusedField] = useState<
+    'start' | 'end' | undefined
+  >();
   const { timeRange, handleRangeChange, handleTimeChange } = useTimeRange({
     defaultValue,
     value,
@@ -129,20 +116,20 @@ const TimeRangePicker = <
   const handleOpen = () => {
     prevTimeRangeRef.current = timeRange;
     if (disableOpen) return;
-    if (!(readOnly.start || disabled.start)) setFocusedTime('start');
-    else if (!(readOnly.end || disabled.end)) setFocusedTime('end');
+    if (!(readOnly.start || disabled.start)) setFocusedField('start');
+    else if (!(readOnly.end || disabled.end)) setFocusedField('end');
     setOpen(true);
   };
   const handleNext = () => {
-    setFocusedTime('end');
+    setFocusedField('end');
   };
   const handleOk = () => {
-    setFocusedTime(undefined);
+    setFocusedField(undefined);
     setOpen(false);
   };
   const handleCancel = () => {
     handleRangeChange(prevTimeRangeRef.current);
-    setFocusedTime(undefined);
+    setFocusedField(undefined);
     setOpen(false);
   };
 
@@ -199,7 +186,7 @@ const TimeRangePicker = <
         minTime={minTime}
         maxTime={maxTime}
         disabledTimes={disabledTimes}
-        focusedTime={focusedTime}
+        focusedField={focusedField}
         focused={open}
         {...commonProps}
         {...TimeRangeFieldProps}
@@ -210,28 +197,28 @@ const TimeRangePicker = <
         open={open}
         {...PopoverProps}
       >
-        {focusedTime &&
+        {focusedField &&
           renderDigitalClock(
             {
               ...commonProps,
-              value: timeRange[focusedTime],
-              onChange: handleTimeChange(focusedTime),
-              readOnly: readOnly[focusedTime],
-              disabled: disabled[focusedTime],
-              minTime: minTime?.[focusedTime],
-              maxTime: maxTime?.[focusedTime],
-              disabledTimes: disabledTimes?.[focusedTime]
+              value: timeRange[focusedField],
+              onChange: handleTimeChange(focusedField),
+              readOnly: readOnly[focusedField],
+              disabled: disabled[focusedField],
+              minTime: minTime?.[focusedField],
+              maxTime: maxTime?.[focusedField],
+              disabledTimes: disabledTimes?.[focusedField]
             } as DigitalClockProps<T, Mode>,
-            focusedTime
+            focusedField
           )}
         <div className="JinniTimeRangePickerButtons">
           <Button variant="text" onClick={handleCancel}>
             Cancel
           </Button>
-          {focusedTime === 'start' && (
+          {focusedField === 'start' && (
             <Button onClick={handleNext}>Next</Button>
           )}
-          {focusedTime === 'end' && <Button onClick={handleOk}>OK</Button>}
+          {focusedField === 'end' && <Button onClick={handleOk}>OK</Button>}
         </div>
       </Popover>
     </Component>

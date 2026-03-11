@@ -10,3 +10,5 @@ export const KEY_TIME_PARTS = [
   'second',
   'dayPeriod'
 ] as const;
+
+export const CHRONOLOGICAL_ORDER = 'chronologicalOrder' as const;

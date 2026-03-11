@@ -4,19 +4,22 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
 import { TimeField } from '@/components/data-entry/TimeField';
-import {
-  RangeType,
-  AdornmentType,
-  TimeRangeValidationError
-} from './TimeRangeField.types';
 import { ArrowRightAltIcon } from '@/components/icons/ArrowRightAltIcon';
-import { useTimeRange, useIndicator } from './TimeRangeField.hooks';
-import { CHRONOLOGICAL_ORDER } from './TimeRangeField.constants';
 import {
-  TimeStepManualType,
-  TimeOptions,
+  useTimeRangeValue,
+  useValidation,
+  useIndicator
+} from './TimeRangeField.hooks';
+import {
+  TIME_STEP_PRESET_DEFAULT,
+  TIME_STEP_MANUAL_DEFAULT
+} from './TimeRangeField.constants';
+import {
   TimeMode,
-  TimeValidationError
+  TimeRangeComponentProps,
+  RangeType,
+  RangeAdornmentType,
+  RangeFieldType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 
@@ -26,38 +29,15 @@ export type TimeRangeFieldProps<
 > = Omit<
   InputBaseProps<T>,
   'defaultValue' | 'onChange' | 'startAdornment' | 'endAdornment' | 'disabled'
-> & {
-  placeholder?: RangeType<string>;
-  defaultValue?: RangeType<Date>;
-  value?: RangeType<Date | null>;
-  onChange?: (
-    value: RangeType<Date | null>,
-    validationError?: TimeRangeValidationError
-  ) => void;
-  locale?: string;
-  options?: TimeOptions;
-  format?: string;
-  minTime?: RangeType<Date>;
-  maxTime?: RangeType<Date>;
-  disabledTimes?: RangeType<Array<Date>>;
-  mode?: Mode;
-  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  readOnly?: RangeType<boolean>;
-  disabled?: RangeType<boolean>;
-  startAdornment?: AdornmentType<React.ReactNode>;
-  endAdornment?: AdornmentType<React.ReactNode>;
-  centerIcon?: React.ReactNode;
-  focusedTime?: 'start' | 'end';
-};
-
-const TIME_STEP_PRESET_DEFAULT: number = 1;
-const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
-  hour: 1,
-  minute: 1,
-  second: 1
-};
-const DEFAULT_READONLY: RangeType<boolean> = { start: false, end: false };
-const DEFAULT_DISABLED: RangeType<boolean> = { start: false, end: false };
+> &
+  TimeRangeComponentProps<Mode> & {
+    placeholder?: RangeType<string>;
+    format?: string;
+    startAdornment?: RangeAdornmentType<React.ReactNode>;
+    endAdornment?: RangeAdornmentType<React.ReactNode>;
+    centerIcon?: React.ReactNode;
+    focusedField?: RangeFieldType;
+  };
 
 const TimeRangeField = forwardRef(
   <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
@@ -65,90 +45,83 @@ const TimeRangeField = forwardRef(
     ref: React.Ref<HTMLElement>
   ) => {
     const {
-      className,
-      placeholder,
+      mode = 'preset' as Mode,
       defaultValue,
       value,
       onChange,
       locale,
       options = DEFAULT_TIME_OPTIONS,
-      format,
       minTime,
       maxTime,
       disabledTimes,
-      mode = 'preset' as Mode,
-      timeStep = mode === 'preset'
+      timeStep = (mode === 'preset'
         ? TIME_STEP_PRESET_DEFAULT
-        : TIME_STEP_MANUAL_DEFAULT,
-      readOnly = DEFAULT_READONLY,
-      disabled = DEFAULT_DISABLED,
+        : TIME_STEP_MANUAL_DEFAULT) as TimeRangeComponentProps<Mode>['timeStep'],
+      readOnly,
+      disabled,
+      placeholder,
+      format,
       startAdornment,
       endAdornment,
       centerIcon = (
         <ArrowRightAltIcon color="gray-500" style={{ minWidth: '24px' }} />
       ),
-      color = 'gray-400',
-      focusedColor = 'primary',
+      focusedField,
+      color,
+      focusedColor,
       size,
       fullWidth,
-      focusedTime,
+      className,
       style,
       ...rest
     } = props;
-    const {
-      timeRange,
-      handleChange,
-      timeRangeValidationError,
-      handleValidationError
-    } = useTimeRange({
+    const { timeRangeValue, handleChange } = useTimeRangeValue({
       defaultValue,
       value,
-      onChange,
-      locale,
-      options
+      onChange
     });
-    const { indicatorElRef, startTimeFieldElRef, endTimeFieldElRef } =
-      useIndicator({ focusedTime });
-    const isValidationError =
-      timeRangeValidationError[CHRONOLOGICAL_ORDER] ||
-      timeRangeValidationError.start ||
-      timeRangeValidationError.end;
-
-    const getCommonProps = (timeFieldPosition: keyof RangeType<any>) => ({
-      value: timeRange?.[timeFieldPosition],
-      onChange: handleChange(timeFieldPosition),
-      placeholder: placeholder?.[timeFieldPosition],
-      disableHoverEffect: true,
-      disableFocusEffect: true,
+    const { isValidationError, handleErrorStatus } = useValidation({
       locale,
       options,
-      format,
-      minTime: minTime?.[timeFieldPosition],
-      maxTime: maxTime?.[timeFieldPosition],
-      disabledTimes: disabledTimes?.[timeFieldPosition],
+      timeRangeValue
+    });
+    const { indicatorElRef, startFieldElRef, endFieldElRef } = useIndicator({
+      focusedField
+    });
+
+    const getCommonProps = (rangeField: RangeFieldType) => ({
       mode,
+      value: timeRangeValue[rangeField],
+      onChange: handleChange(rangeField),
+      locale,
+      options,
+      minTime: minTime?.[rangeField],
+      maxTime: maxTime?.[rangeField],
+      disabledTimes: disabledTimes?.[rangeField],
       timeStep,
-      readOnly: readOnly?.[timeFieldPosition],
-      disabled: disabled?.[timeFieldPosition],
-      startAdornment: startAdornment?.[timeFieldPosition],
-      endAdornment: endAdornment?.[timeFieldPosition],
-      onErrorStatus: (validationError?: TimeValidationError) =>
-        handleValidationError(timeFieldPosition, validationError),
+      readOnly: readOnly?.[rangeField],
+      disabled: disabled?.[rangeField],
+      placeholder: placeholder?.[rangeField],
+      format,
+      startAdornment: startAdornment?.[rangeField],
+      endAdornment: endAdornment?.[rangeField],
       size,
-      fullWidth
+      fullWidth,
+      disableHoverEffect: true,
+      disableFocusEffect: true,
+      onErrorStatus: handleErrorStatus(rangeField)
     });
 
     return (
       <InputBase
         ref={ref}
-        id="TimeRangeField"
         className={cn('JinniTimeRangeField', className)}
-        color={isValidationError ? 'error' : color}
-        focusedColor={isValidationError ? 'error' : focusedColor}
+        disabled={disabled?.start && disabled?.end}
         startAdornment={startAdornment?.timeRangeField}
         endAdornment={endAdornment?.timeRangeField}
+        color={isValidationError ? 'error' : color}
+        focusedColor={isValidationError ? 'error' : focusedColor}
         size={size}
-        disabled={disabled.start && disabled.end}
         fullWidth={fullWidth}
         style={{
           '--indicator-color': isValidationError ? 'error' : focusedColor,
@@ -156,14 +129,11 @@ const TimeRangeField = forwardRef(
         }}
         {...rest}
       >
-        <TimeField ref={startTimeFieldElRef} {...getCommonProps('start')} />
+        <TimeField ref={startFieldElRef} {...getCommonProps('start')} />
         {centerIcon}
-        <TimeField ref={endTimeFieldElRef} {...getCommonProps('end')} />
-        {!!focusedTime && (
-          <div
-            ref={indicatorElRef}
-            className={cn('JinniTimeRangeFieldIndicator')}
-          />
+        <TimeField ref={endFieldElRef} {...getCommonProps('end')} />
+        {!!focusedField && (
+          <div ref={indicatorElRef} className="JinniTimeRangeFieldIndicator" />
         )}
       </InputBase>
     );
