@@ -23,6 +23,11 @@ import {
   TIME_STEP_PRESET_DEFAULT,
   TIME_STEP_MANUAL_DEFAULT
 } from './TimePicker.constants';
+import { fixTypeByMode } from '@/utils/time-component';
+
+type DigitalClockProps =
+  | ({ mode: 'preset' } & PresetDigitalClockProps)
+  | ({ mode: 'manual' } & ManualDigitalClockProps);
 
 export type TimePickerProps<
   T extends AsType = 'div',
@@ -34,9 +39,7 @@ export type TimePickerProps<
     PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
     TimeFieldProps?: TimeFieldProps;
     renderDigitalClock?: (
-      digitalClockProps: Mode extends 'preset'
-        ? PresetDigitalClockProps
-        : ManualDigitalClockProps
+      digitalClockProps: DigitalClockProps
     ) => React.ReactNode;
   };
 
@@ -53,24 +56,20 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
     minTime,
     maxTime,
     disabledTimes,
-    timeStep = (mode === 'preset'
+    timeStep = mode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
-      : TIME_STEP_MANUAL_DEFAULT) as TimeComponentProps<Mode>['timeStep'],
+      : TIME_STEP_MANUAL_DEFAULT,
     readOnly,
     disabled,
     name,
     PopoverProps,
     TimeFieldProps,
-    renderDigitalClock = ((digitalClockProps) =>
-      mode === 'preset' ? (
-        <PresetDigitalClock
-          {...(digitalClockProps as PresetDigitalClockProps)}
-        />
+    renderDigitalClock = (digitalClockProps: DigitalClockProps) =>
+      digitalClockProps.mode === 'preset' ? (
+        <PresetDigitalClock {...digitalClockProps} />
       ) : (
-        <ManualDigitalClock
-          {...(digitalClockProps as ManualDigitalClockProps)}
-        />
-      )) as NonNullable<TimePickerProps<T, Mode>['renderDigitalClock']>,
+        <ManualDigitalClock {...digitalClockProps} />
+      ),
     className,
     style,
     as: Component = 'div',
@@ -106,9 +105,34 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
     minTime,
     maxTime,
     disabledTimes,
-    timeStep,
     readOnly,
     disabled
+  };
+  const timeFieldProps = {
+    ...commonProps,
+    mode,
+    timeStep,
+    focused: open,
+    endAdornment: (
+      <ButtonBase
+        type="button"
+        className={cn('JinniTimePickerOpenButton', { readOnly, disabled })}
+        onClick={openPopover}
+        disableOverlay={readOnly || disabled}
+        disableRipple={readOnly || disabled}
+        aria-label="Choose Time"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls={popoverId}
+      >
+        <AccessTimeIcon size={20} color="gray-500" />
+      </ButtonBase>
+    ),
+    ...TimeFieldProps
+  };
+  const digitalClockProps = {
+    ...commonProps,
+    ...fixTypeByMode({ mode, timeStep })
   };
 
   return (
@@ -124,28 +148,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
       {...rest}
     >
       <input name={name} value={time?.toTimeString() || ''} hidden readOnly />
-      <TimeField
-        ref={anchorElRef}
-        mode={mode}
-        endAdornment={
-          <ButtonBase
-            type="button"
-            className={cn('JinniTimePickerOpenButton', { readOnly, disabled })}
-            onClick={openPopover}
-            disableOverlay={readOnly || disabled}
-            disableRipple={readOnly || disabled}
-            aria-label="Choose Time"
-            aria-haspopup="dialog"
-            aria-expanded={open}
-            aria-controls={popoverId}
-          >
-            <AccessTimeIcon size={20} color="gray-500" />
-          </ButtonBase>
-        }
-        focused={open}
-        {...commonProps}
-        {...TimeFieldProps}
-      />
+      <TimeField ref={anchorElRef} {...timeFieldProps} />
       <Popover
         id={popoverId}
         anchorElRef={anchorElRef}
@@ -154,11 +157,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
         onClose={closePopover}
         {...restPopoverProps}
       >
-        {renderDigitalClock(
-          commonProps as Mode extends 'preset'
-            ? PresetDigitalClockProps
-            : ManualDigitalClockProps
-        )}
+        {renderDigitalClock(digitalClockProps)}
         <div className="JinniTimePickerButtons">
           <Button variant="text" onClick={handleCancel}>
             Cancel
