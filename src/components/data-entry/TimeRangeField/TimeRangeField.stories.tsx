@@ -929,40 +929,6 @@ export const TimeStepInManualMode: Story = {
   }
 };
 
-export const TimeSteps: Story = {
-  render: (args) => (
-    <Grid columns={1} spacing={20}>
-      <ControlledTimeRangeFieldTemplate
-        mode="preset"
-        placeholder={{
-          start: 'TimeStep=30 minutes',
-          end: 'TimeStep=30 minutes'
-        }}
-        format="HH:mm"
-        timeStep={30 * 60}
-        {...args}
-      />
-      <ControlledTimeRangeFieldTemplate
-        mode="manual"
-        placeholder={{
-          start: 'TimeStep=2 hours/10 minutes/10 seconds',
-          end: 'TimeStep=2 hours/10 minutes/10 seconds'
-        }}
-        format="HH:mm:ss"
-        timeStep={{ hour: 2, minute: 10, second: 10 }}
-        {...args}
-      />
-    </Grid>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: ``.trim()
-      }
-    }
-  }
-};
-
 export const Readonly: Story = {
   render: (args) => (
     <TimeRangeField
