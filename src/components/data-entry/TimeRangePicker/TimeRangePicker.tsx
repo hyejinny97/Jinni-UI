@@ -184,7 +184,7 @@ const TimeRangePicker = <
         className
       )}
       style={newStyle}
-      aria-label="Time Picker"
+      aria-label="Time Range Picker"
       {...rest}
     >
       <input
