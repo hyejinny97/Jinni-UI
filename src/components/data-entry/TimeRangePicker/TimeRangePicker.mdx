@@ -17,7 +17,7 @@ import { TimeRangePicker } from '@/components/data-entry/TimeRangePicker';
 
 ### Basic TimeRangePicker
 
-#### 1) mode
+#### 1. Mode
 
 - `mode`: time 선택 방법
   - `'preset'`: '12:00', '12:30', '01:00' 처럼 미리 정의된 시간 목록에서 하나를 선택하는 방식
@@ -25,19 +25,15 @@ import { TimeRangePicker } from '@/components/data-entry/TimeRangePicker';
 
 <Canvas of={TimeRangePickerStories.Mode} />
 
-#### 2) defaultValue
+#### 2. Default value
 
 - `defaultValue`: 초기 time (uncontrolled일 때만 적용 가능)
 
 <Canvas of={TimeRangePickerStories.DefaultValue} />
 
-#### 3) form with timeRangePicker
-
-<Canvas of={TimeRangePickerStories.FormWithTimeRangePicker} />
-
 ### Controlled TimeRangePicker
 
-- `value`와 `onChange`를 통해 control 가능
+- `value`를 통해 control 가능
 - `value`: time
 - `onChange`: value가 변경됐을 때 호출되는 함수
 
@@ -45,16 +41,51 @@ import { TimeRangePicker } from '@/components/data-entry/TimeRangePicker';
 
 ### Locale and Options
 
-- `locale`: BCP47 언어 태그를 포함하는 문자열
-- `options`: time 속성
+#### 1. Locale
 
-#### 1) Locale
+- `locale`: BCP47 언어 태그를 포함하는 문자열
 
 <Canvas of={TimeRangePickerStories.Locale} />
 
-#### 2) Options
+#### 2. Options
+
+- `options`: time 속성
 
 <Canvas of={TimeRangePickerStories.Options} />
+
+### Restrict Time
+
+#### 1. Min time
+
+- `minTime`: 선택 가능한 최소 시간
+
+<Canvas of={TimeRangePickerStories.MinTime} />
+
+#### 2. Max time
+
+- `maxTime`: 선택 가능한 최대 시간
+
+<Canvas of={TimeRangePickerStories.MaxTime} />
+
+#### 3. Disabled times
+
+- `disabledTimes`: 비활성화하는 특정 시간 모음
+
+<Canvas of={TimeRangePickerStories.DisabledTimes} />
+
+### Time Steps
+
+- `timeStep`: 두 time options 간 step
+  - mode='preset'인 경우, `number` type (단위: s)
+  - mode='manual'인 경우, `{hour: number, minute: number, second: number}` type
+
+#### 1. Time step in preset mode
+
+<Canvas of={TimeRangePickerStories.TimeStepInPresetMode} />
+
+#### 2. Time step in manual mode
+
+<Canvas of={TimeRangePickerStories.TimeStepInManualMode} />
 
 ### Readonly
 
@@ -68,80 +99,27 @@ import { TimeRangePicker } from '@/components/data-entry/TimeRangePicker';
 
 <Canvas of={TimeRangePickerStories.Disabled} />
 
-### Restrict Time
+### TimeRangePicker with form
 
-#### 1) minTime, maxTime
+<Canvas of={TimeRangePickerStories.TimeRangePickerWithForm} />
 
-- `minTime`: 선택 가능한 최소 시간
-- `maxTime`: 선택 가능한 최대 시간
+### Custom TimeRangeField
 
-<Canvas of={TimeRangePickerStories.MinMaxTime} />
+- `TimeRangeFieldProps`: TimeRangeField의 Props
 
-#### 2) disabledTimes
+<Canvas of={TimeRangePickerStories.CustomTimeRangeField} />
 
-- `disabledTimes`: 비활성화하는 특정 시간 모음
+### Custom DigitalClock
 
-<Canvas of={TimeRangePickerStories.DisabledTimes} />
+- `renderDigitalClock`: digitalClockProps를 입력값으로 받아 mode에 따라 ManualDigitalClock 이나 PresetDigitalClock 컴포넌트를 렌더하는 함수
 
-### Time Steps
-
-- `timeStep`: 두 time options 간 step
-  - mode='preset'인 경우, `number` type (단위: s)
-  - mode='manual'인 경우, `{hour: number, minute: number, second: number}` type
-
-<Canvas of={TimeRangePickerStories.TimeSteps} />
+<Canvas of={TimeRangePickerStories.CustomDigitalClock} />
 
 ### Custom Popover
 
 - `PopoverProps`: Popover 컴포넌트의 props
 
 <Canvas of={TimeRangePickerStories.CustomPopover} />
-
-### Custom TimeField
-
-- `TimeFieldProps`: TimeField의 Props
-
-#### 1) Placeholder
-
-<Canvas of={TimeRangePickerStories.Placeholder} />
-
-#### 2) Time Format
-
-<Canvas of={TimeRangePickerStories.TimeFormat} />
-
-#### 3) Variants
-
-<Canvas of={TimeRangePickerStories.Variants} />
-
-#### 4) Sizes
-
-<Canvas of={TimeRangePickerStories.Sizes} />
-
-#### 5) Color
-
-<Canvas of={TimeRangePickerStories.Color} />
-
-#### 6) Full Width
-
-<Canvas of={TimeRangePickerStories.FullWidth} />
-
-#### 7) Adornments
-
-<Canvas of={TimeRangePickerStories.Adornments} />
-
-#### 8) Disable Effect
-
-<Canvas of={TimeRangePickerStories.DisableEffect} />
-
-#### 9) Custom Center Icon
-
-<Canvas of={TimeRangePickerStories.CustomCenterIcon} />
-
-### Custom DigitalClock
-
-- `renderDigitalClock`: digitalClockProps를 입력값으로 받아 DigitalClock 컴포넌트를 렌더하는 함수
-
-<Canvas of={TimeRangePickerStories.CustomDigitalClock} />
 
 ### Multi-TimePicker
 

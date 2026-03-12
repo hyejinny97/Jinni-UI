@@ -1,4 +1,7 @@
-import { KEY_TIME_PARTS } from '@/constants/time-component';
+import {
+  KEY_TIME_PARTS,
+  CHRONOLOGICAL_ORDER
+} from '@/constants/time-component';
 
 export type TimeMode = 'preset' | 'manual';
 
@@ -40,4 +43,29 @@ export type TimeComponentProps<Mode extends TimeMode = 'preset'> = {
   timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
   readOnly?: boolean;
   disabled?: boolean;
+};
+
+export type RangeFieldType = 'start' | 'end';
+
+export type RangeType<T> = Partial<Record<RangeFieldType, T>>;
+
+export type RangeAdornmentType<T> = RangeType<T> & { timeRangeField?: T };
+
+export type TimeRangeValidationError = RangeType<TimeValidationError> & {
+  [CHRONOLOGICAL_ORDER]?: boolean;
+};
+
+export type TimeRangeComponentProps<Mode extends TimeMode = 'preset'> = {
+  mode?: Mode;
+  defaultValue?: RangeType<Date>;
+  value?: RangeType<Date | null>;
+  onChange?: (value: RangeType<Date | null>) => void;
+  locale?: string;
+  options?: TimeOptions;
+  minTime?: RangeType<Date>;
+  maxTime?: RangeType<Date>;
+  disabledTimes?: RangeType<Array<Date>>;
+  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
+  readOnly?: RangeType<boolean>;
+  disabled?: RangeType<boolean>;
 };

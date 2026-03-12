@@ -1,6 +1,10 @@
 import { isObject } from '@/utils/isObject';
 import { isNumber } from '@/utils/isNumber';
-import { TimeStepManualType, TimeComponentProps } from '@/types/time-component';
+import {
+  TimeStepManualType,
+  TimeComponentProps,
+  TimeMode
+} from '@/types/time-component';
 
 export const dateToSeconds = (date: Date) => {
   const hour = date.getHours();
@@ -87,4 +91,22 @@ export const getLocaleDayPeriodValues = ({
     }
   }
   return Array.from(dayPeriods);
+};
+
+export const fixTypeByMode = ({
+  mode,
+  timeStep
+}: {
+  mode: TimeMode;
+  timeStep: number | TimeStepManualType;
+}):
+  | { mode: 'preset'; timeStep: number }
+  | { mode: 'manual'; timeStep: TimeStepManualType } => {
+  if (mode === 'preset' && isNumber(timeStep))
+    return { mode: 'preset' as const, timeStep };
+  if (mode === 'manual' && isTimeStepManualType(timeStep))
+    return { mode: 'manual' as const, timeStep };
+  throw new Error(
+    `timeStep prop의 타입이 올바르지 않습니다.\n- mode: 'preset', timeStep: number\n- mode: 'manual', timeStep: { hour: number; minute: number; second: number; }`
+  );
 };

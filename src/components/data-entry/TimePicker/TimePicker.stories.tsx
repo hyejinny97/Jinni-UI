@@ -109,13 +109,13 @@ hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
     },
     renderDigitalClock: {
       description:
-        'DigitalClockProps를 입력값으로 받아 mode에 따라 ManualDigitalClock 이나 PresetDigitalClock 컴포넌트를 렌더하는 함수',
+        'digitalClockProps를 입력값으로 받아 mode에 따라 ManualDigitalClock 이나 PresetDigitalClock 컴포넌트를 렌더하는 함수',
       table: {
         type: {
-          summary: `(digitalClockProps: DigitalClockProps) => React.ReactNode;`
+          summary: `(digitalClockProps: ({ mode: 'preset' } & PresetDigitalClockProps) | ({ mode: 'manual' } & ManualDigitalClockProps)) => React.ReactNode;`
         },
         defaultValue: {
-          summary: `(digitalClockProps: DigitalClockProps) => mode === 'manual' ? <ManualDigitalClock {...digitalClockProps} /> : <PresetDigitalClock {...digitalClockProps} />;`
+          summary: `(digitalClockProps: ({ mode: 'preset' } & PresetDigitalClockProps) | ({ mode: 'manual' } & ManualDigitalClockProps)) => digitalClockProps.mode === 'preset' ? <PresetDigitalClock {...digitalClockProps} /> : <ManualDigitalClock {...digitalClockProps} />;`
         }
       }
     },
@@ -758,7 +758,9 @@ export const CustomDigitalClock: Story = {
               <Title>Hours</Title>
               <Title>Minutes</Title>
             </Grid>
-            <ManualDigitalClock skipDisabledTime {...digitalClockProps} />
+            {digitalClockProps.mode === 'manual' && (
+              <ManualDigitalClock skipDisabledTime {...digitalClockProps} />
+            )}
           </>
         );
       }}
@@ -781,7 +783,9 @@ export const CustomDigitalClock: Story = {
           <Title>Hours</Title>
           <Title>Minutes</Title>
         </Grid>
-        <ManualDigitalClock skipDisabledTime {...digitalClockProps} />
+        {digitalClockProps.mode === 'manual' && (
+          <ManualDigitalClock skipDisabledTime {...digitalClockProps} />
+        )}
       </>
     );
   }}

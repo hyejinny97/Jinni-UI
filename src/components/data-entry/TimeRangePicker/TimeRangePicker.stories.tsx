@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import TimeRangePicker from './TimeRangePicker';
+import TimeRangePicker, { TimeRangePickerProps } from './TimeRangePicker';
 import { TimePicker } from '@/components/data-entry/TimePicker';
-import {
-  TimeRangeValidationError,
-  RangeType
-} from '@/components/data-entry/TimeRangeField';
+import { RangeType, RangeFieldType } from '@/types/time-component';
 import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
 import { Button } from '@/components/general/Button';
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
+import { Chip } from '@/components/data-display/Chip';
 import { FlightLandIcon } from '@/components/icons/FlightLandIcon';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
-import { TimeOptions, TimeValidationError } from '@/types/time-component';
 
 const meta: Meta<typeof TimeRangePicker> = {
   component: TimeRangePicker,
@@ -30,8 +29,7 @@ const meta: Meta<typeof TimeRangePicker> = {
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
-        type: { summary: `{ start?: boolean, end?: boolean }` },
-        defaultValue: { summary: `{ start?: false, end?: false }` }
+        type: { summary: `{ start?: boolean, end?: boolean }` }
       }
     },
     disabledTimes: {
@@ -75,7 +73,7 @@ const meta: Meta<typeof TimeRangePicker> = {
       description: 'value가 변경됐을 때 호출되는 함수',
       table: {
         type: {
-          summary: `(value: { start?: Date | null, end?: Date | null }, validationError?: { start?: ValidationError, end?: ValidationError, chronologicalOrder?: boolean }) => void;`
+          summary: `(value: { start?: Date | null, end?: Date | null }) => void;`
         }
       }
     },
@@ -110,19 +108,18 @@ hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
       table: {
         type: {
           summary: `{ start?: boolean, end?: boolean }`
-        },
-        defaultValue: { summary: `{ start?: false, end?: false }` }
+        }
       }
     },
     renderDigitalClock: {
       description:
-        'digitalClockProps를 입력값으로 받아 DigitalClock 컴포넌트를 렌더하는 함수',
+        'digitalClockProps를 입력값으로 받아 mode에 따라 ManualDigitalClock 이나 PresetDigitalClock 컴포넌트를 렌더하는 함수',
       table: {
         type: {
-          summary: `(digitalClockProps: DigitalClockProps) => React.ReactNode;`
+          summary: `(digitalClockProps: ({ mode: 'preset' } & PresetDigitalClockProps) | ({ mode: 'manual' } & ManualDigitalClockProps)) => React.ReactNode;`
         },
         defaultValue: {
-          summary: `(digitalClockProps: DigitalClockProps) => <DigitalClock {...digitalClockProps} />`
+          summary: `(digitalClockProps: ({ mode: 'preset' } & PresetDigitalClockProps) | ({ mode: 'manual' } & ManualDigitalClockProps)) => digitalClockProps.mode === 'preset' ? <PresetDigitalClock {...digitalClockProps} /> : <ManualDigitalClock {...digitalClockProps} />;`
         }
       }
     },
@@ -141,7 +138,7 @@ hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
           summary: `mode='preset' ? number : {hour: number, minute: number, second: number}`
         },
         defaultValue: {
-          summary: `mode='preset' ? 3600 : {hour: 1, minute: 1, second: 1}`
+          summary: `mode='preset' ? 1800 : {hour: 1, minute: 1, second: 1}`
         }
       }
     },
@@ -158,29 +155,6 @@ hourCycle?: 'h11' | 'h12' | 'h23' | 'h24';
 
 export default meta;
 type Story = StoryObj<typeof TimeRangePicker>;
-
-const LOCALES = ['ko-KR', 'en-US', 'fr-FR', 'ja-JP', 'zh-CN', 'ar-EG'];
-const OPTIONS: Array<TimeOptions> = [
-  {
-    timeStyle: 'medium'
-  },
-  {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hourCycle: 'h24'
-  }
-];
-const DEFAULT_VALUE = {
-  start: new Date(2025, 7, 8, 12, 30),
-  end: new Date(2025, 7, 8, 17, 0)
-};
-const MIN_TIME = new Date('2025-06-30T14:30');
-const MAX_TIME = new Date('2025-06-30T17:25');
-const DISABLED_TIMES = [
-  new Date('2025-06-30T14:10'),
-  new Date('2025-06-30T12:30')
-];
 
 const Time = ({
   hour,
@@ -207,136 +181,152 @@ const Time = ({
   );
 };
 
-const ControlledTimeRangePickerTemplate = ({ ...props }) => {
+const ControlledTimeRangePickerTemplate = () => {
   const [value, setValue] = useState<RangeType<Date | null>>({
     start: null,
     end: null
   });
-  const [validationError, setValidationError] =
-    useState<TimeRangeValidationError>();
 
-  const getTime = (timePosition: 'start' | 'end') => ({
-    hour: value[timePosition]?.getHours(),
-    minute: value[timePosition]?.getMinutes(),
-    second: value[timePosition]?.getSeconds()
+  const getTime = (rangeField: RangeFieldType) => ({
+    hour: value[rangeField]?.getHours(),
+    minute: value[rangeField]?.getMinutes(),
+    second: value[rangeField]?.getSeconds()
   });
-
-  const getErrorMessage = (error: TimeValidationError): string => {
-    switch (error) {
-      case 'minTime':
-        return '최소 시간보다 작습니다.';
-      case 'maxTime':
-        return '최대 시간보다 큽니다.';
-      case 'disabledTime':
-        return '해당 시간은 비활성화되어 있습니다.';
-      case 'timeStep':
-        return '선택할 수 없는 시간입니다.';
-    }
-  };
-
-  const handleChange = (
-    newValue: RangeType<Date | null>,
-    validationError?: TimeRangeValidationError
-  ) => {
+  const handleChange = (newValue: RangeType<Date | null>) => {
     setValue(newValue);
-    setValidationError(validationError);
   };
-
-  let errorMessage: string = '';
-  if (validationError?.['chronologicalOrder']) {
-    errorMessage = '시작 시간이 끝 시간보다 큽니다.';
-  } else if (validationError?.start) {
-    errorMessage = 'start time: ' + getErrorMessage(validationError.start);
-  } else if (validationError?.end) {
-    errorMessage = 'end time: ' + getErrorMessage(validationError.end);
-  }
 
   return (
-    <Stack>
-      <Stack direction="row" spacing={8} style={{ alignItems: 'center' }}>
+    <Stack spacing={20}>
+      <Stack
+        direction="row"
+        spacing={8}
+        style={{ height: '20px', alignItems: 'center' }}
+      >
         <span>Time:</span>
         <Time {...getTime('start')} />
         <span>-</span>
         <Time {...getTime('end')} />
       </Stack>
-      <TimeRangePicker value={value} onChange={handleChange} {...props} />
-      {errorMessage && <Text style={{ color: 'error' }}>{errorMessage}</Text>}
+      <TimeRangePicker value={value} onChange={handleChange} />
     </Stack>
   );
 };
 
 const LocaleTemplate = () => {
-  const [selectedLocale, setSelectedLocale] = useState(LOCALES[0]);
+  const LOCALES = [
+    'ko-KR',
+    'en-US',
+    'fr-FR',
+    'ja-JP',
+    'zh-CN',
+    'ar-EG'
+  ] as const;
+  const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: new Date(2025, 7, 8, 12, 30),
+    end: new Date(2025, 7, 8, 17, 0)
+  });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedLocale(event.target.value);
+  const handleLocaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setLocale(value as (typeof LOCALES)[number]);
+  };
+  const handleTimeChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
   };
 
   return (
-    <Stack>
-      <Grid columns={LOCALES.length}>
-        {LOCALES.map((locale) => (
-          <Label key={locale} content={locale}>
-            <Radio
-              value={locale}
-              checked={selectedLocale === locale}
-              onChange={handleChange}
-            />
-          </Label>
-        ))}
-      </Grid>
-      <Stack key={selectedLocale} style={{ alignItems: 'center' }}>
-        <Text>{`Locale: '${selectedLocale}'`}</Text>
-        <Stack spacing={20}>
-          <TimeRangePicker
-            locale={selectedLocale}
-            defaultValue={DEFAULT_VALUE}
-          />
-          <TimeRangePicker
-            locale={selectedLocale}
-            defaultValue={DEFAULT_VALUE}
-            mode="manual"
-          />
-        </Stack>
-      </Stack>
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Locale
+        </Chip>
+        <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
+          <Grid rows={2} columns={3} spacing={5}>
+            {LOCALES.map((locale) => (
+              <Label content={locale}>
+                <Radio value={locale} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeRangePicker
+        key={locale}
+        value={value}
+        onChange={handleTimeChange}
+        locale={locale}
+      />
     </Stack>
   );
 };
 
 const OptionsTemplate = () => {
-  const [selectedOptionsIdx, setSelectedOptionsIdx] = useState<number>(0);
+  const OPTIONS: Array<TimeRangePickerProps['options']> = [
+    {
+      timeStyle: 'medium'
+    },
+    {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h24'
+    }
+  ] as const;
+  const [option, setOption] = useState<TimeRangePickerProps['options']>(
+    OPTIONS[0]
+  );
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: new Date(2025, 7, 8, 12, 30),
+    end: new Date(2025, 7, 8, 17, 0)
+  });
 
-  const handleChange = (idx: number) => {
-    setSelectedOptionsIdx(idx);
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setOption(JSON.parse(value) as TimeRangePickerProps['options']);
+  };
+  const handleTimeChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
   };
 
   return (
-    <Stack>
-      <Grid columns={OPTIONS.length}>
-        {OPTIONS.map((option, idx) => (
-          <Label key={idx} content={JSON.stringify(option)}>
-            <Radio
-              value={String(idx)}
-              checked={selectedOptionsIdx === idx}
-              onChange={() => handleChange(idx)}
-            />
-          </Label>
-        ))}
-      </Grid>
-      <Stack key={selectedOptionsIdx} style={{ alignItems: 'center' }}>
-        <Text>{`Options: '${JSON.stringify(OPTIONS[selectedOptionsIdx])}'`}</Text>
-        <Stack spacing={20}>
-          <TimeRangePicker
-            options={OPTIONS[selectedOptionsIdx]}
-            defaultValue={DEFAULT_VALUE}
-          />
-          <TimeRangePicker
-            options={OPTIONS[selectedOptionsIdx]}
-            defaultValue={DEFAULT_VALUE}
-            mode="manual"
-          />
-        </Stack>
-      </Stack>
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Option
+        </Chip>
+        <RadioGroup
+          name="option"
+          value={JSON.stringify(option)}
+          onChange={handleOptionChange}
+        >
+          <Grid rows={OPTIONS.length} columns={1} spacing={5}>
+            {OPTIONS.map((option) => {
+              const optionStr = JSON.stringify(option);
+              return (
+                <Label content={optionStr}>
+                  <Radio value={optionStr} />
+                </Label>
+              );
+            })}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeRangePicker
+        key={JSON.stringify(option)}
+        value={value}
+        onChange={handleTimeChange}
+        options={option}
+      />
     </Stack>
   );
 };
@@ -357,89 +347,34 @@ const Title = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const CustomDigitalClockTemplate = () => {
-  return (
-    <TimeRangePicker
-      mode="manual"
-      disabledTimes={{ start: DISABLED_TIMES, end: DISABLED_TIMES }}
-      renderDigitalClock={(digitalClockProps) => {
-        return (
-          <>
-            <Grid columns={3}>
-              <Title>AM/PM</Title>
-              <Title>Hours</Title>
-              <Title>Minutes</Title>
-            </Grid>
-            <ManualDigitalClock skipDisabledTime {...digitalClockProps} />
-          </>
-        );
-      }}
-    />
-  );
-};
-
 const MultiTimePickerTemplate = () => {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
-  const [startValidationError, setStartValidationError] =
-    useState<TimeValidationError>();
-  const [endValidationError, setEndValidationError] =
-    useState<TimeValidationError>();
   const isChronologicalError =
     startTime &&
     endTime &&
     startTime.getHours() * 60 + startTime.getMinutes() >
       endTime.getHours() * 60 + endTime.getMinutes();
-  const isStartTimeValidationError =
-    !!startValidationError || isChronologicalError;
-  const isEndTimeValidationError = !!endValidationError || isChronologicalError;
 
   const getTime = (time: Date | null) => ({
     hour: time?.getHours(),
     minute: time?.getMinutes(),
     second: time?.getSeconds()
   });
-
-  const getErrorMessage = (error: TimeValidationError): string => {
-    switch (error) {
-      case 'minTime':
-        return '최소 시간보다 작습니다.';
-      case 'maxTime':
-        return '최대 시간보다 큽니다.';
-      case 'disabledTime':
-        return '해당 시간은 비활성화되어 있습니다.';
-      case 'timeStep':
-        return '선택할 수 없는 시간입니다.';
-    }
-  };
-
-  const handleStartTimeChange = (
-    value: Date | null,
-    validationError?: TimeValidationError
-  ) => {
+  const handleStartTimeChange = (value: Date | null) => {
     setStartTime(value);
-    setStartValidationError(validationError);
   };
-  const handleEndTimeChange = (
-    value: Date | null,
-    validationError?: TimeValidationError
-  ) => {
+  const handleEndTimeChange = (value: Date | null) => {
     setEndTime(value);
-    setEndValidationError(validationError);
   };
-
-  let errorMessage: string = '';
-  if (isChronologicalError) {
-    errorMessage = '시작 시간이 끝 시간보다 큽니다.';
-  } else if (startValidationError) {
-    errorMessage = 'start time: ' + getErrorMessage(startValidationError);
-  } else if (endValidationError) {
-    errorMessage = 'end time: ' + getErrorMessage(endValidationError);
-  }
 
   return (
-    <Stack>
-      <Stack direction="row" spacing={8} style={{ alignItems: 'center' }}>
+    <Stack spacing={20}>
+      <Stack
+        direction="row"
+        spacing={8}
+        style={{ height: '20px', alignItems: 'center' }}
+      >
         <span>Time:</span>
         <Time {...getTime(startTime)} />
         <span>-</span>
@@ -449,293 +384,680 @@ const MultiTimePickerTemplate = () => {
         <TimePicker
           value={startTime}
           onChange={handleStartTimeChange}
-          minTime={MIN_TIME}
-          TimeFieldProps={{
-            placeholder: `minTime='3:30'`,
-            color: isStartTimeValidationError ? 'error' : undefined,
-            focusedColor: isStartTimeValidationError ? 'error' : undefined
-          }}
+          {...(isChronologicalError && {
+            TimeFieldProps: {
+              color: 'error',
+              focusedColor: 'error'
+            }
+          })}
         />
         ~
         <TimePicker
           value={endTime}
           onChange={handleEndTimeChange}
-          minTime={MIN_TIME}
-          TimeFieldProps={{
-            placeholder: `minTime='3:30'`,
-            color: isEndTimeValidationError ? 'error' : undefined,
-            focusedColor: isEndTimeValidationError ? 'error' : undefined
-          }}
+          {...(isChronologicalError && {
+            TimeFieldProps: {
+              color: 'error',
+              focusedColor: 'error'
+            }
+          })}
         />
       </Stack>
-      {errorMessage && <Text style={{ color: 'error' }}>{errorMessage}</Text>}
     </Stack>
   );
 };
 
 export const Mode: Story = {
-  render: () => (
+  render: (args) => (
     <Stack spacing={20}>
-      <TimeRangePicker mode="preset" />
-      <TimeRangePicker mode="manual" />
+      <TimeRangePicker mode="preset" {...args} />
+      <TimeRangePicker mode="manual" {...args} />
     </Stack>
   )
 };
 
 export const DefaultValue: Story = {
-  render: () => (
+  render: (args) => (
     <Stack spacing={20}>
-      <TimeRangePicker mode="preset" defaultValue={DEFAULT_VALUE} />
-      <TimeRangePicker mode="manual" defaultValue={DEFAULT_VALUE} />
-    </Stack>
-  )
-};
-
-export const FormWithTimeRangePicker: Story = {
-  render: () => (
-    <form
-      onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const startTime = formData.get('startTime');
-        const endTime = formData.get('endTime');
-        alert(`startTime: ${startTime}\nendTime: ${endTime}`);
-      }}
-      style={{ display: 'flex', columnGap: '10px', alignItems: 'center' }}
-    >
       <TimeRangePicker
-        name={{ start: 'startTime', end: 'endTime' }}
-        mode="manual"
+        mode="preset"
+        defaultValue={{
+          start: new Date(2025, 7, 6, 2, 30),
+          end: new Date(2025, 7, 6, 17, 0)
+        }}
+        {...args}
       />
-      <Button type="submit" size="sm">
-        제출
-      </Button>
-    </form>
-  )
+      <TimeRangePicker
+        mode="manual"
+        defaultValue={{
+          start: new Date(2025, 7, 6, 2, 30),
+          end: new Date(2025, 7, 6, 17, 0)
+        }}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack spacing={20}>
+  <TimeRangePicker
+    mode="preset"
+    defaultValue={{
+      start: new Date(2025, 7, 6, 2, 30),
+      end: new Date(2025, 7, 6, 17, 0)
+    }}
+  />
+  <TimeRangePicker
+    mode="manual"
+    defaultValue={{
+      start: new Date(2025, 7, 6, 2, 30),
+      end: new Date(2025, 7, 6, 17, 0)
+    }}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
 };
 
 export const ControlledTimeRangePicker: Story = {
-  render: () => (
+  render: () => <ControlledTimeRangePickerTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlledTimeRangePickerTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+
+  const getTime = (rangeField: RangeFieldType) => ({
+    hour: value[rangeField]?.getHours(),
+    minute: value[rangeField]?.getMinutes(),
+    second: value[rangeField]?.getSeconds()
+  });
+  const handleChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+
+  return (
     <Stack spacing={20}>
-      <ControlledTimeRangePickerTemplate />
-      <ControlledTimeRangePickerTemplate mode="manual" />
+      <Stack
+        direction="row"
+        spacing={8}
+        style={{ height: '20px', alignItems: 'center' }}
+      >
+        <span>Time:</span>
+        <Time {...getTime('start')} />
+        <span>-</span>
+        <Time {...getTime('end')} />
+      </Stack>
+      <TimeRangePicker value={value} onChange={handleChange} />
     </Stack>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Locale: Story = {
-  render: () => <LocaleTemplate />
+  render: () => <LocaleTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const LocaleTemplate = () => {
+  const LOCALES = [
+    'ko-KR',
+    'en-US',
+    'fr-FR',
+    'ja-JP',
+    'zh-CN',
+    'ar-EG'
+  ] as const;
+  const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: new Date(2025, 7, 8, 12, 30),
+    end: new Date(2025, 7, 8, 17, 0)
+  });
+
+  const handleLocaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setLocale(value as (typeof LOCALES)[number]);
+  };
+  const handleTimeChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Locale
+        </Chip>
+        <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
+          <Grid rows={2} columns={3} spacing={5}>
+            {LOCALES.map((locale) => (
+              <Label content={locale}>
+                <Radio value={locale} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeRangePicker
+        key={locale}
+        value={value}
+        onChange={handleTimeChange}
+        locale={locale}
+      />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Options: Story = {
-  render: () => <OptionsTemplate />
+  render: () => <OptionsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const OptionsTemplate = () => {
+  const OPTIONS: Array<TimeRangePickerProps['options']> = [
+    {
+      timeStyle: 'medium'
+    },
+    {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h24'
+    }
+  ] as const;
+  const [option, setOption] = useState<TimeRangePickerProps['options']>(
+    OPTIONS[0]
+  );
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: new Date(2025, 7, 8, 12, 30),
+    end: new Date(2025, 7, 8, 17, 0)
+  });
+
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setOption(JSON.parse(value) as TimeRangePickerProps['options']);
+  };
+  const handleTimeChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'gray-100', border: 'none' }}
+      >
+        <Chip as="legend" variant="subtle-filled" color="gray-600">
+          Option
+        </Chip>
+        <RadioGroup
+          name="option"
+          value={JSON.stringify(option)}
+          onChange={handleOptionChange}
+        >
+          <Grid rows={OPTIONS.length} columns={1} spacing={5}>
+            {OPTIONS.map((option) => {
+              const optionStr = JSON.stringify(option);
+              return (
+                <Label content={optionStr}>
+                  <Radio value={optionStr} />
+                </Label>
+              );
+            })}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeRangePicker
+        key={JSON.stringify(option)}
+        value={value}
+        onChange={handleTimeChange}
+        options={option}
+      />
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
+};
+
+export const MinTime: Story = {
+  render: (args) => (
+    <Stack spacing={20}>
+      <TimeRangePicker
+        minTime={{ start: new Date('2025-06-30T14:30') }}
+        {...args}
+      />
+      <TimeRangePicker
+        minTime={{ start: new Date('2025-06-30T14:30') }}
+        defaultValue={{ start: new Date('2025-06-30T12:00') }}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack spacing={20}>
+  <TimeRangePicker minTime={{ start: new Date('2025-06-30T14:30') }} />
+  <TimeRangePicker
+    minTime={{ start: new Date('2025-06-30T14:30') }}
+    defaultValue={{ start: new Date('2025-06-30T12:00') }}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const MaxTime: Story = {
+  render: (args) => (
+    <Stack spacing={20}>
+      <TimeRangePicker
+        maxTime={{ end: new Date('2025-06-30T17:25') }}
+        {...args}
+      />
+      <TimeRangePicker
+        maxTime={{ end: new Date('2025-06-30T17:25') }}
+        defaultValue={{ end: new Date('2025-06-30T18:00') }}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack spacing={20}>
+  <TimeRangePicker maxTime={{ end: new Date('2025-06-30T17:25') }} />
+  <TimeRangePicker
+    maxTime={{ end: new Date('2025-06-30T17:25') }}
+    defaultValue={{ end: new Date('2025-06-30T18:00') }}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const DisabledTimes: Story = {
+  render: (args) => (
+    <Stack spacing={20}>
+      <TimeRangePicker
+        disabledTimes={{
+          start: [new Date('2025-06-30T14:30'), new Date('2025-06-30T12:30')]
+        }}
+        {...args}
+      />
+      <TimeRangePicker
+        disabledTimes={{
+          start: [new Date('2025-06-30T14:30'), new Date('2025-06-30T12:30')]
+        }}
+        defaultValue={{ start: new Date('2025-06-30T14:30') }}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack spacing={20}>
+  <TimeRangePicker
+    disabledTimes={{
+      start: [new Date('2025-06-30T14:30'), new Date('2025-06-30T12:30')]
+    }}
+  />
+  <TimeRangePicker
+    disabledTimes={{
+      start: [new Date('2025-06-30T14:30'), new Date('2025-06-30T12:30')]
+    }}
+    defaultValue={{ start: new Date('2025-06-30T14:30') }}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const TimeStepInPresetMode: Story = {
+  render: (args) => (
+    <Stack spacing={20}>
+      <TimeRangePicker mode="preset" timeStep={60 * 60} {...args} />
+      <TimeRangePicker
+        mode="preset"
+        timeStep={60 * 60}
+        defaultValue={{ start: new Date('2025-06-30T15:20') }}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack spacing={20}>
+  <TimeRangePicker mode="preset" timeStep={60 * 60} />
+  <TimeRangePicker
+    mode="preset"
+    timeStep={60 * 60}
+    defaultValue={{ start: new Date('2025-06-30T15:20') }}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
+};
+
+export const TimeStepInManualMode: Story = {
+  render: (args) => (
+    <Stack spacing={20}>
+      <TimeRangePicker
+        mode="manual"
+        timeStep={{ hour: 2, minute: 10, second: 10 }}
+        {...args}
+      />
+      <TimeRangePicker
+        mode="manual"
+        timeStep={{ hour: 2, minute: 10, second: 10 }}
+        defaultValue={{ start: new Date('2025-06-30T16:15') }}
+        {...args}
+      />
+    </Stack>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack spacing={20}>
+  <TimeRangePicker
+    mode="manual"
+    timeStep={{ hour: 2, minute: 10, second: 10 }}
+  />
+  <TimeRangePicker
+    mode="manual"
+    timeStep={{ hour: 2, minute: 10, second: 10 }}
+    defaultValue={{ start: new Date('2025-06-30T16:15') }}
+  />
+</Stack>`.trim()
+      }
+    }
+  }
 };
 
 export const Readonly: Story = {
-  render: () => (
+  render: (args) => (
     <TimeRangePicker
-      defaultValue={DEFAULT_VALUE}
+      defaultValue={{
+        start: new Date(2025, 7, 8, 12, 30),
+        end: new Date(2025, 7, 8, 17, 0)
+      }}
       readOnly={{ start: true, end: true }}
+      {...args}
     />
   )
 };
 
 export const Disabled: Story = {
-  render: () => (
+  render: (args) => (
     <TimeRangePicker
-      defaultValue={DEFAULT_VALUE}
+      defaultValue={{
+        start: new Date(2025, 7, 8, 12, 30),
+        end: new Date(2025, 7, 8, 17, 0)
+      }}
       disabled={{ start: true, end: true }}
+      {...args}
     />
   )
 };
 
-export const MinMaxTime: Story = {
-  render: () => (
-    <Stack spacing={20}>
+export const TimeRangePickerWithForm: Story = {
+  render: (args) => (
+    <form
+      onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const departure = formData.get('departure time');
+        const arrival = formData.get('arrival time');
+        alert(`- Departure time: ${departure}\n- Arrival time: ${arrival}`);
+      }}
+      style={{ display: 'flex', columnGap: '10px', alignItems: 'center' }}
+    >
       <TimeRangePicker
-        minTime={{ start: MIN_TIME, end: MIN_TIME }}
-        maxTime={{ start: MAX_TIME, end: MAX_TIME }}
-      />
-      <TimeRangePicker
+        name={{ start: 'departure time', end: 'arrival time' }}
         mode="manual"
-        minTime={{ start: MIN_TIME, end: MIN_TIME }}
-        maxTime={{ start: MAX_TIME, end: MAX_TIME }}
+        {...args}
       />
-    </Stack>
-  )
+      <Button type="submit" size="sm">
+        제출
+      </Button>
+    </form>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<form
+  onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const departure = formData.get('departure time');
+    const arrival = formData.get('arrival time');
+    alert(\`- Departure time: \${departure}\n- Arrival time: \${arrival}\`);
+  }}
+  style={{ display: 'flex', columnGap: '10px', alignItems: 'center' }}
+>
+  <TimeRangePicker
+    name={{ start: 'departure time', end: 'arrival time' }}
+    mode="manual"
+  />
+  <Button type="submit" size="sm">
+    제출
+  </Button>
+</form>`.trim()
+      }
+    }
+  }
 };
 
-export const DisabledTimes: Story = {
+export const CustomTimeRangeField: Story = {
   render: () => (
-    <Stack spacing={20}>
+    <Box style={{ width: '500px' }}>
       <TimeRangePicker
-        disabledTimes={{ start: DISABLED_TIMES, end: DISABLED_TIMES }}
+        TimeRangeFieldProps={{
+          placeholder: {
+            start: 'Select Departure Time',
+            end: 'Select Arrival Time'
+          },
+          format: 'A hh시 mm분',
+          variant: 'filled',
+          size: 'sm',
+          color: 'secondary',
+          focusedColor: 'secondary',
+          fullWidth: true,
+          startAdornment: {
+            start: <FlightTakeOffIcon size={20} color="gray-600" />,
+            end: <FlightLandIcon size={20} color="gray-600" />
+          },
+          disableHoverEffect: true,
+          centerIcon: <ArrowRightIcon size={20} color="gray-500" />
+        }}
       />
-      <TimeRangePicker
-        mode="manual"
-        disabledTimes={{ start: DISABLED_TIMES, end: DISABLED_TIMES }}
-      />
-    </Stack>
-  )
+    </Box>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Box style={{ width: '500px' }}>
+  <TimeRangePicker
+    TimeRangeFieldProps={{
+      placeholder: {
+        start: 'Select Departure Time',
+        end: 'Select Arrival Time'
+      },
+      format: 'A hh시 mm분',
+      variant: 'filled',
+      size: 'sm',
+      color: 'secondary',
+      focusedColor: 'secondary',
+      fullWidth: true,
+      startAdornment: {
+        start: <FlightTakeOffIcon size={20} color="gray-600" />,
+        end: <FlightLandIcon size={20} color="gray-600" />
+      },
+      disableHoverEffect: true,
+      centerIcon: <ArrowRightIcon size={20} color="gray-500" />
+    }}
+  />
+</Box>`.trim()
+      }
+    }
+  }
 };
 
-export const TimeSteps: Story = {
+export const CustomDigitalClock: Story = {
   render: () => (
-    <Stack spacing={20}>
-      <TimeRangePicker timeStep={10 * 60} />
-      <TimeRangePicker
-        mode="manual"
-        timeStep={{ hour: 2, minute: 10, second: 30 }}
-        options={{ timeStyle: 'medium' }}
-      />
-    </Stack>
-  )
+    <TimeRangePicker
+      mode="manual"
+      minTime={{
+        start: new Date(1970, 0, 1, 5, 30),
+        end: new Date(1970, 0, 1, 5, 30)
+      }}
+      renderDigitalClock={(digitalClockProps) => {
+        return (
+          <>
+            <Grid columns={3}>
+              <Title>AM/PM</Title>
+              <Title>Hours</Title>
+              <Title>Minutes</Title>
+            </Grid>
+            {digitalClockProps.mode === 'manual' && (
+              <ManualDigitalClock skipDisabledTime {...digitalClockProps} />
+            )}
+          </>
+        );
+      }}
+    />
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TimeRangePicker
+  mode="manual"
+  minTime={{
+    start: new Date(1970, 0, 1, 5, 30),
+    end: new Date(1970, 0, 1, 5, 30)
+  }}
+  renderDigitalClock={(digitalClockProps) => {
+    return (
+      <>
+        <Grid columns={3}>
+          <Title>AM/PM</Title>
+          <Title>Hours</Title>
+          <Title>Minutes</Title>
+        </Grid>
+        {digitalClockProps.mode === 'manual' && (
+          <ManualDigitalClock skipDisabledTime {...digitalClockProps} />
+        )}
+      </>
+    );
+  }}
+/>`.trim()
+      }
+    }
+  }
 };
 
 export const CustomPopover: Story = {
-  render: () => (
+  render: (args) => (
     <TimeRangePicker
       PopoverProps={{
         anchorOrigin: { horizontal: 'center', vertical: 'bottom' },
         popoverOrigin: { horizontal: 'center', vertical: 'top' },
         BoxProps: { elevation: 10 }
       }}
+      {...args}
     />
   )
-};
-
-export const Placeholder: Story = {
-  render: () => (
-    <TimeRangePicker
-      TimeRangeFieldProps={{
-        placeholder: { start: 'Select Start Time', end: 'Select End Time' }
-      }}
-    />
-  )
-};
-
-export const TimeFormat: Story = {
-  render: () => (
-    <TimeRangePicker TimeRangeFieldProps={{ format: 'A hh시 mm분' }} />
-  )
-};
-
-export const Variants: Story = {
-  render: () => (
-    <Stack spacing={20}>
-      <TimeRangePicker
-        TimeRangeFieldProps={{
-          variant: 'filled',
-          placeholder: { start: 'filled', end: 'filled' }
-        }}
-      />
-      <TimeRangePicker
-        TimeRangeFieldProps={{
-          variant: 'outlined',
-          placeholder: { start: 'outlined', end: 'outlined' }
-        }}
-      />
-      <TimeRangePicker
-        TimeRangeFieldProps={{
-          variant: 'underlined',
-          placeholder: { start: 'underlined', end: 'underlined' }
-        }}
-      />
-      <TimeRangePicker
-        TimeRangeFieldProps={{
-          variant: 'borderless',
-          placeholder: { start: 'borderless', end: 'borderless' }
-        }}
-      />
-    </Stack>
-  )
-};
-
-export const Sizes: Story = {
-  render: () => (
-    <Stack spacing={20}>
-      <TimeRangePicker
-        TimeRangeFieldProps={{
-          size: 'sm',
-          placeholder: { start: 'sm', end: 'sm' }
-        }}
-      />
-      <TimeRangePicker
-        TimeRangeFieldProps={{
-          size: 'md',
-          placeholder: { start: 'md', end: 'md' }
-        }}
-      />
-      <TimeRangePicker
-        TimeRangeFieldProps={{
-          size: 'lg',
-          placeholder: { start: 'lg', end: 'lg' }
-        }}
-      />
-    </Stack>
-  )
-};
-
-export const Color: Story = {
-  render: () => (
-    <TimeRangePicker
-      TimeRangeFieldProps={{
-        color: 'yellow-400',
-        focusedColor: 'yellow-400'
-      }}
-    />
-  )
-};
-
-export const FullWidth: Story = {
-  render: () => (
-    <TimeRangePicker
-      TimeRangeFieldProps={{
-        fullWidth: true
-      }}
-    />
-  )
-};
-
-export const Adornments: Story = {
-  render: () => (
-    <TimeRangePicker
-      TimeRangeFieldProps={{
-        placeholder: { start: 'Flight Departure', end: 'Flight Arrival' },
-        startAdornment: {
-          start: <FlightTakeOffIcon size={20} color="gray-600" />,
-          end: <FlightLandIcon size={20} color="gray-600" />
-        }
-      }}
-    />
-  )
-};
-
-export const DisableEffect: Story = {
-  render: () => (
-    <TimeRangePicker
-      TimeRangeFieldProps={{
-        disableHoverEffect: true,
-        disableFocusEffect: true
-      }}
-    />
-  )
-};
-
-export const CustomCenterIcon: Story = {
-  render: () => (
-    <TimeRangePicker
-      TimeRangeFieldProps={{
-        centerIcon: <ArrowRightIcon size={20} color="gray-500" />
-      }}
-    />
-  )
-};
-
-export const CustomDigitalClock: Story = {
-  render: () => <CustomDigitalClockTemplate />
 };
 
 export const MultiTimePicker: Story = {
-  render: () => <MultiTimePickerTemplate />
+  render: () => <MultiTimePickerTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const MultiTimePickerTemplate = () => {
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [endTime, setEndTime] = useState<Date | null>(null);
+  const isChronologicalError =
+    startTime &&
+    endTime &&
+    startTime.getHours() * 60 + startTime.getMinutes() >
+      endTime.getHours() * 60 + endTime.getMinutes();
+
+  const getTime = (time: Date | null) => ({
+    hour: time?.getHours(),
+    minute: time?.getMinutes(),
+    second: time?.getSeconds()
+  });
+  const handleStartTimeChange = (value: Date | null) => {
+    setStartTime(value);
+  };
+  const handleEndTimeChange = (value: Date | null) => {
+    setEndTime(value);
+  };
+
+  return (
+    <Stack spacing={20}>
+      <Stack
+        direction="row"
+        spacing={8}
+        style={{ height: '20px', alignItems: 'center' }}
+      >
+        <span>Time:</span>
+        <Time {...getTime(startTime)} />
+        <span>-</span>
+        <Time {...getTime(endTime)} />
+      </Stack>
+      <Stack direction="row" spacing={20}>
+        <TimePicker
+          value={startTime}
+          onChange={handleStartTimeChange}
+          {...(isChronologicalError && {
+            TimeFieldProps: {
+              color: 'error',
+              focusedColor: 'error'
+            }
+          })}
+        />
+        ~
+        <TimePicker
+          value={endTime}
+          onChange={handleEndTimeChange}
+          {...(isChronologicalError && {
+            TimeFieldProps: {
+              color: 'error',
+              focusedColor: 'error'
+            }
+          })}
+        />
+      </Stack>
+    </Stack>
+  );
+};`.trim()
+      }
+    }
+  }
 };

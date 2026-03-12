@@ -1,62 +1,43 @@
 import { useState } from 'react';
 import { TimeRangePickerProps } from './TimeRangePicker';
-import {
-  TimeRangeValidationError,
-  RangeType,
-  useChronologicalError,
-  CHRONOLOGICAL_ORDER
-} from '@/components/data-entry/TimeRangeField';
+import { RangeType, RangeFieldType } from '@/types/time-component';
+
+type UseTimeRangeValueProps = Pick<
+  TimeRangePickerProps,
+  'defaultValue' | 'value' | 'onChange'
+>;
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
 
-export const useTimeRange = ({
+export const useTimeRangeValue = ({
   defaultValue,
   value,
-  onChange,
-  locale,
-  options
-}: Pick<
-  TimeRangePickerProps,
-  'defaultValue' | 'value' | 'onChange' | 'locale' | 'options'
->) => {
+  onChange
+}: UseTimeRangeValueProps) => {
   const isControlled = value !== undefined;
   const [uncontrolledTimeRange, setUncontrolledTimeRange] = useState<
     RangeType<Date | null>
   >(defaultValue || INIT_DEFAULT_VALUE);
-  const [timeRangeValidationError, setTimeRangeValidationError] =
-    useState<TimeRangeValidationError>({});
-  const timeRange = isControlled ? value : uncontrolledTimeRange;
-  const { isChronologicalOrderError } = useChronologicalError({
-    locale,
-    options
-  });
+  const timeRangeValue: RangeType<Date | null> = isControlled
+    ? value
+    : uncontrolledTimeRange;
 
-  const handleRangeChange = (
-    newValue: RangeType<Date | null>,
-    validationError?: TimeRangeValidationError
-  ) => {
-    if (validationError) setTimeRangeValidationError(validationError);
+  const handleTimeRangeChange = (newValue: RangeType<Date | null>) => {
     if (!isControlled) setUncontrolledTimeRange(newValue);
-    if (onChange) onChange(newValue, validationError);
+    if (onChange) onChange(newValue);
   };
 
   const handleTimeChange =
-    (timeFieldPosition: keyof RangeType<any>) => (newValue: Date) => {
-      const startTime =
-        timeFieldPosition === 'start' ? newValue : timeRange.start;
-      const endTime = timeFieldPosition === 'end' ? newValue : timeRange.end;
-      handleRangeChange(
-        { ...timeRange, [timeFieldPosition]: newValue },
-        {
-          ...timeRangeValidationError,
-          [CHRONOLOGICAL_ORDER]: isChronologicalOrderError(startTime, endTime)
-        }
-      );
+    (rangeField: RangeFieldType) => (newValue: Date | null) => {
+      handleTimeRangeChange({
+        start: rangeField === 'start' ? newValue : timeRangeValue.start,
+        end: rangeField === 'end' ? newValue : timeRangeValue.end
+      });
     };
 
   return {
-    timeRange,
-    handleRangeChange,
+    timeRangeValue,
+    handleTimeRangeChange,
     handleTimeChange
   };
 };
