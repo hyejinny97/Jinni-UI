@@ -68,7 +68,7 @@ const TimeRangeField = forwardRef(
       ),
       focusedField,
       color,
-      focusedColor,
+      focusedColor = 'primary',
       size,
       fullWidth,
       className,
