@@ -1,6 +1,6 @@
 import { DateTimeOptions } from './DateTimeField.types';
 import { TimeOptions } from '@/types/time-component';
-import { DateOptions } from '@/components/data-entry/DateField';
+import { DateOptions } from '@/types/date-component';
 
 export const filterTimeOptions = (options?: DateTimeOptions) => {
   if (!options) return;

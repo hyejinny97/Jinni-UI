@@ -4,13 +4,13 @@ import { TimeObjectType, UnitItemType } from './ManualDigitalClock.types';
 import { KEY_TIME_PARTS } from '@/constants/time-component';
 import { KeyTimePartType } from '@/types/time-component';
 import {
-  isAvailableLocale,
   getLocaleHourValues,
   getLocaleMinuteValues,
   getLocaleSecondValues,
-  getLocaleDayPeriodValues
+  getLocaleDayPeriodValues,
+  dateToSeconds
 } from '@/utils/time-component';
-import { dateToSeconds } from '@/utils/time-component';
+import { isAvailableLocale } from '@/utils/dateTimeFormat';
 
 type UseSelectedTimeProps = Pick<
   ManualDigitalClockProps,

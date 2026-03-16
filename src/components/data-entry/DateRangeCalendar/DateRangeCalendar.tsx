@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { DateOptions } from '@/components/data-entry/DateField';
 import {
   YearProps,
   MonthProps,
@@ -21,6 +20,7 @@ import { VerticalDayRangeCalendars } from './VerticalDayRangeCalendars';
 import { HorizontalDayRangeCalendars } from './HorizontalDayRangeCalendars';
 import { dateToMonth } from '@/utils/date';
 import { dateToDay } from '@/utils/date';
+import { DateOptions } from '@/types/date-component';
 
 export type DateRangeCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,

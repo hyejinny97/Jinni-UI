@@ -1,12 +1,12 @@
 import { useState, useMemo, useLayoutEffect, useRef } from 'react';
 import { DateRangeFieldProps } from './DateRangeField';
-import { DateValidationError } from '@/components/data-entry/DateField';
 import { getBaseCalendarType } from '@/components/data-entry/Calendar';
 import { RangeType, DateRangeValidationError } from './DateRangeField.types';
 import {
   CHRONOLOGICAL_ORDER,
   INCLUDE_DISABLED_DATE
 } from './DateRangeField.constants';
+import { DateValidationError } from '@/types/date-component';
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
 

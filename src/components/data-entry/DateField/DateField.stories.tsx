@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DateField, DateValidationError, DateOptions } from '.';
+import { DateField } from '.';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
+import { DateOptions, DateValidationError } from '@/types/date-component';
 
 const meta: Meta<typeof DateField> = {
   component: DateField,

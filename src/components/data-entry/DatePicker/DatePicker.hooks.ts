@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { DatePickerProps } from './DatePicker';
-import { DateValidationError } from '@/components/data-entry/DateField';
+import { DateValidationError } from '@/types/date-component';
 
 export const useDateValue = ({
   defaultValue,

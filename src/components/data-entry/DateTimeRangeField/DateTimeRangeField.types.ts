@@ -1,4 +1,4 @@
-import { DateValidationError } from '@/components/data-entry/DateField';
+import { DateValidationError } from '@/types/date-component';
 import { TimeValidationError } from '@/types/time-component';
 import {
   CHRONOLOGICAL_ORDER,

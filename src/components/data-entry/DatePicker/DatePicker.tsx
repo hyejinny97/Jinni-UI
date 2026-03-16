@@ -3,10 +3,6 @@ import { useRef, useState, useMemo } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  DateValidationError,
-  DateOptions
-} from '@/components/data-entry/DateField';
 import { DateField, DateFieldProps } from '@/components/data-entry/DateField';
 import {
   Calendar,
@@ -17,26 +13,18 @@ import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import { useDateValue } from './DatePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
+import { DateComponentProps } from '@/types/date-component';
 
 export type DatePickerProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'defaultValue' | 'onChange'
-> & {
-  name?: string;
-  defaultValue?: Date;
-  value?: Date | null;
-  onChange?: (value: Date, validationError?: DateValidationError) => void;
-  locale?: string;
-  options?: DateOptions;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-  PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
-  DateFieldProps?: DateFieldProps;
-  renderCalendar?: (calendarProps: CalendarProps) => React.ReactNode;
-};
+> &
+  DateComponentProps & {
+    name?: string;
+    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    DateFieldProps?: DateFieldProps;
+    renderCalendar?: (calendarProps: CalendarProps) => React.ReactNode;
+  };
 
 const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
   const {

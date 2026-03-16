@@ -7,7 +7,8 @@ import {
   useEffect
 } from 'react';
 import { PresetDigitalClockProps } from './PresetDigitalClock';
-import { isAvailableLocale, dateToSeconds } from '@/utils/time-component';
+import { isAvailableLocale } from '@/utils/dateTimeFormat';
+import { dateToSeconds } from '@/utils/time-component';
 import { TimeItemType } from './PresetDigitalClock.types';
 
 type UseSelectedTimeProps = Pick<

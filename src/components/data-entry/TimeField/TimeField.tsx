@@ -162,7 +162,7 @@ const TimeField = forwardRef(
               key={idx}
               className={cn('JinniTimeFieldTimePart', 'literal-type')}
             >
-              {hasBlank ? part.value.replace(' ', '\u00A0') : part.value}
+              {hasBlank ? part.value.replace(/\s/g, '\u00A0') : part.value}
             </div>
           );
         })}

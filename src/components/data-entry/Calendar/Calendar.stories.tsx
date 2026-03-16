@@ -6,7 +6,6 @@ import cn from 'classnames';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
-import { DateOptions } from '@/components/data-entry/DateField';
 import { DAY } from '@/constants/time';
 import {
   Modal,
@@ -16,6 +15,7 @@ import {
 } from '@/components/feedback/Modal';
 import { Button } from '@/components/general/Button';
 import { Input } from '@/components/data-entry/Input';
+import { DateOptions } from '@/types/date-component';
 
 const meta: Meta<typeof Calendar> = {
   component: Calendar,

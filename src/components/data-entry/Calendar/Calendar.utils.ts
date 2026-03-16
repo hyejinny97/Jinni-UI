@@ -1,5 +1,5 @@
-import { DateOptions } from '@/components/data-entry/DateField';
 import { CalendarType } from './CalendarHeader';
+import { DateOptions } from '@/types/date-component';
 
 const CALENDAR_TYPE_PRIORITY = ['day', 'month', 'year'] as const;
 

@@ -6,12 +6,9 @@ import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
-import {
-  DateOptions,
-  DateValidationError
-} from '@/components/data-entry/DateField';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { Button } from '@/components/general/Button';
+import { DateOptions, DateValidationError } from '@/types/date-component';
 
 const meta: Meta<typeof DatePicker> = {
   component: DatePicker,

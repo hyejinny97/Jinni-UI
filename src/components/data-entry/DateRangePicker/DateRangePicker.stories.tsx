@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DateRangePicker from './DateRangePicker';
-import {
-  DateOptions,
-  DateValidationError
-} from '@/components/data-entry/DateField';
 import { Calendar, CalendarProps } from '@/components/data-entry/Calendar';
 import { DatePicker } from '@/components/data-entry/DatePicker';
 import {
@@ -24,6 +20,7 @@ import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { DAY } from '@/constants/time';
 import { Button } from '@/components/general/Button';
+import { DateOptions, DateValidationError } from '@/types/date-component';
 
 const meta: Meta<typeof DateRangePicker> = {
   component: DateRangePicker,

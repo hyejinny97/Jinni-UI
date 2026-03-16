@@ -3,12 +3,12 @@ import { useMemo } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { DateOptions } from '@/components/data-entry/DateField';
 import { CalendarType } from './CalendarHeader.types';
 import { getDateParts } from './CalendarHeader.utils';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
+import { DateOptions } from '@/components/data-entry/DateField';
 
 export type CalendarHeaderProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {

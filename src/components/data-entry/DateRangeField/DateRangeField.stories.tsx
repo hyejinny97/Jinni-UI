@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  DateField,
-  DateOptions,
-  DateValidationError
-} from '@/components/data-entry/DateField';
+import { DateField } from '@/components/data-entry/DateField';
 import { DateRangeField, DateRangeValidationError, RangeType } from '.';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
@@ -14,6 +10,7 @@ import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { DAY } from '@/constants/time';
+import { DateOptions, DateValidationError } from '@/types/date-component';
 
 const meta: Meta<typeof DateRangeField> = {
   component: DateRangeField,

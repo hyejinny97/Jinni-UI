@@ -3,40 +3,31 @@ import { useState, useMemo } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { DateOptions } from '@/components/data-entry/DateField';
 import { useSelectedDate } from './Calendar.hooks';
 import { getBaseCalendarType } from './Calendar.utils';
 import { CalendarHeader, CalendarType } from './CalendarHeader';
 import { DayCalendar, DayProps } from './DayCalendar';
 import { MonthCalendar, MonthProps } from './MonthCalendar';
 import { YearCalendar, YearProps } from './YearCalendar';
+import { DateComponentProps } from '@/types/date-component';
 
 export type CalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'defaultValue' | 'onChange'
-> & {
-  defaultValue?: Date;
-  value?: Date | null;
-  referenceDate?: Date;
-  onChange?: (value: Date) => void;
-  onYearChange?: (value: Date) => void;
-  onMonthChange?: (value: Date) => void;
-  onDayChange?: (value: Date) => void;
-  locale?: string;
-  options?: DateOptions;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-  yearsOrder?: 'asc' | 'dsc';
-  showDaysOutsideCurrentMonth?: boolean;
-  fixedWeekNumber?: number;
-  displayWeekNumber?: boolean;
-  renderDay?: (dayProps: Omit<DayProps, 'ref'>) => React.ReactNode;
-  renderMonth?: (monthProps: Omit<MonthProps, 'ref'>) => React.ReactNode;
-  renderYear?: (yearProps: Omit<YearProps, 'ref'>) => React.ReactNode;
-};
+> &
+  DateComponentProps & {
+    referenceDate?: Date;
+    yearsOrder?: 'asc' | 'dsc';
+    showDaysOutsideCurrentMonth?: boolean;
+    fixedWeekNumber?: number;
+    displayWeekNumber?: boolean;
+    renderDay?: (dayProps: Omit<DayProps, 'ref'>) => React.ReactNode;
+    renderMonth?: (monthProps: Omit<MonthProps, 'ref'>) => React.ReactNode;
+    renderYear?: (yearProps: Omit<YearProps, 'ref'>) => React.ReactNode;
+    onYearChange?: (value: Date) => void;
+    onMonthChange?: (value: Date) => void;
+    onDayChange?: (value: Date) => void;
+  };
 
 const Calendar = <T extends AsType = 'div'>(props: CalendarProps<T>) => {
   const {

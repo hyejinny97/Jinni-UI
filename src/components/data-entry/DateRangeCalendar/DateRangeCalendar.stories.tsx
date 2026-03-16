@@ -4,10 +4,10 @@ import DateRangeCalendar from './DateRangeCalendar';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
-import { DateOptions } from '@/components/data-entry/DateField';
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
+import { DateOptions } from '@/types/date-component';
 
 const meta: Meta<typeof DateRangeCalendar> = {
   component: DateRangeCalendar,

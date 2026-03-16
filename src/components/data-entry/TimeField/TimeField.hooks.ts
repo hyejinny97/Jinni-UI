@@ -12,8 +12,7 @@ import {
   findHourTokenType,
   findMinuteTokenType,
   findSecondTokenType,
-  findDayPeriodTokenType,
-  is2Digit
+  findDayPeriodTokenType
 } from './TimeField.utils';
 import { TOKENS } from './TimeField.constants';
 import { isNumber } from '@/utils/isNumber';
@@ -22,14 +21,15 @@ import {
   TimeValidationError,
   KeyTimePartType
 } from '@/types/time-component';
-import { dateToSeconds, isTimeStepManualType } from '@/utils/time-component';
 import {
-  isAvailableLocale,
   getLocaleHourValues,
   getLocaleMinuteValues,
   getLocaleSecondValues,
-  getLocaleDayPeriodValues
+  getLocaleDayPeriodValues,
+  dateToSeconds,
+  isTimeStepManualType
 } from '@/utils/time-component';
+import { isAvailableLocale, is2Digit } from '@/utils/dateTimeFormat';
 
 type TimeObjectToDate = ({
   hour,
