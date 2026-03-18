@@ -13,6 +13,7 @@ import { Label } from '@/components/data-entry/Label';
 import { Chip } from '@/components/data-display/Chip';
 
 const meta: Meta<typeof DateField> = {
+  title: 'components/data-entry/DatePicker/DateField',
   component: DateField,
   argTypes: {
     defaultValue: {
