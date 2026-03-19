@@ -24,6 +24,8 @@ const Year = forwardRef((props: YearProps, ref: React.Ref<HTMLElement>) => {
     marked,
     color = 'primary',
     readOnly,
+    overlayColor = selected ? 'white' : 'black',
+    rippleColor = selected ? 'white' : 'black',
     onClick,
     className,
     style,
@@ -34,10 +36,10 @@ const Year = forwardRef((props: YearProps, ref: React.Ref<HTMLElement>) => {
     <ButtonBase
       ref={ref}
       className={cn('JinniYear', { selected, marked }, className)}
-      style={{ '--color': color, ...style }}
-      overlayColor={selected ? 'white' : 'black'}
-      rippleColor={selected ? 'white' : 'black'}
+      overlayColor={overlayColor}
+      rippleColor={rippleColor}
       onClick={readOnly ? undefined : onClick}
+      style={{ '--color': color, ...style }}
       data-value={value.toISOString()}
       {...rest}
     >
