@@ -1,0 +1,104 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as DayCalendarStories from './DayCalendar.stories';
+
+<Meta of={DayCalendarStories} />
+
+# DayCalendar
+
+day 달력
+
+## Import
+
+```js
+import { DayCalendar } from '@/components/data-entry/DayCalendar';
+```
+
+## Usage
+
+### Basic DayCalendar
+
+- `defaultValue`: 초기 selected date
+
+<Canvas of={DayCalendarStories.BasicDayCalendar} />
+
+### Controlled DayCalendar
+
+- `value`를 통해 control 가능
+- `value`: selected date
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={DayCalendarStories.ControlledDayCalendar} />
+
+### Choose the initial date
+
+- `referenceDate`: `value`, `defaultValue` prop이 없을 때 참조하는 date
+
+<Canvas of={DayCalendarStories.ChooseTheInitialDate} />
+
+### Locale
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+
+<Canvas of={DayCalendarStories.Locale} />
+
+### Restrict Date
+
+#### 1. Min date
+
+- `minDate`: 선택 가능한 최소 날짜
+
+<Canvas of={DayCalendarStories.MinDate} />
+
+#### 2. Max date
+
+- `maxDate`: 선택 가능한 최대 날짜
+
+<Canvas of={DayCalendarStories.MaxDate} />
+
+#### 3. Disabled dates
+
+- `disabledDates`: 비활성화 하는 특정 날짜 모음
+
+<Canvas of={DayCalendarStories.DisabledDates} />
+
+### ReadOnly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={DayCalendarStories.ReadOnly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={DayCalendarStories.Disabled} />
+
+### Show additional days
+
+#### 1. Show days outside
+
+- `showDaysOutsideCurrentMonth`: true이면, day calendar에서 해당 month의 days 이외의 앞뒤 일부 days를 나타냄
+
+<Canvas of={DayCalendarStories.ShowDaysOutside} />
+
+#### 2. Fix week number
+
+- `fixedWeekNumber`: day calendar에서 보여지는 week 개수
+
+<Canvas of={DayCalendarStories.FixWeekNumber} />
+
+### Display week number
+
+- `displayWeekNumber`: true이면, week number가 나타남
+
+<Canvas of={DayCalendarStories.DisplayWeekNumber} />
+
+### Custom Day
+
+- `renderDay`: dayProps를 인자로 받아 `Day` 컴포넌트를 반환하는 함수
+
+<Canvas of={DayCalendarStories.CustomDay} />
+
+## Props
+
+<ArgTypes of={DayCalendarStories} sort="alpha" />
