@@ -7,7 +7,7 @@ import { Month, MonthProps } from './Month';
 import { DateComponentProps } from '@/types/date-component';
 import { useDateValue, useMonthItems } from './MonthCalendar.hooks';
 
-export type MonthMainProps = {
+export type MonthCalendarMainProps = {
   referenceDate?: Date;
   renderMonth?: (monthProps: Omit<MonthProps, 'ref'>) => React.ReactNode;
 };
@@ -17,7 +17,7 @@ export type MonthCalendarProps<T extends AsType = 'div'> = Omit<
   'children' | 'defaultValue' | 'onChange'
 > &
   Omit<DateComponentProps, 'options' | 'disabledDates'> &
-  MonthMainProps;
+  MonthCalendarMainProps;
 
 const MonthCalendar = <T extends AsType = 'div'>(
   props: MonthCalendarProps<T>

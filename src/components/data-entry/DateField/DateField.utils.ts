@@ -1,4 +1,4 @@
-import { TOKENS, MONTH_DIGITS, KEY_DATE_PARTS } from './DateField.constants';
+import { TOKENS, KEY_DATE_PARTS } from './DateField.constants';
 import {
   YearTokensTypes,
   MonthTokensTypes,
@@ -7,6 +7,7 @@ import {
 } from './DateField.types';
 import { MonthDigitType } from '@/types/date-component';
 import { is2Digit } from '@/utils/dateTimeFormat';
+import { MONTH_DIGITS } from '@/constants/date-component';
 
 export const getLocaleNumberValues = (locale?: string) => {
   const localeNumbers: Array<string> = [];

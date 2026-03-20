@@ -1,7 +1,5 @@
 export const KEY_DATE_PARTS = ['year', 'month', 'day'] as const;
 
-export const MONTH_DIGITS = ['numeric', '2-digit', 'long', 'short'] as const;
-
 export const YEAR_TOKENS = ['YYYY', 'YY'] as const;
 export const MONTH_TOKENS = ['MMMM', 'MMM', 'MM', 'M'] as const;
 export const DAY_TOKENS = ['DD', 'D'] as const;
