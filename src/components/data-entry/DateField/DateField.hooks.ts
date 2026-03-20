@@ -7,14 +7,7 @@ import {
   useEffect
 } from 'react';
 import { DateFieldProps } from './DateField';
-import {
-  DateObjectType,
-  TokensType,
-  KeyDatePartType,
-  YearDigitTypes,
-  MonthDigitTypes,
-  DayDigitTypes
-} from './DateField.types';
+import { DateObjectType, TokensType, KeyDatePartType } from './DateField.types';
 import {
   getLocaleNumberValues,
   getLocaleMonthValues,
@@ -26,7 +19,12 @@ import {
   getLastDay
 } from './DateField.utils';
 import { TOKENS } from './DateField.constants';
-import { DateValidationError } from '@/types/date-component';
+import {
+  DateValidationError,
+  YearDigitType,
+  MonthDigitType,
+  DayDigitType
+} from '@/types/date-component';
 import { isAvailableLocale } from '@/utils/dateTimeFormat';
 import { isNumber } from '@/utils/isNumber';
 
@@ -50,9 +48,9 @@ type UseValidation = Pick<
 
 type UseInputProps = {
   dateValue: DateObjectType;
-  yearDigit: YearDigitTypes | null;
-  monthDigit: MonthDigitTypes | null;
-  dayDigit: DayDigitTypes | null;
+  yearDigit: YearDigitType | null;
+  monthDigit: MonthDigitType | null;
+  dayDigit: DayDigitType | null;
   localeNumberValues: Array<string>;
   localeMonthValues: Array<string>;
   localeDayValues: Array<string>;
@@ -176,9 +174,9 @@ export const useDateFormat = ({
     dateParts
   } = useMemo(() => {
     const dateTimeLocale = isAvailableLocale(locale) ? locale : 'en-US';
-    let yearDigit: YearDigitTypes | null = null;
-    let monthDigit: MonthDigitTypes | null = null;
-    let dayDigit: DayDigitTypes | null = null;
+    let yearDigit: YearDigitType | null = null;
+    let monthDigit: MonthDigitType | null = null;
+    let dayDigit: DayDigitType | null = null;
     let localeNumberValues: Array<string>;
     let localeMonthValues: Array<string>;
     let localeDayValues: Array<string>;

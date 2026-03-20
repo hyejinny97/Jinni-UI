@@ -7,7 +7,7 @@ import { Year, YearProps } from './Year';
 import { DateComponentProps } from '@/types/date-component';
 import { useDateValue, useYearItems, useScroll } from './YearCalendar.hooks';
 
-export type YearMainProps = {
+export type YearCalendarMainProps = {
   referenceDate?: Date;
   yearsOrder?: 'asc' | 'dsc';
   renderYear?: (yearProps: Omit<YearProps, 'ref'>) => React.ReactNode;
@@ -18,7 +18,7 @@ export type YearCalendarProps<T extends AsType = 'div'> = Omit<
   'children' | 'defaultValue' | 'onChange'
 > &
   Omit<DateComponentProps, 'options' | 'disabledDates'> &
-  YearMainProps;
+  YearCalendarMainProps;
 
 const YearCalendar = <T extends AsType = 'div'>(
   props: YearCalendarProps<T>

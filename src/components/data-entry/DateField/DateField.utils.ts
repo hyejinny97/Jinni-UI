@@ -1,11 +1,11 @@
 import { TOKENS, MONTH_DIGITS, KEY_DATE_PARTS } from './DateField.constants';
 import {
-  MonthDigitTypes,
   YearTokensTypes,
   MonthTokensTypes,
   DayTokensTypes,
   KeyDatePartType
 } from './DateField.types';
+import { MonthDigitType } from '@/types/date-component';
 import { is2Digit } from '@/utils/dateTimeFormat';
 
 export const getLocaleNumberValues = (locale?: string) => {
@@ -69,7 +69,7 @@ export const findMonthTokenType = (
   localeMonthValues: Array<string>,
   locale?: string
 ): MonthTokensTypes => {
-  const isValidMonthDigit = (digit: MonthDigitTypes) => {
+  const isValidMonthDigit = (digit: MonthDigitType) => {
     const targetLocaleMonthValues = getLocaleMonthValues(
       new Intl.DateTimeFormat(locale, { month: digit })
     );
@@ -77,7 +77,7 @@ export const findMonthTokenType = (
       localeMonthValues.includes(val)
     );
   };
-  const monthDigit: MonthDigitTypes | undefined = MONTH_DIGITS.find((digit) =>
+  const monthDigit: MonthDigitType | undefined = MONTH_DIGITS.find((digit) =>
     isValidMonthDigit(digit)
   );
   if (!monthDigit) throw new Error(`month token type을 찾을 수 없습니다.`);
