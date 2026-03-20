@@ -1,0 +1,20 @@
+.JinniCalendarHeader.custom-calendar-header {
+  gap: 3px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background-color: var(--jinni-color-gray-100);
+
+  .JinniCalendarHeaderContent {
+    order: 1;
+    font-weight: 700;
+    color: var(--jinni-color-gray-700);
+  }
+  .JinniCalendarHeaderControl.prev-button {
+    order: 2;
+    padding: 3px;
+  }
+  .JinniCalendarHeaderControl.next-button {
+    order: 3;
+    padding: 3px;
+  }
+}
