@@ -15,7 +15,7 @@ import { getLocaleYear } from './DateYearCalendar.utils';
 
 export type DateYearCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
-  'defaultValue'
+  'defaultValue' | 'onChange'
 > &
   Omit<DateComponentProps, 'disabledDates'> &
   YearCalendarMainProps & {
