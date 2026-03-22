@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import YearCalendar from './YearCalendar';
 import { Year } from './Year';
 import { Stack } from '@/components/layout/Stack';
-import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Grid } from '@/components/layout/Grid';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
@@ -16,16 +15,16 @@ const meta: Meta<typeof YearCalendar> = {
     'components/data-entry/DatePicker/DateCalendar/DateYearCalendar/YearCalendar',
   component: YearCalendar,
   argTypes: {
-    defaultValue: {
-      description: '초기 selected date',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
         type: { summary: 'boolean' }
+      }
+    },
+    displayedDate: {
+      description: '화면에 보여지는 날짜',
+      table: {
+        type: { summary: 'Date' }
       }
     },
     locale: {
@@ -46,12 +45,10 @@ const meta: Meta<typeof YearCalendar> = {
         type: { summary: 'Date' }
       }
     },
-    onChange: {
-      description: 'value가 변경됐을 때 호출되는 함수',
+    onYearChange: {
+      description: 'year button을 클릭했을 때 호출되는 함수',
       table: {
-        type: {
-          summary: `(value: Date) => void;`
-        }
+        type: { summary: '(newDate: Date) ⇒ void;' }
       }
     },
     readOnly: {
@@ -59,14 +56,6 @@ const meta: Meta<typeof YearCalendar> = {
       table: {
         type: {
           summary: `boolean`
-        }
-      }
-    },
-    referenceDate: {
-      description: 'value, defaultValue prop이 없을 때 참조하는 date',
-      table: {
-        type: {
-          summary: `Date`
         }
       }
     },
@@ -81,8 +70,8 @@ const meta: Meta<typeof YearCalendar> = {
         }
       }
     },
-    value: {
-      description: 'selected date',
+    selectedDate: {
+      description: '선택된 날짜',
       table: {
         type: {
           summary: `Date | null`
@@ -106,22 +95,6 @@ const meta: Meta<typeof YearCalendar> = {
 export default meta;
 type Story = StoryObj<typeof YearCalendar>;
 
-const ControlledYearCalendarTemplate = () => {
-  const [value, setValue] = useState<Date | null>(null);
-  const year = value?.getFullYear();
-
-  const handleChange = (newValue: Date) => {
-    setValue(newValue);
-  };
-
-  return (
-    <Stack spacing={10}>
-      <Text noMargin>Year: {year !== undefined && `${year}`}</Text>
-      <YearCalendar value={value} onChange={handleChange} />
-    </Stack>
-  );
-};
-
 const LocaleTemplate = () => {
   const LOCALES = [
     'ko-KR',
@@ -132,14 +105,10 @@ const LocaleTemplate = () => {
     'ar-EG'
   ] as const;
   const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
-  const [value, setValue] = useState<Date | null>(new Date());
 
   const handleLocaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setLocale(value as (typeof LOCALES)[number]);
-  };
-  const handleYearChange = (newValue: Date) => {
-    setValue(newValue);
   };
 
   return (
@@ -162,68 +131,39 @@ const LocaleTemplate = () => {
           </Grid>
         </RadioGroup>
       </Box>
-      <YearCalendar
-        key={locale}
-        value={value}
-        onChange={handleYearChange}
-        locale={locale}
-      />
+      <YearCalendar key={locale} displayedDate={new Date()} locale={locale} />
     </Stack>
   );
 };
 
 export const BasicYearCalendar: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <YearCalendar {...args} />
-      <YearCalendar defaultValue={new Date(2000, 0, 1)} {...args} />
-    </Stack>
-  ),
+  render: (args) => <YearCalendar displayedDate={new Date()} {...args} />,
   parameters: {
     docs: {
       source: {
-        code: `<Stack direction="row" spacing={20}>
-  <YearCalendar />
-  <YearCalendar defaultValue={new Date(2000, 0, 1)} />
-</Stack>`.trim()
+        code: `<YearCalendar displayedDate={new Date()} />`.trim()
       }
     }
   }
 };
 
-export const ControlledYearCalendar: Story = {
-  render: () => <ControlledYearCalendarTemplate />,
-  parameters: {
-    docs: {
-      source: {
-        code: `const ControlledYearCalendarTemplate = () => {
-  const [value, setValue] = useState<Date | null>(null);
-  const year = value?.getFullYear();
-
-  const handleChange = (newValue: Date) => {
-    setValue(newValue);
-  };
-
-  return (
-    <Stack spacing={10}>
-      <Text noMargin>Year: {year !== undefined && \`\${year}\`}</Text>
-      <YearCalendar value={value} onChange={handleChange} />
-    </Stack>
-  );
-};`.trim()
-      }
-    }
-  }
-};
-
-export const ChooseTheInitialDate: Story = {
+export const SelectedDate: Story = {
   render: (args) => (
-    <YearCalendar referenceDate={new Date(2050, 0, 1)} {...args} />
+    <YearCalendar
+      displayedDate={new Date(2000, 0, 1)}
+      selectedDate={new Date(2003, 0, 1)}
+      onYearChange={(newDate) => alert(newDate.toString())}
+      {...args}
+    />
   ),
   parameters: {
     docs: {
       source: {
-        code: `<YearCalendar referenceDate={new Date(2050, 0, 1)} />`.trim()
+        code: `<YearCalendar
+  displayedDate={new Date(2000, 0, 1)}
+  selectedDate={new Date(2003, 0, 1)}
+  onYearChange={(newDate) => alert(newDate.toString())}
+/>`.trim()
       }
     }
   }
@@ -244,14 +184,10 @@ export const Locale: Story = {
     'ar-EG'
   ] as const;
   const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
-  const [value, setValue] = useState<Date | null>(new Date());
 
   const handleLocaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setLocale(value as (typeof LOCALES)[number]);
-  };
-  const handleYearChange = (newValue: Date) => {
-    setValue(newValue);
   };
 
   return (
@@ -274,12 +210,7 @@ export const Locale: Story = {
           </Grid>
         </RadioGroup>
       </Box>
-      <YearCalendar
-        key={locale}
-        value={value}
-        onChange={handleYearChange}
-        locale={locale}
-      />
+      <YearCalendar key={locale} displayedDate={new Date()} locale={locale} />
     </Stack>
   );
 };`.trim()
@@ -289,55 +220,79 @@ export const Locale: Story = {
 };
 
 export const MinDate: Story = {
-  render: (args) => <YearCalendar minDate={new Date(2025, 0, 1)} {...args} />,
+  render: (args) => (
+    <YearCalendar
+      displayedDate={new Date()}
+      minDate={new Date(2025, 0, 1)}
+      {...args}
+    />
+  ),
   parameters: {
     docs: {
       source: {
-        code: `<YearCalendar minDate={new Date(2025, 0, 1)} />`.trim()
+        code: `<YearCalendar
+  displayedDate={new Date()}
+  minDate={new Date(2025, 0, 1)}
+/>`.trim()
       }
     }
   }
 };
 
 export const MaxDate: Story = {
-  render: (args) => <YearCalendar maxDate={new Date(2030, 0, 1)} {...args} />,
+  render: (args) => (
+    <YearCalendar
+      displayedDate={new Date()}
+      maxDate={new Date(2030, 0, 1)}
+      {...args}
+    />
+  ),
   parameters: {
     docs: {
       source: {
-        code: `<YearCalendar maxDate={new Date(2030, 0, 1)} />`.trim()
+        code: `<YearCalendar
+  displayedDate={new Date()}
+  maxDate={new Date(2030, 0, 1)}
+/>`.trim()
       }
     }
   }
 };
 
 export const ReadOnly: Story = {
-  render: (args) => <YearCalendar readOnly {...args} />,
+  render: (args) => (
+    <YearCalendar displayedDate={new Date()} readOnly {...args} />
+  ),
   parameters: {
     docs: {
       source: {
-        code: `<YearCalendar readOnly />`.trim()
+        code: `<YearCalendar displayedDate={new Date()} readOnly />`.trim()
       }
     }
   }
 };
 
 export const Disabled: Story = {
-  render: (args) => <YearCalendar disabled {...args} />,
+  render: (args) => (
+    <YearCalendar displayedDate={new Date()} disabled {...args} />
+  ),
   parameters: {
     docs: {
       source: {
-        code: `<YearCalendar disabled />`.trim()
+        code: `<YearCalendar displayedDate={new Date()} disabled />`.trim()
       }
     }
   }
 };
 
 export const OrderOfYears: Story = {
-  render: (args) => <YearCalendar yearsOrder="dsc" {...args} />,
+  render: (args) => (
+    <YearCalendar displayedDate={new Date()} yearsOrder="dsc" {...args} />
+  ),
   parameters: {
     docs: {
       source: {
-        code: `<YearCalendar yearsOrder='dsc' />`.trim()
+        code: `<YearCalendar displayedDate={new Date()} yearsOrder='dsc' />`.trim()
       }
     }
   }
@@ -346,6 +301,8 @@ export const OrderOfYears: Story = {
 export const CustomYear: Story = {
   render: (args) => (
     <YearCalendar
+      displayedDate={new Date()}
+      selectedDate={new Date(2025, 0, 1)}
       renderYear={(yearProps) => (
         <Year
           color="green"
@@ -361,6 +318,8 @@ export const CustomYear: Story = {
     docs: {
       source: {
         code: `<YearCalendar
+  displayedDate={new Date()}
+  selectedDate={new Date(2025, 0, 1)}
   renderYear={(yearProps) => (
     <Year
       color="green"

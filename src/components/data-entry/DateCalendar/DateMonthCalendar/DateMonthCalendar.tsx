@@ -21,6 +21,7 @@ export type DateMonthCalendarProps<T extends AsType = 'div'> = Omit<
 > &
   Omit<DateComponentProps, 'disabledDates'> &
   MonthCalendarMainProps & {
+    referenceDate?: Date;
     onYearClick?: () => void;
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
@@ -51,7 +52,7 @@ const DateMonthCalendar = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
-  const { selectedDate, displayedDate, changeMonth } = useDateValue({
+  const { selectedDate, displayedDate, onMonthChange } = useDateValue({
     defaultValue,
     value,
     onChange,
@@ -89,14 +90,14 @@ const DateMonthCalendar = <T extends AsType = 'div'>(
     hideNextButton: true
   };
   const monthCalendarProps = {
-    value: selectedDate,
-    onChange: changeMonth,
+    displayedDate,
+    selectedDate,
+    onMonthChange,
     locale,
     minDate,
     maxDate,
     readOnly,
     disabled,
-    referenceDate,
     renderMonth
   };
 

@@ -5,10 +5,9 @@ import { AsType } from '@/types/default-component-props';
 import { Grid, GridProps } from '@/components/layout/Grid';
 import { Month, MonthProps } from './Month';
 import { DateComponentProps } from '@/types/date-component';
-import { useDateValue, useMonthItems } from './MonthCalendar.hooks';
+import { useMonthItems } from './MonthCalendar.hooks';
 
 export type MonthCalendarMainProps = {
-  referenceDate?: Date;
   renderMonth?: (monthProps: Omit<MonthProps, 'ref'>) => React.ReactNode;
 };
 
@@ -16,34 +15,34 @@ export type MonthCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
   'children' | 'defaultValue' | 'onChange'
 > &
-  Omit<DateComponentProps, 'options' | 'disabledDates'> &
-  MonthCalendarMainProps;
+  Omit<
+    DateComponentProps,
+    'options' | 'disabledDates' | 'defaultValue' | 'value' | 'onChange'
+  > &
+  MonthCalendarMainProps & {
+    displayedDate: Date;
+    selectedDate?: Date | null;
+    onMonthChange?: (newDate: Date) => void;
+  };
 
 const MonthCalendar = <T extends AsType = 'div'>(
   props: MonthCalendarProps<T>
 ) => {
   const {
-    defaultValue,
-    value,
-    onChange,
+    displayedDate,
+    selectedDate,
+    onMonthChange,
     locale,
     minDate,
     maxDate,
     readOnly,
     disabled,
-    referenceDate,
     renderMonth = (monthProps: Omit<MonthProps, 'ref'>) => (
       <Month {...monthProps} />
     ),
     className,
     ...rest
   } = props;
-  const { selectedDate, displayedDate, todayDate, changeMonth } = useDateValue({
-    defaultValue,
-    value,
-    onChange,
-    referenceDate
-  });
   const { monthItems } = useMonthItems({
     locale,
     minDate,
@@ -52,8 +51,7 @@ const MonthCalendar = <T extends AsType = 'div'>(
     disabled,
     selectedDate,
     displayedDate,
-    todayDate,
-    changeMonth
+    onMonthChange
   });
 
   return (

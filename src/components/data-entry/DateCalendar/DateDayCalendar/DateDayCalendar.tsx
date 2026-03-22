@@ -21,6 +21,7 @@ export type DateDayCalendarProps<T extends AsType = 'div'> = Omit<
 > &
   DateComponentProps &
   DayCalendarMainProps & {
+    referenceDate?: Date;
     onYearClick?: () => void;
     onMonthClick?: () => void;
     renderCalendarHeader?: (
@@ -57,7 +58,13 @@ const DateDayCalendar = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
-  const { selectedDate, displayedDate, changeDay } = useDateValue({
+  const {
+    selectedDate,
+    displayedDate,
+    onDayChange,
+    goToPrevMonth,
+    goToNextMonth
+  } = useDateValue({
     defaultValue,
     value,
     onChange,
@@ -90,20 +97,20 @@ const DateDayCalendar = <T extends AsType = 'div'>(
           );
         })}
       </>
-    )
-    // onPrevClick: '',
-    // onNextClick: '',
+    ),
+    onPrevClick: goToPrevMonth,
+    onNextClick: goToNextMonth
   };
   const dayCalendarProps = {
-    value: selectedDate,
-    onChange: changeDay,
+    displayedDate,
+    selectedDate,
+    onDayChange,
     locale,
     minDate,
     maxDate,
     disabledDates,
     readOnly,
     disabled,
-    referenceDate,
     showDaysOutsideCurrentMonth,
     fixedWeekNumber,
     displayWeekNumber,

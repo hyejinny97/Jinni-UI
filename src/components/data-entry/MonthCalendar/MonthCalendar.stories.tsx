@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import MonthCalendar from './MonthCalendar';
 import { Month } from './Month';
 import { Stack } from '@/components/layout/Stack';
-import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Grid } from '@/components/layout/Grid';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
@@ -16,16 +15,16 @@ const meta: Meta<typeof MonthCalendar> = {
     'components/data-entry/DatePicker/DateCalendar/DateMonthCalendar/MonthCalendar',
   component: MonthCalendar,
   argTypes: {
-    defaultValue: {
-      description: '초기 selected date',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
         type: { summary: 'boolean' }
+      }
+    },
+    displayedDate: {
+      description: '화면에 보여지는 날짜',
+      table: {
+        type: { summary: 'Date' }
       }
     },
     locale: {
@@ -46,12 +45,10 @@ const meta: Meta<typeof MonthCalendar> = {
         type: { summary: 'Date' }
       }
     },
-    onChange: {
-      description: 'value가 변경됐을 때 호출되는 함수',
+    onMonthChange: {
+      description: 'month button을 클릭했을 때 호출되는 함수',
       table: {
-        type: {
-          summary: `(value: Date) => void;`
-        }
+        type: { summary: '(newDate: Date) ⇒ void;' }
       }
     },
     readOnly: {
@@ -59,14 +56,6 @@ const meta: Meta<typeof MonthCalendar> = {
       table: {
         type: {
           summary: `boolean`
-        }
-      }
-    },
-    referenceDate: {
-      description: 'value, defaultValue prop이 없을 때 참조하는 date',
-      table: {
-        type: {
-          summary: `Date`
         }
       }
     },
@@ -81,8 +70,8 @@ const meta: Meta<typeof MonthCalendar> = {
         }
       }
     },
-    value: {
-      description: 'selected date',
+    selectedDate: {
+      description: '선택된 날짜',
       table: {
         type: {
           summary: `Date | null`
@@ -95,27 +84,6 @@ const meta: Meta<typeof MonthCalendar> = {
 export default meta;
 type Story = StoryObj<typeof MonthCalendar>;
 
-const ControlledMonthCalendarTemplate = () => {
-  const [value, setValue] = useState<Date | null>(null);
-  const year = value?.getFullYear();
-  const month = value?.getMonth();
-
-  const handleChange = (newValue: Date) => {
-    setValue(newValue);
-  };
-
-  return (
-    <Stack spacing={5}>
-      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
-        Date:
-        <span>{year !== undefined && `${year} /`}</span>
-        <span>{month !== undefined && `${month + 1}`}</span>
-      </Text>
-      <MonthCalendar value={value} onChange={handleChange} />
-    </Stack>
-  );
-};
-
 const LocaleTemplate = () => {
   const LOCALES = [
     'ko-KR',
@@ -126,14 +94,10 @@ const LocaleTemplate = () => {
     'ar-EG'
   ] as const;
   const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
-  const [value, setValue] = useState<Date | null>(new Date());
 
   const handleLocaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setLocale(value as (typeof LOCALES)[number]);
-  };
-  const handleMonthChange = (newValue: Date) => {
-    setValue(newValue);
   };
 
   return (
@@ -156,74 +120,28 @@ const LocaleTemplate = () => {
           </Grid>
         </RadioGroup>
       </Box>
-      <MonthCalendar
-        key={locale}
-        value={value}
-        onChange={handleMonthChange}
-        locale={locale}
-      />
+      <MonthCalendar key={locale} displayedDate={new Date()} locale={locale} />
     </Stack>
   );
 };
 
 export const BasicMonthCalendar: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <MonthCalendar {...args} />
-      <MonthCalendar defaultValue={new Date(2000, 0, 1)} {...args} />
-    </Stack>
-  ),
+  render: (args) => <MonthCalendar displayedDate={new Date()} {...args} />,
   parameters: {
     docs: {
       source: {
-        code: `<Stack direction="row" spacing={20}>
-  <MonthCalendar />
-  <MonthCalendar defaultValue={new Date(2000, 0, 1)} />
-</Stack>`.trim()
+        code: `<MonthCalendar displayedDate={new Date()} />`.trim()
       }
     }
   }
 };
 
-export const ControlledMonthCalendar: Story = {
-  render: () => <ControlledMonthCalendarTemplate />,
-  parameters: {
-    docs: {
-      source: {
-        code: `const ControlledMonthCalendarTemplate = () => {
-  const [value, setValue] = useState<Date | null>(null);
-  const year = value?.getFullYear();
-  const month = value?.getMonth();
-
-  const handleChange = (newValue: Date) => {
-    setValue(newValue);
-  };
-
-  return (
-    <Stack spacing={5}>
-      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
-        Date:
-        <span>{year !== undefined && \`\${year} /\`}</span>
-        <span>{month !== undefined && \`\${month + 1}\`}</span>
-      </Text>
-      <MonthCalendar value={value} onChange={handleChange} />
-    </Stack>
-  );
-};`.trim()
-      }
-    }
-  }
-};
-
-export const ChooseTheInitialDate: Story = {
+export const SelectedDate: Story = {
   render: (args) => (
     <MonthCalendar
-      referenceDate={new Date(2050, 0, 1)}
-      onChange={(value: Date) =>
-        alert(
-          `Date: ${value.getFullYear()}/${value.getMonth() + 1}/${value.getDate()}`
-        )
-      }
+      displayedDate={new Date(2000, 0, 1)}
+      selectedDate={new Date(2000, 3, 1)}
+      onMonthChange={(newDate) => alert(newDate.toString())}
       {...args}
     />
   ),
@@ -231,10 +149,9 @@ export const ChooseTheInitialDate: Story = {
     docs: {
       source: {
         code: `<MonthCalendar
-  referenceDate={new Date(2050, 0, 1)}
-  onChange={(value: Date) =>
-    alert(\`Date: \${value.getFullYear()}/\${value.getMonth() + 1}/\${value.getDate()}\`)
-  }
+  displayedDate={new Date(2000, 0, 1)}
+  selectedDate={new Date(2000, 3, 1)}
+  onMonthChange={(newDate) => alert(newDate.toString())}
 />`.trim()
       }
     }
@@ -256,14 +173,10 @@ export const Locale: Story = {
     'ar-EG'
   ] as const;
   const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
-  const [value, setValue] = useState<Date | null>(new Date());
 
   const handleLocaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setLocale(value as (typeof LOCALES)[number]);
-  };
-  const handleMonthChange = (newValue: Date) => {
-    setValue(newValue);
   };
 
   return (
@@ -286,15 +199,11 @@ export const Locale: Story = {
           </Grid>
         </RadioGroup>
       </Box>
-      <MonthCalendar
-        key={locale}
-        value={value}
-        onChange={handleMonthChange}
-        locale={locale}
-      />
+      <MonthCalendar key={locale} displayedDate={new Date()} locale={locale} />
     </Stack>
   );
-};`.trim()
+};
+`.trim()
       }
     }
   }
@@ -303,7 +212,7 @@ export const Locale: Story = {
 export const MinDate: Story = {
   render: (args) => (
     <MonthCalendar
-      referenceDate={new Date(2025, 0, 1)}
+      displayedDate={new Date(2025, 0, 1)}
       minDate={new Date(2025, 2, 1)}
       {...args}
     />
@@ -312,7 +221,7 @@ export const MinDate: Story = {
     docs: {
       source: {
         code: `<MonthCalendar
-  referenceDate={new Date(2025, 0, 1)}
+  displayedDate={new Date(2025, 0, 1)}
   minDate={new Date(2025, 2, 1)}
 />`.trim()
       }
@@ -323,7 +232,7 @@ export const MinDate: Story = {
 export const MaxDate: Story = {
   render: (args) => (
     <MonthCalendar
-      referenceDate={new Date(2025, 0, 1)}
+      displayedDate={new Date(2025, 0, 1)}
       maxDate={new Date(2025, 9, 1)}
       {...args}
     />
@@ -332,7 +241,7 @@ export const MaxDate: Story = {
     docs: {
       source: {
         code: `<MonthCalendar
-  referenceDate={new Date(2025, 0, 1)}
+  displayedDate={new Date(2025, 0, 1)}
   maxDate={new Date(2025, 9, 1)}
 />`.trim()
       }
@@ -341,22 +250,26 @@ export const MaxDate: Story = {
 };
 
 export const ReadOnly: Story = {
-  render: (args) => <MonthCalendar readOnly {...args} />,
+  render: (args) => (
+    <MonthCalendar displayedDate={new Date()} readOnly {...args} />
+  ),
   parameters: {
     docs: {
       source: {
-        code: `<MonthCalendar readOnly />`.trim()
+        code: `<MonthCalendar displayedDate={new Date()} readOnly />`.trim()
       }
     }
   }
 };
 
 export const Disabled: Story = {
-  render: (args) => <MonthCalendar disabled {...args} />,
+  render: (args) => (
+    <MonthCalendar displayedDate={new Date()} disabled {...args} />
+  ),
   parameters: {
     docs: {
       source: {
-        code: `<MonthCalendar disabled />`.trim()
+        code: `<MonthCalendar displayedDate={new Date()} disabled />`.trim()
       }
     }
   }
@@ -365,6 +278,8 @@ export const Disabled: Story = {
 export const CustomMonth: Story = {
   render: (args) => (
     <MonthCalendar
+      displayedDate={new Date(2025, 0, 1)}
+      selectedDate={new Date(2025, 1, 1)}
       renderMonth={(monthProps) => (
         <Month
           color="green"
@@ -380,6 +295,8 @@ export const CustomMonth: Story = {
     docs: {
       source: {
         code: `<MonthCalendar
+  displayedDate={new Date()}
+  selectedDate={new Date(2025, 1, 1)}
   renderMonth={(monthProps) => (
     <Month
       color="green"

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { MonthCalendarProps } from './MonthCalendar';
 import {
   getLocaleMonths,
@@ -7,47 +7,17 @@ import {
   isSameMonth
 } from './MonthCalendar.utils';
 
-type UseDateValueProps = Pick<
-  MonthCalendarProps,
-  'defaultValue' | 'value' | 'onChange' | 'referenceDate'
->;
-
 type UseMonthItemsProps = Pick<
   MonthCalendarProps,
-  'locale' | 'minDate' | 'maxDate' | 'readOnly' | 'disabled'
-> & {
-  selectedDate: Date | null | undefined;
-  displayedDate: Date;
-  todayDate: Date;
-  changeMonth: (newValue: Date) => void;
-};
-
-export const useDateValue = ({
-  defaultValue,
-  value,
-  onChange,
-  referenceDate
-}: UseDateValueProps) => {
-  const isControlled = value !== undefined;
-  const [uncontrolledSelectedDate, setUncontrolledSelectedDate] = useState<
-    Date | undefined
-  >(defaultValue);
-  const selectedDate = isControlled ? value : uncontrolledSelectedDate;
-  const todayDate = new Date();
-  const displayedDate = selectedDate || referenceDate || todayDate;
-
-  const changeMonth = (newValue: Date) => {
-    if (!isControlled) setUncontrolledSelectedDate(newValue);
-    if (onChange) onChange(newValue);
-  };
-
-  return {
-    selectedDate,
-    displayedDate,
-    todayDate,
-    changeMonth
-  };
-};
+  | 'locale'
+  | 'minDate'
+  | 'maxDate'
+  | 'readOnly'
+  | 'disabled'
+  | 'selectedDate'
+  | 'displayedDate'
+  | 'onMonthChange'
+>;
 
 export const useMonthItems = ({
   locale,
@@ -57,8 +27,7 @@ export const useMonthItems = ({
   disabled,
   selectedDate,
   displayedDate,
-  todayDate,
-  changeMonth
+  onMonthChange
 }: UseMonthItemsProps) => {
   const localeMonths = useMemo(
     () => getLocaleMonths(displayedDate, locale),
@@ -66,6 +35,7 @@ export const useMonthItems = ({
   );
 
   const monthItems = useMemo(() => {
+    const todayDate = new Date();
     return localeMonths.map(({ format, value }) => ({
       value,
       children: format,
@@ -78,7 +48,7 @@ export const useMonthItems = ({
         disabled ||
         isLowerMonth({ baseDate: minDate, targetDate: value }) ||
         isHigherMonth({ baseDate: maxDate, targetDate: value }),
-      onClick: () => changeMonth(value)
+      onClick: () => onMonthChange?.(value)
     }));
   }, [
     localeMonths,
@@ -87,8 +57,7 @@ export const useMonthItems = ({
     readOnly,
     disabled,
     selectedDate,
-    todayDate,
-    changeMonth
+    onMonthChange
   ]);
 
   return { monthItems };

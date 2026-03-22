@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useLayoutEffect } from 'react';
+import { useMemo, useRef, useLayoutEffect } from 'react';
 import { YearCalendarProps } from './YearCalendar';
 import {
   getTwoCenturyLocaleYears,
@@ -6,50 +6,21 @@ import {
   isHigherYear
 } from './YearCalendar.utils';
 
-type UseDateValueProps = Pick<
-  YearCalendarProps,
-  'defaultValue' | 'value' | 'onChange' | 'referenceDate'
->;
-
 type UseYearItemsProps = Pick<
   YearCalendarProps,
-  'locale' | 'minDate' | 'maxDate' | 'readOnly' | 'disabled' | 'yearsOrder'
-> & {
-  selectedDate: Date | null | undefined;
-  displayedDate: Date;
-  todayDate: Date;
-  changeYear: (newValue: Date) => void;
-};
+  | 'locale'
+  | 'minDate'
+  | 'maxDate'
+  | 'readOnly'
+  | 'disabled'
+  | 'yearsOrder'
+  | 'selectedDate'
+  | 'displayedDate'
+  | 'onYearChange'
+>;
 
 type UseScrollProps = {
   displayedDate: Date;
-};
-
-export const useDateValue = ({
-  defaultValue,
-  value,
-  onChange,
-  referenceDate
-}: UseDateValueProps) => {
-  const isControlled = value !== undefined;
-  const [uncontrolledSelectedDate, setUncontrolledSelectedDate] = useState<
-    Date | undefined
-  >(defaultValue);
-  const selectedDate = isControlled ? value : uncontrolledSelectedDate;
-  const todayDate = new Date();
-  const displayedDate = selectedDate || referenceDate || todayDate;
-
-  const changeYear = (newValue: Date) => {
-    if (!isControlled) setUncontrolledSelectedDate(newValue);
-    if (onChange) onChange(newValue);
-  };
-
-  return {
-    selectedDate,
-    displayedDate,
-    todayDate,
-    changeYear
-  };
 };
 
 export const useYearItems = ({
@@ -61,8 +32,7 @@ export const useYearItems = ({
   yearsOrder,
   selectedDate,
   displayedDate,
-  todayDate,
-  changeYear
+  onYearChange
 }: UseYearItemsProps) => {
   const localeYears = useMemo(
     () => getTwoCenturyLocaleYears(displayedDate, locale),
@@ -70,6 +40,7 @@ export const useYearItems = ({
   );
 
   const yearItems = useMemo(() => {
+    const todayDate = new Date();
     const sortedLocaleYears =
       yearsOrder === 'dsc' ? [...localeYears].reverse() : localeYears;
     return sortedLocaleYears.map(({ format, value }) => ({
@@ -83,7 +54,7 @@ export const useYearItems = ({
         disabled ||
         isLowerYear({ baseDate: minDate, targetDate: value }) ||
         isHigherYear({ baseDate: maxDate, targetDate: value }),
-      onClick: () => changeYear(value)
+      onClick: () => onYearChange?.(value)
     }));
   }, [
     localeYears,
@@ -93,8 +64,7 @@ export const useYearItems = ({
     disabled,
     yearsOrder,
     selectedDate,
-    todayDate,
-    changeYear
+    onYearChange
   ]);
 
   return { yearItems };

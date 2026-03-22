@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { DayCalendarProps } from './DayCalendar';
 import {
   getLocaleWeekDays,
@@ -14,11 +14,6 @@ import {
   DaysType,
   LocaleDayType
 } from './DayCalendar.types';
-
-type UseDateValueProps = Pick<
-  DayCalendarProps,
-  'defaultValue' | 'value' | 'onChange' | 'referenceDate'
->;
 
 type UseWeekDayItemsProps = Pick<
   DayCalendarProps,
@@ -36,39 +31,10 @@ type UseDayItemsProps = Pick<
   | 'displayWeekNumber'
   | 'fixedWeekNumber'
   | 'showDaysOutsideCurrentMonth'
-> & {
-  displayedDate: Date;
-  selectedDate: Date | null | undefined;
-  todayDate: Date;
-  changeDay: (newValue: Date) => void;
-};
-
-export const useDateValue = ({
-  defaultValue,
-  value,
-  onChange,
-  referenceDate
-}: UseDateValueProps) => {
-  const isControlled = value !== undefined;
-  const [uncontrolledSelectedDate, setUncontrolledSelectedDate] = useState<
-    Date | undefined
-  >(defaultValue);
-  const selectedDate = isControlled ? value : uncontrolledSelectedDate;
-  const todayDate = new Date();
-  const displayedDate = selectedDate || referenceDate || todayDate;
-
-  const changeDay = (newValue: Date) => {
-    if (!isControlled) setUncontrolledSelectedDate(newValue);
-    if (onChange) onChange(newValue);
-  };
-
-  return {
-    selectedDate,
-    displayedDate,
-    todayDate,
-    changeDay
-  };
-};
+  | 'selectedDate'
+  | 'displayedDate'
+  | 'onDayChange'
+>;
 
 export const useWeekDayItems = ({
   locale,
@@ -100,10 +66,9 @@ export const useDayItems = ({
   displayWeekNumber,
   fixedWeekNumber,
   showDaysOutsideCurrentMonth,
-  displayedDate,
   selectedDate,
-  todayDate,
-  changeDay
+  displayedDate,
+  onDayChange
 }: UseDayItemsProps) => {
   const year = displayedDate.getFullYear();
   const month = displayedDate.getMonth();
@@ -181,6 +146,7 @@ export const useDayItems = ({
   ]);
 
   const dayItems = useMemo(() => {
+    const todayDate = new Date();
     return days.map((day) => {
       switch (day.type) {
         case 'empty-day':
@@ -208,7 +174,7 @@ export const useDayItems = ({
                   isSameDay({ baseDate: value, targetDate: disabledDate })
                 )),
             disableRipple: type === 'outside-day',
-            onClick: () => changeDay(value)
+            onClick: () => onDayChange?.(value)
           };
         }
       }
@@ -221,8 +187,7 @@ export const useDayItems = ({
     readOnly,
     disabled,
     selectedDate,
-    todayDate,
-    changeDay
+    onDayChange
   ]);
 
   return { dayItems };

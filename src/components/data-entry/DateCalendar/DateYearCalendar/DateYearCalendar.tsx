@@ -19,6 +19,7 @@ export type DateYearCalendarProps<T extends AsType = 'div'> = Omit<
 > &
   Omit<DateComponentProps, 'disabledDates'> &
   YearCalendarMainProps & {
+    referenceDate?: Date;
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
@@ -48,7 +49,7 @@ const DateYearCalendar = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
-  const { selectedDate, displayedDate, changeYear } = useDateValue({
+  const { selectedDate, displayedDate, onYearChange } = useDateValue({
     defaultValue,
     value,
     onChange,
@@ -62,14 +63,14 @@ const DateYearCalendar = <T extends AsType = 'div'>(
     hideNextButton: true
   };
   const yearCalendarProps = {
-    value: selectedDate,
-    onChange: changeYear,
+    displayedDate,
+    selectedDate,
+    onYearChange,
     locale,
     minDate,
     maxDate,
     readOnly,
     disabled,
-    referenceDate,
     yearsOrder,
     renderYear
   };

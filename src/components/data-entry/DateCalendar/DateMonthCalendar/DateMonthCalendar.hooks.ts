@@ -20,7 +20,7 @@ export const useDateValue = ({
   const todayDate = new Date();
   const displayedDate = selectedDate || referenceDate || todayDate;
 
-  const changeMonth = (newValue: Date) => {
+  const onMonthChange = (newValue: Date) => {
     if (!isControlled) setUncontrolledSelectedDate(newValue);
     if (onChange) onChange(newValue);
   };
@@ -28,6 +28,6 @@ export const useDateValue = ({
   return {
     selectedDate,
     displayedDate,
-    changeMonth
+    onMonthChange
   };
 };

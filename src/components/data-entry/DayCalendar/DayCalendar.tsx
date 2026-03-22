@@ -6,14 +6,9 @@ import { Stack, StackProps } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Day, DayProps } from './Day';
 import { DateComponentProps } from '@/types/date-component';
-import {
-  useDateValue,
-  useWeekDayItems,
-  useDayItems
-} from './DayCalendar.hooks';
+import { useWeekDayItems, useDayItems } from './DayCalendar.hooks';
 
 export type DayCalendarMainProps = {
-  referenceDate?: Date;
   showDaysOutsideCurrentMonth?: boolean;
   fixedWeekNumber?: number;
   displayWeekNumber?: boolean;
@@ -24,21 +19,24 @@ export type DayCalendarProps<T extends AsType = 'div'> = Omit<
   StackProps<T>,
   'children' | 'defaultValue' | 'onChange'
 > &
-  Omit<DateComponentProps, 'options'> &
-  DayCalendarMainProps;
+  Omit<DateComponentProps, 'options' | 'defaultValue' | 'value' | 'onChange'> &
+  DayCalendarMainProps & {
+    displayedDate: Date;
+    selectedDate?: Date | null;
+    onDayChange?: (newDate: Date) => void;
+  };
 
 const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
   const {
-    defaultValue,
-    value,
-    onChange,
+    displayedDate,
+    selectedDate,
+    onDayChange,
     locale,
     minDate,
     maxDate,
     disabledDates,
     readOnly,
     disabled,
-    referenceDate,
     showDaysOutsideCurrentMonth,
     fixedWeekNumber,
     displayWeekNumber,
@@ -46,12 +44,6 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
     className,
     ...rest
   } = props;
-  const { selectedDate, displayedDate, todayDate, changeDay } = useDateValue({
-    defaultValue,
-    value,
-    onChange,
-    referenceDate
-  });
   const { weekDayItems } = useWeekDayItems({ locale, displayWeekNumber });
   const { dayItems } = useDayItems({
     locale,
@@ -65,8 +57,7 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
     showDaysOutsideCurrentMonth,
     displayedDate,
     selectedDate,
-    todayDate,
-    changeDay
+    onDayChange
   });
   const gridColumns = displayWeekNumber ? 8 : 7;
 
