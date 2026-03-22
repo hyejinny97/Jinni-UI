@@ -1,34 +1,35 @@
-import './DateMonthCalendar.scss';
+import './DateDayCalendar.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateComponentProps } from '@/types/date-component';
 import {
-  MonthCalendar,
-  MonthCalendarMainProps
-} from '@/components/data-entry/MonthCalendar';
+  DayCalendar,
+  DayCalendarMainProps
+} from '@/components/data-entry/DayCalendar';
 import {
   CalendarHeader,
   CalendarHeaderProps
 } from '@/components/data-entry/CalendarHeader';
 import useStyle from '@/hooks/useStyle';
-import { useDateValue } from './DateMonthCalendar.hooks';
+import { useDateValue } from './DateDayCalendar.hooks';
 import { getYearMonthParts } from '@/utils/date-component';
 import { ButtonBase } from '@/components/general/ButtonBase';
 
-export type DateMonthCalendarProps<T extends AsType = 'div'> = Omit<
+export type DateDayCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'defaultValue' | 'onChange'
 > &
-  Omit<DateComponentProps, 'disabledDates'> &
-  MonthCalendarMainProps & {
+  DateComponentProps &
+  DayCalendarMainProps & {
     onYearClick?: () => void;
+    onMonthClick?: () => void;
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
   };
 
-const DateMonthCalendar = <T extends AsType = 'div'>(
-  props: DateMonthCalendarProps<T>
+const DateDayCalendar = <T extends AsType = 'div'>(
+  props: DateDayCalendarProps<T>
 ) => {
   const {
     defaultValue,
@@ -38,11 +39,16 @@ const DateMonthCalendar = <T extends AsType = 'div'>(
     options,
     minDate,
     maxDate,
+    disabledDates,
     readOnly,
     disabled,
     referenceDate,
-    renderMonth,
+    showDaysOutsideCurrentMonth,
+    fixedWeekNumber,
+    displayWeekNumber,
+    renderDay,
     onYearClick,
+    onMonthClick,
     renderCalendarHeader = (calendarHeaderProps: CalendarHeaderProps) => (
       <CalendarHeader {...calendarHeaderProps} />
     ),
@@ -51,7 +57,7 @@ const DateMonthCalendar = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
-  const { selectedDate, displayedDate, changeMonth } = useDateValue({
+  const { selectedDate, displayedDate, changeDay } = useDateValue({
     defaultValue,
     value,
     onChange,
@@ -66,11 +72,11 @@ const DateMonthCalendar = <T extends AsType = 'div'>(
         {yearMonthParts.map((part, idx) => {
           const { type, value } = part;
           const hasBlank = type === 'literal' && value.includes(' ');
-          return type === 'year' ? (
+          return type === 'year' || type === 'month' ? (
             <ButtonBase
               key={type}
               className="JinniCalendarHeaderDatePart"
-              onClick={onYearClick}
+              onClick={type === 'year' ? onYearClick : onMonthClick}
             >
               {value}
             </ButtonBase>
@@ -84,32 +90,36 @@ const DateMonthCalendar = <T extends AsType = 'div'>(
           );
         })}
       </>
-    ),
-    hidePrevButton: true,
-    hideNextButton: true
+    )
+    // onPrevClick: '',
+    // onNextClick: '',
   };
-  const monthCalendarProps = {
+  const dayCalendarProps = {
     value: selectedDate,
-    onChange: changeMonth,
+    onChange: changeDay,
     locale,
     minDate,
     maxDate,
+    disabledDates,
     readOnly,
     disabled,
     referenceDate,
-    renderMonth
+    showDaysOutsideCurrentMonth,
+    fixedWeekNumber,
+    displayWeekNumber,
+    renderDay
   };
 
   return (
     <Component
-      className={cn('JinniDateMonthCalendar', className)}
+      className={cn('JinniDateDayCalendar', className)}
       style={newStyle}
       {...rest}
     >
       {renderCalendarHeader(calendarHeaderProps)}
-      <MonthCalendar {...monthCalendarProps} />
+      <DayCalendar {...dayCalendarProps} />
     </Component>
   );
 };
 
-export default DateMonthCalendar;
+export default DateDayCalendar;

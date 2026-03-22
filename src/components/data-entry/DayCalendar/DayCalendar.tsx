@@ -12,7 +12,7 @@ import {
   useDayItems
 } from './DayCalendar.hooks';
 
-export type DayMainProps = {
+export type DayCalendarMainProps = {
   referenceDate?: Date;
   showDaysOutsideCurrentMonth?: boolean;
   fixedWeekNumber?: number;
@@ -25,7 +25,7 @@ export type DayCalendarProps<T extends AsType = 'div'> = Omit<
   'children' | 'defaultValue' | 'onChange'
 > &
   Omit<DateComponentProps, 'options'> &
-  DayMainProps;
+  DayCalendarMainProps;
 
 const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
   const {

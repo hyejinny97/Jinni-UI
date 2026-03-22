@@ -1,8 +1,11 @@
-import { DateMonthCalendarProps } from './DateMonthCalendar';
-import { YearDigitType, MonthDigitType } from '@/types/date-component';
+import {
+  YearDigitType,
+  MonthDigitType,
+  DateComponentProps
+} from '@/types/date-component';
 import { MONTH_DIGITS } from '@/constants/date-component';
 
-type GetDatePartsProps = Pick<DateMonthCalendarProps, 'locale' | 'options'> & {
+type GetDatePartsProps = Pick<DateComponentProps, 'locale' | 'options'> & {
   displayedDate: Date;
 };
 
