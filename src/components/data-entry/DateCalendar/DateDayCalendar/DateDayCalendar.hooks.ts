@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DateDayCalendarProps } from './DateDayCalendar';
 
 type UseDateValueProps = Pick<
@@ -38,6 +38,12 @@ export const useDateValue = ({
     newDate.setMonth(currentMonth + 1);
     setDisplayedDate(newDate);
   };
+
+  useEffect(() => {
+    if (selectedDate) {
+      setDisplayedDate(selectedDate);
+    }
+  }, [selectedDate]);
 
   return {
     selectedDate,

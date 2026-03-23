@@ -1,0 +1,21 @@
+.JinniCalendarHeader.custom-calendar-header {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-bottom: 5px;
+
+  .JinniCalendarHeaderContent {
+    order: 1;
+    justify-content: start;
+  }
+
+  .JinniCalendarHeaderControl {
+    padding: 4px;
+
+    &.prev-button {
+      order: 2;
+    }
+    &.next-button {
+      order: 3;
+    }
+  }
+}

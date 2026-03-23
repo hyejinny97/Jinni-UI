@@ -4,7 +4,7 @@ import CalendarHeader from './CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof CalendarHeader> = {
-  title: 'components/data-entry/DatePicker/CalendarHeader',
+  title: 'components/data-entry/DatePicker/DateCalendar/CalendarHeader',
   component: CalendarHeader,
   argTypes: {
     children: {
