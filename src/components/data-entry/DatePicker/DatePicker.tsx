@@ -108,12 +108,14 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
 
   return (
     <Component
+      role="group"
       className={cn(
         'JinniDatePicker',
         { fullWidth: !!DateFieldProps?.fullWidth },
         className
       )}
       style={newStyle}
+      aria-label="Date Picker"
       {...rest}
     >
       <input
