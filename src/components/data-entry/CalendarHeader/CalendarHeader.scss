@@ -1,0 +1,25 @@
+.JinniCalendarHeader {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 19px;
+  width: 320px;
+  height: 40px;
+  box-sizing: border-box;
+
+  .JinniCalendarHeaderContent {
+    flex: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .JinniCalendarHeaderControl {
+    display: inline-flex;
+    padding: 8px;
+    border-radius: 9999px;
+
+    &.hide {
+      visibility: hidden;
+    }
+  }
+}

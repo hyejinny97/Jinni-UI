@@ -1,14 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { DateOptions } from '@/components/data-entry/DateField';
-import {
-  YearProps,
-  MonthProps,
-  DayProps,
-  getBaseCalendarType
-} from '@/components/data-entry/Calendar';
+import { YearProps } from '@/components/data-entry/YearCalendar';
+import { MonthProps } from '@/components/data-entry/MonthCalendar';
+import { DayProps } from '@/components/data-entry/DayCalendar';
 import {
   RangeType,
   DateRangeValidationError
@@ -21,6 +17,7 @@ import { VerticalDayRangeCalendars } from './VerticalDayRangeCalendars';
 import { HorizontalDayRangeCalendars } from './HorizontalDayRangeCalendars';
 import { dateToMonth } from '@/utils/date';
 import { dateToDay } from '@/utils/date';
+import { DateOptions } from '@/types/date-component';
 
 export type DateRangeCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -98,10 +95,11 @@ const DateRangeCalendar = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
-  const baseCalendarType = useMemo(
-    () => getBaseCalendarType({ locale, options }),
-    [locale, options]
-  );
+  // const baseCalendarType = useMemo(
+  //   () => getBaseCalendarType({ locale, options }),
+  //   [locale, options]
+  // );
+  const baseCalendarType = 'year';
   const { selectedDateRange, handleChange } = useSelectedDateRange({
     defaultValue,
     value,

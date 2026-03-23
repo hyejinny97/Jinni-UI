@@ -1,0 +1,16 @@
+.JinniDateMonthCalendar {
+  .JinniCalendarHeader {
+    .JinniCalendarHeaderDatePart {
+      display: inline-block;
+      font: inherit;
+
+      &.JinniButtonBase {
+        padding: 0 3px;
+        border-radius: 4px;
+        text-decoration: underline;
+        text-decoration-color: var(--jinni-color-gray-400);
+        text-underline-offset: 2px;
+      }
+    }
+  }
+}

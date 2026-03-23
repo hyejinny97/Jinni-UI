@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { DatePickerProps } from './DatePicker';
-import { DateValidationError } from '@/components/data-entry/DateField';
 
 export const useDateValue = ({
   defaultValue,
@@ -11,17 +10,15 @@ export const useDateValue = ({
   const [uncontrolledDate, setUncontrolledDate] = useState<Date | null>(
     defaultValue || null
   );
+  const selectedDate = isControlled ? value : uncontrolledDate;
 
-  const handleChange = (
-    newValue: Date,
-    validationError?: DateValidationError
-  ) => {
+  const onSelectDate = (newValue: Date) => {
     if (!isControlled) setUncontrolledDate(newValue);
-    if (onChange) onChange(newValue, validationError);
+    if (onChange) onChange(newValue);
   };
 
   return {
-    dateValue: isControlled ? value : uncontrolledDate,
-    handleChange
+    selectedDate,
+    onSelectDate
   };
 };

@@ -6,7 +6,7 @@ import {
   Day,
   DayCalendarProps,
   DayProps
-} from '@/components/data-entry/Calendar';
+} from '@/components/data-entry/DayCalendar';
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';

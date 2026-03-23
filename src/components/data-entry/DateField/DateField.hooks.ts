@@ -1,130 +1,161 @@
-import { useState, useMemo, useLayoutEffect, useRef } from 'react';
+import {
+  useState,
+  useMemo,
+  useLayoutEffect,
+  useRef,
+  useCallback,
+  useEffect
+} from 'react';
 import { DateFieldProps } from './DateField';
+import { DateObjectType, TokensType, KeyDatePartType } from './DateField.types';
 import {
-  DateObjectType,
-  TokensType,
-  KeyDatePartType,
-  YearDigitTypes,
-  MonthDigitTypes,
-  DayDigitTypes
-} from './DateField.types';
-import {
-  isAvailableLocale,
   getLocaleNumberValues,
   getLocaleMonthValues,
   getLocaleDayValues,
   findYearTokenType,
   findMonthTokenType,
-  findDayTokenType
+  findDayTokenType,
+  dateToTimeStamp,
+  getLastDay
 } from './DateField.utils';
+import { TOKENS } from './DateField.constants';
 import {
-  TOKENS,
-  YEAR_DIGITS,
-  MONTH_DIGITS,
-  DAY_DIGITS
-} from './DateField.constants';
-import { DateValidationError } from './DateField.types';
+  DateValidationError,
+  YearDigitType,
+  MonthDigitType,
+  DayDigitType
+} from '@/types/date-component';
+import { isAvailableLocale } from '@/utils/dateTimeFormat';
+import { isNumber } from '@/utils/isNumber';
+
+type HandleDateChangeType = ({ year, month, day }: DateObjectType) => void;
 
 type UseDateValue = Pick<
   DateFieldProps,
-  | 'defaultValue'
-  | 'value'
-  | 'onChange'
-  | 'minDate'
-  | 'maxDate'
-  | 'disabledDates'
-  | 'onErrorStatus'
+  'defaultValue' | 'value' | 'onChange'
 > & {
   dateToDateObject: (date: Date | undefined | null) => DateObjectType;
   dateObjectToDate: ({ year, month, day }: DateObjectType) => Date;
-  getLocaleDayValuesByYearMonth: (
-    date?: Date | null | undefined
-  ) => Array<string>;
 };
 
-type HandleDateChangeType = ({ year, month, day }: DateObjectType) => void;
+type UseValidation = Pick<
+  DateFieldProps,
+  'minDate' | 'maxDate' | 'disabledDates' | 'onErrorStatus'
+> & {
+  dateValue: DateObjectType;
+  dateObjectToDate: ({ year, month, day }: DateObjectType) => Date;
+};
+
+type UseInputProps = {
+  dateValue: DateObjectType;
+  yearDigit: YearDigitType | null;
+  monthDigit: MonthDigitType | null;
+  dayDigit: DayDigitType | null;
+  localeNumberValues: Array<string>;
+  localeMonthValues: Array<string>;
+  localeDayValues: Array<string>;
+  handleDateChange: HandleDateChangeType;
+  focusNextDatePartOrBlur: (currentDatePartEl: HTMLElement) => void;
+  dateObjectToDate: ({ year, month, day }: DateObjectType) => Date;
+};
+
+type UseFocusProps = {
+  datePartsElRef: React.MutableRefObject<HTMLElement[]>;
+};
 
 export const useDateValue = ({
   defaultValue,
   value,
-  minDate,
-  maxDate,
-  disabledDates,
   onChange,
-  onErrorStatus,
   dateToDateObject,
-  dateObjectToDate,
-  getLocaleDayValuesByYearMonth
+  dateObjectToDate
 }: UseDateValue) => {
   const isControlled = value !== undefined;
   const [uncontrolledDate, setUncontrolledDate] = useState<DateObjectType>(
     dateToDateObject(defaultValue)
   );
-  const [validationError, setValidationError] = useState<
-    DateValidationError | undefined
-  >();
-  const date = isControlled ? dateToDateObject(value) : uncontrolledDate;
-  const [localeDayValues, setLocaleDayValues] = useState<Array<string>>(
-    getLocaleDayValuesByYearMonth(isControlled ? value : defaultValue)
-  );
-
-  const dateToTimeStamp = (date: Date): number => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    return new Date(year, month, day).getTime();
-  };
-
-  const validateDate = (date: Date | null): DateValidationError | undefined => {
-    if (date === null) return;
-    const dateInTimeStamp = dateToTimeStamp(date);
-    if (minDate) {
-      const minDateInTimeStamp = dateToTimeStamp(minDate);
-      if (dateInTimeStamp < minDateInTimeStamp) return 'minDate';
-    }
-    if (maxDate) {
-      const maxDateInTimeStamp = dateToTimeStamp(maxDate);
-      if (dateInTimeStamp > maxDateInTimeStamp) return 'maxDate';
-    }
-    if (disabledDates) {
-      const disabledDatesInTimeStamp = disabledDates.map((date) =>
-        dateToTimeStamp(date)
-      );
-      if (disabledDatesInTimeStamp.includes(dateInTimeStamp))
-        return 'disabledDate';
-    }
-  };
+  const dateValue: DateObjectType = isControlled
+    ? dateToDateObject(value)
+    : uncontrolledDate;
 
   const handleDateChange: HandleDateChangeType = ({ year, month, day }) => {
-    const newDateObject = {
-      ...date,
-      year: year !== undefined ? year : date.year,
-      month: month !== undefined ? month : date.month,
-      day: day !== undefined ? day : date.day
+    const newDateObj = {
+      year: year ?? dateValue.year,
+      month: month ?? dateValue.month,
+      day: day ?? dateValue.day
     };
-    const validDate = dateObjectToDate(newDateObject);
-    if (date.year !== newDateObject.year || date.month !== newDateObject.month)
-      setLocaleDayValues(getLocaleDayValuesByYearMonth(validDate));
-    const validDateObject = dateToDateObject(validDate);
-    const validationError = validateDate(validDate);
-    if (!isControlled) setUncontrolledDate(validDateObject);
-    if (onChange) onChange(validDate, validationError);
+    const newDate = dateObjectToDate(newDateObj);
+    if (!isControlled) setUncontrolledDate(newDateObj);
+    if (onChange) onChange(newDate);
   };
 
+  return {
+    dateValue,
+    handleDateChange
+  };
+};
+
+export const useValidation = ({
+  dateValue,
+  minDate,
+  maxDate,
+  disabledDates,
+  onErrorStatus,
+  dateObjectToDate
+}: UseValidation) => {
+  const minDateInTimeStamp = useMemo<number | undefined>(
+    () => minDate && dateToTimeStamp(minDate),
+    [minDate]
+  );
+  const maxDateInTimeStamp = useMemo<number | undefined>(
+    () => maxDate && dateToTimeStamp(maxDate),
+    [maxDate]
+  );
+  const disabledDatesInTimeStamp = useMemo<number[] | undefined>(
+    () => disabledDates && disabledDates.map(dateToTimeStamp),
+    [disabledDates]
+  );
+
+  const validateDate = useCallback(
+    (date: Date | null): DateValidationError | undefined => {
+      if (date === null) return;
+      const dateInTimeStamp = dateToTimeStamp(date);
+      if (
+        isNumber(minDateInTimeStamp) &&
+        dateInTimeStamp < minDateInTimeStamp
+      ) {
+        return 'minDate';
+      }
+      if (
+        isNumber(maxDateInTimeStamp) &&
+        dateInTimeStamp > maxDateInTimeStamp
+      ) {
+        return 'maxDate';
+      }
+      if (
+        disabledDatesInTimeStamp &&
+        disabledDatesInTimeStamp.includes(dateInTimeStamp)
+      ) {
+        return 'disabledDate';
+      }
+    },
+    [minDateInTimeStamp, maxDateInTimeStamp, disabledDatesInTimeStamp]
+  );
+
+  const validationError = useMemo<DateValidationError | undefined>(
+    () =>
+      Object.keys(dateValue).length > 0
+        ? validateDate(dateObjectToDate(dateValue))
+        : undefined,
+    [dateValue, validateDate, dateObjectToDate]
+  );
+
   useLayoutEffect(() => {
-    const date = isControlled ? value : dateObjectToDate(uncontrolledDate);
-    const newValidationError = validateDate(date);
-    setValidationError(newValidationError);
-    if (newValidationError !== validationError && onErrorStatus) {
-      onErrorStatus(newValidationError);
-    }
-  }, [value, uncontrolledDate]);
+    onErrorStatus?.(!!validationError, validationError);
+  }, [validationError, onErrorStatus]);
 
   return {
-    date,
-    handleDateChange,
-    isValidationError: !!validationError,
-    localeDayValues
+    isValidationError: !!validationError
   };
 };
 
@@ -134,23 +165,21 @@ export const useDateFormat = ({
   format
 }: Pick<DateFieldProps, 'locale' | 'options' | 'format'>) => {
   const {
-    dateTimeFormat,
     yearDigit,
     monthDigit,
     dayDigit,
     localeNumberValues,
     localeMonthValues,
-    defaultLocaleDayValues,
+    localeDayValues,
     dateParts
   } = useMemo(() => {
     const dateTimeLocale = isAvailableLocale(locale) ? locale : 'en-US';
-    let dateTimeFormat: Intl.DateTimeFormat;
-    let yearDigit: YearDigitTypes;
-    let monthDigit: MonthDigitTypes;
-    let dayDigit: DayDigitTypes;
+    let yearDigit: YearDigitType | null = null;
+    let monthDigit: MonthDigitType | null = null;
+    let dayDigit: DayDigitType | null = null;
     let localeNumberValues: Array<string>;
     let localeMonthValues: Array<string>;
-    let defaultLocaleDayValues: Array<string>;
+    let localeDayValues: Array<string>;
     let dateParts: Intl.DateTimeFormatPart[];
 
     if (format !== undefined) {
@@ -162,35 +191,32 @@ export const useDateFormat = ({
         if (!allTokens.includes(part)) return;
         const token = part as TokensType;
         if (TOKENS[token].type === 'year') {
-          options.year = TOKENS[token].digit;
-          yearDigit = TOKENS[token].digit;
+          options.year = yearDigit = TOKENS[token].digit;
         } else if (TOKENS[token].type === 'month') {
-          options.month = TOKENS[token].digit;
-          monthDigit = TOKENS[token].digit;
+          options.month = monthDigit = TOKENS[token].digit;
         } else if (TOKENS[token].type === 'day') {
-          options.day = TOKENS[token].digit;
-          dayDigit = TOKENS[token].digit;
+          options.day = dayDigit = TOKENS[token].digit;
         }
       });
-      dateTimeFormat = new Intl.DateTimeFormat(dateTimeLocale, options);
+      const dateTimeFormat = new Intl.DateTimeFormat(dateTimeLocale, options);
       localeNumberValues = getLocaleNumberValues(dateTimeLocale);
       localeMonthValues = getLocaleMonthValues(dateTimeFormat);
-      defaultLocaleDayValues = getLocaleDayValues(dateTimeFormat);
+      localeDayValues = getLocaleDayValues(dateTimeFormat);
       dateParts = parts.map((part) => {
         if (allTokens.includes(part))
           return { type: TOKENS[part as TokensType].type, value: part };
         else return { type: 'literal', value: part };
       });
     } else {
-      dateTimeFormat = new Intl.DateTimeFormat(dateTimeLocale, options);
+      const dateTimeFormat = new Intl.DateTimeFormat(dateTimeLocale, options);
       localeNumberValues = getLocaleNumberValues(dateTimeLocale);
       localeMonthValues = getLocaleMonthValues(dateTimeFormat);
-      defaultLocaleDayValues = getLocaleDayValues(dateTimeFormat);
+      localeDayValues = getLocaleDayValues(dateTimeFormat);
       dateParts = dateTimeFormat.formatToParts().map((part) => {
         switch (part.type) {
           case 'year': {
             const yearToken = findYearTokenType(dateTimeFormat);
-            yearDigit = yearToken.length === 2 ? '2-digit' : 'numeric';
+            yearDigit = TOKENS[yearToken].digit;
             return {
               type: 'year',
               value: yearToken
@@ -200,16 +226,16 @@ export const useDateFormat = ({
             const monthToken = findMonthTokenType(
               localeMonthValues,
               dateTimeLocale
-            ) as TokensType;
-            monthDigit = TOKENS[monthToken].digit as MonthDigitTypes;
+            );
+            monthDigit = TOKENS[monthToken].digit;
             return {
               type: 'month',
               value: monthToken
             };
           }
           case 'day': {
-            const dayToken = findDayTokenType(defaultLocaleDayValues);
-            dayDigit = dayToken.length === 2 ? '2-digit' : 'numeric';
+            const dayToken = findDayTokenType(localeDayValues);
+            dayDigit = TOKENS[dayToken].digit;
             return {
               type: 'day',
               value: dayToken
@@ -220,22 +246,19 @@ export const useDateFormat = ({
         }
       });
     }
-    yearDigit ||= YEAR_DIGITS[0];
-    monthDigit ||= MONTH_DIGITS[0];
-    dayDigit ||= DAY_DIGITS[0];
+
     return {
-      dateTimeFormat,
       yearDigit,
       monthDigit,
       dayDigit,
       localeNumberValues,
       localeMonthValues,
-      defaultLocaleDayValues,
+      localeDayValues,
       dateParts
     };
   }, [locale, options, format]);
 
-  const transformToLocaleYear = (year: number): string => {
+  const yearNmToLocale = (year: number): string => {
     const yearByDigit =
       yearDigit === '2-digit' ? String(year).slice(-2) : String(year);
     return [...yearByDigit]
@@ -243,7 +266,7 @@ export const useDateFormat = ({
       .join('');
   };
 
-  const transformToNumberYear = (localeYear: string): number => {
+  const yearLocaleToNm = (localeYear: string): number => {
     return parseInt(
       [...localeYear].map((char) => localeNumberValues.indexOf(char)).join('')
     );
@@ -252,22 +275,22 @@ export const useDateFormat = ({
   const dateToDateObject = (date: Date | undefined | null): DateObjectType => {
     if (date === undefined || date === null) return {};
     return {
-      year: transformToLocaleYear(date.getFullYear()),
+      year: yearNmToLocale(date.getFullYear()),
       month: localeMonthValues[date.getMonth()],
-      day: defaultLocaleDayValues[date.getDate() - 1]
+      day: localeDayValues[date.getDate() - 1]
     };
   };
 
   const dateObjectToDate = ({ year, month, day }: DateObjectType): Date => {
     const date = new Date(1970, 0, 1);
     if (year !== undefined) {
-      date.setFullYear(transformToNumberYear(year));
+      date.setFullYear(yearLocaleToNm(year));
     }
     if (month !== undefined) {
       date.setMonth(localeMonthValues.indexOf(month));
     }
     if (day !== undefined) {
-      date.setDate(defaultLocaleDayValues.indexOf(day) + 1);
+      date.setDate(localeDayValues.indexOf(day) + 1);
     }
     return date;
   };
@@ -278,46 +301,95 @@ export const useDateFormat = ({
     dayDigit,
     localeNumberValues,
     localeMonthValues,
-    getLocaleDayValuesByYearMonth: getLocaleDayValues.bind(
-      null,
-      dateTimeFormat
-    ),
+    localeDayValues,
     dateParts,
     dateToDateObject,
     dateObjectToDate
   };
 };
 
+export const useFocus = ({ datePartsElRef }: UseFocusProps) => {
+  const focusPrevDatePart = useCallback(
+    (currentDatePartEl: HTMLElement): boolean => {
+      const currentIndex = datePartsElRef.current.indexOf(currentDatePartEl);
+      const prevIndex = currentIndex - 1;
+      if (prevIndex >= 0) {
+        const prevDatePartEl = datePartsElRef.current[prevIndex];
+        prevDatePartEl.focus();
+        return true;
+      }
+      return false;
+    },
+    [datePartsElRef]
+  );
+
+  const focusNextDatePart = useCallback(
+    (currentDatePartEl: HTMLElement): boolean => {
+      const currentIndex = datePartsElRef.current.indexOf(currentDatePartEl);
+      const nextIndex = currentIndex + 1;
+      if (nextIndex < datePartsElRef.current.length) {
+        const nextDatePartEl = datePartsElRef.current[nextIndex];
+        nextDatePartEl.focus();
+        return true;
+      }
+      return false;
+    },
+    [datePartsElRef]
+  );
+
+  const focusNextDatePartOrBlur = (currentDatePartEl: HTMLElement) => {
+    const focused = focusNextDatePart(currentDatePartEl);
+    if (!focused) {
+      currentDatePartEl.blur();
+    }
+  };
+
+  useEffect(() => {
+    const datePartsEl = datePartsElRef.current;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        focusPrevDatePart(event.currentTarget as HTMLElement);
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        focusNextDatePart(event.currentTarget as HTMLElement);
+      }
+    };
+
+    datePartsEl.forEach((datePartEl) => {
+      datePartEl.addEventListener('keydown', handleKeyDown);
+    });
+    return () => {
+      datePartsEl.forEach((datePartEl) => {
+        datePartEl.removeEventListener('keydown', handleKeyDown);
+      });
+    };
+  }, [datePartsElRef, focusPrevDatePart, focusNextDatePart]);
+
+  return {
+    focusNextDatePartOrBlur
+  };
+};
+
 export const useInput = ({
+  dateValue,
   yearDigit,
   monthDigit,
   dayDigit,
   localeNumberValues,
   localeMonthValues,
   localeDayValues,
-  handleDateChange
-}: {
-  yearDigit: YearDigitTypes;
-  monthDigit: MonthDigitTypes;
-  dayDigit: DayDigitTypes;
-  localeNumberValues: Array<string>;
-  localeMonthValues: Array<string>;
-  localeDayValues: Array<string>;
-  handleDateChange: HandleDateChangeType;
-}) => {
-  const datePartsElRef = useRef<Array<HTMLElement>>([]);
+  handleDateChange,
+  focusNextDatePartOrBlur,
+  dateObjectToDate
+}: UseInputProps) => {
   const prevMonthRef = useRef<string>('');
-
-  const focusNextDatePart = (currentDatePartEl: HTMLElement) => {
-    const currentIndex = datePartsElRef.current.indexOf(currentDatePartEl);
-    const nextIndex = currentIndex + 1;
-    if (nextIndex < datePartsElRef.current.length) {
-      const nextDatePartEl = datePartsElRef.current[nextIndex];
-      nextDatePartEl.focus();
-    } else {
-      currentDatePartEl.blur();
-    }
-  };
+  const adjustedLocaleDayValues = useMemo(() => {
+    const lastDay = getLastDay(dateObjectToDate(dateValue));
+    return localeDayValues.slice(0, lastDay);
+  }, [dateValue, localeDayValues, dateObjectToDate]);
 
   const handleInputChange =
     (type: KeyDatePartType) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -337,7 +409,8 @@ export const useInput = ({
           handleDateChange({
             year: newYear
           });
-          if (!newYear.startsWith('0')) focusNextDatePart(e.currentTarget);
+          if (!newYear.startsWith('0'))
+            focusNextDatePartOrBlur(e.currentTarget);
           return;
         }
         case 'month': {
@@ -346,10 +419,9 @@ export const useInput = ({
             case 'long':
             case 'short': {
               const newValue = prevMonthRef.current + value.slice(-1);
+              const newValueLowerCase = newValue.toLocaleLowerCase();
               candidates = localeMonthValues.filter((month) =>
-                month
-                  .toLocaleLowerCase()
-                  .startsWith(newValue.toLocaleLowerCase())
+                month.toLocaleLowerCase().startsWith(newValueLowerCase)
               );
               prevMonthRef.current = newValue;
               break;
@@ -372,7 +444,7 @@ export const useInput = ({
           }
           if (candidates.length === 1) {
             handleDateChange({ month: candidates[0] });
-            focusNextDatePart(e.currentTarget);
+            focusNextDatePartOrBlur(e.currentTarget);
             prevMonthRef.current = '';
           } else if (candidates.length > 1) {
             handleDateChange({ month: candidates[0] });
@@ -383,15 +455,15 @@ export const useInput = ({
           let candidates: Array<string> = [];
           switch (dayDigit) {
             case 'numeric': {
-              candidates = localeDayValues.filter((day) =>
+              candidates = adjustedLocaleDayValues.filter((day) =>
                 day.startsWith(value)
               );
               break;
             }
             case '2-digit': {
               const newValue = value.slice(-2);
-              const ZERO = localeDayValues[0][0];
-              candidates = localeDayValues.filter((day) => {
+              const ZERO = adjustedLocaleDayValues[0][0];
+              candidates = adjustedLocaleDayValues.filter((day) => {
                 const dayWithoutZero = day[0] === ZERO ? day.slice(1) : day;
                 return dayWithoutZero.startsWith(newValue);
               });
@@ -399,7 +471,7 @@ export const useInput = ({
           }
           if (candidates.length === 1) {
             handleDateChange({ day: candidates[0] });
-            focusNextDatePart(e.currentTarget);
+            focusNextDatePartOrBlur(e.currentTarget);
           } else if (candidates.length > 1) {
             handleDateChange({ day: candidates[0] });
           }
@@ -408,7 +480,6 @@ export const useInput = ({
     };
 
   return {
-    datePartsElRef,
     handleInputChange
   };
 };

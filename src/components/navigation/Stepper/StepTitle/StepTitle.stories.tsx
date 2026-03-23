@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import StepTitle from './StepTitle';
+import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 
 const meta: Meta<typeof StepTitle> = {
   component: StepTitle,
@@ -10,7 +11,14 @@ const meta: Meta<typeof StepTitle> = {
         type: { summary: `React.ReactNode` }
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
 };
 
 export default meta;

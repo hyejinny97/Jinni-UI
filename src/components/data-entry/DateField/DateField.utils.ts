@@ -1,14 +1,13 @@
-import { TOKENS, MONTH_DIGITS } from './DateField.constants';
-import { MonthDigitTypes } from './DateField.types';
-
-export const isAvailableLocale = (locale: string | undefined): boolean => {
-  if (locale === undefined) return true;
-  const supportedLocales = Intl.DateTimeFormat.supportedLocalesOf([locale]);
-  return supportedLocales.length > 0;
-};
-
-export const is2Digit = (values: Array<string>) =>
-  values.length > 0 && values.every((v) => v.length === 2);
+import { TOKENS, KEY_DATE_PARTS } from './DateField.constants';
+import {
+  YearTokensTypes,
+  MonthTokensTypes,
+  DayTokensTypes,
+  KeyDatePartType
+} from './DateField.types';
+import { MonthDigitType } from '@/types/date-component';
+import { is2Digit } from '@/utils/dateTimeFormat';
+import { MONTH_DIGITS } from '@/constants/date-component';
 
 export const getLocaleNumberValues = (locale?: string) => {
   const localeNumbers: Array<string> = [];
@@ -37,25 +36,22 @@ export const getLocaleMonthValues = (dateTimeFormat: Intl.DateTimeFormat) => {
   return month;
 };
 
-export const getLocaleDayValues = (
-  dateTimeFormat: Intl.DateTimeFormat,
-  date: Date | null = null
-) => {
-  const day = new Set<string>();
-  const year = date ? date.getFullYear() : new Date().getFullYear();
-  const month = date ? date.getMonth() : 0;
+export const getLocaleDayValues = (dateTimeFormat: Intl.DateTimeFormat) => {
+  const day: Array<string> = [];
   for (let d = 1; d < 32; d++) {
-    const date = new Date(year, month, d);
+    const date = new Date(1970, 0, d);
     const parts = dateTimeFormat.formatToParts(date);
     const dayPart = parts.find((p) => p.type === 'day');
     if (dayPart) {
-      day.add(dayPart.value);
+      day.push(dayPart.value);
     }
   }
-  return Array.from(day);
+  return day;
 };
 
-export const findYearTokenType = (dateTimeFormat: Intl.DateTimeFormat) => {
+export const findYearTokenType = (
+  dateTimeFormat: Intl.DateTimeFormat
+): YearTokensTypes => {
   const year = dateTimeFormat
     .formatToParts(new Date())
     .find((p) => p.type === 'year');
@@ -65,7 +61,7 @@ export const findYearTokenType = (dateTimeFormat: Intl.DateTimeFormat) => {
     const matchDigit = is2DigitType
       ? value.digit === '2-digit'
       : value.digit === 'numeric';
-    if (matchDigit) return token;
+    if (matchDigit) return token as YearTokensTypes;
   }
   throw new Error(`year token type을 찾을 수 없습니다.`);
 };
@@ -73,8 +69,8 @@ export const findYearTokenType = (dateTimeFormat: Intl.DateTimeFormat) => {
 export const findMonthTokenType = (
   localeMonthValues: Array<string>,
   locale?: string
-) => {
-  const isValidMonthDigit = (digit: MonthDigitTypes) => {
+): MonthTokensTypes => {
+  const isValidMonthDigit = (digit: MonthDigitType) => {
     const targetLocaleMonthValues = getLocaleMonthValues(
       new Intl.DateTimeFormat(locale, { month: digit })
     );
@@ -82,26 +78,43 @@ export const findMonthTokenType = (
       localeMonthValues.includes(val)
     );
   };
-  const monthDigit: MonthDigitTypes | undefined = MONTH_DIGITS.find((digit) =>
+  const monthDigit: MonthDigitType | undefined = MONTH_DIGITS.find((digit) =>
     isValidMonthDigit(digit)
   );
   if (!monthDigit) throw new Error(`month token type을 찾을 수 없습니다.`);
   for (const [token, value] of Object.entries(TOKENS)) {
     if (value.type !== 'month') continue;
     const matchDigit = value.digit === monthDigit;
-    if (matchDigit) return token;
+    if (matchDigit) return token as MonthTokensTypes;
   }
   throw new Error(`month token type을 찾을 수 없습니다.`);
 };
 
-export const findDayTokenType = (localeDayValues: Array<string>) => {
+export const findDayTokenType = (
+  localeDayValues: Array<string>
+): DayTokensTypes => {
   const is2DigitType = is2Digit(localeDayValues);
   for (const [token, value] of Object.entries(TOKENS)) {
     if (value.type !== 'day') continue;
     const matchDigit = is2DigitType
       ? value.digit === '2-digit'
       : value.digit === 'numeric';
-    if (matchDigit) return token;
+    if (matchDigit) return token as DayTokensTypes;
   }
   throw new Error(`day token type을 찾을 수 없습니다.`);
 };
+
+export const dateToTimeStamp = (date: Date): number => {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  return new Date(year, month, day).getTime();
+};
+
+export const getLastDay = (date: Date) => {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+};
+
+export const isKeyDatePart = (
+  type: keyof Intl.DateTimeFormatPartTypesRegistry
+): type is KeyDatePartType => KEY_DATE_PARTS.some((part) => part === type);

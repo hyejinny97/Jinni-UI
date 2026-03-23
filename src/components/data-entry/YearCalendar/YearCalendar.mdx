@@ -1,0 +1,77 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as YearCalendarStories from './YearCalendar.stories';
+
+<Meta of={YearCalendarStories} />
+
+# YearCalendar
+
+year 달력
+
+## Import
+
+```js
+import { YearCalendar } from '@/components/data-entry/YearCalendar';
+```
+
+## Usage
+
+### Basic YearCalendar
+
+- `displayedDate`: 화면에 보여지는 날짜
+
+<Canvas of={YearCalendarStories.BasicYearCalendar} />
+
+### Selected date
+
+- `selectedDate`: 선택된 날짜
+- `onYearChange`: year button을 클릭했을 때 호출되는 함수
+
+<Canvas of={YearCalendarStories.SelectedDate} />
+
+### Locale
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+
+<Canvas of={YearCalendarStories.Locale} />
+
+### Restrict Date
+
+#### 1. Min date
+
+- `minDate`: 선택 가능한 최소 날짜
+
+<Canvas of={YearCalendarStories.MinDate} />
+
+#### 2. Max date
+
+- `maxDate`: 선택 가능한 최대 날짜
+
+<Canvas of={YearCalendarStories.MaxDate} />
+
+### ReadOnly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={YearCalendarStories.ReadOnly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={YearCalendarStories.Disabled} />
+
+### Order of years
+
+- `yearsOrder`: years를 나타내는 순서
+
+<Canvas of={YearCalendarStories.OrderOfYears} />
+
+### Custom Year
+
+- `renderYear`: yearProps를 인자로 받아 `Year` 컴포넌트를 반환하는 함수
+
+<Canvas of={YearCalendarStories.CustomYear} />
+
+## Props
+
+<ArgTypes of={YearCalendarStories} sort="alpha" />

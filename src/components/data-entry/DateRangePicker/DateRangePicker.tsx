@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { DateOptions } from '@/components/data-entry/DateField';
 import {
   DateRangeField,
   DateRangeFieldProps,
@@ -18,6 +17,7 @@ import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import { useDateRange } from './DateRangePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
+import { DateOptions } from '@/types/date-component';
 
 export type DateRangePickerProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,

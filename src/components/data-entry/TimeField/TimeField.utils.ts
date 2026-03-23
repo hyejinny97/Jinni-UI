@@ -1,9 +1,7 @@
 import { TOKENS } from './TimeField.constants';
 import { KEY_TIME_PARTS } from '@/constants/time-component';
 import { KeyTimePartType } from '@/types/time-component';
-
-export const is2Digit = (values: Array<string>) =>
-  values.length > 0 && values.every((v) => v.length === 2);
+import { is2Digit } from '@/utils/dateTimeFormat';
 
 export const findHourTokenType = (localeHourValues: Array<string>) => {
   const is2DigitType = is2Digit(localeHourValues);

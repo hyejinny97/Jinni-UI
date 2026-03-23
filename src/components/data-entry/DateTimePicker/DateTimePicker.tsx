@@ -13,7 +13,10 @@ import {
   filterDateOptions
 } from '@/components/data-entry/DateTimeField';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
-import { Calendar, CalendarProps } from '@/components/data-entry/Calendar';
+import {
+  DateCalendar,
+  DateCalendarProps
+} from '@/components/data-entry/DateCalendar';
 import {
   ManualDigitalClock,
   ManualDigitalClockProps
@@ -54,7 +57,9 @@ export type DateTimePickerProps<
   disabled?: boolean;
   PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
   DateTimeFieldProps?: DateTimeFieldProps;
-  renderCalendar?: (calendarProps: CalendarProps) => React.ReactNode;
+  renderDateCalendar?: (
+    dateCalendarProps: DateCalendarProps
+  ) => React.ReactNode;
   renderDigitalClock?: (
     digitalClockProps: Mode extends 'preset'
       ? PresetDigitalClockProps
@@ -96,8 +101,8 @@ const DateTimePicker = <
     disabled,
     PopoverProps,
     DateTimeFieldProps,
-    renderCalendar = (calendarProps: CalendarProps) => (
-      <Calendar {...calendarProps} />
+    renderDateCalendar = (dateCalendarProps: DateCalendarProps) => (
+      <DateCalendar {...dateCalendarProps} />
     ),
     renderDigitalClock = ((digitalClockProps) =>
       timeMode === 'preset' ? (
@@ -213,7 +218,7 @@ const DateTimePicker = <
             />
           }
         >
-          {renderCalendar({
+          {renderDateCalendar({
             ...commonProps,
             ...dateProps,
             options: filterDateOptions(options),

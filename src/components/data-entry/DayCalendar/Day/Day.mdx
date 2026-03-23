@@ -1,0 +1,71 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as DayStories from './Day.stories';
+
+<Meta of={DayStories} />
+
+# Day
+
+day 버튼
+
+## Import
+
+```js
+import { Day } from '@/components/data-entry/DayCalendar';
+```
+
+## Usage
+
+### Basic Day
+
+- `value`: 다른 Day 컴포넌트와 구별되는 식별자
+- `children`: button 콘텐츠
+
+<Canvas of={DayStories.BasicDay} />
+
+### Selected Day
+
+- `selected`: true이면, selected style이 나타남
+
+<Canvas of={DayStories.SelectedDay} />
+
+### Marked Day
+
+- `marked`: true이면, marked style이 나타남
+
+<Canvas of={DayStories.MarkedDay} />
+
+### Color
+
+- `color`: selected 됐을 때 나타나는 배경색
+
+<Canvas of={DayStories.Color} />
+
+### ReadOnly
+
+- `readOnly` : true이면, click handler가 호출되지 않음
+
+<Canvas of={DayStories.ReadOnly} />
+
+### ButtonBase props
+
+- `Day` 컴포넌트는 내부적으로 `ButtonBase` 컴포넌트를 반환하므로, `ButtonBase` 의 모든 props 사용 가능
+
+#### 1. Overlay Effect
+
+<Canvas of={DayStories.OverlayEffect} />
+
+#### 2. Ripple Effect
+
+<Canvas of={DayStories.RippleEffect} />
+
+#### 3. Elevation Effect
+
+<Canvas of={DayStories.ElevationEffect} />
+
+#### 4. Disabled
+
+<Canvas of={DayStories.Disabled} />
+
+## Props
+
+<ArgTypes of={DayStories} sort="alpha" />

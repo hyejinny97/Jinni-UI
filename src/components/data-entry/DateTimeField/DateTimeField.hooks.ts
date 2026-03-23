@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import { DateTimeFieldProps } from './DateTimeField';
 import { DateTimeValidationError } from './DateTimeField.types';
-import { DateValidationError } from '@/components/data-entry/DateField';
 import { TimeValidationError } from '@/types/time-component';
+import { DateValidationError } from '@/types/date-component';
 
 export const useDateTimeValue = ({
   defaultValue,

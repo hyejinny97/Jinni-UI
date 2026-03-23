@@ -1,35 +1,32 @@
 import './DateField.scss';
-import { useState, forwardRef } from 'react';
+import { forwardRef, useRef, MutableRefObject } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
+import { KeyDatePartType } from './DateField.types';
 import {
-  DateValidationError,
-  DateOptions,
-  KeyDatePartType
-} from './DateField.types';
-import { useDateFormat, useDateValue, useInput } from './DateField.hooks';
-import { KEY_DATE_PARTS } from './DateField.constants';
+  useDateFormat,
+  useDateValue,
+  useInput,
+  useValidation,
+  useFocus
+} from './DateField.hooks';
+import { isKeyDatePart } from './DateField.utils';
 import { AutoWidthInput } from '@/components/_share/AutoWidthInput';
+import {
+  DateComponentProps,
+  DateValidationError
+} from '@/types/date-component';
 
 export type DateFieldProps<T extends AsType = 'div'> = Omit<
   InputBaseProps<T>,
   'defaultValue' | 'onChange'
-> & {
-  placeholder?: string;
-  defaultValue?: Date;
-  value?: Date | null;
-  onChange?: (value: Date, validationError?: DateValidationError) => void;
-  onErrorStatus?: (validationError?: DateValidationError) => void;
-  locale?: string;
-  options?: DateOptions;
-  format?: string;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-};
+> &
+  DateComponentProps & {
+    placeholder?: string;
+    format?: string;
+    onErrorStatus?: (error: boolean, errorReason?: DateValidationError) => void;
+  };
 
 const DateField = forwardRef(
   <T extends AsType = 'div'>(
@@ -37,33 +34,34 @@ const DateField = forwardRef(
     ref: React.Ref<HTMLElement>
   ) => {
     const {
-      placeholder = '',
       defaultValue,
       value,
       onChange,
-      onErrorStatus,
       locale,
       options,
-      format,
       minDate,
       maxDate,
       disabledDates,
-      readOnly = false,
-      disabled = false,
+      readOnly,
+      disabled,
+      placeholder,
+      format,
+      onErrorStatus,
       color,
       focusedColor,
-      focused,
+      onClick,
       className,
       ...rest
     } = props;
-    const [isFocused, setIsFocused] = useState<boolean>(focused || false);
+    const inputBaseElRef = useRef<HTMLElement>(null);
+    const datePartsElRef = useRef<Array<HTMLElement>>([]);
     const {
       yearDigit,
       monthDigit,
       dayDigit,
       localeNumberValues,
       localeMonthValues,
-      getLocaleDayValuesByYearMonth,
+      localeDayValues,
       dateParts,
       dateToDateObject,
       dateObjectToDate
@@ -72,78 +70,95 @@ const DateField = forwardRef(
       options,
       format
     });
-    const { date, handleDateChange, isValidationError, localeDayValues } =
-      useDateValue({
-        defaultValue,
-        value,
-        minDate,
-        maxDate,
-        disabledDates,
-        onChange,
-        onErrorStatus,
-        dateToDateObject,
-        dateObjectToDate,
-        getLocaleDayValuesByYearMonth
-      });
-    const { datePartsElRef, handleInputChange } = useInput({
+    const { dateValue, handleDateChange } = useDateValue({
+      defaultValue,
+      value,
+      onChange,
+      dateToDateObject,
+      dateObjectToDate
+    });
+    const { isValidationError } = useValidation({
+      dateValue,
+      minDate,
+      maxDate,
+      disabledDates,
+      onErrorStatus,
+      dateObjectToDate
+    });
+    const { focusNextDatePartOrBlur } = useFocus({ datePartsElRef });
+    const { handleInputChange } = useInput({
+      dateValue,
       yearDigit,
       monthDigit,
       dayDigit,
       localeNumberValues,
       localeMonthValues,
       localeDayValues,
-      handleDateChange
+      handleDateChange,
+      focusNextDatePartOrBlur,
+      dateObjectToDate
     });
-    const isKeyDatePart = (
-      type: keyof Intl.DateTimeFormatPartTypesRegistry
-    ): type is KeyDatePartType => KEY_DATE_PARTS.some((part) => part === type);
-    const hasValue = Object.values(date).some((val) => val !== undefined);
-    const showPlaceholder = !hasValue && !isFocused;
+    const noValue = Object.values(dateValue).every((val) => val === undefined);
+
+    const handleClick = (event: MouseEvent) => {
+      onClick?.(event);
+      const inputBaseEl = inputBaseElRef.current;
+      if (!inputBaseEl) return;
+      const inputBaseContentEl = inputBaseEl.querySelector(
+        '.JinniInputBaseContent'
+      );
+      if (inputBaseContentEl && !inputBaseContentEl.matches(':focus-within')) {
+        const datePartsEl = datePartsElRef.current;
+        datePartsEl[0]?.focus();
+      }
+    };
 
     return (
       <InputBase
-        ref={ref}
-        className={cn('JinniDateField', className)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={(e: FocusEvent) => {
-          if (focused) return;
-          const relatedTarget = e.relatedTarget as HTMLElement;
-          const currentTarget = e.currentTarget as HTMLElement;
-          if (!currentTarget?.contains(relatedTarget)) setIsFocused(false);
+        ref={(element: HTMLElement | null) => {
+          if (element) {
+            (inputBaseElRef as MutableRefObject<HTMLElement>).current = element;
+            if (typeof ref === 'function') {
+              ref(element);
+            } else if (ref && 'current' in ref) {
+              (ref as MutableRefObject<HTMLElement>).current = element;
+            }
+          }
         }}
+        className={cn('JinniDateField', { noValue }, className)}
         color={isValidationError ? 'error' : color}
         focusedColor={isValidationError ? 'error' : focusedColor}
         disabled={disabled}
-        focused={focused}
+        onClick={handleClick}
         {...rest}
       >
-        {showPlaceholder ? (
-          <span className="JinniDateFieldPlaceholder">{placeholder}</span>
-        ) : (
-          dateParts.map((part, idx) => {
-            const hasBlank =
-              part.type === 'literal' && part.value.includes(' ');
-            return isKeyDatePart(part.type) ? (
-              <AutoWidthInput
-                key={part.type}
-                ref={(element) => {
-                  if (element && !datePartsElRef.current.includes(element)) {
-                    datePartsElRef.current.push(element);
-                  }
-                }}
-                className="JinniDateFieldDatePart"
-                value={date[part.type] || part.value}
-                onChange={handleInputChange(part.type as KeyDatePartType)}
-                readOnly={readOnly}
-                disabled={disabled}
-              />
-            ) : (
-              <div key={idx} className="JinniDateFieldDatePart">
-                {hasBlank ? part.value.replace(' ', '\u00A0') : part.value}
-              </div>
-            );
-          })
-        )}
+        {dateParts.map((part, idx) => {
+          const hasBlank = part.type === 'literal' && part.value.includes(' ');
+          return isKeyDatePart(part.type) ? (
+            <AutoWidthInput
+              key={part.type}
+              ref={(element) => {
+                if (element && !datePartsElRef.current.includes(element)) {
+                  datePartsElRef.current.push(element);
+                }
+              }}
+              className="JinniDateFieldDatePart"
+              value={dateValue[part.type] || part.value}
+              onChange={handleInputChange(part.type as KeyDatePartType)}
+              readOnly={readOnly}
+              disabled={disabled}
+              tabIndex={idx === 0 ? 0 : -1}
+            />
+          ) : (
+            <div
+              key={idx}
+              className={cn('JinniDateFieldDatePart', 'literal-type')}
+            >
+              {hasBlank ? part.value.replace(/\s/g, '\u00A0') : part.value}
+            </div>
+          );
+        })}
+        <span className="JinniDateFieldPlaceholder">{placeholder}</span>
       </InputBase>
     );
   }

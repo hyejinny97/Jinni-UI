@@ -1,42 +1,31 @@
 import './DatePicker.scss';
-import { useRef, useState, useMemo } from 'react';
+import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  DateValidationError,
-  DateOptions
-} from '@/components/data-entry/DateField';
 import { DateField, DateFieldProps } from '@/components/data-entry/DateField';
 import {
-  Calendar,
-  CalendarProps,
-  getBaseCalendarType
-} from '@/components/data-entry/Calendar';
+  DateCalendar,
+  DateCalendarProps
+} from '@/components/data-entry/DateCalendar';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import { useDateValue } from './DatePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
+import { DateComponentProps } from '@/types/date-component';
 
 export type DatePickerProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'defaultValue' | 'onChange'
-> & {
-  name?: string;
-  defaultValue?: Date;
-  value?: Date | null;
-  onChange?: (value: Date, validationError?: DateValidationError) => void;
-  locale?: string;
-  options?: DateOptions;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-  PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
-  DateFieldProps?: DateFieldProps;
-  renderCalendar?: (calendarProps: CalendarProps) => React.ReactNode;
-};
+> &
+  DateComponentProps & {
+    name?: string;
+    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    DateFieldProps?: DateFieldProps;
+    renderDateCalendar?: (
+      dateCalendarProps: DateCalendarProps
+    ) => React.ReactNode;
+  };
 
 const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
   const {
@@ -49,99 +38,102 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
     minDate,
     maxDate,
     disabledDates,
-    readOnly = false,
-    disabled = false,
+    readOnly,
+    disabled,
     PopoverProps,
     DateFieldProps,
-    renderCalendar = (calendarProps: CalendarProps) => (
-      <Calendar {...calendarProps} />
+    renderDateCalendar = (dateCalendarProps: DateCalendarProps) => (
+      <DateCalendar {...dateCalendarProps} />
     ),
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
+  const popoverId = useId();
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
-  const { dateValue, handleChange } = useDateValue({
+  const { selectedDate, onSelectDate } = useDateValue({
     defaultValue,
     value,
     onChange
   });
   const newStyle = useStyle(style);
-  const changeTypeToClose = useMemo(() => {
-    const baseCalendarType = getBaseCalendarType({ locale, options });
-    switch (baseCalendarType) {
-      case 'year':
-        return 'onYearChange';
-      case 'month':
-        return 'onMonthChange';
-      case 'day':
-        return 'onDayChange';
-    }
-  }, [locale, options]);
+  const { className: popoverClassName, ...restPopoverProps } = (PopoverProps ||
+    {}) as Partial<PopoverProps>;
 
-  const handleOpen = () => {
+  const openPopover = () => {
     if (readOnly || disabled) return;
     setOpen(true);
   };
-  const handleClose = () => {
+  const closePopover = () => {
     setOpen(false);
   };
 
   const commonProps = {
-    value: dateValue,
-    onChange: handleChange,
+    value: selectedDate,
+    onChange: onSelectDate,
     locale,
     options,
-    readOnly,
-    disabled,
     minDate,
     maxDate,
-    disabledDates
+    disabledDates,
+    readOnly,
+    disabled
+  };
+  const dateFieldProps = {
+    ...commonProps,
+    focused: open,
+    endAdornment: (
+      <ButtonBase
+        type="button"
+        className={cn('JinniDatePickerOpenButton', { readOnly, disabled })}
+        onClick={openPopover}
+        disableOverlay={readOnly || disabled}
+        disableRipple={readOnly || disabled}
+        aria-label="Choose Date"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls={popoverId}
+      >
+        <DateRangeIcon size={20} color="gray-500" />
+      </ButtonBase>
+    ),
+    ...DateFieldProps
+  };
+  const dateCalendarProps = {
+    ...commonProps,
+    onBaseCalendarTypeChange: closePopover
   };
 
   return (
     <Component
+      role="group"
       className={cn(
         'JinniDatePicker',
         { fullWidth: !!DateFieldProps?.fullWidth },
         className
       )}
       style={newStyle}
+      aria-label="Date Picker"
       {...rest}
     >
       <input
         name={name}
-        value={dateValue?.toLocaleDateString() || ''}
+        value={selectedDate?.toLocaleDateString(locale) || ''}
         hidden
         readOnly
       />
-      <DateField
-        ref={anchorElRef}
-        endAdornment={
-          <ButtonBase
-            type="button"
-            className={cn('JinniDatePickerOpenButton', { readOnly, disabled })}
-            onClick={handleOpen}
-            disableOverlay={readOnly || disabled}
-            disableRipple={readOnly || disabled}
-          >
-            <DateRangeIcon size={20} color="gray-500" />
-          </ButtonBase>
-        }
-        focused={open}
-        {...commonProps}
-        {...DateFieldProps}
-      />
+      <DateField ref={anchorElRef} {...dateFieldProps} />
       <Popover
-        className="JinniDatePickerPopover"
+        id={popoverId}
         anchorElRef={anchorElRef}
+        className={cn('JinniDatePickerPopover', popoverClassName)}
         open={open}
-        onClose={handleClose}
-        {...PopoverProps}
+        onClose={closePopover}
+        {...restPopoverProps}
       >
-        {renderCalendar({ ...commonProps, [changeTypeToClose]: handleClose })}
+        {renderDateCalendar(dateCalendarProps)}
       </Popover>
     </Component>
   );

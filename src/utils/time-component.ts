@@ -22,12 +22,6 @@ export const isTimeStepManualType = (
       ['hour', 'minute', 'second'].includes(key) && isNumber(value)
   );
 
-export const isAvailableLocale = (locale: string | undefined): boolean => {
-  if (locale === undefined) return true;
-  const supportedLocales = Intl.DateTimeFormat.supportedLocalesOf([locale]);
-  return supportedLocales.length > 0;
-};
-
 export const getLocaleHourValues = (
   dateTimeFormat: Intl.DateTimeFormat
 ): Array<string> => {
