@@ -1,13 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  YearProps,
-  MonthProps,
-  DayProps,
-  getBaseCalendarType
-} from '@/components/data-entry/Calendar';
+import { YearProps } from '@/components/data-entry/YearCalendar';
+import { MonthProps } from '@/components/data-entry/MonthCalendar';
+import { DayProps } from '@/components/data-entry/DayCalendar';
 import {
   RangeType,
   DateRangeValidationError
@@ -98,10 +95,11 @@ const DateRangeCalendar = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
-  const baseCalendarType = useMemo(
-    () => getBaseCalendarType({ locale, options }),
-    [locale, options]
-  );
+  // const baseCalendarType = useMemo(
+  //   () => getBaseCalendarType({ locale, options }),
+  //   [locale, options]
+  // );
+  const baseCalendarType = 'year';
   const { selectedDateRange, handleChange } = useSelectedDateRange({
     defaultValue,
     value,

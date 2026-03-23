@@ -6,7 +6,10 @@ import {
   DateTimeOptions
 } from '@/components/data-entry/DateTimeField';
 import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
-import { Calendar, CalendarProps } from '@/components/data-entry/Calendar';
+import {
+  DateCalendar,
+  DateCalendarProps
+} from '@/components/data-entry/DateCalendar';
 import { Button } from '@/components/general/Button';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
@@ -120,15 +123,15 @@ const meta: Meta<typeof DateTimePicker> = {
         }
       }
     },
-    renderCalendar: {
+    renderDateCalendar: {
       description:
-        'calendarProps를 인자로 받아 Calendar 컴포넌트를 반환하는 함수',
+        'calendarProps를 인자로 받아 DateCalendar 컴포넌트를 반환하는 함수',
       table: {
         type: {
-          summary: `(calendarProps: CalendarProps) => React.ReactNode;`
+          summary: `(calendarProps: DateCalendarProps) => React.ReactNode;`
         },
         defaultValue: {
-          summary: `(calendarProps: CalendarProps) => <Calendar {...calendarProps} />;`
+          summary: `(calendarProps: DateCalendarProps) => <DateCalendar {...calendarProps} />;`
         }
       }
     },
@@ -514,11 +517,11 @@ export const CustomDigitalClock: Story = {
   )
 };
 
-export const CustomCalendar: Story = {
+export const CustomDateCalendar: Story = {
   render: () => (
     <DateTimePicker
-      renderCalendar={(calendarProps: CalendarProps) => (
-        <Calendar
+      renderDateCalendar={(calendarProps: DateCalendarProps) => (
+        <DateCalendar
           {...calendarProps}
           yearsOrder="dsc"
           referenceDate={new Date('2022-06-15')}

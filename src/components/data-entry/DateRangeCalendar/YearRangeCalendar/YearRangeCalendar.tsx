@@ -7,7 +7,7 @@ import {
   Year,
   YearCalendarProps,
   YearProps
-} from '@/components/data-entry/Calendar';
+} from '@/components/data-entry/YearCalendar';
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';

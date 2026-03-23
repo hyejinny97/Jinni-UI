@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DateRangePicker from './DateRangePicker';
-import { Calendar, CalendarProps } from '@/components/data-entry/Calendar';
+import {
+  DateCalendar,
+  DateCalendarProps
+} from '@/components/data-entry/DateCalendar';
 import { DatePicker } from '@/components/data-entry/DatePicker';
 import {
   DateRangeValidationError,
@@ -315,8 +318,11 @@ const MultiDatePickerTemplate = () => {
             color: isStartDateValidationError ? 'error' : undefined,
             placeholder: `minDate='2025/8/10'`
           }}
-          renderCalendar={(calendarProps: CalendarProps) => (
-            <Calendar referenceDate={new Date(2025, 7)} {...calendarProps} />
+          renderDateCalendar={(dateCalendarProps: DateCalendarProps) => (
+            <DateCalendar
+              referenceDate={new Date(2025, 7)}
+              {...dateCalendarProps}
+            />
           )}
         />
         ~
@@ -328,8 +334,11 @@ const MultiDatePickerTemplate = () => {
             color: isEndDateValidationError ? 'error' : undefined,
             placeholder: `maxDate='2025/8/24'`
           }}
-          renderCalendar={(calendarProps: CalendarProps) => (
-            <Calendar referenceDate={new Date(2025, 7)} {...calendarProps} />
+          renderDateCalendar={(dateCalendarProps: DateCalendarProps) => (
+            <DateCalendar
+              referenceDate={new Date(2025, 7)}
+              {...dateCalendarProps}
+            />
           )}
         />
       </Stack>

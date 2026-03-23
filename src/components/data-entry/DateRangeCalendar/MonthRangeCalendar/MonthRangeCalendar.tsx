@@ -6,7 +6,7 @@ import {
   Month,
   MonthCalendarProps,
   MonthProps
-} from '@/components/data-entry/Calendar';
+} from '@/components/data-entry/MonthCalendar';
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
@@ -68,14 +68,14 @@ const MonthRangeCalendar = <T extends AsType = 'div'>(
   };
 
   const CustomMonth = (monthProps: MonthProps) => {
-    const { month, color = 'primary', ref, ...rest } = monthProps;
+    const { value, color = 'primary', ref, ...rest } = monthProps;
     const normalizedColor = useColor(color);
     const showDashBorder =
-      !disableHoverRangeEffect && isBetweenStartAndHoveredDate(month);
-    const currentMonth = dateToMonth(month);
+      !disableHoverRangeEffect && isBetweenStartAndHoveredDate(value);
+    const currentMonth = dateToMonth(value);
     return (
       <Box
-        key={month.getTime()}
+        key={value.getTime()}
         ref={ref}
         className={cn('GridItem', {
           startDate:
@@ -88,17 +88,17 @@ const MonthRangeCalendar = <T extends AsType = 'div'>(
             hoveredMonthValue &&
             dateToMonth(hoveredMonthValue) === currentMonth
         })}
-        onMouseEnter={() => handleHover(month)}
+        onMouseEnter={() => handleHover(value)}
         onMouseLeave={() => handleHover(null)}
       >
         <Box
           className={cn('MonthContainer', {
-            dimmedBackground: isBetweenSelectedDates(month),
+            dimmedBackground: isBetweenSelectedDates(value),
             showDashBorder
           })}
           style={{ '--dim-color': lighten(normalizedColor, 0.8) }}
         >
-          <Month {...rest} month={month} selected={isSelected(month)} />
+          <Month {...rest} value={value} selected={isSelected(value)} />
         </Box>
       </Box>
     );

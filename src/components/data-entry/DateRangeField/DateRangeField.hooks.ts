@@ -1,6 +1,5 @@
-import { useState, useMemo, useLayoutEffect, useRef } from 'react';
+import { useState, useLayoutEffect, useRef } from 'react';
 import { DateRangeFieldProps } from './DateRangeField';
-import { getBaseCalendarType } from '@/components/data-entry/Calendar';
 import { RangeType, DateRangeValidationError } from './DateRangeField.types';
 import {
   CHRONOLOGICAL_ORDER,
@@ -11,14 +10,15 @@ import { DateValidationError } from '@/types/date-component';
 const INIT_DEFAULT_VALUE = { start: null, end: null };
 
 export const useDateRangeValidationError = ({
-  locale,
-  options,
+  // locale,
+  // options,
   disabledDates
 }: Pick<DateRangeFieldProps, 'locale' | 'options' | 'disabledDates'>) => {
-  const baseCalendarType = useMemo(
-    () => getBaseCalendarType({ locale, options }),
-    [locale, options]
-  );
+  // const baseCalendarType = useMemo(
+  //   () => getBaseCalendarType({ locale, options }),
+  //   [locale, options]
+  // );
+  const baseCalendarType = 'year';
 
   const isLowerThan = ({
     baseDate,
@@ -182,7 +182,7 @@ export const useDateRange = ({
       }),
       [INCLUDE_DISABLED_DATE]: includeDisabledDate({ startDate, endDate })
     }));
-  }, [dateRange]);
+  }, [dateRange, includeDisabledDate, isChronologicalOrderError]);
 
   return {
     dateRange: isControlled ? value : uncontrolledDateRange,

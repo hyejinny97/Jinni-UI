@@ -6,10 +6,9 @@ import {
 } from './DateTimeRangeField.types';
 import {
   DateTimeValidationError,
-  filterTimeOptions,
-  filterDateOptions
+  filterTimeOptions
+  // filterDateOptions
 } from '@/components/data-entry/DateTimeField';
-import { getBaseCalendarType } from '@/components/data-entry/Calendar';
 import {
   CHRONOLOGICAL_ORDER,
   INCLUDE_DISABLED_DATE
@@ -36,10 +35,11 @@ const useDateTimeRangeValidationError = ({
     partTypes.forEach((type) => partTypeSet.add(type));
     return partTypeSet;
   }, [locale, options]);
-  const baseCalendarType = useMemo(
-    () => getBaseCalendarType({ locale, options: filterDateOptions(options) }),
-    [locale, options]
-  );
+  // const baseCalendarType = useMemo(
+  //   () => getBaseCalendarType({ locale, options: filterDateOptions(options) }),
+  //   [locale, options]
+  // );
+  const baseCalendarType = 'year';
 
   const timeToSeconds = (time: Date) => {
     let seconds = 0;
@@ -245,7 +245,7 @@ export const useDateTimeRangeValue = ({
         endDate: endDateTime
       })
     }));
-  }, [dateTimeRangeValue]);
+  }, [dateTimeRangeValue, includeDisabledDate, isChronologicalOrderError]);
 
   return {
     dateTimeRangeValue,
