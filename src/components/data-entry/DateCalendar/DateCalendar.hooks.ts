@@ -29,6 +29,7 @@ export const useCalendarType = ({ locale, options }: UseCalendarTypeProps) => {
   };
 
   return {
+    baseCalendarType,
     calendarType,
     changeToYearCalendar,
     changeToMonthCalendar,

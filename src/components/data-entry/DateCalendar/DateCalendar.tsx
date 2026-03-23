@@ -11,6 +11,7 @@ import { DateYearCalendar } from './DateYearCalendar';
 import { DateMonthCalendar } from './DateMonthCalendar';
 import { DateDayCalendar } from './DateDayCalendar';
 import { useCalendarType, useDateValue } from './DateCalendar.hooks';
+import { CalendarType } from './DateCalendar.types';
 
 export type DateCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -24,6 +25,7 @@ export type DateCalendarProps<T extends AsType = 'div'> = Omit<
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
+    onBaseCalendarTypeChange?: () => void;
   };
 
 const DateCalendar = <T extends AsType = 'div'>(
@@ -37,6 +39,7 @@ const DateCalendar = <T extends AsType = 'div'>(
     options,
     minDate,
     maxDate,
+    disabledDates,
     readOnly,
     disabled,
     referenceDate,
@@ -50,9 +53,11 @@ const DateCalendar = <T extends AsType = 'div'>(
     renderCalendarHeader = (calendarHeaderProps: CalendarHeaderProps) => (
       <CalendarHeader {...calendarHeaderProps} />
     ),
+    onBaseCalendarTypeChange,
     ...rest
   } = props;
   const {
+    baseCalendarType,
     calendarType,
     changeToYearCalendar,
     changeToMonthCalendar,
@@ -64,12 +69,14 @@ const DateCalendar = <T extends AsType = 'div'>(
     onChange
   });
 
+  const handleChange = (calendarType: CalendarType) => (newDate: Date) => {
+    onSelectDate(newDate);
+    changeToBaseCalendar();
+    if (calendarType === baseCalendarType) onBaseCalendarTypeChange?.();
+  };
+
   const commonProps = {
     value: selectedDate,
-    onChange: (newDate: Date) => {
-      changeToBaseCalendar();
-      onSelectDate(newDate);
-    },
     locale,
     options,
     minDate,
@@ -82,16 +89,20 @@ const DateCalendar = <T extends AsType = 'div'>(
   };
   const dateYearCalendarProps = {
     ...commonProps,
+    onChange: handleChange('year'),
     yearsOrder,
     renderYear
   };
   const dateMonthCalendarProps = {
     ...commonProps,
+    onChange: handleChange('month'),
     renderMonth,
     onYearClick: changeToYearCalendar
   };
   const dateDayCalendarProps = {
     ...commonProps,
+    onChange: handleChange('day'),
+    disabledDates,
     showDaysOutsideCurrentMonth,
     fixedWeekNumber,
     displayWeekNumber,
