@@ -120,7 +120,7 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
     >
       <input
         name={name}
-        value={selectedDate?.toLocaleDateString() || ''}
+        value={selectedDate?.toLocaleDateString(locale) || ''}
         hidden
         readOnly
       />
