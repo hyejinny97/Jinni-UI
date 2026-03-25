@@ -1,215 +1,179 @@
-import { useState, useLayoutEffect, useRef } from 'react';
+import { useState, useLayoutEffect, useRef, useMemo, useCallback } from 'react';
 import { DateRangeFieldProps } from './DateRangeField';
-import { RangeType, DateRangeValidationError } from './DateRangeField.types';
+import {
+  RangeFieldType,
+  RangeType,
+  DateRangeValidationError,
+  DateValidationError
+} from '@/types/date-component';
 import {
   CHRONOLOGICAL_ORDER,
   INCLUDE_DISABLED_DATE
-} from './DateRangeField.constants';
-import { DateValidationError } from '@/types/date-component';
+} from '@/constants/date-component';
+import { SECOND } from '@/constants/time';
+
+type UseDateRangeValueProps = Pick<
+  DateRangeFieldProps,
+  'defaultValue' | 'value' | 'onChange'
+>;
+
+type UseValidationProps = Pick<
+  DateRangeFieldProps,
+  'locale' | 'options' | 'disabledDates'
+> & {
+  dateRangeValue: RangeType<Date | null>;
+};
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
 
-export const useDateRangeValidationError = ({
-  // locale,
-  // options,
-  disabledDates
-}: Pick<DateRangeFieldProps, 'locale' | 'options' | 'disabledDates'>) => {
-  // const baseCalendarType = useMemo(
-  //   () => getBaseCalendarType({ locale, options }),
-  //   [locale, options]
-  // );
-  const baseCalendarType = 'year';
-
-  const isLowerThan = ({
-    baseDate,
-    targetDate,
-    inclusive = false
-  }: {
-    baseDate: Date;
-    targetDate: Date;
-    inclusive?: boolean;
-  }): boolean => {
-    const baseDateParts = [
-      baseDate.getFullYear(),
-      baseDate.getMonth(),
-      baseDate.getDate()
-    ];
-    const targetDateParts = [
-      targetDate.getFullYear(),
-      targetDate.getMonth(),
-      targetDate.getDate()
-    ];
-
-    let compareLength: number = 0;
-    switch (baseCalendarType) {
-      case 'year':
-        compareLength = 1;
-        break;
-      case 'month':
-        compareLength = 2;
-        break;
-      case 'day':
-        compareLength = 3;
-        break;
-    }
-
-    for (let i = 0; i < compareLength; i++) {
-      if (baseDateParts[i] > targetDateParts[i]) return true;
-      if (baseDateParts[i] < targetDateParts[i]) return false;
-    }
-    return inclusive;
-  };
-
-  const includeDate = ({
-    startDate,
-    endDate,
-    targetDate
-  }: {
-    startDate: Date;
-    endDate: Date;
-    targetDate: Date;
-  }) => {
-    return (
-      isLowerThan({
-        baseDate: targetDate,
-        targetDate: startDate
-      }) &&
-      isLowerThan({
-        baseDate: endDate,
-        targetDate: targetDate
-      })
-    );
-  };
-
-  const isChronologicalOrderError = ({
-    startDate,
-    endDate
-  }: {
-    startDate: Date | null | undefined;
-    endDate: Date | null | undefined;
-  }): boolean => {
-    if (!startDate || !endDate) return false;
-    return isLowerThan({ baseDate: startDate, targetDate: endDate });
-  };
-
-  const includeDisabledDate = ({
-    startDate,
-    endDate
-  }: {
-    startDate: Date | null | undefined;
-    endDate: Date | null | undefined;
-  }): boolean => {
-    if (!startDate || !endDate || !disabledDates || disabledDates.length === 0)
-      return false;
-    return disabledDates.some((disabledDate) =>
-      includeDate({ startDate, endDate, targetDate: disabledDate })
-    );
-  };
-
-  return {
-    isChronologicalOrderError,
-    includeDisabledDate
-  };
-};
-
-export const useDateRange = ({
+export const useDateRangeValue = ({
   defaultValue,
   value,
-  onChange,
-  locale,
-  options,
-  disabledDates
-}: Pick<
-  DateRangeFieldProps,
-  'defaultValue' | 'value' | 'onChange' | 'locale' | 'options' | 'disabledDates'
->) => {
+  onChange
+}: UseDateRangeValueProps) => {
   const isControlled = value !== undefined;
   const [uncontrolledDateRange, setUncontrolledDateRange] = useState<
     RangeType<Date | null>
-  >({ ...INIT_DEFAULT_VALUE, ...defaultValue });
-  const dateRange = isControlled ? value : uncontrolledDateRange;
-  const [dateRangeValidationError, setDateRangeValidationError] =
-    useState<DateRangeValidationError>({});
-  const { isChronologicalOrderError, includeDisabledDate } =
-    useDateRangeValidationError({
-      locale,
-      options,
-      disabledDates
-    });
-
-  const handleValidationError = (
-    dateFieldPosition: keyof RangeType<any>,
-    validationError?: DateValidationError
-  ) => {
-    setDateRangeValidationError((prev) => ({
-      ...prev,
-      [dateFieldPosition]: validationError
-    }));
-  };
+  >(defaultValue || INIT_DEFAULT_VALUE);
+  const dateRangeValue: RangeType<Date | null> = isControlled
+    ? value
+    : uncontrolledDateRange;
 
   const handleChange =
-    (dateFieldPosition: keyof RangeType<any>) =>
-    (newValue: Date, validationError?: DateValidationError) => {
-      const startDate =
-        dateFieldPosition === 'start' ? newValue : dateRange.start;
-      const endDate = dateFieldPosition === 'end' ? newValue : dateRange.end;
-      const newDateRangeValidationError: DateRangeValidationError = {
-        ...dateRangeValidationError,
-        [dateFieldPosition]: validationError,
-        [CHRONOLOGICAL_ORDER]: isChronologicalOrderError({
-          startDate,
-          endDate
-        }),
-        [INCLUDE_DISABLED_DATE]: includeDisabledDate({ startDate, endDate })
-      };
-
+    (rangeField: RangeFieldType) => (newValue: Date | null) => {
       const newDateRange = {
-        ...dateRange,
-        [dateFieldPosition]: newValue
+        start: rangeField === 'start' ? newValue : dateRangeValue.start,
+        end: rangeField === 'end' ? newValue : dateRangeValue.end
       };
       if (!isControlled) setUncontrolledDateRange(newDateRange);
-      if (onChange) onChange(newDateRange, newDateRangeValidationError);
+      if (onChange) onChange(newDateRange);
     };
 
+  return {
+    dateRangeValue,
+    handleChange
+  };
+};
+
+export const useValidation = ({
+  locale,
+  options,
+  disabledDates,
+  dateRangeValue
+}: UseValidationProps) => {
+  const [validationError, setValidationError] =
+    useState<DateRangeValidationError>({});
+  const { chronologicalOrder, includeDisabledDate } = validationError;
+
+  const datePartTypes = useMemo(() => {
+    const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
+    const partTypes = dateTimeFormat.formatToParts().map((part) => part.type);
+    const partTypeSet = new Set<keyof Intl.DateTimeFormatPartTypesRegistry>(
+      partTypes
+    );
+    return partTypeSet;
+  }, [locale, options]);
+
+  const dateToSeconds = useCallback(
+    (date: Date): number => {
+      const dateObj = new Date(date);
+      if (datePartTypes.has('day')) {
+        dateObj.setHours(0, 0, 0, 0);
+      } else if (datePartTypes.has('month')) {
+        dateObj.setDate(1);
+        dateObj.setHours(0, 0, 0, 0);
+      } else if (datePartTypes.has('year')) {
+        dateObj.setMonth(0);
+        dateObj.setDate(1);
+        dateObj.setHours(0, 0, 0, 0);
+      }
+      return dateObj.getTime() / SECOND;
+    },
+    [datePartTypes]
+  );
+
   useLayoutEffect(() => {
-    const startDate = dateRange.start;
-    const endDate = dateRange.end;
-    setDateRangeValidationError((prev) => ({
-      ...prev,
-      [CHRONOLOGICAL_ORDER]: isChronologicalOrderError({
-        startDate,
-        endDate
-      }),
-      [INCLUDE_DISABLED_DATE]: includeDisabledDate({ startDate, endDate })
-    }));
-  }, [dateRange, includeDisabledDate, isChronologicalOrderError]);
+    const { start, end } = dateRangeValue;
+    const newChronologicalError: boolean = !!(
+      start &&
+      end &&
+      dateToSeconds(start) > dateToSeconds(end)
+    );
+    if (chronologicalOrder !== newChronologicalError) {
+      setValidationError((prev) => ({
+        ...prev,
+        [CHRONOLOGICAL_ORDER]: newChronologicalError
+      }));
+    }
+  }, [dateRangeValue, chronologicalOrder, dateToSeconds]);
+
+  useLayoutEffect(() => {
+    const { start, end } = dateRangeValue;
+    const newIncludeDisabledDateError: boolean = !!(
+      start &&
+      end &&
+      disabledDates &&
+      disabledDates.some(
+        (disabledDate) =>
+          dateToSeconds(start) < dateToSeconds(disabledDate) &&
+          dateToSeconds(disabledDate) < dateToSeconds(end)
+      )
+    );
+    if (includeDisabledDate !== newIncludeDisabledDateError) {
+      setValidationError((prev) => ({
+        ...prev,
+        [INCLUDE_DISABLED_DATE]: newIncludeDisabledDateError
+      }));
+    }
+  }, [disabledDates, dateRangeValue, includeDisabledDate, dateToSeconds]);
+
+  const onStartFieldErrorStatus = useCallback(
+    (error: boolean, errorReason?: DateValidationError) => {
+      setValidationError((prev) => ({
+        ...prev,
+        start: error ? errorReason : undefined
+      }));
+    },
+    []
+  );
+
+  const onEndFieldErrorStatus = useCallback(
+    (error: boolean, errorReason?: DateValidationError) => {
+      setValidationError((prev) => ({
+        ...prev,
+        end: error ? errorReason : undefined
+      }));
+    },
+    []
+  );
 
   return {
-    dateRange: isControlled ? value : uncontrolledDateRange,
-    handleChange,
-    dateRangeValidationError,
-    handleValidationError
+    isValidationError: !!(
+      validationError[CHRONOLOGICAL_ORDER] ||
+      validationError[INCLUDE_DISABLED_DATE] ||
+      validationError.start ||
+      validationError.end
+    ),
+    onStartFieldErrorStatus,
+    onEndFieldErrorStatus
   };
 };
 
 export const useIndicator = ({
-  focusedDate
-}: Pick<DateRangeFieldProps, 'focusedDate'>) => {
+  focusedField
+}: Pick<DateRangeFieldProps, 'focusedField'>) => {
   const indicatorElRef = useRef<HTMLDivElement>(null);
-  const startDateFieldElRef = useRef<HTMLElement>(null);
-  const endDateFieldElRef = useRef<HTMLElement>(null);
+  const startFieldElRef = useRef<HTMLElement>(null);
+  const endFieldElRef = useRef<HTMLElement>(null);
 
-  const setIndicatorLeftAndWidth = (
-    focusedDate: Required<DateRangeFieldProps['focusedDate']>
-  ) => {
+  useLayoutEffect(() => {
     const indicatorEl = indicatorElRef.current;
-    const startDateFieldEl = startDateFieldElRef.current;
-    const endDateFieldEl = endDateFieldElRef.current;
-    if (!indicatorEl || !startDateFieldEl || !endDateFieldEl) return;
+    const startFieldEl = startFieldElRef.current;
+    const endFieldEl = endFieldElRef.current;
+    if (!focusedField || !indicatorEl || !startFieldEl || !endFieldEl) return;
 
-    const focusedDateFieldEl =
-      focusedDate === 'start' ? startDateFieldEl : endDateFieldEl;
-    const inputBaseContentEl = focusedDateFieldEl.querySelector(
+    const focusedFieldEl = focusedField === 'start' ? startFieldEl : endFieldEl;
+    const inputBaseContentEl = focusedFieldEl.querySelector(
       '.JinniInputBaseContent'
     );
     if (!inputBaseContentEl) return;
@@ -222,16 +186,11 @@ export const useIndicator = ({
     );
     indicatorEl.style.left = `${(inputBaseContentEl as HTMLElement).offsetLeft + paddingLeft}px`;
     indicatorEl.style.width = `${inputBaseContentEl.clientWidth - paddingLeft - paddingRight}px`;
-  };
-
-  useLayoutEffect(() => {
-    if (!focusedDate) return;
-    setIndicatorLeftAndWidth(focusedDate);
-  }, [focusedDate]);
+  }, [focusedField]);
 
   return {
     indicatorElRef,
-    startDateFieldElRef,
-    endDateFieldElRef
+    startFieldElRef,
+    endFieldElRef
   };
 };

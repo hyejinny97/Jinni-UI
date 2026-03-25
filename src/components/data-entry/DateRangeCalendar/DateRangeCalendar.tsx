@@ -5,10 +5,6 @@ import useStyle from '@/hooks/useStyle';
 import { YearProps } from '@/components/data-entry/YearCalendar';
 import { MonthProps } from '@/components/data-entry/MonthCalendar';
 import { DayProps } from '@/components/data-entry/DayCalendar';
-import {
-  RangeType,
-  DateRangeValidationError
-} from '@/components/data-entry/DateRangeField';
 import { useSelectedDateRange } from './DateRangeCalendar.hooks';
 import { YearRangeCalendar } from './YearRangeCalendar';
 import { VerticalMonthRangeCalendars } from './VerticalMonthRangeCalendars';
@@ -17,45 +13,33 @@ import { VerticalDayRangeCalendars } from './VerticalDayRangeCalendars';
 import { HorizontalDayRangeCalendars } from './HorizontalDayRangeCalendars';
 import { dateToMonth } from '@/utils/date';
 import { dateToDay } from '@/utils/date';
-import { DateOptions } from '@/types/date-component';
+import { DateRangeComponentProps, RangeType } from '@/types/date-component';
 
 export type DateRangeCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'defaultValue' | 'onChange' | 'onSelect'
-> & {
-  defaultValue?: Partial<RangeType<Date>>;
-  value?: RangeType<Date | null>;
-  referenceDate?: Date;
-  onChange?: (
-    value: RangeType<Date | null>,
-    validationError?: DateRangeValidationError
-  ) => void;
-  onSelect?: (value: Date) => void;
-  onYearChange?: (value: RangeType<Date | null>) => void;
-  onMonthChange?: (value: RangeType<Date | null>) => void;
-  onDayChange?: (value: RangeType<Date | null>) => void;
-  locale?: string;
-  options?: DateOptions;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-  yearsOrder?: 'asc' | 'dsc';
-  showDaysOutsideCurrentMonth?: boolean;
-  fixedWeekNumber?: number;
-  displayWeekNumber?: boolean;
-  renderDay?: (dayProps: Omit<DayProps, 'ref'>) => React.ReactNode;
-  renderMonth?: (monthProps: Omit<MonthProps, 'ref'>) => React.ReactNode;
-  renderYear?: (yearProps: Omit<YearProps, 'ref'>) => React.ReactNode;
-  monthCalendarsOrientation?: 'vertical' | 'horizontal';
-  dayCalendarsOrientation?: 'vertical' | 'horizontal';
-  verticalMonthCalendars?: number;
-  horizontalMonthCalendars?: 1 | 2 | 3;
-  verticalDayCalendars?: number;
-  horizontalDayCalendars?: 1 | 2 | 3;
-  disableHoverRangeEffect?: boolean;
-};
+> &
+  DateRangeComponentProps & {
+    referenceDate?: Date;
+    onSelect?: (value: Date) => void;
+    onYearChange?: (value: RangeType<Date | null>) => void;
+    onMonthChange?: (value: RangeType<Date | null>) => void;
+    onDayChange?: (value: RangeType<Date | null>) => void;
+    yearsOrder?: 'asc' | 'dsc';
+    showDaysOutsideCurrentMonth?: boolean;
+    fixedWeekNumber?: number;
+    displayWeekNumber?: boolean;
+    renderDay?: (dayProps: Omit<DayProps, 'ref'>) => React.ReactNode;
+    renderMonth?: (monthProps: Omit<MonthProps, 'ref'>) => React.ReactNode;
+    renderYear?: (yearProps: Omit<YearProps, 'ref'>) => React.ReactNode;
+    monthCalendarsOrientation?: 'vertical' | 'horizontal';
+    dayCalendarsOrientation?: 'vertical' | 'horizontal';
+    verticalMonthCalendars?: number;
+    horizontalMonthCalendars?: 1 | 2 | 3;
+    verticalDayCalendars?: number;
+    horizontalDayCalendars?: 1 | 2 | 3;
+    disableHoverRangeEffect?: boolean;
+  };
 
 const DateRangeCalendar = <T extends AsType = 'div'>(
   props: DateRangeCalendarProps<T>

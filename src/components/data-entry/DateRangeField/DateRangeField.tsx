@@ -5,42 +5,30 @@ import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
 import { DateField } from '@/components/data-entry/DateField';
 import {
-  RangeType,
-  AdornmentType,
-  DateRangeValidationError
-} from './DateRangeField.types';
-import { useDateRange, useIndicator } from './DateRangeField.hooks';
+  useDateRangeValue,
+  useValidation,
+  useIndicator
+} from './DateRangeField.hooks';
 import { ArrowRightAltIcon } from '@/components/icons/ArrowRightAltIcon';
 import {
-  CHRONOLOGICAL_ORDER,
-  INCLUDE_DISABLED_DATE
-} from './DateRangeField.constants';
-import { DateOptions, DateValidationError } from '@/types/date-component';
+  DateRangeComponentProps,
+  RangeType,
+  RangeAdornmentType,
+  RangeFieldType
+} from '@/types/date-component';
 
 export type DateRangeFieldProps<T extends AsType = 'div'> = Omit<
   InputBaseProps<T>,
-  'defaultValue' | 'onChange' | 'startAdornment' | 'endAdornment'
-> & {
-  placeholder?: Partial<RangeType<string>>;
-  defaultValue?: Partial<RangeType<Date>>;
-  value?: RangeType<Date | null>;
-  onChange?: (
-    value: RangeType<Date | null>,
-    validationError?: DateRangeValidationError
-  ) => void;
-  locale?: string;
-  options?: DateOptions;
-  format?: string;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-  startAdornment?: AdornmentType<React.ReactNode>;
-  endAdornment?: AdornmentType<React.ReactNode>;
-  centerIcon?: React.ReactNode;
-  focusedDate?: 'start' | 'end';
-};
+  'defaultValue' | 'onChange' | 'startAdornment' | 'endAdornment' | 'disabled'
+> &
+  DateRangeComponentProps & {
+    placeholder?: RangeType<string>;
+    format?: string;
+    startAdornment?: RangeAdornmentType<React.ReactNode>;
+    endAdornment?: RangeAdornmentType<React.ReactNode>;
+    centerIcon?: React.ReactNode;
+    focusedField?: RangeFieldType;
+  };
 
 const DateRangeField = forwardRef(
   <T extends AsType = 'div'>(
@@ -48,104 +36,94 @@ const DateRangeField = forwardRef(
     ref: React.Ref<HTMLElement>
   ) => {
     const {
-      placeholder,
       defaultValue,
       value,
       onChange,
       locale,
       options,
-      format,
       minDate,
       maxDate,
       disabledDates,
       readOnly,
       disabled,
+      placeholder,
+      format,
       startAdornment,
       endAdornment,
       centerIcon = (
         <ArrowRightAltIcon color="gray-500" style={{ minWidth: '24px' }} />
       ),
-      color = 'gray-400',
+      focusedField,
+      color,
       focusedColor = 'primary',
       size,
       fullWidth,
-      focusedDate,
       className,
       style,
-      as: Component = 'div',
       ...rest
     } = props;
-    const {
-      dateRange,
-      handleChange,
-      dateRangeValidationError,
-      handleValidationError
-    } = useDateRange({
+    const { dateRangeValue, handleChange } = useDateRangeValue({
       defaultValue,
       value,
-      onChange,
-      locale,
-      options,
-      disabledDates
+      onChange
     });
-    const { indicatorElRef, startDateFieldElRef, endDateFieldElRef } =
-      useIndicator({ focusedDate });
-    const isValidationError =
-      dateRangeValidationError[CHRONOLOGICAL_ORDER] ||
-      dateRangeValidationError[INCLUDE_DISABLED_DATE] ||
-      dateRangeValidationError.start ||
-      dateRangeValidationError.end;
-
-    const getCommonProps = (dateFieldPosition: keyof RangeType<any>) => ({
-      value: dateRange[dateFieldPosition],
-      onChange: handleChange(dateFieldPosition),
-      placeholder: placeholder?.[dateFieldPosition],
-      disableHoverEffect: true,
-      disableFocusEffect: true,
+    const {
+      isValidationError,
+      onStartFieldErrorStatus,
+      onEndFieldErrorStatus
+    } = useValidation({
       locale,
       options,
-      format,
+      dateRangeValue
+    });
+    const { indicatorElRef, startFieldElRef, endFieldElRef } = useIndicator({
+      focusedField
+    });
+
+    const getCommonProps = (rangeField: RangeFieldType) => ({
+      value: dateRangeValue[rangeField],
+      onChange: handleChange(rangeField),
+      locale,
+      options,
       minDate,
       maxDate,
       disabledDates,
       readOnly,
       disabled,
-      startAdornment: startAdornment?.[dateFieldPosition],
-      endAdornment: endAdornment?.[dateFieldPosition],
-      onErrorStatus: (validationError?: DateValidationError) => {
-        handleValidationError(dateFieldPosition, validationError);
-      },
+      placeholder: placeholder?.[rangeField],
+      format,
+      startAdornment: startAdornment?.[rangeField],
+      endAdornment: endAdornment?.[rangeField],
       size,
-      fullWidth
+      fullWidth,
+      disableHoverEffect: true,
+      disableFocusEffect: true,
+      onErrorStatus:
+        rangeField === 'start' ? onStartFieldErrorStatus : onEndFieldErrorStatus
     });
 
     return (
       <InputBase
         ref={ref}
-        id="DateRangeField"
         className={cn('JinniDateRangeField', className)}
-        color={isValidationError ? 'error' : color}
-        focusedColor={isValidationError ? 'error' : focusedColor}
+        disabled={disabled}
         startAdornment={startAdornment?.dateRangeField}
         endAdornment={endAdornment?.dateRangeField}
+        color={isValidationError ? 'error' : color}
+        focusedColor={isValidationError ? 'error' : focusedColor}
         size={size}
         fullWidth={fullWidth}
-        disabled={disabled}
-        readOnly={readOnly}
         style={{
           '--indicator-color': isValidationError ? 'error' : focusedColor,
           ...style
         }}
         {...rest}
       >
-        <DateField ref={startDateFieldElRef} {...getCommonProps('start')} />
+        <DateField ref={startFieldElRef} {...getCommonProps('start')} />
         {centerIcon}
-        <DateField ref={endDateFieldElRef} {...getCommonProps('end')} />
-        {!!focusedDate && (
-          <div
-            ref={indicatorElRef}
-            className={cn('JinniDateRangeFieldIndicator')}
-          />
+        <DateField ref={endFieldElRef} {...getCommonProps('end')} />
+        {!!focusedField && (
+          <div ref={indicatorElRef} className="JinniDateRangeFieldIndicator" />
         )}
       </InputBase>
     );
