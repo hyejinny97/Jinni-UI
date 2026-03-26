@@ -16,7 +16,6 @@ type RangeYearProps = Omit<YearProps, 'ref'> &
     handleSelect: (dateSelected: Date) => void;
     hoveredDateValue: Date | null;
     handleHover: (dateHovered: Date | null) => void;
-    disableHoverRangeEffect?: boolean;
   };
 
 const RangeYear = (props: RangeYearProps) => {
@@ -28,7 +27,6 @@ const RangeYear = (props: RangeYearProps) => {
     handleSelect,
     hoveredDateValue,
     handleHover,
-    disableHoverRangeEffect,
     ...rest
   } = props;
   const normalizedColor = useColor(color);
@@ -69,8 +67,8 @@ const RangeYear = (props: RangeYearProps) => {
         })}
       >
         <div
-          className={cn('JinniYearDashBorder', yearsOrder, {
-            show: !disableHoverRangeEffect && isInHoverRange,
+          className={cn('JinniHoverEffect', yearsOrder, {
+            show: isInHoverRange,
             isStartHovered,
             isEndHovered
           })}

@@ -44,7 +44,7 @@ $dash-border-width: 2px;
       width: inherit;
     }
 
-    .JinniYearDashBorder {
+    .JinniHoverEffect {
       display: none;
       position: absolute;
       top: 0;
@@ -88,7 +88,7 @@ $dash-border-width: 2px;
   &:nth-child(3n + 1) {
     .JinniYearWrapper {
       @include left-rounded;
-      .JinniYearDashBorder {
+      .JinniHoverEffect {
         border-left-width: $dash-border-width;
         @include left-rounded;
       }
@@ -99,7 +99,7 @@ $dash-border-width: 2px;
   &:last-child {
     .JinniYearWrapper {
       @include right-rounded;
-      .JinniYearDashBorder {
+      .JinniHoverEffect {
         border-right-width: $dash-border-width;
         @include right-rounded;
       }

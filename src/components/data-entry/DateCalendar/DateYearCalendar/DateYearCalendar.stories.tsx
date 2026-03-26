@@ -121,7 +121,7 @@ const meta: Meta<typeof DateYearCalendar> = {
       description: 'years를 나타내는 순서',
       table: {
         type: {
-          summary: `'asc' | 'desc'`
+          summary: `'asc' | 'dsc'`
         },
         defaultValue: {
           summary: `'asc'`

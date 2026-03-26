@@ -15,13 +15,12 @@ import { RangeYear } from './RangeYear';
 
 export type YearRangeCalendarProps<T extends AsType = 'div'> = Omit<
   YearCalendarProps<T>,
-  'selectedDate' | 'onYearChange'
+  'selectedDate' | 'onYearChange' | 'renderYear'
 > & {
   selectedDate?: RangeType<Date | null>;
   onSelectDate?: (newSelectedDate: RangeType<Date | null>) => void;
   hoveredDate?: Date | null;
   onHoverDate?: (newHoveredDate: Date | null) => void;
-  disableHoverRangeEffect?: boolean;
 };
 
 const YearRangeCalendar = <T extends AsType = 'div'>(
@@ -29,12 +28,10 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
 ) => {
   const {
     yearsOrder,
-    renderYear,
     selectedDate,
     onSelectDate,
     hoveredDate,
     onHoverDate,
-    disableHoverRangeEffect,
     className,
     ...rest
   } = props;
@@ -55,7 +52,6 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
         handleSelect={handleSelect}
         hoveredDateValue={hoveredDateValue}
         handleHover={handleHover}
-        disableHoverRangeEffect={disableHoverRangeEffect}
         {...yearProps}
       />
     );
@@ -66,7 +62,7 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
       className={cn('JinniYearRangeCalendar', className)}
       spacing={0}
       yearsOrder={yearsOrder}
-      renderYear={renderYear || renderRangeYear}
+      renderYear={renderRangeYear}
       {...rest}
     />
   );
