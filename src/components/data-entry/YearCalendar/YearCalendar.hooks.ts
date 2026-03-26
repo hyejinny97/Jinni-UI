@@ -87,9 +87,13 @@ export const useScroll = ({ displayedDate }: UseScrollProps) => {
     for (const element of yearElList) {
       const { value } = element.dataset;
       if (value && new Date(value).getFullYear() === displayedDateYear) {
+        const offsetTop =
+          element.getBoundingClientRect().top -
+          yearCalendarEl.getBoundingClientRect().top +
+          yearCalendarEl.scrollTop;
         yearCalendarEl.scrollTo({
           top:
-            element.offsetTop -
+            offsetTop -
             yearCalendarEl.clientHeight / 2 +
             element.clientHeight / 2
         });
