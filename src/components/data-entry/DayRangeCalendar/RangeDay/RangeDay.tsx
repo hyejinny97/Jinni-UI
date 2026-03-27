@@ -1,20 +1,20 @@
-import './RangeMonth.scss';
+import './RangeDay.scss';
 import cn from 'classnames';
-import { Month, MonthProps } from '@/components/data-entry/MonthCalendar';
+import { Day, DayProps } from '@/components/data-entry/DayCalendar';
 import { RangeType } from '@/types/date-component';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
-import { dateToMonth } from '@/utils/date-component';
+import { dateToDay, getLastDay } from '@/utils/date-component';
 
-type RangeMonthProps = Omit<MonthProps, 'ref'> & {
+type RangeDayProps = Omit<DayProps, 'ref'> & {
   selectedDateValue: RangeType<Date | null>;
   handleSelect: (dateSelected: Date) => void;
   hoveredDateValue: Date | null;
   handleHover: (dateHovered: Date | null) => void;
 };
 
-const RangeMonth = (props: RangeMonthProps) => {
+const RangeDay = (props: RangeDayProps) => {
   const {
     value,
     color = 'primary',
@@ -28,48 +28,57 @@ const RangeMonth = (props: RangeMonthProps) => {
   const normalizedColor = useColor(color);
   const lightenColor = lighten(normalizedColor, 0.8);
 
-  const month = dateToMonth(value);
-  const startMonth = start && dateToMonth(start);
-  const endMonth = end && dateToMonth(end);
-  const hoveredMonth = hoveredDateValue && dateToMonth(hoveredDateValue);
+  const day = dateToDay(value);
+  const startDay = start && dateToDay(start);
+  const endDay = end && dateToDay(end);
+  const hoveredDay = hoveredDateValue && dateToDay(hoveredDateValue);
 
   const isInSelectRange =
-    startMonth && endMonth && startMonth <= month && month <= endMonth;
-  const isStartSelected = month === startMonth;
-  const isEndSelected = month === endMonth;
+    startDay && endDay && startDay <= day && day <= endDay;
+  const isStartSelected = day === startDay;
+  const isEndSelected = day === endDay;
   const isSelected = isStartSelected || isEndSelected;
 
   const isInHoverRange =
-    startMonth &&
-    !endMonth &&
-    hoveredMonth &&
-    startMonth <= month &&
-    month <= hoveredMonth;
+    startDay && !endDay && hoveredDay && startDay <= day && day <= hoveredDay;
   const isStartHovered = isInHoverRange && isStartSelected;
-  const isEndHovered = isInHoverRange && month === hoveredMonth;
+  const isEndHovered = isInHoverRange && day === hoveredDay;
+
+  const isSunday = value.getDay() === 0;
+  const isSaturday = value.getDay() === 6;
+  const isFirstDay = value.getDate() === 1;
+  const isLastDay = value.getDate() === getLastDay(value);
 
   return (
     <Box
-      className="JinniRangeMonth"
+      className="JinniRangeDay"
       onMouseEnter={() => handleHover(value)}
       onMouseLeave={() => handleHover(null)}
       style={{ '--lighten-color': lightenColor }}
     >
       <Box
-        className={cn('JinniMonthWrapper', {
+        className={cn('JinniDayWrapper', {
           isInSelectRange,
           isStartSelected,
-          isEndSelected
+          isEndSelected,
+          isSunday,
+          isSaturday,
+          isFirstDay,
+          isLastDay
         })}
       >
         <div
           className={cn('JinniHoverEffect', {
             show: isInHoverRange,
             isStartHovered,
-            isEndHovered
+            isEndHovered,
+            isSunday,
+            isSaturday,
+            isFirstDay,
+            isLastDay
           })}
         />
-        <Month
+        <Day
           {...rest}
           value={value}
           color={color}
@@ -81,4 +90,4 @@ const RangeMonth = (props: RangeMonthProps) => {
   );
 };
 
-export default RangeMonth;
+export default RangeDay;

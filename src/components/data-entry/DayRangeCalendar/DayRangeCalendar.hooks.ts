@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { MonthRangeCalendarProps } from './MonthRangeCalendar';
+import { DayRangeCalendarProps } from './DayRangeCalendar';
 import { RangeType } from '@/types/date-component';
-import { dateToMonth } from '@/utils/date-component';
+import { dateToDay } from '@/utils/date-component';
 
 type UseSelectedDateValueProps = Pick<
-  MonthRangeCalendarProps,
+  DayRangeCalendarProps,
   'selectedDate' | 'onSelectDate'
 >;
 
 type UseHoveredDateValueProps = Pick<
-  MonthRangeCalendarProps,
+  DayRangeCalendarProps,
   'hoveredDate' | 'onHoverDate'
 >;
 
@@ -28,9 +28,9 @@ export const useSelectedDateValue = ({
 
   const handleSelect = (dateSelected: Date) => {
     const newSelectedDate = { ...selectedDateValue };
-    if (start && !end && dateToMonth(start) <= dateToMonth(dateSelected)) {
+    if (start && !end && dateToDay(start) <= dateToDay(dateSelected)) {
       newSelectedDate.end = dateSelected;
-    } else if (!start && end && dateToMonth(dateSelected) <= dateToMonth(end)) {
+    } else if (!start && end && dateToDay(dateSelected) <= dateToDay(end)) {
       newSelectedDate.start = dateSelected;
     } else {
       newSelectedDate.start = dateSelected;

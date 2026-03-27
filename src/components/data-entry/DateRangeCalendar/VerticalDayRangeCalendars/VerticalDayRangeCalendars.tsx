@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Box } from '@/components/layout/Box';
 import { DayRangeCalendar, DayRangeCalendarProps } from '../DayRangeCalendar';
-import { dateToMonth } from '@/utils/date';
+import { dateToMonth } from '@/utils/date-component';
 
 type VerticalDayRangeCalendarsProps<T extends AsType = 'div'> =
   DayRangeCalendarProps<T> & {

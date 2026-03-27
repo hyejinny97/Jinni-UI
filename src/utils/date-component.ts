@@ -4,6 +4,7 @@ import {
   DateComponentProps
 } from '@/types/date-component';
 import { MONTH_DIGITS } from '@/constants/date-component';
+import { DAY } from '@/constants/time';
 
 type GetDatePartsProps = Pick<DateComponentProps, 'locale' | 'options'> & {
   displayedDate: Date;
@@ -36,4 +37,23 @@ export const getYearMonthParts = ({
     year: yearType,
     month: monthType
   }).formatToParts(displayedDate);
+};
+
+export const dateToMonth = (date: Date): number => {
+  const year = date.getFullYear() - 1;
+  const month = date.getMonth();
+  return year * 12 + month;
+};
+
+export const dateToDay = (date: Date): number => {
+  const localMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.floor(localMidnight.getTime() / DAY) + 1;
+};
+
+export const getLastDay = (date: Date) => {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 };

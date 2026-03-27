@@ -10,7 +10,7 @@ import {
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
-import { dateToDay } from '@/utils/date';
+import { dateToDay } from '@/utils/date-component';
 import { useHoveredDay } from './DayRangeCalendar.hooks';
 import useColor from '@/hooks/useColor';
 

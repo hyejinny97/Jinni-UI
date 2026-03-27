@@ -11,8 +11,7 @@ import { VerticalMonthRangeCalendars } from './VerticalMonthRangeCalendars';
 import { HorizontalMonthRangeCalendars } from './HorizontalMonthRangeCalendars';
 import { VerticalDayRangeCalendars } from './VerticalDayRangeCalendars';
 import { HorizontalDayRangeCalendars } from './HorizontalDayRangeCalendars';
-import { dateToMonth } from '@/utils/date';
-import { dateToDay } from '@/utils/date';
+import { dateToMonth, dateToDay } from '@/utils/date-component';
 import { DateRangeComponentProps, RangeType } from '@/types/date-component';
 
 export type DateRangeCalendarProps<T extends AsType = 'div'> = Omit<

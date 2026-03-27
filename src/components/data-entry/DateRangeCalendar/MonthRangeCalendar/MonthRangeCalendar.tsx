@@ -10,7 +10,7 @@ import {
 import { RangeType } from '@/components/data-entry/DateRangeField';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
-import { dateToMonth } from '@/utils/date';
+import { dateToMonth } from '@/utils/date-component';
 import { useHoveredMonth } from './MonthRangeCalendar.hooks';
 import useColor from '@/hooks/useColor';
 

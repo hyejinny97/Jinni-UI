@@ -111,10 +111,6 @@ export const dateToTimeStamp = (date: Date): number => {
   return new Date(year, month, day).getTime();
 };
 
-export const getLastDay = (date: Date) => {
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-};
-
 export const isKeyDatePart = (
   type: keyof Intl.DateTimeFormatPartTypesRegistry
 ): type is KeyDatePartType => KEY_DATE_PARTS.some((part) => part === type);
