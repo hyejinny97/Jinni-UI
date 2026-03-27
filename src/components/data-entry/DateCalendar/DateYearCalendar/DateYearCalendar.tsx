@@ -11,7 +11,7 @@ import {
 } from '@/components/data-entry/CalendarHeader';
 import useStyle from '@/hooks/useStyle';
 import { useDateValue } from './DateYearCalendar.hooks';
-import { getLocaleYear } from './DateYearCalendar.utils';
+import { getLocaleYear } from '@/utils/date-component';
 
 export type DateYearCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -58,7 +58,7 @@ const DateYearCalendar = <T extends AsType = 'div'>(
   const newStyle = useStyle(style);
 
   const calendarHeaderProps = {
-    children: getLocaleYear({ locale, options, displayedDate }),
+    children: getLocaleYear({ locale, options, date: displayedDate }),
     hidePrevButton: true,
     hideNextButton: true
   };

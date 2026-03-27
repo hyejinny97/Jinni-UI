@@ -6,8 +6,26 @@ import {
 import { MONTH_DIGITS } from '@/constants/date-component';
 import { DAY } from '@/constants/time';
 
+type GetLocaleYearProps = Pick<DateComponentProps, 'locale' | 'options'> & {
+  date: Date;
+};
+
 type GetDatePartsProps = Pick<DateComponentProps, 'locale' | 'options'> & {
   displayedDate: Date;
+};
+
+export const getLocaleYear = ({
+  locale,
+  options,
+  date
+}: GetLocaleYearProps): string => {
+  const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
+  const yearPart = dateTimeFormat
+    .formatToParts()
+    .find((part) => part.type === 'year');
+  const yearType: YearDigitType =
+    yearPart && yearPart.value.length === 2 ? '2-digit' : 'numeric';
+  return new Intl.DateTimeFormat(locale, { year: yearType }).format(date);
 };
 
 export const getYearMonthParts = ({

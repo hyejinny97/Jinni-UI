@@ -1,0 +1,16 @@
+.JinniDateYearRangeCalendar {
+  .JinniCalendarHeader {
+    .JinniCalendarHeaderContent {
+      gap: 5px;
+
+      .start-year {
+        flex: 1;
+        text-align: end;
+      }
+      .end-year {
+        flex: 1;
+        text-align: start;
+      }
+    }
+  }
+}
