@@ -22,13 +22,11 @@ $dash-border-width: 2px;
     &.isInSelectRange {
       background-color: var(--lighten-color);
       &.isStartSelected,
-      &.isSunday,
-      &.isFirstDay {
+      &.isSunday {
         @include left-rounded;
       }
       &.isEndSelected,
-      &.isSaturday,
-      &.isLastDay {
+      &.isSaturday {
         @include right-rounded;
       }
     }
@@ -52,14 +50,31 @@ $dash-border-width: 2px;
         display: block;
       }
       &.isStartHovered,
-      &.isSunday,
-      &.isFirstDay {
+      &.isSunday {
         border-left-width: $dash-border-width;
         @include left-rounded;
       }
       &.isEndHovered,
-      &.isSaturday,
-      &.isLastDay {
+      &.isSaturday {
+        border-right-width: $dash-border-width;
+        @include right-rounded;
+      }
+    }
+  }
+
+  &:first-child {
+    .JinniDayWrapper {
+      @include left-rounded;
+      .JinniHoverEffect {
+        border-left-width: $dash-border-width;
+        @include left-rounded;
+      }
+    }
+  }
+  &:last-child {
+    .JinniDayWrapper {
+      @include right-rounded;
+      .JinniHoverEffect {
         border-right-width: $dash-border-width;
         @include right-rounded;
       }

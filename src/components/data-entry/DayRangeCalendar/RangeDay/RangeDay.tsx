@@ -5,7 +5,7 @@ import { RangeType } from '@/types/date-component';
 import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
-import { dateToDay, getLastDay } from '@/utils/date-component';
+import { dateToDay } from '@/utils/date-component';
 
 type RangeDayProps = Omit<DayProps, 'ref'> & {
   selectedDateValue: RangeType<Date | null>;
@@ -46,8 +46,6 @@ const RangeDay = (props: RangeDayProps) => {
 
   const isSunday = value.getDay() === 0;
   const isSaturday = value.getDay() === 6;
-  const isFirstDay = value.getDate() === 1;
-  const isLastDay = value.getDate() === getLastDay(value);
 
   return (
     <Box
@@ -62,9 +60,7 @@ const RangeDay = (props: RangeDayProps) => {
           isStartSelected,
           isEndSelected,
           isSunday,
-          isSaturday,
-          isFirstDay,
-          isLastDay
+          isSaturday
         })}
       >
         <div
@@ -73,9 +69,7 @@ const RangeDay = (props: RangeDayProps) => {
             isStartHovered,
             isEndHovered,
             isSunday,
-            isSaturday,
-            isFirstDay,
-            isLastDay
+            isSaturday
           })}
         />
         <Day
