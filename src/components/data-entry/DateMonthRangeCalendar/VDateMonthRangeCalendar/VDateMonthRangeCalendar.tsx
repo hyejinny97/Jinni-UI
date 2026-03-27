@@ -1,6 +1,6 @@
-import './HDateMonthRangeCalendar.scss';
+import './VDateMonthRangeCalendar.scss';
 import cn from 'classnames';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
@@ -9,29 +9,26 @@ import {
   CalendarHeader,
   CalendarHeaderProps
 } from '@/components/data-entry/CalendarHeader';
-import {
-  useSelectedDate,
-  useDisplayedDate
-} from './HDateMonthRangeCalendar.hooks';
+import { useSelectedDate, useScroll } from './VDateMonthRangeCalendar.hooks';
 import { Stack, StackProps } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';
 import { getLocaleYear } from '@/utils/date-component';
 
-export type HDateMonthRangeCalendarProps<T extends AsType = 'div'> = Omit<
+export type VDateMonthRangeCalendarProps<T extends AsType = 'div'> = Omit<
   StackProps<T>,
   'defaultValue' | 'onChange' | 'children'
 > &
   Omit<DateRangeComponentProps, 'disabledDates'> &
   Omit<MonthCalendarMainProps, 'renderMonth'> & {
-    monthCalendars?: 1 | 2 | 3;
+    monthCalendars?: number;
     referenceDate?: Date;
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
   };
 
-const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
-  props: HDateMonthRangeCalendarProps<T>
+const VDateMonthRangeCalendar = <T extends AsType = 'div'>(
+  props: VDateMonthRangeCalendarProps<T>
 ) => {
   const {
     defaultValue,
@@ -47,7 +44,7 @@ const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
     renderCalendarHeader = (calendarHeaderProps: CalendarHeaderProps) => (
       <CalendarHeader {...calendarHeaderProps} />
     ),
-    monthCalendars = 2,
+    monthCalendars = 5,
     className,
     ...rest
   } = props;
@@ -57,22 +54,21 @@ const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
     value,
     onChange
   });
-  const { baseDisplayedDate, goToPrevYear, goToNextYear } = useDisplayedDate({
-    selectedDate,
-    referenceDate
-  });
+  const todayDate = new Date();
+  const baseDisplayedDateRef = useRef<Date>(
+    selectedDate.start || selectedDate.end || referenceDate || todayDate
+  );
+  const { dateMonthRangeCalendarElRef } = useScroll({ baseDisplayedDateRef });
 
-  const getCalendarHeaderProps = (calendarIdx: number, displayedDate: Date) => {
+  const getCalendarHeaderProps = (displayedDate: Date) => {
     return {
       children: getLocaleYear({
         locale,
         options,
         date: displayedDate
       }),
-      hidePrevButton: calendarIdx > 0,
-      hideNextButton: calendarIdx < monthCalendars - 1,
-      onPrevClick: goToPrevYear,
-      onNextClick: goToNextYear
+      hidePrevButton: true,
+      hideNextButton: true
     };
   };
   const getMonthRangeCalendarProps = (displayedDate: Date) => {
@@ -92,21 +88,26 @@ const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
 
   return (
     <Stack
-      className={cn('JinniHDateMonthRangeCalendar', className)}
-      direction="row"
-      divider={<Divider orientation="vertical" />}
-      spacing={10}
+      ref={dateMonthRangeCalendarElRef}
+      className={cn('JinniVDateMonthRangeCalendar', className)}
+      divider={<Divider orientation="horizontal" />}
       {...rest}
     >
       {Array(monthCalendars)
         .fill(0)
         .map((_, idx) => {
+          const baseDisplayedDate = baseDisplayedDateRef.current;
           const baseYear = baseDisplayedDate.getFullYear();
           const displayedDate = new Date(baseDisplayedDate);
-          displayedDate.setFullYear(baseYear + idx);
+          const half = Math.floor(monthCalendars / 2);
+          displayedDate.setFullYear(baseYear - half + idx);
           return (
-            <div key={displayedDate.getFullYear()}>
-              {renderCalendarHeader(getCalendarHeaderProps(idx, displayedDate))}
+            <div
+              key={displayedDate.getFullYear()}
+              className="JinniVDateMonthRangeCalendarPart"
+              data-value={displayedDate.toISOString()}
+            >
+              {renderCalendarHeader(getCalendarHeaderProps(displayedDate))}
               <MonthRangeCalendar
                 {...getMonthRangeCalendarProps(displayedDate)}
               />
@@ -117,4 +118,4 @@ const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
   );
 };
 
-export default HDateMonthRangeCalendar;
+export default VDateMonthRangeCalendar;
