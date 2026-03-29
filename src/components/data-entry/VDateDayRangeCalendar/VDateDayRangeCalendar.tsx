@@ -18,7 +18,7 @@ export type VDateDayRangeCalendarProps<T extends AsType = 'div'> = Omit<
   StackProps<T>,
   'defaultValue' | 'onChange' | 'children'
 > &
-  Omit<DateRangeComponentProps, 'disabledDates'> &
+  DateRangeComponentProps &
   Omit<DayCalendarMainProps, 'renderDay'> & {
     dayCalendars?: number;
     referenceDate?: Date;
@@ -38,8 +38,12 @@ const VDateDayRangeCalendar = <T extends AsType = 'div'>(
     options,
     minDate,
     maxDate,
+    disabledDates,
     readOnly,
     disabled,
+    showDaysOutsideCurrentMonth,
+    fixedWeekNumber,
+    displayWeekNumber,
     referenceDate,
     renderCalendarHeader = (calendarHeaderProps: CalendarHeaderProps) => (
       <CalendarHeader {...calendarHeaderProps} />
@@ -81,8 +85,12 @@ const VDateDayRangeCalendar = <T extends AsType = 'div'>(
       locale,
       minDate,
       maxDate,
+      disabledDates,
       readOnly,
-      disabled
+      disabled,
+      showDaysOutsideCurrentMonth,
+      fixedWeekNumber,
+      displayWeekNumber
     };
   };
 
