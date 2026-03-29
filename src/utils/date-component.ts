@@ -1,9 +1,11 @@
 import {
   YearDigitType,
   MonthDigitType,
-  DateComponentProps
+  DateComponentProps,
+  DateOptions,
+  CalendarType
 } from '@/types/date-component';
-import { MONTH_DIGITS } from '@/constants/date-component';
+import { MONTH_DIGITS, CALENDARS } from '@/constants/date-component';
 import { DAY } from '@/constants/time';
 
 export const getYearDateTimeFormat = ({
@@ -64,4 +66,22 @@ export const dateToDay = (date: Date): number => {
 
 export const getLastDay = (date: Date) => {
   return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+};
+
+export const getBaseCalendarType = ({
+  locale,
+  options
+}: {
+  locale?: string;
+  options?: DateOptions;
+}): CalendarType => {
+  const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
+  const dateParts = dateTimeFormat.formatToParts();
+  const datePartTypes = new Set(dateParts.map((part) => part.type));
+  for (const calendarType of CALENDARS) {
+    if (datePartTypes.has(calendarType)) {
+      return calendarType;
+    }
+  }
+  throw new Error('Calendar Type을 찾을 수 없습니다.');
 };

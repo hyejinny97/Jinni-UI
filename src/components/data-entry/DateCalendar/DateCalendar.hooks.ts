@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
-import { CalendarType } from './DateCalendar.types';
 import { DateCalendarProps } from './DateCalendar';
-import { getBaseCalendarType } from './DateCalendar.utils';
+import { CalendarType } from '@/types/date-component';
+import { getBaseCalendarType } from '@/utils/date-component';
 
 type UseCalendarTypeProps = Pick<DateCalendarProps, 'locale' | 'options'>;
 

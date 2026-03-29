@@ -1,6 +1,7 @@
 import {
   CHRONOLOGICAL_ORDER,
-  INCLUDE_DISABLED_DATE
+  INCLUDE_DISABLED_DATE,
+  CALENDARS
 } from '@/constants/date-component';
 
 export type YearDigitType = 'numeric' | '2-digit';
@@ -55,3 +56,5 @@ export type DateRangeComponentProps = {
   readOnly?: boolean;
   disabled?: boolean;
 };
+
+export type CalendarType = (typeof CALENDARS)[number];
