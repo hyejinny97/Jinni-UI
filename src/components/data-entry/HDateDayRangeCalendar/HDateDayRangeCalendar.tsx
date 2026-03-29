@@ -21,7 +21,7 @@ export type HDateDayRangeCalendarProps<T extends AsType = 'div'> = Omit<
   StackProps<T>,
   'defaultValue' | 'onChange' | 'children'
 > &
-  Omit<DateRangeComponentProps, 'disabledDates'> &
+  DateRangeComponentProps &
   Omit<DayCalendarMainProps, 'renderDay'> & {
     dayCalendars?: 1 | 2 | 3;
     referenceDate?: Date;
@@ -41,8 +41,12 @@ const HDateDayRangeCalendar = <T extends AsType = 'div'>(
     options,
     minDate,
     maxDate,
+    disabledDates,
     readOnly,
     disabled,
+    showDaysOutsideCurrentMonth,
+    fixedWeekNumber,
+    displayWeekNumber,
     referenceDate,
     renderCalendarHeader = (calendarHeaderProps: CalendarHeaderProps) => (
       <CalendarHeader {...calendarHeaderProps} />
@@ -85,8 +89,12 @@ const HDateDayRangeCalendar = <T extends AsType = 'div'>(
       locale,
       minDate,
       maxDate,
+      disabledDates,
       readOnly,
-      disabled
+      disabled,
+      showDaysOutsideCurrentMonth,
+      fixedWeekNumber,
+      displayWeekNumber
     };
   };
 

@@ -14,7 +14,7 @@ import { RangeType, RangeFieldType } from '@/types/date-component';
 
 const meta: Meta<typeof DayRangeCalendar> = {
   title:
-    'components/data-entry/DateRangePicker/DateRangeCalendar/DateDayRangeCalendar/DayRangeCalendar',
+    'components/data-entry/DateRangePicker/DateRangeCalendar/HDateDayRangeCalendar/DayRangeCalendar',
   component: DayRangeCalendar,
   argTypes: {
     disabled: {
