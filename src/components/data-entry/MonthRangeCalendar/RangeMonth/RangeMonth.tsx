@@ -6,6 +6,7 @@ import { Box } from '@/components/layout/Box';
 import { lighten } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
 import { dateToMonth } from '@/utils/date-component';
+import { isNumber } from '@/utils/isNumber';
 
 type RangeMonthProps = Omit<MonthProps, 'ref'> & {
   selectedDateValue: RangeType<Date | null>;
@@ -17,6 +18,7 @@ type RangeMonthProps = Omit<MonthProps, 'ref'> & {
 const RangeMonth = (props: RangeMonthProps) => {
   const {
     value,
+    actualMonth,
     color = 'primary',
     selectedDateValue,
     handleSelect,
@@ -28,7 +30,10 @@ const RangeMonth = (props: RangeMonthProps) => {
   const normalizedColor = useColor(color);
   const lightenColor = lighten(normalizedColor, 0.8);
 
-  const month = dateToMonth(value);
+  const month =
+    isNumber(actualMonth) && value.getMonth() - 1 === actualMonth
+      ? dateToMonth(value) - 1
+      : dateToMonth(value);
   const startMonth = start && dateToMonth(start);
   const endMonth = end && dateToMonth(end);
   const hoveredMonth = hoveredDateValue && dateToMonth(hoveredDateValue);

@@ -14,6 +14,7 @@ export type MonthProps = Omit<
   marked?: boolean;
   color?: ColorType;
   readOnly?: boolean;
+  actualMonth?: number;
 };
 
 const Month = forwardRef((props: MonthProps, ref: React.Ref<HTMLElement>) => {
@@ -24,6 +25,7 @@ const Month = forwardRef((props: MonthProps, ref: React.Ref<HTMLElement>) => {
     marked,
     color = 'primary',
     readOnly,
+    actualMonth,
     overlayColor = selected ? 'white' : 'black',
     rippleColor = selected ? 'white' : 'black',
     onClick,
@@ -41,6 +43,7 @@ const Month = forwardRef((props: MonthProps, ref: React.Ref<HTMLElement>) => {
       onClick={readOnly ? undefined : onClick}
       style={{ '--color': color, ...style }}
       data-value={value.toISOString()}
+      data-actual-month={actualMonth}
       {...rest}
     >
       {children}
