@@ -1,6 +1,6 @@
 import './VDateMonthRangeCalendar.scss';
 import cn from 'classnames';
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
@@ -12,7 +12,7 @@ import {
 import { useSelectedDate, useScroll } from './VDateMonthRangeCalendar.hooks';
 import { Stack, StackProps } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';
-import { getLocaleYear } from '@/utils/date-component';
+import { getYearDateTimeFormat } from '@/utils/date-component';
 
 export type VDateMonthRangeCalendarProps<T extends AsType = 'div'> = Omit<
   StackProps<T>,
@@ -59,14 +59,14 @@ const VDateMonthRangeCalendar = <T extends AsType = 'div'>(
     selectedDate.start || selectedDate.end || referenceDate || todayDate
   );
   const { dateMonthRangeCalendarElRef } = useScroll({ baseDisplayedDateRef });
+  const yearDateTimeFormat = useMemo(
+    () => getYearDateTimeFormat({ locale, options }),
+    [locale, options]
+  );
 
   const getCalendarHeaderProps = (displayedDate: Date) => {
     return {
-      children: getLocaleYear({
-        locale,
-        options,
-        date: displayedDate
-      }),
+      children: yearDateTimeFormat.format(displayedDate),
       hidePrevButton: true,
       hideNextButton: true
     };

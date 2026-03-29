@@ -1,6 +1,6 @@
 import './HDateMonthRangeCalendar.scss';
 import cn from 'classnames';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
@@ -15,7 +15,7 @@ import {
 } from './HDateMonthRangeCalendar.hooks';
 import { Stack, StackProps } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';
-import { getLocaleYear } from '@/utils/date-component';
+import { getYearDateTimeFormat } from '@/utils/date-component';
 
 export type HDateMonthRangeCalendarProps<T extends AsType = 'div'> = Omit<
   StackProps<T>,
@@ -61,14 +61,14 @@ const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
     selectedDate,
     referenceDate
   });
+  const yearDateTimeFormat = useMemo(
+    () => getYearDateTimeFormat({ locale, options }),
+    [locale, options]
+  );
 
   const getCalendarHeaderProps = (calendarIdx: number, displayedDate: Date) => {
     return {
-      children: getLocaleYear({
-        locale,
-        options,
-        date: displayedDate
-      }),
+      children: yearDateTimeFormat.format(displayedDate),
       hidePrevButton: calendarIdx > 0,
       hideNextButton: calendarIdx < monthCalendars - 1,
       onPrevClick: goToPrevYear,

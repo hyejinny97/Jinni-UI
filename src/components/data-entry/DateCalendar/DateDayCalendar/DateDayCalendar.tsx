@@ -1,5 +1,6 @@
 import './DateDayCalendar.scss';
 import cn from 'classnames';
+import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateComponentProps } from '@/types/date-component';
 import {
@@ -12,7 +13,7 @@ import {
 } from '@/components/data-entry/CalendarHeader';
 import useStyle from '@/hooks/useStyle';
 import { useDateValue } from './DateDayCalendar.hooks';
-import { getYearMonthParts } from '@/utils/date-component';
+import { getYearMonthDateTimeFormat } from '@/utils/date-component';
 import { ButtonBase } from '@/components/general/ButtonBase';
 
 export type DateDayCalendarProps<T extends AsType = 'div'> = Omit<
@@ -70,7 +71,11 @@ const DateDayCalendar = <T extends AsType = 'div'>(
     onChange,
     referenceDate
   });
-  const yearMonthParts = getYearMonthParts({ locale, options, displayedDate });
+  const yearMonthDateTimeFormat = useMemo(
+    () => getYearMonthDateTimeFormat({ locale, options }),
+    [locale, options]
+  );
+  const yearMonthParts = yearMonthDateTimeFormat.formatToParts(displayedDate);
   const newStyle = useStyle(style);
 
   const calendarHeaderProps = {

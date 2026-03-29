@@ -1,5 +1,6 @@
 import './DateYearRangeCalendar.scss';
 import cn from 'classnames';
+import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { YearCalendarMainProps } from '@/components/data-entry/YearCalendar';
@@ -10,7 +11,7 @@ import {
 } from '@/components/data-entry/CalendarHeader';
 import useStyle from '@/hooks/useStyle';
 import { useDateValue } from './DateYearRangeCalendar.hooks';
-import { getLocaleYear } from '@/utils/date-component';
+import { getYearDateTimeFormat } from '@/utils/date-component';
 
 export type DateYearRangeCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -53,12 +54,14 @@ const DateYearRangeCalendar = <T extends AsType = 'div'>(
     onChange,
     referenceDate
   });
+  const yearDateTimeFormat = useMemo(
+    () => getYearDateTimeFormat({ locale, options }),
+    [locale, options]
+  );
   const startLocaleYear =
-    selectedDate.start &&
-    getLocaleYear({ locale, options, date: selectedDate.start });
+    selectedDate.start && yearDateTimeFormat.format(selectedDate.start);
   const endLocaleYear =
-    selectedDate.end &&
-    getLocaleYear({ locale, options, date: selectedDate.end });
+    selectedDate.end && yearDateTimeFormat.format(selectedDate.end);
   const newStyle = useStyle(style);
 
   const calendarHeaderProps = {

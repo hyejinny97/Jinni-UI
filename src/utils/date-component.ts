@@ -6,33 +6,23 @@ import {
 import { MONTH_DIGITS } from '@/constants/date-component';
 import { DAY } from '@/constants/time';
 
-type GetLocaleYearProps = Pick<DateComponentProps, 'locale' | 'options'> & {
-  date: Date;
-};
-
-type GetDatePartsProps = Pick<DateComponentProps, 'locale' | 'options'> & {
-  displayedDate: Date;
-};
-
-export const getLocaleYear = ({
+export const getYearDateTimeFormat = ({
   locale,
-  options,
-  date
-}: GetLocaleYearProps): string => {
+  options
+}: Pick<DateComponentProps, 'locale' | 'options'>) => {
   const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
   const yearPart = dateTimeFormat
     .formatToParts()
     .find((part) => part.type === 'year');
   const yearType: YearDigitType =
     yearPart && yearPart.value.length === 2 ? '2-digit' : 'numeric';
-  return new Intl.DateTimeFormat(locale, { year: yearType }).format(date);
+  return new Intl.DateTimeFormat(locale, { year: yearType });
 };
 
-export const getYearMonthParts = ({
+export const getYearMonthDateTimeFormat = ({
   locale,
-  options,
-  displayedDate
-}: GetDatePartsProps): Array<Intl.DateTimeFormatPart> => {
+  options
+}: Pick<DateComponentProps, 'locale' | 'options'>) => {
   const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
   const baseDate = new Date(1970, 0, 1);
   const parts = dateTimeFormat.formatToParts(baseDate);
@@ -54,7 +44,7 @@ export const getYearMonthParts = ({
   return new Intl.DateTimeFormat(locale, {
     year: yearType,
     month: monthType
-  }).formatToParts(displayedDate);
+  });
 };
 
 export const dateToMonth = (date: Date): number => {

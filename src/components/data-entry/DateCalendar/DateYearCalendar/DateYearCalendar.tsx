@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateComponentProps } from '@/types/date-component';
 import {
@@ -11,7 +12,7 @@ import {
 } from '@/components/data-entry/CalendarHeader';
 import useStyle from '@/hooks/useStyle';
 import { useDateValue } from './DateYearCalendar.hooks';
-import { getLocaleYear } from '@/utils/date-component';
+import { getYearDateTimeFormat } from '@/utils/date-component';
 
 export type DateYearCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -55,10 +56,14 @@ const DateYearCalendar = <T extends AsType = 'div'>(
     onChange,
     referenceDate
   });
+  const yearDateTimeFormat = useMemo(
+    () => getYearDateTimeFormat({ locale, options }),
+    [locale, options]
+  );
   const newStyle = useStyle(style);
 
   const calendarHeaderProps = {
-    children: getLocaleYear({ locale, options, date: displayedDate }),
+    children: yearDateTimeFormat.format(displayedDate),
     hidePrevButton: true,
     hideNextButton: true
   };
