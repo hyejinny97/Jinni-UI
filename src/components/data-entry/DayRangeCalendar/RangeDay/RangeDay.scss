@@ -62,7 +62,7 @@ $dash-border-width: 2px;
     }
   }
 
-  &:first-child {
+  &:first-of-type {
     .JinniDayWrapper {
       @include left-rounded;
       .JinniHoverEffect {
@@ -71,7 +71,7 @@ $dash-border-width: 2px;
       }
     }
   }
-  &:last-child {
+  &:last-of-type {
     .JinniDayWrapper {
       @include right-rounded;
       .JinniHoverEffect {
