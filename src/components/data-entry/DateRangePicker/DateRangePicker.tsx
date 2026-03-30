@@ -1,5 +1,5 @@
 import './DateRangePicker.scss';
-import { useRef, useState, useId, useEffect } from 'react';
+import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
@@ -81,9 +81,8 @@ const DateRangePicker = <T extends AsType = 'div'>(
     setFocusedField(undefined);
     setOpen(false);
   };
-
-  useEffect(() => {
-    const { start, end } = dateRangeValue;
+  const handleCalendarChange = (newValue: RangeType<Date | null>) => {
+    const { start, end } = newValue;
     if (start) {
       if (end) {
         closePopover();
@@ -91,11 +90,11 @@ const DateRangePicker = <T extends AsType = 'div'>(
         setFocusedField('end');
       }
     }
-  }, [dateRangeValue]);
+    handleDateRangeChange(newValue);
+  };
 
   const commonProps = {
     value: dateRangeValue,
-    onChange: handleDateRangeChange,
     locale,
     options,
     minDate,
@@ -106,6 +105,7 @@ const DateRangePicker = <T extends AsType = 'div'>(
   };
   const dateRangeFieldProps = {
     ...commonProps,
+    onChange: handleDateRangeChange,
     focusedField,
     focused: open,
     endAdornment: {
@@ -131,7 +131,8 @@ const DateRangePicker = <T extends AsType = 'div'>(
     ...DateRangeFieldProps
   };
   const dateRangeCalendarProps = {
-    ...commonProps
+    ...commonProps,
+    onChange: handleCalendarChange
   };
 
   return (

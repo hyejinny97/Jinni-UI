@@ -74,6 +74,7 @@ const DateRangeField = forwardRef(
     } = useValidation({
       locale,
       options,
+      disabledDates,
       dateRangeValue
     });
     const { indicatorElRef, startFieldElRef, endFieldElRef } = useIndicator({

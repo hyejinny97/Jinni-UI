@@ -1,3 +1,4 @@
+import './DateYearCalendar.scss';
 import cn from 'classnames';
 import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
