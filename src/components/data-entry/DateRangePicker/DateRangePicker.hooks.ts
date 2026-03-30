@@ -1,33 +1,34 @@
 import { useState } from 'react';
 import { DateRangePickerProps } from './DateRangePicker';
-import {
-  RangeType,
-  DateRangeValidationError
-} from '@/components/data-entry/DateRangeField';
+import { RangeType } from '@/types/date-component';
+
+type UseDateRangeValueProps = Pick<
+  DateRangePickerProps,
+  'defaultValue' | 'value' | 'onChange'
+>;
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
 
-export const useDateRange = ({
+export const useDateRangeValue = ({
   defaultValue,
   value,
   onChange
-}: Pick<DateRangePickerProps, 'defaultValue' | 'value' | 'onChange'>) => {
+}: UseDateRangeValueProps) => {
   const isControlled = value !== undefined;
   const [uncontrolledDateRange, setUncontrolledDateRange] = useState<
     RangeType<Date | null>
-  >({ ...INIT_DEFAULT_VALUE, ...defaultValue });
-  const dateRange = isControlled ? value : uncontrolledDateRange;
+  >(defaultValue || INIT_DEFAULT_VALUE);
+  const dateRangeValue: RangeType<Date | null> = isControlled
+    ? value
+    : uncontrolledDateRange;
 
-  const handleRangeChange = (
-    newValue: RangeType<Date | null>,
-    validationError?: DateRangeValidationError
-  ) => {
+  const handleDateRangeChange = (newValue: RangeType<Date | null>) => {
     if (!isControlled) setUncontrolledDateRange(newValue);
-    if (onChange) onChange(newValue, validationError);
+    if (onChange) onChange(newValue);
   };
 
   return {
-    dateRange,
-    handleRangeChange
+    dateRangeValue,
+    handleDateRangeChange
   };
 };

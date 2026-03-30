@@ -1,5 +1,5 @@
 import './DateRangePicker.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, useId, useEffect } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
@@ -12,13 +12,13 @@ import {
   DateRangeCalendarProps
 } from '@/components/data-entry/DateRangeCalendar';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
-import { useDateRange } from './DateRangePicker.hooks';
+import { useDateRangeValue } from './DateRangePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import {
   DateRangeComponentProps,
-  DateRangeValidationError,
-  RangeType
+  RangeType,
+  RangeFieldType
 } from '@/types/date-component';
 
 export type DateRangePickerProps<T extends AsType = 'div'> = Omit<
@@ -38,7 +38,6 @@ const DateRangePicker = <T extends AsType = 'div'>(
   props: DateRangePickerProps<T>
 ) => {
   const {
-    name,
     defaultValue,
     value,
     onChange,
@@ -47,8 +46,9 @@ const DateRangePicker = <T extends AsType = 'div'>(
     minDate,
     maxDate,
     disabledDates,
-    readOnly = false,
-    disabled = false,
+    readOnly,
+    disabled,
+    name,
     PopoverProps,
     DateRangeFieldProps,
     renderDateRangeCalendar = (
@@ -59,49 +59,79 @@ const DateRangePicker = <T extends AsType = 'div'>(
     as: Component = 'div',
     ...rest
   } = props;
+  const popoverId = useId();
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
-  const [focusedDate, setFocusedDate] = useState<'start' | 'end' | undefined>();
-  const { dateRange, handleRangeChange } = useDateRange({
+  const [focusedField, setFocusedField] = useState<RangeFieldType>();
+  const { dateRangeValue, handleDateRangeChange } = useDateRangeValue({
     defaultValue,
     value,
     onChange
   });
   const newStyle = useStyle(style);
+  const { className: popoverClassName, ...restPopoverProps } = (PopoverProps ||
+    {}) as Partial<PopoverProps>;
 
-  const handleOpen = () => {
+  const openPopover = () => {
     if (readOnly || disabled) return;
-    setFocusedDate('start');
+    setFocusedField('start');
     setOpen(true);
   };
-  const handleClose = () => {
-    setFocusedDate(undefined);
+  const closePopover = () => {
+    setFocusedField(undefined);
     setOpen(false);
   };
-  const handleDateRangeCalendarChange = (
-    date: RangeType<Date | null>,
-    validationError?: DateRangeValidationError
-  ) => {
-    const { start, end } = date;
+
+  useEffect(() => {
+    const { start, end } = dateRangeValue;
     if (start) {
       if (end) {
-        handleClose();
+        closePopover();
       } else {
-        setFocusedDate('end');
+        setFocusedField('end');
       }
     }
-    handleRangeChange(date, validationError);
-  };
+  }, [dateRangeValue]);
 
   const commonProps = {
-    value: dateRange,
+    value: dateRangeValue,
+    onChange: handleDateRangeChange,
     locale,
     options,
-    readOnly,
-    disabled,
     minDate,
     maxDate,
-    disabledDates
+    disabledDates,
+    readOnly,
+    disabled
+  };
+  const dateRangeFieldProps = {
+    ...commonProps,
+    focusedField,
+    focused: open,
+    endAdornment: {
+      dateRangeField: (
+        <ButtonBase
+          type="button"
+          className={cn('JinniDateRangePickerOpenButton', {
+            readOnly,
+            disabled
+          })}
+          onClick={openPopover}
+          disableOverlay={readOnly || disabled}
+          disableRipple={readOnly || disabled}
+          aria-label="Choose Date"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          aria-controls={popoverId}
+        >
+          <DateRangeIcon size={20} color="gray-500" />
+        </ButtonBase>
+      )
+    },
+    ...DateRangeFieldProps
+  };
+  const dateRangeCalendarProps = {
+    ...commonProps
   };
 
   return (
@@ -116,51 +146,26 @@ const DateRangePicker = <T extends AsType = 'div'>(
     >
       <input
         name={name?.start}
-        value={dateRange.start?.toDateString() || ''}
+        value={dateRangeValue.start?.toDateString() || ''}
         hidden
         readOnly
       />
       <input
         name={name?.end}
-        value={dateRange.end?.toDateString() || ''}
+        value={dateRangeValue.end?.toDateString() || ''}
         hidden
         readOnly
       />
-      <DateRangeField
-        ref={anchorElRef}
-        onChange={handleRangeChange}
-        focusedDate={focusedDate}
-        endAdornment={{
-          dateRangeField: (
-            <ButtonBase
-              type="button"
-              className={cn('JinniDateRangePickerOpenButton', {
-                readOnly,
-                disabled
-              })}
-              onClick={handleOpen}
-              disableOverlay={readOnly || disabled}
-              disableRipple={readOnly || disabled}
-            >
-              <DateRangeIcon size={20} color="gray-500" />
-            </ButtonBase>
-          )
-        }}
-        focused={open}
-        {...commonProps}
-        {...DateRangeFieldProps}
-      />
+      <DateRangeField ref={anchorElRef} {...dateRangeFieldProps} />
       <Popover
-        className="JinniDateRangePickerPopover"
+        id={popoverId}
         anchorElRef={anchorElRef}
+        className={cn('JinniDateRangePickerPopover', popoverClassName)}
         open={open}
-        onClose={handleClose}
-        {...PopoverProps}
+        onClose={closePopover}
+        {...restPopoverProps}
       >
-        {renderDateRangeCalendar({
-          ...commonProps,
-          onChange: handleDateRangeCalendarChange
-        })}
+        {renderDateRangeCalendar(dateRangeCalendarProps)}
       </Popover>
     </Component>
   );
