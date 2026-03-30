@@ -54,6 +54,10 @@ export const getWeekNumber = (date: Date) => {
   return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 };
 
+const transformToLocalMidnight = (date: Date) => {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+};
+
 export const isSameDay = ({
   baseDate,
   targetDate
@@ -62,8 +66,8 @@ export const isSameDay = ({
   targetDate: Date;
 }) => {
   return (
-    Math.trunc(baseDate.getTime() / DAY) ===
-    Math.trunc(targetDate.getTime() / DAY)
+    Math.trunc(transformToLocalMidnight(baseDate).getTime() / DAY) ===
+    Math.trunc(transformToLocalMidnight(targetDate).getTime() / DAY)
   );
 };
 
@@ -76,8 +80,8 @@ export const isLowerDay = ({
 }): boolean => {
   if (!baseDate) return false;
   return (
-    Math.trunc(baseDate.getTime() / DAY) >
-    Math.trunc(targetDate.getTime() / DAY)
+    Math.trunc(transformToLocalMidnight(baseDate).getTime() / DAY) >
+    Math.trunc(transformToLocalMidnight(targetDate).getTime() / DAY)
   );
 };
 
@@ -90,7 +94,7 @@ export const isHigherDay = ({
 }): boolean => {
   if (!baseDate) return false;
   return (
-    Math.trunc(baseDate.getTime() / DAY) <
-    Math.trunc(targetDate.getTime() / DAY)
+    Math.trunc(transformToLocalMidnight(baseDate).getTime() / DAY) <
+    Math.trunc(transformToLocalMidnight(targetDate).getTime() / DAY)
   );
 };
