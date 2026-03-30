@@ -1,5 +1,6 @@
 import './Stack.scss';
 import cn from 'classnames';
+import { forwardRef } from 'react';
 import { Responsive } from '@/types/breakpoint';
 import { computeChildren, computeSpacing } from './Stack.utils';
 import useStyle from '@/hooks/useStyle';
@@ -14,33 +15,39 @@ export type StackProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children: React.ReactNode;
 };
 
-const Stack = <T extends AsType = 'div'>(props: StackProps<T>) => {
-  const {
-    spacing = 0,
-    direction = 'column',
-    divider,
-    children,
-    className,
-    style,
-    as: Component = 'div',
-    ...rest
-  } = props;
-  const computedChildren = computeChildren(children, divider);
-  const newStyle = useStyle({
-    '--flex-direction': direction,
-    '--flex-spacing': computeSpacing(spacing),
-    ...style
-  });
+const Stack = forwardRef(
+  <T extends AsType = 'div'>(
+    props: StackProps<T>,
+    ref: React.Ref<HTMLElement>
+  ) => {
+    const {
+      spacing = 0,
+      direction = 'column',
+      divider,
+      children,
+      className,
+      style,
+      as: Component = 'div',
+      ...rest
+    } = props;
+    const computedChildren = computeChildren(children, divider);
+    const newStyle = useStyle({
+      '--flex-direction': direction,
+      '--flex-spacing': computeSpacing(spacing),
+      ...style
+    });
 
-  return (
-    <Component
-      className={cn('JinniStack', className)}
-      style={newStyle}
-      {...rest}
-    >
-      {computedChildren}
-    </Component>
-  );
-};
+    return (
+      <Component
+        ref={ref}
+        className={cn('JinniStack', className)}
+        style={newStyle}
+        {...rest}
+      >
+        {computedChildren}
+      </Component>
+    );
+  }
+);
 
 export default Stack;

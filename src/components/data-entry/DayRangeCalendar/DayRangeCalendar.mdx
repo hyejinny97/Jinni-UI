@@ -1,0 +1,96 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as DayRangeCalendarStories from './DayRangeCalendar.stories';
+
+<Meta of={DayRangeCalendarStories} />
+
+# DayRangeCalendar
+
+day range 달력
+
+## Import
+
+```js
+import { DayRangeCalendar } from '@/components/data-entry/DayRangeCalendar';
+```
+
+## Usage
+
+### Basic DayRangeCalendar
+
+- `displayedDate`: 화면에 보여지는 날짜
+
+<Canvas of={DayRangeCalendarStories.BasicDayRangeCalendar} />
+
+### Controlled select
+
+- `selectedDate`를 통해 select range를 control 가능
+- `selectedDate`: 선택된 날짜 범위
+- `onSelectDate`: selected date가 변경되었을 때 호출되는 함수
+
+<Canvas of={DayRangeCalendarStories.ControlledSelect} />
+
+### Controlled hover
+
+- `hoveredDate`를 통해 hover range를 control 가능
+- `hoveredDate`: hover한 날짜
+- `onHoverDate`: 날짜에 hover 했을 때 호출되는 함수
+
+<Canvas of={DayRangeCalendarStories.ControlledHover} />
+
+### Locale
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+
+<Canvas of={DayRangeCalendarStories.Locale} />
+
+### Restrict Date
+
+#### 1. Min date
+
+- `minDate`: 선택 가능한 최소 날짜
+
+<Canvas of={DayRangeCalendarStories.MinDate} />
+
+#### 2. Max date
+
+- `maxDate`: 선택 가능한 최대 날짜
+
+<Canvas of={DayRangeCalendarStories.MaxDate} />
+
+#### 3. Disabled dates
+
+- `disabledDates`: 비활성화 하는 특정 날짜 모음
+
+<Canvas of={DayRangeCalendarStories.DisabledDates} />
+
+### ReadOnly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={DayRangeCalendarStories.ReadOnly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={DayRangeCalendarStories.Disabled} />
+
+### DayCalendar props
+
+- `DayRangeCalendar` 컴포넌트는 내부적으로 `DayCalendar` 컴포넌트를 반환하므로, `DayCalendar` 의 모든 props 사용 가능
+
+#### 1. Show additional days
+
+<Canvas of={DayRangeCalendarStories.ShowAdditionalDays} />
+
+#### 2. Display week number
+
+<Canvas of={DayRangeCalendarStories.DisplayWeekNumber} />
+
+### Custom RangeDay
+
+<Canvas of={DayRangeCalendarStories.CustomRangeDay} />
+
+## Props
+
+<ArgTypes of={DayRangeCalendarStories} sort="alpha" />

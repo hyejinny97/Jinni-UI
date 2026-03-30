@@ -1,13 +1,10 @@
 import { LocaleMonthType } from './MonthCalendar.types';
 
-export const getLocaleMonths = (
-  displayedDate: Date,
-  locale?: string
-): Array<LocaleMonthType> => {
+export const getLocaleMonths = (locale?: string): Array<LocaleMonthType> => {
   const dateTimeFormat = new Intl.DateTimeFormat(locale, { month: 'short' });
   const month: Array<LocaleMonthType> = [];
   for (let m = 0; m < 12; m++) {
-    const date = new Date(displayedDate);
+    const date = new Date(1970, 0, 1);
     date.setMonth(m);
     const parts = dateTimeFormat.formatToParts(date);
     const monthPart = parts.find((p) => p.type === 'month');

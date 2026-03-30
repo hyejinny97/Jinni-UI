@@ -1,0 +1,12 @@
+$scrollbar-width: 15px;
+
+.JinniVDateMonthRangeCalendar {
+  position: relative;
+  width: calc(300px + $scrollbar-width);
+  height: 260px;
+  overflow-y: auto;
+
+  .JinniCalendarHeader {
+    width: 300px;
+  }
+}

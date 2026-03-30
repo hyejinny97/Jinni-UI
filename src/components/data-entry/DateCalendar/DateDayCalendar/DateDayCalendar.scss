@@ -1,4 +1,7 @@
 .JinniDateDayCalendar {
+  display: inline-flex;
+  flex-direction: column;
+
   .JinniCalendarHeader {
     .JinniCalendarHeaderDatePart {
       display: inline-block;

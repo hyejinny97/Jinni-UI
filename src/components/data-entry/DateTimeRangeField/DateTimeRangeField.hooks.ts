@@ -6,14 +6,15 @@ import {
 } from './DateTimeRangeField.types';
 import {
   DateTimeValidationError,
-  filterTimeOptions
-  // filterDateOptions
+  filterTimeOptions,
+  filterDateOptions
 } from '@/components/data-entry/DateTimeField';
 import {
   CHRONOLOGICAL_ORDER,
   INCLUDE_DISABLED_DATE
 } from './DateTimeRangeField.constants';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
+import { getBaseCalendarType } from '@/utils/date-component';
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
 
@@ -35,11 +36,10 @@ const useDateTimeRangeValidationError = ({
     partTypes.forEach((type) => partTypeSet.add(type));
     return partTypeSet;
   }, [locale, options]);
-  // const baseCalendarType = useMemo(
-  //   () => getBaseCalendarType({ locale, options: filterDateOptions(options) }),
-  //   [locale, options]
-  // );
-  const baseCalendarType = 'year';
+  const baseCalendarType = useMemo(
+    () => getBaseCalendarType({ locale, options: filterDateOptions(options) }),
+    [locale, options]
+  );
 
   const timeToSeconds = (time: Date) => {
     let seconds = 0;

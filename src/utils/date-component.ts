@@ -1,19 +1,30 @@
 import {
   YearDigitType,
   MonthDigitType,
-  DateComponentProps
+  DateComponentProps,
+  DateOptions,
+  CalendarType
 } from '@/types/date-component';
-import { MONTH_DIGITS } from '@/constants/date-component';
+import { MONTH_DIGITS, CALENDARS } from '@/constants/date-component';
+import { DAY } from '@/constants/time';
 
-type GetDatePartsProps = Pick<DateComponentProps, 'locale' | 'options'> & {
-  displayedDate: Date;
+export const getYearDateTimeFormat = ({
+  locale,
+  options
+}: Pick<DateComponentProps, 'locale' | 'options'>) => {
+  const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
+  const yearPart = dateTimeFormat
+    .formatToParts()
+    .find((part) => part.type === 'year');
+  const yearType: YearDigitType =
+    yearPart && yearPart.value.length === 2 ? '2-digit' : 'numeric';
+  return new Intl.DateTimeFormat(locale, { year: yearType });
 };
 
-export const getYearMonthParts = ({
+export const getYearMonthDateTimeFormat = ({
   locale,
-  options,
-  displayedDate
-}: GetDatePartsProps): Array<Intl.DateTimeFormatPart> => {
+  options
+}: Pick<DateComponentProps, 'locale' | 'options'>) => {
   const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
   const baseDate = new Date(1970, 0, 1);
   const parts = dateTimeFormat.formatToParts(baseDate);
@@ -35,5 +46,42 @@ export const getYearMonthParts = ({
   return new Intl.DateTimeFormat(locale, {
     year: yearType,
     month: monthType
-  }).formatToParts(displayedDate);
+  });
+};
+
+export const dateToMonth = (date: Date): number => {
+  const year = date.getFullYear() - 1;
+  const month = date.getMonth();
+  return year * 12 + month;
+};
+
+export const dateToDay = (date: Date): number => {
+  const localMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.floor(localMidnight.getTime() / DAY) + 1;
+};
+
+export const getLastDay = (date: Date) => {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+};
+
+export const getBaseCalendarType = ({
+  locale,
+  options
+}: {
+  locale?: string;
+  options?: DateOptions;
+}): CalendarType => {
+  const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
+  const dateParts = dateTimeFormat.formatToParts();
+  const datePartTypes = new Set(dateParts.map((part) => part.type));
+  for (const calendarType of CALENDARS) {
+    if (datePartTypes.has(calendarType)) {
+      return calendarType;
+    }
+  }
+  throw new Error('Calendar Type을 찾을 수 없습니다.');
 };

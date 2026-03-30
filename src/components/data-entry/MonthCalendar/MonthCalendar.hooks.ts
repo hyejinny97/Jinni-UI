@@ -29,29 +29,46 @@ export const useMonthItems = ({
   displayedDate,
   onMonthChange
 }: UseMonthItemsProps) => {
-  const localeMonths = useMemo(
-    () => getLocaleMonths(displayedDate, locale),
-    [displayedDate, locale]
-  );
+  const localeMonths = useMemo(() => getLocaleMonths(locale), [locale]);
 
   const monthItems = useMemo(() => {
     const todayDate = new Date();
-    return localeMonths.map(({ format, value }) => ({
-      value,
-      children: format,
-      selected:
-        !!selectedDate &&
-        isSameMonth({ baseDate: selectedDate, targetDate: value }),
-      marked: isSameMonth({ baseDate: todayDate, targetDate: value }),
-      readOnly,
-      disabled:
-        disabled ||
-        isLowerMonth({ baseDate: minDate, targetDate: value }) ||
-        isHigherMonth({ baseDate: maxDate, targetDate: value }),
-      onClick: () => onMonthChange?.(value)
-    }));
+    return localeMonths.map(({ format, value }) => {
+      const valueReflectingYear = new Date(value);
+      valueReflectingYear.setFullYear(displayedDate.getFullYear());
+      const valueReflectingYearDay = new Date(valueReflectingYear);
+      valueReflectingYearDay.setDate(displayedDate.getDate());
+      return {
+        actualMonth: value.getMonth(),
+        value: valueReflectingYearDay,
+        children: format,
+        selected:
+          !!selectedDate &&
+          isSameMonth({
+            baseDate: selectedDate,
+            targetDate: valueReflectingYear
+          }),
+        marked: isSameMonth({
+          baseDate: todayDate,
+          targetDate: valueReflectingYear
+        }),
+        readOnly,
+        disabled:
+          disabled ||
+          isLowerMonth({
+            baseDate: minDate,
+            targetDate: valueReflectingYear
+          }) ||
+          isHigherMonth({
+            baseDate: maxDate,
+            targetDate: valueReflectingYear
+          }),
+        onClick: () => onMonthChange?.(valueReflectingYearDay)
+      };
+    });
   }, [
     localeMonths,
+    displayedDate,
     minDate,
     maxDate,
     readOnly,

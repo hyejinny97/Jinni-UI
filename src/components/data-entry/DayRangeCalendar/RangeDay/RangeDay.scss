@@ -1,0 +1,83 @@
+$dash-border-width: 2px;
+
+@mixin left-rounded {
+  border-top-left-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+}
+
+@mixin right-rounded {
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+}
+
+.JinniRangeDay {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  box-sizing: border-box;
+
+  .JinniDayWrapper {
+    position: relative;
+    width: inherit;
+
+    &.isInSelectRange {
+      background-color: var(--lighten-color);
+      &.isStartSelected,
+      &.isSunday {
+        @include left-rounded;
+      }
+      &.isEndSelected,
+      &.isSaturday {
+        @include right-rounded;
+      }
+    }
+
+    .JinniHoverEffect {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      border-style: dashed;
+      border-color: var(--jinni-color-gray-300);
+      border-width: 0;
+      border-top-width: $dash-border-width;
+      border-bottom-width: $dash-border-width;
+      pointer-events: none;
+
+      &.show {
+        display: block;
+      }
+      &.isStartHovered,
+      &.isSunday {
+        border-left-width: $dash-border-width;
+        @include left-rounded;
+      }
+      &.isEndHovered,
+      &.isSaturday {
+        border-right-width: $dash-border-width;
+        @include right-rounded;
+      }
+    }
+  }
+
+  &:first-of-type {
+    .JinniDayWrapper {
+      @include left-rounded;
+      .JinniHoverEffect {
+        border-left-width: $dash-border-width;
+        @include left-rounded;
+      }
+    }
+  }
+  &:last-of-type {
+    .JinniDayWrapper {
+      @include right-rounded;
+      .JinniHoverEffect {
+        border-right-width: $dash-border-width;
+        @include right-rounded;
+      }
+    }
+  }
+}

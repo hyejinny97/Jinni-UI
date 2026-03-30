@@ -15,8 +15,7 @@ import {
   findYearTokenType,
   findMonthTokenType,
   findDayTokenType,
-  dateToTimeStamp,
-  getLastDay
+  dateToTimeStamp
 } from './DateField.utils';
 import { TOKENS } from './DateField.constants';
 import {
@@ -27,6 +26,7 @@ import {
 } from '@/types/date-component';
 import { isAvailableLocale } from '@/utils/dateTimeFormat';
 import { isNumber } from '@/utils/isNumber';
+import { getLastDay } from '@/utils/date-component';
 
 type HandleDateChangeType = ({ year, month, day }: DateObjectType) => void;
 

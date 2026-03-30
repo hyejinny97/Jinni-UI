@@ -1,0 +1,12 @@
+.JinniHDateMonthRangeCalendar {
+  display: inline-flex;
+
+  .JinniHDateMonthRangeCalendarWrapper {
+    display: inline-flex;
+    flex-direction: column;
+
+    .JinniCalendarHeader {
+      width: 300px;
+    }
+  }
+}

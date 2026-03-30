@@ -19,7 +19,8 @@
     border-radius: 9999px;
 
     &.hide {
-      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
     }
   }
 }

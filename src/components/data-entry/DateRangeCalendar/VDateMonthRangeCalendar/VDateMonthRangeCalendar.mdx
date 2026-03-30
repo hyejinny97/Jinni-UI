@@ -1,0 +1,100 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as VDateMonthRangeCalendarStories from './VDateMonthRangeCalendar.stories';
+
+<Meta of={VDateMonthRangeCalendarStories} />
+
+# VDateMonthRangeCalendar
+
+month range 달력
+
+## Import
+
+```js
+import { VDateMonthRangeCalendar } from '@/components/data-entry/DateRangeCalendar';
+```
+
+## Usage
+
+### Basic VDateMonthRangeCalendar
+
+- `defaultValue`: 초기 selected date (uncontrolled일 때만 적용 가능)
+
+<Canvas of={VDateMonthRangeCalendarStories.BasicVDateMonthRangeCalendar} />
+
+### Controlled VDateMonthRangeCalendar
+
+- `value`를 통해 control 가능
+- `value`: selected date
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={VDateMonthRangeCalendarStories.ControlledVDateMonthRangeCalendar} />
+
+### Choose the initial date
+
+- `referenceDate`: `value`, `defaultValue` prop이 없을 때 참조하는 date
+
+<Canvas of={VDateMonthRangeCalendarStories.ChooseInitialDate} />
+
+### Locale ans Options
+
+#### 1. Locale
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+
+<Canvas of={VDateMonthRangeCalendarStories.Locale} />
+
+#### 2. Options
+
+- `options`: date 속성
+
+<Canvas of={VDateMonthRangeCalendarStories.Options} />
+
+### Restrict Date
+
+#### 1. Min date
+
+- `minDate`: 선택 가능한 최소 날짜
+
+<Canvas of={VDateMonthRangeCalendarStories.MinDate} />
+
+#### 2. Max date
+
+- `maxDate`: 선택 가능한 최대 날짜
+
+<Canvas of={VDateMonthRangeCalendarStories.MaxDate} />
+
+### ReadOnly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={VDateMonthRangeCalendarStories.ReadOnly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={VDateMonthRangeCalendarStories.Disabled} />
+
+### Count of Calendars
+
+- `monthCalendars`: month calendars 갯수
+
+<Canvas of={VDateMonthRangeCalendarStories.CountOfCalendars} />
+
+### MonthRangeCalendar props
+
+- `VDateMonthRangeCalendar` 컴포넌트는 내부적으로 `MonthRangeCalendar` 컴포넌트를 반환하므로, `MonthRangeCalendar` 의 모든 props 사용 가능
+
+#### 1. Custom RangeMonth
+
+<Canvas of={VDateMonthRangeCalendarStories.CustomRangeMonth} />
+
+### Custom CalendarHeader
+
+- `renderCalendarHeader`: calendarHeaderProps를 인자로 받아 `CalendarHeader` 컴포넌트를 반환하는 함수
+
+<Canvas of={VDateMonthRangeCalendarStories.CustomCalendarHeader} />
+
+## Props
+
+<ArgTypes of={VDateMonthRangeCalendarStories} sort="alpha" />

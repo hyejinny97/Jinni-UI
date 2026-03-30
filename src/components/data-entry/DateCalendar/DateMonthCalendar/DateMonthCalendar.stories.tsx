@@ -135,6 +135,7 @@ const ControlledDateMonthCalendarTemplate = () => {
   const [value, setValue] = useState<Date | null>(null);
   const year = value?.getFullYear();
   const month = value?.getMonth();
+  const day = value?.getDate();
 
   const handleChange = (newValue: Date) => {
     setValue(newValue);
@@ -145,7 +146,8 @@ const ControlledDateMonthCalendarTemplate = () => {
       <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
         Date:
         <span>{year !== undefined && `${year} /`}</span>
-        <span>{month !== undefined && `${month + 1}`}</span>
+        <span>{month !== undefined && `${month + 1} /`}</span>
+        <span>{day !== undefined && `${day}`}</span>
       </Text>
       <DateMonthCalendar value={value} onChange={handleChange} />
     </Stack>
@@ -290,6 +292,7 @@ export const ControlledDateMonthCalendar: Story = {
   const [value, setValue] = useState<Date | null>(null);
   const year = value?.getFullYear();
   const month = value?.getMonth();
+  const day = value?.getDate();
 
   const handleChange = (newValue: Date) => {
     setValue(newValue);
@@ -300,7 +303,8 @@ export const ControlledDateMonthCalendar: Story = {
       <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
         Date:
         <span>{year !== undefined && \`\${year} /\`}</span>
-        <span>{month !== undefined && \`\${month + 1}\`}</span>
+        <span>{month !== undefined && \`\${month + 1} /\`}</span>
+        <span>{day !== undefined && \`\${day}\`}</span>
       </Text>
       <DateMonthCalendar value={value} onChange={handleChange} />
     </Stack>

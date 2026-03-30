@@ -1,255 +1,146 @@
-import { useState } from 'react';
 import cn from 'classnames';
+import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import useStyle from '@/hooks/useStyle';
-import { YearProps } from '@/components/data-entry/YearCalendar';
-import { MonthProps } from '@/components/data-entry/MonthCalendar';
-import { DayProps } from '@/components/data-entry/DayCalendar';
-import {
-  RangeType,
-  DateRangeValidationError
-} from '@/components/data-entry/DateRangeField';
-import { useSelectedDateRange } from './DateRangeCalendar.hooks';
-import { YearRangeCalendar } from './YearRangeCalendar';
-import { VerticalMonthRangeCalendars } from './VerticalMonthRangeCalendars';
-import { HorizontalMonthRangeCalendars } from './HorizontalMonthRangeCalendars';
-import { VerticalDayRangeCalendars } from './VerticalDayRangeCalendars';
-import { HorizontalDayRangeCalendars } from './HorizontalDayRangeCalendars';
-import { dateToMonth } from '@/utils/date';
-import { dateToDay } from '@/utils/date';
-import { DateOptions } from '@/types/date-component';
+import { DateRangeComponentProps } from '@/types/date-component';
+import { YearCalendarMainProps } from '@/components/data-entry/YearCalendar';
+import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
+import { DayCalendarMainProps } from '@/components/data-entry/DayCalendar';
+import { DateYearRangeCalendar } from './DateYearRangeCalendar';
+import { HDateMonthRangeCalendar } from './HDateMonthRangeCalendar';
+import { VDateMonthRangeCalendar } from './VDateMonthRangeCalendar';
+import { HDateDayRangeCalendar } from './HDateDayRangeCalendar';
+import { VDateDayRangeCalendar } from './VDateDayRangeCalendar';
+import { CalendarHeaderProps } from '@/components/data-entry/CalendarHeader';
+import { getBaseCalendarType } from '@/utils/date-component';
 
-export type DateRangeCalendarProps<T extends AsType = 'div'> = Omit<
-  DefaultComponentProps<T>,
-  'defaultValue' | 'onChange' | 'onSelect'
-> & {
-  defaultValue?: Partial<RangeType<Date>>;
-  value?: RangeType<Date | null>;
-  referenceDate?: Date;
-  onChange?: (
-    value: RangeType<Date | null>,
-    validationError?: DateRangeValidationError
-  ) => void;
-  onSelect?: (value: Date) => void;
-  onYearChange?: (value: RangeType<Date | null>) => void;
-  onMonthChange?: (value: RangeType<Date | null>) => void;
-  onDayChange?: (value: RangeType<Date | null>) => void;
-  locale?: string;
-  options?: DateOptions;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-  yearsOrder?: 'asc' | 'dsc';
-  showDaysOutsideCurrentMonth?: boolean;
-  fixedWeekNumber?: number;
-  displayWeekNumber?: boolean;
-  renderDay?: (dayProps: Omit<DayProps, 'ref'>) => React.ReactNode;
-  renderMonth?: (monthProps: Omit<MonthProps, 'ref'>) => React.ReactNode;
-  renderYear?: (yearProps: Omit<YearProps, 'ref'>) => React.ReactNode;
-  monthCalendarsOrientation?: 'vertical' | 'horizontal';
-  dayCalendarsOrientation?: 'vertical' | 'horizontal';
-  verticalMonthCalendars?: number;
-  horizontalMonthCalendars?: 1 | 2 | 3;
-  verticalDayCalendars?: number;
-  horizontalDayCalendars?: 1 | 2 | 3;
-  disableHoverRangeEffect?: boolean;
-};
+type Orientation = 'horizontal' | 'vertical';
 
-const DateRangeCalendar = <T extends AsType = 'div'>(
-  props: DateRangeCalendarProps<T>
+export type DateRangeCalendarProps<
+  T extends AsType = 'div',
+  MonthOrientation extends Orientation = 'horizontal',
+  DayOrientation extends Orientation = 'horizontal'
+> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
+  DateRangeComponentProps &
+  Omit<YearCalendarMainProps, 'renderYear'> &
+  Omit<MonthCalendarMainProps, 'renderMonth'> &
+  Omit<DayCalendarMainProps, 'renderDay'> & {
+    monthCalendarsOrientation?: MonthOrientation;
+    dayCalendarsOrientation?: DayOrientation;
+    monthCalendars?: MonthOrientation extends 'horizontal' ? 1 | 2 | 3 : number;
+    dayCalendars?: DayOrientation extends 'horizontal' ? 1 | 2 | 3 : number;
+    referenceDate?: Date;
+    renderCalendarHeader?: (
+      calendarHeaderProps: CalendarHeaderProps
+    ) => React.ReactNode;
+  };
+
+const DateRangeCalendar = <
+  T extends AsType = 'div',
+  MonthOrientation extends Orientation = 'horizontal',
+  DayOrientation extends Orientation = 'horizontal'
+>(
+  props: DateRangeCalendarProps<T, MonthOrientation, DayOrientation>
 ) => {
   const {
     defaultValue,
     value,
-    referenceDate,
     onChange,
-    onSelect,
-    onYearChange,
-    onMonthChange,
-    onDayChange,
     locale,
     options,
     minDate,
     maxDate,
     disabledDates,
-    readOnly = false,
-    disabled = false,
-    yearsOrder = 'asc',
-    showDaysOutsideCurrentMonth = false,
+    readOnly,
+    disabled,
+    yearsOrder,
+    showDaysOutsideCurrentMonth,
     fixedWeekNumber,
-    displayWeekNumber = false,
-    renderDay,
-    renderMonth,
-    renderYear,
+    displayWeekNumber,
     monthCalendarsOrientation = 'horizontal',
     dayCalendarsOrientation = 'horizontal',
-    verticalMonthCalendars = 5,
-    horizontalMonthCalendars = 2,
-    verticalDayCalendars = 5,
-    horizontalDayCalendars = 2,
-    disableHoverRangeEffect,
+    monthCalendars,
+    dayCalendars,
+    referenceDate,
+    renderCalendarHeader,
     className,
-    style,
-    as: Component = 'div',
     ...rest
   } = props;
-  // const baseCalendarType = useMemo(
-  //   () => getBaseCalendarType({ locale, options }),
-  //   [locale, options]
-  // );
-  const baseCalendarType = 'year';
-  const { selectedDateRange, handleChange } = useSelectedDateRange({
+  const baseCalendarType = useMemo(
+    () => getBaseCalendarType({ locale, options }),
+    [locale, options]
+  );
+
+  const commonProps = {
+    className: cn('JinniDateRangeCalendar', className),
     defaultValue,
     value,
     onChange,
     locale,
     options,
-    disabledDates
-  });
-  const todayDate = new Date();
-  const [displayedDate, setDisplayedDate] = useState<Date>(
-    selectedDateRange.start || referenceDate || todayDate
-  );
-  const newStyle = useStyle(style);
-
-  const isLowerThan = ({
-    baseDate,
-    targetDate
-  }: {
-    baseDate: Date;
-    targetDate: Date;
-  }): boolean => {
-    switch (baseCalendarType) {
-      case 'year':
-        return baseDate.getFullYear() > targetDate.getFullYear();
-      case 'month':
-        return dateToMonth(baseDate) > dateToMonth(targetDate);
-      case 'day':
-        return dateToDay(baseDate) > dateToDay(targetDate);
-    }
-  };
-  const handleSelect = (newSelectedDate: Date) => {
-    if (onSelect) onSelect(newSelectedDate);
-    let newSelectedDateRange: RangeType<Date | null>;
-    if (!selectedDateRange.start) {
-      newSelectedDateRange = { ...selectedDateRange, start: newSelectedDate };
-    } else if (!selectedDateRange.end) {
-      if (
-        isLowerThan({
-          baseDate: selectedDateRange.start,
-          targetDate: newSelectedDate
-        })
-      ) {
-        newSelectedDateRange = { ...selectedDateRange, start: newSelectedDate };
-      } else {
-        newSelectedDateRange = { ...selectedDateRange, end: newSelectedDate };
-      }
-    } else {
-      newSelectedDateRange = { start: newSelectedDate, end: null };
-    }
-    handleChange(newSelectedDateRange);
-    switch (baseCalendarType) {
-      case 'year':
-        if (onYearChange) onYearChange(newSelectedDateRange);
-        break;
-      case 'month':
-        if (onMonthChange) onMonthChange(newSelectedDateRange);
-        break;
-      case 'day': {
-        if (onDayChange) onDayChange(newSelectedDateRange);
-      }
-    }
-  };
-
-  const getCommonProps = {
-    locale,
-    displayedDate,
-    selectedDate: selectedDateRange,
-    onSelect: handleSelect,
     minDate,
     maxDate,
     readOnly,
     disabled,
-    disableHoverRangeEffect
+    referenceDate,
+    renderCalendarHeader,
+    ...rest
+  };
+  const dateYearRangeCalendarProps = {
+    ...commonProps,
+    yearsOrder
+  };
+  const dateMonthRangeCalendarProps = {
+    ...commonProps
+  };
+  const dateDayRangeCalendarProps = {
+    ...commonProps,
+    disabledDates,
+    showDaysOutsideCurrentMonth,
+    fixedWeekNumber,
+    displayWeekNumber
   };
 
-  let calendar: React.ReactNode;
   switch (baseCalendarType) {
     case 'year':
-      calendar = (
-        <YearRangeCalendar
-          yearsOrder={yearsOrder}
-          renderYear={renderYear}
-          {...getCommonProps}
-        />
-      );
-      break;
-    case 'month':
+      return <DateYearRangeCalendar {...dateYearRangeCalendarProps} />;
+    case 'month': {
       switch (monthCalendarsOrientation) {
         case 'horizontal':
-          calendar = (
-            <HorizontalMonthRangeCalendars
-              monthCalendars={horizontalMonthCalendars}
-              renderMonth={renderMonth}
-              onPrevYear={(prevYear) => setDisplayedDate(prevYear)}
-              onNextYear={(nextYear) => setDisplayedDate(nextYear)}
-              {...getCommonProps}
+          return (
+            <HDateMonthRangeCalendar
+              monthCalendars={monthCalendars as 1 | 2 | 3 | undefined}
+              {...dateMonthRangeCalendarProps}
             />
           );
-          break;
         case 'vertical':
-          calendar = (
-            <VerticalMonthRangeCalendars
-              monthCalendars={verticalMonthCalendars}
-              renderMonth={renderMonth}
-              {...getCommonProps}
+          return (
+            <VDateMonthRangeCalendar
+              monthCalendars={monthCalendars as number | undefined}
+              {...dateMonthRangeCalendarProps}
             />
           );
       }
       break;
-    case 'day':
+    }
+    case 'day': {
       switch (dayCalendarsOrientation) {
         case 'horizontal':
-          calendar = (
-            <HorizontalDayRangeCalendars
-              dayCalendars={horizontalDayCalendars}
-              renderDay={renderDay}
-              disabledDates={disabledDates}
-              showDaysOutsideCurrentMonth={showDaysOutsideCurrentMonth}
-              fixedWeekNumber={fixedWeekNumber}
-              displayWeekNumber={displayWeekNumber}
-              onPrevMonth={(prevMonth) => setDisplayedDate(prevMonth)}
-              onNextMonth={(nextMonth) => setDisplayedDate(nextMonth)}
-              {...getCommonProps}
+          return (
+            <HDateDayRangeCalendar
+              dayCalendars={dayCalendars as 1 | 2 | 3 | undefined}
+              {...dateDayRangeCalendarProps}
             />
           );
-          break;
         case 'vertical':
-          calendar = (
-            <VerticalDayRangeCalendars
-              dayCalendars={verticalDayCalendars}
-              renderDay={renderDay}
-              disabledDates={disabledDates}
-              showDaysOutsideCurrentMonth={showDaysOutsideCurrentMonth}
-              fixedWeekNumber={fixedWeekNumber}
-              displayWeekNumber={displayWeekNumber}
-              {...getCommonProps}
+          return (
+            <VDateDayRangeCalendar
+              dayCalendars={dayCalendars as number | undefined}
+              {...dateDayRangeCalendarProps}
             />
           );
       }
+    }
   }
-
-  return (
-    <Component
-      className={cn('JinniDateRangeCalendar', className)}
-      style={newStyle}
-      {...rest}
-    >
-      {calendar}
-    </Component>
-  );
 };
 
 export default DateRangeCalendar;

@@ -11,7 +11,7 @@ import { DateYearCalendar } from './DateYearCalendar';
 import { DateMonthCalendar } from './DateMonthCalendar';
 import { DateDayCalendar } from './DateDayCalendar';
 import { useCalendarType, useDateValue } from './DateCalendar.hooks';
-import { CalendarType } from './DateCalendar.types';
+import { CalendarType } from '@/types/date-component';
 
 export type DateCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,

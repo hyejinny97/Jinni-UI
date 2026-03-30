@@ -1,0 +1,151 @@
+import { Meta, Canvas, ArgTypes, Stories, Markdown } from '@storybook/blocks';
+import * as DateRangeFieldStories from './DateRangeField.stories';
+
+<Meta of={DateRangeFieldStories} />
+
+# DateRangeField
+
+사용자가 선택한 날짜 범위가 나타나는 곳
+
+## Import
+
+```js
+import { DateRangeField } from '@/components/data-entry/DateRangeField';
+```
+
+## Usage
+
+### Basic DateRangeField
+
+- `placeholder`: placeholder
+- `defaultValue`: 초기 date (uncontrolled일 때만 적용 가능)
+
+<Canvas of={DateRangeFieldStories.BasicDateRangeField} />
+
+### Controlled DateRangeField
+
+- `value`를 통해 control 가능
+- `value`: date
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={DateRangeFieldStories.ControlledDateRangeField} />
+
+### Locale and Options
+
+#### 1. Locale
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+
+<Canvas of={DateRangeFieldStories.Locale} />
+
+#### 2. Options
+
+- `options`: date 속성
+
+<Canvas of={DateRangeFieldStories.Options} />
+
+### Date Format
+
+- `format`: date format
+
+  - `options` 대신 date tokens를 사용해 자유롭게 포맷 설정 가능
+  - `format`과 `option` prop 동시 사용 시, `option` prop의 값은 무시되고 `format` prop 값이 적용됨
+
+<details>
+  <summary>Date Tokens</summary>
+  <Markdown>
+    {`
+| Token | Type | 특징 | 
+| ----- | --------- | ---------------- | 
+| YYYY | year | 'numeric' | 
+| YY | year | '2-digit' | 
+| MMMM | month | 'long' | 
+| MMM | month | 'short' | 
+| MM | month | '2-digit' | 
+| M | month | 'numeric' | 
+| DD | day | '2-digit' | 
+| D | day | 'numeric' | 
+`}
+  </Markdown>
+</details>
+
+<Canvas of={DateRangeFieldStories.DateFormat} />
+
+### Restrict Date
+
+#### 1. Min date
+
+- `minDate`: 선택 가능한 최소 날짜
+
+<Canvas of={DateRangeFieldStories.MinDate} />
+
+#### 2. Max date
+
+- `maxDate`: 선택 가능한 최대 날짜
+
+<Canvas of={DateRangeFieldStories.MaxDate} />
+
+#### 3. Disabled dates
+
+- `disabledDates`: 비활성화하는 특정 날짜 모음
+
+<Canvas of={DateRangeFieldStories.DisabledDates} />
+
+### Readonly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={DateRangeFieldStories.Readonly} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={DateRangeFieldStories.Disabled} />
+
+### InputBase props
+
+- `DateRangeField` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### 1. Variants
+
+<Canvas of={DateRangeFieldStories.Variants} />
+
+#### 2. Sizes
+
+<Canvas of={DateRangeFieldStories.Sizes} />
+
+#### 3. Color
+
+<Canvas of={DateRangeFieldStories.Color} />
+
+#### 4. Full Width
+
+<Canvas of={DateRangeFieldStories.FullWidth} />
+
+#### 5. Disable Effect
+
+<Canvas of={DateRangeFieldStories.DisableEffect} />
+
+### Adornments
+
+- `startAdornment`: date field 앞에 위치하는 부가 요소 (icon ,text 등)
+- `endAdornment`: date field 뒤에 위치하는 부가 요소 (icon ,text 등)
+
+<Canvas of={DateRangeFieldStories.Adornments} />
+
+### Custom center icon
+
+- `centerIcon`: 두 date field 중앙에 위치한 아이콘
+
+<Canvas of={DateRangeFieldStories.CustomCenterIcon} />
+
+### Multi-DateField
+
+- `DateField` 컴포넌트를 두 개 사용해, 직접 시작 날짜와 마지막 날짜를 설정할 수도 있음
+
+<Canvas of={DateRangeFieldStories.MultiDateField} />
+
+## Props
+
+<ArgTypes of={DateRangeFieldStories} sort="alpha" />
