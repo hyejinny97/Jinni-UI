@@ -137,23 +137,25 @@ const DateRangePicker = <T extends AsType = 'div'>(
 
   return (
     <Component
+      role="group"
       className={cn(
         'JinniDateRangePicker',
         { fullWidth: !!DateRangeFieldProps?.fullWidth },
         className
       )}
       style={newStyle}
+      aria-label="Date Range Picker"
       {...rest}
     >
       <input
         name={name?.start}
-        value={dateRangeValue.start?.toDateString() || ''}
+        value={dateRangeValue.start?.toLocaleDateString(locale) || ''}
         hidden
         readOnly
       />
       <input
         name={name?.end}
-        value={dateRangeValue.end?.toDateString() || ''}
+        value={dateRangeValue.end?.toLocaleDateString(locale) || ''}
         hidden
         readOnly
       />
