@@ -113,7 +113,10 @@ const HDateDayRangeCalendar = <T extends AsType = 'div'>(
           const baseMonth = baseDisplayedDate.getMonth();
           const displayedDate = new Date(baseYear, baseMonth + idx);
           return (
-            <div key={displayedDate.getTime()}>
+            <div
+              key={displayedDate.getTime()}
+              className="JinniHDateDayRangeCalendarWrapper"
+            >
               {renderCalendarHeader(getCalendarHeaderProps(idx, displayedDate))}
               <DayRangeCalendar {...getDayRangeCalendarProps(displayedDate)} />
             </div>

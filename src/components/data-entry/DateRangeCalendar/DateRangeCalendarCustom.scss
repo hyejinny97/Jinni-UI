@@ -1,0 +1,110 @@
+.JinniDateRangeCalendar {
+  &.custom-range-year {
+    .JinniRangeYear {
+      padding-top: 8px;
+      padding-bottom: 8px;
+
+      .JinniYearWrapper {
+        border-radius: 0;
+        &.isInSelectRange {
+          background-color: var(--jinni-color-tertiary-container);
+        }
+
+        .JinniYear {
+          border-radius: 4px;
+          &.selected {
+            background-color: var(--jinni-color-tertiary);
+          }
+        }
+
+        .JinniHoverEffect {
+          border: none;
+          border-radius: 0;
+          background-color: var(--jinni-color-gray-200);
+          &.isStartHovered {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+          }
+          &.isEndHovered {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+          }
+        }
+      }
+    }
+  }
+
+  &.custom-range-month {
+    .JinniRangeMonth {
+      padding-top: 8px;
+      padding-bottom: 8px;
+
+      .JinniMonthWrapper {
+        border-radius: 0;
+        &.isInSelectRange {
+          background-color: var(--jinni-color-tertiary-container);
+        }
+
+        .JinniMonth {
+          border-radius: 4px;
+          &.selected {
+            background-color: var(--jinni-color-tertiary);
+          }
+        }
+
+        .JinniHoverEffect {
+          border: none;
+          border-radius: 0;
+          background-color: var(--jinni-color-gray-200);
+          &.isStartHovered {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+          }
+          &.isEndHovered {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+          }
+        }
+      }
+    }
+  }
+
+  &.custom-range-day {
+    .JinniRangeDay {
+      padding-top: 5px;
+      padding-bottom: 5px;
+
+      .JinniDayWrapper {
+        border-radius: 0;
+        &.isInSelectRange {
+          background-color: var(--jinni-color-tertiary-container);
+        }
+        &.isSunday,
+        &.isSaturday {
+          border-radius: 0;
+        }
+
+        .JinniDay {
+          border-radius: 4px;
+          &.selected {
+            background-color: var(--jinni-color-tertiary);
+          }
+        }
+
+        .JinniHoverEffect {
+          border: none;
+          border-radius: 0;
+          background-color: var(--jinni-color-gray-200);
+          &.isStartHovered {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+          }
+          &.isEndHovered {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
@@ -61,6 +62,7 @@ const DateRangeCalendar = <
     dayCalendars,
     referenceDate,
     renderCalendarHeader,
+    className,
     ...rest
   } = props;
   const baseCalendarType = useMemo(
@@ -69,6 +71,7 @@ const DateRangeCalendar = <
   );
 
   const commonProps = {
+    className: cn('JinniDateRangeCalendar', className),
     defaultValue,
     value,
     onChange,

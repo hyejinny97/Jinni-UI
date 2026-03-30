@@ -105,7 +105,10 @@ const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
           const displayedDate = new Date(baseDisplayedDate);
           displayedDate.setFullYear(baseYear + idx);
           return (
-            <div key={displayedDate.getFullYear()}>
+            <div
+              key={displayedDate.getFullYear()}
+              className="JinniHDateMonthRangeCalendarWrapper"
+            >
               {renderCalendarHeader(getCalendarHeaderProps(idx, displayedDate))}
               <MonthRangeCalendar
                 {...getMonthRangeCalendarProps(displayedDate)}
