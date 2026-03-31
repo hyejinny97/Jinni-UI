@@ -1,16 +1,41 @@
-#DateTimeField.JinniInputBase {
+@mixin display-placeholder {
+  &.noValue:not(.focused):not(:focus-within) {
+    .JinniDateField {
+      opacity: 0;
+    }
+    .JinniTimeField {
+      opacity: 0;
+    }
+    .JinniDateTimeFieldPlaceholder {
+      display: inline-flex;
+    }
+  }
+}
+
+.JinniDateTimeField.JinniInputBase:has(.JinniDateField):has(.JinniTimeField) {
   min-width: 270px;
+  @include display-placeholder;
 
   & > .JinniInputBaseContent {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 10px;
 
-    .JinniDateTimeFieldPlaceholder {
-      color: var(--jinni-color-gray-400);
+    .JinniDateField {
+      min-width: max-content;
+      min-height: max-content;
+      border: none;
+
+      .JinniInputBaseContent {
+        padding: 0;
+
+        .JinniDateFieldDatePart {
+          opacity: 1;
+        }
+      }
     }
 
-    .JinniDateField,
     .JinniTimeField {
       min-width: max-content;
       min-height: max-content;
@@ -18,7 +43,23 @@
 
       .JinniInputBaseContent {
         padding: 0;
+
+        .JinniTimeFieldTimePart {
+          opacity: 1;
+        }
       }
+    }
+
+    .JinniDateTimeFieldPlaceholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+      padding: inherit;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      color: var(--jinni-color-gray-400);
     }
   }
 }

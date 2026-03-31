@@ -7,8 +7,6 @@ import { TimeMode, TimeStepManualType } from '@/types/time-component';
 import {
   DateTimeField,
   DateTimeFieldProps,
-  DateTimeValidationError,
-  DateTimeOptions,
   filterTimeOptions,
   filterDateOptions
 } from '@/components/data-entry/DateTimeField';
@@ -31,41 +29,25 @@ import { Button } from '@/components/general/Button';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';
+import { DateTimeComponentProps } from '@/types/date-time-component';
 
 export type DateTimePickerProps<
   T extends AsType = 'div',
   Mode extends TimeMode = 'manual'
-> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> & {
-  name?: string;
-  defaultValue?: Date;
-  value?: Date | null;
-  onChange?: (
-    value: Date | null,
-    validationError?: DateTimeValidationError
-  ) => void;
-  locale?: string;
-  options?: DateTimeOptions;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  timeMode?: Mode;
-  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-  PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
-  DateTimeFieldProps?: DateTimeFieldProps;
-  renderDateCalendar?: (
-    dateCalendarProps: DateCalendarProps
-  ) => React.ReactNode;
-  renderDigitalClock?: (
-    digitalClockProps: Mode extends 'preset'
-      ? PresetDigitalClockProps
-      : ManualDigitalClockProps
-  ) => React.ReactNode;
-};
+> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
+  DateTimeComponentProps<Mode> & {
+    name?: string;
+    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    DateTimeFieldProps?: DateTimeFieldProps;
+    renderDateCalendar?: (
+      dateCalendarProps: DateCalendarProps
+    ) => React.ReactNode;
+    renderDigitalClock?: (
+      digitalClockProps: Mode extends 'preset'
+        ? PresetDigitalClockProps
+        : ManualDigitalClockProps
+    ) => React.ReactNode;
+  };
 
 const TIME_STEP_PRESET_DEFAULT: number = 30 * 60;
 const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
