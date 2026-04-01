@@ -1,0 +1,210 @@
+import { Meta, Canvas, ArgTypes, Stories, Markdown } from '@storybook/blocks';
+import * as DateTimeFieldStories from './DateTimeField.stories';
+
+<Meta of={DateTimeFieldStories} />
+
+# DateTimeField
+
+사용자가 선택한 시간과 날짜가 나타나는 곳
+
+## Import
+
+```js
+import { DateTimeField } from '@/components/data-entry/DateTimeField';
+```
+
+## Usage
+
+### Basic DateTimeField
+
+- `placeholder`: placeholder
+- `defaultValue`: 초기 date time (uncontrolled일 때만 적용 가능)
+
+<Canvas of={DateTimeFieldStories.BasicDateTimeField} />
+
+### Controlled DateTimeField
+
+- `value`를 통해 control 가능
+- `value`: date time
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={DateTimeFieldStories.ControlledDateTimeField} />
+
+### Locale and Options
+
+#### 1. Locale
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+
+<Canvas of={DateTimeFieldStories.Locale} />
+
+#### 2. Options
+
+- `options`: date time 속성
+
+<Canvas of={DateTimeFieldStories.Options} />
+
+### DateTime Format
+
+#### 1. Date format
+
+- `dateFormat`: date format
+
+  - `options` 대신 date tokens를 사용해 자유롭게 포맷 설정 가능
+  - `format`과 `option`(DateOptions) prop 동시 사용 시, `option` prop의 값은 무시되고 `format` prop 값이 적용됨
+
+<details>
+  <summary>Date Tokens</summary>
+  <Markdown>
+    {`
+| Token | Type | 특징 | 
+| ----- | --------- | ---------------- | 
+| YYYY | year | 'numeric' | 
+| YY | year | '2-digit' | 
+| MMMM | month | 'long' | 
+| MMM | month | 'short' | 
+| MM | month | '2-digit' | 
+| M | month | 'numeric' | 
+| DD | day | '2-digit' | 
+| D | day | 'numeric' | 
+`}
+  </Markdown>
+</details>
+
+<Canvas of={DateTimeFieldStories.DateFormat} />
+
+#### 2. Time format
+
+- `timeFormat`: time format
+
+  - `options` 대신 time tokens를 사용해 자유롭게 포맷 설정 가능
+  - `format`과 `option`(TimeOptions) prop 동시 사용 시, `option` prop의 값은 무시되고 `format` prop 값이 적용됨
+
+<details>
+  <summary>Time Tokens</summary>
+  <Markdown>
+    {`
+| Token | Type      | 특징             |
+| ----- | --------- | ---------------- |
+| HH    | hour      | 'h23', '2-digit' |
+| H     | hour      | 'h23', 'numeric' |
+| hh    | hour      | 'h11', '2-digit' |
+| h     | hour      | 'h11', 'numeric' |
+| TT    | hour      | 'h24', '2-digit' |
+| T     | hour      | 'h24', 'numeric' |
+| tt    | hour      | 'h12', '2-digit' |
+| t     | hour      | 'h12', 'numeric' |
+| mm    | minute    | '2-digit'        |
+| m     | minute    | 'numeric'        |
+| ss    | second    | '2-digit'        |
+| s     | second    | 'numeric'        |
+| a     | dayPeriod | 'lowerCase'      |
+| A     | dayPeriod | 'upperCase'      |
+`}
+  </Markdown>
+</details>
+
+<Canvas of={DateTimeFieldStories.TimeFormat} />
+
+### Restrict Time
+
+#### 1. Min time
+
+- `minTime`: 선택 가능한 최소 시간
+
+<Canvas of={DateTimeFieldStories.MinTime} />
+
+#### 2. Max time
+
+- `maxTime`: 선택 가능한 최대 시간
+
+<Canvas of={DateTimeFieldStories.MaxTime} />
+
+#### 3. Disabled times
+
+- `disabledTimes`: 비활성화하는 특정 시간 모음
+
+<Canvas of={DateTimeFieldStories.DisabledTimes} />
+
+#### 4. Min date
+
+- `minDate`: 선택 가능한 최소 날짜
+
+<Canvas of={DateTimeFieldStories.MinDate} />
+
+#### 5. Max date
+
+- `maxDate`: 선택 가능한 최대 날짜
+
+<Canvas of={DateTimeFieldStories.MaxDate} />
+
+#### 6. Disabled dates
+
+- `disabledDates`: 비활성화하는 특정 날짜 모음
+
+<Canvas of={DateTimeFieldStories.DisabledDates} />
+
+### Time Steps
+
+- `timeMode`: time 선택 방법
+  - `'preset'`: '12:00', '12:30', '01:00' 처럼 미리 정의된 시간 목록에서 하나를 선택하는 방식
+  - `'manual'`: 시(hour), 분(minute), 초(second)를 각각 선택하는 방식
+- `timeStep`: 두 time options 간 step
+  - timeMode='preset'인 경우, `number` type (단위: s)
+  - timeMode='manual'인 경우, `{hour: number, minute: number, second: number}` type
+
+#### 1. Time step in preset mode
+
+<Canvas of={DateTimeFieldStories.TimeStepInPresetMode} />
+
+#### 2. Time step in manual mode
+
+<Canvas of={DateTimeFieldStories.TimeStepInManualMode} />
+
+### Detect validation error status
+
+- `onErrorStatus`: validation error status가 변경됐을 때 호출되는 함수
+
+<Canvas of={DateTimeFieldStories.DetectValidationErrorStatus} />
+
+### Readonly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={DateTimeFieldStories.Readonly} />
+
+### InputBase props
+
+- `DateTimeField` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### 1. Variants
+
+<Canvas of={DateTimeFieldStories.Variants} />
+
+#### 2. Sizes
+
+<Canvas of={DateTimeFieldStories.Sizes} />
+
+#### 3. Disabled
+
+<Canvas of={DateTimeFieldStories.Disabled} />
+
+#### 4. Color
+
+<Canvas of={DateTimeFieldStories.Color} />
+
+#### 5. Full Width
+
+<Canvas of={DateTimeFieldStories.FullWidth} />
+
+#### 6. Adornments
+
+<Canvas of={DateTimeFieldStories.Adornments} />
+
+#### 7. Disable Effect
+
+<Canvas of={DateTimeFieldStories.DisableEffect} />
+
+## Props
+
+<ArgTypes of={DateTimeFieldStories} sort="alpha" />

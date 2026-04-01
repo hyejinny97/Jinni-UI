@@ -1,6 +1,7 @@
 import { DateTimeOptions } from '@/types/date-time-component';
 import { TimeOptions } from '@/types/time-component';
 import { DateOptions } from '@/types/date-component';
+import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 
 export const filterTimeOptions = (options?: DateTimeOptions) => {
   if (!options) return;
@@ -19,7 +20,9 @@ export const filterTimeOptions = (options?: DateTimeOptions) => {
       filteredTimeOptions[timeOptionKey] = options[timeOptionKey];
     }
   });
-  return filteredTimeOptions;
+  return Object.keys(filteredTimeOptions).length === 0
+    ? DEFAULT_TIME_OPTIONS
+    : filteredTimeOptions;
 };
 
 export const filterDateOptions = (options?: DateTimeOptions) => {
