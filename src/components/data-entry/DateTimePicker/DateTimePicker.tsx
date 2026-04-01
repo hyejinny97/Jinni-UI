@@ -138,7 +138,7 @@ const DateTimePicker = <
     disabledDates
   };
   const timeProps = {
-    mode: timeMode,
+    timeMode,
     timeStep,
     minTime,
     maxTime,
