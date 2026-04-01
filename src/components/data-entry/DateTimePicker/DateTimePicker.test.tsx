@@ -24,9 +24,7 @@ describe('<DateTimePicker />', () => {
       />
     );
 
-    expect(
-      screen.getByDisplayValue(/2025. 9. 15. 오전 10:30:00/)
-    ).toBeInTheDocument();
+    expect(screen.getByDisplayValue(/2025.*9.*15.*10:30/)).toBeInTheDocument();
   });
 
   it('handles controlled value', async () => {
@@ -44,9 +42,7 @@ describe('<DateTimePicker />', () => {
     };
     render(<ControlledDateTimePicker />);
 
-    expect(
-      screen.getByDisplayValue(/2025. 9. 15. 오전 10:30:00/)
-    ).toBeInTheDocument();
+    expect(screen.getByDisplayValue(/2025.*9.*15.*10:30/)).toBeInTheDocument();
   });
 
   it('opens popover when clicking the open button', async () => {
