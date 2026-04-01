@@ -198,7 +198,7 @@ const DateTimePicker = <
     >
       <input
         name={name}
-        value={dateTimeValue?.toLocaleString() || ''}
+        value={dateTimeValue?.toLocaleString(locale) || ''}
         hidden
         readOnly
       />
