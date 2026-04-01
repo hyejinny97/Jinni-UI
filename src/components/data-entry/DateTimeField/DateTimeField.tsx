@@ -1,42 +1,34 @@
 import './DateTimeField.scss';
-import { forwardRef } from 'react';
+import { forwardRef, MutableRefObject, useRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
 import { DateField } from '@/components/data-entry/DateField';
-import {
-  DateTimeValidationError,
-  DateTimeOptions
-} from './DateTimeField.types';
 import { TimeField } from '@/components/data-entry/TimeField';
-import { useDateTimeValue, useFocus } from './DateTimeField.hooks';
-import { filterDateOptions, filterTimeOptions } from './DateTimeField.utils';
-import { TimeMode, TimeStepManualType } from '@/types/time-component';
+import { useDateTimeValue, useValidation } from './DateTimeField.hooks';
+import { TimeMode } from '@/types/time-component';
+import {
+  DateTimeComponentProps,
+  DateTimeValidationError
+} from '@/types/date-time-component';
+import {
+  filterTimeOptions,
+  filterDateOptions
+} from '@/utils/date-time-component';
 
 export type DateTimeFieldProps<
   T extends AsType = 'div',
   Mode extends TimeMode = 'preset'
-> = Omit<InputBaseProps<T>, 'defaultValue' | 'onChange'> & {
-  placeholder?: string;
-  defaultValue?: Date;
-  value?: Date | null;
-  onChange?: (value: Date, validationError?: DateTimeValidationError) => void;
-  onErrorStatus?: (validationError?: DateTimeValidationError) => void;
-  locale?: string;
-  options?: DateTimeOptions;
-  dateFormat?: string;
-  timeFormat?: string;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  timeMode?: Mode;
-  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-};
+> = Omit<InputBaseProps<T>, 'defaultValue' | 'onChange'> &
+  DateTimeComponentProps<Mode> & {
+    placeholder?: string;
+    dateFormat?: string;
+    timeFormat?: string;
+    onErrorStatus?: (
+      error: boolean,
+      errorReason?: DateTimeValidationError
+    ) => void;
+  };
 
 const DateTimeField = forwardRef(
   <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
@@ -44,99 +36,104 @@ const DateTimeField = forwardRef(
     ref: React.Ref<HTMLElement>
   ) => {
     const {
-      placeholder,
       defaultValue,
       value,
       onChange,
-      onErrorStatus,
       locale,
       options,
-      dateFormat,
-      timeFormat,
+      timeMode,
+      timeStep,
       minTime,
       maxTime,
       disabledTimes,
-      timeMode,
-      timeStep,
       minDate,
       maxDate,
       disabledDates,
       readOnly,
       disabled,
+      placeholder,
+      dateFormat,
+      timeFormat,
+      onErrorStatus,
       color,
       focusedColor,
-      focused,
+      onClick,
       className,
       ...rest
     } = props;
-    const { isFocused, focus, blur } = useFocus({ focused });
+    const inputBaseElRef = useRef<HTMLElement>(null);
+    const { dateTimeValue, handleDateChange, handleTimeChange } =
+      useDateTimeValue({ defaultValue, value, onChange });
     const {
-      dateTimeValue,
-      handleDateChange,
-      handleTimeChange,
       isValidationError,
-      handleValidationError
-    } = useDateTimeValue({ defaultValue, value, onChange });
-    const showPlaceholder = !isFocused && dateTimeValue === null;
+      onDateFieldErrorStatus,
+      onTimeFieldErrorStatus
+    } = useValidation({ onErrorStatus });
+    const noValue = dateTimeValue === null;
 
     const commonProps = {
       value: dateTimeValue,
-      onErrorStatus: (validationError?: DateTimeValidationError) => {
-        handleValidationError(validationError);
-        if (onErrorStatus) onErrorStatus(validationError);
-      },
       locale,
       readOnly,
       disabled,
       disableHoverEffect: true,
       disableFocusEffect: true
     };
+    const dateFieldProps = {
+      ...commonProps,
+      onChange: handleDateChange,
+      options: filterDateOptions(options),
+      minDate,
+      maxDate,
+      disabledDates,
+      format: dateFormat,
+      onErrorStatus: onDateFieldErrorStatus
+    };
+    const timeFieldProps = {
+      ...commonProps,
+      onChange: handleTimeChange,
+      options: filterTimeOptions(options),
+      mode: timeMode,
+      timeStep,
+      minTime,
+      maxTime,
+      disabledTimes,
+      format: timeFormat,
+      onErrorStatus: onTimeFieldErrorStatus
+    };
+
+    const handleClick = (event: MouseEvent) => {
+      onClick?.(event);
+      const inputBaseEl = inputBaseElRef.current;
+      if (!inputBaseEl || inputBaseEl.matches(':focus-within')) return;
+      const datePartsEl = inputBaseEl.querySelectorAll<HTMLElement>(
+        '.JinniDateFieldDatePart:not(.literal-type)'
+      );
+      datePartsEl[0]?.focus();
+    };
 
     return (
       <InputBase
-        ref={ref}
-        id="DateTimeField"
-        className={cn('JinniDateTimeField', className)}
-        onFocus={focus}
-        onBlur={(e: FocusEvent) => {
-          const relatedTarget = e.relatedTarget as HTMLElement;
-          const currentTarget = e.currentTarget as HTMLElement;
-          if (!currentTarget?.contains(relatedTarget)) blur();
+        ref={(element: HTMLElement | null) => {
+          if (element) {
+            (inputBaseElRef as MutableRefObject<HTMLElement>).current = element;
+            if (typeof ref === 'function') {
+              ref(element);
+            } else if (ref && 'current' in ref) {
+              (ref as MutableRefObject<HTMLElement>).current = element;
+            }
+          }
         }}
+        className={cn('JinniDateTimeField', { noValue }, className)}
         color={isValidationError ? 'error' : color}
         focusedColor={isValidationError ? 'error' : focusedColor}
         disabled={disabled}
-        focused={isFocused}
+        onClick={handleClick}
         {...rest}
       >
-        {showPlaceholder ? (
-          <span className="JinniDateTimeFieldPlaceholder">{placeholder}</span>
-        ) : (
-          <>
-            <DateField
-              {...commonProps}
-              onChange={handleDateChange}
-              options={filterDateOptions(options)}
-              format={dateFormat}
-              minDate={minDate}
-              maxDate={maxDate}
-              disabledDates={disabledDates}
-              focused={isFocused}
-            />
-            <TimeField
-              {...commonProps}
-              onChange={handleTimeChange}
-              options={filterTimeOptions(options)}
-              format={timeFormat}
-              mode={timeMode}
-              minTime={minTime}
-              maxTime={maxTime}
-              disabledTimes={disabledTimes}
-              timeStep={timeStep}
-              focused={isFocused}
-            />
-          </>
-        )}
+        <DateField {...dateFieldProps} />
+        <TimeField {...timeFieldProps} />
+        <span className="JinniDateTimeFieldPlaceholder">{placeholder}</span>
       </InputBase>
     );
   }

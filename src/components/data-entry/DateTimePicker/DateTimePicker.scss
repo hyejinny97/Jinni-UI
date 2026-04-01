@@ -15,29 +15,30 @@
 }
 
 .JinniDateTimePickerPopover.JinniPopover {
-  .JinniPopoverContent {
+  .JinniPopoverContent.JinniBox {
     padding: 0;
     margin-top: 1px;
 
-    .JinniCalendar {
-      padding: 16px 0;
-      border-bottom: 1px solid var(--jinni-color-gray-300);
-    }
+    .JinniDateTimePickerPopoverContainer {
+      height: calc(280px + 40px + 16px * 2 + 1px);
 
-    .JinniManualDigitalClock {
-      .JinniManualDigitalClockUnit {
-        height: 358px;
-        box-sizing: border-box;
+      .JinniDateCalendar {
+        padding: 16px 0;
+        border-bottom: 1px solid var(--jinni-color-gray-300);
+      }
+
+      .JinniPresetDigitalClock {
         .JinniMenuList {
           height: 100%;
         }
       }
-    }
-    .JinniPresetDigitalClock {
-      height: 358px;
-      box-sizing: border-box;
-      .JinniMenuList {
-        height: 100%;
+
+      .JinniManualDigitalClock {
+        .JinniUnitList {
+          .JinniMenuList {
+            height: 100%;
+          }
+        }
       }
     }
 

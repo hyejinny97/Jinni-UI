@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateComponentProps } from '@/types/date-component';
 import {
@@ -54,6 +55,7 @@ const DateCalendar = <T extends AsType = 'div'>(
       <CalendarHeader {...calendarHeaderProps} />
     ),
     onBaseCalendarTypeChange,
+    className,
     ...rest
   } = props;
   const {
@@ -76,6 +78,7 @@ const DateCalendar = <T extends AsType = 'div'>(
   };
 
   const commonProps = {
+    className: cn('JinniDateCalendar', className),
     value: selectedDate,
     locale,
     options,
