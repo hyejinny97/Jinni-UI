@@ -1,14 +1,12 @@
 import './DateTimePicker.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { TimeMode, TimeStepManualType } from '@/types/time-component';
+import { TimeMode } from '@/types/time-component';
 import {
   DateTimeField,
-  DateTimeFieldProps,
-  filterTimeOptions,
-  filterDateOptions
+  DateTimeFieldProps
 } from '@/components/data-entry/DateTimeField';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import {
@@ -30,6 +28,19 @@ import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';
 import { DateTimeComponentProps } from '@/types/date-time-component';
+import {
+  filterTimeOptions,
+  filterDateOptions
+} from '@/utils/date-time-component';
+import {
+  TIME_STEP_PRESET_DEFAULT,
+  TIME_STEP_MANUAL_DEFAULT
+} from './DateTimePicker.constants';
+import { fixTypeByMode } from '@/utils/time-component';
+
+type DigitalClockProps =
+  | ({ mode: 'preset' } & PresetDigitalClockProps)
+  | ({ mode: 'manual' } & ManualDigitalClockProps);
 
 export type DateTimePickerProps<
   T extends AsType = 'div',
@@ -43,18 +54,9 @@ export type DateTimePickerProps<
       dateCalendarProps: DateCalendarProps
     ) => React.ReactNode;
     renderDigitalClock?: (
-      digitalClockProps: Mode extends 'preset'
-        ? PresetDigitalClockProps
-        : ManualDigitalClockProps
+      digitalClockProps: DigitalClockProps
     ) => React.ReactNode;
   };
-
-const TIME_STEP_PRESET_DEFAULT: number = 30 * 60;
-const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
-  hour: 1,
-  minute: 1,
-  second: 1
-};
 
 const DateTimePicker = <
   T extends AsType = 'div',
@@ -63,44 +65,41 @@ const DateTimePicker = <
   props: DateTimePickerProps<T, Mode>
 ) => {
   const {
-    name,
     defaultValue,
     value,
     onChange,
     locale,
     options,
-    minTime,
-    maxTime,
-    disabledTimes,
     timeMode = 'manual' as Mode,
     timeStep = timeMode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
       : TIME_STEP_MANUAL_DEFAULT,
+    minTime,
+    maxTime,
+    disabledTimes,
     minDate,
     maxDate,
     disabledDates,
     readOnly,
     disabled,
+    name,
     PopoverProps,
     DateTimeFieldProps,
     renderDateCalendar = (dateCalendarProps: DateCalendarProps) => (
       <DateCalendar {...dateCalendarProps} />
     ),
-    renderDigitalClock = ((digitalClockProps) =>
-      timeMode === 'preset' ? (
-        <PresetDigitalClock
-          {...(digitalClockProps as PresetDigitalClockProps)}
-        />
+    renderDigitalClock = (digitalClockProps: DigitalClockProps) =>
+      digitalClockProps.mode === 'preset' ? (
+        <PresetDigitalClock {...digitalClockProps} />
       ) : (
-        <ManualDigitalClock
-          {...(digitalClockProps as ManualDigitalClockProps)}
-        />
-      )) as NonNullable<DateTimePickerProps<T, Mode>['renderDigitalClock']>,
+        <ManualDigitalClock {...digitalClockProps} />
+      ),
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
+  const popoverId = useId();
   const anchorElRef = useRef<HTMLElement>(null);
   const prevDateTimeRef = useRef<Date | null>(null);
   const [open, setOpen] = useState(false);
@@ -111,18 +110,20 @@ const DateTimePicker = <
     handleTimeChange
   } = useDateTimeValue({ defaultValue, value, onChange });
   const newStyle = useStyle(style);
+  const { className: popoverClassName, ...restPopoverProps } = (PopoverProps ||
+    {}) as Partial<PopoverProps>;
 
-  const handleOpen = () => {
+  const openPopover = () => {
     prevDateTimeRef.current = dateTimeValue;
     if (readOnly || disabled) return;
     setOpen(true);
   };
-  const handleClose = () => {
+  const closePopover = () => {
     setOpen(false);
   };
   const handleCancel = () => {
     handleDateTimeChange(prevDateTimeRef.current);
-    setOpen(false);
+    closePopover();
   };
 
   const commonProps = {
@@ -137,21 +138,62 @@ const DateTimePicker = <
     disabledDates
   };
   const timeProps = {
+    mode: timeMode,
+    timeStep,
+    minTime,
+    maxTime,
+    disabledTimes
+  };
+  const dateTimeFieldProps = {
+    ...commonProps,
+    ...dateProps,
+    ...timeProps,
+    onChange: handleDateTimeChange,
+    options,
+    focused: open,
+    endAdornment: (
+      <ButtonBase
+        type="button"
+        className={cn('JinniDateTimePickerOpenButton', { readOnly, disabled })}
+        onClick={openPopover}
+        disableOverlay={readOnly || disabled}
+        disableRipple={readOnly || disabled}
+        aria-label="Choose Date Time"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls={popoverId}
+      >
+        <DateRangeIcon size={20} color="gray-500" />
+      </ButtonBase>
+    ),
+    ...DateTimeFieldProps
+  };
+  const dateCalendarProps = {
+    ...commonProps,
+    ...dateProps,
+    onChange: handleDateChange,
+    options: filterDateOptions(options)
+  };
+  const digitClockProps = {
+    ...commonProps,
+    ...fixTypeByMode({ mode: timeMode, timeStep }),
     minTime,
     maxTime,
     disabledTimes,
-    mode: timeMode,
-    timeStep
+    onChange: handleTimeChange,
+    options: filterTimeOptions(options)
   };
 
   return (
     <Component
+      role="group"
       className={cn(
         'JinniDateTimePicker',
         { fullWidth: !!DateTimeFieldProps?.fullWidth },
         className
       )}
       style={newStyle}
+      aria-label="Date Time Picker"
       {...rest}
     >
       <input
@@ -160,38 +202,17 @@ const DateTimePicker = <
         hidden
         readOnly
       />
-      <DateTimeField
-        ref={anchorElRef}
-        options={options}
-        onChange={handleDateTimeChange}
-        endAdornment={
-          <ButtonBase
-            type="button"
-            className={cn('JinniDateTimePickerOpenButton', {
-              readOnly,
-              disabled
-            })}
-            onClick={handleOpen}
-            disableOverlay={readOnly || disabled}
-            disableRipple={readOnly || disabled}
-          >
-            <DateRangeIcon size={20} color="gray-500" />
-          </ButtonBase>
-        }
-        focused={open}
-        {...commonProps}
-        {...dateProps}
-        {...timeProps}
-        {...DateTimeFieldProps}
-      />
+      <DateTimeField ref={anchorElRef} {...dateTimeFieldProps} />
       <Popover
-        className="JinniDateTimePickerPopover"
+        id={popoverId}
         anchorElRef={anchorElRef}
+        className={cn('JinniDateTimePickerPopover', popoverClassName)}
         open={open}
-        onClose={handleClose}
-        {...PopoverProps}
+        onClose={closePopover}
+        {...restPopoverProps}
       >
         <Stack
+          className="JinniDateTimePickerPopoverContainer"
           direction="row"
           divider={
             <Divider
@@ -200,24 +221,14 @@ const DateTimePicker = <
             />
           }
         >
-          {renderDateCalendar({
-            ...commonProps,
-            ...dateProps,
-            options: filterDateOptions(options),
-            onChange: handleDateChange
-          })}
-          {renderDigitalClock({
-            ...commonProps,
-            ...timeProps,
-            options: filterTimeOptions(options),
-            onChange: handleTimeChange
-          })}
+          {renderDateCalendar(dateCalendarProps)}
+          {renderDigitalClock(digitClockProps)}
         </Stack>
         <div className="JinniDateTimePickerButtons">
           <Button variant="text" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button onClick={handleClose}>OK</Button>
+          <Button onClick={closePopover}>OK</Button>
         </div>
       </Popover>
     </Component>
