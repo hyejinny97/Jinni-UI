@@ -1,4 +1,4 @@
-#DateTimeRangeField.JinniInputBase {
+.JinniDateTimeRangeField.JinniInputBase:has(.JinniDateTimeField) {
   position: relative;
 
   & > .JinniInputBaseContent {
@@ -8,12 +8,11 @@
   }
 
   .JinniDateTimeField.JinniInputBase {
-    min-width: 250px;
-    width: 250px;
     border: none;
 
-    &.fullWidth {
-      width: 100%;
+    &:not(.fullWidth) {
+      min-width: 250px;
+      width: 250px;
     }
 
     .JinniInputBaseContent {

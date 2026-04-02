@@ -3,7 +3,6 @@ import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { TimeMode } from '@/types/time-component';
 import {
   DateTimeField,
   DateTimeFieldProps
@@ -13,14 +12,8 @@ import {
   DateCalendar,
   DateCalendarProps
 } from '@/components/data-entry/DateCalendar';
-import {
-  ManualDigitalClock,
-  ManualDigitalClockProps
-} from '@/components/data-entry/ManualDigitalClock';
-import {
-  PresetDigitalClock,
-  PresetDigitalClockProps
-} from '@/components/data-entry/PresetDigitalClock';
+import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { useDateTimeValue } from './DateTimePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Button } from '@/components/general/Button';
@@ -37,10 +30,7 @@ import {
   TIME_STEP_MANUAL_DEFAULT
 } from './DateTimePicker.constants';
 import { fixTypeByMode } from '@/utils/time-component';
-
-type DigitalClockProps =
-  | ({ mode: 'preset' } & PresetDigitalClockProps)
-  | ({ mode: 'manual' } & ManualDigitalClockProps);
+import { TimeMode, DigitalClockProps } from '@/types/time-component';
 
 export type DateTimePickerProps<
   T extends AsType = 'div',

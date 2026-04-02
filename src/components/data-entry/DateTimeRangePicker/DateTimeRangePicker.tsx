@@ -5,70 +5,47 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import {
   DateTimeRangeField,
-  RangeType,
-  DateTimeRangeValidationError,
   DateTimeRangeFieldProps
 } from '@/components/data-entry/DateTimeRangeField';
-import {
-  DateTimeOptions,
-  filterTimeOptions,
-  filterDateOptions
-} from '@/components/data-entry/DateTimeField';
-import { TimeMode, TimeStepManualType } from '@/types/time-component';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import {
   DateRangeCalendar,
   DateRangeCalendarProps
 } from '@/components/data-entry/DateRangeCalendar';
-import {
-  ManualDigitalClock,
-  ManualDigitalClockProps
-} from '@/components/data-entry/ManualDigitalClock';
-import {
-  PresetDigitalClock,
-  PresetDigitalClockProps
-} from '@/components/data-entry/PresetDigitalClock';
+import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { useDateTimeRangeValue } from './DateTimeRangePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Button } from '@/components/general/Button';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';
+import {
+  TimeMode,
+  TimeStepManualType,
+  DigitalClockProps
+} from '@/types/time-component';
+import { DateTimeRangeComponent, RangeType } from '@/types/date-time-component';
+import {
+  filterTimeOptions,
+  filterDateOptions
+} from '@/utils/date-time-component';
 
 export type DateTimeRangePickerProps<
   T extends AsType = 'div',
   Mode extends TimeMode = 'manual'
-> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> & {
-  name?: RangeType<string>;
-  defaultValue?: Partial<RangeType<Date>>;
-  value?: RangeType<Date | null>;
-  onChange?: (
-    value: RangeType<Date | null>,
-    validationError?: DateTimeRangeValidationError
-  ) => void;
-  locale?: string;
-  options?: DateTimeOptions;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  timeMode?: Mode;
-  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-  PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
-  DateTimeRangeFieldProps?: DateTimeRangeFieldProps;
-  renderDateRangeCalendar?: (
-    dateRangeCalendarProps: DateRangeCalendarProps
-  ) => React.ReactNode;
-  renderDigitalClock?: (
-    digitalClockProps: Mode extends 'preset'
-      ? PresetDigitalClockProps
-      : ManualDigitalClockProps
-  ) => React.ReactNode;
-};
+> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
+  DateTimeRangeComponent<Mode> & {
+    name?: RangeType<string>;
+    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    DateTimeRangeFieldProps?: DateTimeRangeFieldProps;
+    renderDateRangeCalendar?: (
+      dateRangeCalendarProps: DateRangeCalendarProps
+    ) => React.ReactNode;
+    renderDigitalClock?: (
+      digitalClockProps: DigitalClockProps
+    ) => React.ReactNode;
+  };
 
 const TIME_STEP_PRESET_DEFAULT: number = 30 * 60;
 const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
@@ -84,43 +61,35 @@ const DateTimeRangePicker = <
   props: DateTimeRangePickerProps<T, Mode>
 ) => {
   const {
-    name,
     defaultValue,
     value,
     onChange,
     locale,
     options,
-    minTime,
-    maxTime,
-    disabledTimes,
     timeMode = 'manual' as Mode,
     timeStep = timeMode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
       : TIME_STEP_MANUAL_DEFAULT,
+    minTime,
+    maxTime,
+    disabledTimes,
     minDate,
     maxDate,
     disabledDates,
     readOnly,
     disabled,
+    name,
     PopoverProps,
     DateTimeRangeFieldProps,
     renderDateRangeCalendar = (
       dateRangeCalendarProps: DateRangeCalendarProps
     ) => <DateRangeCalendar {...dateRangeCalendarProps} />,
-    renderDigitalClock = ((digitalClockProps, key?: string) =>
-      timeMode === 'preset' ? (
-        <PresetDigitalClock
-          key={key}
-          {...(digitalClockProps as PresetDigitalClockProps)}
-        />
+    renderDigitalClock = (digitalClockProps: DigitalClockProps) =>
+      digitalClockProps.mode === 'preset' ? (
+        <PresetDigitalClock {...digitalClockProps} />
       ) : (
-        <ManualDigitalClock
-          key={key}
-          {...(digitalClockProps as ManualDigitalClockProps)}
-        />
-      )) as NonNullable<
-      DateTimeRangePickerProps<T, Mode>['renderDigitalClock']
-    >,
+        <ManualDigitalClock {...digitalClockProps} />
+      ),
     className,
     style,
     as: Component = 'div',
