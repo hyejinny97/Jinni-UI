@@ -4,7 +4,8 @@ import {
   RangeType,
   RangeFieldType,
   DateTimeValidationError,
-  DateTimeRangeValidationError
+  DateTimeRangeValidationError,
+  DateTimeOptions
 } from '@/types/date-time-component';
 import {
   CHRONOLOGICAL_ORDER,
@@ -74,9 +75,16 @@ export const useValidation = ({
     const hasTimeOption =
       options &&
       Object.keys(options).some((option) => TIME_OPTIONS_TYPE.includes(option));
-    const dateTimeOptions = hasTimeOption
-      ? options
-      : { ...options, ...DEFAULT_TIME_OPTIONS };
+    const hasDateStyleOption =
+      options && Object.keys(options).includes('dateStyle');
+    let dateTimeOptions: DateTimeOptions | undefined = options;
+    if (hasTimeOption) {
+      if (hasDateStyleOption) {
+        dateTimeOptions = { ...options, ...DEFAULT_TIME_OPTIONS };
+      } else {
+        dateTimeOptions = { ...options, hour: 'numeric', minute: 'numeric' };
+      }
+    }
     const dateTimeFormat = new Intl.DateTimeFormat(locale, dateTimeOptions);
     const partTypes = dateTimeFormat.formatToParts().map((part) => part.type);
     const partTypeSet = new Set<keyof Intl.DateTimeFormatPartTypesRegistry>(
