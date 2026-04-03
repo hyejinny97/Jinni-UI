@@ -4,30 +4,24 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { TimeField, TimeFieldProps } from '@/components/data-entry/TimeField';
-import {
-  ManualDigitalClock,
-  ManualDigitalClockProps
-} from '@/components/data-entry/ManualDigitalClock';
-import {
-  PresetDigitalClock,
-  PresetDigitalClockProps
-} from '@/components/data-entry/PresetDigitalClock';
+import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import { useTime } from './TimePicker.hooks';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
-import { TimeMode, TimeComponentProps } from '@/types/time-component';
+import {
+  TimeMode,
+  TimeComponentProps,
+  DigitalClockProps
+} from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import {
   TIME_STEP_PRESET_DEFAULT,
   TIME_STEP_MANUAL_DEFAULT
 } from './TimePicker.constants';
 import { fixTypeByMode } from '@/utils/time-component';
-
-type DigitalClockProps =
-  | ({ mode: 'preset' } & PresetDigitalClockProps)
-  | ({ mode: 'manual' } & ManualDigitalClockProps);
 
 export type TimePickerProps<
   T extends AsType = 'div',

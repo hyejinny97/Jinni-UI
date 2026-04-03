@@ -22,9 +22,12 @@ export const useDateRangeValue = ({
     ? value
     : uncontrolledDateRange;
 
-  const handleDateRangeChange = (newValue: RangeType<Date | null>) => {
+  const handleDateRangeChange = (
+    newValue: RangeType<Date | null>,
+    selectedDate?: Date
+  ) => {
     if (!isControlled) setUncontrolledDateRange(newValue);
-    if (onChange) onChange(newValue);
+    if (onChange) onChange(newValue, selectedDate);
   };
 
   return {

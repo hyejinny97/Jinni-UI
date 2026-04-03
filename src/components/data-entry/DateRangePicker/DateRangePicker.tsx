@@ -81,7 +81,10 @@ const DateRangePicker = <T extends AsType = 'div'>(
     setFocusedField(undefined);
     setOpen(false);
   };
-  const handleCalendarChange = (newValue: RangeType<Date | null>) => {
+  const handleCalendarChange = (
+    newValue: RangeType<Date | null>,
+    selectedDate?: Date
+  ) => {
     const { start, end } = newValue;
     if (start) {
       if (end) {
@@ -90,7 +93,7 @@ const DateRangePicker = <T extends AsType = 'div'>(
         setFocusedField('end');
       }
     }
-    handleDateRangeChange(newValue);
+    handleDateRangeChange(newValue, selectedDate);
   };
 
   const commonProps = {

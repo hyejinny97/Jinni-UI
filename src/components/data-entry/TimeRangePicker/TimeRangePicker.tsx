@@ -8,14 +8,8 @@ import {
   TimeRangeFieldProps
 } from '@/components/data-entry/TimeRangeField';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
-import {
-  ManualDigitalClock,
-  ManualDigitalClockProps
-} from '@/components/data-entry/ManualDigitalClock';
-import {
-  PresetDigitalClock,
-  PresetDigitalClockProps
-} from '@/components/data-entry/PresetDigitalClock';
+import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { useTimeRangeValue } from './TimeRangePicker.hooks';
 import {
   TIME_STEP_PRESET_DEFAULT,
@@ -28,14 +22,11 @@ import {
   TimeMode,
   TimeRangeComponentProps,
   RangeType,
-  RangeFieldType
+  RangeFieldType,
+  DigitalClockProps
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import { fixTypeByMode } from '@/utils/time-component';
-
-type DigitalClockProps =
-  | ({ mode: 'preset' } & PresetDigitalClockProps)
-  | ({ mode: 'manual' } & ManualDigitalClockProps);
 
 export type TimeRangePickerProps<
   T extends AsType = 'div',

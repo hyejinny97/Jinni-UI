@@ -25,9 +25,12 @@ export const useSelectedDate = ({
     ? value
     : uncontrolledSelectedDate;
 
-  const onSelectDate = (newValue: RangeType<Date | null>) => {
+  const onSelectDate = (
+    newValue: RangeType<Date | null>,
+    selectedDate?: Date
+  ) => {
     if (!isControlled) setUncontrolledSelectedDate(newValue);
-    if (onChange) onChange(newValue);
+    if (onChange) onChange(newValue, selectedDate);
   };
 
   return {

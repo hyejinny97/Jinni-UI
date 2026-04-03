@@ -1,80 +1,93 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { DateTimeRangePickerProps } from './DateTimeRangePicker';
-import {
-  RangeType,
-  DateTimeRangeValidationError
-} from '@/components/data-entry/DateTimeRangeField';
+import { RangeType, RangeFieldType } from '@/types/date-time-component';
+
+type UseDateTimeRangeValueProps = Pick<
+  DateTimeRangePickerProps,
+  'defaultValue' | 'value' | 'onChange'
+>;
 
 const INIT_DEFAULT_VALUE = { start: null, end: null };
+const INIT_DATE_TIME = new Date();
+INIT_DATE_TIME.setHours(0, 0, 0, 0);
 
 export const useDateTimeRangeValue = ({
   defaultValue,
   value,
   onChange
-}: Pick<DateTimeRangePickerProps, 'defaultValue' | 'value' | 'onChange'>) => {
+}: UseDateTimeRangeValueProps) => {
   const isControlled = value !== undefined;
-  const [uncontrolledDateTimeRangeValue, setUncontrolledDateTimeRangeValue] =
-    useState<RangeType<Date | null>>({
-      ...INIT_DEFAULT_VALUE,
-      ...defaultValue
-    });
-  const dateTimeRangeValue = isControlled
+  const [uncontrolledDateTimeRange, setUncontrolledDateTimeRange] = useState<
+    RangeType<Date | null>
+  >(defaultValue || INIT_DEFAULT_VALUE);
+  const dateTimeRangeValue: RangeType<Date | null> = isControlled
     ? value
-    : uncontrolledDateTimeRangeValue;
-  const INIT_DATE_TIME = useMemo(() => {
-    const dateTime = new Date();
-    dateTime.setHours(0);
-    dateTime.setMinutes(0);
-    dateTime.setSeconds(0);
-    dateTime.setMilliseconds(0);
-    return dateTime;
-  }, []);
+    : uncontrolledDateTimeRange;
 
-  const changeDateInDateTimeValue = (
-    dateTimeValue: Date | null,
-    date: Date
-  ): Date => {
-    const newDateTime =
-      dateTimeValue === null ? INIT_DATE_TIME : new Date(dateTimeValue);
-    newDateTime.setFullYear(date.getFullYear());
-    newDateTime.setMonth(date.getMonth());
-    newDateTime.setDate(date.getDate());
+  const setNewDate = ({
+    baseDate,
+    targetDate
+  }: {
+    baseDate?: Date | null;
+    targetDate?: Date | null;
+  }): Date | undefined => {
+    if (!targetDate) return;
+    const newDateTime = new Date(baseDate || INIT_DATE_TIME);
+    newDateTime.setFullYear(targetDate.getFullYear());
+    newDateTime.setMonth(targetDate.getMonth());
+    newDateTime.setDate(targetDate.getDate());
     return newDateTime;
   };
 
-  const handleDateTimeRangeChange = (
-    newValue: RangeType<Date | null>,
-    validationError?: DateTimeRangeValidationError
-  ) => {
-    if (!isControlled) setUncontrolledDateTimeRangeValue(newValue);
-    if (onChange) onChange(newValue, validationError);
+  const setNewTime = ({
+    baseDate,
+    targetDate
+  }: {
+    baseDate?: Date | null;
+    targetDate: Date | null;
+  }): Date => {
+    const newDateTime = new Date(baseDate || INIT_DATE_TIME);
+    if (targetDate === null) {
+      newDateTime.setHours(0, 0, 0, 0);
+    } else {
+      newDateTime.setHours(targetDate.getHours());
+      newDateTime.setMinutes(targetDate.getMinutes());
+      newDateTime.setSeconds(targetDate.getSeconds());
+    }
+    return newDateTime;
+  };
+
+  const handleDateTimeRangeChange = (newValue: RangeType<Date | null>) => {
+    if (!isControlled) setUncontrolledDateTimeRange(newValue);
+    if (onChange) onChange(newValue);
   };
 
   const handleDateRangeChange = (newValue: RangeType<Date | null>) => {
-    const startDateTimeValue = dateTimeRangeValue['start'];
-    const endDateTimeValue = dateTimeRangeValue['end'];
-    const { start: newStartDate, end: newEndDate } = newValue;
     handleDateTimeRangeChange({
-      start:
-        newStartDate &&
-        changeDateInDateTimeValue(startDateTimeValue, newStartDate),
-      end: newEndDate && changeDateInDateTimeValue(endDateTimeValue, newEndDate)
+      start: setNewDate({
+        baseDate: dateTimeRangeValue.start,
+        targetDate: newValue.start
+      }),
+      end: setNewDate({
+        baseDate: dateTimeRangeValue.end,
+        targetDate: newValue.end
+      })
     });
   };
 
   const handleTimeChange =
-    (dateTimeFieldPosition: keyof RangeType<any> | undefined) =>
-    (newValue: Date) => {
-      if (!dateTimeFieldPosition) return;
-      const dateTimeValue = dateTimeRangeValue[dateTimeFieldPosition];
-      const newDateTime =
-        dateTimeValue === null ? INIT_DATE_TIME : new Date(dateTimeValue);
-      newDateTime.setHours(newValue.getHours());
-      newDateTime.setMinutes(newValue.getMinutes());
-      newDateTime.setSeconds(newValue.getSeconds());
+    (rangeField: RangeFieldType) => (newValue: Date | null) => {
       handleDateTimeRangeChange({
         ...dateTimeRangeValue,
-        [dateTimeFieldPosition]: newDateTime
+        [rangeField]: setNewTime({
+          baseDate:
+            rangeField === 'end' &&
+            dateTimeRangeValue.start &&
+            !dateTimeRangeValue.end
+              ? dateTimeRangeValue.start
+              : dateTimeRangeValue[rangeField],
+          targetDate: newValue
+        })
       });
     };
 

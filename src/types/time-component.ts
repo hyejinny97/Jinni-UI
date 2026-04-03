@@ -2,6 +2,8 @@ import {
   KEY_TIME_PARTS,
   CHRONOLOGICAL_ORDER
 } from '@/constants/time-component';
+import { ManualDigitalClockProps } from '@/components/data-entry/ManualDigitalClock';
+import { PresetDigitalClockProps } from '@/components/data-entry/PresetDigitalClock';
 
 export type TimeMode = 'preset' | 'manual';
 
@@ -69,3 +71,7 @@ export type TimeRangeComponentProps<Mode extends TimeMode = 'preset'> = {
   readOnly?: RangeType<boolean>;
   disabled?: RangeType<boolean>;
 };
+
+export type DigitalClockProps =
+  | ({ mode: 'preset' } & PresetDigitalClockProps)
+  | ({ mode: 'manual' } & ManualDigitalClockProps);

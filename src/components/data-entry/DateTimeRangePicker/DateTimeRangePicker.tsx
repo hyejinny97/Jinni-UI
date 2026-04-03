@@ -1,139 +1,117 @@
 import './DateTimeRangePicker.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, useId, Fragment } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import {
   DateTimeRangeField,
-  RangeType,
-  DateTimeRangeValidationError,
   DateTimeRangeFieldProps
 } from '@/components/data-entry/DateTimeRangeField';
-import {
-  DateTimeOptions,
-  filterTimeOptions,
-  filterDateOptions
-} from '@/components/data-entry/DateTimeField';
-import { TimeMode, TimeStepManualType } from '@/types/time-component';
 import { Popover, PopoverProps } from '@/components/data-display/Popover';
 import {
   DateRangeCalendar,
   DateRangeCalendarProps
 } from '@/components/data-entry/DateRangeCalendar';
-import {
-  ManualDigitalClock,
-  ManualDigitalClockProps
-} from '@/components/data-entry/ManualDigitalClock';
-import {
-  PresetDigitalClock,
-  PresetDigitalClockProps
-} from '@/components/data-entry/PresetDigitalClock';
+import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { useDateTimeRangeValue } from './DateTimeRangePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Button } from '@/components/general/Button';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';
+import { TimeMode, DigitalClockProps } from '@/types/time-component';
+import {
+  DateTimeRangeComponent,
+  RangeType,
+  RangeFieldType
+} from '@/types/date-time-component';
+import {
+  filterTimeOptions,
+  filterDateOptions
+} from '@/utils/date-time-component';
+import {
+  TIME_STEP_PRESET_DEFAULT,
+  TIME_STEP_MANUAL_DEFAULT
+} from './DateTimeRangePicker.constants';
+import { fixTypeByMode } from '@/utils/time-component';
+
+type Orientation = 'horizontal' | 'vertical';
 
 export type DateTimeRangePickerProps<
   T extends AsType = 'div',
-  Mode extends TimeMode = 'manual'
-> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> & {
-  name?: RangeType<string>;
-  defaultValue?: Partial<RangeType<Date>>;
-  value?: RangeType<Date | null>;
-  onChange?: (
-    value: RangeType<Date | null>,
-    validationError?: DateTimeRangeValidationError
-  ) => void;
-  locale?: string;
-  options?: DateTimeOptions;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  timeMode?: Mode;
-  timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
-  readOnly?: boolean;
-  disabled?: boolean;
-  PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
-  DateTimeRangeFieldProps?: DateTimeRangeFieldProps;
-  renderDateRangeCalendar?: (
-    dateRangeCalendarProps: DateRangeCalendarProps
-  ) => React.ReactNode;
-  renderDigitalClock?: (
-    digitalClockProps: Mode extends 'preset'
-      ? PresetDigitalClockProps
-      : ManualDigitalClockProps
-  ) => React.ReactNode;
-};
-
-const TIME_STEP_PRESET_DEFAULT: number = 30 * 60;
-const TIME_STEP_MANUAL_DEFAULT: TimeStepManualType = {
-  hour: 1,
-  minute: 1,
-  second: 1
-};
+  Mode extends TimeMode = 'manual',
+  MonthOrientation extends Orientation = 'horizontal',
+  DayOrientation extends Orientation = 'horizontal'
+> = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
+  DateTimeRangeComponent<Mode> & {
+    name?: RangeType<string>;
+    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    DateTimeRangeFieldProps?: DateTimeRangeFieldProps;
+    renderDateRangeCalendar?: (
+      dateRangeCalendarProps: DateRangeCalendarProps<
+        'div',
+        MonthOrientation,
+        DayOrientation
+      >
+    ) => React.ReactNode;
+    renderDigitalClock?: (
+      digitalClockProps: DigitalClockProps
+    ) => React.ReactNode;
+  };
 
 const DateTimeRangePicker = <
   T extends AsType = 'div',
-  Mode extends TimeMode = 'manual'
+  Mode extends TimeMode = 'manual',
+  MonthOrientation extends Orientation = 'horizontal',
+  DayOrientation extends Orientation = 'horizontal'
 >(
-  props: DateTimeRangePickerProps<T, Mode>
+  props: DateTimeRangePickerProps<T, Mode, MonthOrientation, DayOrientation>
 ) => {
   const {
-    name,
     defaultValue,
     value,
     onChange,
     locale,
     options,
-    minTime,
-    maxTime,
-    disabledTimes,
     timeMode = 'manual' as Mode,
     timeStep = timeMode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
       : TIME_STEP_MANUAL_DEFAULT,
+    minTime,
+    maxTime,
+    disabledTimes,
     minDate,
     maxDate,
     disabledDates,
     readOnly,
     disabled,
+    name,
     PopoverProps,
     DateTimeRangeFieldProps,
-    renderDateRangeCalendar = (
-      dateRangeCalendarProps: DateRangeCalendarProps
-    ) => <DateRangeCalendar {...dateRangeCalendarProps} />,
-    renderDigitalClock = ((digitalClockProps, key?: string) =>
-      timeMode === 'preset' ? (
-        <PresetDigitalClock
-          key={key}
-          {...(digitalClockProps as PresetDigitalClockProps)}
-        />
+    renderDateRangeCalendar = (dateRangeCalendarProps) => (
+      <DateRangeCalendar {...dateRangeCalendarProps} />
+    ),
+    renderDigitalClock = (digitalClockProps: DigitalClockProps) =>
+      digitalClockProps.mode === 'preset' ? (
+        <PresetDigitalClock {...digitalClockProps} />
       ) : (
-        <ManualDigitalClock
-          key={key}
-          {...(digitalClockProps as ManualDigitalClockProps)}
-        />
-      )) as NonNullable<
-      DateTimeRangePickerProps<T, Mode>['renderDigitalClock']
-    >,
+        <ManualDigitalClock {...digitalClockProps} />
+      ),
     className,
     style,
     as: Component = 'div',
     ...rest
   } = props;
+  const popoverId = useId();
   const anchorElRef = useRef<HTMLElement>(null);
-  const prevDateTimeRangeValueRef = useRef<RangeType<Date | null>>({
+  const prevDateTimeRangeRef = useRef<RangeType<Date | null>>({
     start: null,
     end: null
   });
   const [open, setOpen] = useState(false);
-  const [focusedDateTime, setFocusedDateTime] = useState<
-    'start' | 'end' | undefined
+  const [focusedField, setFocusedField] = useState<
+    RangeFieldType | undefined
   >();
   const {
     dateTimeRangeValue,
@@ -146,23 +124,37 @@ const DateTimeRangePicker = <
     onChange
   });
   const newStyle = useStyle(style);
+  const { className: popoverClassName, ...restPopoverProps } = (PopoverProps ||
+    {}) as Partial<PopoverProps>;
 
-  const handleOpen = () => {
+  const openPopover = () => {
     if (readOnly || disabled) return;
-    prevDateTimeRangeValueRef.current = dateTimeRangeValue;
-    setFocusedDateTime('start');
+    prevDateTimeRangeRef.current = dateTimeRangeValue;
+    setFocusedField('start');
     setOpen(true);
   };
-  const handleClose = () => {
-    setFocusedDateTime(undefined);
+  const closePopover = () => {
+    setFocusedField(undefined);
     setOpen(false);
   };
   const handleNext = () => {
-    setFocusedDateTime('end');
+    setFocusedField('end');
   };
   const handleCancel = () => {
-    handleDateTimeRangeChange(prevDateTimeRangeValueRef.current);
-    handleClose();
+    handleDateTimeRangeChange(prevDateTimeRangeRef.current);
+    closePopover();
+  };
+  const handleDateRangeCalendarChange = (
+    newValue: RangeType<Date | null>,
+    selectedDate?: Date
+  ) => {
+    switch (focusedField) {
+      case 'start':
+        handleDateRangeChange({ start: selectedDate, end: null });
+        break;
+      case 'end':
+        handleDateRangeChange(newValue);
+    }
   };
 
   const commonProps = {
@@ -178,69 +170,97 @@ const DateTimeRangePicker = <
   const timeProps = {
     minTime,
     maxTime,
-    disabledTimes,
-    mode: timeMode,
-    timeStep
+    disabledTimes
+  };
+  const dateTimeRangeProps = {
+    ...commonProps,
+    ...dateProps,
+    ...timeProps,
+    value: dateTimeRangeValue,
+    onChange: handleDateTimeRangeChange,
+    options,
+    timeMode,
+    timeStep,
+    focused: open,
+    focusedField,
+    endAdornment: {
+      dateTimeRangeField: (
+        <ButtonBase
+          type="button"
+          className={cn('JinniDateTimeRangePickerOpenButton', {
+            readOnly,
+            disabled
+          })}
+          onClick={openPopover}
+          disableOverlay={readOnly || disabled}
+          disableRipple={readOnly || disabled}
+          aria-label="Choose Date Time"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          aria-controls={popoverId}
+        >
+          <DateRangeIcon size={20} color="gray-500" />
+        </ButtonBase>
+      )
+    },
+    ...DateTimeRangeFieldProps
+  };
+  const dateRangeCalendarProps = {
+    ...commonProps,
+    ...dateProps,
+    className: cn({ disableHoverRangeEffect: focusedField === 'start' }),
+    value: dateTimeRangeValue,
+    onChange: handleDateRangeCalendarChange,
+    options: filterDateOptions(options),
+    monthCalendarsOrientation: 'horizontal' as MonthOrientation,
+    dayCalendarsOrientation: 'horizontal' as DayOrientation,
+    monthCalendars: 1 as 1 | 2 | 3,
+    dayCalendars: 1 as 1 | 2 | 3
+  };
+  const digitalClockProps = {
+    ...commonProps,
+    ...timeProps,
+    ...fixTypeByMode({ mode: timeMode, timeStep }),
+    value: focusedField ? dateTimeRangeValue[focusedField] : null,
+    onChange: focusedField ? handleTimeChange(focusedField) : undefined,
+    options: filterTimeOptions(options)
   };
 
   return (
     <Component
+      role="group"
       className={cn(
         'JinniDateTimeRangePicker',
         { fullWidth: !!DateTimeRangeFieldProps?.fullWidth },
         className
       )}
       style={newStyle}
+      aria-label="Date Time Range Picker"
       {...rest}
     >
       <input
         name={name?.start}
-        value={dateTimeRangeValue.start?.toString() || ''}
+        value={dateTimeRangeValue.start?.toLocaleString(locale) || ''}
         hidden
         readOnly
       />
       <input
         name={name?.end}
-        value={dateTimeRangeValue.end?.toString() || ''}
+        value={dateTimeRangeValue.end?.toLocaleString(locale) || ''}
         hidden
         readOnly
       />
-      <DateTimeRangeField
-        ref={anchorElRef}
-        options={options}
-        value={dateTimeRangeValue}
-        onChange={handleDateTimeRangeChange}
-        endAdornment={{
-          dateTimeRangeField: (
-            <ButtonBase
-              type="button"
-              className={cn('JinniDateTimeRangePickerOpenButton', {
-                readOnly,
-                disabled
-              })}
-              onClick={handleOpen}
-              disableOverlay={readOnly || disabled}
-              disableRipple={readOnly || disabled}
-            >
-              <DateRangeIcon size={20} color="gray-500" />
-            </ButtonBase>
-          )
-        }}
-        focused={open}
-        focusedDateTime={focusedDateTime}
-        {...commonProps}
-        {...dateProps}
-        {...timeProps}
-        {...DateTimeRangeFieldProps}
-      />
+      <DateTimeRangeField ref={anchorElRef} {...dateTimeRangeProps} />
       <Popover
-        className="JinniDateTimeRangePickerPopover"
+        id={popoverId}
         anchorElRef={anchorElRef}
+        className={cn('JinniDateTimeRangePickerPopover', popoverClassName)}
         open={open}
-        onClose={handleClose}
-        {...PopoverProps}
+        onClose={closePopover}
+        {...restPopoverProps}
       >
         <Stack
+          className="JinniDateTimeRangePickerPopoverContainer"
           direction="row"
           divider={
             <Divider
@@ -249,48 +269,19 @@ const DateTimeRangePicker = <
             />
           }
         >
-          {renderDateRangeCalendar({
-            ...commonProps,
-            ...dateProps,
-            value: dateTimeRangeValue,
-            options: filterDateOptions(options),
-            horizontalDayCalendars: 1,
-            horizontalMonthCalendars: 1,
-            onChange: (date: RangeType<Date | null>) => {
-              if (focusedDateTime === 'end') {
-                handleDateRangeChange(date);
-              }
-            },
-            onSelect: (selectedDate: Date) => {
-              if (focusedDateTime === 'start') {
-                handleDateRangeChange({ start: selectedDate, end: null });
-              }
-            },
-            disableHoverRangeEffect: focusedDateTime === 'start'
-          })}
-          {renderDigitalClock(
-            {
-              ...commonProps,
-              ...timeProps,
-              value: focusedDateTime
-                ? dateTimeRangeValue[focusedDateTime]
-                : null,
-              options: filterTimeOptions(options),
-              onChange: handleTimeChange(focusedDateTime)
-            },
-            focusedDateTime
-          )}
+          {renderDateRangeCalendar(dateRangeCalendarProps)}
+          <Fragment key={focusedField}>
+            {renderDigitalClock(digitalClockProps)}
+          </Fragment>
         </Stack>
         <div className="JinniDateTimeRangePickerButtons">
           <Button variant="text" onClick={handleCancel}>
             Cancel
           </Button>
-          {focusedDateTime === 'start' && (
+          {focusedField === 'start' && (
             <Button onClick={handleNext}>Next</Button>
           )}
-          {focusedDateTime === 'end' && (
-            <Button onClick={handleClose}>OK</Button>
-          )}
+          {focusedField === 'end' && <Button onClick={closePopover}>OK</Button>}
         </div>
       </Popover>
     </Component>
