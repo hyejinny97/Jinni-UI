@@ -80,7 +80,12 @@ export const useDateTimeRangeValue = ({
       handleDateTimeRangeChange({
         ...dateTimeRangeValue,
         [rangeField]: setNewTime({
-          baseDate: dateTimeRangeValue[rangeField],
+          baseDate:
+            rangeField === 'end' &&
+            dateTimeRangeValue.start &&
+            !dateTimeRangeValue.end
+              ? dateTimeRangeValue.start
+              : dateTimeRangeValue[rangeField],
           targetDate: newValue
         })
       });

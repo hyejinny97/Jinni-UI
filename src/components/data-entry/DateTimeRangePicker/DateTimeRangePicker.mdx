@@ -1,0 +1,152 @@
+import { Meta, Canvas, ArgTypes, Stories, Markdown } from '@storybook/blocks';
+import * as DateTimeRangePickerStories from './DateTimeRangePicker.stories';
+
+<Meta of={DateTimeRangePickerStories} />
+
+# DateTimeRangePicker
+
+날짜와 시간 범위 선택 가능
+
+## Import
+
+```js
+import { DateTimeRangePicker } from '@/components/data-entry/DateTimeRangePicker';
+```
+
+## Usage
+
+### Basic DateTimeRangePicker
+
+- `defaultValue`: 초기 selected date time (uncontrolled일 때만 적용 가능)
+
+<Canvas of={DateTimeRangePickerStories.BasicDateTimeRangePicker} />
+
+### Controlled DateTimeRangePicker
+
+- `value`를 통해 control 가능
+- `value`: selected date time
+- `onChange`: value가 변경됐을 때 호출되는 함수
+
+<Canvas of={DateTimeRangePickerStories.ControlledDateTimeRangePicker} />
+
+### Locale and Options
+
+#### 1. Locale
+
+- `locale`: BCP47 언어 태그를 포함하는 문자열
+
+<Canvas of={DateTimeRangePickerStories.Locale} />
+
+#### 2. Options
+
+- `options`: date time 속성
+
+<Canvas of={DateTimeRangePickerStories.Options} />
+
+### Restrict DateTime
+
+#### 1. Min time
+
+- `minTime`: 선택 가능한 최소 시간
+
+<Canvas of={DateTimeRangePickerStories.MinTime} />
+
+#### 2. Max time
+
+- `maxTime`: 선택 가능한 최대 시간
+
+<Canvas of={DateTimeRangePickerStories.MaxTime} />
+
+#### 3. Disabled times
+
+- `disabledTimes`: 비활성화하는 특정 시간 모음
+
+<Canvas of={DateTimeRangePickerStories.DisabledTimes} />
+
+#### 4. Min date
+
+- `minDate`: 선택 가능한 최소 날짜
+
+<Canvas of={DateTimeRangePickerStories.MinDate} />
+
+#### 5. Max date
+
+- `maxDate`: 선택 가능한 최대 날짜
+
+<Canvas of={DateTimeRangePickerStories.MaxDate} />
+
+#### 6. Disabled dates
+
+- `disabledDates`: 비활성화하는 특정 날짜 모음
+
+<Canvas of={DateTimeRangePickerStories.DisabledDates} />
+
+### Time mode
+
+- `timeMode`: time 선택 방법
+  - `'preset'`: '12:00', '12:30', '01:00' 처럼 미리 정의된 시간 목록에서 하나를 선택하는 방식
+  - `'manual'`: 시(hour), 분(minute), 초(second)를 각각 선택하는 방식
+
+<Canvas of={DateTimeRangePickerStories.TimeMode} />
+
+### Time steps
+
+- `timeStep`: 두 time options 간 step
+  - timeMode='preset'인 경우, `number` type (단위: s)
+  - timeMode='manual'인 경우, `{hour: number, minute: number, second: number}` type
+
+#### 1. Time step in preset mode
+
+<Canvas of={DateTimeRangePickerStories.TimeStepInPresetMode} />
+
+#### 2. Time step in manual mode
+
+<Canvas of={DateTimeRangePickerStories.TimeStepInManualMode} />
+
+### Readonly
+
+- `readOnly`: true이면, 수정 불가
+
+<Canvas of={DateTimeRangePickerStories.Readonly} />
+
+### Disabled
+
+<Canvas of={DateTimeRangePickerStories.Disabled} />
+
+### DateTimeRangePicker with form
+
+<Canvas of={DateTimeRangePickerStories.DateTimeRangePickerWithForm} />
+
+### Custom DateTimeRangeField
+
+- `DateTimeRangeFieldProps`: DateTimeRangeField의 Props
+
+<Canvas of={DateTimeRangePickerStories.CustomDateTimeRangeField} />
+
+### Custom DigitalClock
+
+- `renderDigitalClock`: `DigitalClockProps`를 입력값으로 받아 timeMode에 따라 `ManualDigitalClock` 이나 `PresetDigitalClock` 컴포넌트를 렌더하는 함수
+
+<Canvas of={DateTimeRangePickerStories.CustomDigitalClock} />
+
+### Custom DateRangeCalendar
+
+- `renderDateRangeCalendar`: dateRangeCalendarProps를 인자로 받아 `DateRangeCalendar` 컴포넌트를 반환하는 함수
+
+<Canvas of={DateTimeRangePickerStories.CustomDateRangeCalendar} />
+
+### Custom Popover
+
+- `PopoverProps`: `Popover` 컴포넌트의 props
+
+<Canvas of={DateTimeRangePickerStories.CustomPopover} />
+
+### Multi-DateTimePicker
+
+- `DateTimePicker` 컴포넌트를 두 개 사용해, 직접 시작 날짜/시간과 마지막 날짜/시간을 설정할 수도 있음
+
+<Canvas of={DateTimeRangePickerStories.MultiDateTimePicker} />
+
+## Props
+
+<ArgTypes of={DateTimeRangePickerStories} sort="alpha" />
