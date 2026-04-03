@@ -98,7 +98,7 @@ const meta: Meta<typeof DateRangeCalendar> = {
       description: 'value가 변경됐을 때 호출되는 함수',
       table: {
         type: {
-          summary: `(value: { start?: Date | null, end?: Date | null }) => void;`
+          summary: `(value: { start?: Date | null, end?: Date | null }, selectedDate?: Date) => void;`
         }
       }
     },

@@ -38,7 +38,7 @@ export const useSelectedDateValue = ({
     }
 
     if (!isControlled) setUnControlledDate(newSelectedDate);
-    if (onSelectDate) onSelectDate(newSelectedDate);
+    if (onSelectDate) onSelectDate(newSelectedDate, dateSelected);
   };
 
   return { selectedDateValue, handleSelect };

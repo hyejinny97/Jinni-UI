@@ -40,13 +40,14 @@ export const useDateRangeValue = ({
     : uncontrolledDateRange;
 
   const handleChange =
-    (rangeField: RangeFieldType) => (newValue: Date | null) => {
+    (rangeField: RangeFieldType) =>
+    (newValue: Date | null, selectedDate?: Date) => {
       const newDateRange = {
         start: rangeField === 'start' ? newValue : dateRangeValue.start,
         end: rangeField === 'end' ? newValue : dateRangeValue.end
       };
       if (!isControlled) setUncontrolledDateRange(newDateRange);
-      if (onChange) onChange(newDateRange);
+      if (onChange) onChange(newDateRange, selectedDate);
     };
 
   return {

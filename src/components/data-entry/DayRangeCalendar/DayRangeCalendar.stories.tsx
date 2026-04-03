@@ -82,7 +82,7 @@ const meta: Meta<typeof DayRangeCalendar> = {
       table: {
         type: {
           summary:
-            '(newSelectedDate: { start?: Date | null; end?: Date | null }) ⇒ void;'
+            '(newSelectedDate: { start?: Date | null; end?: Date | null }, selectedDate?: Date) ⇒ void;'
         }
       }
     },

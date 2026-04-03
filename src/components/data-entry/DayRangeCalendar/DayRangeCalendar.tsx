@@ -18,7 +18,10 @@ export type DayRangeCalendarProps<T extends AsType = 'div'> = Omit<
   'selectedDate' | 'onDayChange' | 'renderDay'
 > & {
   selectedDate?: RangeType<Date | null>;
-  onSelectDate?: (newSelectedDate: RangeType<Date | null>) => void;
+  onSelectDate?: (
+    newSelectedDate: RangeType<Date | null>,
+    selectedDate?: Date
+  ) => void;
   hoveredDate?: Date | null;
   onHoverDate?: (newHoveredDate: Date | null) => void;
 };

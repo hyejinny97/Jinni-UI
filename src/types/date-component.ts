@@ -47,7 +47,7 @@ export type DateRangeValidationError = RangeType<DateValidationError> & {
 export type DateRangeComponentProps = {
   defaultValue?: RangeType<Date>;
   value?: RangeType<Date | null>;
-  onChange?: (value: RangeType<Date | null>) => void;
+  onChange?: (value: RangeType<Date | null>, selectedDate?: Date) => void;
   locale?: string;
   options?: DateOptions;
   minDate?: Date;
