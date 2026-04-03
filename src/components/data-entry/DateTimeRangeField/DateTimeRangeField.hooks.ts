@@ -78,7 +78,7 @@ export const useValidation = ({
     const hasDateStyleOption =
       options && Object.keys(options).includes('dateStyle');
     let dateTimeOptions: DateTimeOptions | undefined = options;
-    if (hasTimeOption) {
+    if (!hasTimeOption) {
       if (hasDateStyleOption) {
         dateTimeOptions = { ...options, ...DEFAULT_TIME_OPTIONS };
       } else {

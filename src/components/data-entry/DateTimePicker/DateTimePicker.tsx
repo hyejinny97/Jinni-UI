@@ -104,8 +104,8 @@ const DateTimePicker = <
     {}) as Partial<PopoverProps>;
 
   const openPopover = () => {
-    prevDateTimeRef.current = dateTimeValue;
     if (readOnly || disabled) return;
+    prevDateTimeRef.current = dateTimeValue;
     setOpen(true);
   };
   const closePopover = () => {
