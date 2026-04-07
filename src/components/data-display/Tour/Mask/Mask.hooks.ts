@@ -21,9 +21,9 @@ export const useMaskSize = () => {
 };
 
 export const useSpotlightSize = ({
-  spotlightEl,
+  spotlightElRef,
   spotlightPadding
-}: Required<Pick<MaskProps, 'spotlightEl' | 'spotlightPadding'>>) => {
+}: Required<Pick<MaskProps, 'spotlightElRef' | 'spotlightPadding'>>) => {
   const [spotlightSize, setSpotlightSize] = useState({
     x: 0,
     y: 0,
@@ -32,6 +32,9 @@ export const useSpotlightSize = ({
   });
 
   useLayoutEffect(() => {
+    const spotlightEl = spotlightElRef.current;
+    if (!spotlightEl) return;
+
     const updateSpotlightSize = () => {
       const { left, top, width, height } = spotlightEl.getBoundingClientRect();
       const absoluteLeft = window.scrollX + left;
@@ -51,7 +54,7 @@ export const useSpotlightSize = ({
       window.removeEventListener('resize', updateSpotlightSize);
       observer.disconnect();
     };
-  }, [spotlightEl, spotlightPadding]);
+  }, [spotlightElRef, spotlightPadding]);
 
   return { spotlightSize };
 };

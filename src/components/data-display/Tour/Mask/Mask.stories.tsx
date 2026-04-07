@@ -22,10 +22,10 @@ const meta: Meta<typeof Mask> = {
         }
       }
     },
-    spotlightEl: {
+    spotlightElRef: {
       description: 'mask에서 배제되는 요소',
       table: {
-        type: { summary: `HTMLElement` }
+        type: { summary: `React.RefObject<HTMLElement>` }
       }
     },
     spotlightPadding: {
@@ -70,9 +70,7 @@ const BasicMaskTemplate = () => {
           backgroundColor: 'yellow-400'
         }}
       />
-      {open && anchorRef.current && (
-        <Mask spotlightEl={anchorRef.current} onClick={closeMask} />
-      )}
+      {open && <Mask spotlightElRef={anchorRef} onClick={closeMask} />}
     </Stack>
   );
 };
@@ -99,9 +97,9 @@ const MaskColorTemplate = () => {
           backgroundColor: 'yellow-400'
         }}
       />
-      {open && anchorRef.current && (
+      {open && (
         <Mask
-          spotlightEl={anchorRef.current}
+          spotlightElRef={anchorRef}
           maskColor="#2225"
           onClick={closeMask}
         />
@@ -157,9 +155,9 @@ const SpotlightShapeTemplate = () => {
           borderRadius: shape === 'circular' ? '100%' : undefined
         }}
       />
-      {open && anchorRef.current && (
+      {open && (
         <Mask
-          spotlightEl={anchorRef.current}
+          spotlightElRef={anchorRef}
           spotlightShape={shape}
           onClick={closeMask}
         />
@@ -190,9 +188,9 @@ const SpotlightPaddingTemplate = () => {
           backgroundColor: 'yellow-400'
         }}
       />
-      {open && anchorRef.current && (
+      {open && (
         <Mask
-          spotlightEl={anchorRef.current}
+          spotlightElRef={anchorRef}
           spotlightPadding={20}
           onClick={closeMask}
         />
@@ -228,9 +226,7 @@ export const BasicMask: Story = {
           backgroundColor: 'yellow-400'
         }}
       />
-      {open && anchorRef.current && (
-        <Mask spotlightEl={anchorRef.current} onClick={closeMask} />
-      )}
+      {open && <Mask spotlightElRef={anchorRef} onClick={closeMask} />}
     </Stack>
   );
 };`.trim()
@@ -266,9 +262,9 @@ export const MaskColor: Story = {
           backgroundColor: 'yellow-400'
         }}
       />
-      {open && anchorRef.current && (
+      {open && (
         <Mask
-          spotlightEl={anchorRef.current}
+          spotlightElRef={anchorRef}
           maskColor="#2225"
           onClick={closeMask}
         />
@@ -333,9 +329,9 @@ export const SpotlightShape: Story = {
           borderRadius: shape === 'circular' ? '100%' : undefined
         }}
       />
-      {open && anchorRef.current && (
+      {open && (
         <Mask
-          spotlightEl={anchorRef.current}
+          spotlightElRef={anchorRef}
           spotlightShape={shape}
           onClick={closeMask}
         />
@@ -375,9 +371,9 @@ export const SpotlightPadding: Story = {
           backgroundColor: 'yellow-400'
         }}
       />
-      {open && anchorRef.current && (
+      {open && (
         <Mask
-          spotlightEl={anchorRef.current}
+          spotlightElRef={anchorRef}
           spotlightPadding={20}
           onClick={closeMask}
         />

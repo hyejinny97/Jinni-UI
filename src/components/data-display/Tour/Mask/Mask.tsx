@@ -10,7 +10,7 @@ import useJinni from '@/hooks/useJinni';
 import useColor from '@/hooks/useColor';
 
 export type MaskProps<T extends AsType = 'svg'> = DefaultComponentProps<T> & {
-  spotlightEl: HTMLElement;
+  spotlightElRef: React.RefObject<HTMLElement>;
   spotlightPadding?: number;
   spotlightShape?: 'rectangular' | 'rounded' | 'circular';
   maskColor?: ColorType;
@@ -21,7 +21,7 @@ const ROUNDED = 4;
 const Mask = <T extends AsType = 'svg'>(props: MaskProps<T>) => {
   const { theme } = useJinni();
   const {
-    spotlightEl,
+    spotlightElRef,
     spotlightPadding = 5,
     spotlightShape = 'rectangular',
     maskColor = theme === 'light' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)',
@@ -32,7 +32,10 @@ const Mask = <T extends AsType = 'svg'>(props: MaskProps<T>) => {
   const maskId = useId();
   const normalizedMaskColor = useColor(maskColor);
   const { maskSize } = useMaskSize();
-  const { spotlightSize } = useSpotlightSize({ spotlightEl, spotlightPadding });
+  const { spotlightSize } = useSpotlightSize({
+    spotlightElRef,
+    spotlightPadding
+  });
   const newStyle = useStyle({ ...maskSize, ...style });
 
   let spotlight = <></>;
