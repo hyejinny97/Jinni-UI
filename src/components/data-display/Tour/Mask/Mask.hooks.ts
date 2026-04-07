@@ -2,49 +2,56 @@ import { useLayoutEffect, useState } from 'react';
 import { MaskProps } from './Mask';
 
 export const useMaskSize = () => {
-  const [size, setSize] = useState({ width: 0, height: 0 });
+  const [maskSize, setMaskSize] = useState({ width: 0, height: 0 });
 
   useLayoutEffect(() => {
-    const updateSize = () => {
-      const { scrollWidth, scrollHeight } = document.documentElement;
-      setSize({ width: scrollWidth, height: scrollHeight });
+    const updateMaskSize = () => {
+      const { clientWidth, scrollHeight } = document.documentElement;
+      setMaskSize({ width: clientWidth, height: scrollHeight });
     };
 
-    updateSize();
-    window.addEventListener('resize', updateSize);
+    updateMaskSize();
+    window.addEventListener('resize', updateMaskSize);
     return () => {
-      window.removeEventListener('resize', updateSize);
+      window.removeEventListener('resize', updateMaskSize);
     };
   }, []);
 
-  return { size };
+  return { maskSize };
 };
 
-export const useHole = ({
-  excludeEl,
-  maskHolePadding
-}: Pick<MaskProps, 'excludeEl' | 'maskHolePadding'>) => {
-  const [hole, setHole] = useState({ x: 0, y: 0, width: 0, height: 0 });
+export const useSpotlightSize = ({
+  spotlightEl,
+  spotlightPadding
+}: Required<Pick<MaskProps, 'spotlightEl' | 'spotlightPadding'>>) => {
+  const [spotlightSize, setSpotlightSize] = useState({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0
+  });
 
   useLayoutEffect(() => {
-    const setExcludeArea = () => {
-      const { left, top, width, height } = excludeEl.getBoundingClientRect();
+    const updateSpotlightSize = () => {
+      const { left, top, width, height } = spotlightEl.getBoundingClientRect();
       const absoluteLeft = window.scrollX + left;
       const absoluteTop = window.scrollY + top;
-      setHole({
-        x: absoluteLeft - maskHolePadding,
-        y: absoluteTop - maskHolePadding,
-        width: width + 2 * maskHolePadding,
-        height: height + 2 * maskHolePadding
+      setSpotlightSize({
+        x: absoluteLeft - spotlightPadding,
+        y: absoluteTop - spotlightPadding,
+        width: width + 2 * spotlightPadding,
+        height: height + 2 * spotlightPadding
       });
     };
 
-    setExcludeArea();
-    window.addEventListener('resize', setExcludeArea);
+    window.addEventListener('resize', updateSpotlightSize);
+    const observer = new ResizeObserver(updateSpotlightSize);
+    observer.observe(spotlightEl);
     return () => {
-      window.removeEventListener('resize', setExcludeArea);
+      window.removeEventListener('resize', updateSpotlightSize);
+      observer.disconnect();
     };
-  }, [excludeEl]);
+  }, [spotlightEl, spotlightPadding]);
 
-  return { hole };
+  return { spotlightSize };
 };
