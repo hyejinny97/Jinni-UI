@@ -1,0 +1,42 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as MaskStories from './Mask.stories';
+
+<Meta of={MaskStories} />
+
+# Mask
+
+## Import
+
+```js
+import { Mask } from '@/components/data-display/Tour/Mask';
+```
+
+## Usage
+
+### Basic Mask
+
+- `spotlightEl`: mask에서 배제되는 요소
+
+<Canvas of={MaskStories.BasicMask} />
+
+### Mask color
+
+- `maskColor`: mask 색상
+
+<Canvas of={MaskStories.MaskColor} />
+
+### Spotlight shape
+
+- `spotlightShape`: spotlight 의 모양
+
+<Canvas of={MaskStories.SpotlightShape} />
+
+### Spotlight padding
+
+- `spotlightPadding`: spotlight의 패딩
+
+<Canvas of={MaskStories.SpotlightPadding} />
+
+## Props
+
+<ArgTypes of={MaskStories} sort="alpha" />
