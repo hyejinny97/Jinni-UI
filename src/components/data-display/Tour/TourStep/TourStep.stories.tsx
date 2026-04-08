@@ -5,12 +5,19 @@ import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
 const meta: Meta<typeof TourStep> = {
   component: TourStep,
   argTypes: {
-    anchorEl: {
-      description:
-        'HTML element로, 해당 anchor 위치에 따라 tour content의 위치가 결정됨',
+    anchorElRef: {
+      description: 'TourStep의 위치를 결정짓는 anchor',
       table: {
         type: {
-          summary: `HTMLElement`
+          summary: `React.RefObject<HTMLElement>`
+        }
+      }
+    },
+    BoxProps: {
+      description: 'Box 컴포넌트에 적용되는 props',
+      table: {
+        type: {
+          summary: `BoxProps`
         }
       }
     },
@@ -22,17 +29,8 @@ const meta: Meta<typeof TourStep> = {
         }
       }
     },
-    maskHolePadding: {
-      description: 'mask hole의 패딩',
-      table: {
-        type: {
-          summary: `number`
-        },
-        defaultValue: { summary: `5` }
-      }
-    },
     offset: {
-      description: 'mask hole과 tour content 사이 거리',
+      description: 'spotlight와 tour content 사이 거리',
       table: {
         type: {
           summary: `number`
@@ -49,17 +47,8 @@ const meta: Meta<typeof TourStep> = {
         defaultValue: { summary: `'bottom-start'` }
       }
     },
-    TourStepContentProps: {
-      description: 'TourStepContent(=Box)에 적용되는 props',
-      table: {
-        type: {
-          summary: `BoxProps`
-        },
-        defaultValue: { summary: `{ elevation: 5, round: 4 }` }
-      }
-    },
     value: {
-      description: 'TourStep을 식별하는 유니크한 값',
+      description: '특정 TourStep을 구별하는 식별자',
       table: {
         type: {
           summary: `string | number`

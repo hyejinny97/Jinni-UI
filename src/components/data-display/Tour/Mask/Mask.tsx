@@ -1,41 +1,78 @@
 import './Mask.scss';
+import { useId } from 'react';
 import { createPortal } from 'react-dom';
+import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { useMaskSize, useHole } from './Mask.hooks';
+import { useMaskSize, useSpotlightSize } from './Mask.hooks';
+import { ColorType } from '@/types/color';
+import useJinni from '@/hooks/useJinni';
+import useColor from '@/hooks/useColor';
 
-export type MaskProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
-  excludeEl: HTMLElement;
-  maskHolePadding: number;
+export type MaskOptionalProps = {
+  spotlightPadding?: number;
+  spotlightShape?: 'rectangular' | 'rounded' | 'circular';
+  maskColor?: ColorType;
 };
 
-const Mask = <T extends AsType = 'div'>(props: MaskProps<T>) => {
+export type MaskProps<T extends AsType = 'svg'> = DefaultComponentProps<T> &
+  MaskOptionalProps & {
+    spotlightElRef: React.RefObject<HTMLElement>;
+  };
+
+const ROUNDED = 4;
+
+const Mask = <T extends AsType = 'svg'>(props: MaskProps<T>) => {
+  const { theme } = useJinni();
   const {
-    excludeEl,
-    maskHolePadding,
+    spotlightElRef,
+    spotlightPadding = 5,
+    spotlightShape = 'rectangular',
+    maskColor = theme === 'light' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)',
     className,
     style,
-    as: Component = 'div',
     ...rest
   } = props;
-  const { size } = useMaskSize();
-  const { hole } = useHole({ excludeEl, maskHolePadding });
-  const newStyle = useStyle({ ...size, ...style });
+  const maskId = useId();
+  const normalizedMaskColor = useColor(maskColor);
+  const { maskSize } = useMaskSize();
+  const { spotlightSize } = useSpotlightSize({
+    spotlightElRef,
+    spotlightPadding
+  });
+  const newStyle = useStyle({ ...maskSize, ...style });
+
+  let spotlight = <></>;
+  switch (spotlightShape) {
+    case 'rectangular':
+      spotlight = <rect {...spotlightSize} fill="black" />;
+      break;
+    case 'rounded':
+      spotlight = (
+        <rect {...spotlightSize} rx={ROUNDED} ry={ROUNDED} fill="black" />
+      );
+      break;
+    case 'circular': {
+      const { x, y, width, height } = spotlightSize;
+      spotlight = (
+        <circle
+          cx={x + width / 2}
+          cy={y + height / 2}
+          r={Math.max(width, height) / 2}
+          fill="black"
+        />
+      );
+    }
+  }
 
   return (
     <>
       {createPortal(
-        <svg className="JinniMask" style={newStyle} {...rest}>
+        <svg className={cn('JinniMask', className)} style={newStyle} {...rest}>
           <defs>
-            <mask id="mask">
+            <mask id={maskId}>
               <rect x="0" y="0" width="100%" height="100%" fill="white" />
-              <rect
-                x={hole.x}
-                y={hole.y}
-                width={hole.width}
-                height={hole.height}
-                fill="black"
-              />
+              {spotlight}
             </mask>
           </defs>
           <rect
@@ -43,8 +80,8 @@ const Mask = <T extends AsType = 'div'>(props: MaskProps<T>) => {
             y="0"
             width="100%"
             height="100%"
-            fill="inherit"
-            mask="url(#mask)"
+            fill={normalizedMaskColor}
+            mask={`url(#${maskId})`}
           />
         </svg>,
         document.body
