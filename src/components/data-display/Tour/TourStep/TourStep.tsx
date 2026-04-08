@@ -1,81 +1,98 @@
 import './TourStep.scss';
-import { useRef } from 'react';
-import { createPortal } from 'react-dom';
+import { useMemo } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import useStyle from '@/hooks/useStyle';
+import { Mask, MaskOptionalProps } from '../Mask';
 import { Box, BoxProps } from '@/components/layout/Box';
-import { useTour } from '../Tour.hooks';
-import { usePlacement, useScrollToAnchor } from './TourStep.hooks';
-import { Mask } from '../Mask';
+import { Popper } from '@/components/_share/Popper';
 import { PlacementType } from '@/types/popper';
+import {
+  placementToAnchorOrigin,
+  placementToPopperOrigin
+} from '@/utils/popper';
+import { useTour } from '../Tour.hooks';
+import { useScrollToAnchor } from './TourStep.hooks';
 
-export type TourStepProps<T extends AsType = 'div'> =
-  DefaultComponentProps<T> & {
+export type TourStepOptionalProps = {
+  placement?: PlacementType;
+  offset?: number;
+  BoxProps?: BoxProps;
+};
+
+export type TourStepProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
+  MaskOptionalProps &
+  TourStepOptionalProps & {
     children: React.ReactNode;
-    anchorEl: HTMLElement;
+    anchorElRef: React.RefObject<HTMLElement>;
     value: number | string;
-    placement?: PlacementType;
-    offset?: number;
-    maskHolePadding?: number;
-    TourStepContentProps?: BoxProps;
   };
 
 const TourStep = <T extends AsType = 'div'>(props: TourStepProps<T>) => {
+  const { tourValue, onClose, ...restTourProps } = useTour();
   const {
     children,
-    anchorEl,
+    anchorElRef,
     value,
     placement = 'bottom-start',
     offset = 10,
-    maskHolePadding = 5,
-    TourStepContentProps,
+    BoxProps,
+    spotlightPadding = 5,
+    spotlightShape,
+    maskColor,
     className,
     style,
-    as: Component = 'div',
     ...rest
-  } = props;
-  const tourStepElRef = useRef<HTMLElement>(null);
-  const { tourValue, onClose } = useTour();
+  } = { ...restTourProps, ...props };
   const show = tourValue === value;
-  usePlacement({
-    tourStepElRef,
-    anchorEl,
-    placement,
-    show
-  });
-  useScrollToAnchor({ tourStepElRef, anchorEl, show });
-  const newStyle = useStyle({
-    '--maskHolePadding': `${maskHolePadding}px`,
-    '--offset': `${offset}px`,
-    ...style
-  });
+  const anchorOrigin = useMemo(
+    () => placementToAnchorOrigin(placement),
+    [placement]
+  );
+  const popperOrigin = useMemo(
+    () => placementToPopperOrigin(placement),
+    [placement]
+  );
+  const { tourStepElRef } = useScrollToAnchor({ anchorElRef, show });
 
-  if (!show) return;
+  const handleMaskClick = (event: React.MouseEvent) => {
+    onClose?.(event, 'backdropClick');
+  };
+
   return (
     <>
-      <Mask
-        excludeEl={anchorEl}
-        maskHolePadding={maskHolePadding}
-        onClick={(event) => onClose && onClose(event, 'backdropClick')}
-      />
-      {createPortal(
-        <Component
-          ref={tourStepElRef}
-          className={cn('JinniTourStep', className)}
-          style={newStyle}
-          {...rest}
-        >
-          <Box
-            className={cn('JinniTourStepContent', placement)}
-            elevation={5}
-            round={4}
-            {...TourStepContentProps}
+      {show && (
+        <>
+          <Mask
+            spotlightElRef={anchorElRef}
+            onClick={handleMaskClick}
+            spotlightPadding={spotlightPadding}
+            spotlightShape={spotlightShape}
+            maskColor={maskColor}
+          />
+          <Popper
+            ref={tourStepElRef}
+            className={cn('JinniTourStep', className)}
+            anchorReference="anchorEl"
+            anchorElRef={anchorElRef}
+            anchorOrigin={anchorOrigin}
+            popperOrigin={popperOrigin}
+            style={{
+              '--spotlightPadding': `${spotlightPadding}px`,
+              '--offset': `${offset}px`,
+              ...style
+            }}
+            {...rest}
           >
-            {children}
-          </Box>
-        </Component>,
-        document.body
+            <Box
+              className={cn('JinniTourStepContent', placement)}
+              elevation={5}
+              round={4}
+              {...BoxProps}
+            >
+              {children}
+            </Box>
+          </Popper>
+        </>
       )}
     </>
   );

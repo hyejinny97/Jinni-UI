@@ -1,51 +1,47 @@
-@mixin distance {
+@mixin offset {
   &.top,
   &.top-start,
   &.top-end {
-    margin-bottom: calc(var(--maskHolePadding) + var(--offset));
+    margin-bottom: calc(var(--spotlightPadding) + var(--offset));
   }
   &.bottom,
   &.bottom-start,
   &.bottom-end {
-    margin-top: calc(var(--maskHolePadding) + var(--offset));
+    margin-top: calc(var(--spotlightPadding) + var(--offset));
   }
   &.left,
   &.left-start,
   &.left-end {
-    margin-right: calc(var(--maskHolePadding) + var(--offset));
+    margin-right: calc(var(--spotlightPadding) + var(--offset));
   }
   &.right,
   &.right-start,
   &.right-end {
-    margin-left: calc(var(--maskHolePadding) + var(--offset));
+    margin-left: calc(var(--spotlightPadding) + var(--offset));
   }
 
   &.top-start,
   &.bottom-start {
-    margin-left: calc(var(--maskHolePadding) * -1);
+    margin-left: calc(var(--spotlightPadding) * -1);
   }
   &.top-end,
   &.bottom-end {
-    margin-right: calc(var(--maskHolePadding) * -1);
+    margin-right: calc(var(--spotlightPadding) * -1);
   }
   &.left-start,
   &.right-start {
-    margin-top: calc(var(--maskHolePadding) * -1);
+    margin-top: calc(var(--spotlightPadding) * -1);
   }
   &.left-end,
   &.right-end {
-    margin-bottom: calc(var(--maskHolePadding) * -1);
+    margin-bottom: calc(var(--spotlightPadding) * -1);
   }
 }
 
 .JinniTourStep {
-  display: inline-block;
-  position: absolute;
-  z-index: var(--jinni-z-index-backdrop);
-
   .JinniTourStepContent {
-    position: relative;
     padding: 16px;
-    @include distance;
+    background-color: white;
+    @include offset;
   }
 }

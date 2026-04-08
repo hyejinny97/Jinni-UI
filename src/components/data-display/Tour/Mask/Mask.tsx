@@ -9,12 +9,16 @@ import { ColorType } from '@/types/color';
 import useJinni from '@/hooks/useJinni';
 import useColor from '@/hooks/useColor';
 
-export type MaskProps<T extends AsType = 'svg'> = DefaultComponentProps<T> & {
-  spotlightElRef: React.RefObject<HTMLElement>;
+export type MaskOptionalProps = {
   spotlightPadding?: number;
   spotlightShape?: 'rectangular' | 'rounded' | 'circular';
   maskColor?: ColorType;
 };
+
+export type MaskProps<T extends AsType = 'svg'> = DefaultComponentProps<T> &
+  MaskOptionalProps & {
+    spotlightElRef: React.RefObject<HTMLElement>;
+  };
 
 const ROUNDED = 4;
 
