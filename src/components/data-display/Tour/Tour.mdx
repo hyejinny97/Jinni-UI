@@ -11,60 +11,64 @@ import * as TourStepStories from './TourStep/TourStep.stories';
 ## Import
 
 ```js
-import { Tour } from '@/components/data-display/Tour';
+import { Tour, TourStep } from '@/components/data-display/Tour';
 ```
 
 ## Usage
 
 ### Basic Tour
 
-- `Tour` 컴포넌트
-
-  - `children`: `TourItem` 컴포넌트들
-  - `open`: true이면, tour가 나타남
-  - `onClose`: `'escapeKeydown'`, `'backdropClick'` 이벤트 발생 시 호출되는 함수
-
-- `TourStep` 컴포넌트
-  - `children`: 콘텐츠
-  - `anchorEl`: HTML element로, 해당 anchor 위치에 따라 tour content의 위치가 결정됨
-  - `value`: TourStep을 식별하는 유니크한 값
+- `children`: `TourStep` 컴포넌트들
+- `value`: 현재 display 되는 `TourStep`의 value
+- `open`: true이면, tour가 나타남
+- `onClose`: `'escapeKeydown'`, `'backdropClick'` 이벤트 발생 시 호출되는 함수
 
 <Canvas of={TourStories.BasicTour} />
 
-### Padding of Mask hole
+### Mask props
 
-- `TourStep` 컴포넌트
-  - `maskHolePadding`: mask hole의 패딩
+- `Tour` 컴포넌트는 내부적으로 `Mask` 컴포넌트를 반환하므로, `Mask`의 일부 props 사용 가능
+- `Tour`와 `TourStep` 컴포넌트에 동일한 prop을 적용한 경우, `TourStep` 컴포넌트에 적용한 prop 값이 우선 됨
 
-<Canvas of={TourStories.PaddingOfMaskHole} />
+#### 1. Mask color
 
-### Offset
+<Canvas of={TourStories.MaskColor} />
 
-- `TourStep` 컴포넌트
-  - `offset`: mask hole과 tour step content 사이 거리
+#### 2. Spotlight shape
 
-<Canvas of={TourStories.Offset} />
+<Canvas of={TourStories.SpotlightShape} />
 
-### Placement
+#### 3. Spotlight padding
 
-- `TourStep` 컴포넌트
-  - `placement`: anchorEl에 상대적인 tour content의 위치
+<Canvas of={TourStories.SpotlightPadding} />
+
+### TourStep props
+
+- `Tour`에 적용된 `TourStep`의 props는 하위 `TourStep` 컴포넌트에 일괄 적용 됨
+- `Tour`와 `TourStep` 컴포넌트에 동일한 prop을 적용한 경우, `TourStep` 컴포넌트에 적용한 prop 값이 우선 됨
+
+#### 1. Placement
 
 <Canvas of={TourStories.Placement} />
 
-### Customization
+#### 2. Offset
 
-- `TourStep` 컴포넌트
-  - `TourStepContentProps`: TourStepContent(=Box)에 적용되는 props
+<Canvas of={TourStories.Offset} />
 
-<Canvas of={TourStories.Customization} />
+#### 3. Custom Box
+
+<Canvas of={TourStories.CustomBox} />
+
+### Apply Tour to entire page
+
+<Canvas of={TourStories.ApplyTourToEntirePage} />
 
 ## Props
 
-### 1) Tour
+### Tour
 
 <ArgTypes of={TourStories} sort="alpha" />
 
-### 2) TourStep
+### TourStep
 
 <ArgTypes of={TourStepStories} sort="alpha" />
