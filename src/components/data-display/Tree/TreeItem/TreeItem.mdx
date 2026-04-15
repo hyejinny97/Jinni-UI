@@ -1,0 +1,49 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TreeItemStories from './TreeItem.stories';
+
+<Meta of={TreeItemStories} />
+
+# TreeItem
+
+## Import
+
+```js
+import { TreeItem } from '@/components/data-display/Tree/TreeItem';
+```
+
+## Usage
+
+### Basic TreeItem
+
+- `id`: 다른 `TreeItem`과 구별되는 식별자
+- `children`: `TreeItem` 내부 콘텐츠
+
+<Canvas of={TreeItemStories.BasicTreeItem} />
+
+### Layer
+
+- `layer`: Tree 내 item의 계층
+
+<Canvas of={TreeItemStories.Layer} />
+
+### Selection
+
+- `selected`: true이면, selected style이 나타남
+
+<Canvas of={TreeItemStories.Selection} />
+
+### Color
+
+- `color`: select 됐을 때 배경색
+
+<Canvas of={TreeItemStories.Color} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화 됨
+
+<Canvas of={TreeItemStories.Disabled} />
+
+## Props
+
+<ArgTypes of={TreeItemStories} sort="alpha" />
