@@ -1,116 +1,136 @@
 import './Tree.scss';
 import cn from 'classnames';
+import React, { Fragment } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { TreeItemIdType } from './TreeItem';
-import { useSelect, useExpand } from './Tree.hooks';
-import { TreeContext } from './Tree.contexts';
+import { TreeItem, TreeItemIdType } from './TreeItem';
+import { useSelect, useExpand, useTreeItems } from './Tree.hooks';
+import { ROOT_TREE_ITEM_ID } from './Tree.constants';
+import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
+import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
+
+export type ItemProps = {
+  id: TreeItemIdType;
+  label: React.ReactNode;
+  layer: number;
+  leaf: boolean;
+  selected: boolean;
+  expanded: boolean;
+  disabled?: boolean;
+  onClick: (event: React.MouseEvent) => void;
+};
 
 export type TreeProps<
   MultiSelect extends boolean = false,
   T extends AsType = 'ul'
 > = DefaultComponentProps<T> & {
-  children: React.ReactNode;
-  onItemClick?: (
-    event: Event | React.SyntheticEvent,
-    itemId: TreeItemIdType
-  ) => void;
+  data: {
+    [id: TreeItemIdType]: { label: React.ReactNode; disabled?: boolean };
+  };
+  treeNodes: {
+    [ROOT_TREE_ITEM_ID]: TreeItemIdType[];
+    [id: TreeItemIdType]: TreeItemIdType[];
+  };
   multiSelect?: MultiSelect;
-  defaultSelectedItems?: MultiSelect extends true
+  defaultSelectedItem?: MultiSelect extends true
     ? TreeItemIdType[]
     : TreeItemIdType;
-  selectedItems?: MultiSelect extends true
+  selectedItem?: MultiSelect extends true
     ? TreeItemIdType[]
     : TreeItemIdType | null;
-  onSelectedItemsChange?: (
-    event: Event | React.SyntheticEvent,
-    itemId: MultiSelect extends true ? TreeItemIdType[] : TreeItemIdType | null
-  ) => void;
-  disableSelection?: boolean;
-  checkboxSelection?: boolean;
-  onItemSelectionToggle?: (
-    event: Event | React.SyntheticEvent,
-    itemId: TreeItemIdType,
-    isSelected: boolean
-  ) => void;
-  selectionPropagation?: { parents?: boolean; descendants?: boolean };
   defaultExpandedItems?: TreeItemIdType[];
   expandedItems?: TreeItemIdType[];
+  onItemClick?: (
+    event: Event | React.SyntheticEvent,
+    id: TreeItemIdType
+  ) => void;
+  onSelectedItemChange?: (
+    event: Event | React.SyntheticEvent,
+    id: MultiSelect extends true ? TreeItemIdType[] : TreeItemIdType | null
+  ) => void;
   onExpandedItemsChange?: (
     event: Event | React.SyntheticEvent,
-    itemId: TreeItemIdType[]
+    id: TreeItemIdType[]
   ) => void;
   onItemExpansionToggle?: (
     event: Event | React.SyntheticEvent,
-    itemId: TreeItemIdType,
+    id: TreeItemIdType,
     isExpanded: boolean
   ) => void;
-  expansionTrigger?: 'content' | 'iconContainer';
+  renderTreeItem?: (itemProps: ItemProps) => React.ReactNode;
+};
+
+const DefaultTreeItem = (itemProps: ItemProps) => {
+  const { leaf, expanded, label, ...rest } = itemProps;
+  let icon: React.ReactNode = null;
+  if (!leaf) {
+    icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+  }
+  return (
+    <TreeItem {...rest}>
+      <div className="JinniTreeItemIconContainer">{icon}</div>
+      <div className="JinniTreeItemContents">{label}</div>
+    </TreeItem>
+  );
 };
 
 const Tree = <MultiSelect extends boolean = false, T extends AsType = 'ul'>(
   props: TreeProps<MultiSelect, T>
 ) => {
   const {
-    children,
-    onItemClick,
+    data,
+    treeNodes,
     multiSelect,
-    defaultSelectedItems,
-    selectedItems,
-    onSelectedItemsChange,
-    disableSelection,
-    checkboxSelection = false,
-    onItemSelectionToggle,
-    selectionPropagation,
+    defaultSelectedItem,
+    selectedItem,
     defaultExpandedItems,
     expandedItems,
+    onItemClick,
+    onSelectedItemChange,
     onExpandedItemsChange,
     onItemExpansionToggle,
-    expansionTrigger = 'content',
+    renderTreeItem = (itemProps: ItemProps) => (
+      <DefaultTreeItem {...itemProps} />
+    ),
     className,
     style,
     as: Component = 'ul',
     ...rest
   } = props;
-  const { selectedItemsValue, handleSelect, treeElRef } = useSelect({
+  const { selectedValues, handleSelect } = useSelect({
     multiSelect,
-    defaultSelectedItems,
-    selectedItems,
-    onSelectedItemsChange,
-    onItemSelectionToggle,
-    checkboxSelection,
-    disableSelection,
-    selectionPropagation
+    defaultSelectedItem,
+    selectedItem,
+    onSelectedItemChange
   });
-  const { expandedItemsValue, handleExpand } = useExpand({
+  const { expandedValues, handleExpand } = useExpand({
     defaultExpandedItems,
     expandedItems,
     onExpandedItemsChange,
     onItemExpansionToggle
   });
+  const { treeItems } = useTreeItems({
+    data,
+    treeNodes,
+    multiSelect,
+    selectedValues,
+    expandedValues,
+    handleSelect,
+    handleExpand,
+    onItemClick
+  });
   const newStyle = useStyle(style);
 
   return (
-    <TreeContext.Provider
-      value={{
-        selectedItemsValue,
-        handleSelect,
-        expandedItemsValue,
-        handleExpand,
-        checkboxSelection,
-        expansionTrigger,
-        onItemClick
-      }}
+    <Component
+      className={cn('JinniTree', className)}
+      style={newStyle}
+      {...rest}
     >
-      <Component
-        ref={treeElRef}
-        className={cn('JinniTree', className)}
-        style={newStyle}
-        {...rest}
-      >
-        {children}
-      </Component>
-    </TreeContext.Provider>
+      {treeItems.map((itemProps) => (
+        <Fragment key={itemProps.id}>{renderTreeItem(itemProps)}</Fragment>
+      ))}
+    </Component>
   );
 };
 
