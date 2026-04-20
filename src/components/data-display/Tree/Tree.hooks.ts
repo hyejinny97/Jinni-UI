@@ -24,7 +24,11 @@ type UseExpandProps = Pick<
 
 type UseTreeItemsProps<MultiSelect extends boolean = false> = Pick<
   TreeProps<MultiSelect>,
-  'data' | 'treeNodes' | 'onItemClick' | 'multiSelect'
+  | 'data'
+  | 'treeNodes'
+  | 'onItemClick'
+  | 'multiSelect'
+  | 'disabledItemsFocusable'
 > & {
   selectedValues: TreeItemIdType[];
   expandedValues: TreeItemIdType[];
@@ -41,6 +45,8 @@ type UseTreeItemsProps<MultiSelect extends boolean = false> = Pick<
     }
   ) => void;
 };
+
+type UseKeyboardAccessibilityProps = Pick<TreeProps, 'disabledItemsFocusable'>;
 
 export const useSelect = <MultiSelect extends boolean = false>({
   multiSelect,
@@ -132,6 +138,7 @@ export const useTreeItems = <MultiSelect extends boolean = false>({
   multiSelect,
   selectedValues,
   expandedValues,
+  disabledItemsFocusable,
   handleSelect,
   handleExpand,
   onItemClick
@@ -185,7 +192,10 @@ export const useTreeItems = <MultiSelect extends boolean = false>({
   }, [treeNodes, expandedValues, flattenTree, ancestorsTable]);
 
   const treeItems = useMemo<ItemProps[]>(() => {
-    return displayedItems.map((treeItemId, idx) => {
+    const firstItemIdFocusable = disabledItemsFocusable
+      ? displayedItems[0]
+      : displayedItems.find((itemId) => !data[itemId].disabled);
+    return displayedItems.map((treeItemId) => {
       const { label, disabled } = data[treeItemId];
       const selected = selectedValues.includes(treeItemId);
       const expanded = expandedValues.includes(treeItemId);
@@ -198,7 +208,7 @@ export const useTreeItems = <MultiSelect extends boolean = false>({
         selected,
         expanded,
         disabled,
-        tabIndex: idx === 0 ? 0 : -1,
+        tabIndex: treeItemId === firstItemIdFocusable ? 0 : -1,
         onClick: (event: React.MouseEvent) => {
           const isCtrlPressed = isCtrlPressedRef.current;
           const isShiftPressed = isShiftPressedRef.current;
@@ -262,6 +272,7 @@ export const useTreeItems = <MultiSelect extends boolean = false>({
     multiSelect,
     selectedValues,
     expandedValues,
+    disabledItemsFocusable,
     layerTable,
     displayedItems,
     handleSelect,
@@ -290,7 +301,9 @@ export const useTreeItems = <MultiSelect extends boolean = false>({
   return { treeItems };
 };
 
-export const useKeyboardAccessibility = () => {
+export const useKeyboardAccessibility = ({
+  disabledItemsFocusable
+}: UseKeyboardAccessibilityProps) => {
   const treeElRef = useRef<HTMLElement>(null);
   const treeItemElListRef = useRef<HTMLElement[]>([]);
 
@@ -300,7 +313,11 @@ export const useKeyboardAccessibility = () => {
 
     const findTreeItemElList = () => {
       treeItemElListRef.current = Array.from(
-        treeEl.querySelectorAll<HTMLElement>('.JinniTreeItem')
+        treeEl.querySelectorAll<HTMLElement>(
+          disabledItemsFocusable
+            ? '.JinniTreeItem'
+            : '.JinniTreeItem:not(.disabled)'
+        )
       );
     };
     const handleMouseDown = (event: KeyboardEvent) => {
@@ -308,7 +325,7 @@ export const useKeyboardAccessibility = () => {
       if (!focusedElement || !treeEl.contains(focusedElement)) return;
 
       if (event.key === 'Enter' || event.key === 'Space') {
-        focusedElement.click();
+        if (!focusedElement.dataset.disabled) focusedElement.click();
         return;
       }
 
@@ -369,7 +386,7 @@ export const useKeyboardAccessibility = () => {
       treeEl.removeEventListener('keydown', handleMouseDown);
       observer.disconnect();
     };
-  }, []);
+  }, [disabledItemsFocusable]);
 
   return { treeElRef };
 };

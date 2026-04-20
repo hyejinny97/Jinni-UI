@@ -52,6 +52,7 @@ const TreeItem = <T extends AsType = 'li'>(props: TreeItemProps<T>) => {
       data-id={id}
       data-selected={selected}
       data-expanded={expanded}
+      data-disabled={disabled}
       style={newStyle}
       {...rest}
     >

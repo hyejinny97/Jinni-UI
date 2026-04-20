@@ -45,6 +45,7 @@ export type TreeProps<
     : TreeItemIdType | null;
   defaultExpandedItems?: TreeItemIdType[];
   expandedItems?: TreeItemIdType[];
+  disabledItemsFocusable?: boolean;
   onItemClick?: (
     event: Event | React.SyntheticEvent,
     id: TreeItemIdType
@@ -90,6 +91,7 @@ const Tree = <MultiSelect extends boolean = false, T extends AsType = 'ul'>(
     selectedItem,
     defaultExpandedItems,
     expandedItems,
+    disabledItemsFocusable,
     onItemClick,
     onSelectedItemChange,
     onExpandedItemsChange,
@@ -120,11 +122,12 @@ const Tree = <MultiSelect extends boolean = false, T extends AsType = 'ul'>(
     multiSelect,
     selectedValues,
     expandedValues,
+    disabledItemsFocusable,
     handleSelect,
     handleExpand,
     onItemClick
   });
-  const { treeElRef } = useKeyboardAccessibility();
+  const { treeElRef } = useKeyboardAccessibility({ disabledItemsFocusable });
   const newStyle = useStyle(style);
 
   return (
