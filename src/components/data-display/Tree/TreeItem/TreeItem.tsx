@@ -15,6 +15,7 @@ type TreeItemProps<T extends AsType = 'li'> = Omit<
   children: React.ReactNode;
   layer?: number;
   selected?: boolean;
+  expanded?: boolean;
   color?: ColorType;
   disabled?: boolean;
 };
@@ -25,6 +26,7 @@ const TreeItem = <T extends AsType = 'li'>(props: TreeItemProps<T>) => {
     children,
     layer = 0,
     selected,
+    expanded,
     color = 'primary-container',
     disabled,
     className,
@@ -45,9 +47,11 @@ const TreeItem = <T extends AsType = 'li'>(props: TreeItemProps<T>) => {
 
   return (
     <Component
+      role="treeitem"
       className={cn('JinniTreeItem', { selected, disabled }, className)}
       data-id={id}
       data-selected={selected}
+      data-expanded={expanded}
       style={newStyle}
       {...rest}
     >

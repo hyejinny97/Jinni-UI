@@ -4,7 +4,12 @@ import React, { Fragment } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { TreeItem, TreeItemIdType } from './TreeItem';
-import { useSelect, useExpand, useTreeItems } from './Tree.hooks';
+import {
+  useSelect,
+  useExpand,
+  useTreeItems,
+  useKeyboardAccessibility
+} from './Tree.hooks';
 import { ROOT_TREE_ITEM_ID } from './Tree.constants';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
@@ -67,7 +72,7 @@ const DefaultTreeItem = (itemProps: ItemProps) => {
     icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
   }
   return (
-    <TreeItem {...rest}>
+    <TreeItem expanded={expanded} {...rest}>
       <div className="JinniTreeItemIconContainer">{icon}</div>
       <div className="JinniTreeItemContents">{label}</div>
     </TreeItem>
@@ -119,12 +124,16 @@ const Tree = <MultiSelect extends boolean = false, T extends AsType = 'ul'>(
     handleExpand,
     onItemClick
   });
+  const { treeElRef } = useKeyboardAccessibility();
   const newStyle = useStyle(style);
 
   return (
     <Component
+      ref={treeElRef}
+      role="tree"
       className={cn('JinniTree', className)}
       style={newStyle}
+      aria-multiselectable={multiSelect}
       {...rest}
     >
       {treeItems.map((itemProps) => (

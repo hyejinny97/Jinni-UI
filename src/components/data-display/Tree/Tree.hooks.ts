@@ -3,6 +3,8 @@ import { TreeProps, ItemProps } from './Tree';
 import { ROOT_TREE_ITEM_ID } from './Tree.constants';
 import { TreeItemIdType } from './TreeItem';
 import { transformToArray } from '@/utils/transformToArray';
+import { isAlphabet } from '@/utils/isAlphabet';
+import { findLastIndex } from '@/utils/findIndex';
 
 type UseSelectProp<MultiSelect extends boolean = false> = Pick<
   TreeProps<MultiSelect>,
@@ -183,7 +185,7 @@ export const useTreeItems = <MultiSelect extends boolean = false>({
   }, [treeNodes, expandedValues, flattenTree, ancestorsTable]);
 
   const treeItems = useMemo<ItemProps[]>(() => {
-    return displayedItems.map((treeItemId) => {
+    return displayedItems.map((treeItemId, idx) => {
       const { label, disabled } = data[treeItemId];
       const selected = selectedValues.includes(treeItemId);
       const expanded = expandedValues.includes(treeItemId);
@@ -196,6 +198,7 @@ export const useTreeItems = <MultiSelect extends boolean = false>({
         selected,
         expanded,
         disabled,
+        tabIndex: idx === 0 ? 0 : -1,
         onClick: (event: React.MouseEvent) => {
           const isCtrlPressed = isCtrlPressedRef.current;
           const isShiftPressed = isShiftPressedRef.current;
@@ -267,22 +270,106 @@ export const useTreeItems = <MultiSelect extends boolean = false>({
   ]);
 
   useEffect(() => {
-    const handleMouseDown = (event: MouseEvent) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey) isCtrlPressedRef.current = true;
       if (event.shiftKey) isShiftPressedRef.current = true;
     };
-    const handleMouseUp = (event: MouseEvent) => {
+    const handleKeyUp = (event: KeyboardEvent) => {
       if (!event.ctrlKey) isCtrlPressedRef.current = false;
       if (!event.shiftKey) isShiftPressedRef.current = false;
     };
 
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
     return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 
   return { treeItems };
+};
+
+export const useKeyboardAccessibility = () => {
+  const treeElRef = useRef<HTMLElement>(null);
+  const treeItemElListRef = useRef<HTMLElement[]>([]);
+
+  useEffect(() => {
+    const treeEl = treeElRef.current;
+    if (!treeEl) return;
+
+    const findTreeItemElList = () => {
+      treeItemElListRef.current = Array.from(
+        treeEl.querySelectorAll<HTMLElement>('.JinniTreeItem')
+      );
+    };
+    const handleMouseDown = (event: KeyboardEvent) => {
+      const focusedElement = document.activeElement as HTMLElement;
+      if (!focusedElement || !treeEl.contains(focusedElement)) return;
+
+      if (event.key === 'Enter' || event.key === 'Space') {
+        focusedElement.click();
+        return;
+      }
+
+      const treeItemElList = treeItemElListRef.current;
+      const focusedItemIdx = treeItemElList.findIndex(
+        (itemEl) => itemEl === focusedElement
+      );
+      if (focusedItemIdx === -1) return;
+
+      let nextTreeItemIdxToFocus: number = -1;
+      switch (event.key) {
+        case 'ArrowDown': {
+          nextTreeItemIdxToFocus = Math.min(
+            focusedItemIdx + 1,
+            treeItemElList.length - 1
+          );
+          break;
+        }
+        case 'ArrowUp': {
+          nextTreeItemIdxToFocus = Math.max(focusedItemIdx - 1, 0);
+          break;
+        }
+        default: {
+          if (isAlphabet(event.key)) {
+            const lastMatchedItemIdx = findLastIndex(
+              treeItemElList,
+              (itemEl) => !!itemEl.dataset.id?.startsWith(event.key)
+            );
+            nextTreeItemIdxToFocus = treeItemElList.findIndex(
+              (itemEl, itemIdx) => {
+                const matched = itemEl.dataset.id?.startsWith(event.key);
+                if (matched) {
+                  if (focusedItemIdx === lastMatchedItemIdx) {
+                    return true;
+                  } else {
+                    return focusedItemIdx < itemIdx;
+                  }
+                }
+                return false;
+              }
+            );
+          }
+        }
+      }
+
+      if (nextTreeItemIdxToFocus !== -1) {
+        event.preventDefault();
+        const nextTreeItemToFocused = treeItemElList[nextTreeItemIdxToFocus];
+        nextTreeItemToFocused.focus();
+      }
+    };
+
+    treeEl.addEventListener('keydown', handleMouseDown);
+    findTreeItemElList();
+    const observer = new MutationObserver(findTreeItemElList);
+    observer.observe(treeEl, { childList: true, subtree: true });
+    return () => {
+      treeEl.removeEventListener('keydown', handleMouseDown);
+      observer.disconnect();
+    };
+  }, []);
+
+  return { treeElRef };
 };
