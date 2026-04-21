@@ -20,8 +20,8 @@ import { Tour, TourStep } from '.';
 describe('<Tour />', () => {
   it('renders nothing when open is false', () => {
     const TourTemplate = () => {
-      const step1Ref = useRef<HTMLElement>(null);
-      const step2Ref = useRef<HTMLElement>(null);
+      const step1Ref = useRef<HTMLButtonElement>(null);
+      const step2Ref = useRef<HTMLButtonElement>(null);
 
       return (
         <>
@@ -46,8 +46,8 @@ describe('<Tour />', () => {
 
   it('renders the active step when open is true', () => {
     const TourTemplate = () => {
-      const step1Ref = useRef<HTMLElement>(null);
-      const step2Ref = useRef<HTMLElement>(null);
+      const step1Ref = useRef<HTMLButtonElement>(null);
+      const step2Ref = useRef<HTMLButtonElement>(null);
 
       return (
         <>
@@ -73,7 +73,7 @@ describe('<Tour />', () => {
   it('calls onClose with reason "backdropClick" when mask is clicked', () => {
     const onClose = vi.fn();
     const TourTemplate = () => {
-      const step1Ref = useRef<HTMLElement>(null);
+      const step1Ref = useRef<HTMLButtonElement>(null);
 
       return (
         <>
@@ -101,7 +101,7 @@ describe('<Tour />', () => {
   it('calls onClose with reason "escapeKeydown" when Escape key is pressed', () => {
     const onClose = vi.fn();
     const TourTemplate = () => {
-      const step1Ref = useRef<HTMLElement>(null);
+      const step1Ref = useRef<HTMLButtonElement>(null);
 
       return (
         <>

@@ -1,5 +1,25 @@
+@mixin no-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10+ and Edge */
+  user-select: none; /* Standard syntax */
+}
+
 .JinniTree {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.JinniTreeItem {
+  gap: 8px;
+
+  .JinniTreeItemIconContainer {
+    display: inline-flex;
+    width: 16px;
+  }
+
+  .JinniTreeItemContents {
+    flex: 1;
+    @include no-select;
+  }
 }
