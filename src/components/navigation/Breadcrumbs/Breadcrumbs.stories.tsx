@@ -14,7 +14,11 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import { Link } from '@/components/navigation/Link';
 import { Text } from '@/components/general/Text';
 import { Chip } from '@/components/data-display/Chip';
-import { Tree, TreeItem, TreeItemIdType } from '@/components/data-display/Tree';
+import {
+  Tree,
+  TreeItemIdType,
+  TreeProps
+} from '@/components/data-display/Tree';
 
 const meta: Meta<typeof Breadcrumbs> = {
   component: Breadcrumbs,
@@ -124,6 +128,11 @@ const PAGES: PageType = {
   email: { label: 'Email', routes: '/email' }
 };
 
+const TREE_NODES: TreeProps['treeNodes'] = {
+  root: ['news', 'shopping', 'email'],
+  news: ['weather', 'entertainment']
+};
+
 const getRouteArr = (currentPage: string) => {
   return ['home', ...PAGES[currentPage].routes.split('/').filter(Boolean)];
 };
@@ -135,7 +144,7 @@ const BreadcrumbsWithTree = () => {
   const handleChipClick = (route: string) => {
     setCurrentPage(route);
   };
-  const handleSelectedItemsChange = (
+  const handleSelectedItemChange = (
     _: Event | React.SyntheticEvent,
     itemId: TreeItemIdType | null
   ) => {
@@ -158,20 +167,12 @@ const BreadcrumbsWithTree = () => {
       </Breadcrumbs>
       <Box style={{ width: '300px' }}>
         <Tree
+          data={PAGES}
+          treeNodes={TREE_NODES}
           defaultExpandedItems={['news']}
-          selectedItems={currentPage}
-          onSelectedItemsChange={handleSelectedItemsChange}
-        >
-          <TreeItem itemId="news" label={PAGES.news.label}>
-            <TreeItem itemId="weather" label={PAGES.weather.label} />
-            <TreeItem
-              itemId="entertainment"
-              label={PAGES.entertainment.label}
-            />
-          </TreeItem>
-          <TreeItem itemId="shopping" label={PAGES.shopping.label} />
-          <TreeItem itemId="email" label={PAGES.email.label} />
-        </Tree>
+          selectedItem={currentPage}
+          onSelectedItemChange={handleSelectedItemChange}
+        />
       </Box>
     </Stack>
   );
@@ -428,6 +429,11 @@ const PAGES: PageType = {
   email: { label: 'Email', routes: '/email' }
 };
 
+const TREE_NODES: TreeProps['treeNodes'] = {
+  root: ['news', 'shopping', 'email'],
+  news: ['weather', 'entertainment']
+};
+
 const getRouteArr = (currentPage: string) => {
   return ['home', ...PAGES[currentPage].routes.split('/').filter(Boolean)];
 };
@@ -439,7 +445,7 @@ const BreadcrumbsWithTree = () => {
   const handleChipClick = (route: string) => {
     setCurrentPage(route);
   };
-  const handleSelectedItemsChange = (
+  const handleSelectedItemChange = (
     _: Event | React.SyntheticEvent,
     itemId: TreeItemIdType | null
   ) => {
@@ -462,24 +468,17 @@ const BreadcrumbsWithTree = () => {
       </Breadcrumbs>
       <Box style={{ width: '300px' }}>
         <Tree
+          data={PAGES}
+          treeNodes={TREE_NODES}
           defaultExpandedItems={['news']}
-          selectedItems={currentPage}
-          onSelectedItemsChange={handleSelectedItemsChange}
-        >
-          <TreeItem itemId="news" label={PAGES.news.label}>
-            <TreeItem itemId="weather" label={PAGES.weather.label} />
-            <TreeItem
-              itemId="entertainment"
-              label={PAGES.entertainment.label}
-            />
-          </TreeItem>
-          <TreeItem itemId="shopping" label={PAGES.shopping.label} />
-          <TreeItem itemId="email" label={PAGES.email.label} />
-        </Tree>
+          selectedItem={currentPage}
+          onSelectedItemChange={handleSelectedItemChange}
+        />
       </Box>
     </Stack>
   );
-};`.trim()
+};
+`.trim()
       }
     }
   }
