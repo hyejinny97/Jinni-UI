@@ -14,141 +14,148 @@ import * as TreeItemStories from './TreeItem/TreeItem.stories';
 import { Tree, TreeItem } from '@/components/data-display/Tree';
 ```
 
-## Usage
+## Usage - Basic
 
 ### Basic Tree
 
-#### 1) Basic
-
-- `Tree` 컴포넌트
-
-  - `children`: TreeItem 컴포넌트 등 내용
-
-- `TreeItem` 컴포넌트
-  - `itemId`: item의 고유한 id
-  - `label`: item label
-  - `children`: 하위 tree items
+- `data`: tree item에 관한 정보
+- `treeNodes`: tree 구조
+- 주의할 점) data와 treeNodes 값이 변경되면 전체 구조를 재생성 해야 하기 때문에, 가능하면 두 렌더 사이에 data와 treeNodes 데이터 값을 일정하게 유지하는 것이 좋음
 
 <Canvas of={TreeStories.BasicTree} />
 
-#### 2) Disabled items
-
-- `TreeItem` 컴포넌트
-  - `disabled`: true이면, 해당 item은 비활성화됨
+### Disabled Items
 
 <Canvas of={TreeStories.DisabledItems} />
 
-#### 3) Track item clicks
+### Track Item Clicks
 
-- `Tree` 컴포넌트
-  - `onItemClick`: TreeItem을 클릭했을 때 호출되는 함수
+- `onItemClick`: TreeItem을 클릭했을 때 호출되는 함수
 
 <Canvas of={TreeStories.TrackItemClick} />
 
-### Selection
+## Usage - Selection
 
-#### 1) Basic
+### Basic Selection
 
-- `Tree` 컴포넌트
-  - `defaultSelectedItems`: 초기 selected items (uncontrolled 상태일 때만 적용 가능)
+- `defaultSelectedItem`: 초기 selected item (uncontrolled 상태일 때만 적용 가능)
 
 <Canvas of={TreeStories.BasicSelection} />
 
-#### 2) Controlled selection
+### Controlled Selection
 
-- `selectedItems`와 `onSelectedItemsChange` prop을 통해 selection control 가능
-- `Tree` 컴포넌트
-  - `selectedItems`: selected items
-  - `onSelectedItemsChange`: selected items에 변화가 있을 때 호출되는 함수
+- `selectedItem` prop을 통해 selection control 가능
+- `selectedItem`: selected item
+- `onSelectedItemChange`: selected item에 변화가 있을 때 호출되는 함수
 
 <Canvas of={TreeStories.ControlledSelection} />
 
-#### 3) Multi selection
+### Multi Selection
 
-- `Tree` 컴포넌트
-  - `multiSelect`: true이면, 다중 select이 가능함
-  - `Ctrl` 키를 누른 상태에서 items를 클릭하면 다수의 아이템들을 독립적으로 select 가능함
+- 기본적으로 하나의 TreeItem만 선택 가능함 (Single Selection)
+- `multiSelect`: true이면, 다중 selection이 가능함
+- 특징
+  - `Ctrl` 키를 누른 상태에서 items를 클릭하면 다수의 아이템들을 독립적으로 selection 가능함
+  - `Shift` 키를 누른 상태에서 거리가 있는 두 items을 클릭하면 두 items를 포함한 사이의 모든 아이템들이 select 됨
 
 <Canvas of={TreeStories.MultiSelection} />
 
-#### 4) Disable selection
+### Disable Selection
 
-- `Tree` 컴포넌트
-  - `disableSelection`: true이면, select 불가
+#### 1. Disable selection of all tree items
 
-<Canvas of={TreeStories.DisableSelection} />
+<Canvas of={TreeStories.DisableSelectionAllTreeItems} />
 
-#### 5) Checkbox selection
+#### 2. Disable selection of expandable tree items
 
-- `Tree` 컴포넌트
-  - `checkboxSelection`: true이면, checkbox를 통해 select 가능
+<Canvas of={TreeStories.DisableSelectionExpandableTreeItems} />
+
+### Checkbox Selection
+
+- `renderTreeItem`: itemProps를 입력 받아 `TreeItem`을 렌더하는 함수
 
 <Canvas of={TreeStories.CheckboxSelection} />
 
-#### 6) Automatic parents and children selection
+### Automatic parents and children selection
 
-- `Tree` 컴포넌트
+#### 1. Propagate selection from parents to descendants
 
-  - `selectionPropagation`: 한 TreeItem의 selection이 상위나 하위의 selection에 영향을 미침
-
-- `selectionPropagation.descendants` === true인 경우
+- 특징
   - 특정 한 parent를 select하면, 하위 모든 TreeItem들이 자동으로 select 됨
   - 특정 한 parent를 deselect하면, 하위 모든 TreeItem들이 자동으로 deselect 됨
-- `selectionPropagation.parents` === true인 경우
+
+<Canvas of={TreeStories.PropagateSelectionFromParentsToDescendants} />
+
+#### 2. Propagate selection from descendants to parents
+
+- 특징
   - 특정 한 parent의 하위 모든 TreeItem들을 select하면, parent가 자동으로 select 됨
   - select된 특정 한 parent의 하위 TreeItems 중 하나가 deselect되면, parent도 자동으로 deselect 됨
 
-<Canvas of={TreeStories.AutomaticParentsAndChildrenSelection} />
+<Canvas of={TreeStories.PropagateSelectionFromDescendantsToParents} />
 
-#### 7) Track item selection change
-
-- `Tree` 컴포넌트
-
-  - `onItemSelectionToggle`: TreeItem이 select되거나 unselect 됐을 때 호출되는 함수
+### Track item selection change
 
 <Canvas of={TreeStories.TrackItemSelectionChange} />
 
-### Expansion
+## Usage - Expansion
 
-#### 1) Basic
+### Basic Expansion
 
-- `Tree` 컴포넌트
-
-  - `defaultExpandedItems`: 초기 expanded items (uncontrolled 상태일 때만 적용 가능)
+- `defaultExpandedItems`: 초기 expanded items (uncontrolled 상태일 때만 적용 가능)
 
 <Canvas of={TreeStories.BasicExpansion} />
 
-#### 2) Controlled expansion
+### Controlled Expansion
 
-- `Tree` 컴포넌트
-
-  - `expandedItems`: expanded items
-  - `onExpandedItemsChange`: expanded items가 변경됐을 때 호출되는 함수
+- `expandedItems`: expanded items
+- `onExpandedItemsChange`: expanded items가 변경됐을 때 호출되는 함수
 
 <Canvas of={TreeStories.ControlledExpansion} />
 
-#### 3) Limit expansion to icon container
-
-- `Tree` 컴포넌트
-
-  - `expansionTrigger`: item expansion을 트리거하는 요소
+### Limit expansion to icon container
 
 <Canvas of={TreeStories.LimitExpansionToIconContainer} />
 
-#### 4) Track item expansion change
+### Track item expansion change
 
-- `Tree` 컴포넌트
-
-  - `onItemExpansionToggle`: TreeItem이 collapse되거나 expanse될 때 호출되는 함수
+- `onItemExpansionToggle`: TreeItem이 collapse되거나 expand될 때 호출되는 함수
 
 <Canvas of={TreeStories.TrackItemExpansionChange} />
 
+### Lazy Loading
+
+<Canvas of={TreeStories.LazyLoading} />
+
+## Usage - Focus
+
+### Focusable disabled items
+
+- 기본적으로 disabled tree item은 focus/expand/select 불가
+- `disabledItemsFocusable`: true이면, disabled tree item은 focus 가능함
+
+<Canvas of={TreeStories.FocusableDisabledItems} />
+
+### Focus and scroll
+
+<Canvas of={TreeStories.FocusAndScroll} />
+
+## Usage - Customization
+
+### Custom expand icons and styles
+
+<Canvas of={TreeStories.CustomExpandIconsAndStyles} />
+
+### Label with icon
+
+<Canvas of={TreeStories.LabelWithIcon} />
+
 ## Props
 
-### Tree 컴포넌트
+### Tree
 
 <ArgTypes of={TreeStories} sort="alpha" />
 
-### TreeItem 컴포넌트
+### TreeItem
 
 <ArgTypes of={TreeItemStories} sort="alpha" />
