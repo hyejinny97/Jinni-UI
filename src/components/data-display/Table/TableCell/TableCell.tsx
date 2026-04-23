@@ -1,7 +1,9 @@
+import './TableCell.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { useTableHead } from './Table.hooks';
+import { useTableHead } from '../TableHead';
+import { useTable } from '../Table.hooks';
 
 type TableCellElement = 'td' | 'th';
 
@@ -13,10 +15,21 @@ type TableCellProps<T extends AsType = TableCellElement> =
 const TableCell = <T extends AsType = TableCellElement>(
   props: TableCellProps<T>
 ) => {
-  const { children, align = 'left', className, style, as, ...rest } = props;
   const isInTableHead = useTableHead();
-  const Component = as ?? (isInTableHead ? 'th' : 'td');
-  const newStyle = useStyle(style);
+  const {
+    children,
+    align = 'left',
+    className,
+    style,
+    as: Component = isInTableHead ? 'th' : 'td',
+    ...rest
+  } = props;
+  const tableContext = useTable();
+  const newStyle = useStyle({
+    '--table-cell-padding':
+      tableContext?.size === 'small' ? '6px 16px' : '16px',
+    ...style
+  });
 
   return (
     <Component
