@@ -1,0 +1,35 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TablePaginationStories from './TablePagination.stories';
+
+<Meta of={TablePaginationStories} />
+
+# TablePagination
+
+## Import
+
+```js
+import { TablePagination } from '@/components/data-display/Table/TablePagination';
+```
+
+## Usage
+
+### Basic TablePagination
+
+- `count`: 전체 rows 갯수
+- `page`: 현재 페이지 (zero-based index)
+- `rowsPerPage`: 페이지 당 rows 갯수
+- `onPageChange`: page 값이 변경되었을 때 호출되는 함수
+
+<Canvas of={TablePaginationStories.BasicTablePagination} />
+
+### Options of rows per page
+
+- `rowsPerPageOptions`: rows per page의 선택 옵션
+  - `null` 값을 넣어주면 select가 사라짐
+- `onRowsPerPageChange`: rows per page 값이 변경됐을 때 호출되는 함수
+
+<Canvas of={TablePaginationStories.OptionsOfRowsPerPage} />
+
+## Props
+
+<ArgTypes of={TablePaginationStories} sort="alpha" />
