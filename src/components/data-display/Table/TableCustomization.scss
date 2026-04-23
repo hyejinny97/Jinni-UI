@@ -31,3 +31,13 @@
     }
   }
 }
+
+.JinniTable.editing-table {
+  .JinniTableBody {
+    .JinniTableCell {
+      &:focus {
+        outline: 1px solid var(--jinni-color-primary);
+      }
+    }
+  }
+}
