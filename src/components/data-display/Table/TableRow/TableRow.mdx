@@ -1,0 +1,36 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TableRowStories from './TableRow.stories';
+
+<Meta of={TableRowStories} />
+
+# TableRow
+
+## Import
+
+```js
+import { TableRow } from '@/components/data-display/Table/TableRow';
+```
+
+## Usage
+
+### Basic TableRow
+
+- `children`: `TableCell` 컴포넌트들
+
+<Canvas of={TableRowStories.BasicTableRow} />
+
+### Hover effect
+
+- `hover`: true이면, hover effect가 활성화됨
+
+<Canvas of={TableRowStories.HoverEffect} />
+
+### Selected
+
+- `selected`: true이면 selected styling 됨
+
+<Canvas of={TableRowStories.Selected} />
+
+## Props
+
+<ArgTypes of={TableRowStories} sort="alpha" />
