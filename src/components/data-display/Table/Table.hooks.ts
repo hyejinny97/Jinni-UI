@@ -1,4 +1,4 @@
 import { useContext } from 'react';
-import { TableHeadContext } from './Table.contexts';
+import TableContext from './Table.contexts';
 
-export const useTableHead = () => useContext(TableHeadContext);
+export const useTable = () => useContext(TableContext);
