@@ -87,6 +87,14 @@ type EmployeeRow = {
   lastLogin: string;
 };
 
+type EmployeeColumn = {
+  headerName: string;
+  field: keyof EmployeeRow;
+  dataType: 'text' | 'number' | 'date' | 'datetime-local';
+  width: string;
+  format?: (value: string) => string;
+};
+
 const createDesertData = (
   name: string,
   calories: number,
@@ -320,34 +328,41 @@ const OFFICE_SECOND_COLUMNS = [
 ] as const;
 
 const EMPLOYEE_ROWS: EmployeeRow[] = [
-  createEmployeeData(
-    1,
-    'Flora Anderson',
-    25,
-    '2025. 10. 25',
-    '2026. 4. 22. 오전 1:17:07'
-  ),
-  createEmployeeData(
-    2,
-    'Julian Garza',
-    36,
-    '2025. 5. 23.',
-    '2026. 4. 22. 오후 4:04:32'
-  ),
-  createEmployeeData(
-    3,
-    'Jeffery Rose',
-    19,
-    '2025. 6. 19.',
-    '2026. 4. 22. 오후 4:46:21'
-  )
+  createEmployeeData(1, 'Flora Anderson', 25, '2025-10-25', '2026-04-22T13:17'),
+  createEmployeeData(2, 'Julian Garza', 36, '2025-05-23', '2026-04-22T16:04'),
+  createEmployeeData(3, 'Jeffery Rose', 19, '2025-06-19', '2026-04-22T16:46')
 ] as const;
 
-const EMPLOYEE_COLUMNS = [
-  { headerName: 'Name', field: 'name', dataType: 'text' },
-  { headerName: 'Age', field: 'age', dataType: 'number' },
-  { headerName: 'Date Created', field: 'createdDate', dataType: 'date' },
-  { headerName: 'Last Login', field: 'lastLogin', dataType: 'datetime-local' }
+const EMPLOYEE_COLUMNS: EmployeeColumn[] = [
+  { headerName: 'Name', field: 'name', dataType: 'text', width: '200px' },
+  {
+    headerName: 'Age',
+    field: 'age',
+    dataType: 'number',
+    width: '80px',
+    format: (age: string) => new Intl.NumberFormat().format(Number(age))
+  },
+  {
+    headerName: 'Date Created',
+    field: 'createdDate',
+    dataType: 'date',
+    width: '150px',
+    format: (date: string) =>
+      new Intl.DateTimeFormat(navigator.language, {
+        dateStyle: 'medium'
+      }).format(new Date(date))
+  },
+  {
+    headerName: 'Last Login',
+    field: 'lastLogin',
+    dataType: 'datetime-local',
+    width: '250px',
+    format: (date: string) =>
+      new Intl.DateTimeFormat(navigator.language, {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+      }).format(new Date(date))
+  }
 ] as const;
 
 const TablePaginationTemplate = () => {
@@ -825,35 +840,52 @@ const SpanningTableTemplate = () => {
 const EditingTableTemplate = () => {
   type EditingCellType = {
     dataId: number;
-    editingField: string;
+    editingField: keyof EmployeeRow;
   };
 
   const [rows, setRows] = useState(EMPLOYEE_ROWS);
   const [editingCell, setEditingCell] = useState<EditingCellType | null>(null);
   const [inputValue, setInputValue] = useState<string>('');
 
-  const handleCellDoubleClick = ({ dataId, editingField }: EditingCellType) => {
+  const handleCellDoubleClick = ({
+    dataId,
+    editingField,
+    rowIdx
+  }: EditingCellType & { rowIdx: number }) => {
     setEditingCell({ dataId, editingField });
+    setInputValue(String(rows[rowIdx][editingField]));
   };
-  const handleBlur = () => {
-    if (!editingCell || !inputValue) return;
-    const newRows = JSON.parse(JSON.stringify(rows));
-    for (const row of newRows) {
-      if (row.dataId === editingCell.dataId) {
-        row[editingCell.editingField] = inputValue;
-        break;
+
+  const handleBlur = (event: React.FocusEvent) => {
+    const focusedEl = event.relatedTarget as Element;
+    const currentTarget = event.currentTarget as Element;
+    if (currentTarget.contains(focusedEl)) return;
+
+    if (editingCell && inputValue) {
+      const newRows = JSON.parse(JSON.stringify(rows));
+      for (const row of newRows) {
+        if (row.dataId === editingCell.dataId) {
+          row[editingCell.editingField] = inputValue;
+          break;
+        }
       }
+      setRows(newRows);
     }
-    setRows(newRows);
     setEditingCell(null);
     setInputValue('');
   };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
   return (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer
+      as={Box}
+      elevation={2}
+      round="sm"
+      style={{ width: 'max-content' }}
+    >
       <Table className="editing-table">
         <TableHead>
           <TableRow>
@@ -870,13 +902,17 @@ const EditingTableTemplate = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => {
+          {rows.map((row, rowIdx) => {
             return (
-              <TableRow>
+              <TableRow key={row.name}>
                 {EMPLOYEE_COLUMNS.map((column) => {
-                  const isEditing =
-                    editingCell?.dataId === row.dataId &&
-                    editingCell?.editingField === column.field;
+                  const isEditingRow = editingCell?.dataId === row.dataId;
+                  const isEditingCell =
+                    isEditingRow && editingCell?.editingField === column.field;
+                  const cellData = column.format
+                    ? column.format(String(row[column.field]))
+                    : row[column.field];
+
                   return (
                     <TableCell
                       key={column.field}
@@ -886,27 +922,40 @@ const EditingTableTemplate = () => {
                       onDoubleClick={() =>
                         handleCellDoubleClick({
                           dataId: row.dataId,
-                          editingField: column.field
+                          editingField: column.field,
+                          rowIdx
                         })
                       }
                       onBlur={handleBlur}
                       style={{
-                        minWidth: '100px',
-                        ...(isEditing && {
+                        width: column.width,
+                        minWidth: 'max-content',
+                        userSelect: 'none',
+                        ...(isEditingRow && {
+                          paddingTop: '0px',
+                          paddingBottom: '0px'
+                        }),
+                        ...(isEditingCell && {
                           padding: '0px',
-                          maxHeight: 'max-content',
-                          outline: 'none',
-                          elevation: 3
+                          outline: 'none'
                         })
                       }}
                     >
-                      {isEditing ? (
+                      {isEditingCell ? (
                         <Input
                           type={column.dataType}
+                          value={inputValue}
                           onChange={handleInputChange}
+                          {...(column.dataType === 'number' && { min: 0 })}
+                          style={{
+                            width: column.width,
+                            minWidth: column.width,
+                            height: '57px',
+                            elevation: 3
+                          }}
                         />
                       ) : (
-                        row[column.field]
+                        cellData
                       )}
                     </TableCell>
                   );
@@ -2351,7 +2400,203 @@ export const EditingTable: Story = {
   parameters: {
     docs: {
       source: {
-        code: ``.trim()
+        code: `
+type EmployeeRow = {
+  dataId: number;
+  name: string;
+  age: number;
+  createdDate: string;
+  lastLogin: string;
+};
+
+type EmployeeColumn = {
+  headerName: string;
+  field: keyof EmployeeRow;
+  dataType: 'text' | 'number' | 'date' | 'datetime-local';
+  width: string;
+  format?: (value: string) => string;
+};
+
+const createEmployeeData = (
+  dataId: number,
+  name: string,
+  age: number,
+  createdDate: string,
+  lastLogin: string
+) => {
+  return { dataId, name, age, createdDate, lastLogin };
+};
+
+const EMPLOYEE_ROWS: EmployeeRow[] = [
+  createEmployeeData(1, 'Flora Anderson', 25, '2025-10-25', '2026-04-22T13:17'),
+  createEmployeeData(2, 'Julian Garza', 36, '2025-05-23', '2026-04-22T16:04'),
+  createEmployeeData(3, 'Jeffery Rose', 19, '2025-06-19', '2026-04-22T16:46')
+] as const;
+
+const EMPLOYEE_COLUMNS: EmployeeColumn[] = [
+  { headerName: 'Name', field: 'name', dataType: 'text', width: '200px' },
+  {
+    headerName: 'Age',
+    field: 'age',
+    dataType: 'number',
+    width: '80px',
+    format: (age: string) => new Intl.NumberFormat().format(Number(age))
+  },
+  {
+    headerName: 'Date Created',
+    field: 'createdDate',
+    dataType: 'date',
+    width: '150px',
+    format: (date: string) =>
+      new Intl.DateTimeFormat(navigator.language, {
+        dateStyle: 'medium'
+      }).format(new Date(date))
+  },
+  {
+    headerName: 'Last Login',
+    field: 'lastLogin',
+    dataType: 'datetime-local',
+    width: '250px',
+    format: (date: string) =>
+      new Intl.DateTimeFormat(navigator.language, {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+      }).format(new Date(date))
+  }
+] as const;
+
+const EditingTableTemplate = () => {
+  type EditingCellType = {
+    dataId: number;
+    editingField: keyof EmployeeRow;
+  };
+
+  const [rows, setRows] = useState(EMPLOYEE_ROWS);
+  const [editingCell, setEditingCell] = useState<EditingCellType | null>(null);
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const handleCellDoubleClick = ({
+    dataId,
+    editingField,
+    rowIdx
+  }: EditingCellType & { rowIdx: number }) => {
+    setEditingCell({ dataId, editingField });
+    setInputValue(String(rows[rowIdx][editingField]));
+  };
+
+  const handleBlur = (event: React.FocusEvent) => {
+    const focusedEl = event.relatedTarget as Element;
+    const currentTarget = event.currentTarget as Element;
+    if (currentTarget.contains(focusedEl)) return;
+
+    if (editingCell && inputValue) {
+      const newRows = JSON.parse(JSON.stringify(rows));
+      for (const row of newRows) {
+        if (row.dataId === editingCell.dataId) {
+          row[editingCell.editingField] = inputValue;
+          break;
+        }
+      }
+      setRows(newRows);
+    }
+    setEditingCell(null);
+    setInputValue('');
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  return (
+    <TableContainer
+      as={Box}
+      elevation={2}
+      round="sm"
+      style={{ width: 'max-content' }}
+    >
+      <Table className="editing-table">
+        <TableHead>
+          <TableRow>
+            {EMPLOYEE_COLUMNS.map((column) => {
+              return (
+                <TableCell
+                  key={column.field}
+                  align={column.dataType === 'text' ? 'left' : 'right'}
+                >
+                  {column.headerName}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row, rowIdx) => {
+            return (
+              <TableRow key={row.name}>
+                {EMPLOYEE_COLUMNS.map((column) => {
+                  const isEditingRow = editingCell?.dataId === row.dataId;
+                  const isEditingCell =
+                    isEditingRow && editingCell?.editingField === column.field;
+                  const cellData = column.format
+                    ? column.format(String(row[column.field]))
+                    : row[column.field];
+
+                  return (
+                    <TableCell
+                      key={column.field}
+                      tabIndex={0}
+                      align={column.dataType === 'text' ? 'left' : 'right'}
+                      scope={column.field === 'name' ? 'row' : undefined}
+                      onDoubleClick={() =>
+                        handleCellDoubleClick({
+                          dataId: row.dataId,
+                          editingField: column.field,
+                          rowIdx
+                        })
+                      }
+                      onBlur={handleBlur}
+                      style={{
+                        width: column.width,
+                        minWidth: 'max-content',
+                        userSelect: 'none',
+                        ...(isEditingRow && {
+                          paddingTop: '0px',
+                          paddingBottom: '0px'
+                        }),
+                        ...(isEditingCell && {
+                          padding: '0px',
+                          outline: 'none'
+                        })
+                      }}
+                    >
+                      {isEditingCell ? (
+                        <Input
+                          type={column.dataType}
+                          value={inputValue}
+                          onChange={handleInputChange}
+                          {...(column.dataType === 'number' && { min: 0 })}
+                          style={{
+                            width: column.width,
+                            minWidth: column.width,
+                            height: '57px',
+                            elevation: 3
+                          }}
+                        />
+                      ) : (
+                        cellData
+                      )}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+`.trim()
       }
     }
   }
