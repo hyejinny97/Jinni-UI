@@ -1,6 +1,6 @@
 import './TableCustomization.scss';
 import cn from 'classnames';
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useRef, useCallback } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   Table,
@@ -18,8 +18,14 @@ import { Box } from '@/components/layout/Box';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { Checkbox } from '@/components/data-entry/Checkbox';
-import { isNumber } from '@/utils/isNumber';
+import { Rating } from '@/components/data-entry/Rating';
+import { Select, Option } from '@/components/data-entry/Select';
 import { Input } from '@/components/data-entry/Input';
+import { NumberInput } from '@/components/data-entry/NumberInput';
+import { Popover } from '@/components/data-display/Popover';
+import { FilterAltIcon } from '@/components/icons/FilterAltIcon';
+import { isNumber } from '@/utils/isNumber';
+import { isBoolean } from '@/utils/isBoolean';
 
 const meta: Meta<typeof Table> = {
   component: Table,
@@ -95,6 +101,27 @@ type EmployeeColumn = {
   format?: (value: string) => string;
 };
 
+type RatingRowType = {
+  dataId: number;
+  name: string;
+  rating: number;
+  country: string;
+  isAdmin: boolean;
+};
+
+type RatingColumnType = {
+  headerName: string;
+  field: Exclude<keyof RatingRowType, 'dataId'>;
+  dataType: 'string' | 'number' | 'boolean';
+};
+
+type FilteringOptionsType = {
+  [field in Exclude<keyof RatingRowType, 'dataId'>]: {
+    option: string;
+    value?: string | number;
+  };
+};
+
 const createDesertData = (
   name: string,
   calories: number,
@@ -159,6 +186,16 @@ const createEmployeeData = (
   lastLogin: string
 ) => {
   return { dataId, name, age, createdDate, lastLogin };
+};
+
+const createRatingData = (
+  dataId: number,
+  name: string,
+  rating: number,
+  country: string,
+  isAdmin: boolean
+) => {
+  return { dataId, name, rating, country, isAdmin };
 };
 
 const getAlign = (dataType: string): 'left' | 'right' => {
@@ -364,6 +401,35 @@ const EMPLOYEE_COLUMNS: EmployeeColumn[] = [
       }).format(new Date(date))
   }
 ] as const;
+
+const RATING_ROWS: RatingRowType[] = [
+  createRatingData(1, 'Matthew Carr', 1, 'Italy', true),
+  createRatingData(2, 'Harvey Perry', 4, 'Japan', false),
+  createRatingData(3, 'Jeffery Rose', 5, 'Denmark', false)
+] as const;
+
+const RATING_COLUMNS: RatingColumnType[] = [
+  { headerName: 'Name', field: 'name', dataType: 'string' },
+  { headerName: 'Rating', field: 'rating', dataType: 'number' },
+  { headerName: 'Country', field: 'country', dataType: 'string' },
+  { headerName: 'Is Admin?', field: 'isAdmin', dataType: 'boolean' }
+] as const;
+
+const DEFAULT_FILTERING_OPTIONS: FilteringOptionsType = {
+  name: { option: 'contains', value: '' },
+  rating: { option: 'greater equal', value: 0 },
+  country: { option: 'contains', value: '' },
+  isAdmin: { option: 'null' }
+} as const;
+
+const STRING_FILTER_OPTIONS = ['contains', 'not contains'] as const;
+const NUMBER_FILTER_OPTIONS = [
+  'greater',
+  'greater equal',
+  'less',
+  'less equal'
+] as const;
+const BOOLEAN_FILTER_OPTIONS = ['true', 'false', 'null'] as const;
 
 const TablePaginationTemplate = () => {
   const ROWS_PER_PAGE_OPTIONS = [5, 10, 15];
@@ -966,6 +1032,369 @@ const EditingTableTemplate = () => {
         </TableBody>
       </Table>
     </TableContainer>
+  );
+};
+
+const StringFilter = ({
+  defaultOption,
+  defaultValue,
+  onOptionChange,
+  onValueChange
+}: {
+  defaultOption: string;
+  defaultValue: string;
+  onOptionChange: (newOption: string | number) => void;
+  onValueChange: (newValue: string) => void;
+}) => {
+  return (
+    <Stack direction="row" spacing={20}>
+      <Select
+        defaultValue={defaultOption}
+        onChange={(_, newOption) => onOptionChange(newOption)}
+      >
+        {STRING_FILTER_OPTIONS.map((option) => (
+          <Option key={option} value={option}>
+            {option}
+          </Option>
+        ))}
+      </Select>
+      <Input
+        defaultValue={defaultValue}
+        onChange={(event) => onValueChange(event.target.value)}
+        style={{ minWidth: '120px', width: '120px' }}
+      />
+    </Stack>
+  );
+};
+
+const NumberFilter = ({
+  defaultOption,
+  defaultValue,
+  onOptionChange,
+  onValueChange
+}: {
+  defaultOption: string;
+  defaultValue: number;
+  onOptionChange: (newOption: string | number) => void;
+  onValueChange: (newValue: number | '') => void;
+}) => {
+  return (
+    <Stack direction="row" spacing={20}>
+      <Select
+        defaultValue={defaultOption}
+        onChange={(_, newOption) => onOptionChange(newOption)}
+      >
+        {NUMBER_FILTER_OPTIONS.map((option) => (
+          <Option key={option} value={option}>
+            {option}
+          </Option>
+        ))}
+      </Select>
+      <NumberInput
+        defaultValue={defaultValue}
+        onChange={(_, newValue) => onValueChange(newValue)}
+        min={0}
+        max={5}
+        style={{ minWidth: '100px', width: '100px' }}
+      />
+    </Stack>
+  );
+};
+
+const BooleanFilter = ({
+  defaultOption,
+  onOptionChange
+}: {
+  defaultOption: string;
+  onOptionChange: (newOption: string | number) => void;
+}) => {
+  return (
+    <Select
+      defaultValue={defaultOption}
+      onChange={(_, newOption) => onOptionChange(newOption)}
+    >
+      {BOOLEAN_FILTER_OPTIONS.map((option) => (
+        <Option key={option} value={option}>
+          {option}
+        </Option>
+      ))}
+    </Select>
+  );
+};
+
+const FilteringTableTemplate = () => {
+  const anchorsRef = useRef<{ [field: string]: { current: HTMLElement } }>({});
+  const [filteringColumn, setFilteringColumn] = useState<RatingColumnType>();
+  const filteringOptionsRef = useRef<FilteringOptionsType>(
+    DEFAULT_FILTERING_OPTIONS
+  );
+  const [filteredRows, setFilteredRows] = useState(RATING_ROWS);
+  const [open, setOpen] = useState(false);
+
+  const getAlign = (
+    dataType: (typeof RATING_COLUMNS)[number]['dataType']
+  ): 'left' | 'center' | 'right' => {
+    switch (dataType) {
+      case 'string':
+        return 'left';
+      case 'number':
+        return 'right';
+      case 'boolean':
+        return 'center';
+      default:
+        return 'left';
+    }
+  };
+
+  const changeFilteringOption = useCallback(
+    (newOption: string | number) => {
+      if (!filteringColumn) return;
+      const newFilteringOptions = JSON.parse(
+        JSON.stringify(filteringOptionsRef.current)
+      );
+      newFilteringOptions[filteringColumn.field].option = newOption;
+      filteringOptionsRef.current = newFilteringOptions;
+    },
+    [filteringColumn]
+  );
+
+  const changeFilteringValue = useCallback(
+    (newValue: string | number) => {
+      if (!filteringColumn) return;
+      const newFilteringOptions = JSON.parse(
+        JSON.stringify(filteringOptionsRef.current)
+      );
+      newFilteringOptions[filteringColumn.field].value = newValue;
+      filteringOptionsRef.current = newFilteringOptions;
+    },
+    [filteringColumn]
+  );
+
+  const renderCellData = (
+    row: RatingRowType,
+    field: string
+  ): React.ReactNode => {
+    switch (field) {
+      case 'name':
+      case 'country':
+        return row[field];
+      case 'rating':
+        return (
+          <Stack direction="row" spacing={10} style={{ alignItems: 'center' }}>
+            <Rating value={row[field]} readOnly />
+            <span>{row[field]}</span>
+          </Stack>
+        );
+      case 'isAdmin':
+        return row[field] ? 'O' : 'X';
+    }
+  };
+
+  const renderFilterInput = useCallback(() => {
+    if (!filteringColumn) return;
+    switch (filteringColumn.dataType) {
+      case 'string':
+        return (
+          <StringFilter
+            defaultOption={
+              filteringOptionsRef.current[filteringColumn.field].option
+            }
+            defaultValue={String(
+              filteringOptionsRef.current[filteringColumn.field].value
+            )}
+            onOptionChange={changeFilteringOption}
+            onValueChange={changeFilteringValue}
+          />
+        );
+      case 'number':
+        return (
+          <NumberFilter
+            defaultOption={
+              filteringOptionsRef.current[filteringColumn.field].option
+            }
+            defaultValue={Number(
+              filteringOptionsRef.current[filteringColumn.field].value
+            )}
+            onOptionChange={changeFilteringOption}
+            onValueChange={changeFilteringValue}
+          />
+        );
+      case 'boolean':
+        return (
+          <BooleanFilter
+            defaultOption={
+              filteringOptionsRef.current[filteringColumn.field].option
+            }
+            onOptionChange={changeFilteringOption}
+          />
+        );
+    }
+  }, [filteringColumn, changeFilteringOption, changeFilteringValue]);
+
+  const isString = (value: unknown): value is string => {
+    return typeof value === 'string';
+  };
+
+  const openPopover = (columnClicked: RatingColumnType) => {
+    setFilteringColumn(columnClicked);
+    setOpen(true);
+  };
+
+  const closePopover = () => {
+    const rowIdsToRemove = new Set<number>();
+    Object.entries(filteringOptionsRef.current).map(
+      ([field, { option, value }]) => {
+        RATING_ROWS.forEach((row) => {
+          if (rowIdsToRemove.has(row.dataId)) return;
+
+          const fieldValue =
+            row[field as Exclude<keyof RatingRowType, 'dataId'>];
+          let stay: boolean = true;
+          if (isString(fieldValue) && isString(value)) {
+            if (value === '') return;
+            const fieldValueLowercased = fieldValue.toLowerCase();
+            const valueLowercased = value.toLowerCase();
+            switch (option) {
+              case 'contains':
+                stay = fieldValueLowercased.includes(valueLowercased);
+                break;
+              case 'not contains':
+                stay = !fieldValueLowercased.includes(valueLowercased);
+            }
+          } else if (isNumber(fieldValue) && isNumber(value)) {
+            switch (option) {
+              case 'greater':
+                stay = value < fieldValue;
+                break;
+              case 'greater equal':
+                stay = value <= fieldValue;
+                break;
+              case 'less':
+                stay = value > fieldValue;
+                break;
+              case 'less equal':
+                stay = value >= fieldValue;
+            }
+          } else if (isBoolean(fieldValue)) {
+            switch (option) {
+              case 'true':
+                stay = fieldValue === true;
+                break;
+              case 'false':
+                stay = fieldValue === false;
+                break;
+              case 'null':
+                stay = true;
+            }
+          } else {
+            stay = false;
+          }
+
+          if (!stay) rowIdsToRemove.add(row.dataId);
+        });
+      }
+    );
+
+    setFilteredRows(
+      RATING_ROWS.filter((row) => !rowIdsToRemove.has(row.dataId))
+    );
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <TableContainer
+        as={Box}
+        elevation={2}
+        round="sm"
+        style={{ width: 'max-content', margin: '0 auto' }}
+      >
+        <Table style={{ minWidth: '650px' }}>
+          <TableHead>
+            <TableRow>
+              {RATING_COLUMNS.map((column) => {
+                const { option, value } =
+                  filteringOptionsRef.current[column.field];
+                const { option: defaultOption, value: defaultValue } =
+                  DEFAULT_FILTERING_OPTIONS[column.field];
+                const isFilteringOptionChanged = !(
+                  defaultOption === option && defaultValue === value
+                );
+                return (
+                  <TableCell key={column.field}>
+                    <Stack
+                      direction="row"
+                      spacing={10}
+                      style={{ alignItems: 'center' }}
+                    >
+                      {column.headerName}
+                      <ButtonBase
+                        ref={(element) => {
+                          if (element)
+                            anchorsRef.current[column.field] = {
+                              current: element
+                            };
+                        }}
+                        onClick={() => openPopover(column)}
+                        style={{
+                          display: 'inline-flex',
+                          padding: '3px',
+                          borderRadius: '50%'
+                        }}
+                        aria-label={`filter ${column.field}`}
+                      >
+                        <FilterAltIcon size={20} color="gray-500" />
+                      </ButtonBase>
+                    </Stack>
+                    {isFilteringOptionChanged && (
+                      <Text
+                        className="typo-label-small"
+                        noMargin
+                        style={{ color: 'gray-400' }}
+                      >
+                        {[option, value && `'${value}'`].join(' ')}
+                      </Text>
+                    )}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredRows.map((row) => {
+              return (
+                <TableRow key={row.name}>
+                  {RATING_COLUMNS.map((column) => {
+                    return (
+                      <TableCell
+                        key={column.field}
+                        as={column.field === 'name' ? 'th' : 'td'}
+                        align={getAlign(column.dataType)}
+                        scope={column.field === 'name' ? 'row' : undefined}
+                        style={{ minWidth: '150px' }}
+                      >
+                        {renderCellData(row, column.field)}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Popover
+        anchorElRef={
+          filteringColumn && anchorsRef.current[filteringColumn.field]
+        }
+        open={open}
+        onClose={closePopover}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        popoverOrigin={{ horizontal: 'left', vertical: 'top' }}
+      >
+        {renderFilterInput()}
+      </Popover>
+    </>
   );
 };
 
@@ -2603,11 +3032,434 @@ const EditingTableTemplate = () => {
 };
 
 export const FilteringTable: Story = {
-  render: () => <></>,
+  render: () => <FilteringTableTemplate />,
   parameters: {
     docs: {
       source: {
-        code: ``.trim()
+        code: `
+type RatingRowType = {
+  dataId: number;
+  name: string;
+  rating: number;
+  country: string;
+  isAdmin: boolean;
+};
+
+type RatingColumnType = {
+  headerName: string;
+  field: Exclude<keyof RatingRowType, 'dataId'>;
+  dataType: 'string' | 'number' | 'boolean';
+};
+
+type FilteringOptionsType = {
+  [field in Exclude<keyof RatingRowType, 'dataId'>]: {
+    option: string;
+    value?: string | number;
+  };
+};
+
+const createRatingData = (
+  dataId: number,
+  name: string,
+  rating: number,
+  country: string,
+  isAdmin: boolean
+) => {
+  return { dataId, name, rating, country, isAdmin };
+};
+
+const RATING_ROWS: RatingRowType[] = [
+  createRatingData(1, 'Matthew Carr', 1, 'Italy', true),
+  createRatingData(2, 'Harvey Perry', 4, 'Japan', false),
+  createRatingData(3, 'Jeffery Rose', 5, 'Denmark', false)
+] as const;
+
+const RATING_COLUMNS: RatingColumnType[] = [
+  { headerName: 'Name', field: 'name', dataType: 'string' },
+  { headerName: 'Rating', field: 'rating', dataType: 'number' },
+  { headerName: 'Country', field: 'country', dataType: 'string' },
+  { headerName: 'Is Admin?', field: 'isAdmin', dataType: 'boolean' }
+] as const;
+
+const DEFAULT_FILTERING_OPTIONS: FilteringOptionsType = {
+  name: { option: 'contains', value: '' },
+  rating: { option: 'greater equal', value: 0 },
+  country: { option: 'contains', value: '' },
+  isAdmin: { option: 'null' }
+} as const;
+
+const STRING_FILTER_OPTIONS = ['contains', 'not contains'] as const;
+const NUMBER_FILTER_OPTIONS = [
+  'greater',
+  'greater equal',
+  'less',
+  'less equal'
+] as const;
+const BOOLEAN_FILTER_OPTIONS = ['true', 'false', 'null'] as const;
+
+const StringFilter = ({
+  defaultOption,
+  defaultValue,
+  onOptionChange,
+  onValueChange
+}: {
+  defaultOption: string;
+  defaultValue: string;
+  onOptionChange: (newOption: string | number) => void;
+  onValueChange: (newValue: string) => void;
+}) => {
+  return (
+    <Stack direction="row" spacing={20}>
+      <Select
+        defaultValue={defaultOption}
+        onChange={(_, newOption) => onOptionChange(newOption)}
+      >
+        {STRING_FILTER_OPTIONS.map((option) => (
+          <Option key={option} value={option}>
+            {option}
+          </Option>
+        ))}
+      </Select>
+      <Input
+        defaultValue={defaultValue}
+        onChange={(event) => onValueChange(event.target.value)}
+        style={{ minWidth: '120px', width: '120px' }}
+      />
+    </Stack>
+  );
+};
+
+const NumberFilter = ({
+  defaultOption,
+  defaultValue,
+  onOptionChange,
+  onValueChange
+}: {
+  defaultOption: string;
+  defaultValue: number;
+  onOptionChange: (newOption: string | number) => void;
+  onValueChange: (newValue: number | '') => void;
+}) => {
+  return (
+    <Stack direction="row" spacing={20}>
+      <Select
+        defaultValue={defaultOption}
+        onChange={(_, newOption) => onOptionChange(newOption)}
+      >
+        {NUMBER_FILTER_OPTIONS.map((option) => (
+          <Option key={option} value={option}>
+            {option}
+          </Option>
+        ))}
+      </Select>
+      <NumberInput
+        defaultValue={defaultValue}
+        onChange={(_, newValue) => onValueChange(newValue)}
+        min={0}
+        max={5}
+        style={{ minWidth: '100px', width: '100px' }}
+      />
+    </Stack>
+  );
+};
+
+const BooleanFilter = ({
+  defaultOption,
+  onOptionChange
+}: {
+  defaultOption: string;
+  onOptionChange: (newOption: string | number) => void;
+}) => {
+  return (
+    <Select
+      defaultValue={defaultOption}
+      onChange={(_, newOption) => onOptionChange(newOption)}
+    >
+      {BOOLEAN_FILTER_OPTIONS.map((option) => (
+        <Option key={option} value={option}>
+          {option}
+        </Option>
+      ))}
+    </Select>
+  );
+};
+
+const FilteringTableTemplate = () => {
+  const anchorsRef = useRef<{ [field: string]: { current: HTMLElement } }>({});
+  const [filteringColumn, setFilteringColumn] = useState<RatingColumnType>();
+  const filteringOptionsRef = useRef<FilteringOptionsType>(
+    DEFAULT_FILTERING_OPTIONS
+  );
+  const [filteredRows, setFilteredRows] = useState(RATING_ROWS);
+  const [open, setOpen] = useState(false);
+
+  const getAlign = (
+    dataType: (typeof RATING_COLUMNS)[number]['dataType']
+  ): 'left' | 'center' | 'right' => {
+    switch (dataType) {
+      case 'string':
+        return 'left';
+      case 'number':
+        return 'right';
+      case 'boolean':
+        return 'center';
+      default:
+        return 'left';
+    }
+  };
+
+  const changeFilteringOption = useCallback(
+    (newOption: string | number) => {
+      if (!filteringColumn) return;
+      const newFilteringOptions = JSON.parse(
+        JSON.stringify(filteringOptionsRef.current)
+      );
+      newFilteringOptions[filteringColumn.field].option = newOption;
+      filteringOptionsRef.current = newFilteringOptions;
+    },
+    [filteringColumn]
+  );
+
+  const changeFilteringValue = useCallback(
+    (newValue: string | number) => {
+      if (!filteringColumn) return;
+      const newFilteringOptions = JSON.parse(
+        JSON.stringify(filteringOptionsRef.current)
+      );
+      newFilteringOptions[filteringColumn.field].value = newValue;
+      filteringOptionsRef.current = newFilteringOptions;
+    },
+    [filteringColumn]
+  );
+
+  const renderCellData = (
+    row: RatingRowType,
+    field: string
+  ): React.ReactNode => {
+    switch (field) {
+      case 'name':
+      case 'country':
+        return row[field];
+      case 'rating':
+        return (
+          <Stack direction="row" spacing={10} style={{ alignItems: 'center' }}>
+            <Rating value={row[field]} readOnly />
+            <span>{row[field]}</span>
+          </Stack>
+        );
+      case 'isAdmin':
+        return row[field] ? 'O' : 'X';
+    }
+  };
+
+  const renderFilterInput = useCallback(() => {
+    if (!filteringColumn) return;
+    switch (filteringColumn.dataType) {
+      case 'string':
+        return (
+          <StringFilter
+            defaultOption={
+              filteringOptionsRef.current[filteringColumn.field].option
+            }
+            defaultValue={String(
+              filteringOptionsRef.current[filteringColumn.field].value
+            )}
+            onOptionChange={changeFilteringOption}
+            onValueChange={changeFilteringValue}
+          />
+        );
+      case 'number':
+        return (
+          <NumberFilter
+            defaultOption={
+              filteringOptionsRef.current[filteringColumn.field].option
+            }
+            defaultValue={Number(
+              filteringOptionsRef.current[filteringColumn.field].value
+            )}
+            onOptionChange={changeFilteringOption}
+            onValueChange={changeFilteringValue}
+          />
+        );
+      case 'boolean':
+        return (
+          <BooleanFilter
+            defaultOption={
+              filteringOptionsRef.current[filteringColumn.field].option
+            }
+            onOptionChange={changeFilteringOption}
+          />
+        );
+    }
+  }, [filteringColumn, changeFilteringOption, changeFilteringValue]);
+
+  const isString = (value: unknown): value is string => {
+    return typeof value === 'string';
+  };
+
+  const openPopover = (columnClicked: RatingColumnType) => {
+    setFilteringColumn(columnClicked);
+    setOpen(true);
+  };
+
+  const closePopover = () => {
+    const rowIdsToRemove = new Set<number>();
+    Object.entries(filteringOptionsRef.current).map(
+      ([field, { option, value }]) => {
+        RATING_ROWS.forEach((row) => {
+          if (rowIdsToRemove.has(row.dataId)) return;
+
+          const fieldValue =
+            row[field as Exclude<keyof RatingRowType, 'dataId'>];
+          let stay: boolean = true;
+          if (isString(fieldValue) && isString(value)) {
+            if (value === '') return;
+            const fieldValueLowercased = fieldValue.toLowerCase();
+            const valueLowercased = value.toLowerCase();
+            switch (option) {
+              case 'contains':
+                stay = fieldValueLowercased.includes(valueLowercased);
+                break;
+              case 'not contains':
+                stay = !fieldValueLowercased.includes(valueLowercased);
+            }
+          } else if (isNumber(fieldValue) && isNumber(value)) {
+            switch (option) {
+              case 'greater':
+                stay = value < fieldValue;
+                break;
+              case 'greater equal':
+                stay = value <= fieldValue;
+                break;
+              case 'less':
+                stay = value > fieldValue;
+                break;
+              case 'less equal':
+                stay = value >= fieldValue;
+            }
+          } else if (isBoolean(fieldValue)) {
+            switch (option) {
+              case 'true':
+                stay = fieldValue === true;
+                break;
+              case 'false':
+                stay = fieldValue === false;
+                break;
+              case 'null':
+                stay = true;
+            }
+          } else {
+            stay = false;
+          }
+
+          if (!stay) rowIdsToRemove.add(row.dataId);
+        });
+      }
+    );
+
+    setFilteredRows(
+      RATING_ROWS.filter((row) => !rowIdsToRemove.has(row.dataId))
+    );
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <TableContainer
+        as={Box}
+        elevation={2}
+        round="sm"
+        style={{ width: 'max-content', margin: '0 auto' }}
+      >
+        <Table style={{ minWidth: '650px' }}>
+          <TableHead>
+            <TableRow>
+              {RATING_COLUMNS.map((column) => {
+                const { option, value } =
+                  filteringOptionsRef.current[column.field];
+                const { option: defaultOption, value: defaultValue } =
+                  DEFAULT_FILTERING_OPTIONS[column.field];
+                const isFilteringOptionChanged = !(
+                  defaultOption === option && defaultValue === value
+                );
+                return (
+                  <TableCell key={column.field}>
+                    <Stack
+                      direction="row"
+                      spacing={10}
+                      style={{ alignItems: 'center' }}
+                    >
+                      {column.headerName}
+                      <ButtonBase
+                        ref={(element) => {
+                          if (element)
+                            anchorsRef.current[column.field] = {
+                              current: element
+                            };
+                        }}
+                        onClick={() => openPopover(column)}
+                        style={{
+                          display: 'inline-flex',
+                          padding: '3px',
+                          borderRadius: '50%'
+                        }}
+                        aria-label={\`filter \${column.field}\`}
+                      >
+                        <FilterAltIcon size={20} color="gray-500" />
+                      </ButtonBase>
+                    </Stack>
+                    {isFilteringOptionChanged && (
+                      <Text
+                        className="typo-label-small"
+                        noMargin
+                        style={{ color: 'gray-400' }}
+                      >
+                        {[option, value && \`'\${value}'\`].join(' ')}
+                      </Text>
+                    )}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredRows.map((row) => {
+              return (
+                <TableRow key={row.name}>
+                  {RATING_COLUMNS.map((column) => {
+                    return (
+                      <TableCell
+                        key={column.field}
+                        as={column.field === 'name' ? 'th' : 'td'}
+                        align={getAlign(column.dataType)}
+                        scope={column.field === 'name' ? 'row' : undefined}
+                        style={{ minWidth: '150px' }}
+                      >
+                        {renderCellData(row, column.field)}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Popover
+        anchorElRef={
+          filteringColumn && anchorsRef.current[filteringColumn.field]
+        }
+        open={open}
+        onClose={closePopover}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        popoverOrigin={{ horizontal: 'left', vertical: 'top' }}
+      >
+        {renderFilterInput()}
+      </Popover>
+    </>
+  );
+};        
+`.trim()
       }
     }
   }
