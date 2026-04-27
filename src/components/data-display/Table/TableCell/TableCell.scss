@@ -1,0 +1,23 @@
+@mixin alignment {
+  &.left {
+    text-align: left;
+  }
+  &.center {
+    text-align: center;
+  }
+  &.right {
+    text-align: right;
+  }
+}
+
+.JinniTableCell {
+  padding: var(--table-cell-padding);
+  font-weight: var(--jinni-font-weight-regular);
+  border-bottom: 1px solid var(--jinni-color-gray-300);
+  box-sizing: border-box;
+  @include alignment;
+
+  &.bold {
+    font-weight: var(--jinni-font-weight-medium);
+  }
+}

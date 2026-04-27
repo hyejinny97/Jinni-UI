@@ -2,6 +2,7 @@ import './Table.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
+import TableContext from './Table.contexts';
 
 export type TableProps<T extends AsType = 'table'> =
   DefaultComponentProps<T> & {
@@ -19,19 +20,18 @@ const Table = <T extends AsType = 'table'>(props: TableProps<T>) => {
     as: Component = 'table',
     ...rest
   } = props;
-  const newStyle = useStyle({
-    '--table-cell-padding': size === 'medium' ? '16px' : '6px 16px',
-    ...style
-  });
+  const newStyle = useStyle(style);
 
   return (
-    <Component
-      className={cn('JinniTable', { stickyHeader }, className)}
-      style={newStyle}
-      {...rest}
-    >
-      {children}
-    </Component>
+    <TableContext.Provider value={{ size, stickyHeader }}>
+      <Component
+        className={cn('JinniTable', { stickyHeader }, className)}
+        style={newStyle}
+        {...rest}
+      >
+        {children}
+      </Component>
+    </TableContext.Provider>
   );
 };
 

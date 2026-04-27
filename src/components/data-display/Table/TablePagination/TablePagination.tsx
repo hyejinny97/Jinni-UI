@@ -1,3 +1,4 @@
+import './TablePagination.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
@@ -24,8 +25,6 @@ type TablePaginationProps<T extends AsType = 'div'> =
     ) => void;
   };
 
-const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
-
 const TablePagination = <T extends AsType = 'div'>(
   props: TablePaginationProps<T>
 ) => {
@@ -33,7 +32,7 @@ const TablePagination = <T extends AsType = 'div'>(
     count,
     page,
     rowsPerPage,
-    rowsPerPageOptions = DEFAULT_ROWS_PER_PAGE_OPTIONS,
+    rowsPerPageOptions = null,
     onPageChange,
     onRowsPerPageChange,
     className,
@@ -52,9 +51,9 @@ const TablePagination = <T extends AsType = 'div'>(
   };
   const handleRowsPerPageChange = (
     event: Event | React.SyntheticEvent,
-    value: string
+    value: string | number
   ) => {
-    if (onRowsPerPageChange) onRowsPerPageChange(event, parseInt(value));
+    onRowsPerPageChange?.(event, Number(value));
   };
 
   return (
@@ -67,16 +66,15 @@ const TablePagination = <T extends AsType = 'div'>(
         <Stack className="rows-per-page-options" direction="row" spacing={10}>
           <Text>Rows per page:</Text>
           <Select
-            value={String(rowsPerPage)}
+            value={rowsPerPage}
             onChange={handleRowsPerPageChange}
-            InputBaseProps={{ style: { minWidth: '70px' } }}
             MenuProps={{ style: { minWidth: '70px' } }}
           >
             {rowsPerPageOptions.map((option) => {
               const label = isObject(option) ? option.label : option;
               const value = isObject(option) ? option.value : option;
               return (
-                <Option key={value} value={String(value)}>
+                <Option key={value} value={value}>
                   {label}
                 </Option>
               );
@@ -89,10 +87,18 @@ const TablePagination = <T extends AsType = 'div'>(
         {Math.min(rowsPerPage * page + rowsPerPage, count)} of {count}
       </Text>
       <Stack className="page-controls" direction="row" spacing={5}>
-        <ButtonBase disabled={page === 0} onClick={goPrevPage}>
+        <ButtonBase
+          disabled={page === 0}
+          onClick={goPrevPage}
+          aria-label="go prev page"
+        >
           <ArrowLeftIcon />
         </ButtonBase>
-        <ButtonBase disabled={page === lastPage} onClick={goNextPage}>
+        <ButtonBase
+          disabled={page === lastPage}
+          onClick={goNextPage}
+          aria-label="go next page"
+        >
           <ArrowRightIcon />
         </ButtonBase>
       </Stack>

@@ -1,0 +1,23 @@
+.JinniTablePagination {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  column-gap: 20px;
+  padding: 0 6px;
+
+  .JinniStack.rows-per-page-options {
+    align-items: center;
+  }
+
+  .JinniStack.page-controls {
+    .JinniButtonBase {
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 50%;
+    }
+  }
+
+  .JinniSelect.JinniInputBase {
+    min-width: 70px;
+  }
+}

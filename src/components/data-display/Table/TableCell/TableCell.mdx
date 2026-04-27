@@ -1,0 +1,30 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TableCellStories from './TableCell.stories';
+
+<Meta of={TableCellStories} />
+
+# TableCell
+
+## Import
+
+```js
+import { TableCell } from '@/components/data-display/Table/TableCell';
+```
+
+## Usage
+
+### Basic TableCell
+
+- `children`: cell contents
+
+<Canvas of={TableCellStories.BasicTableCell} />
+
+### Align
+
+- `align`: cell 내 text alignment
+
+<Canvas of={TableCellStories.Align} />
+
+## Props
+
+<ArgTypes of={TableCellStories} sort="alpha" />

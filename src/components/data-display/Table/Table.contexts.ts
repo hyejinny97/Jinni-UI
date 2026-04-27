@@ -1,3 +1,8 @@
 import { createContext } from 'react';
+import { TableProps } from './Table';
 
-export const TableHeadContext = createContext(false);
+type TableContextProps = Pick<TableProps, 'size' | 'stickyHeader'>;
+
+const TableContext = createContext<TableContextProps | null>(null);
+
+export default TableContext;

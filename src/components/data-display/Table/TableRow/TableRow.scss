@@ -1,0 +1,8 @@
+.JinniTableRow {
+  &.hover:hover {
+    background-image: var(--jinni-black-overlay-2);
+  }
+  &.selected {
+    background-color: var(--jinni-color-primary-container);
+  }
+}
