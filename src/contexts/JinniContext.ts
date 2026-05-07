@@ -9,7 +9,7 @@ import { ContrastType } from '@/types/contrast';
 import { FontWeightType } from '@/types/fontWeight';
 import { ZIndexType } from '@/types/zIndex';
 
-export interface JinniContextType {
+export type JinniContextDesignSystemType = {
   theme: ThemeModeType;
   contrast: ContrastType;
   breakpoint: Record<BreakpointType | string, number>;
@@ -26,7 +26,11 @@ export interface JinniContextType {
   duration: Record<DurationType | string, string>;
   fontWeight: Record<FontWeightType, number>;
   zIndex: Record<ZIndexType, number>;
-}
+};
+
+export type JinniContextType = JinniContextDesignSystemType & {
+  changeTheme: (themeToApply: ThemeModeType) => void;
+};
 
 const JinniContext = createContext<JinniContextType | null>(null);
 

@@ -1,4 +1,4 @@
-import { DesignSystemType } from './JinniProvider';
+import { DesignSystemType } from './JinniProvider.types';
 import { DEFAULT_BREAKPOINT } from '@/constants/breakpoint';
 import { DEFAULT_COLOR_PALETTE, DEFAULT_COLOR_SCHEME } from '@/constants/color';
 import { DEFAULT_TYPOGRAPHY } from '@/constants/typography';
