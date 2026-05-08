@@ -15,9 +15,9 @@ export interface DesignSystemType {
   color: {
     scheme: Record<
       ThemeModeType,
-      Record<ContrastType, Record<JinniColorScheme, string>>
+      Record<ContrastType, Record<JinniColorScheme | string, string>>
     >;
-    palette: Record<JinniColorPalette, string>;
+    palette: Record<JinniColorPalette | string, string>;
   };
   typography: Record<TypographyType, TypographySpec>;
   boxShadow: Record<ElevationLevelType, string>;
