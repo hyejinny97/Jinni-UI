@@ -10,6 +10,9 @@ export const createDesignSystem = (
     if (props['theme']) {
       designSystem['theme'] = props['theme'];
     }
+    if (props['contrast']) {
+      designSystem['contrast'] = props['contrast'];
+    }
   }
 
   return designSystem;

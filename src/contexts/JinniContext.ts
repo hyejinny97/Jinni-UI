@@ -30,6 +30,7 @@ export type JinniContextDesignSystemType = {
 
 export type JinniContextType = JinniContextDesignSystemType & {
   changeTheme: (themeToApply: ThemeModeType) => void;
+  changeContrast: (contrastToApply: ContrastType) => void;
 };
 
 const JinniContext = createContext<JinniContextType | null>(null);

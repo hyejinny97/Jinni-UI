@@ -3,6 +3,7 @@ import { JinniContextDesignSystemType } from '@/contexts/JinniContext';
 import { TypographySpec } from '@/types/typography';
 import { ElevationSpecType } from '@/types/elevation';
 import { ThemeModeType } from '@/types/theme-mode';
+import { ContrastType } from '@/types/contrast';
 
 export const useAddStyleTag = ({
   computedDesignSystem
@@ -11,7 +12,6 @@ export const useAddStyleTag = ({
 }) => {
   useLayoutEffect(() => {
     const {
-      contrast,
       breakpoint,
       color: { scheme, palette },
       typography,
@@ -26,7 +26,6 @@ export const useAddStyleTag = ({
     } = computedDesignSystem;
     const PREFIX = '--jinni';
 
-    const contrastCss = `${[PREFIX, 'contrast'].join('-')}: ${contrast};`;
     const breakpointCss = Object.entries(breakpoint).map(
       ([key, value]) => `${[PREFIX, 'breakpoint', key].join('-')}: ${value};`
     );
@@ -76,7 +75,6 @@ export const useAddStyleTag = ({
     );
 
     const rootCssVariables = [
-      contrastCss,
       ...breakpointCss,
       ...colorSchemeCss,
       ...colorPaletteCss,
@@ -139,4 +137,15 @@ export const useTheme = ({
   };
 
   return { computedTheme, changeTheme };
+};
+
+export const useContrast = ({ contrast }: { contrast: ContrastType }) => {
+  const [computedContrast, setComputedContrast] =
+    useState<ContrastType>(contrast);
+
+  const changeContrast = (contrastToApply: ContrastType) => {
+    setComputedContrast(contrastToApply);
+  };
+
+  return { computedContrast, changeContrast };
 };
