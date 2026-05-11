@@ -17,7 +17,7 @@ export type AvatarProps<T extends AsType = 'span'> =
   };
 
 const DefaultAvatarIcon = () => (
-  <PersonIcon color="white" role="img" aria-label="fallback icon" />
+  <PersonIcon color="on-primary" role="img" aria-label="fallback icon" />
 );
 
 const Avatar = forwardRef(
