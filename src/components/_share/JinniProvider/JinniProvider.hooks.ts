@@ -87,6 +87,13 @@ export const useAddStyleTag = ({
       ...zIndexCss
     ].join('\n');
 
+    const prevStyleEl = document.querySelector(
+      'head > style.jinni-design-system'
+    );
+    if (prevStyleEl !== null) {
+      prevStyleEl.remove();
+    }
+
     const styleEl = document.createElement('style');
     styleEl.classList.add('jinni-design-system');
     styleEl.textContent = `:root { ${rootCssVariables} }\n${typographyCss.join('\n')}\n${elevationCss.join('\n')}`;
