@@ -1,0 +1,106 @@
+<script defer>
+  const STORAGE_THEME_KEY = 'jinni-theme';
+  const STORAGE_CONTRAST_KEY = 'jinni-contrast';
+
+  function waitForToolbar(callback, retries = 20) {
+    const toolbar = document.querySelector('.sb-bar');
+    if (toolbar) {
+      callback(toolbar);
+    } else if (retries > 0) {
+      setTimeout(() => waitForToolbar(callback, retries - 1), 300);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    waitForToolbar(function (toolbar) {
+      // session storage에서 theme, contrast 확인
+      const currentTheme = sessionStorage.getItem(STORAGE_THEME_KEY) || 'light';
+      const currentContrast =
+        sessionStorage.getItem(STORAGE_CONTRAST_KEY) || 'standard';
+      sessionStorage.setItem(STORAGE_THEME_KEY, currentTheme);
+      sessionStorage.setItem(STORAGE_CONTRAST_KEY, currentContrast);
+
+      // theme-select, contrast-select를 담을 컨테이너 생성
+      const selectContainer = document.createElement('section');
+      selectContainer.classList.add('select-container');
+      toolbar.appendChild(selectContainer);
+
+      // theme-select 생성
+      const themeSelect = document.createElement('select');
+      themeSelect.name = 'theme';
+      themeSelect.classList.add('jinni-theme');
+
+      ['light', 'dark'].forEach(function (value) {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        if (value === currentTheme) {
+          option.selected = true;
+        }
+        themeSelect.appendChild(option);
+      });
+      selectContainer.appendChild(themeSelect);
+
+      // contrast-select 생성
+      const contrastSelect = document.createElement('select');
+      contrastSelect.name = 'contrast';
+      contrastSelect.classList.add('jinni-contrast');
+
+      ['standard', 'medium', 'high'].forEach(function (value) {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        if (value === currentContrast) {
+          option.selected = true;
+        }
+        contrastSelect.appendChild(option);
+      });
+      selectContainer.appendChild(contrastSelect);
+
+      // select 값 변경 시 session storage에 반영
+      themeSelect.addEventListener('change', function (e) {
+        const themeSelected = e.target.value;
+        sessionStorage.setItem(STORAGE_THEME_KEY, themeSelected);
+        document.body.classList.remove('light', 'dark');
+        document.body.classList.add(themeSelected);
+      });
+      contrastSelect.addEventListener('change', function (e) {
+        const contrastSelected = e.target.value;
+        sessionStorage.setItem(STORAGE_CONTRAST_KEY, contrastSelected);
+      });
+    });
+  });
+</script>
+<style class="jinni-custom-style">
+  .sb-bar {
+    display: flex;
+    flex-direction: row;
+    row-gap: 10px;
+  }
+
+  .sb-bar > div {
+    position: static;
+    width: auto;
+    flex: 1;
+  }
+
+  .select-container {
+    border-left: 1px solid lightgray;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    row-gap: 5px;
+    margin-right: 10px;
+  }
+
+  select.jinni-theme,
+  select.jinni-contrast {
+    margin-left: 8px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 12px;
+    cursor: pointer;
+  }
+</style>
