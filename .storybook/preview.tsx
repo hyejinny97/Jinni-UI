@@ -1,6 +1,9 @@
 import React from 'react';
 import type { Preview } from '@storybook/react';
-import { JinniProvider } from '../src/components/_share/JinniProvider';
+import {
+  JinniProvider,
+  createDesignSystem
+} from '../src/components/_share/JinniProvider';
 
 const preview: Preview = {
   parameters: {
@@ -22,11 +25,14 @@ const preview: Preview = {
     }
   },
   decorators: [
-    (Story) => (
-      <JinniProvider>
-        <Story />
-      </JinniProvider>
-    )
+    (Story) => {
+      const designSystem = createDesignSystem();
+      return (
+        <JinniProvider designSystem={designSystem}>
+          <Story />
+        </JinniProvider>
+      );
+    }
   ],
   argTypes: {
     className: {

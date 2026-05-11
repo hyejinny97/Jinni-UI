@@ -1,9 +1,13 @@
 .JinniAccordion {
   .JinniAccordionItem {
     border-bottom: 1px solid var(--jinni-color-gray-300);
+    background-color: var(--jinni-color-surface-container-lowest);
 
     .JinniAccordionSummaryRoot {
       margin: 0;
+      &.disabled {
+        pointer-events: none;
+      }
 
       .JinniAccordionSummary {
         display: flex;
@@ -18,6 +22,7 @@
           text-align: left;
           font-size: 16px;
           font-weight: var(--jinni-font-weight-medium);
+          color: var(--jinni-color-on-surface);
         }
 
         .JinniAccordionSummaryExpandIcon {
@@ -38,6 +43,7 @@
       padding: 0 8px 16px;
       font-size: 14px;
       font-weight: var(--jinni-font-weight-regular);
+      color: var(--jinni-color-on-surface);
     }
   }
 }
