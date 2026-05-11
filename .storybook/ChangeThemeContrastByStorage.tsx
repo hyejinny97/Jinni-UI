@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import useJinni from '../src/hooks/useJinni';
 import { JinniContextType } from '../src/contexts/JinniContext';
 
@@ -16,7 +16,7 @@ const ChangeThemeContrastByStorage = () => {
   const { theme, contrast, changeTheme, changeContrast } =
     value as JinniContextType;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const currentTheme = sessionStorage.getItem(STORAGE_THEME_KEY);
     const currentContrast = sessionStorage.getItem(STORAGE_CONTRAST_KEY);
     if (isThemeValue(currentTheme) && currentTheme !== theme) {

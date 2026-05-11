@@ -156,7 +156,9 @@ export const ExpandIcon: Story = {
       {ITEMS.map(({ summary, details }) => {
         return (
           <AccordionItem key={summary}>
-            <AccordionSummary expandIcon={<ArrowCircleDownIcon />}>
+            <AccordionSummary
+              expandIcon={<ArrowCircleDownIcon color="on-surface" />}
+            >
               {summary}
             </AccordionSummary>
             <AccordionDetails>{details}</AccordionDetails>
@@ -179,7 +181,7 @@ export const CustomizeAccordion: Story = {
             <AccordionSummary
               as="h6"
               style={{
-                backgroundColor: 'gray-100'
+                backgroundColor: 'surface-dim'
               }}
               ButtonBaseProps={{
                 disableOverlay: true,

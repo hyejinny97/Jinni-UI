@@ -132,7 +132,7 @@ export const BasicAvatarGroup: Story = {
           J
         </Avatar>
         <Avatar>
-          <PersonIcon color="white" role="img" aria-label="사람 아바타" />
+          <PersonIcon color="on-primary" role="img" aria-label="사람 아바타" />
         </Avatar>
       </AvatarGroup>
     );

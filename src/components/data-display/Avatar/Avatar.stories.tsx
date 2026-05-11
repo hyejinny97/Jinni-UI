@@ -92,7 +92,7 @@ const AvatarUploadTemplate = () => {
         <Avatar key="image-avatar" src={dataUrl} alt={file.name} />
       ) : (
         <Avatar key="icon-avatar">
-          <PersonIcon color="white" />
+          <PersonIcon color="on-primary" />
         </Avatar>
       )}
     </FileInput>
@@ -147,7 +147,7 @@ export const IconAvatars: Story = {
     return (
       <>
         <Avatar {...args}>
-          <PersonIcon color="white" />
+          <PersonIcon color="on-primary" />
         </Avatar>
         <Avatar
           role="img"
@@ -192,22 +192,22 @@ export const Sizes: Story = {
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Avatar size="xs" {...args}>
-            <PersonIcon color="white" />
+            <PersonIcon color="on-primary" />
           </Avatar>
           <Avatar size="sm" {...args}>
-            <PersonIcon color="white" />
+            <PersonIcon color="on-primary" />
           </Avatar>
           <Avatar {...args}>
-            <PersonIcon color="white" />
+            <PersonIcon color="on-primary" />
           </Avatar>
           <Avatar size="lg" {...args}>
-            <PersonIcon color="white" />
+            <PersonIcon color="on-primary" />
           </Avatar>
           <Avatar size="xl" {...args}>
-            <PersonIcon color="white" />
+            <PersonIcon color="on-primary" />
           </Avatar>
           <Avatar size={200} {...args}>
-            <PersonIcon color="white" size={100} />
+            <PersonIcon color="on-primary" size={100} />
           </Avatar>
         </div>
       </div>
@@ -264,7 +264,8 @@ export const Color: Story = {
         </Avatar>
         <Avatar
           style={{
-            backgroundColor: '#123'
+            backgroundColor: '#123',
+            color: 'white'
           }}
           {...args}
         >
@@ -280,7 +281,8 @@ export const Color: Story = {
         </Avatar>
         <Avatar
           style={{
-            backgroundColor: 'rgba(100,100,100, 0.5)'
+            backgroundColor: 'rgba(100,100,100, 0.5)',
+            color: 'white'
           }}
           {...args}
         >
@@ -363,7 +365,7 @@ export const AvatarUpload: Story = {
         <Avatar key="image-avatar" src={dataUrl} alt={file.name} />
       ) : (
         <Avatar key="icon-avatar">
-          <PersonIcon color="white" />
+          <PersonIcon color="on-primary" />
         </Avatar>
       )}
     </FileInput>
