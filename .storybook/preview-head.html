@@ -1,41 +1,5 @@
-<script defer>
-  (function () {
-    function applyThemeFromParent() {
-      try {
-        const parentBody = window.parent.document.body;
-        const isDark = parentBody.classList.contains('dark');
-        const theme = isDark ? 'dark' : 'light';
-
-        document.body.classList.remove('dark', 'light');
-        document.body.classList.add(theme);
-      } catch (e) {
-        console.warn('상위 body 접근 불가 (cross-origin):', e);
-      }
-    }
-
-    function observeParentThemeChange() {
-      try {
-        const parentBody = window.parent.document.body;
-        const observer = new MutationObserver(applyThemeFromParent);
-        observer.observe(parentBody, {
-          attributes: true,
-          attributeFilter: ['class']
-        });
-      } catch (e) {
-        console.warn('상위 body 감지 불가 (cross-origin):', e);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      applyThemeFromParent();
-      observeParentThemeChange();
-    });
-  })();
-</script>
-<style>
-  body {
-    .sbdocs-preview {
-      background-color: var(--jinni-color-surface);
-    }
+<style class="preview-head-jinni-custom-style">
+  .sbdocs.sbdocs-preview {
+    background-color: var(--jinni-color-surface);
   }
 </style>
