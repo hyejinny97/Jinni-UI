@@ -33,14 +33,14 @@ const meta: Meta<typeof ButtonBase> = {
       description: 'overlay 색상',
       table: {
         type: { summary: `'black' | 'white'` },
-        defaultValue: { summary: `'black'` }
+        defaultValue: { summary: `theme === 'light' ? 'black' : 'white'` }
       }
     },
     rippleColor: {
       description: 'ripple 색상',
       table: {
         type: { summary: `'black' | 'white'` },
-        defaultValue: { summary: `'black'` }
+        defaultValue: { summary: `theme === 'light' ? 'black' : 'white'` }
       }
     },
     rippleStartLocation: {
