@@ -1,6 +1,8 @@
 .JinniCard {
   display: inline-flex;
   flex-direction: column;
+  color: var(--jinni-color-on-surface);
+  background-color: var(--jinni-color-surface-container-lowest);
 
   .JinniCardHeader {
     padding: 16px;

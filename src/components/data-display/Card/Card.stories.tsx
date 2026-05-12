@@ -76,7 +76,10 @@ const ClickableCardTemplate = () => {
           key={id}
           as={ButtonBase}
           style={{
-            backgroundColor: id === selectedCard ? 'gray-200' : 'white'
+            backgroundColor:
+              id === selectedCard
+                ? 'surface-container-highest'
+                : 'surface-container-lowest'
           }}
           onClick={() => setSelectedCard(id)}
         >
@@ -268,7 +271,7 @@ export const ComplexCard: Story = {
             borderRadius: '50%'
           }}
         >
-          <MorevertIcon />
+          <MorevertIcon color="on-surface-variant" />
         </ButtonBase>
       </CardHeader>
       <img
@@ -288,12 +291,12 @@ export const ComplexCard: Story = {
         <Checkbox
           icon={<FavoriteBorderIcon />}
           checkedIcon={<FavoriteIcon />}
-          color="red"
+          color="rgb(255, 80, 80)"
         />
         <Checkbox
           icon={<BookmarkBorderIcon />}
           checkedIcon={<BookmarkIcon />}
-          color="gray-800"
+          color="gray-500"
         />
         <Text
           className="typo-label-medium"
@@ -301,7 +304,7 @@ export const ComplexCard: Story = {
             flex: '1',
             textAlign: 'end',
             margin: '0 10px',
-            color: 'gray-500'
+            color: 'on-surface-variant'
           }}
         >
           조회수 14
@@ -343,7 +346,10 @@ export const ClickableCard: Story = {
           key={id}
           as={ButtonBase}
           style={{
-            backgroundColor: id === selectedCard ? 'gray-200' : 'white'
+            backgroundColor:
+              id === selectedCard
+                ? 'surface-container-highest'
+                : 'surface-container-lowest'
           }}
           onClick={() => setSelectedCard(id)}
         >
