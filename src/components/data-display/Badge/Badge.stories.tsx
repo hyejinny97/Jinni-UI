@@ -8,6 +8,7 @@ import { Box } from '@/components/layout/Box';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Button } from '@/components/general/Button';
 import { ButtonGroup } from '@/components/general/ButtonGroup';
+import { Text } from '@/components/general/Text';
 import { Switch } from '@/components/data-entry/Switch';
 import { Label } from '@/components/data-entry/Label';
 import dogImage from '@/assets/images/dog-1.jpg';
@@ -86,7 +87,7 @@ const Square = () => (
     style={{
       width: '32px',
       height: '32px',
-      backgroundColor: 'surface-container-highest',
+      backgroundColor: 'gray-400',
       borderRadius: '8px'
     }}
   />
@@ -113,7 +114,7 @@ const Visibility = () => {
             -
           </Button>
         </ButtonGroup>
-        <Label content="Show Badge">
+        <Label content="Show Badge" style={{ color: 'on-surface' }}>
           <Switch
             checked={visible}
             onChange={(e) => setVisible(e.target.checked)}
@@ -189,13 +190,19 @@ export const BasicBadge: Story = {
           <Square />
         </Badge>
         <Badge content={5} {...args}>
-          <MailIcon color="surface-container-highest" />
+          <MailIcon color="gray-400" />
         </Badge>
         <Badge content={5} {...args}>
           <Avatar src={dogImage} alt="강아지 사진" size={32} />
         </Badge>
         <Badge content={5} {...args}>
-          text
+          <Text
+            className="typo-body-medium"
+            noMargin
+            style={{ color: 'on-surface' }}
+          >
+            text
+          </Text>
         </Badge>
       </Stack>
       <Stack direction="row" spacing={30}>
@@ -292,7 +299,7 @@ export const BadgeVisibility: Story = {
             -
           </Button>
         </ButtonGroup>
-        <Label label="Show Badge">
+        <Label label="Show Badge"  style={{ color: 'on-surface' }}>
           <Switch
             checked={visible}
             onChange={(e) => setVisible(e.target.checked)}
