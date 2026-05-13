@@ -22,9 +22,9 @@ const CarouselNextButton = <T extends AsType = 'button'>(
   const {
     position = orientation === 'horizontal' ? 'center-end' : 'bottom-center',
     children = orientation === 'horizontal' ? (
-      <ArrowRightIcon size={30} color="gray-800" />
+      <ArrowRightIcon size={30} color="on-surface-variant" />
     ) : (
-      <ArrowDownIcon size={30} color="gray-800" />
+      <ArrowDownIcon size={30} color="on-surface-variant" />
     ),
     className,
     onClick,

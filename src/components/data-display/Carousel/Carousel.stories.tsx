@@ -12,6 +12,7 @@ import {
   CarouselNextButton,
   CarouselProgress
 } from '.';
+import useJinni from '@/hooks/useJinni';
 import { FirstPageIcon } from '@/components/icons/FirstPageIcon';
 import { LastPageIcon } from '@/components/icons/LastPageIcon';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
@@ -145,7 +146,87 @@ const meta: Meta<typeof Carousel> = {
 export default meta;
 type Story = StoryObj<typeof Carousel>;
 
+const BasicCarouselTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+    </Carousel>
+  );
+};
+
+const DefaultValueTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      defaultValue={2}
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+    </Carousel>
+  );
+};
+
 const ControlledCarouselTemplate = () => {
+  const { theme } = useJinni();
   const [value, setValue] = useState(2);
 
   const handleChange = (newValue: number) => {
@@ -154,7 +235,7 @@ const ControlledCarouselTemplate = () => {
 
   return (
     <>
-      <Text>value: {value}</Text>
+      <Text style={{ color: 'on-surface' }}>value: {value}</Text>
       <Carousel
         value={value}
         onChange={handleChange}
@@ -168,7 +249,9 @@ const ControlledCarouselTemplate = () => {
           {Array(5)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
               return (
                 <CarouselItem
                   key={idx}
@@ -176,7 +259,9 @@ const ControlledCarouselTemplate = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: `rgb(${channel},${channel},${channel})`
+                    backgroundColor: 'surface-container',
+                    backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                    color: 'on-surface'
                   }}
                 >
                   Slide {idx + 1}
@@ -189,7 +274,625 @@ const ControlledCarouselTemplate = () => {
   );
 };
 
+const BasicControlButtonsTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselPrevButton />
+      <CarouselNextButton />
+    </Carousel>
+  );
+};
+
+const ControlButtonsPositionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselPrevButton position="bottom-start" />
+      <CarouselNextButton position="bottom-end" />
+    </Carousel>
+  );
+};
+
+const CustomControlButtonsTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselPrevButton
+        disableOverlay
+        disableRipple
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center'
+        }}
+      >
+        <FirstPageIcon color="on-surface-variant" />
+        <Text
+          className="typo-label-medium"
+          style={{ color: 'on-surface-variant' }}
+        >
+          Prev
+        </Text>
+      </CarouselPrevButton>
+      <CarouselNextButton
+        disableOverlay
+        disableRipple
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center'
+        }}
+      >
+        <Text
+          className="typo-label-medium"
+          style={{ color: 'on-surface-variant' }}
+        >
+          Next
+        </Text>
+        <LastPageIcon color="on-surface-variant" />
+      </CarouselNextButton>
+    </Carousel>
+  );
+};
+
+const BasicDotsTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselDots />
+    </Carousel>
+  );
+};
+
+const DotsPositionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselDots position="top-center" />
+    </Carousel>
+  );
+};
+
+const CustomDotsTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselDots>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => (
+            <CarouselDot key={idx} value={idx} size="lg" color="secondary">
+              {idx + 1}
+            </CarouselDot>
+          ))}
+      </CarouselDots>
+    </Carousel>
+  );
+};
+
+const BasicFractionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselFraction />
+    </Carousel>
+  );
+};
+
+const FractionPositionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselFraction position="bottom-end" />
+    </Carousel>
+  );
+};
+
+const CustomFractionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselFraction
+        size="lg"
+        style={{
+          backgroundColor: 'surface-container-high',
+          borderRadius: '16px',
+          padding: '3px 10px'
+        }}
+      />
+    </Carousel>
+  );
+};
+
+const BasicProgressTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselProgress />
+    </Carousel>
+  );
+};
+
+const ProgressPositionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselProgress position="bottom" />
+    </Carousel>
+  );
+};
+
+const CustomProgressTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselProgress
+        progressColor="yellow-400"
+        trackColor="yellow-100"
+        thickness={6}
+      />
+    </Carousel>
+  );
+};
+
+const OrientationTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      orientation="vertical"
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselProgress />
+      <CarouselDots />
+      <CarouselPrevButton />
+      <CarouselNextButton />
+    </Carousel>
+  );
+};
+
+const BasicAutoplayTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      autoplay
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselDots />
+    </Carousel>
+  );
+};
+
 const DetectLeftTimeChangeTemplate = () => {
+  const { theme } = useJinni();
   const DEFAULT_AUTOPLAY_DURATION = 5 * SECOND;
   const [autoplayLeftTime, setAutoplayLeftTime] = useState(
     DEFAULT_AUTOPLAY_DURATION
@@ -219,7 +922,9 @@ const DetectLeftTimeChangeTemplate = () => {
           {Array(5)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
               return (
                 <CarouselItem
                   key={idx}
@@ -227,7 +932,9 @@ const DetectLeftTimeChangeTemplate = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: `rgb(${channel},${channel},${channel})`
+                    backgroundColor: 'surface-container',
+                    backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                    color: 'on-surface'
                   }}
                 >
                   Slide {idx + 1}
@@ -255,7 +962,7 @@ const DetectLeftTimeChangeTemplate = () => {
             transform: 'translate(-50%, -50%)',
             padding: 0,
             margin: 0,
-            color: 'gray-500'
+            color: 'on-surface-variant'
           }}
         >{`${Math.ceil(autoplayLeftTime / SECOND)}s`}</Text>
       </Box>
@@ -264,6 +971,7 @@ const DetectLeftTimeChangeTemplate = () => {
 };
 
 const AutoplayDurationTemplate = () => {
+  const { theme } = useJinni();
   const AUTOPLAY_DURATION = 3 * SECOND;
   const [autoplayLeftTime, setAutoplayLeftTime] = useState(AUTOPLAY_DURATION);
   const autoplayProgressPercent =
@@ -289,7 +997,9 @@ const AutoplayDurationTemplate = () => {
           {Array(5)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
               return (
                 <CarouselItem
                   key={idx}
@@ -297,7 +1007,9 @@ const AutoplayDurationTemplate = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: `rgb(${channel},${channel},${channel})`
+                    backgroundColor: 'surface-container',
+                    backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                    color: 'on-surface'
                   }}
                 >
                   Slide {idx + 1}
@@ -325,7 +1037,7 @@ const AutoplayDurationTemplate = () => {
             transform: 'translate(-50%, -50%)',
             padding: 0,
             margin: 0,
-            color: 'gray-500'
+            color: 'on-surface-variant'
           }}
         >{`${autoplayLeftTime / SECOND}s`}</Text>
       </Box>
@@ -334,6 +1046,7 @@ const AutoplayDurationTemplate = () => {
 };
 
 const DisableAutoplayOnInteractionTemplate = () => {
+  const { theme } = useJinni();
   const AUTOPLAY_DURATION = 5 * SECOND;
   const [autoplayLeftTime, setAutoplayLeftTime] = useState(AUTOPLAY_DURATION);
   const autoplayProgressPercent =
@@ -360,7 +1073,9 @@ const DisableAutoplayOnInteractionTemplate = () => {
           {Array(5)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
               return (
                 <CarouselItem
                   key={idx}
@@ -368,7 +1083,9 @@ const DisableAutoplayOnInteractionTemplate = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: `rgb(${channel},${channel},${channel})`
+                    backgroundColor: 'surface-container',
+                    backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                    color: 'on-surface'
                   }}
                 >
                   Slide {idx + 1}
@@ -396,7 +1113,7 @@ const DisableAutoplayOnInteractionTemplate = () => {
             transform: 'translate(-50%, -50%)',
             padding: 0,
             margin: 0,
-            color: 'gray-500'
+            color: 'on-surface-variant'
           }}
         >{`${autoplayLeftTime / SECOND}s`}</Text>
       </Box>
@@ -404,7 +1121,49 @@ const DisableAutoplayOnInteractionTemplate = () => {
   );
 };
 
+const SpacingTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      spacing={20}
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselDots />
+    </Carousel>
+  );
+};
+
 const SlidePerViewProportionalTemplate = () => {
+  const { theme } = useJinni();
   const GAP = 10;
   const SLIDES_PER_VIEW = 3;
   const SLIDES = 5;
@@ -430,7 +1189,9 @@ const SlidePerViewProportionalTemplate = () => {
         {Array(SLIDES)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
             return (
               <CarouselItem
                 key={idx}
@@ -438,7 +1199,9 @@ const SlidePerViewProportionalTemplate = () => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface',
                   flex: `0 0 calc((100% - ${GAP * 2}px) / ${SLIDES_PER_VIEW})`
                 }}
               >
@@ -460,7 +1223,53 @@ const SlidePerViewProportionalTemplate = () => {
   );
 };
 
+const SlidePerViewNotProportionalTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      spacing={20}
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface',
+                  flex: '0 0 auto',
+                  width: `${100 * (idx + 1)}px`
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselDots />
+      <CarouselPrevButton />
+      <CarouselNextButton />
+    </Carousel>
+  );
+};
+
 const GridTemplate = () => {
+  const { theme } = useJinni();
   const GAP = 10;
   const SLIDES_PER_VIEW = 3;
   const SLIDES = 5;
@@ -487,7 +1296,9 @@ const GridTemplate = () => {
         {Array(SLIDES)
           .fill(0)
           .map((_, slideIdx) => {
-            const channel = 255 - 5 * (slideIdx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * slideIdx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
             return (
               <CarouselItem
                 key={slideIdx}
@@ -508,7 +1319,9 @@ const GridTemplate = () => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         flex: 1,
-                        backgroundColor: `rgb(${channel},${channel},${channel})`
+                        backgroundColor: 'surface-container',
+                        backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                        color: 'on-surface'
                       }}
                     >
                       Slide {2 * slideIdx + boxIdx + 1}
@@ -524,6 +1337,7 @@ const GridTemplate = () => {
 };
 
 const SlideAlignmentProportionalTemplate = () => {
+  const { theme } = useJinni();
   const GAP = 10;
   const SLIDES_PER_VIEW = 3;
   const SLIDES = 5;
@@ -542,7 +1356,9 @@ const SlideAlignmentProportionalTemplate = () => {
         {Array(SLIDES)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
             return (
               <CarouselItem
                 key={idx}
@@ -550,7 +1366,9 @@ const SlideAlignmentProportionalTemplate = () => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface',
                   flex: `0 0 calc((100% - ${GAP * 2}px) / ${SLIDES_PER_VIEW})`
                 }}
               >
@@ -566,7 +1384,145 @@ const SlideAlignmentProportionalTemplate = () => {
   );
 };
 
+const SlideAlignmentNotProportionalTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      spacing={10}
+      slideAlignment="center"
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface',
+                  flex: '0 0 auto',
+                  width: `${100 * (idx + 1)}px`
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselDots />
+      <CarouselPrevButton />
+      <CarouselNextButton />
+    </Carousel>
+  );
+};
+
+const SnapFreeModeTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      snapMode="free"
+      spacing={10}
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface',
+                  flex: '0 0 auto',
+                  width: '200px'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselPrevButton />
+      <CarouselNextButton />
+    </Carousel>
+  );
+};
+
+const SlipEffectTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      snapMode="free"
+      disableSlipEffect
+      spacing={10}
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface',
+                  flex: '0 0 auto',
+                  width: '200px'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselPrevButton />
+      <CarouselNextButton />
+    </Carousel>
+  );
+};
+
 const SlipSizeTemplate = () => {
+  const { theme } = useJinni();
   const SLIP_SIZES = ['small', 'medium', 'large'] as const;
   const [slipSize, setSlipSize] =
     useState<(typeof SLIP_SIZES)[number]>('medium');
@@ -580,7 +1536,7 @@ const SlipSizeTemplate = () => {
       <RadioGroup name="slip-size" value={slipSize} onChange={changeSlipSize}>
         <Stack direction="row">
           {SLIP_SIZES.map((size) => (
-            <Label key={size} content={size}>
+            <Label key={size} content={size} style={{ color: 'on-surface' }}>
               <Radio value={size} />
             </Label>
           ))}
@@ -600,7 +1556,9 @@ const SlipSizeTemplate = () => {
           {Array(10)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
               return (
                 <CarouselItem
                   key={idx}
@@ -608,7 +1566,9 @@ const SlipSizeTemplate = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: `rgb(${channel},${channel},${channel})`,
+                    backgroundColor: 'surface-container',
+                    backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                    color: 'on-surface',
                     flex: '0 0 auto',
                     width: '200px'
                   }}
@@ -625,7 +1585,90 @@ const SlipSizeTemplate = () => {
   );
 };
 
+const SwipeEffectTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      disableSwipeEffect
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselDots />
+    </Carousel>
+  );
+};
+
+const BounceEffectTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel
+      disableBounceEffect
+      style={{
+        width: '500px',
+        height: '300px',
+        border: '1px solid lightgray'
+      }}
+    >
+      <CarouselContent>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => {
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
+            return (
+              <CarouselItem
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
+                }}
+              >
+                Slide {idx + 1}
+              </CarouselItem>
+            );
+          })}
+      </CarouselContent>
+      <CarouselDots />
+    </Carousel>
+  );
+};
+
 const DotsAnimationTemplate = () => {
+  const { theme } = useJinni();
   const SLIDES = 5;
   const DEFAULT_VALUE = 1;
   const DEFAULT_DOT_SIZE = 10;
@@ -688,7 +1731,9 @@ const DotsAnimationTemplate = () => {
         {Array(SLIDES)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
             return (
               <CarouselItem
                 key={idx}
@@ -701,7 +1746,9 @@ const DotsAnimationTemplate = () => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -815,7 +1862,8 @@ const CoverflowEffectTemplate = () => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: 'gray-200',
+                  backgroundColor: 'surface-container',
+                  color: 'on-surface',
                   flex: '0 0 60%',
                   '--translate-z': `-${Math.abs(rotateDegree * 2)}px`,
                   '--rotate-y': `${rotateDegree}deg`,
@@ -881,7 +1929,8 @@ const StartOffsetSlidesTemplate = () => {
                   alignItems: 'center',
                   width: '100%',
                   height: '100%',
-                  backgroundColor: 'gray-100'
+                  backgroundColor: 'surface-container',
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -926,7 +1975,8 @@ const SequentiallyScaledDotsTemplate = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: 'gray-100'
+                backgroundColor: 'surface-container',
+                color: 'on-surface'
               }}
             >
               Slide {idx + 1}
@@ -958,6 +2008,7 @@ const SequentiallyScaledDotsTemplate = () => {
 };
 
 const FadeEffectTemplate = () => {
+  const { theme } = useJinni();
   const [value, setValue] = useState(0);
 
   const handleChange = (newValue: number) => {
@@ -979,7 +2030,9 @@ const FadeEffectTemplate = () => {
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = `rgba(${channel},${channel},${channel},${alpha})`;
             return (
               <CarouselItem
                 key={idx}
@@ -992,7 +2045,9 @@ const FadeEffectTemplate = () => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: `linear-gradient(to bottom, ${overlayColor}, ${overlayColor})`,
+                  color: 'on-surface',
                   opacity: idx <= value ? 1 : 0,
                   transition: 'opacity 0.5s ease'
                 }}
@@ -1009,20 +2064,28 @@ const FadeEffectTemplate = () => {
 };
 
 export const BasicCarousel: Story = {
-  render: (args) => (
+  render: () => <BasicCarouselTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicCarouselTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1030,7 +2093,9 @@ export const BasicCarousel: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1039,25 +2104,37 @@ export const BasicCarousel: Story = {
           })}
       </CarouselContent>
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const DefaultValue: Story = {
-  render: (args) => (
+  render: () => <DefaultValueTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const DefaultValueTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
-      defaultValue={2}
+    defaultValue={2}
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1065,7 +2142,9 @@ export const DefaultValue: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1074,7 +2153,11 @@ export const DefaultValue: Story = {
           })}
       </CarouselContent>
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const ControlledCarousel: Story = {
@@ -1083,6 +2166,7 @@ export const ControlledCarousel: Story = {
     docs: {
       source: {
         code: `const ControlledCarouselTemplate = () => {
+  const { theme } = useJinni();
   const [value, setValue] = useState(2);
 
   const handleChange = (newValue: number) => {
@@ -1091,7 +2175,7 @@ export const ControlledCarousel: Story = {
 
   return (
     <>
-      <Text>value: {value}</Text>
+      <Text style={{ color: 'on-surface' }}>value: {value}</Text>
       <Carousel
         value={value}
         onChange={handleChange}
@@ -1105,7 +2189,9 @@ export const ControlledCarousel: Story = {
           {Array(5)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
               return (
                 <CarouselItem
                   key={idx}
@@ -1113,7 +2199,9 @@ export const ControlledCarousel: Story = {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`
+                    backgroundColor: 'surface-container',
+                    backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                    color: 'on-surface'
                   }}
                 >
                   Slide {idx + 1}
@@ -1131,20 +2219,28 @@ export const ControlledCarousel: Story = {
 };
 
 export const BasicControlButtons: Story = {
-  render: (args) => (
+  render: () => <BasicControlButtonsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicControlButtonsTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1152,7 +2248,9 @@ export const BasicControlButtons: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1163,24 +2261,36 @@ export const BasicControlButtons: Story = {
       <CarouselPrevButton />
       <CarouselNextButton />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const ControlButtonsPosition: Story = {
-  render: (args) => (
+  render: () => <ControlButtonsPositionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const ControlButtonsPositionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1188,7 +2298,9 @@ export const ControlButtonsPosition: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1199,24 +2311,36 @@ export const ControlButtonsPosition: Story = {
       <CarouselPrevButton position="bottom-start" />
       <CarouselNextButton position="bottom-end" />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const CustomControlButtons: Story = {
-  render: (args) => (
+  render: () => <CustomControlButtonsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomControlButtonsTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1224,7 +2348,9 @@ export const CustomControlButtons: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1237,46 +2363,65 @@ export const CustomControlButtons: Story = {
         disableRipple
         style={{
           display: 'inline-flex',
-          alignItems: 'center',
-          fontWeight: '700',
-          color: 'gray-500'
+          alignItems: 'center'
         }}
       >
-        <FirstPageIcon color="gray-500" />
-        <span>Prev</span>
+        <FirstPageIcon color="on-surface-variant" />
+        <Text
+          className="typo-label-medium"
+          style={{ color: 'on-surface-variant' }}
+        >
+          Prev
+        </Text>
       </CarouselPrevButton>
       <CarouselNextButton
         disableOverlay
         disableRipple
         style={{
           display: 'inline-flex',
-          alignItems: 'center',
-          fontWeight: '700',
-          color: 'gray-500'
+          alignItems: 'center'
         }}
       >
-        <span>Next</span>
-        <LastPageIcon color="gray-500" />
+        <Text
+          className="typo-label-medium"
+          style={{ color: 'on-surface-variant' }}
+        >
+          Next
+        </Text>
+        <LastPageIcon color="on-surface-variant" />
       </CarouselNextButton>
     </Carousel>
-  )
+  );
+};
+`.trim()
+      }
+    }
+  }
 };
 
 export const BasicDots: Story = {
-  render: (args) => (
+  render: () => <BasicDotsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicDotsTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1284,7 +2429,9 @@ export const BasicDots: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1294,24 +2441,36 @@ export const BasicDots: Story = {
       </CarouselContent>
       <CarouselDots />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const DotsPosition: Story = {
-  render: (args) => (
+  render: () => <DotsPositionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const DotsPositionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1319,7 +2478,9 @@ export const DotsPosition: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1329,24 +2490,37 @@ export const DotsPosition: Story = {
       </CarouselContent>
       <CarouselDots position="top-center" />
     </Carousel>
-  )
+  );
+};
+`.trim()
+      }
+    }
+  }
 };
 
 export const CustomDots: Story = {
-  render: (args) => (
+  render: () => <CustomDotsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomDotsTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1354,7 +2528,9 @@ export const CustomDots: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1366,36 +2542,43 @@ export const CustomDots: Story = {
         {Array(5)
           .fill(0)
           .map((_, idx) => (
-            <CarouselDot
-              key={idx}
-              value={idx}
-              size="lg"
-              color="secondary"
-              style={{ color: 'white' }}
-            >
+            <CarouselDot key={idx} value={idx} size="lg" color="secondary">
               {idx + 1}
             </CarouselDot>
           ))}
       </CarouselDots>
     </Carousel>
-  )
+  );
+};
+`.trim()
+      }
+    }
+  }
 };
 
 export const BasicFraction: Story = {
-  render: (args) => (
+  render: () => <BasicFractionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicFractionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1403,7 +2586,9 @@ export const BasicFraction: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1413,24 +2598,36 @@ export const BasicFraction: Story = {
       </CarouselContent>
       <CarouselFraction />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const FractionPosition: Story = {
-  render: (args) => (
+  render: () => <FractionPositionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const FractionPositionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1438,7 +2635,9 @@ export const FractionPosition: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1448,24 +2647,36 @@ export const FractionPosition: Story = {
       </CarouselContent>
       <CarouselFraction position="bottom-end" />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const CustomFraction: Story = {
-  render: (args) => (
+  render: () => <CustomFractionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomFractionTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1473,7 +2684,9 @@ export const CustomFraction: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1484,30 +2697,42 @@ export const CustomFraction: Story = {
       <CarouselFraction
         size="lg"
         style={{
-          backgroundColor: 'rgba(0,0,0,0.2)',
+          backgroundColor: 'surface-container-high',
           borderRadius: '16px',
           padding: '3px 10px'
         }}
       />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const BasicProgress: Story = {
-  render: (args) => (
+  render: () => <BasicProgressTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicProgressTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1515,7 +2740,9 @@ export const BasicProgress: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1525,24 +2752,36 @@ export const BasicProgress: Story = {
       </CarouselContent>
       <CarouselProgress />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const ProgressPosition: Story = {
-  render: (args) => (
+  render: () => <ProgressPositionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicProgressTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1550,7 +2789,9 @@ export const ProgressPosition: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1558,26 +2799,38 @@ export const ProgressPosition: Story = {
             );
           })}
       </CarouselContent>
-      <CarouselProgress position="bottom" />
+      <CarouselProgress />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const CustomProgress: Story = {
-  render: (args) => (
+  render: () => <CustomProgressTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const CustomProgressTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1585,7 +2838,9 @@ export const CustomProgress: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1599,25 +2854,37 @@ export const CustomProgress: Story = {
         thickness={6}
       />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Orientation: Story = {
-  render: (args) => (
+  render: () => <OrientationTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const OrientationTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
-      orientation="vertical"
+      orientation='vertical'
       style={{
         width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1625,7 +2892,9 @@ export const Orientation: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1638,11 +2907,22 @@ export const Orientation: Story = {
       <CarouselPrevButton />
       <CarouselNextButton />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const BasicAutoplay: Story = {
-  render: (args) => (
+  render: () => <BasicAutoplayTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BasicAutoplayTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       autoplay
       style={{
@@ -1650,13 +2930,14 @@ export const BasicAutoplay: Story = {
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1664,7 +2945,9 @@ export const BasicAutoplay: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1674,7 +2957,11 @@ export const BasicAutoplay: Story = {
       </CarouselContent>
       <CarouselDots />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const DetectLeftTimeChange: Story = {
@@ -1683,6 +2970,7 @@ export const DetectLeftTimeChange: Story = {
     docs: {
       source: {
         code: `const DetectLeftTimeChangeTemplate = () => {
+  const { theme } = useJinni();
   const DEFAULT_AUTOPLAY_DURATION = 5 * SECOND;
   const [autoplayLeftTime, setAutoplayLeftTime] = useState(
     DEFAULT_AUTOPLAY_DURATION
@@ -1712,7 +3000,9 @@ export const DetectLeftTimeChange: Story = {
           {Array(5)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
               return (
                 <CarouselItem
                   key={idx}
@@ -1720,7 +3010,9 @@ export const DetectLeftTimeChange: Story = {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`
+                    backgroundColor: 'surface-container',
+                    backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                    color: 'on-surface'
                   }}
                 >
                   Slide {idx + 1}
@@ -1748,7 +3040,7 @@ export const DetectLeftTimeChange: Story = {
             transform: 'translate(-50%, -50%)',
             padding: 0,
             margin: 0,
-            color: 'gray-500'
+            color: 'on-surface-variant'
           }}
         >{\`\${Math.ceil(autoplayLeftTime / SECOND)}s\`}</Text>
       </Box>
@@ -1766,6 +3058,7 @@ export const AutoplayDuration: Story = {
     docs: {
       source: {
         code: `const AutoplayDurationTemplate = () => {
+  const { theme } = useJinni();
   const AUTOPLAY_DURATION = 3 * SECOND;
   const [autoplayLeftTime, setAutoplayLeftTime] = useState(AUTOPLAY_DURATION);
   const autoplayProgressPercent =
@@ -1791,7 +3084,9 @@ export const AutoplayDuration: Story = {
           {Array(5)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
               return (
                 <CarouselItem
                   key={idx}
@@ -1799,7 +3094,9 @@ export const AutoplayDuration: Story = {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`
+                    backgroundColor: 'surface-container',
+                    backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                    color: 'on-surface'
                   }}
                 >
                   Slide {idx + 1}
@@ -1827,14 +3124,13 @@ export const AutoplayDuration: Story = {
             transform: 'translate(-50%, -50%)',
             padding: 0,
             margin: 0,
-            color: 'gray-500'
+            color: 'on-surface-variant'
           }}
         >{\`\${autoplayLeftTime / SECOND}s\`}</Text>
       </Box>
     </div>
   );
-};
-`.trim()
+};`.trim()
       }
     }
   }
@@ -1846,6 +3142,7 @@ export const DisableAutoplayOnInteraction: Story = {
     docs: {
       source: {
         code: `const DisableAutoplayOnInteractionTemplate = () => {
+  const { theme } = useJinni();
   const AUTOPLAY_DURATION = 5 * SECOND;
   const [autoplayLeftTime, setAutoplayLeftTime] = useState(AUTOPLAY_DURATION);
   const autoplayProgressPercent =
@@ -1872,7 +3169,9 @@ export const DisableAutoplayOnInteraction: Story = {
           {Array(5)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
               return (
                 <CarouselItem
                   key={idx}
@@ -1880,7 +3179,9 @@ export const DisableAutoplayOnInteraction: Story = {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`
+                    backgroundColor: 'surface-container',
+                    backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                    color: 'on-surface'
                   }}
                 >
                   Slide {idx + 1}
@@ -1908,7 +3209,7 @@ export const DisableAutoplayOnInteraction: Story = {
             transform: 'translate(-50%, -50%)',
             padding: 0,
             margin: 0,
-            color: 'gray-500'
+            color: 'on-surface-variant'
           }}
         >{\`\${autoplayLeftTime / SECOND}s\`}</Text>
       </Box>
@@ -1921,7 +3222,14 @@ export const DisableAutoplayOnInteraction: Story = {
 };
 
 export const Spacing: Story = {
-  render: (args) => (
+  render: () => <SpacingTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SpacingTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       spacing={20}
       style={{
@@ -1929,13 +3237,14 @@ export const Spacing: Story = {
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1943,7 +3252,9 @@ export const Spacing: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -1953,7 +3264,11 @@ export const Spacing: Story = {
       </CarouselContent>
       <CarouselDots />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const SlidePerViewProportional: Story = {
@@ -1962,6 +3277,7 @@ export const SlidePerViewProportional: Story = {
     docs: {
       source: {
         code: `const SlidePerViewProportionalTemplate = () => {
+  const { theme } = useJinni();
   const GAP = 10;
   const SLIDES_PER_VIEW = 3;
   const SLIDES = 5;
@@ -1987,7 +3303,9 @@ export const SlidePerViewProportional: Story = {
         {Array(SLIDES)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -1995,7 +3313,9 @@ export const SlidePerViewProportional: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface',
                   flex: \`0 0 calc((100% - \${GAP * 2}px) / \${SLIDES_PER_VIEW})\`
                 }}
               >
@@ -2022,21 +3342,29 @@ export const SlidePerViewProportional: Story = {
 };
 
 export const SlidePerViewNotProportional: Story = {
-  render: (args) => (
+  render: () => <SlidePerViewNotProportionalTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SlidePerViewNotProportionalTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       spacing={20}
       style={{
-        width: '600px',
+        width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -2044,9 +3372,11 @@ export const SlidePerViewNotProportional: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface',
                   flex: '0 0 auto',
-                  width: `${100 * (idx + 1)}px`
+                  width: \`\${100 * (idx + 1)}px\`
                 }}
               >
                 Slide {idx + 1}
@@ -2058,7 +3388,11 @@ export const SlidePerViewNotProportional: Story = {
       <CarouselPrevButton />
       <CarouselNextButton />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const Grid: Story = {
@@ -2067,6 +3401,7 @@ export const Grid: Story = {
     docs: {
       source: {
         code: `const GridTemplate = () => {
+  const { theme } = useJinni();
   const GAP = 10;
   const SLIDES_PER_VIEW = 3;
   const SLIDES = 5;
@@ -2093,7 +3428,9 @@ export const Grid: Story = {
         {Array(SLIDES)
           .fill(0)
           .map((_, slideIdx) => {
-            const channel = 255 - 5 * (slideIdx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * slideIdx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={slideIdx}
@@ -2108,12 +3445,15 @@ export const Grid: Story = {
                   .fill(0)
                   .map((_, boxIdx) => (
                     <Box
+                      key={boxIdx}
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
                         flex: 1,
-                        backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`
+                        backgroundColor: 'surface-container',
+                        backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                        color: 'on-surface'
                       }}
                     >
                       Slide {2 * slideIdx + boxIdx + 1}
@@ -2138,6 +3478,7 @@ export const SlideAlignmentProportional: Story = {
     docs: {
       source: {
         code: `const SlideAlignmentProportionalTemplate = () => {
+  const { theme } = useJinni();
   const GAP = 10;
   const SLIDES_PER_VIEW = 3;
   const SLIDES = 5;
@@ -2156,7 +3497,9 @@ export const SlideAlignmentProportional: Story = {
         {Array(SLIDES)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -2164,7 +3507,9 @@ export const SlideAlignmentProportional: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface',
                   flex: \`0 0 calc((100% - \${GAP * 2}px) / \${SLIDES_PER_VIEW})\`
                 }}
               >
@@ -2185,22 +3530,30 @@ export const SlideAlignmentProportional: Story = {
 };
 
 export const SlideAlignmentNotProportional: Story = {
-  render: (args) => (
+  render: () => <SlideAlignmentNotProportionalTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SlideAlignmentNotProportionalTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       spacing={10}
       slideAlignment="center"
       style={{
-        width: '600px',
+        width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -2208,9 +3561,11 @@ export const SlideAlignmentNotProportional: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface',
                   flex: '0 0 auto',
-                  width: `${100 * (idx + 1)}px`
+                  width: \`\${100 * (idx + 1)}px\`
                 }}
               >
                 Slide {idx + 1}
@@ -2222,26 +3577,38 @@ export const SlideAlignmentNotProportional: Story = {
       <CarouselPrevButton />
       <CarouselNextButton />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const SnapFreeMode: Story = {
-  render: (args) => (
-    <Carousel
-      snapMode="free"
+  render: () => <SnapFreeModeTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SnapFreeModeTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
+    <Carousel 
+      snapMode='free'
       spacing={10}
       style={{
-        width: '600px',
+        width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
-        {Array(10)
+        {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -2249,7 +3616,9 @@ export const SnapFreeMode: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface',
                   flex: '0 0 auto',
                   width: '200px'
                 }}
@@ -2262,27 +3631,39 @@ export const SnapFreeMode: Story = {
       <CarouselPrevButton />
       <CarouselNextButton />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const SlipEffect: Story = {
-  render: (args) => (
+  render: () => <SlipEffectTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SlipEffectTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       snapMode="free"
       disableSlipEffect
       spacing={10}
       style={{
-        width: '600px',
+        width: '500px',
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
-        {Array(10)
+        {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -2290,7 +3671,9 @@ export const SlipEffect: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface',
                   flex: '0 0 auto',
                   width: '200px'
                 }}
@@ -2303,7 +3686,11 @@ export const SlipEffect: Story = {
       <CarouselPrevButton />
       <CarouselNextButton />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const SlipSize: Story = {
@@ -2312,6 +3699,7 @@ export const SlipSize: Story = {
     docs: {
       source: {
         code: `const SlipSizeTemplate = () => {
+  const { theme } = useJinni();
   const SLIP_SIZES = ['small', 'medium', 'large'] as const;
   const [slipSize, setSlipSize] =
     useState<(typeof SLIP_SIZES)[number]>('medium');
@@ -2325,7 +3713,7 @@ export const SlipSize: Story = {
       <RadioGroup name="slip-size" value={slipSize} onChange={changeSlipSize}>
         <Stack direction="row">
           {SLIP_SIZES.map((size) => (
-            <Label content={size}>
+            <Label key={size} content={size} style={{ color: 'on-surface' }}>
               <Radio value={size} />
             </Label>
           ))}
@@ -2345,7 +3733,9 @@ export const SlipSize: Story = {
           {Array(10)
             .fill(0)
             .map((_, idx) => {
-              const channel = 255 - 5 * (idx + 1);
+              const channel = theme === 'light' ? 0 : 255;
+              const alpha = (5 * idx) / 100;
+              const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
               return (
                 <CarouselItem
                   key={idx}
@@ -2353,7 +3743,9 @@ export const SlipSize: Story = {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`,
+                    backgroundColor: 'surface-container',
+                    backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                    color: 'on-surface',
                     flex: '0 0 auto',
                     width: '200px'
                   }}
@@ -2381,7 +3773,8 @@ export const NestedCarousel: Story = {
       style={{
         width: '500px',
         height: '300px',
-        border: '1px solid lightgray'
+        border: '1px solid lightgray',
+        color: 'on-surface'
       }}
       {...args}
     >
@@ -2391,7 +3784,7 @@ export const NestedCarousel: Story = {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'gray-100'
+            backgroundColor: 'surface-container-low'
           }}
         >
           Slide 1
@@ -2401,7 +3794,7 @@ export const NestedCarousel: Story = {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'gray-100'
+            backgroundColor: 'surface-container-low'
           }}
         >
           Slide 2
@@ -2411,7 +3804,7 @@ export const NestedCarousel: Story = {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'gray-100'
+            backgroundColor: 'surface-container-low'
           }}
         >
           <Carousel
@@ -2428,7 +3821,7 @@ export const NestedCarousel: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: 'gray-200'
+                  backgroundColor: 'surface-container-high'
                 }}
               >
                 Slide 3-1
@@ -2438,7 +3831,7 @@ export const NestedCarousel: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: 'gray-200'
+                  backgroundColor: 'surface-container-high'
                 }}
               >
                 Slide 3-2
@@ -2448,7 +3841,7 @@ export const NestedCarousel: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: 'gray-200'
+                  backgroundColor: 'surface-container-high'
                 }}
               >
                 Slide 3-3
@@ -2462,7 +3855,7 @@ export const NestedCarousel: Story = {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'gray-100'
+            backgroundColor: 'surface-container-low'
           }}
         >
           Slide 4
@@ -2474,7 +3867,14 @@ export const NestedCarousel: Story = {
 };
 
 export const SwipeEffect: Story = {
-  render: (args) => (
+  render: () => <SwipeEffectTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const SwipeEffectTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       disableSwipeEffect
       style={{
@@ -2482,13 +3882,14 @@ export const SwipeEffect: Story = {
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -2496,7 +3897,9 @@ export const SwipeEffect: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -2506,11 +3909,22 @@ export const SwipeEffect: Story = {
       </CarouselContent>
       <CarouselDots />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const BounceEffect: Story = {
-  render: (args) => (
+  render: () => <BounceEffectTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const BounceEffectTemplate = () => {
+  const { theme } = useJinni();
+
+  return (
     <Carousel
       disableBounceEffect
       style={{
@@ -2518,13 +3932,14 @@ export const BounceEffect: Story = {
         height: '300px',
         border: '1px solid lightgray'
       }}
-      {...args}
     >
       <CarouselContent>
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -2532,7 +3947,9 @@ export const BounceEffect: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: `rgb(${channel},${channel},${channel})`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -2542,7 +3959,11 @@ export const BounceEffect: Story = {
       </CarouselContent>
       <CarouselDots />
     </Carousel>
-  )
+  );
+};`.trim()
+      }
+    }
+  }
 };
 
 export const DotsAnimation: Story = {
@@ -2551,6 +3972,7 @@ export const DotsAnimation: Story = {
     docs: {
       source: {
         code: `const DotsAnimationTemplate = () => {
+  const { theme } = useJinni();
   const SLIDES = 5;
   const DEFAULT_VALUE = 1;
   const DEFAULT_DOT_SIZE = 10;
@@ -2613,7 +4035,9 @@ export const DotsAnimation: Story = {
         {Array(SLIDES)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -2626,7 +4050,9 @@ export const DotsAnimation: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -2749,7 +4175,8 @@ export const CoverflowEffect: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: 'gray-200',
+                  backgroundColor: 'surface-container',
+                  color: 'on-surface',
                   flex: '0 0 60%',
                   '--translate-z': \`-\${Math.abs(rotateDegree * 2)}px\`,
                   '--rotate-y': \`\${rotateDegree}deg\`,
@@ -2824,7 +4251,8 @@ export const StartOffsetSlides: Story = {
                   alignItems: 'center',
                   width: '100%',
                   height: '100%',
-                  backgroundColor: 'gray-100'
+                  backgroundColor: 'surface-container',
+                  color: 'on-surface'
                 }}
               >
                 Slide {idx + 1}
@@ -2878,7 +4306,8 @@ export const SequentiallyScaledDots: Story = {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: 'gray-100'
+                backgroundColor: 'surface-container',
+                color: 'on-surface'
               }}
             >
               Slide {idx + 1}
@@ -2919,6 +4348,7 @@ export const FadeEffect: Story = {
     docs: {
       source: {
         code: `const FadeEffectTemplate = () => {
+  const { theme } = useJinni();
   const [value, setValue] = useState(0);
 
   const handleChange = (newValue: number) => {
@@ -2940,7 +4370,9 @@ export const FadeEffect: Story = {
         {Array(5)
           .fill(0)
           .map((_, idx) => {
-            const channel = 255 - 5 * (idx + 1);
+            const channel = theme === 'light' ? 0 : 255;
+            const alpha = (5 * idx) / 100;
+            const overlayColor = \`rgba(\${channel},\${channel},\${channel},\${alpha})\`;
             return (
               <CarouselItem
                 key={idx}
@@ -2953,7 +4385,9 @@ export const FadeEffect: Story = {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: \`rgb(\${channel},\${channel},\${channel})\`,
+                  backgroundColor: 'surface-container',
+                  backgroundImage: \`linear-gradient(to bottom, \${overlayColor}, \${overlayColor})\`,
+                  color: 'on-surface',
                   opacity: idx <= value ? 1 : 0,
                   transition: 'opacity 0.5s ease'
                 }}
