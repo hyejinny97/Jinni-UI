@@ -84,7 +84,7 @@ const DeletableChipTemplate = () => {
           style={{ width: '100%', height: '100%' }}
         >
           <CancelIcon
-            color="gray-700"
+            color="on-surface-variant"
             style={{ width: '100%', height: '100%' }}
           />
         </ButtonBase>
@@ -112,7 +112,7 @@ const ClickableDeletableChipTemplate = () => {
           tabIndex={0}
           aria-label="delete chip"
           onClick={handleDelete}
-          color="gray-700"
+          color="on-surface-variant"
         />
       }
     >
@@ -152,7 +152,7 @@ const IngredientChips = () => {
             />
           );
         } else if (isSelected) {
-          startAdornment = <CheckIcon color="white" />;
+          startAdornment = <CheckIcon color="surface-container-lowest" />;
         }
         return (
           <Chip
@@ -249,7 +249,7 @@ export const DeletableChip: Story = {
           style={{ width: '100%', height: '100%' }}
         >
           <CancelIcon
-            color="gray-700"
+            color="on-surface-variant"
             style={{ width: '100%', height: '100%' }}
           />
         </ButtonBase>
@@ -286,7 +286,7 @@ export const ClickableDeletableChip: Story = {
           tabIndex={0}
           aria-label="delete chip"
           onClick={handleDelete}
-          color="gray-700"
+          color="on-surface-variant"
         />
       }
     >
@@ -305,14 +305,41 @@ export const LinkChip: Story = {
       <Chip as="a" href="#">
         Link chip (as HTML a element)
       </Chip>
-      <Chip as={Link} href="#" underline="hover">
+      <Chip
+        as={Link}
+        href="#"
+        underline="hover"
+        style={{ color: 'on-surface-variant' }}
+      >
         Link chip (as Link)
       </Chip>
       <Chip as={ButtonBase} href="#">
         Link chip (as ButtonBase)
       </Chip>
     </Stack>
-  )
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stack direction="row" spacing={30}>
+  <Chip as="a" href="#">
+    Link chip (as HTML a element)
+  </Chip>
+  <Chip
+    as={Link}
+    href="#"
+    underline="hover"
+    style={{ color: 'on-surface-variant' }}
+  >
+    Link chip (as Link)
+  </Chip>
+  <Chip as={ButtonBase} href="#">
+    Link chip (as ButtonBase)
+  </Chip>
+</Stack>`.trim()
+      }
+    }
+  }
 };
 
 export const ChipVariant: Story = {
@@ -394,13 +421,25 @@ export const Size: Story = {
           </Chip>
         </Stack>
         <Stack direction="row" spacing={30}>
-          <Chip startAdornment={<PersonIcon />} size="sm" {...args}>
+          <Chip
+            startAdornment={<PersonIcon color="on-surface-variant" />}
+            size="sm"
+            {...args}
+          >
             Small chip
           </Chip>
-          <Chip startAdornment={<PersonIcon />} size="md" {...args}>
+          <Chip
+            startAdornment={<PersonIcon color="on-surface-variant" />}
+            size="md"
+            {...args}
+          >
             Medium chip
           </Chip>
-          <Chip startAdornment={<PersonIcon />} size="lg" {...args}>
+          <Chip
+            startAdornment={<PersonIcon color="on-surface-variant" />}
+            size="lg"
+            {...args}
+          >
             Large chip
           </Chip>
         </Stack>
@@ -468,7 +507,7 @@ export const Customization: Story = {
             />
           );
         } else if (isSelected) {
-          startAdornment = <CheckIcon color="white" />;
+          startAdornment = <CheckIcon color="surface-container-lowest" />;
         }
         return (
           <Chip
