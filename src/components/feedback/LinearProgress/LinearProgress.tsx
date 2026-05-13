@@ -24,7 +24,7 @@ const LinearProgress = <T extends AsType = 'div'>(
     value,
     thickness = 4,
     progressColor = 'primary',
-    trackColor = 'gray-200',
+    trackColor = 'surface-container-highest',
     lineCap = 'butt',
     speed = 1.5,
     orientation = 'horizontal',
