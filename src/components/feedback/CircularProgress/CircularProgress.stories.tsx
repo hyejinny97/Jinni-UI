@@ -89,7 +89,7 @@ const WithLabel = () => {
           transform: 'translate(-50%, -50%)',
           padding: 0,
           margin: 0,
-          color: 'gray-500'
+          color: 'on-surface-variant'
         }}
       >{`${value}%`}</Text>
     </Box>
@@ -124,7 +124,7 @@ const SaveButton = () => {
         {state === 'saved' ? (
           <CheckIcon color="white" />
         ) : (
-          <SaveIcon color="white" />
+          <SaveIcon color="on-primary" />
         )}
       </ButtonBase>
       {state === 'saving' && (
@@ -190,7 +190,7 @@ export const CircularWithLabel: Story = {
           transform: 'translate(-50%, -50%)',
           padding: 0,
           margin: 0,
-          color: 'gray-500'
+          color: 'on-surface-variant'
         }}
       >{\`\${value}%\`}</Text>
     </Box>
@@ -220,9 +220,13 @@ export const TrackColor: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <CircularProgress trackColor="gray-200" {...args} />
         <CircularProgress
-          progressColor="yellow-400"
+          progressColor="on-primary-container"
+          trackColor="primary-container"
+          {...args}
+        />
+        <CircularProgress
+          progressColor="yellow-500"
           trackColor="yellow-200"
           {...args}
         />
@@ -292,7 +296,7 @@ export const Customization: Story = {
         {state === 'saved' ? (
           <CheckIcon color="white" />
         ) : (
-          <SaveIcon color="white" />
+          <SaveIcon color="on-primary" />
         )}
       </ButtonBase>
       {state === 'saving' && (
