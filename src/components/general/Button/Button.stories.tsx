@@ -164,7 +164,10 @@ export const IconButton: Story = {
   render: (args) => {
     return (
       <Stack direction="row" spacing={20}>
-        <Button startAdornment={<MailIcon color="white" />} {...args}>
+        <Button
+          startAdornment={<MailIcon color="surface-container-lowest" />}
+          {...args}
+        >
           Mail
         </Button>
         <Button
