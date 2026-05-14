@@ -70,7 +70,11 @@ const DefaultTreeItem = (itemProps: ItemProps) => {
   const { leaf, expanded, label, ...rest } = itemProps;
   let icon: React.ReactNode = null;
   if (!leaf) {
-    icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+    icon = expanded ? (
+      <ArrowDownIcon color="on-surface-variant" />
+    ) : (
+      <ArrowRightIcon color="on-surface-variant" />
+    );
   }
   return (
     <TreeItem expanded={expanded} {...rest}>

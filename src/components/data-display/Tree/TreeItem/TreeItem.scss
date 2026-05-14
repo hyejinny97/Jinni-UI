@@ -5,16 +5,19 @@
   padding: 4px 8px 4px calc(8px + var(--layer) * 12px);
   border-radius: 4px;
   cursor: pointer;
+  background-color: var(--jinni-color-surface-container-lowest);
+  color: var(--jinni-color-on-surface);
 
   &:hover {
-    background-image: var(--jinni-black-overlay-1);
+    background-image: var(--hover-overlay);
   }
   &:focus {
     outline: none;
-    background-image: var(--jinni-black-overlay-5);
+    background-image: var(--focus-overlay);
   }
   &.selected {
-    background-color: var(--selected-color);
+    background-color: var(--selected-background-color);
+    color: var(--selected-color);
   }
   &.disabled {
     opacity: 0.5;

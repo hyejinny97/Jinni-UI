@@ -1,11 +1,14 @@
 import './TreeItem.scss';
 import cn from 'classnames';
+import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { TreeItemIdType } from './TreeItem.types';
 import useColor from '@/hooks/useColor';
+import useJinni from '@/hooks/useJinni';
 import { ColorType } from '@/types/color';
 import { validatePositiveInteger } from '@/utils/isNumber';
+import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
 
 type TreeItemProps<T extends AsType = 'li'> = Omit<
   DefaultComponentProps<T>,
@@ -34,9 +37,17 @@ const TreeItem = <T extends AsType = 'li'>(props: TreeItemProps<T>) => {
     as: Component = 'li',
     ...rest
   } = props;
+  const { theme } = useJinni();
   const normalizedColor = useColor(color);
+  const textColor = useMemo(() => {
+    const closerColor = getCloserToWhiteOrBlack(normalizedColor);
+    return closerColor === 'white' ? 'black' : 'white';
+  }, [normalizedColor]);
   const newStyle = useStyle({
-    '--selected-color': `${normalizedColor}`,
+    '--hover-overlay': `var(--jinni-${theme === 'light' ? 'black' : 'white'}-overlay-1)`,
+    '--focus-overlay': `var(--jinni-${theme === 'light' ? 'black' : 'white'}-overlay-5)`,
+    '--selected-background-color': `${normalizedColor}`,
+    '--selected-color': textColor,
     '--layer': validatePositiveInteger({
       value: layer,
       allow: ['zero'],

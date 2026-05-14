@@ -64,7 +64,11 @@ const LayerTemplate = () => {
 
   return (
     <Stack spacing={10} style={{ width: '300px' }}>
-      <Label content="Layer: " labelPlacement="start" style={{ gap: '10px' }}>
+      <Label
+        content="Layer: "
+        labelPlacement="start"
+        style={{ gap: '10px', color: 'on-surface' }}
+      >
         <Slider
           value={layer}
           onChange={changeLayer}
@@ -74,7 +78,11 @@ const LayerTemplate = () => {
           style={{ width: '100%' }}
         />
       </Label>
-      <TreeItem id={1} layer={layer} style={{ backgroundColor: 'gray-100' }}>
+      <TreeItem
+        id={1}
+        layer={layer}
+        style={{ backgroundColor: 'surface-container-highest' }}
+      >
         TreeItem Contents
       </TreeItem>
     </Stack>
@@ -106,7 +114,11 @@ export const Layer: Story = {
 
   return (
     <Stack spacing={10} style={{ width: '300px' }}>
-      <Label content="Layer: " labelPlacement="start" style={{ gap: '10px' }}>
+      <Label
+        content="Layer: "
+        labelPlacement="start"
+        style={{ gap: '10px', color: 'on-surface' }}
+      >
         <Slider
           value={layer}
           onChange={changeLayer}
@@ -116,7 +128,11 @@ export const Layer: Story = {
           style={{ width: '100%' }}
         />
       </Label>
-      <TreeItem id={1} layer={layer} style={{ backgroundColor: 'gray-100' }}>
+      <TreeItem
+        id={1}
+        layer={layer}
+        style={{ backgroundColor: 'surface-container-highest' }}
+      >
         TreeItem Contents
       </TreeItem>
     </Stack>
@@ -137,7 +153,7 @@ export const Selection: Story = {
 
 export const Color: Story = {
   render: (args) => (
-    <TreeItem id={1} selected color="yellow-200" {...args}>
+    <TreeItem id={1} selected color="primary" {...args}>
       TreeItem Contents
     </TreeItem>
   )
