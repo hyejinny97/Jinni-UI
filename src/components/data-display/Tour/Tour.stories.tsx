@@ -88,6 +88,8 @@ const GrayLineBox = forwardRef(
           border: '1px solid lightgrey',
           borderRadius: circular ? '100%' : '4px',
           boxSizing: 'border-box',
+          backgroundColor: 'surface-container-lowest',
+          color: 'on-surface',
           ...style
         }}
       >
@@ -185,7 +187,7 @@ const BasicTourTemplate = () => {
                 }}
                 aria-label="close tour"
               >
-                <CloseIcon />
+                <CloseIcon color="on-surface-variant" />
               </ButtonBase>
               <Text
                 className="typo-title-large"
@@ -216,7 +218,7 @@ const BasicTourTemplate = () => {
                   style={COMMON_BUTTON_BASE_STYLE}
                   aria-label="go prev tour step"
                 >
-                  <ArrowLeftIcon />
+                  <ArrowLeftIcon color="on-surface-variant" />
                 </ButtonBase>
                 <Dots value={stepIdx} onChange={handleDotChange}>
                   {Array(TOUR_LIST.length)
@@ -235,7 +237,7 @@ const BasicTourTemplate = () => {
                   style={COMMON_BUTTON_BASE_STYLE}
                   aria-label="go next tour step"
                 >
-                  <ArrowRightIcon />
+                  <ArrowRightIcon color="on-surface-variant" />
                 </ButtonBase>
               </Stack>
             </TourStep>
@@ -420,15 +422,15 @@ const SpotlightShapeTemplate = () => {
         <Box
           as="fieldset"
           round="md"
-          style={{ backgroundColor: 'gray-100', border: 'none' }}
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
         >
-          <Chip as="legend" variant="subtle-filled" color="gray-600">
+          <Chip as="legend" variant="filled" color="surface-container-highest">
             Shape
           </Chip>
           <RadioGroup name="shape" value={shape} onChange={handleShapeChange}>
             <Grid rows={1} columns={3} spacing={5}>
               {SHAPES.map((shape) => (
-                <Label content={shape}>
+                <Label content={shape} style={{ color: 'on-surface' }}>
                   <Radio value={shape} />
                 </Label>
               ))}
@@ -944,7 +946,7 @@ const CustomBoxTemplate = () => {
         BoxProps={{
           elevation: 20,
           round: 0,
-          style: { backgroundColor: 'gray-200' }
+          style: { backgroundColor: 'surface-container-highest' }
         }}
       >
         {TOUR_LIST.map(
@@ -1202,7 +1204,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
                   }}
                   aria-label="close tour"
                 >
-                  <CloseIcon />
+                  <CloseIcon color="on-surface-variant" />
                 </ButtonBase>
                 <Text
                   className="typo-title-large"
@@ -1233,7 +1235,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
                     style={COMMON_BUTTON_BASE_STYLE}
                     aria-label="go prev tour step"
                   >
-                    <ArrowLeftIcon />
+                    <ArrowLeftIcon color="on-surface-variant" />
                   </ButtonBase>
                   <Dots value={stepIdx} onChange={handleDotChange}>
                     {Array(TOUR_LIST.length)
@@ -1252,7 +1254,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
                     style={COMMON_BUTTON_BASE_STYLE}
                     aria-label="go next tour step"
                   >
-                    <ArrowRightIcon />
+                    <ArrowRightIcon color="on-surface-variant" />
                   </ButtonBase>
                 </Stack>
               </TourStep>
@@ -1441,7 +1443,7 @@ export const BasicTour: Story = {
                 }}
                 aria-label="close tour"
               >
-                <CloseIcon />
+                <CloseIcon color='on-surface-variant' />
               </ButtonBase>
               <Text
                 className="typo-title-large"
@@ -1472,7 +1474,7 @@ export const BasicTour: Story = {
                   style={COMMON_BUTTON_BASE_STYLE}
                   aria-label="go prev tour step"
                 >
-                  <ArrowLeftIcon />
+                  <ArrowLeftIcon color='on-surface-variant' />
                 </ButtonBase>
                 <Dots value={stepIdx} onChange={handleDotChange}>
                   {Array(TOUR_LIST.length)
@@ -1491,7 +1493,7 @@ export const BasicTour: Story = {
                   style={COMMON_BUTTON_BASE_STYLE}
                   aria-label="go next tour step"
                 >
-                  <ArrowRightIcon />
+                  <ArrowRightIcon color='on-surface-variant' />
                 </ButtonBase>
               </Stack>
             </TourStep>
@@ -1691,15 +1693,15 @@ export const SpotlightShape: Story = {
         <Box
           as="fieldset"
           round="md"
-          style={{ backgroundColor: 'gray-100', border: 'none' }}
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
         >
-          <Chip as="legend" variant="subtle-filled" color="gray-600">
+          <Chip as="legend" variant="filled" color="surface-container-highest">
             Shape
           </Chip>
           <RadioGroup name="shape" value={shape} onChange={handleShapeChange}>
             <Grid rows={1} columns={3} spacing={5}>
               {SHAPES.map((shape) => (
-                <Label content={shape}>
+                <Label content={shape} style={{ color: 'on-surface' }}>
                   <Radio value={shape} />
                 </Label>
               ))}
@@ -2239,7 +2241,7 @@ export const CustomBox: Story = {
         BoxProps={{
           elevation: 20,
           round: 0,
-          style: { backgroundColor: 'gray-200' }
+          style: { backgroundColor: 'surface-container-highest' }
         }}
       >
         {TOUR_LIST.map(
@@ -2459,7 +2461,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
                   }}
                   aria-label="close tour"
                 >
-                  <CloseIcon />
+                  <CloseIcon color='on-surface-variant' />
                 </ButtonBase>
                 <Text
                   className="typo-title-large"
@@ -2490,7 +2492,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
                     style={COMMON_BUTTON_BASE_STYLE}
                     aria-label="go prev tour step"
                   >
-                    <ArrowLeftIcon />
+                    <ArrowLeftIcon color='on-surface-variant' />
                   </ButtonBase>
                   <Dots value={stepIdx} onChange={handleDotChange}>
                     {Array(TOUR_LIST.length)
@@ -2509,7 +2511,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
                     style={COMMON_BUTTON_BASE_STYLE}
                     aria-label="go next tour step"
                   >
-                    <ArrowRightIcon />
+                    <ArrowRightIcon color='on-surface-variant' />
                   </ButtonBase>
                 </Stack>
               </TourStep>

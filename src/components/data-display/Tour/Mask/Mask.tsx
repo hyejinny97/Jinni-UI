@@ -6,7 +6,6 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useMaskSize, useSpotlightSize } from './Mask.hooks';
 import { ColorType } from '@/types/color';
-import useJinni from '@/hooks/useJinni';
 import useColor from '@/hooks/useColor';
 
 export type MaskOptionalProps = {
@@ -23,12 +22,11 @@ export type MaskProps<T extends AsType = 'svg'> = DefaultComponentProps<T> &
 const ROUNDED = 4;
 
 const Mask = <T extends AsType = 'svg'>(props: MaskProps<T>) => {
-  const { theme } = useJinni();
   const {
     spotlightElRef,
     spotlightPadding = 5,
     spotlightShape = 'rectangular',
-    maskColor = theme === 'light' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)',
+    maskColor = 'rgba(0,0,0,0.7)',
     className,
     style,
     ...rest
