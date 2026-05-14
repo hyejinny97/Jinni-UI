@@ -92,14 +92,14 @@ const TablePagination = <T extends AsType = 'div'>(
           onClick={goPrevPage}
           aria-label="go prev page"
         >
-          <ArrowLeftIcon />
+          <ArrowLeftIcon color="on-surface-variant" />
         </ButtonBase>
         <ButtonBase
           disabled={page === lastPage}
           onClick={goNextPage}
           aria-label="go next page"
         >
-          <ArrowRightIcon />
+          <ArrowRightIcon color="on-surface-variant" />
         </ButtonBase>
       </Stack>
     </Component>

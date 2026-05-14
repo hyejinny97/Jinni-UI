@@ -45,15 +45,15 @@ const AlignTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Align
         </Chip>
         <RadioGroup name="align" value={align} onChange={handleAlignChange}>
           <Grid columns={3} spacing={5}>
             {ALIGNS.map((align) => (
-              <Label content={align}>
+              <Label content={align} style={{ color: 'on-surface' }}>
                 <Radio value={align} />
               </Label>
             ))}
@@ -90,15 +90,15 @@ export const Align: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Align
         </Chip>
         <RadioGroup name="align" value={align} onChange={handleAlignChange}>
           <Grid columns={3} spacing={5}>
             {ALIGNS.map((align) => (
-              <Label content={align}>
+              <Label content={align} style={{ color: 'on-surface' }}>
                 <Radio value={align} />
               </Label>
             ))}

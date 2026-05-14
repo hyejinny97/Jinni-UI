@@ -788,7 +788,11 @@ const CollapsibleTableTemplate = () => {
                       }}
                       aria-label={`${isOpened ? 'hide' : 'show'} purchase history`}
                     >
-                      {isOpened ? <ArrowUpIcon /> : <ArrowDownIcon />}
+                      {isOpened ? (
+                        <ArrowUpIcon color="on-surface-variant" />
+                      ) : (
+                        <ArrowDownIcon color="on-surface-variant" />
+                      )}
                     </ButtonBase>
                   </TableCell>
                   {DESERT_COLUMNS.map(({ field, dataType }) => {
@@ -2653,7 +2657,11 @@ const CollapsibleTableTemplate = () => {
                       }}
                       aria-label={\`\${isOpened ? 'hide' : 'show'} purchase history\`}
                     >
-                      {isOpened ? <ArrowUpIcon /> : <ArrowDownIcon />}
+                      {isOpened ? (
+                        <ArrowUpIcon color="on-surface-variant" />
+                      ) : (
+                        <ArrowDownIcon color="on-surface-variant" />
+                      )}
                     </ButtonBase>
                   </TableCell>
                   {DESERT_COLUMNS.map(({ field, dataType }) => {

@@ -21,13 +21,13 @@
 }
 
 .JinniTable.custom-table {
-  .JinniTableHead {
+  .JinniTableHead .JinniTableCell {
     background-color: var(--jinni-color-primary);
     color: var(--jinni-color-on-primary);
   }
   .JinniTableBody {
-    .JinniTableRow:nth-child(even) {
-      background-color: var(--jinni-color-gray-100);
+    .JinniTableRow:nth-child(even) .JinniTableCell {
+      background-color: var(--jinni-color-surface-container-high);
     }
   }
 }

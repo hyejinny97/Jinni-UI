@@ -13,7 +13,9 @@
 .JinniTableCell {
   padding: var(--table-cell-padding);
   font-weight: var(--jinni-font-weight-regular);
-  border-bottom: 1px solid var(--jinni-color-gray-300);
+  border-bottom: 1px solid var(--jinni-color-outline-variant);
+  background-color: var(--jinni-color-surface-container-lowest);
+  color: var(--jinni-color-on-surface);
   box-sizing: border-box;
   @include alignment;
 
