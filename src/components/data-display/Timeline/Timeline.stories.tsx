@@ -124,7 +124,8 @@ const AlignmentTemplate = () => {
         spacing={5}
         style={{
           padding: '6px 16px',
-          backgroundColor: 'gray-50',
+          backgroundColor: 'surface-container',
+          color: 'on-surface',
           borderRadius: '4px'
         }}
       >
@@ -225,7 +226,8 @@ const OppositeContentTemplate = () => {
         spacing={5}
         style={{
           padding: '6px 16px',
-          backgroundColor: 'gray-50',
+          backgroundColor: 'surface-container',
+          color: 'on-surface',
           borderRadius: '4px'
         }}
       >
@@ -295,13 +297,13 @@ const CustomizeTimelineTemplate = () => {
     {
       content: '1. Ordered',
       oppositeContent: 'May 13, 2024',
-      icon: <ShoppingCartIcon color="white" />,
+      icon: <ShoppingCartIcon color="on-primary" />,
       status: 'completed'
     },
     {
       content: '2. Shipped',
       oppositeContent: 'June 20, 2024',
-      icon: <LocalShippingIcon color="white" />,
+      icon: <LocalShippingIcon color="on-primary" />,
       status: 'completed'
     },
     {
@@ -446,7 +448,8 @@ export const Alignment: Story = {
         spacing={5}
         style={{
           padding: '6px 16px',
-          backgroundColor: 'gray-50',
+          backgroundColor: 'surface-container',
+          color: 'on-surface',
           borderRadius: '4px'
         }}
       >
@@ -556,7 +559,8 @@ export const OppositeContent: Story = {
         spacing={5}
         style={{
           padding: '6px 16px',
-          backgroundColor: 'gray-50',
+          backgroundColor: 'surface-container',
+          color: 'on-surface',
           borderRadius: '4px'
         }}
       >
@@ -632,7 +636,7 @@ export const LeftTimelinePosition: Story = {
       style={{
         width: '500px',
         padding: '16px 0',
-        backgroundColor: 'gray-50',
+        backgroundColor: 'surface-container',
         borderRadius: '4px'
       }}
       {...args}
@@ -667,7 +671,7 @@ export const RightTimelinePosition: Story = {
       style={{
         width: '500px',
         padding: '16px 0',
-        backgroundColor: 'gray-50',
+        backgroundColor: 'surface-container',
         borderRadius: '4px'
       }}
       {...args}
@@ -759,13 +763,13 @@ export const CustomizeTimeline: Story = {
     {
       content: '1. Ordered',
       oppositeContent: 'May 13, 2024',
-      icon: <ShoppingCartIcon color="white" />,
+      icon: <ShoppingCartIcon color="on-primary" />,
       status: 'completed'
     },
     {
       content: '2. Shipped',
       oppositeContent: 'June 20, 2024',
-      icon: <LocalShippingIcon color="white" />,
+      icon: <LocalShippingIcon color="on-primary" />,
       status: 'completed'
     },
     {
