@@ -170,7 +170,11 @@ const PopoverOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {POPOVER_ORIGIN.map((origin, idx) => (
-            <Label key={origin.label} content={origin.label}>
+            <Label
+              key={origin.label}
+              content={origin.label}
+              style={{ color: 'on-surface' }}
+            >
               <Radio
                 checked={checkedValue === idx}
                 value={String(idx)}
@@ -248,7 +252,11 @@ const AnchorOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <Label key={origin.label} content={origin.label}>
+            <Label
+              key={origin.label}
+              content={origin.label}
+              style={{ color: 'on-surface' }}
+            >
               <Radio
                 checked={checkedValue === idx}
                 value={String(idx)}
@@ -321,6 +329,7 @@ const AnchorPositionTemplate = () => {
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
+        style={{ color: 'var(--jinni-color-on-surface)' }}
       >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
@@ -607,10 +616,14 @@ export const PopoverOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {POPOVER_ORIGIN.map((origin, idx) => (
-            <Label key={origin.label} content={origin.label}>
+            <Label
+              key={origin.label}
+              content={origin.label}
+              style={{ color: 'on-surface' }}
+            >
               <Radio
                 checked={checkedValue === idx}
-                value={idx}
+                value={String(idx)}
                 onChange={check}
               />
             </Label>
@@ -694,10 +707,14 @@ export const AnchorOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <Label key={origin.label} content={origin.label}>
+            <Label
+              key={origin.label}
+              content={origin.label}
+              style={{ color: 'on-surface' }}
+            >
               <Radio
                 checked={checkedValue === idx}
-                value={idx}
+                value={String(idx)}
                 onChange={check}
               />
             </Label>
@@ -776,6 +793,7 @@ export const AnchorPosition: Story = {
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls="basic-popover"
+        style={{ color: 'var(--jinni-color-on-surface)' }}
       >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec

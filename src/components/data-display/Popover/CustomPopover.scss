@@ -1,7 +1,9 @@
 .custom-popover.JinniPopover {
-  .JinniBox {
+  .JinniPopoverContent.JinniBox {
     position: relative;
-    border: 1px solid var(--jinni-color-gray-300);
+    border: 1px solid var(--jinni-color-outline-variant);
+    background-color: var(--jinni-color-surface-container-high);
+
     &::before {
       content: '';
       position: absolute;
@@ -11,9 +13,10 @@
       width: 10px;
       height: 10px;
       background-color: white;
-      border: 1px solid var(--jinni-color-gray-300);
+      border: 1px solid var(--jinni-color-outline-variant);
       border-bottom: none;
       border-right: none;
+      background-color: var(--jinni-color-surface-container-high);
     }
   }
 }

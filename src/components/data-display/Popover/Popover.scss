@@ -3,7 +3,8 @@
     transform-origin: var(--transform-origin);
     .JinniPopoverContent {
       padding: 16px;
-      background-color: white;
+      background-color: var(--jinni-color-surface-container-lowest);
+      color: var(--jinni-color-on-surface);
       &:focus {
         outline: none;
       }
