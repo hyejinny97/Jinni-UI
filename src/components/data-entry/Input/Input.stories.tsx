@@ -143,7 +143,7 @@ const InputWithFormTemplate = () => {
           {message}
         </Alert>
       )}
-      <Stack spacing={10}>
+      <Stack spacing={10} style={{ color: 'on-surface' }}>
         <Label
           content="Name"
           labelPlacement="top"
@@ -603,7 +603,7 @@ export const InputWithForm: Story = {
           {message}
         </Alert>
       )}
-      <Stack spacing={10}>
+      <Stack spacing={10} style={{ color: 'on-surface' }}>
         <Label
           content="Name"
           labelPlacement="top"

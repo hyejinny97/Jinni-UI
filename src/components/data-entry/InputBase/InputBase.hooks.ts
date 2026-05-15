@@ -52,7 +52,7 @@ export const useColorStyle = ({
         theme === 'light'
           ? 'var(--jinni-black-overlay-1)'
           : 'var(--jinni-white-overlay-1)';
-      computedFocusedColor = `rgba(${r},${g},${b}, 0.3)`;
+      computedFocusedColor = `rgba(${r},${g},${b}, 0.2)`;
       break;
     }
     case 'borderless': {
@@ -60,13 +60,14 @@ export const useColorStyle = ({
         theme === 'light'
           ? 'var(--jinni-black-overlay-1)'
           : 'var(--jinni-white-overlay-1)';
-      computedFocusedColor = `rgba(${r},${g},${b}, 0.3)`;
+      computedFocusedColor = `rgba(${r},${g},${b}, 0.2)`;
     }
   }
 
   return {
     '--base-color': baseColor,
     '--hover-color': hoverColor,
-    '--focused-color': computedFocusedColor
+    '--focused-color': computedFocusedColor,
+    '--placeholder-color': theme === 'light' ? '#0005' : '#fff5'
   };
 };

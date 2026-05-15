@@ -1,0 +1,15 @@
+.JinniInput {
+  input[type='date'],
+  input[type='datetime-local'],
+  input[type='month'],
+  input[type='time'],
+  input[type='week'] {
+    &::-webkit-calendar-picker-indicator {
+      filter: invert(var(--icon-inverted));
+    }
+  }
+
+  input[type='search']::-webkit-search-cancel-button {
+    filter: invert(0.5);
+  }
+}

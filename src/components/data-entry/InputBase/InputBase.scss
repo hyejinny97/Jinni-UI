@@ -111,6 +111,7 @@
     flex: 1;
     box-sizing: border-box;
     line-height: 1.5;
+
     input,
     textarea {
       display: inline-block;
@@ -124,6 +125,9 @@
       font-size: inherit;
       color: inherit;
       line-height: inherit;
+      &::placeholder {
+        color: var(--placeholder-color);
+      }
     }
   }
 
