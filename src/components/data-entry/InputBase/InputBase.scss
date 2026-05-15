@@ -23,7 +23,7 @@
     }
     &.filled,
     &.borderless {
-      background-image: var(--jinni-black-overlay-1);
+      background-image: var(--hover-color);
     }
   }
 }
@@ -89,10 +89,12 @@
   width: max-content;
   height: max-content;
   box-sizing: border-box;
+  background-color: var(--jinni-color-surface-container-lowest);
+  color: var(--jinni-color-on-surface);
   border-radius: 4px;
   transition:
-    border-color var(--jinni-duration-short4) var(--jinni-easing-emphasized),
-    background-image var(--jinni-duration-short4) var(--jinni-easing-emphasized);
+    border-color var(--jinni-duration-short3) var(--jinni-easing-emphasized),
+    background-image var(--jinni-duration-short3) var(--jinni-easing-emphasized);
   &.disabled {
     opacity: 0.5;
   }
@@ -108,7 +110,6 @@
     display: inline-flex;
     flex: 1;
     box-sizing: border-box;
-    color: var(--jinni-color-gray-900);
     line-height: 1.5;
     input,
     textarea {
