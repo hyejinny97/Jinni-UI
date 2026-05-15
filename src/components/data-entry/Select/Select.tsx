@@ -53,7 +53,11 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
     MenuProps,
     startAdornment,
     endAdornment = (
-      <ArrowDownIcon className="arrow-down" color="gray-600" size={16} />
+      <ArrowDownIcon
+        className="arrow-down"
+        color="on-surface-variant"
+        size={16}
+      />
     ),
     variant,
     size = (labelContext?.size || 'md') as InputBaseProps['size'],
@@ -134,23 +138,21 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
         {...rest}
       >
         {notSelected ? placeholder : renderValue(selectedOption)}
-        {
-          <select
-            name={name}
-            value={
-              multiple ? selectedValue.map(String) : String(selectedValue[0])
-            }
-            onChange={() => {}}
-            multiple={multiple}
-            required={required}
-            tabIndex={-1}
-          >
-            <option value="" disabled hidden></option>
-            {transformToArray(selectedValue).map((val) => (
-              <option key={val} value={val} />
-            ))}
-          </select>
-        }
+        <select
+          name={name}
+          value={
+            multiple ? selectedValue.map(String) : String(selectedValue[0])
+          }
+          onChange={() => {}}
+          multiple={multiple}
+          required={required}
+          tabIndex={-1}
+        >
+          <option value="" disabled hidden></option>
+          {transformToArray(selectedValue).map((val) => (
+            <option key={val} value={val} />
+          ))}
+        </select>
       </InputBase>
       <Menu
         className={cn('JinniSelectMenu', menuClassName)}

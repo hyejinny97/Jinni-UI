@@ -114,7 +114,7 @@ const ControlledSelectTemplate = () => {
 
   return (
     <>
-      <Text>Selected value: {value}</Text>
+      <Text style={{ color: 'on-surface' }}>Selected value: {value}</Text>
       <Select value={value} onChange={handleChange}>
         {OPTIONS.map(({ value, label }) => (
           <Option key={value} value={value}>
@@ -175,7 +175,7 @@ const SelectWithFormTemplate = () => {
         content="Color"
         labelPlacement="top"
         required
-        style={{ alignItems: 'start' }}
+        style={{ alignItems: 'start', color: 'on-surface' }}
       >
         <Select name="color">
           <Option value="red">Red</Option>
@@ -233,7 +233,7 @@ export const ControlledSelect: Story = {
 
   return (
     <>
-      <Text>Selected value: {value}</Text>
+      <Text style={{ color: 'on-surface' }}>Selected value: {value}</Text>
       <Select value={value} onChange={handleChange}>
         {OPTIONS.map(({ value, label }) => (
           <Option key={value} value={value}>
@@ -289,11 +289,21 @@ export const GroupOption: Story = {
   render: (args) => {
     return (
       <Select {...args}>
-        <ListItem className="typo-title-medium">Category 1</ListItem>
+        <ListItem
+          className="typo-title-medium"
+          style={{ color: 'on-surface-variant' }}
+        >
+          Category 1
+        </ListItem>
         <Option value="Option 1">Option 1</Option>
         <Option value="Option 2">Option 2</Option>
         <Option value="Option 3">Option 3</Option>
-        <ListItem className="typo-title-medium">Category 2</ListItem>
+        <ListItem
+          className="typo-title-medium"
+          style={{ color: 'on-surface-variant' }}
+        >
+          Category 2
+        </ListItem>
         <Option value="Option 4">Option 4</Option>
         <Option value="Option 5">Option 5</Option>
         <Option value="Option 6">Option 6</Option>
@@ -315,7 +325,7 @@ export const RenderingValuesInChip: Story = {
             style={{ width: '100%', overflow: 'visible', flexWrap: 'wrap' }}
           >
             {selectedOptions.map(({ value, label }) => (
-              <Chip key={value} variant="subtle-filled">
+              <Chip key={value} variant="filled">
                 {label}
               </Chip>
             ))}
@@ -344,7 +354,7 @@ export const RenderingValuesInChip: Story = {
       style={{ width: '100%', overflow: 'visible', flexWrap: 'wrap' }}
     >
       {selectedOptions.map(({ value, label }) => (
-        <Chip key={value} variant="subtle-filled">
+        <Chip key={value} variant="filled">
           {label}
         </Chip>
       ))}
@@ -425,7 +435,7 @@ export const SelectWithForm: Story = {
         content="Color"
         labelPlacement="top"
         required
-        style={{ alignItems: 'start' }}
+        style={{ alignItems: 'start', color: 'on-surface' }}
       >
         <Select name="color">
           <Option value="red">Red</Option>
