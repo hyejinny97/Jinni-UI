@@ -89,7 +89,7 @@ const meta: Meta<typeof Checkbox> = {
       description: 'ripple 색상',
       table: {
         type: { summary: `'black' | 'white'` },
-        defaultValue: { summary: `'black'` }
+        defaultValue: { summary: `theme === 'light' ? 'black' : 'white'` }
       }
     },
     rippleStartLocation: {
