@@ -49,7 +49,7 @@ export const Dense: Story = {
 
 export const Elevation: Story = {
   render: (args) => (
-    <MenuList elevation={5} {...args}>
+    <MenuList elevation={10} {...args}>
       <MenuItem>My Account</MenuItem>
       <MenuItem>Profile</MenuItem>
       <MenuItem>Logout</MenuItem>

@@ -14,13 +14,14 @@
 @mixin focus {
   &:focus-visible {
     outline: none;
-    background-image: var(--jinni-black-overlay-5);
+    background-image: var(--overlay-color);
   }
 }
 
 .JinniMenuItem {
   display: inline-flex;
   list-style: none;
+  color: var(--jinni-color-on-surface);
 
   .JinniMenuItemButton {
     display: inline-flex;

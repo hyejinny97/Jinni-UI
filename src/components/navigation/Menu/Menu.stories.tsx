@@ -169,15 +169,15 @@ const IconMenuTemplate = () => {
         onClose={closeMenu}
       >
         <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
-          <CartIcon size={15} color="gray-700" />
+          <CartIcon size={15} color="on-surface-variant" />
           Cart
         </MenuItem>
         <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
-          <MailIcon size={15} color="gray-700" />
+          <MailIcon size={15} color="on-surface-variant" />
           Mail
         </MenuItem>
         <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
-          <PersonIcon size={15} color="gray-700" />
+          <PersonIcon size={15} color="on-surface-variant" />
           Profile
         </MenuItem>
       </Menu>
@@ -301,7 +301,7 @@ const GroupMenuTemplate = () => {
           style={{
             fontWeight: 'var(--jinni-font-weight-bold)',
             fontSize: '14px',
-            color: 'gray-600'
+            color: 'on-surface-variant'
           }}
         >
           Category 1
@@ -314,7 +314,7 @@ const GroupMenuTemplate = () => {
           style={{
             fontWeight: 'var(--jinni-font-weight-bold)',
             fontSize: '14px',
-            color: 'gray-600'
+            color: 'on-surface-variant'
           }}
         >
           Category 2
@@ -412,7 +412,9 @@ const OptionMenuTemplate = () => {
           style={{ columnGap: '5px' }}
         >
           <span style={{ display: 'inline-flex', minWidth: '15px' }}>
-            {selectedOptions.includes(0) && <CheckIcon size={15} />}
+            {selectedOptions.includes(0) && (
+              <CheckIcon size={15} color="on-primary-container" />
+            )}
           </span>
           Option 1
         </MenuItem>
@@ -423,7 +425,9 @@ const OptionMenuTemplate = () => {
           style={{ columnGap: '5px' }}
         >
           <span style={{ display: 'inline-flex', minWidth: '15px' }}>
-            {selectedOptions.includes(1) && <CheckIcon size={15} />}
+            {selectedOptions.includes(1) && (
+              <CheckIcon size={15} color="on-primary-container" />
+            )}
           </span>
           Option 2
         </MenuItem>
@@ -434,7 +438,9 @@ const OptionMenuTemplate = () => {
           style={{ columnGap: '5px' }}
         >
           <span style={{ display: 'inline-flex', minWidth: '15px' }}>
-            {selectedOptions.includes(2) && <CheckIcon size={15} />}
+            {selectedOptions.includes(2) && (
+              <CheckIcon size={15} color="on-primary-container" />
+            )}
           </span>
           Option 3
         </MenuItem>
@@ -473,7 +479,7 @@ const MenuOriginTemplate = () => {
   return (
     <>
       <Stack spacing={20} style={{ alignItems: 'center' }}>
-        <Grid columns={3} columnSpacing={20}>
+        <Grid columns={3} columnSpacing={20} style={{ color: 'on-surface' }}>
           {MENU_ORIGIN.map((origin, idx) => (
             <Label key={origin.label} content={origin.label}>
               <Radio
@@ -542,7 +548,7 @@ const AnchorOriginTemplate = () => {
   return (
     <>
       <Stack spacing={20} style={{ alignItems: 'center' }}>
-        <Grid columns={3} columnSpacing={20}>
+        <Grid columns={3} columnSpacing={20} style={{ color: 'on-surface' }}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
             <Label key={origin.label} content={origin.label}>
               <Radio
@@ -608,6 +614,7 @@ const AnchorPositionTemplate = () => {
         aria-haspopup={true}
         aria-expanded={open}
         aria-controls="basic-menu"
+        style={{ color: 'var(--jinni-color-on-surface)' }}
       >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
@@ -844,15 +851,15 @@ export const IconMenu: Story = {
         onClose={closeMenu}
       >
         <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
-          <CartIcon size={15} color="gray-700" />
+          <CartIcon size={15} color="on-surface-variant" />
           Cart
         </MenuItem>
         <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
-          <MailIcon size={15} color="gray-700" />
+          <MailIcon size={15} color="on-surface-variant" />
           Mail
         </MenuItem>
         <MenuItem style={{ gap: '10px' }} onClick={closeMenu}>
-          <PersonIcon size={15} color="gray-700" />
+          <PersonIcon size={15} color="on-surface-variant" />
           Profile
         </MenuItem>
       </Menu>
@@ -1005,7 +1012,7 @@ export const GroupMenu: Story = {
           style={{
             fontWeight: 'var(--jinni-font-weight-bold)',
             fontSize: '14px',
-            color: 'gray-600'
+            color: 'on-surface-variant'
           }}
         >
           Category 1
@@ -1018,7 +1025,7 @@ export const GroupMenu: Story = {
           style={{
             fontWeight: 'var(--jinni-font-weight-bold)',
             fontSize: '14px',
-            color: 'gray-600'
+            color: 'on-surface-variant'
           }}
         >
           Category 2
@@ -1134,7 +1141,7 @@ export const OptionMenu: Story = {
           style={{ columnGap: '5px' }}
         >
           <span style={{ display: 'inline-flex', minWidth: '15px' }}>
-            {selectedOptions.includes(0) && <CheckIcon size={15} />}
+            {selectedOptions.includes(0) && <CheckIcon size={15} color='on-primary-container' />}
           </span>
           Option 1
         </MenuItem>
@@ -1145,7 +1152,7 @@ export const OptionMenu: Story = {
           style={{ columnGap: '5px' }}
         >
           <span style={{ display: 'inline-flex', minWidth: '15px' }}>
-            {selectedOptions.includes(1) && <CheckIcon size={15} />}
+            {selectedOptions.includes(1) && <CheckIcon size={15} color='on-primary-container' />}
           </span>
           Option 2
         </MenuItem>
@@ -1156,7 +1163,7 @@ export const OptionMenu: Story = {
           style={{ columnGap: '5px' }}
         >
           <span style={{ display: 'inline-flex', minWidth: '15px' }}>
-            {selectedOptions.includes(2) && <CheckIcon size={15} />}
+            {selectedOptions.includes(2) && <CheckIcon size={15} color='on-primary-container' />}
           </span>
           Option 3
         </MenuItem>
@@ -1204,7 +1211,7 @@ export const MenuOrigin: Story = {
   return (
     <>
       <Stack spacing={20} style={{ alignItems: 'center' }}>
-        <Grid columns={3} columnSpacing={20}>
+        <Grid columns={3} columnSpacing={20} style={{ color: 'on-surface' }}>
           {MENU_ORIGIN.map((origin, idx) => (
             <Label key={origin.label} content={origin.label}>
               <Radio
@@ -1282,7 +1289,7 @@ export const AnchorOrigin: Story = {
   return (
     <>
       <Stack spacing={20} style={{ alignItems: 'center' }}>
-        <Grid columns={3} columnSpacing={20}>
+        <Grid columns={3} columnSpacing={20} style={{ color: 'on-surface' }}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
             <Label key={origin.label} content={origin.label}>
               <Radio
@@ -1357,6 +1364,7 @@ export const AnchorPosition: Story = {
         aria-haspopup={true}
         aria-expanded={open}
         aria-controls="basic-menu"
+        style={{ color: 'var(--jinni-color-on-surface)' }}
       >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
