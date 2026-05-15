@@ -127,7 +127,9 @@ const ControlledCheckboxTemplate = () => {
 
   return (
     <Stack spacing={10} style={{ alignItems: 'center' }}>
-      <Text>State: {checked ? 'Checked' : 'Unchecked'}</Text>
+      <Text style={{ color: 'on-surface' }}>
+        State: {checked ? 'Checked' : 'Unchecked'}
+      </Text>
       <Checkbox checked={checked} onChange={handleChange} />
     </Stack>
   );
@@ -147,7 +149,7 @@ const BasicIndeterminateTemplate = () => {
   };
 
   return (
-    <>
+    <Stack style={{ color: 'on-surface' }}>
       <Label content="Parent">
         <Checkbox
           checked={checkedList[0] && checkedList[1]}
@@ -173,7 +175,7 @@ const BasicIndeterminateTemplate = () => {
           />
         </Label>
       </Stack>
-    </>
+    </Stack>
   );
 };
 
@@ -191,7 +193,7 @@ const IndeterminateIconTemplate = () => {
   };
 
   return (
-    <>
+    <Stack style={{ color: 'on-surface' }}>
       <Label content="Parent">
         <Checkbox
           checked={checkedList[0] && checkedList[1]}
@@ -218,7 +220,7 @@ const IndeterminateIconTemplate = () => {
           />
         </Label>
       </Stack>
-    </>
+    </Stack>
   );
 };
 
@@ -242,7 +244,7 @@ const CheckboxWithFormTemplate = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Stack spacing={15}>
+      <Stack spacing={15} style={{ color: 'on-surface' }}>
         <Box as="fieldset">
           <Text as="legend" className="typo-title-medium">
             좋아하는 색상은? *
@@ -313,7 +315,9 @@ export const ControlledCheckbox: Story = {
 
   return (
     <Stack spacing={10} style={{ alignItems: 'center' }}>
-      <Text>State: {checked ? 'Checked' : 'Unchecked'}</Text>
+      <Text style={{ color: 'on-surface' }}>
+        State: {checked ? 'Checked' : 'Unchecked'}
+      </Text>
       <Checkbox checked={checked} onChange={handleChange} />
     </Stack>
   );
@@ -359,7 +363,7 @@ export const BasicIndeterminate: Story = {
   };
 
   return (
-    <>
+    <Stack style={{ color: 'on-surface' }}>
       <Label content="Parent">
         <Checkbox
           checked={checkedList[0] && checkedList[1]}
@@ -385,7 +389,7 @@ export const BasicIndeterminate: Story = {
           />
         </Label>
       </Stack>
-    </>
+    </Stack>
   );
 };
 `.trim()
@@ -413,7 +417,7 @@ export const IndeterminateIcon: Story = {
   };
 
   return (
-    <>
+    <Stack style={{ color: 'on-surface' }}>
       <Label content="Parent">
         <Checkbox
           checked={checkedList[0] && checkedList[1]}
@@ -440,7 +444,7 @@ export const IndeterminateIcon: Story = {
           />
         </Label>
       </Stack>
-    </>
+    </Stack>
   );
 };
 `.trim()
@@ -474,7 +478,7 @@ export const CheckboxWithForm: Story = {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Stack spacing={15}>
+      <Stack spacing={15} style={{ color: 'on-surface' }}>
         <Box as="fieldset">
           <Text as="legend" className="typo-title-medium">
             좋아하는 색상은? *
@@ -552,7 +556,7 @@ export const Color: Story = {
       <Checkbox color="error" defaultChecked {...args} />
       <Checkbox color="yellow-500" defaultChecked {...args} />
       <Checkbox color="green" defaultChecked {...args} />
-      <Checkbox color="rgb(10, 20, 30)" defaultChecked {...args} />
+      <Checkbox color="rgb(0, 0, 200)" defaultChecked {...args} />
     </Stack>
   )
 };

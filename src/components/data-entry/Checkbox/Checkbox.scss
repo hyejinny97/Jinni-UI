@@ -34,9 +34,11 @@
 }
 
 @mixin overlay-effect {
-  &:not(.disabled):hover,
+  &:not(.disabled):hover {
+    background-image: linear-gradient(var(--hover-color));
+  }
   &:not(.disabled):focus-within {
-    background-image: linear-gradient(var(--overlay-color));
+    background-image: linear-gradient(var(--focused-color));
   }
 }
 
