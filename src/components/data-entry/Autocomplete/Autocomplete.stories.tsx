@@ -719,7 +719,7 @@ const ControlledAutocompleteValueTemplate = () => {
 
   return (
     <>
-      <Text noMargin>{`value: ${value}`}</Text>
+      <Text noMargin style={{ color: 'on-surface' }}>{`value: ${value}`}</Text>
       <Autocomplete
         value={value}
         onChange={handleChange}
@@ -754,8 +754,11 @@ const ControlledInputValueTemplate = () => {
 
   return (
     <>
-      <Text noMargin>{`value: ${value}`}</Text>
-      <Text noMargin>{`inputValue: ${inputValue}`}</Text>
+      <Text noMargin style={{ color: 'on-surface' }}>{`value: ${value}`}</Text>
+      <Text
+        noMargin
+        style={{ color: 'on-surface' }}
+      >{`inputValue: ${inputValue}`}</Text>
       <Autocomplete
         value={value}
         inputValue={inputValue}
@@ -785,7 +788,7 @@ const ControlledMenuTemplate = () => {
 
   return (
     <>
-      <Text noMargin>{`open: ${open}`}</Text>
+      <Text noMargin style={{ color: 'on-surface' }}>{`open: ${open}`}</Text>
       <Autocomplete
         open={open}
         onOpen={openMenu}
@@ -862,7 +865,7 @@ const BasicMultipleTemplate = () => {
       <RadioGroup name="mode" value={mode} onChange={changeMode}>
         <Stack direction="row" spacing={10}>
           {MODES.map((mode) => (
-            <Label key={mode} content={mode}>
+            <Label key={mode} content={mode} style={{ color: 'on-surface' }}>
               <Radio value={mode} />
             </Label>
           ))}
@@ -901,7 +904,7 @@ const FixedOptionsTemplate = () => {
       <RadioGroup name="mode" value={mode} onChange={changeMode}>
         <Stack direction="row" spacing={10}>
           {MODES.map((mode) => (
-            <Label key={mode} content={mode}>
+            <Label key={mode} content={mode} style={{ color: 'on-surface' }}>
               <Radio value={mode} />
             </Label>
           ))}
@@ -994,7 +997,12 @@ const LimitTagsTemplate = () => {
                 {label}
               </Chip>
             ))}
-            {restCount > 0 && <Text noMargin>{`+${restCount}`}</Text>}
+            {restCount > 0 && (
+              <Text
+                noMargin
+                style={{ color: 'on-surface' }}
+              >{`+${restCount}`}</Text>
+            )}
           </>
         );
       }}
@@ -1046,7 +1054,7 @@ const AutocompleteWithFormTemplate = () => {
         content="Option"
         labelPlacement="top"
         required
-        style={{ alignItems: 'start' }}
+        style={{ alignItems: 'start', color: 'on-surface' }}
       >
         <Autocomplete multiple name="option">
           {OPTIONS.map(({ value, label }) => (
@@ -1098,7 +1106,9 @@ const LoadOnOpenTemplate = () => {
       MenuProps={{ className: 'remove-no-option-item' }}
     >
       {isLoading ? (
-        <ListItem className="loading">loading...</ListItem>
+        <ListItem className="loading" style={{ color: 'on-surface-variant' }}>
+          loading...
+        </ListItem>
       ) : (
         films.map(({ label }) => (
           <AutocompleteOption
@@ -1220,7 +1230,7 @@ export const ControlledAutocompleteValue: Story = {
 
   return (
     <>
-      <Text noMargin>{\`value: \${value}\`}</Text>
+      <Text noMargin style={{ color: 'on-surface' }}>{\`value: \${value}\`}</Text>
       <Autocomplete
         value={value}
         onChange={handleChange}
@@ -1264,8 +1274,8 @@ export const ControlledInputValue: Story = {
 
   return (
     <>
-      <Text noMargin>{\`value: \${value}\`}</Text>
-      <Text noMargin>{\`inputValue: \${inputValue}\`}</Text>
+      <Text noMargin style={{ color: 'on-surface' }}>{\`value: \${value}\`}</Text>
+      <Text noMargin style={{ color: 'on-surface' }}>{\`inputValue: \${inputValue}\`}</Text>
       <Autocomplete
         value={value}
         inputValue={inputValue}
@@ -1304,7 +1314,7 @@ export const ControlledMenu: Story = {
 
   return (
     <>
-      <Text noMargin>{\`open: \${open}\`}</Text>
+      <Text noMargin style={{ color: 'on-surface' }}>{\`open: \${open}\`}</Text>
       <Autocomplete
         open={open}
         onOpen={openMenu}
@@ -1368,7 +1378,7 @@ export const RenderingValuesInChip: Story = {
                   aria-label="delete chip"
                 >
                   <CancelIcon
-                    color="gray-700"
+                    color="on-surface-variant"
                     style={{ width: '100%', height: '100%' }}
                   />
                 </ButtonBase>
@@ -1408,7 +1418,7 @@ export const RenderingValuesInChip: Story = {
               aria-label="delete chip"
             >
               <CancelIcon
-                color="gray-700"
+                color="on-surface-variant"
                 style={{ width: '100%', height: '100%' }}
               />
             </ButtonBase>
@@ -1595,7 +1605,7 @@ export const BasicMultiple: Story = {
       <RadioGroup name="mode" value={mode} onChange={changeMode}>
         <Stack direction="row" spacing={10}>
           {MODES.map((mode) => (
-            <Label key={mode} content={mode}>
+            <Label key={mode} content={mode} style={{ color: 'on-surface' }}>
               <Radio value={mode} />
             </Label>
           ))}
@@ -1643,7 +1653,7 @@ export const FixedOptions: Story = {
       <RadioGroup name="mode" value={mode} onChange={changeMode}>
         <Stack direction="row" spacing={10}>
           {MODES.map((mode) => (
-            <Label key={mode} content={mode}>
+            <Label key={mode} content={mode} style={{ color: 'on-surface' }}>
               <Radio value={mode} />
             </Label>
           ))}
@@ -1745,7 +1755,7 @@ export const LimitTags: Story = {
                 {label}
               </Chip>
             ))}
-            {restCount > 0 && <Text noMargin>{\`+\${restCount}\`}</Text>}
+            {restCount > 0 && <Text noMargin style={{ color: 'on-surface' }}>{\`+\${restCount}\`}</Text>}
           </>
         );
       }}
@@ -1766,7 +1776,12 @@ export const LimitTags: Story = {
 export const GroupOption: Story = {
   render: (args) => (
     <Autocomplete {...args}>
-      <ListItem className="typo-title-medium">Category 1</ListItem>
+      <ListItem
+        className="typo-title-medium"
+        style={{ color: 'on-surface-variant' }}
+      >
+        Category 1
+      </ListItem>
       <AutocompleteOption value="Option 1" label="Option 1">
         Option 1
       </AutocompleteOption>
@@ -1776,7 +1791,12 @@ export const GroupOption: Story = {
       <AutocompleteOption value="Option 3" label="Option 3">
         Option 3
       </AutocompleteOption>
-      <ListItem className="typo-title-medium">Category 2</ListItem>
+      <ListItem
+        className="typo-title-medium"
+        style={{ color: 'on-surface-variant' }}
+      >
+        Category 2
+      </ListItem>
       <AutocompleteOption value="Option 4" label="Option 4">
         Option 4
       </AutocompleteOption>
@@ -1842,7 +1862,7 @@ export const AutocompleteWithForm: Story = {
         content="Option"
         labelPlacement="top"
         required
-        style={{ alignItems: 'start' }}
+        style={{ alignItems: 'start', color: 'on-surface' }}
       >
         <Autocomplete multiple name="option">
           {OPTIONS.map(({ value, label }) => (
@@ -1903,7 +1923,9 @@ export const LoadOnOpen: Story = {
       MenuProps={{ className: 'remove-no-option-item' }}
     >
       {isLoading ? (
-        <ListItem className="loading">loading...</ListItem>
+        <ListItem className="loading" style={{ color: 'on-surface-variant' }}>
+          loading...
+        </ListItem>
       ) : (
         films.map(({ label }) => (
           <AutocompleteOption
