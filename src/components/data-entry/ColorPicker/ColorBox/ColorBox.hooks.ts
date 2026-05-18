@@ -7,13 +7,11 @@ import {
   isRgbObject,
   isHex,
   isCssColorKeyword,
-  isRgbCss,
   validateHsbObject,
   validateRgbObject,
   validateHex,
   hexToHsbObj,
-  rgbObjToHsbObj,
-  rgbCssToRgbObj
+  rgbObjToHsbObj
 } from '../ColorPicker.utils';
 import { CSS_COLOR_KEYWORDS } from '@/constants/color';
 import useJinni from '@/hooks/useJinni';
@@ -49,10 +47,9 @@ export const useToHsbObject = () => {
         }
       } else if (Object.keys(scheme).some((sch) => sch === color)) {
         const value = scheme[color];
-        if (isRgbCss(value)) {
-          const rgbObj = rgbCssToRgbObj(value);
-          validateRgbObject(rgbObj);
-          return rgbObjToHsbObj(rgbObj);
+        if (isHex(value)) {
+          validateHex(value);
+          return hexToHsbObj(value);
         }
       }
       throw new Error(`${color}를 HSBObject로 변환할 수 없습니다.`);

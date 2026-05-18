@@ -62,7 +62,11 @@ export const ColorValue: Story = {
             style={{ alignItems: 'center' }}
           >
             <ColorField value={color} {...args} />
-            <Text className="typo-label-small" noMargin>
+            <Text
+              className="typo-label-small"
+              noMargin
+              style={{ color: 'on-surface' }}
+            >
               {JSON.stringify(color)}
             </Text>
           </Stack>

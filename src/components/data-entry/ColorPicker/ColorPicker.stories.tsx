@@ -153,7 +153,7 @@ const ControlledColorPickerTemplate = () => {
       <Stack>
         <Text
           className="typo-title-medium"
-          style={{ width: '300px', height: '50px' }}
+          style={{ width: '300px', height: '50px', color: 'on-surface' }}
         >
           Selected Color: {JSON.stringify(selectedColor)}
         </Text>
@@ -377,7 +377,7 @@ export const ControlledColorPicker: Story = {
       <Stack>
         <Text
           className="typo-title-medium"
-          style={{ width: '300px', height: '50px' }}
+          style={{ width: '300px', height: '50px', color: 'on-surface' }}
         >
           Selected Color: {JSON.stringify(selectedColor)}
         </Text>

@@ -14,6 +14,7 @@ import { useColorValue } from './ColorPicker.hooks';
 import { ColorValueType, HSBObject } from './ColorPicker.types';
 import { useLabelContext } from '@/components/data-entry/Label';
 import { isRgbObject, isHsbObject } from './ColorPicker.utils';
+import useJinni from '@/hooks/useJinni';
 
 export type ColorPickerProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -51,6 +52,7 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
     as: Component = 'div',
     ...rest
   } = props;
+  const { theme } = useJinni();
   const anchorElRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const { colorValue, handleChange } = useColorValue({
@@ -111,6 +113,7 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
         onClose={handlePopoverClose}
         style={{ marginTop: '3px', ...popoverStyle }}
         BoxProps={{
+          elevation: theme === 'light' ? 5 : 2,
           style: { padding: 0 },
           ...popoverBoxProps
         }}
