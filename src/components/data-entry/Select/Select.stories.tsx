@@ -175,7 +175,7 @@ const SelectWithFormTemplate = () => {
         content="Color"
         labelPlacement="top"
         required
-        style={{ alignItems: 'start', color: 'on-surface' }}
+        style={{ alignItems: 'start' }}
       >
         <Select name="color">
           <Option value="red">Red</Option>
@@ -435,7 +435,7 @@ export const SelectWithForm: Story = {
         content="Color"
         labelPlacement="top"
         required
-        style={{ alignItems: 'start', color: 'on-surface' }}
+        style={{ alignItems: 'start' }}
       >
         <Select name="color">
           <Option value="red">Red</Option>

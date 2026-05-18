@@ -170,11 +170,7 @@ const PopoverOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {POPOVER_ORIGIN.map((origin, idx) => (
-            <Label
-              key={origin.label}
-              content={origin.label}
-              style={{ color: 'on-surface' }}
-            >
+            <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={String(idx)}
@@ -252,11 +248,7 @@ const AnchorOriginTemplate = () => {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <Label
-              key={origin.label}
-              content={origin.label}
-              style={{ color: 'on-surface' }}
-            >
+            <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={String(idx)}
@@ -616,11 +608,7 @@ export const PopoverOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {POPOVER_ORIGIN.map((origin, idx) => (
-            <Label
-              key={origin.label}
-              content={origin.label}
-              style={{ color: 'on-surface' }}
-            >
+            <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={String(idx)}
@@ -707,11 +695,7 @@ export const AnchorOrigin: Story = {
       <Stack spacing={20} style={{ alignItems: 'center' }}>
         <Grid columns={3} columnSpacing={20}>
           {ANCHOR_ORIGIN.map((origin, idx) => (
-            <Label
-              key={origin.label}
-              content={origin.label}
-              style={{ color: 'on-surface' }}
-            >
+            <Label key={origin.label} content={origin.label}>
               <Radio
                 checked={checkedValue === idx}
                 value={String(idx)}

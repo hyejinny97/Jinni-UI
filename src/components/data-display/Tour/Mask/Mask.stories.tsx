@@ -138,7 +138,7 @@ const SpotlightShapeTemplate = () => {
         <RadioGroup name="shape" value={shape} onChange={handleShapeChange}>
           <Grid rows={1} columns={3} spacing={5}>
             {SHAPES.map((shape) => (
-              <Label content={shape} style={{ color: 'on-surface' }}>
+              <Label content={shape}>
                 <Radio value={shape} />
               </Label>
             ))}
@@ -312,7 +312,7 @@ export const SpotlightShape: Story = {
         <RadioGroup name="shape" value={shape} onChange={handleShapeChange}>
           <Grid rows={1} columns={3} spacing={5}>
             {SHAPES.map((shape) => (
-              <Label content={shape} style={{ color: 'on-surface' }}>
+              <Label content={shape}>
                 <Radio value={shape} />
               </Label>
             ))}

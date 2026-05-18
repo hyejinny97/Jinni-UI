@@ -804,7 +804,7 @@ const FocusableDisabledItemsTemplate = () => {
 
   return (
     <Stack spacing={20}>
-      <Label content="Disabled items focusable" style={{ color: 'on-surface' }}>
+      <Label content="Disabled items focusable">
         <Switch checked={checked} onChange={handleCheck} />
       </Label>
       <Box style={{ width: '300px' }}>
@@ -1617,10 +1617,7 @@ export const FocusableDisabledItems: Story = {
 
   return (
     <Stack spacing={20}>
-      <Label
-        content="Disabled items focusable"
-        style={{ color: 'on-surface' }}
-      >
+      <Label content="Disabled items focusable">
         <Switch checked={checked} onChange={handleCheck} />
       </Label>
       <Box style={{ width: '300px' }}>

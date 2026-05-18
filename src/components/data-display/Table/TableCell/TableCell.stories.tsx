@@ -53,7 +53,7 @@ const AlignTemplate = () => {
         <RadioGroup name="align" value={align} onChange={handleAlignChange}>
           <Grid columns={3} spacing={5}>
             {ALIGNS.map((align) => (
-              <Label content={align} style={{ color: 'on-surface' }}>
+              <Label content={align}>
                 <Radio value={align} />
               </Label>
             ))}
@@ -98,7 +98,7 @@ export const Align: Story = {
         <RadioGroup name="align" value={align} onChange={handleAlignChange}>
           <Grid columns={3} spacing={5}>
             {ALIGNS.map((align) => (
-              <Label content={align} style={{ color: 'on-surface' }}>
+              <Label content={align}>
                 <Radio value={align} />
               </Label>
             ))}

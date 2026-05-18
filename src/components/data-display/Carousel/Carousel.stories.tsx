@@ -1536,7 +1536,7 @@ const SlipSizeTemplate = () => {
       <RadioGroup name="slip-size" value={slipSize} onChange={changeSlipSize}>
         <Stack direction="row">
           {SLIP_SIZES.map((size) => (
-            <Label key={size} content={size} style={{ color: 'on-surface' }}>
+            <Label key={size} content={size}>
               <Radio value={size} />
             </Label>
           ))}
@@ -3713,7 +3713,7 @@ export const SlipSize: Story = {
       <RadioGroup name="slip-size" value={slipSize} onChange={changeSlipSize}>
         <Stack direction="row">
           {SLIP_SIZES.map((size) => (
-            <Label key={size} content={size} style={{ color: 'on-surface' }}>
+            <Label key={size} content={size}>
               <Radio value={size} />
             </Label>
           ))}

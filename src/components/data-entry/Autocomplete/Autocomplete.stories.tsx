@@ -865,7 +865,7 @@ const BasicMultipleTemplate = () => {
       <RadioGroup name="mode" value={mode} onChange={changeMode}>
         <Stack direction="row" spacing={10}>
           {MODES.map((mode) => (
-            <Label key={mode} content={mode} style={{ color: 'on-surface' }}>
+            <Label key={mode} content={mode}>
               <Radio value={mode} />
             </Label>
           ))}
@@ -904,7 +904,7 @@ const FixedOptionsTemplate = () => {
       <RadioGroup name="mode" value={mode} onChange={changeMode}>
         <Stack direction="row" spacing={10}>
           {MODES.map((mode) => (
-            <Label key={mode} content={mode} style={{ color: 'on-surface' }}>
+            <Label key={mode} content={mode}>
               <Radio value={mode} />
             </Label>
           ))}
@@ -1054,7 +1054,7 @@ const AutocompleteWithFormTemplate = () => {
         content="Option"
         labelPlacement="top"
         required
-        style={{ alignItems: 'start', color: 'on-surface' }}
+        style={{ alignItems: 'start' }}
       >
         <Autocomplete multiple name="option">
           {OPTIONS.map(({ value, label }) => (
@@ -1605,7 +1605,7 @@ export const BasicMultiple: Story = {
       <RadioGroup name="mode" value={mode} onChange={changeMode}>
         <Stack direction="row" spacing={10}>
           {MODES.map((mode) => (
-            <Label key={mode} content={mode} style={{ color: 'on-surface' }}>
+            <Label key={mode} content={mode}>
               <Radio value={mode} />
             </Label>
           ))}
@@ -1653,7 +1653,7 @@ export const FixedOptions: Story = {
       <RadioGroup name="mode" value={mode} onChange={changeMode}>
         <Stack direction="row" spacing={10}>
           {MODES.map((mode) => (
-            <Label key={mode} content={mode} style={{ color: 'on-surface' }}>
+            <Label key={mode} content={mode}>
               <Radio value={mode} />
             </Label>
           ))}
@@ -1862,7 +1862,7 @@ export const AutocompleteWithForm: Story = {
         content="Option"
         labelPlacement="top"
         required
-        style={{ alignItems: 'start', color: 'on-surface' }}
+        style={{ alignItems: 'start' }}
       >
         <Autocomplete multiple name="option">
           {OPTIONS.map(({ value, label }) => (

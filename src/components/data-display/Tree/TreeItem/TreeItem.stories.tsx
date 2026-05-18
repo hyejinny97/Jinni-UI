@@ -64,11 +64,7 @@ const LayerTemplate = () => {
 
   return (
     <Stack spacing={10} style={{ width: '300px' }}>
-      <Label
-        content="Layer: "
-        labelPlacement="start"
-        style={{ gap: '10px', color: 'on-surface' }}
-      >
+      <Label content="Layer: " labelPlacement="start" style={{ gap: '10px' }}>
         <Slider
           value={layer}
           onChange={changeLayer}
@@ -114,11 +110,7 @@ export const Layer: Story = {
 
   return (
     <Stack spacing={10} style={{ width: '300px' }}>
-      <Label
-        content="Layer: "
-        labelPlacement="start"
-        style={{ gap: '10px', color: 'on-surface' }}
-      >
+      <Label content="Layer: " labelPlacement="start" style={{ gap: '10px' }}>
         <Slider
           value={layer}
           onChange={changeLayer}

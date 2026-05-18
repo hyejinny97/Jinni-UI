@@ -119,13 +119,13 @@ const ControlledCheckboxGroupTemplate = () => {
 export const BasicCheckboxGroup: Story = {
   render: () => (
     <CheckboxGroup name="color" defaultValue={['red', 'yellow']}>
-      <Label content="빨간색" style={{ color: 'on-surface' }}>
+      <Label content="빨간색">
         <Checkbox value="red" />
       </Label>
-      <Label content="노란색" style={{ color: 'on-surface' }}>
+      <Label content="노란색">
         <Checkbox value="yellow" />
       </Label>
-      <Label content="초록색" style={{ color: 'on-surface' }}>
+      <Label content="초록색">
         <Checkbox value="green" />
       </Label>
     </CheckboxGroup>
@@ -134,13 +134,13 @@ export const BasicCheckboxGroup: Story = {
     docs: {
       source: {
         code: `<CheckboxGroup name="color" defaultValue={['red', 'yellow']}>
-  <Label content="빨간색" style={{ color: 'on-surface' }}>
+  <Label content="빨간색">
     <Checkbox value="red" />
   </Label>
-  <Label content="노란색" style={{ color: 'on-surface' }}>
+  <Label content="노란색">
     <Checkbox value="yellow" />
   </Label>
-  <Label content="초록색" style={{ color: 'on-surface' }}>
+  <Label content="초록색">
     <Checkbox value="green" />
   </Label>
 </CheckboxGroup>`.trim()
@@ -266,13 +266,13 @@ export const Color: Story = {
       defaultValue={['red', 'yellow']}
       color="tertiary"
     >
-      <Label content="빨간색" style={{ color: 'on-surface' }}>
+      <Label content="빨간색">
         <Checkbox value="red" />
       </Label>
-      <Label content="노란색" style={{ color: 'on-surface' }}>
+      <Label content="노란색">
         <Checkbox value="yellow" />
       </Label>
-      <Label content="초록색" style={{ color: 'on-surface' }}>
+      <Label content="초록색">
         <Checkbox value="green" />
       </Label>
     </CheckboxGroup>
@@ -285,13 +285,13 @@ export const Color: Story = {
   defaultValue={['red', 'yellow']}
   color="tertiary"
 >
-  <Label content="빨간색" style={{ color: 'on-surface' }}>
+  <Label content="빨간색">
     <Checkbox value="red" />
   </Label>
-  <Label content="노란색" style={{ color: 'on-surface' }}>
+  <Label content="노란색">
     <Checkbox value="yellow" />
   </Label>
-  <Label content="초록색" style={{ color: 'on-surface' }}>
+  <Label content="초록색">
     <Checkbox value="green" />
   </Label>
 </CheckboxGroup>`.trim()
@@ -307,13 +307,13 @@ export const RippleEffect: Story = {
       defaultValue={['red', 'yellow']}
       rippleStartLocation="clicked"
     >
-      <Label content="빨간색" style={{ color: 'on-surface' }}>
+      <Label content="빨간색">
         <Checkbox value="red" />
       </Label>
-      <Label content="노란색" style={{ color: 'on-surface' }}>
+      <Label content="노란색">
         <Checkbox value="yellow" />
       </Label>
-      <Label content="초록색" style={{ color: 'on-surface' }}>
+      <Label content="초록색">
         <Checkbox value="green" />
       </Label>
     </CheckboxGroup>
@@ -326,13 +326,13 @@ export const RippleEffect: Story = {
   defaultValue={['red', 'yellow']}
   rippleStartLocation="clicked"
 >
-  <Label content="빨간색" style={{ color: 'on-surface' }}>
+  <Label content="빨간색">
     <Checkbox value="red" />
   </Label>
-  <Label content="노란색" style={{ color: 'on-surface' }}>
+  <Label content="노란색">
     <Checkbox value="yellow" />
   </Label>
-  <Label content="초록색" style={{ color: 'on-surface' }}>
+  <Label content="초록색">
     <Checkbox value="green" />
   </Label>
 </CheckboxGroup>`.trim()
