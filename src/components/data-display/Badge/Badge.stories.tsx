@@ -196,11 +196,7 @@ export const BasicBadge: Story = {
           <Avatar src={dogImage} alt="강아지 사진" size={32} />
         </Badge>
         <Badge content={5} {...args}>
-          <Text
-            className="typo-body-medium"
-            noMargin
-            style={{ color: 'on-surface' }}
-          >
+          <Text className="typo-body-medium" noMargin>
             text
           </Text>
         </Badge>

@@ -235,7 +235,7 @@ const ControlledCarouselTemplate = () => {
 
   return (
     <>
-      <Text style={{ color: 'on-surface' }}>value: {value}</Text>
+      <Text>value: {value}</Text>
       <Carousel
         value={value}
         onChange={handleChange}
@@ -2175,7 +2175,7 @@ export const ControlledCarousel: Story = {
 
   return (
     <>
-      <Text style={{ color: 'on-surface' }}>value: {value}</Text>
+      <Text>value: {value}</Text>
       <Carousel
         value={value}
         onChange={handleChange}

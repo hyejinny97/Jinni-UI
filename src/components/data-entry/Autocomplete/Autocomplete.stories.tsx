@@ -719,7 +719,7 @@ const ControlledAutocompleteValueTemplate = () => {
 
   return (
     <>
-      <Text noMargin style={{ color: 'on-surface' }}>{`value: ${value}`}</Text>
+      <Text noMargin>{`value: ${value}`}</Text>
       <Autocomplete
         value={value}
         onChange={handleChange}
@@ -754,11 +754,8 @@ const ControlledInputValueTemplate = () => {
 
   return (
     <>
-      <Text noMargin style={{ color: 'on-surface' }}>{`value: ${value}`}</Text>
-      <Text
-        noMargin
-        style={{ color: 'on-surface' }}
-      >{`inputValue: ${inputValue}`}</Text>
+      <Text noMargin>{`value: ${value}`}</Text>
+      <Text noMargin>{`inputValue: ${inputValue}`}</Text>
       <Autocomplete
         value={value}
         inputValue={inputValue}
@@ -788,7 +785,7 @@ const ControlledMenuTemplate = () => {
 
   return (
     <>
-      <Text noMargin style={{ color: 'on-surface' }}>{`open: ${open}`}</Text>
+      <Text noMargin>{`open: ${open}`}</Text>
       <Autocomplete
         open={open}
         onOpen={openMenu}
@@ -997,12 +994,7 @@ const LimitTagsTemplate = () => {
                 {label}
               </Chip>
             ))}
-            {restCount > 0 && (
-              <Text
-                noMargin
-                style={{ color: 'on-surface' }}
-              >{`+${restCount}`}</Text>
-            )}
+            {restCount > 0 && <Text noMargin>{`+${restCount}`}</Text>}
           </>
         );
       }}
@@ -1230,7 +1222,7 @@ export const ControlledAutocompleteValue: Story = {
 
   return (
     <>
-      <Text noMargin style={{ color: 'on-surface' }}>{\`value: \${value}\`}</Text>
+      <Text noMargin>{\`value: \${value}\`}</Text>
       <Autocomplete
         value={value}
         onChange={handleChange}
@@ -1274,8 +1266,8 @@ export const ControlledInputValue: Story = {
 
   return (
     <>
-      <Text noMargin style={{ color: 'on-surface' }}>{\`value: \${value}\`}</Text>
-      <Text noMargin style={{ color: 'on-surface' }}>{\`inputValue: \${inputValue}\`}</Text>
+      <Text noMargin>{\`value: \${value}\`}</Text>
+      <Text noMargin>{\`inputValue: \${inputValue}\`}</Text>
       <Autocomplete
         value={value}
         inputValue={inputValue}
@@ -1314,7 +1306,7 @@ export const ControlledMenu: Story = {
 
   return (
     <>
-      <Text noMargin style={{ color: 'on-surface' }}>{\`open: \${open}\`}</Text>
+      <Text noMargin>{\`open: \${open}\`}</Text>
       <Autocomplete
         open={open}
         onOpen={openMenu}
@@ -1755,7 +1747,7 @@ export const LimitTags: Story = {
                 {label}
               </Chip>
             ))}
-            {restCount > 0 && <Text noMargin style={{ color: 'on-surface' }}>{\`+\${restCount}\`}</Text>}
+            {restCount > 0 && <Text noMargin>{\`+\${restCount}\`}</Text>}
           </>
         );
       }}

@@ -149,10 +149,7 @@ const ControlledDatePickerTemplate = () => {
 
   return (
     <Stack spacing={5}>
-      <Text
-        noMargin
-        style={{ display: 'inline-flex', gap: '5px', color: 'on-surface' }}
-      >
+      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
         Date:
         <span>{year !== undefined && `${year} /`}</span>
         <span>{month !== undefined && `${month + 1} /`}</span>
@@ -306,7 +303,7 @@ export const ControlledDatePicker: Story = {
     <Stack spacing={5}>
       <Text
         noMargin
-        style={{ display: 'inline-flex', gap: '5px', color: 'on-surface' }}
+        style={{ display: 'inline-flex', gap: '5px' }}
       >
         Date:
         <span>{year !== undefined && \`\${year} /\`}</span>

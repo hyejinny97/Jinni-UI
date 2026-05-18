@@ -419,11 +419,7 @@ const CalendarWithNotesTemplate = () => {
               <div className="day-number">{children}</div>
               <Stack spacing={3}>
                 {notes[dayTimeStamp]?.map((content) => (
-                  <Text
-                    key={content}
-                    className="note"
-                    style={{ color: 'on-surface' }}
-                  >
+                  <Text key={content} className="note">
                     {content}
                   </Text>
                 ))}
@@ -880,7 +876,6 @@ export const CalendarWithNotes: Story = {
                   <Text
                     key={content}
                     className="note"
-                    style={{ color: 'on-surface' }}
                   >
                     {content}
                   </Text>

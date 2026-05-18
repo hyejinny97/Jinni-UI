@@ -56,7 +56,7 @@ const ControlledDotsTemplate = () => {
 
   return (
     <Stack style={{ alignItems: 'center' }}>
-      <Text style={{ color: 'on-surface' }}>Selected Dot: {value}</Text>
+      <Text>Selected Dot: {value}</Text>
       <Dots value={value} onChange={handleChange}>
         <Dot value={1} />
         <Dot value={2} />
@@ -76,7 +76,7 @@ const SequentiallyScaledDotsTemplate = () => {
 
   return (
     <Stack style={{ alignItems: 'center' }}>
-      <Text style={{ color: 'on-surface' }}>Selected Dot: {value}</Text>
+      <Text>Selected Dot: {value}</Text>
       <Dots value={value} onChange={handleChange} max={5}>
         {Array(10)
           .fill(0)
@@ -166,7 +166,7 @@ export const ControlledDots: Story = {
 
   return (
     <Stack style={{ alignItems: 'center' }}>
-      <Text style={{ color: 'on-surface' }}>Selected Dot: {value}</Text>
+      <Text>Selected Dot: {value}</Text>
       <Dots value={value} onChange={handleChange}>
         <Dot value={1} />
         <Dot value={2} />
@@ -295,7 +295,7 @@ export const SequentiallyScaledDots: Story = {
 
   return (
     <Stack style={{ alignItems: 'center' }}>
-      <Text style={{ color: 'on-surface' }}>Selected Dot: {value}</Text>
+      <Text>Selected Dot: {value}</Text>
       <Dots value={value} onChange={handleChange} max={5}>
         {Array(10)
           .fill(0)

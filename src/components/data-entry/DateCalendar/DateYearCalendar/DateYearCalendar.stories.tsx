@@ -144,9 +144,7 @@ const ControlledDateYearCalendarTemplate = () => {
 
   return (
     <Stack spacing={10}>
-      <Text noMargin style={{ color: 'on-surface' }}>
-        Year: {year !== undefined && `${year}`}
-      </Text>
+      <Text noMargin>Year: {year !== undefined && `${year}`}</Text>
       <DateYearCalendar value={value} onChange={handleChange} />
     </Stack>
   );
@@ -298,7 +296,7 @@ export const ControlledDateYearCalendar: Story = {
 
   return (
     <Stack spacing={10}>
-      <Text noMargin style={{ color: 'on-surface' }}>
+      <Text noMargin>
         Year: {year !== undefined && \`\${year}\`}
       </Text>
       <DateYearCalendar value={value} onChange={handleChange} />

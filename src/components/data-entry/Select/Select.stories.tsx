@@ -114,7 +114,7 @@ const ControlledSelectTemplate = () => {
 
   return (
     <>
-      <Text style={{ color: 'on-surface' }}>Selected value: {value}</Text>
+      <Text>Selected value: {value}</Text>
       <Select value={value} onChange={handleChange}>
         {OPTIONS.map(({ value, label }) => (
           <Option key={value} value={value}>
@@ -233,7 +233,7 @@ export const ControlledSelect: Story = {
 
   return (
     <>
-      <Text style={{ color: 'on-surface' }}>Selected value: {value}</Text>
+      <Text>Selected value: {value}</Text>
       <Select value={value} onChange={handleChange}>
         {OPTIONS.map(({ value, label }) => (
           <Option key={value} value={value}>

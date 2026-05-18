@@ -150,11 +150,7 @@ const NestedListTemplate = () => {
               {...(isLastItem ? { onClick: toggle } : { href: '#' })}
             >
               {icon}
-              <Text
-                className="typo-body-medium"
-                noMargin
-                style={{ flex: 1, color: 'on-surface' }}
-              >
+              <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
                 {title}
               </Text>
               {isLastItem && toggleIcon}
@@ -173,11 +169,7 @@ const NestedListTemplate = () => {
                   textDecorationColor: 'on-surface'
                 }}
               >
-                <Text
-                  className="typo-body-medium"
-                  noMargin
-                  style={{ flex: 1, color: 'on-surface' }}
-                >
+                <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
                   {title}
                 </Text>
               </ListItemButton>
@@ -218,11 +210,7 @@ const SelectedListTemplate = () => {
                 flex: 1
               }}
             >
-              <Text
-                className="typo-body-medium"
-                noMargin
-                style={{ color: 'on-surface' }}
-              >
+              <Text className="typo-body-medium" noMargin>
                 {title}
               </Text>
               <Text
@@ -273,7 +261,7 @@ const ListWithCheckboxTemplate = () => {
               id={`list-item-${idx}`}
               className="typo-body-medium"
               noMargin
-              style={{ flex: 1, color: 'on-surface' }}
+              style={{ flex: 1 }}
             >
               {title}
             </Text>
@@ -310,7 +298,7 @@ const ListWithSwitchTemplate = () => {
               id={`list-item-${idx}`}
               className="typo-body-medium"
               noMargin
-              style={{ flex: 1, color: 'on-surface' }}
+              style={{ flex: 1 }}
             >
               {title}
             </Text>
@@ -414,11 +402,7 @@ export const ClickableList: Story = {
             disabled={disabled}
           >
             {icon}
-            <Text
-              className="typo-body-medium"
-              noMargin
-              style={{ flex: 1, color: 'on-surface' }}
-            >
+            <Text className="typo-body-medium" noMargin style={{ flex: 1 }}>
               {title}
             </Text>
           </ListItemButton>
@@ -465,7 +449,7 @@ export const NestedList: Story = {
               <Text
                 className="typo-body-medium"
                 noMargin
-                style={{ flex: 1, color: 'on-surface' }}
+                style={{ flex: 1 }}
               >
                 {title}
               </Text>
@@ -488,7 +472,7 @@ export const NestedList: Story = {
                 <Text
                   className="typo-body-medium"
                   noMargin
-                  style={{ flex: 1, color: 'on-surface' }}
+                  style={{ flex: 1 }}
                 >
                   {title}
                 </Text>
@@ -539,11 +523,7 @@ export const SelectedList: Story = {
                 flex: 1
               }}
             >
-              <Text
-                className="typo-body-medium"
-                noMargin
-                style={{ color: 'on-surface' }}
-              >
+              <Text className="typo-body-medium" noMargin>
                 {title}
               </Text>
               <Text
@@ -653,7 +633,7 @@ export const ListWithCheckbox: Story = {
               id={\`list-item-\${idx}\`}
               className="typo-body-medium"
               noMargin
-              style={{ flex: 1, color: 'on-surface' }}
+              style={{ flex: 1 }}
             >
               {title}
             </Text>
@@ -699,7 +679,7 @@ export const ListWithSwitch: Story = {
               id={\`list-item-\${idx}\`}
               className="typo-body-medium"
               noMargin
-              style={{ flex: 1, color: 'on-surface' }}
+              style={{ flex: 1 }}
             >
               {title}
             </Text>

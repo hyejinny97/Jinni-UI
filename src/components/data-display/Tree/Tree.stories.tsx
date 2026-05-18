@@ -312,9 +312,7 @@ const TrackItemClickTemplate = () => {
 
   return (
     <Stack spacing={20}>
-      <Text noMargin style={{ color: 'on-surface' }}>
-        Clicked item: {clickedItem}
-      </Text>
+      <Text noMargin>Clicked item: {clickedItem}</Text>
       <Box style={{ width: '300px' }}>
         <Tree
           data={DATA}
@@ -338,9 +336,7 @@ const ControlledSelectionTemplate = () => {
 
   return (
     <Stack spacing={20}>
-      <Text noMargin style={{ color: 'on-surface' }}>
-        Selected item: {selectedItem}
-      </Text>
+      <Text noMargin>Selected item: {selectedItem}</Text>
       <Box style={{ width: '300px' }}>
         <Tree
           data={DATA}
@@ -626,11 +622,9 @@ const TrackItemSelectionChangeTemplate = () => {
       <Stack spacing={5}>
         <Text
           noMargin
-          style={{ color: 'on-surface' }}
         >{`Last selected items: [${lastSelectedItems.join(', ')}]`}</Text>
         <Text
           noMargin
-          style={{ color: 'on-surface' }}
         >{`Last unselected items: [${lastUnselectedItems.join(', ')}]`}</Text>
       </Stack>
       <Box style={{ width: '300px' }}>
@@ -658,10 +652,7 @@ const ControlledExpansionTemplate = () => {
 
   return (
     <Stack spacing={20}>
-      <Text
-        noMargin
-        style={{ color: 'on-surface' }}
-      >{`Expanded items: [${expandedItems.join(', ')}]`}</Text>
+      <Text noMargin>{`Expanded items: [${expandedItems.join(', ')}]`}</Text>
       <Box style={{ width: '300px' }}>
         <Tree
           data={DATA}
@@ -715,7 +706,7 @@ const TrackItemExpansionChangeTemplate = () => {
 
   return (
     <Stack spacing={20}>
-      <Text style={{ color: 'on-surface' }}>
+      <Text>
         {action === null
           ? 'No action recorded'
           : `Last action: ${action.isExpanded ? 'expand' : 'collapse'} ${action.id}`}
@@ -949,7 +940,7 @@ export const TrackItemClick: Story = {
 
   return (
     <Stack spacing={20}>
-      <Text noMargin style={{ color: 'on-surface' }}>
+      <Text noMargin>
         Clicked item: {clickedItem}
       </Text>
       <Box style={{ width: '300px' }}>
@@ -1001,7 +992,7 @@ export const ControlledSelection: Story = {
 
   return (
     <Stack spacing={20}>
-      <Text noMargin style={{ color: 'on-surface' }}>
+      <Text noMargin>
         Selected item: {selectedItem}
       </Text>
       <Box style={{ width: '300px' }}>
@@ -1368,11 +1359,9 @@ export const TrackItemSelectionChange: Story = {
       <Stack spacing={5}>
         <Text
           noMargin
-          style={{ color: 'on-surface' }}
         >{\`Last selected items: [\${lastSelectedItems.join(', ')}]\`}</Text>
         <Text
           noMargin
-          style={{ color: 'on-surface' }}
         >{\`Last unselected items: [\${lastUnselectedItems.join(', ')}]\`}</Text>
       </Stack>
       <Box style={{ width: '300px' }}>
@@ -1436,7 +1425,6 @@ export const ControlledExpansion: Story = {
     <Stack spacing={20}>
       <Text
         noMargin
-        style={{ color: 'on-surface' }}
       >{\`Expanded items: [\${expandedItems.join(', ')}]\`}</Text>
       <Box style={{ width: '300px' }}>
         <Tree
@@ -1510,7 +1498,7 @@ export const TrackItemExpansionChange: Story = {
 
   return (
     <Stack spacing={20}>
-      <Text style={{ color: 'on-surface' }}>
+      <Text>
         {action === null
           ? 'No action recorded'
           : \`Last action: \${action.isExpanded ? 'expand' : 'collapse'} \${action.id}\`}

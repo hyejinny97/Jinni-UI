@@ -127,9 +127,7 @@ const ControlledCheckboxTemplate = () => {
 
   return (
     <Stack spacing={10} style={{ alignItems: 'center' }}>
-      <Text style={{ color: 'on-surface' }}>
-        State: {checked ? 'Checked' : 'Unchecked'}
-      </Text>
+      <Text>State: {checked ? 'Checked' : 'Unchecked'}</Text>
       <Checkbox checked={checked} onChange={handleChange} />
     </Stack>
   );
@@ -315,7 +313,7 @@ export const ControlledCheckbox: Story = {
 
   return (
     <Stack spacing={10} style={{ alignItems: 'center' }}>
-      <Text style={{ color: 'on-surface' }}>
+      <Text>
         State: {checked ? 'Checked' : 'Unchecked'}
       </Text>
       <Checkbox checked={checked} onChange={handleChange} />
