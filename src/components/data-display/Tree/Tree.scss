@@ -1,8 +1,4 @@
-@mixin no-select {
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10+ and Edge */
-  user-select: none; /* Standard syntax */
-}
+@use '@/styles/mixins' as mixins;
 
 .JinniTree {
   margin: 0;
@@ -20,6 +16,6 @@
 
   .JinniTreeItemContents {
     flex: 1;
-    @include no-select;
+    @include mixins.no-highlight;
   }
 }
