@@ -12,18 +12,18 @@
     width: 36px;
     height: 40px;
     font-weight: var(--jinni-font-weight-medium);
-    color: var(--jinni-color-gray-600);
+    color: var(--jinni-color-on-surface-variant);
 
     &.week-number {
       font-size: 14px;
       font-weight: var(--jinni-font-weight-medium);
-      color: var(--jinni-color-gray-300);
+      color: var(--week-number-color);
     }
   }
 
   .JinniDayContainer {
     .JinniDay.outside-day {
-      color: var(--jinni-color-gray-400);
+      color: var(--outside-day-color);
     }
     .empty-day,
     .week-number {
@@ -36,7 +36,7 @@
     .week-number {
       font-size: 14px;
       font-weight: var(--jinni-font-weight-medium);
-      color: var(--jinni-color-gray-300);
+      color: var(--week-number-color);
     }
   }
 }

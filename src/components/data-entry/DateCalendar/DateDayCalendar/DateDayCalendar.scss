@@ -6,6 +6,7 @@
     .JinniCalendarHeaderDatePart {
       display: inline-block;
       font: inherit;
+      color: var(--jinni-color-on-surface);
 
       &.JinniButtonBase {
         padding: 0 3px;

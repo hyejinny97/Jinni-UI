@@ -96,7 +96,7 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
         aria-expanded={open}
         aria-controls={popoverId}
       >
-        <DateRangeIcon size={20} color="gray-500" />
+        <DateRangeIcon size={20} color="on-surface-variant" />
       </ButtonBase>
     ),
     ...DateFieldProps

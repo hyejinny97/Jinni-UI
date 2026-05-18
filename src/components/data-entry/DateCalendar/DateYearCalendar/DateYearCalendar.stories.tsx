@@ -144,7 +144,9 @@ const ControlledDateYearCalendarTemplate = () => {
 
   return (
     <Stack spacing={10}>
-      <Text noMargin>Year: {year !== undefined && `${year}`}</Text>
+      <Text noMargin style={{ color: 'on-surface' }}>
+        Year: {year !== undefined && `${year}`}
+      </Text>
       <DateYearCalendar value={value} onChange={handleChange} />
     </Stack>
   );
@@ -175,9 +177,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -230,9 +232,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -296,7 +298,9 @@ export const ControlledDateYearCalendar: Story = {
 
   return (
     <Stack spacing={10}>
-      <Text noMargin>Year: {year !== undefined && \`\${year}\`}</Text>
+      <Text noMargin style={{ color: 'on-surface' }}>
+        Year: {year !== undefined && \`\${year}\`}
+      </Text>
       <DateYearCalendar value={value} onChange={handleChange} />
     </Stack>
   );
@@ -349,9 +353,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -413,9 +417,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -548,7 +552,10 @@ export const CustomCalendarHeader: Story = {
       renderCalendarHeader={(calendarHeaderProps) => {
         const { children, ...rest } = calendarHeaderProps;
         return (
-          <CalendarHeader style={{ backgroundColor: 'gray-200' }} {...rest}>
+          <CalendarHeader
+            style={{ backgroundColor: 'surface-container' }}
+            {...rest}
+          >
             <Text
               className="typo-title-medium"
               noMargin
@@ -566,7 +573,7 @@ export const CustomCalendarHeader: Story = {
   renderCalendarHeader={(calendarHeaderProps) => {
     const { children, ...rest } = calendarHeaderProps;
     return (
-      <CalendarHeader style={{ backgroundColor: 'gray-200' }} {...rest}>
+      <CalendarHeader style={{ backgroundColor: 'surface-container' }} {...rest}>
         <Text className="typo-title-medium" noMargin>{\`< \${children} >\`}</Text>
       </CalendarHeader>
     );

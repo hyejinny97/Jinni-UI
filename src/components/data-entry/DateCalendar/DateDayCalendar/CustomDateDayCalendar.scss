@@ -16,7 +16,7 @@
         height: 38px;
         border-radius: 0;
         &.hovered:not(.selected) {
-          background-color: var(--jinni-color-gray-200);
+          background-color: var(--jinni-color-surface-container-highest);
         }
         &.leftRounded {
           border-top-left-radius: 9999px;

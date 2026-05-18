@@ -191,7 +191,10 @@ const ControlledDateDayCalendarTemplate = () => {
 
   return (
     <Stack spacing={5}>
-      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
+      <Text
+        noMargin
+        style={{ display: 'inline-flex', gap: '5px', color: 'on-surface' }}
+      >
         Date:
         <span>{year !== undefined && `${year} /`}</span>
         <span>{month !== undefined && `${month + 1} /`}</span>
@@ -227,9 +230,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -275,9 +278,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -416,7 +419,11 @@ const CalendarWithNotesTemplate = () => {
               <div className="day-number">{children}</div>
               <Stack spacing={3}>
                 {notes[dayTimeStamp]?.map((content) => (
-                  <Text key={content} className="note">
+                  <Text
+                    key={content}
+                    className="note"
+                    style={{ color: 'on-surface' }}
+                  >
                     {content}
                   </Text>
                 ))}
@@ -427,7 +434,7 @@ const CalendarWithNotesTemplate = () => {
       />
       <Modal open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>
-          <ModalHeader>Note</ModalHeader>
+          <ModalHeader style={{ color: 'on-surface' }}>Note</ModalHeader>
           <ModalBody>
             <Input
               name="content"
@@ -437,7 +444,7 @@ const CalendarWithNotesTemplate = () => {
             />
           </ModalBody>
           <ModalFooter>
-            <Button type="button" variant="subtle-filled" onClick={handleClose}>
+            <Button type="button" variant="text" onClick={handleClose}>
               Close
             </Button>
             <Button type="submit">Ok</Button>
@@ -484,7 +491,10 @@ export const ControlledDateDayCalendar: Story = {
 
   return (
     <Stack spacing={5}>
-      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
+      <Text
+        noMargin
+        style={{ display: 'inline-flex', gap: '5px', color: 'on-surface' }}
+      >
         Date:
         <span>{year !== undefined && \`\${year} /\`}</span>
         <span>{month !== undefined && \`\${month + 1} /\`}</span>
@@ -555,9 +565,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -612,9 +622,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -867,7 +877,11 @@ export const CalendarWithNotes: Story = {
               <div className="day-number">{children}</div>
               <Stack spacing={3}>
                 {notes[dayTimeStamp]?.map((content) => (
-                  <Text key={content} className="note">
+                  <Text
+                    key={content}
+                    className="note"
+                    style={{ color: 'on-surface' }}
+                  >
                     {content}
                   </Text>
                 ))}
@@ -878,7 +892,7 @@ export const CalendarWithNotes: Story = {
       />
       <Modal open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>
-          <ModalHeader>Note</ModalHeader>
+          <ModalHeader style={{ color: 'on-surface' }}>Note</ModalHeader>
           <ModalBody>
             <Input
               name="content"
@@ -888,7 +902,7 @@ export const CalendarWithNotes: Story = {
             />
           </ModalBody>
           <ModalFooter>
-            <Button type="button" variant="subtle-filled" onClick={handleClose}>
+            <Button type="button" variant="text" onClick={handleClose}>
               Close
             </Button>
             <Button type="submit">Ok</Button>
@@ -908,7 +922,7 @@ export const CustomCalendarHeader: Story = {
     <DateDayCalendar
       renderCalendarHeader={(calendarHeaderProps) => (
         <CalendarHeader
-          style={{ marginBottom: '5px', backgroundColor: 'gray-200' }}
+          style={{ marginBottom: '5px', backgroundColor: 'surface-container' }}
           prevIcon="Prev"
           nextIcon="Next"
           {...calendarHeaderProps}
@@ -923,7 +937,7 @@ export const CustomCalendarHeader: Story = {
         code: `<DateDayCalendar
   renderCalendarHeader={(calendarHeaderProps) => (
     <CalendarHeader
-      style={{ marginBottom: '5px', backgroundColor: 'gray-200' }}
+      style={{ marginBottom: '5px', backgroundColor: 'surface-container' }}
       {...calendarHeaderProps}
     />
   )}

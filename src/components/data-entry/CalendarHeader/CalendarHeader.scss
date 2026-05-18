@@ -11,12 +11,14 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    color: var(--jinni-color-on-surface);
   }
 
   .JinniCalendarHeaderControl {
     display: inline-flex;
     padding: 8px;
     border-radius: 9999px;
+    color: var(--jinni-color-on-surface);
 
     &.hide {
       opacity: 0;

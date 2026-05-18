@@ -28,7 +28,10 @@ const meta: Meta<typeof CalendarHeader> = {
     nextIcon: {
       description: 'next button의 icon',
       table: {
-        type: { summary: 'React.ReactNode' }
+        type: { summary: 'React.ReactNode' },
+        defaultValue: {
+          summary: `<ArrowRightIcon color="on-surface-variant" />`
+        }
       }
     },
     onNextClick: {
@@ -46,7 +49,10 @@ const meta: Meta<typeof CalendarHeader> = {
     prevIcon: {
       description: 'prev button의 icon',
       table: {
-        type: { summary: 'React.ReactNode' }
+        type: { summary: 'React.ReactNode' },
+        defaultValue: {
+          summary: `<ArrowLeftIcon color="on-surface-variant" />`
+        }
       }
     }
   }
