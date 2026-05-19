@@ -1,4 +1,5 @@
 import './RangeYear.scss';
+import { useMemo } from 'react';
 import cn from 'classnames';
 import {
   Year,
@@ -7,8 +8,10 @@ import {
 } from '@/components/data-entry/YearCalendar';
 import { RangeType } from '@/types/date-component';
 import { Box } from '@/components/layout/Box';
-import { lighten } from '@/utils/colorLuminance';
+import { lighten, darken } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
+import useJinni from '@/hooks/useJinni';
+import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
 
 type RangeYearProps = Omit<YearProps, 'ref'> &
   Pick<YearCalendarProps, 'yearsOrder'> & {
@@ -29,8 +32,17 @@ const RangeYear = (props: RangeYearProps) => {
     handleHover,
     ...rest
   } = props;
+  const { theme } = useJinni();
   const normalizedColor = useColor(color);
-  const lightenColor = lighten(normalizedColor, 0.8);
+  const selectedRangeBgColor = useMemo(() => {
+    return theme === 'light'
+      ? lighten(normalizedColor, 0.8)
+      : darken(normalizedColor, 0.8);
+  }, [theme, normalizedColor]);
+  const contrastColor = useMemo(() => {
+    const closerColor = getCloserToWhiteOrBlack(selectedRangeBgColor);
+    return closerColor === 'white' ? 'black' : 'white';
+  }, [selectedRangeBgColor]);
 
   const year = value.getFullYear();
   const startYear = selectedDateValue.start?.getFullYear();
@@ -57,7 +69,10 @@ const RangeYear = (props: RangeYearProps) => {
       className="JinniRangeYear"
       onMouseEnter={() => handleHover(value)}
       onMouseLeave={() => handleHover(null)}
-      style={{ '--lighten-color': lightenColor }}
+      style={{
+        '--selected-range-bg-color': selectedRangeBgColor,
+        '--selected-range-text-color': contrastColor
+      }}
     >
       <Box
         className={cn('JinniYearWrapper', yearsOrder, {
@@ -79,6 +94,11 @@ const RangeYear = (props: RangeYearProps) => {
           color={color}
           selected={isSelected}
           onClick={() => handleSelect(value)}
+          {...(isInSelectRange &&
+            !isSelected && {
+              overlayColor: contrastColor,
+              rippleColor: contrastColor
+            })}
         />
       </Box>
     </Box>

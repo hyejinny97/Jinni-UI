@@ -7,19 +7,25 @@
       border-radius: 0;
       &.isInSelectRange {
         background-color: var(--jinni-color-tertiary-container);
+        &:not(.isStartSelected):not(.isEndSelected) {
+          .JinniMonth {
+            color: var(--jinni-color-on-tertiary-container);
+          }
+        }
       }
 
       .JinniMonth {
         border-radius: 4px;
         &.selected {
           background-color: var(--jinni-color-tertiary);
+          color: var(--jinni-color-on-tertiary);
         }
       }
 
       .JinniHoverEffect {
         border: none;
         border-radius: 0;
-        background-color: var(--jinni-color-gray-200);
+        background-color: var(--jinni-color-surface-container);
         &.isStartHovered {
           border-top-left-radius: 4px;
           border-bottom-left-radius: 4px;

@@ -21,7 +21,7 @@ $dash-border-width: 2px;
     width: inherit;
 
     &.isInSelectRange {
-      background-color: var(--lighten-color);
+      background-color: var(--selected-range-bg-color);
       &.isStartSelected {
         &.asc {
           @include left-rounded;
@@ -36,6 +36,11 @@ $dash-border-width: 2px;
         }
         &.dsc {
           @include left-rounded;
+        }
+      }
+      &:not(.isStartSelected):not(.isEndSelected) {
+        .JinniYear {
+          color: var(--selected-range-text-color);
         }
       }
     }

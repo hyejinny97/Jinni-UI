@@ -192,7 +192,7 @@ const ControlledVDateDayRangeCalendarTemplate = () => {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Date:</span>
         <DateText {...getDate('start')} />
@@ -225,9 +225,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -268,9 +268,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -312,9 +312,9 @@ const CountOfCalendarsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Calendars
         </Chip>
         <RadioGroup
@@ -395,7 +395,7 @@ export const ControlledVDateDayRangeCalendar: Story = {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Date:</span>
         <DateText {...getDate('start')} />
@@ -450,9 +450,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -502,9 +502,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -637,9 +637,9 @@ export const CountOfCalendars: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Calendars
         </Chip>
         <RadioGroup
@@ -700,7 +700,7 @@ export const CustomCalendarHeader: Story = {
     <VDateDayRangeCalendar
       renderCalendarHeader={(calendarHeaderProps) => (
         <CalendarHeader
-          style={{ backgroundColor: 'gray-200' }}
+          style={{ backgroundColor: 'surface-container' }}
           {...calendarHeaderProps}
         />
       )}
@@ -713,7 +713,7 @@ export const CustomCalendarHeader: Story = {
         code: `<VDateDayRangeCalendar
   renderCalendarHeader={(calendarHeaderProps) => (
     <CalendarHeader
-      style={{ backgroundColor: 'gray-200' }}
+      style={{ backgroundColor: 'surface-container' }}
       {...calendarHeaderProps}
     />
   )}

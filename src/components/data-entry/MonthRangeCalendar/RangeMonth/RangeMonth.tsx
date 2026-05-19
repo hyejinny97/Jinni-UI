@@ -1,12 +1,15 @@
 import './RangeMonth.scss';
+import { useMemo } from 'react';
 import cn from 'classnames';
 import { Month, MonthProps } from '@/components/data-entry/MonthCalendar';
 import { RangeType } from '@/types/date-component';
 import { Box } from '@/components/layout/Box';
-import { lighten } from '@/utils/colorLuminance';
+import { lighten, darken } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
 import { dateToMonth } from '@/utils/date-component';
 import { isNumber } from '@/utils/isNumber';
+import useJinni from '@/hooks/useJinni';
+import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
 
 type RangeMonthProps = Omit<MonthProps, 'ref'> & {
   selectedDateValue: RangeType<Date | null>;
@@ -26,10 +29,19 @@ const RangeMonth = (props: RangeMonthProps) => {
     handleHover,
     ...rest
   } = props;
-  const { start, end } = selectedDateValue;
+  const { theme } = useJinni();
   const normalizedColor = useColor(color);
-  const lightenColor = lighten(normalizedColor, 0.8);
+  const selectedRangeBgColor = useMemo(() => {
+    return theme === 'light'
+      ? lighten(normalizedColor, 0.8)
+      : darken(normalizedColor, 0.8);
+  }, [theme, normalizedColor]);
+  const contrastColor = useMemo(() => {
+    const closerColor = getCloserToWhiteOrBlack(selectedRangeBgColor);
+    return closerColor === 'white' ? 'black' : 'white';
+  }, [selectedRangeBgColor]);
 
+  const { start, end } = selectedDateValue;
   const month =
     isNumber(actualMonth) && value.getMonth() - 1 === actualMonth
       ? dateToMonth(value) - 1
@@ -58,7 +70,10 @@ const RangeMonth = (props: RangeMonthProps) => {
       className="JinniRangeMonth"
       onMouseEnter={() => handleHover(value)}
       onMouseLeave={() => handleHover(null)}
-      style={{ '--lighten-color': lightenColor }}
+      style={{
+        '--selected-range-bg-color': selectedRangeBgColor,
+        '--selected-range-text-color': contrastColor
+      }}
     >
       <Box
         className={cn('JinniMonthWrapper', {
@@ -80,6 +95,11 @@ const RangeMonth = (props: RangeMonthProps) => {
           color={color}
           selected={isSelected}
           onClick={() => handleSelect(value)}
+          {...(isInSelectRange &&
+            !isSelected && {
+              overlayColor: contrastColor,
+              rippleColor: contrastColor
+            })}
         />
       </Box>
     </Box>

@@ -127,7 +127,7 @@ const DateRangePicker = <T extends AsType = 'div'>(
           aria-expanded={open}
           aria-controls={popoverId}
         >
-          <DateRangeIcon size={20} color="gray-500" />
+          <DateRangeIcon size={20} color="on-surface-variant" />
         </ButtonBase>
       )
     },

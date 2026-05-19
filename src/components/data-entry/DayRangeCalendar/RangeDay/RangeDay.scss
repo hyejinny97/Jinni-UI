@@ -20,7 +20,7 @@ $dash-border-width: 2px;
     width: inherit;
 
     &.isInSelectRange {
-      background-color: var(--lighten-color);
+      background-color: var(--selected-range-bg-color);
       &.isStartSelected,
       &.isSunday {
         @include left-rounded;
@@ -28,6 +28,11 @@ $dash-border-width: 2px;
       &.isEndSelected,
       &.isSaturday {
         @include right-rounded;
+      }
+      &:not(.isStartSelected):not(.isEndSelected) {
+        .JinniDay {
+          color: var(--selected-range-text-color);
+        }
       }
     }
 
