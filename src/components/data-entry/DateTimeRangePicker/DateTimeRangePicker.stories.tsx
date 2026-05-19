@@ -178,7 +178,7 @@ const Title = ({ children }: { children: React.ReactNode }) => {
         margin: '3px 0',
         fontSize: '12px',
         fontWeight: '700',
-        color: 'gray-600',
+        color: 'on-surface-variant',
         textAlign: 'center'
       }}
     >
@@ -289,9 +289,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -356,9 +356,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -438,7 +438,7 @@ const MultiDateTimePickerTemplate = () => {
     dateToMinute(startDateTime) > dateToMinute(endDateTime);
 
   return (
-    <Stack spacing={20}>
+    <Stack spacing={20} style={{ color: 'on-surface' }}>
       <Text noMargin style={{ display: 'inline-flex', gap: '10px' }}>
         Date Time:
         <Stack direction="row" spacing={5}>
@@ -582,9 +582,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -658,9 +658,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -1051,15 +1051,15 @@ export const CustomDateTimeRangeField: Story = {
           timeFormat: 'A hh시 mm분',
           variant: 'filled',
           size: 'sm',
-          color: 'secondary',
-          focusedColor: 'secondary',
+          color: 'gray-400',
+          focusedColor: 'tertiary',
           fullWidth: true,
           startAdornment: {
-            start: <FlightTakeOffIcon size={20} color="gray-500" />,
-            end: <FlightLandIcon size={20} color="gray-500" />
+            start: <FlightTakeOffIcon size={20} color="on-surface-variant" />,
+            end: <FlightLandIcon size={20} color="on-surface-variant" />
           },
           disableHoverEffect: true,
-          centerIcon: <ArrowRightIcon size={20} color="gray-500" />
+          centerIcon: <ArrowRightIcon size={20} color="gray-400" />
         }}
       />
     </Box>
@@ -1078,15 +1078,15 @@ export const CustomDateTimeRangeField: Story = {
       timeFormat: 'A hh시 mm분',
       variant: 'filled',
       size: 'sm',
-      color: 'secondary',
-      focusedColor: 'secondary',
+      color: 'gray-400',
+      focusedColor: 'tertiary',
       fullWidth: true,
       startAdornment: {
-        start: <FlightTakeOffIcon size={20} color="gray-500" />,
-        end: <FlightLandIcon size={20} color="gray-500" />
+        start: <FlightTakeOffIcon size={20} color="on-surface-variant" />,
+        end: <FlightLandIcon size={20} color="on-surface-variant" />
       },
       disableHoverEffect: true,
-      centerIcon: <ArrowRightIcon size={20} color="gray-500" />
+      centerIcon: <ArrowRightIcon size={20} color="gray-400" />
     }}
   />
 </Box>`.trim()
@@ -1105,7 +1105,9 @@ export const CustomDigitalClock: Story = {
       ]}
       renderDigitalClock={(digitalClockProps) => {
         return (
-          <Stack style={{ height: '357px', backgroundColor: 'gray-50' }}>
+          <Stack
+            style={{ height: '357px', backgroundColor: 'surface-container' }}
+          >
             <Grid columns={3}>
               <Title>AM/PM</Title>
               <Title>Hours</Title>
@@ -1134,7 +1136,7 @@ export const CustomDigitalClock: Story = {
   ]}
   renderDigitalClock={(digitalClockProps) => {
     return (
-      <Stack style={{ height: '357px', backgroundColor: 'gray-50' }}>
+      <Stack style={{ height: '357px', backgroundColor: 'surface-container' }}>
         <Grid columns={3}>
           <Title>AM/PM</Title>
           <Title>Hours</Title>
@@ -1249,7 +1251,7 @@ export const MultiDateTimePicker: Story = {
     dateToMinute(startDateTime) > dateToMinute(endDateTime);
 
   return (
-    <Stack spacing={20}>
+    <Stack spacing={20} style={{ color: 'on-surface' }}>
       <Text noMargin style={{ display: 'inline-flex', gap: '10px' }}>
         Date Time:
         <Stack direction="row" spacing={5}>
