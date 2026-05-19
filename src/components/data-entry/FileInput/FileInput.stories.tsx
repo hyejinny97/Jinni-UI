@@ -122,7 +122,8 @@ const BasicFileInputTemplate = () => {
             height: '100px',
             border: '1px dashed lightgray',
             borderRadius: '4px',
-            backgroundColor: 'gray-100'
+            backgroundColor: 'surface-container',
+            color: 'on-surface'
           }}
         >
           Choose File
@@ -140,7 +141,8 @@ const BasicFileInputTemplate = () => {
             height: '100px',
             border: '1px dashed lightgray',
             borderRadius: '50%',
-            backgroundColor: 'gray-100'
+            backgroundColor: 'surface-container',
+            color: 'on-surface'
           }}
         >
           Choose File
@@ -154,7 +156,8 @@ const BasicFileInputTemplate = () => {
       style={{
         alignItems: 'center',
         minWidth: '300px',
-        maxWidth: '400px'
+        maxWidth: '400px',
+        color: 'on-surface'
       }}
     >
       <fieldset>
@@ -185,7 +188,8 @@ const BasicFileInputTemplate = () => {
             alignItems: 'center',
             padding: '10px 20px',
             width: '100%',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            backgroundColor: 'surface-container-high'
           }}
         >
           <Box>
@@ -260,7 +264,8 @@ const BasicMultipleTemplate = () => {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
@@ -344,7 +349,8 @@ const DeduplicatedFilesTemplate = () => {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
@@ -418,7 +424,8 @@ const BasicAcceptTemplate = () => {
             alignItems: 'center',
             padding: '10px 20px',
             width: '100%',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            backgroundColor: 'surface-container-high'
           }}
         >
           <Box>
@@ -511,7 +518,8 @@ const ValidateAcceptTemplate = () => {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
@@ -593,7 +601,8 @@ const DisabledTemplate = () => {
             alignItems: 'center',
             padding: '10px 20px',
             width: '100%',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            backgroundColor: 'surface-container-high'
           }}
         >
           <Box>
@@ -678,7 +687,8 @@ const MaxFileSizeTemplate = () => {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
@@ -770,7 +780,8 @@ const MaxFilesTemplate = () => {
                 alignItems: 'center',
                 padding: '10px 20px',
                 width: '100%',
-                borderRadius: '4px'
+                borderRadius: '4px',
+                backgroundColor: 'surface-container-high'
               }}
             >
               <Box>
@@ -894,7 +905,8 @@ const FileInputWithFormTemplate = () => {
                 alignItems: 'center',
                 padding: '10px 20px',
                 width: '100%',
-                borderRadius: '4px'
+                borderRadius: '4px',
+                backgroundColor: 'surface-container-high'
               }}
             >
               <Box>
@@ -1001,7 +1013,8 @@ const FileInputWithPreviewImageTemplate = () => {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Stack
@@ -1104,7 +1117,8 @@ const DragAndDropTemplate = () => {
             height: '300px',
             border: '1px dashed gray',
             borderRadius: '4px',
-            backgroundColor: 'lightgray'
+            backgroundColor: 'surface-container',
+            color: 'on-surface'
           }}
         >
           Click or drag file to this area
@@ -1121,7 +1135,8 @@ const DragAndDropTemplate = () => {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
@@ -1202,7 +1217,8 @@ export const BasicFileInput: Story = {
             height: '100px',
             border: '1px dashed lightgray',
             borderRadius: '4px',
-            backgroundColor: 'gray-100'
+            backgroundColor: 'surface-container',
+            color: 'on-surface'
           }}
         >
           Choose File
@@ -1220,7 +1236,8 @@ export const BasicFileInput: Story = {
             height: '100px',
             border: '1px dashed lightgray',
             borderRadius: '50%',
-            backgroundColor: 'gray-100'
+            backgroundColor: 'surface-container',
+            color: 'on-surface'
           }}
         >
           Choose File
@@ -1234,7 +1251,8 @@ export const BasicFileInput: Story = {
       style={{
         alignItems: 'center',
         minWidth: '300px',
-        maxWidth: '400px'
+        maxWidth: '400px',
+        color: 'on-surface'
       }}
     >
       <fieldset>
@@ -1265,7 +1283,8 @@ export const BasicFileInput: Story = {
             alignItems: 'center',
             padding: '10px 20px',
             width: '100%',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            backgroundColor: 'surface-container-high'
           }}
         >
           <Box>
@@ -1349,7 +1368,8 @@ export const BasicMultiple: Story = {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
@@ -1442,7 +1462,8 @@ export const RemoveDuplicatedFiles: Story = {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
@@ -1525,7 +1546,8 @@ export const BasicAccept: Story = {
             alignItems: 'center',
             padding: '10px 20px',
             width: '100%',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            backgroundColor: 'surface-container-high'
           }}
         >
           <Box>
@@ -1627,7 +1649,8 @@ export const AcceptValidation: Story = {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
@@ -1716,7 +1739,8 @@ export const Disabled: Story = {
             alignItems: 'center',
             padding: '10px 20px',
             width: '100%',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            backgroundColor: 'surface-container-high'
           }}
         >
           <Box>
@@ -1810,7 +1834,8 @@ export const MaxFileSize: Story = {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
@@ -1911,7 +1936,8 @@ export const MaxFiles: Story = {
                 alignItems: 'center',
                 padding: '10px 20px',
                 width: '100%',
-                borderRadius: '4px'
+                borderRadius: '4px',
+                backgroundColor: 'surface-container-high'
               }}
             >
               <Box>
@@ -2044,7 +2070,8 @@ export const FileInputWithForm: Story = {
                 alignItems: 'center',
                 padding: '10px 20px',
                 width: '100%',
-                borderRadius: '4px'
+                borderRadius: '4px',
+                backgroundColor: 'surface-container-high'
               }}
             >
               <Box>
@@ -2160,7 +2187,8 @@ export const FileInputWithPreviewImage: Story = {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Stack
@@ -2272,7 +2300,8 @@ export const DragAndDrop: Story = {
             height: '300px',
             border: '1px dashed gray',
             borderRadius: '4px',
-            backgroundColor: 'lightgray'
+            backgroundColor: 'surface-container',
+            color: 'on-surface'
           }}
         >
           Click or drag file to this area
@@ -2289,7 +2318,8 @@ export const DragAndDrop: Story = {
               alignItems: 'center',
               padding: '10px 20px',
               width: '100%',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              backgroundColor: 'surface-container-high'
             }}
           >
             <Box>
