@@ -201,7 +201,7 @@ const ControlledTimeRangePickerTemplate = () => {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Time:</span>
         <Time {...getTime('start')} />
@@ -241,9 +241,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -299,9 +299,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -338,7 +338,7 @@ const Title = ({ children }: { children: React.ReactNode }) => {
         margin: '3px 0',
         fontSize: '12px',
         fontWeight: '700',
-        color: 'gray-600',
+        color: 'on-surface-variant',
         textAlign: 'center'
       }}
     >
@@ -369,7 +369,7 @@ const MultiTimePickerTemplate = () => {
   };
 
   return (
-    <Stack spacing={20}>
+    <Stack spacing={20} style={{ color: 'on-surface' }}>
       <Stack
         direction="row"
         spacing={8}
@@ -486,7 +486,7 @@ export const ControlledTimeRangePicker: Story = {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Time:</span>
         <Time {...getTime('start')} />
@@ -535,9 +535,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -602,9 +602,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -884,15 +884,15 @@ export const CustomTimeRangeField: Story = {
           format: 'A hh시 mm분',
           variant: 'filled',
           size: 'sm',
-          color: 'secondary',
-          focusedColor: 'secondary',
+          color: 'gray-400',
+          focusedColor: 'tertiary',
           fullWidth: true,
           startAdornment: {
-            start: <FlightTakeOffIcon size={20} color="gray-600" />,
-            end: <FlightLandIcon size={20} color="gray-600" />
+            start: <FlightTakeOffIcon size={20} color="on-surface-variant" />,
+            end: <FlightLandIcon size={20} color="on-surface-variant" />
           },
           disableHoverEffect: true,
-          centerIcon: <ArrowRightIcon size={20} color="gray-500" />
+          centerIcon: <ArrowRightIcon size={20} color="gray-400" />
         }}
       />
     </Box>
@@ -910,15 +910,15 @@ export const CustomTimeRangeField: Story = {
       format: 'A hh시 mm분',
       variant: 'filled',
       size: 'sm',
-      color: 'secondary',
-      focusedColor: 'secondary',
+      color: 'gray-400',
+      focusedColor: 'tertiary',
       fullWidth: true,
       startAdornment: {
-        start: <FlightTakeOffIcon size={20} color="gray-600" />,
-        end: <FlightLandIcon size={20} color="gray-600" />
+        start: <FlightTakeOffIcon size={20} color="on-surface-variant" />,
+        end: <FlightLandIcon size={20} color="on-surface-variant" />
       },
       disableHoverEffect: true,
-      centerIcon: <ArrowRightIcon size={20} color="gray-500" />
+      centerIcon: <ArrowRightIcon size={20} color="gray-400" />
     }}
   />
 </Box>`.trim()
@@ -1020,7 +1020,7 @@ export const MultiTimePicker: Story = {
   };
 
   return (
-    <Stack spacing={20}>
+    <Stack spacing={20} style={{ color: 'on-surface' }}>
       <Stack
         direction="row"
         spacing={8}

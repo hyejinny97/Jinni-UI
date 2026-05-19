@@ -207,7 +207,7 @@ const ControlledTimeRangeFieldTemplate = () => {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Time:</span>
         <Time {...getTime('start')} />
@@ -247,9 +247,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -309,9 +309,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -362,9 +362,9 @@ const TimeFormatTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Format
         </Chip>
         <RadioGroup name="format" value={format} onChange={handleFormatChange}>
@@ -409,7 +409,7 @@ const MultiTimeFieldTemplate = () => {
   };
 
   return (
-    <Stack spacing={20}>
+    <Stack spacing={20} style={{ color: 'on-surface' }}>
       <Stack
         direction="row"
         spacing={8}
@@ -506,7 +506,7 @@ export const ControlledTimeRangeField: Story = {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Time:</span>
         <Time {...getTime('start')} />
@@ -556,9 +556,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -627,9 +627,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -689,9 +689,9 @@ export const TimeFormat: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Format
         </Chip>
         <RadioGroup name="format" value={format} onChange={handleFormatChange}>
@@ -1074,7 +1074,7 @@ export const MultiTimeField: Story = {
   };
 
   return (
-    <Stack spacing={20}>
+    <Stack spacing={20} style={{ color: 'on-surface' }}>
       <Stack
         direction="row"
         spacing={8}

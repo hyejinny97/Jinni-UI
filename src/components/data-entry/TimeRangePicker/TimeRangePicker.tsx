@@ -148,7 +148,7 @@ const TimeRangePicker = <
           aria-expanded={open}
           aria-controls={popoverId}
         >
-          <AccessTimeIcon size={20} color="gray-500" />
+          <AccessTimeIcon size={20} color="on-surface-variant" />
         </ButtonBase>
       )
     },
