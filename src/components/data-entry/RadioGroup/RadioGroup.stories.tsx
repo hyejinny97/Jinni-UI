@@ -195,7 +195,7 @@ export const CustomizeIcon: Story = {
             margin: '4px',
             width: '16px',
             height: '16px',
-            backgroundColor: 'gray-100',
+            backgroundColor: 'inverse-surface',
             borderRadius: '4px'
           }}
         />
@@ -227,7 +227,7 @@ export const CustomizeIcon: Story = {
         margin: '4px',
         width: '16px',
         height: '16px',
-        backgroundColor: 'gray-100',
+        backgroundColor: 'inverse-surface',
         borderRadius: '4px'
       }}
     />
