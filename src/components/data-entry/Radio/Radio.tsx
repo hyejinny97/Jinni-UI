@@ -11,6 +11,7 @@ import useColor from '@/hooks/useColor';
 import { toRgbaObject } from '@/utils/colorFormat';
 import { useRadioGroupContext } from '@/components/data-entry/RadioGroup';
 import { useCheck } from './Radio.hooks';
+import useJinni from '@/hooks/useJinni';
 
 export type RadioProps<T extends AsType = 'input'> = Omit<
   DefaultComponentProps<T>,
@@ -30,6 +31,7 @@ export type RadioProps<T extends AsType = 'input'> = Omit<
   };
 
 const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
+  const { theme } = useJinni();
   const labelContext = useLabelContext();
   const radioGroupContext = useRadioGroupContext();
   const {
@@ -43,7 +45,8 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
     required = labelContext?.required,
     color = radioGroupContext?.color || 'primary',
     size = labelContext?.size || 'md',
-    rippleColor = radioGroupContext?.rippleColor || 'black',
+    rippleColor = radioGroupContext?.rippleColor ||
+      (theme === 'light' ? 'black' : 'white'),
     rippleStartLocation = radioGroupContext?.rippleStartLocation || 'center',
     disableRipple = radioGroupContext?.disableRipple,
     className,
@@ -62,7 +65,8 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
   const { r, g, b } = toRgbaObject(computedColor);
   const newStyle = useStyle({
     '--checked-color': color,
-    '--overlay-color': `rgba(${r}, ${g}, ${b}, 0.05)`,
+    '--hover-color': `rgba(${r}, ${g}, ${b}, 0.05)`,
+    '--focused-color': `rgba(${r}, ${g}, ${b}, 0.15)`,
     ...(!isKeywordSize && { '--icon-size': size }),
     ...style
   });

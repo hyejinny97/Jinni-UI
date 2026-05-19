@@ -69,7 +69,7 @@ const meta: Meta<typeof Radio> = {
       description: 'ripple 색상',
       table: {
         type: { summary: `'black' | 'white'` },
-        defaultValue: { summary: `'black'` }
+        defaultValue: { summary: `theme === 'light' ? 'black' : 'white'` }
       }
     },
     rippleStartLocation: {
@@ -499,7 +499,7 @@ export const Color: Story = {
       <Radio color="error" checked {...args} />
       <Radio color="yellow-500" checked {...args} />
       <Radio color="green" checked {...args} />
-      <Radio color="rgb(10, 20, 30)" checked {...args} />
+      <Radio color="rgb(0, 0, 200)" checked {...args} />
     </Stack>
   )
 };
