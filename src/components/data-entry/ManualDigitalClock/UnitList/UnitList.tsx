@@ -5,6 +5,7 @@ import { Box } from '@/components/layout/Box';
 import { MenuList } from '@/components/navigation/MenuList';
 import { MenuItem } from '@/components/navigation/MenuItem';
 import { UnitItemType } from '../ManualDigitalClock.types';
+import useJinni from '@/hooks/useJinni';
 
 type UnitListProps = {
   items: UnitItemType[];
@@ -12,6 +13,8 @@ type UnitListProps = {
 };
 
 const UnitList = ({ items, onClick }: UnitListProps) => {
+  const { theme } = useJinni();
+  const contrastColorToBg = theme === 'light' ? 'white' : 'black';
   const menuListElRef = useRef<HTMLElement>(null);
   const menuItemsElRef = useRef<Map<number, HTMLElement>>(new Map());
 
@@ -43,7 +46,12 @@ const UnitList = ({ items, onClick }: UnitListProps) => {
   }, [scrollToSelected]);
 
   return (
-    <Box className="JinniUnitList">
+    <Box
+      className="JinniUnitList"
+      style={{
+        '--text-color-selected': contrastColorToBg
+      }}
+    >
       <MenuList ref={menuListElRef} elevation={0}>
         {items.map(({ id, label, selected, disabled, hide }) => (
           <MenuItem
@@ -56,6 +64,10 @@ const UnitList = ({ items, onClick }: UnitListProps) => {
             className={cn({ selected, hide })}
             onClick={() => onClick(id)}
             disabled={disabled}
+            {...(selected && {
+              overlayColor: contrastColorToBg,
+              rippleColor: contrastColorToBg
+            })}
           >
             {label}
           </MenuItem>

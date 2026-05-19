@@ -159,7 +159,7 @@ const Title = ({ children }: { children: React.ReactNode }) => {
         margin: '3px 0',
         fontSize: '12px',
         fontWeight: '700',
-        color: 'gray-600',
+        color: 'on-surface-variant',
         textAlign: 'center'
       }}
     >
@@ -217,9 +217,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -278,9 +278,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -423,9 +423,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -493,9 +493,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -710,10 +710,12 @@ export const CustomTimeField: Story = {
           format: 'A hh시 mm분',
           variant: 'filled',
           size: 'lg',
-          color: 'secondary',
-          focusedColor: 'secondary',
+          color: 'gray-400',
+          focusedColor: 'tertiary',
           fullWidth: true,
-          startAdornment: <FlightTakeOffIcon size={20} color="gray-500" />,
+          startAdornment: (
+            <FlightTakeOffIcon size={20} color="on-surface-variant" />
+          ),
           disableHoverEffect: true
         }}
       />
@@ -729,10 +731,10 @@ export const CustomTimeField: Story = {
       format: 'A hh시 mm분',
       variant: 'filled',
       size: 'lg',
-      color: 'secondary',
-      focusedColor: 'secondary',
+      color: 'gray-400',
+      focusedColor: 'tertiary',
       fullWidth: true,
-      startAdornment: <FlightTakeOffIcon size={20} color="gray-500" />,
+      startAdornment: <FlightTakeOffIcon size={20} color="on-surface-variant" />,
       disableHoverEffect: true
     }}
   />
