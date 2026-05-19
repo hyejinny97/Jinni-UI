@@ -22,7 +22,7 @@ const IncreaseButton = (props: IncreaseButtonProps) => {
       aria-label="increase"
       {...rest}
     >
-      <ArrowUpIcon color="gray-600" />
+      <ArrowUpIcon color="on-surface-variant" />
     </ButtonBase>
   );
 };
