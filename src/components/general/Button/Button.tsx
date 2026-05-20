@@ -40,14 +40,20 @@ const Button = forwardRef(
       startAdornment,
       endAdornment,
       fullWidth,
-      overlayColor = variant === 'filled' ? 'white' : 'black',
-      rippleColor = variant === 'filled' ? 'white' : 'black',
+      overlayColor,
+      rippleColor,
       className,
       style,
       ...rest
     } = newProps;
     const normalizedColor = useColor(color);
-    const { textColor, backgroundColor, borderColor } = getColorStyle({
+    const {
+      textColor,
+      backgroundColor,
+      borderColor,
+      overlayColor: defaultOverlayColor,
+      rippleColor: defaultRippleColor
+    } = getColorStyle({
       color: normalizedColor,
       variant
     });
@@ -56,8 +62,8 @@ const Button = forwardRef(
       <ButtonBase
         ref={ref}
         className={cn('JinniButton', size, shape, { fullWidth }, className)}
-        overlayColor={overlayColor}
-        rippleColor={rippleColor}
+        overlayColor={overlayColor || defaultOverlayColor}
+        rippleColor={rippleColor || defaultRippleColor}
         style={{
           '--text-color': textColor,
           '--background-color': backgroundColor,

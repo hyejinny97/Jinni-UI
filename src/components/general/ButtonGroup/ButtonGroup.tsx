@@ -56,7 +56,7 @@ const ButtonGroup = forwardRef(
     const normalizedColor = useColor(color);
     const newStyle = useStyle({
       '--divider-color':
-        variant === 'filled' ? darken(normalizedColor, 0.3) : color,
+        variant === 'filled' ? darken(normalizedColor, 0.8) : color,
       ...style
     });
 

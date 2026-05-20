@@ -211,7 +211,7 @@ const SplitButtonTemplate = () => {
       <ButtonGroup ref={anchorElRef} aria-label="basic button group">
         <Button style={{ height: '34px' }}>{OPTIONS[selectedIdx].title}</Button>
         <Button onClick={openMenu}>
-          <ArrowDownIcon color="white" size={20} />
+          <ArrowDownIcon color="on-primary" size={20} />
         </Button>
       </ButtonGroup>
       <Menu
@@ -464,7 +464,7 @@ export const SplitButton: Story = {
       <ButtonGroup ref={anchorElRef} aria-label="basic button group">
         <Button style={{ height: '34px' }}>{OPTIONS[selectedIdx].title}</Button>
         <Button onClick={openMenu}>
-          <ArrowDownIcon color="white" size={20} />
+          <ArrowDownIcon color="on-primary" size={20} />
         </Button>
       </ButtonGroup>
       <Menu
