@@ -161,7 +161,7 @@ const ModalSizeTemplate = () => {
       <Modal
         open={open}
         onClose={closeModal}
-        size={SIZES.find(({ value }) => value === size)?.value || 'md'}
+        size={SIZES.find(({ label }) => label === size)?.value || 'md'}
       >
         <ModalHeader>Modal Header</ModalHeader>
         <ModalBody>Modal Body</ModalBody>

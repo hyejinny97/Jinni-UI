@@ -10,6 +10,9 @@ import { Alert } from '@/components/feedback/Alert';
 import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
 import { Motion } from '@/components/motion/Motion';
+import { Box } from '@/components/layout/Box';
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import { Chip } from '@/components/data-display/Chip';
 
 const meta: Meta<typeof Toast> = {
   component: Toast,
@@ -133,7 +136,7 @@ const ToastActionTemplate = () => {
               }}
               aria-label="close"
             >
-              <CloseIcon size={20} color="white" />
+              <CloseIcon size={20} color="inverse-on-surface" />
             </ButtonBase>
           </>
         }
@@ -152,11 +155,9 @@ const ToastPositionTemplate = () => {
     { label: 'bottom + right', horizontal: 'right', vertical: 'bottom' }
   ] as const;
   const [open, setOpen] = useState(false);
-  const [checkedValue, setCheckedValue] = useState<number>(0);
+  const [position, setPosition] =
+    useState<(typeof POSITIONS)[number]['label']>('top + left');
 
-  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedValue(Number(e.target.value));
-  };
   const openToast = () => {
     setOpen(true);
   };
@@ -167,20 +168,35 @@ const ToastPositionTemplate = () => {
     if (reason === 'backgroundClick') return;
     setOpen(false);
   };
+  const handlePositionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setPosition(value as (typeof POSITIONS)[number]['label']);
+  };
 
   return (
-    <Stack spacing={20}>
-      <Grid columns={3}>
-        {POSITIONS.map((position, idx) => (
-          <Label key={position.label} content={position.label}>
-            <Radio
-              value={String(idx)}
-              checked={checkedValue === idx}
-              onChange={check}
-            />
-          </Label>
-        ))}
-      </Grid>
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Anchor Origin
+        </Chip>
+        <RadioGroup
+          name="anchorOrigin"
+          value={position}
+          onChange={handlePositionChange}
+        >
+          <Grid columns={3} spacing={5}>
+            {POSITIONS.map(({ label }) => (
+              <Label key={label} content={label}>
+                <Radio value={label} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
       <Button onClick={openToast}>Open Toast</Button>
       <Toast
         open={open}
@@ -195,13 +211,12 @@ const ToastPositionTemplate = () => {
               borderRadius: '50%'
             }}
           >
-            <CloseIcon size={20} color="white" />
+            <CloseIcon size={20} color="inverse-on-surface" />
           </ButtonBase>
         }
-        anchorOrigin={{
-          horizontal: POSITIONS[checkedValue].horizontal,
-          vertical: POSITIONS[checkedValue].vertical
-        }}
+        anchorOrigin={
+          POSITIONS.find(({ label }) => label === position) || POSITIONS[0]
+        }
       />
     </Stack>
   );
@@ -286,7 +301,7 @@ const ConsecutiveToastWithoutStackingTemplate = () => {
               borderRadius: '50%'
             }}
           >
-            <CloseIcon size={20} color="white" />
+            <CloseIcon size={20} color="inverse-on-surface" />
           </ButtonBase>
         }
       />
@@ -433,7 +448,7 @@ export const ToastAction: Story = {
               }}
               aria-content="close"
             >
-              <CloseIcon size={20} color="white" />
+              <CloseIcon size={20} color="inverse-on-surface" />
             </ButtonBase>
           </>
         }
@@ -461,11 +476,9 @@ export const ToastPosition: Story = {
     { label: 'bottom + right', horizontal: 'right', vertical: 'bottom' }
   ] as const;
   const [open, setOpen] = useState(false);
-  const [checkedValue, setCheckedValue] = useState<number>(0);
+  const [position, setPosition] =
+    useState<(typeof POSITIONS)[number]['label']>('top + left');
 
-  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedValue(Number(e.target.value));
-  };
   const openToast = () => {
     setOpen(true);
   };
@@ -476,20 +489,35 @@ export const ToastPosition: Story = {
     if (reason === 'backgroundClick') return;
     setOpen(false);
   };
+  const handlePositionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setPosition(value as (typeof POSITIONS)[number]['label']);
+  };
 
   return (
-    <Stack spacing={20}>
-      <Grid columns={3}>
-        {POSITIONS.map((position, idx) => (
-          <Label key={position.label} content={position.label}>
-            <Radio
-              value={idx}
-              checked={checkedValue === idx}
-              onChange={check}
-            />
-          </Label>
-        ))}
-      </Grid>
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Anchor Origin
+        </Chip>
+        <RadioGroup
+          name="anchorOrigin"
+          value={position}
+          onChange={handlePositionChange}
+        >
+          <Grid columns={3} spacing={5}>
+            {POSITIONS.map(({ label }) => (
+              <Label key={label} content={label}>
+                <Radio value={label} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
       <Button onClick={openToast}>Open Toast</Button>
       <Toast
         open={open}
@@ -504,13 +532,12 @@ export const ToastPosition: Story = {
               borderRadius: '50%'
             }}
           >
-            <CloseIcon size={20} color="white" />
+            <CloseIcon size={20} color="inverse-on-surface" />
           </ButtonBase>
         }
-        anchorOrigin={{
-          horizontal: POSITIONS[checkedValue].horizontal,
-          vertical: POSITIONS[checkedValue].vertical
-        }}
+        anchorOrigin={
+          POSITIONS.find(({ label }) => label === position) || POSITIONS[0]
+        }
       />
     </Stack>
   );
@@ -623,7 +650,7 @@ export const ConsecutiveToastWithoutStacking: Story = {
               borderRadius: '50%'
             }}
           >
-            <CloseIcon size={20} color="white" />
+            <CloseIcon size={20} color="inverse-on-surface" />
           </ButtonBase>
         }
       />
