@@ -115,7 +115,15 @@ export const LinkButton: Story = {
 export const OverlayColor: Story = {
   render: (args) => (
     <Stack direction="row" spacing={20}>
-      <ButtonBase overlayColor="black" style={BUTTON_STYLE} {...args}>
+      <ButtonBase
+        overlayColor="black"
+        style={{
+          ...BUTTON_STYLE,
+          backgroundColor: 'primary',
+          color: 'on-primary'
+        }}
+        {...args}
+      >
         Button Base
       </ButtonBase>
       <ButtonBase
@@ -123,7 +131,7 @@ export const OverlayColor: Story = {
         style={{
           ...BUTTON_STYLE,
           backgroundColor: 'primary',
-          color: 'white'
+          color: 'on-primary'
         }}
         {...args}
       >
@@ -144,7 +152,15 @@ export const DisableOverlay: Story = {
 export const RippleColor: Story = {
   render: (args) => (
     <Stack direction="row" spacing={20}>
-      <ButtonBase rippleColor="black" style={BUTTON_STYLE} {...args}>
+      <ButtonBase
+        rippleColor="black"
+        style={{
+          ...BUTTON_STYLE,
+          backgroundColor: 'primary',
+          color: 'on-primary'
+        }}
+        {...args}
+      >
         Button Base
       </ButtonBase>
       <ButtonBase
@@ -152,7 +168,7 @@ export const RippleColor: Story = {
         style={{
           ...BUTTON_STYLE,
           backgroundColor: 'primary',
-          color: 'white'
+          color: 'on-primary'
         }}
         {...args}
       >
