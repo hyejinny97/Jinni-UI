@@ -16,9 +16,9 @@
 }
 
 .JinniLink {
-  color: inherit;
+  color: var(--jinni-color-on-surface);
   &:active {
-    color: inherit;
+    color: var(--jinni-color-on-surface);
   }
   &.lineClamp {
     @include mix.line-clamp(var(--line-clamp));
