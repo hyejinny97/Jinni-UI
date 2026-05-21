@@ -78,7 +78,8 @@ const GrayBox = ({
       width: '100%',
       height: '100%',
       padding: '10px',
-      backgroundColor: 'gray-200',
+      backgroundColor: 'surface-container-highest',
+      color: 'on-surface',
       ...style
     }}
   >
@@ -361,7 +362,10 @@ export const NestedGrid: Story = {
         rows={3}
         spacing={10}
         flow="column"
-        style={{ gridRow: 'span 3', backgroundColor: 'yellow-50' }}
+        style={{
+          gridRow: 'span 3',
+          border: '1px solid var(--jinni-color-outline-variant)'
+        }}
       >
         <GrayBox style={{ gridRowStart: 2 }}>Grid Item 6</GrayBox>
       </Grid>
