@@ -91,18 +91,30 @@ export default meta;
 type Story = StoryObj<typeof LinearSpeedDial>;
 
 const insertDocumentStyles = (iframeDoc: Document) => {
-  const styles = Array.from(window.document.head.querySelectorAll('style'));
-  styles.forEach((style) => {
-    iframeDoc.head.appendChild(style.cloneNode(true));
+  const replicateParentHeadToIframe = () => {
+    iframeDoc.head.innerHTML = '';
+    const headChildren = Array.from(window.document.head.children);
+    headChildren.forEach((child) => {
+      iframeDoc.head.appendChild(child.cloneNode(true));
+    });
+  };
+  const observer = new MutationObserver(replicateParentHeadToIframe);
+  observer.observe(window.document.head, {
+    childList: true,
+    attributes: true,
+    subtree: true
   });
 };
 
 const BasicLinearSpeedDialTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -122,7 +134,7 @@ const BasicLinearSpeedDialTemplate = () => {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -146,7 +158,7 @@ const BasicLinearSpeedDialTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"
@@ -171,10 +183,13 @@ const BasicLinearSpeedDialTemplate = () => {
 
 const LinearSpeedDialWithFABTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const iframeDocBody = useRef<HTMLElement>();
   const anchorElRef = useRef<HTMLElement>(null);
@@ -240,7 +255,7 @@ const LinearSpeedDialWithFABTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"
@@ -267,10 +282,13 @@ const LinearSpeedDialWithFABTemplate = () => {
 
 const PlacementTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const PLACEMENTS = ['up', 'down', 'left', 'right'] as const;
   const anchorElRef = useRef<HTMLElement>(null);
@@ -311,7 +329,7 @@ const PlacementTemplate = () => {
           width: '300px',
           height: '300px',
           border: '1px solid',
-          borderColor: 'gray-200'
+          borderColor: 'outline-variant'
         }}
       >
         <Button
@@ -337,7 +355,7 @@ const PlacementTemplate = () => {
           aria-expanded={open}
           aria-controls="basic-speed-dial"
         >
-          <AddIcon color="white" size={20} />
+          <AddIcon color="on-primary" size={20} />
         </Button>
         <LinearSpeedDial
           id="basic-speed-dial"
@@ -364,10 +382,13 @@ const PlacementTemplate = () => {
 
 const DistanceFromAnchorTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -387,7 +408,7 @@ const DistanceFromAnchorTemplate = () => {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -411,7 +432,7 @@ const DistanceFromAnchorTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"
@@ -437,10 +458,13 @@ const DistanceFromAnchorTemplate = () => {
 
 const AnchorPositionTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
   const [open, setOpen] = useState(false);
@@ -468,7 +492,7 @@ const AnchorPositionTemplate = () => {
         width: '500px'
       }}
     >
-      <p
+      <Text
         onContextMenu={handleContextMenu}
         aria-haspopup="true"
         aria-expanded={open}
@@ -483,7 +507,7 @@ const AnchorPositionTemplate = () => {
         finibus ex, sit amet facilisis neque enim sed neque. Quisque accumsan
         metus vel maximus consequat. Suspendisse lacinia tellus a libero
         volutpat maximus.
-      </p>
+      </Text>
       <LinearSpeedDial
         id="basic-speed-dial"
         aria-label="useful tools"
@@ -531,7 +555,7 @@ const CustomizeButtonTemplate = () => {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -555,7 +579,7 @@ const CustomizeButtonTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"
@@ -584,10 +608,13 @@ const CustomizeButtonTemplate = () => {
 
 const CustomizeTooltipTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -607,7 +634,7 @@ const CustomizeTooltipTemplate = () => {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -631,7 +658,7 @@ const CustomizeTooltipTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"
@@ -666,10 +693,10 @@ export const BasicLinearSpeedDial: Story = {
       source: {
         code: `const BasicLinearSpeedDialTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -689,7 +716,7 @@ export const BasicLinearSpeedDial: Story = {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -713,7 +740,7 @@ export const BasicLinearSpeedDial: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"
@@ -747,10 +774,10 @@ export const LinearSpeedDialWithFAB: Story = {
       source: {
         code: `const LinearSpeedDialWithFABTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const iframeDocBody = useRef<HTMLElement>();
   const anchorElRef = useRef<HTMLElement>(null);
@@ -816,7 +843,7 @@ export const LinearSpeedDialWithFAB: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"
@@ -852,10 +879,10 @@ export const Placement: Story = {
       source: {
         code: `const PlacementTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const PLACEMENTS = ['up', 'down', 'left', 'right'] as const;
   const anchorElRef = useRef<HTMLElement>(null);
@@ -896,7 +923,7 @@ export const Placement: Story = {
           width: '300px',
           height: '300px',
           border: '1px solid',
-          borderColor: 'gray-200'
+          borderColor: 'outline-variant'
         }}
       >
         <Button
@@ -922,7 +949,7 @@ export const Placement: Story = {
           aria-expanded={open}
           aria-controls="basic-speed-dial"
         >
-          <AddIcon color="white" size={20} />
+          <AddIcon color="on-primary" size={20} />
         </Button>
         <LinearSpeedDial
           id="basic-speed-dial"
@@ -958,10 +985,10 @@ export const DistanceFromAnchor: Story = {
       source: {
         code: `const DistanceFromAnchorTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -981,7 +1008,7 @@ export const DistanceFromAnchor: Story = {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -1005,7 +1032,7 @@ export const DistanceFromAnchor: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"
@@ -1040,10 +1067,10 @@ export const AnchorPosition: Story = {
       source: {
         code: `const AnchorPositionTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
   const [open, setOpen] = useState(false);
@@ -1071,7 +1098,7 @@ export const AnchorPosition: Story = {
         width: '500px'
       }}
     >
-      <p
+      <Text
         onContextMenu={handleContextMenu}
         aria-haspopup="true"
         aria-expanded={open}
@@ -1086,7 +1113,7 @@ export const AnchorPosition: Story = {
         finibus ex, sit amet facilisis neque enim sed neque. Quisque accumsan
         metus vel maximus consequat. Suspendisse lacinia tellus a libero
         volutpat maximus.
-      </p>
+      </Text>
       <LinearSpeedDial
         id="basic-speed-dial"
         aria-label="useful tools"
@@ -1143,7 +1170,7 @@ export const CustomizeButton: Story = {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -1167,7 +1194,7 @@ export const CustomizeButton: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"
@@ -1205,10 +1232,10 @@ export const CustomizeTooltip: Story = {
       source: {
         code: `const CustomizeTooltipTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -1228,7 +1255,7 @@ export const CustomizeTooltip: Story = {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -1252,7 +1279,7 @@ export const CustomizeTooltip: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <LinearSpeedDial
         id="basic-speed-dial"

@@ -22,7 +22,7 @@ $item-size: (
     padding: 0;
     &.outlined,
     &.text {
-      background-color: white;
+      background-color: var(--jinni-color-surface-container-lowest);
     }
     @include action-size;
   }
