@@ -167,7 +167,8 @@ export const Customization: Story = {
       style={{
         padding: 0,
         border: '1px solid var(--jinni-color-outline-variant)',
-        borderRadius: '4px'
+        borderRadius: '4px',
+        color: 'on-surface'
       }}
     >
       <ListItem>Item 1</ListItem>
