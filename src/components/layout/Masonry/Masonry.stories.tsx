@@ -93,7 +93,10 @@ const AddItemsTemplate = () => {
             }}
           >
             <Text
-              style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
+              style={{
+                textAlign: 'center',
+                margin: '8px'
+              }}
             >
               {id}
             </Text>
@@ -135,11 +138,7 @@ const DeleteItemTemplate = () => {
             height
           }}
         >
-          <Text
-            style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
-          >
-            {id}
-          </Text>
+          <Text style={{ textAlign: 'center', margin: '8px' }}>{id}</Text>
           <ButtonBase
             aria-label={`delete masonry item-${id}`}
             onClick={deleteItem(id)}
@@ -261,8 +260,7 @@ const ImageMasonryTemplate = () => {
                   top: 0,
                   left: 0,
                   textAlign: 'center',
-                  margin: '8px',
-                  color: 'white'
+                  margin: '8px'
                 }}
               >
                 {idx + 1}
@@ -298,11 +296,7 @@ export const BasicMasonry: Story = {
             height
           }}
         >
-          <Text
-            style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
-          >
-            {id}
-          </Text>
+          <Text style={{ textAlign: 'center', margin: '8px' }}>{id}</Text>
         </Box>
       ))}
     </Masonry>
@@ -322,11 +316,7 @@ export const BasicColumns: Story = {
             height
           }}
         >
-          <Text
-            style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
-          >
-            {id}
-          </Text>
+          <Text style={{ textAlign: 'center', margin: '8px' }}>{id}</Text>
         </Box>
       ))}
     </Masonry>
@@ -346,11 +336,7 @@ export const ResponsiveColumns: Story = {
             height
           }}
         >
-          <Text
-            style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
-          >
-            {id}
-          </Text>
+          <Text style={{ textAlign: 'center', margin: '8px' }}>{id}</Text>
         </Box>
       ))}
     </Masonry>
@@ -370,11 +356,7 @@ export const BasicSpacing: Story = {
             height
           }}
         >
-          <Text
-            style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
-          >
-            {id}
-          </Text>
+          <Text style={{ textAlign: 'center', margin: '8px' }}>{id}</Text>
         </Box>
       ))}
     </Masonry>
@@ -394,11 +376,7 @@ export const ResponsiveSpacing: Story = {
             height
           }}
         >
-          <Text
-            style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
-          >
-            {id}
-          </Text>
+          <Text style={{ textAlign: 'center', margin: '8px' }}>{id}</Text>
         </Box>
       ))}
     </Masonry>
@@ -418,11 +396,7 @@ export const Sequential: Story = {
             height
           }}
         >
-          <Text
-            style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
-          >
-            {id}
-          </Text>
+          <Text style={{ textAlign: 'center', margin: '8px' }}>{id}</Text>
         </Box>
       ))}
     </Masonry>
@@ -463,7 +437,7 @@ export const AddItems: Story = {
             }}
           >
             <Text
-              style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
+              style={{ textAlign: 'center', margin: '8px' }}
             >
               {id}
             </Text>
@@ -515,7 +489,7 @@ export const DeleteItem: Story = {
           }}
         >
           <Text
-            style={{ textAlign: 'center', margin: '8px', color: 'gray-600' }}
+            style={{ textAlign: 'center', margin: '8px' }}
           >
             {id}
           </Text>
@@ -682,7 +656,6 @@ export const ImageMasonry: Story = {
                   left: 0,
                   textAlign: 'center',
                   margin: '8px',
-                  color: 'white'
                 }}
               >
                 {idx + 1}
