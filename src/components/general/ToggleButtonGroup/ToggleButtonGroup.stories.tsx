@@ -59,44 +59,47 @@ export default meta;
 type Story = StoryObj<typeof ToggleButtonGroup>;
 
 const ALIGNMENT_ITEMS = [
-  { value: 'left-alignment', icon: <FormatAlignLeftIcon color="gray-500" /> },
+  { value: 'left-alignment', icon: <FormatAlignLeftIcon color="on-surface" /> },
   {
     value: 'center-alignment',
-    icon: <FormatAlignCenterIcon color="gray-500" />
+    icon: <FormatAlignCenterIcon color="on-surface" />
   },
-  { value: 'right-alignment', icon: <FormatAlignRightIcon color="gray-500" /> },
+  {
+    value: 'right-alignment',
+    icon: <FormatAlignRightIcon color="on-surface" />
+  },
   {
     value: 'justify-alignment',
-    icon: <FormatAlignJustifyIcon color="gray-500" />
+    icon: <FormatAlignJustifyIcon color="on-surface" />
   }
 ];
 
 const FONT_ITEMS = [
-  { value: 'bold', icon: <FormatBoldIcon color="gray-500" /> },
+  { value: 'bold', icon: <FormatBoldIcon color="on-surface" /> },
   {
     value: 'italic',
-    icon: <FormatItalicIcon color="gray-500" />
+    icon: <FormatItalicIcon color="on-surface" />
   },
   {
     value: 'underlined',
-    icon: <FormatUnderlinedIcon color="gray-500" />
+    icon: <FormatUnderlinedIcon color="on-surface" />
   }
 ];
 
 const ExclusiveControlledTemplate = () => {
   const ITEMS = [
-    { value: 'left', icon: <FormatAlignLeftIcon color="gray-500" /> },
+    { value: 'left', icon: <FormatAlignLeftIcon color="on-surface" /> },
     {
       value: 'center',
-      icon: <FormatAlignCenterIcon color="gray-500" />
+      icon: <FormatAlignCenterIcon color="on-surface" />
     },
     {
       value: 'right',
-      icon: <FormatAlignRightIcon color="gray-500" />
+      icon: <FormatAlignRightIcon color="on-surface" />
     },
     {
       value: 'justify',
-      icon: <FormatAlignJustifyIcon color="gray-500" />
+      icon: <FormatAlignJustifyIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] = useState<ValueType | null>(null);
@@ -128,14 +131,14 @@ const ExclusiveControlledTemplate = () => {
 
 const MultipleControlledTemplate = () => {
   const ITEMS = [
-    { value: 'bold', icon: <FormatBoldIcon color="gray-500" /> },
+    { value: 'bold', icon: <FormatBoldIcon color="on-surface" /> },
     {
       value: 'italic',
-      icon: <FormatItalicIcon color="gray-500" />
+      icon: <FormatItalicIcon color="on-surface" />
     },
     {
       value: 'underlined',
-      icon: <FormatUnderlinedIcon color="gray-500" />
+      icon: <FormatUnderlinedIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] = useState<Array<ValueType>>([]);
@@ -167,18 +170,18 @@ const MultipleControlledTemplate = () => {
 
 const ExclusiveSelectAtLeastOneTemplate = () => {
   const ITEMS = [
-    { value: 'left', icon: <FormatAlignLeftIcon color="gray-500" /> },
+    { value: 'left', icon: <FormatAlignLeftIcon color="on-surface" /> },
     {
       value: 'center',
-      icon: <FormatAlignCenterIcon color="gray-500" />
+      icon: <FormatAlignCenterIcon color="on-surface" />
     },
     {
       value: 'right',
-      icon: <FormatAlignRightIcon color="gray-500" />
+      icon: <FormatAlignRightIcon color="on-surface" />
     },
     {
       value: 'justify',
-      icon: <FormatAlignJustifyIcon color="gray-500" />
+      icon: <FormatAlignJustifyIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] = useState<ValueType>('left');
@@ -207,14 +210,14 @@ const ExclusiveSelectAtLeastOneTemplate = () => {
 
 const MultipleSelectAtLeastOneTemplate = () => {
   const ITEMS = [
-    { value: 'bold', icon: <FormatBoldIcon color="gray-500" /> },
+    { value: 'bold', icon: <FormatBoldIcon color="on-surface" /> },
     {
       value: 'italic',
-      icon: <FormatItalicIcon color="gray-500" />
+      icon: <FormatItalicIcon color="on-surface" />
     },
     {
       value: 'underlined',
-      icon: <FormatUnderlinedIcon color="gray-500" />
+      icon: <FormatUnderlinedIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] = useState<Array<ValueType>>([
@@ -296,18 +299,18 @@ export const ExclusiveControlled: Story = {
       source: {
         code: `const ExclusiveControlledTemplate = () => {
   const ITEMS = [
-    { value: 'left', icon: <FormatAlignLeftIcon color="gray-500" /> },
+    { value: 'left', icon: <FormatAlignLeftIcon color="on-surface" /> },
     {
       value: 'center',
-      icon: <FormatAlignCenterIcon color="gray-500" />
+      icon: <FormatAlignCenterIcon color="on-surface" />
     },
     {
       value: 'right',
-      icon: <FormatAlignRightIcon color="gray-500" />
+      icon: <FormatAlignRightIcon color="on-surface" />
     },
     {
       value: 'justify',
-      icon: <FormatAlignJustifyIcon color="gray-500" />
+      icon: <FormatAlignJustifyIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] = useState<ValueType | null>(null);
@@ -349,14 +352,14 @@ export const MultipleControlled: Story = {
       source: {
         code: `const MultipleControlledTemplate = () => {
   const ITEMS = [
-    { value: 'bold', icon: <FormatBoldIcon color="gray-500" /> },
+    { value: 'bold', icon: <FormatBoldIcon color="on-surface" /> },
     {
       value: 'italic',
-      icon: <FormatItalicIcon color="gray-500" />
+      icon: <FormatItalicIcon color="on-surface" />
     },
     {
       value: 'underlined',
-      icon: <FormatUnderlinedIcon color="gray-500" />
+      icon: <FormatUnderlinedIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] = useState<Array<ValueType>>([]);
@@ -410,7 +413,7 @@ export const Color: Story = {
   render: (args) => (
     <ToggleButtonGroup
       defaultValue="left-alignment"
-      color="tertiary"
+      color="yellow-400"
       aria-label="text alignment"
       {...args}
     >
@@ -498,18 +501,18 @@ export const ExclusiveSelectAtLeastOne: Story = {
       source: {
         code: `const ExclusiveSelectAtLeastOneTemplate = () => {
   const ITEMS = [
-    { value: 'left', icon: <FormatAlignLeftIcon color="gray-500" /> },
+    { value: 'left', icon: <FormatAlignLeftIcon color="on-surface" /> },
     {
       value: 'center',
-      icon: <FormatAlignCenterIcon color="gray-500" />
+      icon: <FormatAlignCenterIcon color="on-surface" />
     },
     {
       value: 'right',
-      icon: <FormatAlignRightIcon color="gray-500" />
+      icon: <FormatAlignRightIcon color="on-surface" />
     },
     {
       value: 'justify',
-      icon: <FormatAlignJustifyIcon color="gray-500" />
+      icon: <FormatAlignJustifyIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] = useState<ValueType>('left');
@@ -547,14 +550,14 @@ export const MultipleSelectAtLeastOne: Story = {
       source: {
         code: `const MultipleSelectAtLeastOneTemplate = () => {
   const ITEMS = [
-    { value: 'bold', icon: <FormatBoldIcon color="gray-500" /> },
+    { value: 'bold', icon: <FormatBoldIcon color="on-surface" /> },
     {
       value: 'italic',
-      icon: <FormatItalicIcon color="gray-500" />
+      icon: <FormatItalicIcon color="on-surface" />
     },
     {
       value: 'underlined',
-      icon: <FormatUnderlinedIcon color="gray-500" />
+      icon: <FormatUnderlinedIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] = useState<Array<ValueType>>([
