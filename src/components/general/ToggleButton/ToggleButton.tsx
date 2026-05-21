@@ -1,11 +1,12 @@
 import './ToggleButton.scss';
+import { useMemo } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Button, ButtonProps } from '@/components/general/Button';
 import { useSelected } from './ToggleButton.hooks';
-import { lighten } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
 import { useToggleButtonGroup } from '@/components/general/ToggleButtonGroup';
+import { getColorWithAlpha } from '@/utils/colorAlpha';
 
 export type ValueType = number | string | boolean;
 
@@ -40,31 +41,34 @@ const ToggleButton = <T extends AsType = 'button'>(
     defaultSelected = false,
     selected,
     onChange,
-    color = 'gray-500',
+    color = 'on-surface',
     size = 'md',
     className,
     style,
     ...rest
   } = newProps;
-  const normalizedColor = useColor(color);
   const { isSelected, handleChange } = useSelected({
     defaultSelected,
     selected,
     onChange
   });
 
+  const normalizedColor = useColor(color);
+  const selectedBgColor = useMemo(
+    () => getColorWithAlpha(normalizedColor, 0.3),
+    [normalizedColor]
+  );
+
   return (
     <Button
-      className={cn('JinniToggleButton', size, className)}
+      className={cn('JinniToggleButton', size, { isSelected }, className)}
       onClick={handleChange}
       variant="outlined"
-      color="gray-500"
+      color="on-surface-variant"
       size={size}
       style={{
-        ...(isSelected && {
-          '--text-color': color,
-          '--background-color': lighten(normalizedColor, 0.8)
-        }),
+        '--selected-text-color': color,
+        '--selected-background-color': selectedBgColor,
         ...style
       }}
       aria-pressed={isSelected}
