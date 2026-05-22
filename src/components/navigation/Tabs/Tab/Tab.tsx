@@ -37,7 +37,7 @@ const Tab = <T extends AsType = 'button'>(props: TabProps<T>) => {
       aria-selected={selected}
       data-value={value}
       variant={variant[selected ? 'selectedTab' : 'tab']}
-      color={selected ? color : 'gray-500'}
+      color={selected ? color : 'on-surface-variant'}
       size={tabSize}
       fullWidth={fullWidth}
       disabled={disabled}

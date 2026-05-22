@@ -380,15 +380,15 @@ export const RippleEffect: Story = {
 
 export const IconTabs: Story = {
   render: (args) => (
-    <Tabs defaultValue="home" {...args}>
+    <Tabs className="custom-icon-tabs" defaultValue="home" {...args}>
       <TabList aria-label="주요 메뉴">
-        <Tab value="home" startAdornment={<HomeIcon color="gray-600" />}>
+        <Tab value="home" startAdornment={<HomeIcon />}>
           HOME
         </Tab>
-        <Tab value="profile" startAdornment={<PersonIcon color="gray-600" />}>
+        <Tab value="profile" startAdornment={<PersonIcon />}>
           PROFILE
         </Tab>
-        <Tab value="mail" startAdornment={<MailIcon color="gray-600" />}>
+        <Tab value="mail" startAdornment={<MailIcon />}>
           MAIL
         </Tab>
       </TabList>
