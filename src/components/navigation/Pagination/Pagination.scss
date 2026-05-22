@@ -44,7 +44,7 @@ $ellipsis-font-size: (
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    color: var(--jinni-color-gray-500);
+    color: var(--jinni-color-on-surface-variant);
     @include pagination-ellipsis-size;
   }
 }

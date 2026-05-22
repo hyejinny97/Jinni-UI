@@ -64,7 +64,7 @@ const PaginationItem = genericForwardRef<HTMLElement, PaginationItemProps<any>>(
           shape={shape === 'circular' ? 'pill' : 'rounded'}
           size={size}
           variant={variant}
-          color={selected ? color : 'gray-500'}
+          color={selected ? color : 'on-surface'}
           {...rest}
         >
           {children || page}
@@ -83,16 +83,16 @@ const PaginationItem = genericForwardRef<HTMLElement, PaginationItemProps<any>>(
       let defaultIcon;
       switch (type) {
         case 'first':
-          defaultIcon = <FirstPageIcon color="gray-500" />;
+          defaultIcon = <FirstPageIcon color="on-surface-variant" />;
           break;
         case 'last':
-          defaultIcon = <LastPageIcon color="gray-500" />;
+          defaultIcon = <LastPageIcon color="on-surface-variant" />;
           break;
         case 'prev':
-          defaultIcon = <ArrowLeftIcon color="gray-500" />;
+          defaultIcon = <ArrowLeftIcon color="on-surface-variant" />;
           break;
         case 'next':
-          defaultIcon = <ArrowRightIcon color="gray-500" />;
+          defaultIcon = <ArrowRightIcon color="on-surface-variant" />;
       }
 
       return (
@@ -102,7 +102,7 @@ const PaginationItem = genericForwardRef<HTMLElement, PaginationItemProps<any>>(
           shape={shape === 'circular' ? 'pill' : 'rounded'}
           size={size}
           variant="text"
-          color="gray-500"
+          color="on-surface-variant"
           {...rest}
         >
           {children || defaultIcon}
