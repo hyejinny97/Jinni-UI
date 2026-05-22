@@ -27,7 +27,7 @@ const Chip = <T extends AsType = 'span'>(props: ChipProps<T>) => {
     startAdornment,
     endAdornment,
     size = 'md',
-    color = 'gray-400',
+    color = 'on-surface-variant',
     className,
     style,
     as: Component = 'span',

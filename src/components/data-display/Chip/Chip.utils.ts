@@ -1,10 +1,7 @@
 import type { ColorType, JinniColor } from '@/types/color';
 import type { VariantType } from './Chip';
-import {
-  lighten,
-  darken,
-  getCloserToWhiteOrBlack
-} from '@/utils/colorLuminance';
+import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
+import { getColorWithAlpha } from '@/utils/colorAlpha';
 
 type Props = {
   color: Exclude<ColorType, JinniColor>;
@@ -14,8 +11,7 @@ type Props = {
 export const getColorStyle = ({ color, variant }: Props) => {
   const closerColor = getCloserToWhiteOrBlack(color);
   const contrastColor: ColorType = closerColor === 'white' ? 'black' : 'white';
-  const subtleColor =
-    closerColor === 'white' ? darken(color, 0.8) : lighten(color, 0.8);
+  const subtleColor = getColorWithAlpha(color, 0.3);
   const TRANSPARENT: ColorType = 'transparent';
 
   let textColor, backgroundColor, borderColor;

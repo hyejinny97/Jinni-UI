@@ -1,10 +1,7 @@
 import type { ColorType, JinniColor } from '@/types/color';
 import type { ButtonProps } from './Button';
-import {
-  lighten,
-  darken,
-  getCloserToWhiteOrBlack
-} from '@/utils/colorLuminance';
+import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
+import { getColorWithAlpha } from '@/utils/colorAlpha';
 
 type Props = {
   color: Exclude<ColorType, JinniColor>;
@@ -14,8 +11,7 @@ type Props = {
 export const getColorStyle = ({ color, variant }: Props) => {
   const closerColor: ColorType = getCloserToWhiteOrBlack(color);
   const contrastColor: ColorType = closerColor === 'white' ? 'black' : 'white';
-  const subtleColor =
-    closerColor === 'white' ? darken(color, 0.8) : lighten(color, 0.8);
+  const subtleColor = getColorWithAlpha(color, 0.3);
   const TRANSPARENT: ColorType = 'transparent';
 
   let textColor, backgroundColor, borderColor, overlayColor, rippleColor;
@@ -42,7 +38,7 @@ export const getColorStyle = ({ color, variant }: Props) => {
       textColor = color;
       backgroundColor = subtleColor;
       borderColor = subtleColor;
-      overlayColor = rippleColor = closerColor;
+      overlayColor = rippleColor = undefined;
   }
   return { textColor, backgroundColor, borderColor, overlayColor, rippleColor };
 };

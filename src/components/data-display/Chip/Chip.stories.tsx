@@ -26,7 +26,7 @@ const meta: Meta<typeof Chip> = {
       description: 'chip 색상',
       table: {
         type: { summary: 'ColorType' },
-        defaultValue: { summary: `'gray-400'` }
+        defaultValue: { summary: `'on-surface-variant'` }
       }
     },
     endAdornment: {
