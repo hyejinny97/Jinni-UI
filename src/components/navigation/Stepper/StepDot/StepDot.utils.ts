@@ -1,6 +1,7 @@
 import { ColorType, JinniColor } from '@/types/color';
 import { VariantType } from './StepDot';
-import { lighten } from '@/utils/colorLuminance';
+import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
+import { getColorWithAlpha } from '@/utils/colorAlpha';
 
 type Props = {
   color: Exclude<ColorType, JinniColor>;
@@ -8,14 +9,15 @@ type Props = {
 };
 
 export const getDotColorStyle = ({ color, variant }: Props) => {
-  const lightenColor = lighten(color, 0.8);
-  const WHITE: ColorType = 'white';
+  const closerColor: ColorType = getCloserToWhiteOrBlack(color);
+  const contrastColor: ColorType = closerColor === 'white' ? 'black' : 'white';
+  const subtleColor = getColorWithAlpha(color, 0.3);
   const TRANSPARENT: ColorType = 'transparent';
 
   let textColor, backgroundColor, borderColor;
   switch (variant) {
     case 'filled':
-      textColor = WHITE;
+      textColor = contrastColor;
       backgroundColor = color;
       borderColor = color;
       break;
@@ -31,8 +33,8 @@ export const getDotColorStyle = ({ color, variant }: Props) => {
       break;
     case 'subtle-filled':
       textColor = color;
-      backgroundColor = lightenColor;
-      borderColor = lightenColor;
+      backgroundColor = subtleColor;
+      borderColor = subtleColor;
   }
   return { textColor, backgroundColor, borderColor };
 };

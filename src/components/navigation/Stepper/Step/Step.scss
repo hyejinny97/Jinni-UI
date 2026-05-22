@@ -294,7 +294,7 @@ $content-padding: 12px;
   }
 
   .JinniStepConnector {
-    background-color: var(--jinni-color-gray-400);
+    background-color: var(--jinni-color-surface-container-highest);
     @include connector-size-by-orientation;
 
     &.before {

@@ -160,7 +160,7 @@ const SequentialStepperTemplate = () => {
           );
         })}
       </Stepper>
-      <Box style={{ minHeight: '100px' }}>
+      <Box style={{ minHeight: '100px', color: 'on-surface' }}>
         {isFinish ? 'finish' : `Step ${activeStep + 1}`}
       </Box>
       <Stack direction="row" style={{ justifyContent: 'space-between' }}>
@@ -255,7 +255,7 @@ const SequentialStepperWithOptionalTemplate = () => {
           );
         })}
       </Stepper>
-      <Box style={{ minHeight: '100px' }}>
+      <Box style={{ minHeight: '100px', color: 'on-surface' }}>
         {isFinish ? 'finish' : `Step ${activeStep + 1}`}
       </Box>
       <Stack direction="row" style={{ justifyContent: 'space-between' }}>
@@ -366,7 +366,7 @@ const NonSequentialStepperTemplate = () => {
           );
         })}
       </Stepper>
-      <Box style={{ minHeight: '100px' }}>
+      <Box style={{ minHeight: '100px', color: 'on-surface' }}>
         {completeAllSteps ? 'finish' : `Step ${activeStep + 1}`}
       </Box>
       <Stack direction="row" style={{ justifyContent: 'space-between' }}>
@@ -440,7 +440,7 @@ const AlignmentTemplate = () => {
         style={{
           justifyContent: 'space-between',
           padding: '16px',
-          backgroundColor: 'gray-50',
+          backgroundColor: 'surface-container',
           borderRadius: '4px'
         }}
       >
@@ -554,7 +554,7 @@ export const SequentialStepper: Story = {
           );
         })}
       </Stepper>
-      <Box style={{ minHeight: '100px' }}>
+      <Box style={{ minHeight: '100px', color: 'on-surface' }}>
         {isFinish ? 'finish' : \`Step \${activeStep + 1}\`}
       </Box>
       <Stack direction="row" style={{ justifyContent: 'space-between' }}>
@@ -658,7 +658,7 @@ export const SequentialStepperWithOptionalStep: Story = {
           );
         })}
       </Stepper>
-      <Box style={{ minHeight: '100px' }}>
+      <Box style={{ minHeight: '100px', color: 'on-surface' }}>
         {isFinish ? 'finish' : \`Step \${activeStep + 1}\`}
       </Box>
       <Stack direction="row" style={{ justifyContent: 'space-between' }}>
@@ -778,7 +778,7 @@ export const NonSequentialStepper: Story = {
           );
         })}
       </Stepper>
-      <Box style={{ minHeight: '100px' }}>
+      <Box style={{ minHeight: '100px', color: 'on-surface' }}>
         {completeAllSteps ? 'finish' : \`Step \${activeStep + 1}\`}
       </Box>
       <Stack direction="row" style={{ justifyContent: 'space-between' }}>
@@ -879,7 +879,7 @@ export const ContentAlignment: Story = {
         style={{
           justifyContent: 'space-between',
           padding: '16px',
-          backgroundColor: 'gray-50',
+          backgroundColor: 'surface-container',
           borderRadius: '4px'
         }}
       >
@@ -973,7 +973,7 @@ export const CustomizeStepper: Story = {
           return (
             <Step key={title} status={status}>
               <StepDot
-                color="purple"
+                color="tertiary"
                 variant={{
                   completed: 'text',
                   active: 'filled',
@@ -1001,7 +1001,7 @@ export const CustomizeStepper: Story = {
               <StepDot
                 style={{
                   width: '40px',
-                  elevation: active ? 7 : 0,
+                  boxShadow: active ? 7 : 0,
                   border: 'none'
                 }}
               >

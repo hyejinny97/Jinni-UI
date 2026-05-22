@@ -18,7 +18,7 @@ const Stepper = <T extends AsType = 'div'>(props: StepperProps<T>) => {
     children,
     orientation = 'horizontal',
     alignment = 'right',
-    connectorColor = 'gray-400',
+    connectorColor = 'on-surface-variant',
     className,
     style,
     as: Component = 'div',

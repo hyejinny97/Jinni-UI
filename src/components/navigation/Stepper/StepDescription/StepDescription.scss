@@ -2,12 +2,22 @@
   display: inline-block;
   box-sizing: border-box;
   &.pending {
-    color: var(--jinni-color-gray-400);
     font-weight: var(--jinni-font-weight-regular);
+    &.light {
+      color: var(--jinni-color-gray-400);
+    }
+    &.dark {
+      color: var(--jinni-color-gray-600);
+    }
   }
   &.completed,
   &.active {
-    color: var(--jinni-color-gray-600);
     font-weight: var(--jinni-font-weight-medium);
+    &.light {
+      color: var(--jinni-color-gray-600);
+    }
+    &.dark {
+      color: var(--jinni-color-gray-400);
+    }
   }
 }
