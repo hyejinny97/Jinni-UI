@@ -1,14 +1,15 @@
 import './Switch.scss';
+import { useMemo } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useCheck } from './Switch.hooks';
 import { ColorType } from '@/types/color';
-import { lighten } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
 import { toRgbaObject } from '@/utils/colorFormat';
 import { useRipple, UseRippleProps } from '@/hooks/useRipple';
 import { useLabelContext } from '@/components/data-entry/Label';
+import useJinni from '@/hooks/useJinni';
 
 export type SwitchProps<T extends AsType = 'input'> = Omit<
   DefaultComponentProps<T>,
@@ -27,6 +28,7 @@ export type SwitchProps<T extends AsType = 'input'> = Omit<
   };
 
 const Switch = <T extends AsType = 'input'>(props: SwitchProps<T>) => {
+  const { theme } = useJinni();
   const labelContext = useLabelContext();
   const {
     name,
@@ -38,7 +40,7 @@ const Switch = <T extends AsType = 'input'>(props: SwitchProps<T>) => {
     required = labelContext?.required,
     color = 'primary',
     size = labelContext?.size || 'md',
-    rippleColor = 'black',
+    rippleColor = theme === 'light' ? 'black' : 'white',
     rippleStartLocation = 'center',
     disableRipple,
     className,
@@ -57,12 +59,19 @@ const Switch = <T extends AsType = 'input'>(props: SwitchProps<T>) => {
     checked,
     onChange
   });
-  const computedColor = useColor(color);
-  const { r, g, b } = toRgbaObject(computedColor);
+
+  const normalizedCheckedColor = useColor(color);
+  const { checkedHoverColor, checkedFocusedColor } = useMemo(() => {
+    const { r, g, b } = toRgbaObject(normalizedCheckedColor);
+    return {
+      checkedHoverColor: `rgba(${r}, ${g}, ${b}, 0.05)`,
+      checkedFocusedColor: `rgba(${r}, ${g}, ${b}, 0.15)`
+    };
+  }, [normalizedCheckedColor]);
   const newStyle = useStyle({
     '--checked-color': color,
-    '--checked-disabled-color': lighten(computedColor, 0.5),
-    '--overlay-color': `rgba(${r}, ${g}, ${b}, 0.05)`,
+    '--checked-hover-color': checkedHoverColor,
+    '--checked-focused-color': checkedFocusedColor,
     ...(!isKeywordSize && { '--switch-size': size }),
     ...style
   });
@@ -79,13 +88,19 @@ const Switch = <T extends AsType = 'input'>(props: SwitchProps<T>) => {
       <span className={cn('JinniSwitchTrack', { isChecked, disabled })} />
       <span
         ref={rippleTargetRef}
-        className={cn('JinniSwitchThumbWrapper', {
-          isChecked,
-          [size]: isKeywordSize
-        })}
+        className={cn(
+          'JinniSwitchThumbWrapper',
+          {
+            isChecked,
+            [size]: isKeywordSize
+          },
+          theme
+        )}
       >
         <RippleContainer />
-        <span className={cn('JinniSwitchThumb', { isChecked, disabled })} />
+        <span
+          className={cn('JinniSwitchThumb', { isChecked, disabled }, theme)}
+        />
       </span>
       <Component
         ref={rippleTriggerRef}

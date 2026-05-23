@@ -23,7 +23,7 @@ $icon-size: (
   width: max-content;
   box-sizing: border-box;
   &:has(.JinniRatingInput:focus-visible) {
-    outline: var(--jinni-color-gray-300) solid 2px;
+    outline: var(--jinni-color-outline-variant) solid 2px;
   }
   &.disabled {
     opacity: 0.4;

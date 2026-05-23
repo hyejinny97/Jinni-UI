@@ -1,0 +1,89 @@
+import { Meta } from '@storybook/blocks';
+import ThemePlayground from './ThemePlayground';
+
+<Meta title="Design System/Theme" />
+
+# Theme
+
+<br />
+<br />
+
+## JinniUI Theme
+
+- **'light'** / **'dark'** mode
+- 사용자 환경(UI)을 밝게(Light) 또는 어둡게(Dark) 설정할 수 있음
+
+### Playground
+
+<ThemePlayground />
+
+<br />
+
+## Theme 접근 및 사용
+
+### In JSX
+
+#### 1. `useJinni` hook
+
+```jsx
+import useJinni from '@/hooks/useJinni';
+
+const App = () => {
+  const { theme } = useJinni();
+
+  console.log(theme);
+
+  return null;
+};
+```
+
+<br />
+
+## Customization
+
+### Light mode (기본값)
+
+- `createDesignSystem` 함수의 props로 theme을 'light'로 설정하거나, 설정하지 않을 경우 기본적으로 light mode로 설정됨
+
+```jsx
+const designSystem = createDesignSystem({ theme: 'light' });
+```
+
+### Dark mode
+
+- `createDesignSystem` 함수의 props로 theme을 'dark'로 설정하면 dark mode가 됨
+
+```jsx
+const designSystem = createDesignSystem({ theme: 'dark' });
+```
+
+### System preference
+
+- `JinniProvider`에서 `useSystemColorScheme` prop을 통해, 브라우저가 선호하는 color-scheme에 따라 theme을 설정하도록 할 수 있음
+- 이 경우, `JinniProvider`의 `designSystem` prop으로 입력된 theme 값은 반영되지 않음
+
+```jsx
+const designSystem = createDesignSystem()
+
+<JinniProvider designSystem={designSystem} useSystemColorScheme>
+  <RootComponent />
+</JinniProvider>
+```
+
+### 동적으로 Theme 변경하기
+
+- `useJinni` 훅이 반환하는 `changeTheme` 함수를 사용해 동적으로 theme 변경
+
+```jsx
+const App = () => {
+  const { theme, changeTheme } = useJinni();
+
+  return (
+    <>
+      <span>theme: {theme}</span>
+      <Button onClick={() => changeTheme('dark')}>Dark mode</Button>
+      <Button onClick={() => changeTheme('light')}>Light mode</Button>
+    </>
+  );
+};
+```

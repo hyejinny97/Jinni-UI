@@ -80,6 +80,7 @@
   display: inline-flex;
   margin: 0;
   padding: 0;
+  color: var(--jinni-color-on-surface);
   @include timeline-alignment;
   @include text-alignment;
   @include last-connector;

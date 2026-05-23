@@ -120,8 +120,8 @@ export const Customization: Story = {
       style={{
         padding: '0 10px 0',
         border: '1px solid',
-        borderColor: 'gray-200',
-        backgroundColor: 'gray-50',
+        borderColor: 'surface-container-high',
+        backgroundColor: 'surface-container-high',
         borderRadius: '4px',
         cursor: 'default'
       }}

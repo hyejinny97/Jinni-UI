@@ -121,7 +121,11 @@ const meta: Meta<typeof Tree> = {
   const { leaf, expanded, label, ...rest } = itemProps;
   let icon: React.ReactNode = null;
   if (!leaf) {
-    icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+    icon = expanded ? (
+      <ArrowDownIcon color="on-surface-variant" />
+    ) : (
+      <ArrowRightIcon color="on-surface-variant" />
+    );
   }
   return (
     <TreeItem expanded={expanded} {...rest}>
@@ -170,7 +174,10 @@ const CustomLabel = ({
       <Text className="typo-label-medium" style={{ flex: 1 }}>
         {label}
       </Text>
-      <Text className="typo-label-small" style={{ color: 'gray-500' }}>
+      <Text
+        className="typo-label-small"
+        style={{ color: 'on-surface-variant' }}
+      >
         {count}
       </Text>
     </Stack>
@@ -233,7 +240,7 @@ const DATA_WITH_NODE_LABEL: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="Mail"
-        icon={<MailIcon size={20} color="gray-600" />}
+        icon={<MailIcon size={20} color="on-surface-variant" />}
       />
     )
   },
@@ -241,7 +248,7 @@ const DATA_WITH_NODE_LABEL: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="Trash"
-        icon={<TrashcanIcon size={20} color="gray-600" />}
+        icon={<TrashcanIcon size={20} color="on-surface-variant" />}
       />
     )
   },
@@ -249,7 +256,7 @@ const DATA_WITH_NODE_LABEL: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="My Page"
-        icon={<PersonIcon size={20} color="gray-600" />}
+        icon={<PersonIcon size={20} color="on-surface-variant" />}
       />
     )
   },
@@ -257,7 +264,7 @@ const DATA_WITH_NODE_LABEL: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="Bookmarks"
-        icon={<BookmarkIcon size={20} color="gray-600" />}
+        icon={<BookmarkIcon size={20} color="on-surface-variant" />}
         count={55}
       />
     )
@@ -266,7 +273,7 @@ const DATA_WITH_NODE_LABEL: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="Favorite"
-        icon={<FavoriteIcon size={20} color="gray-600" />}
+        icon={<FavoriteIcon size={20} color="on-surface-variant" />}
         count={13}
       />
     )
@@ -389,7 +396,11 @@ const CheckboxSelectionTemplate = () => {
           const { id, leaf, expanded, label, ...rest } = itemProps;
           let icon: React.ReactNode = null;
           if (!leaf) {
-            icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+            icon = expanded ? (
+              <ArrowDownIcon color="on-surface-variant" />
+            ) : (
+              <ArrowRightIcon color="on-surface-variant" />
+            );
           }
           const isChildNodeSelected =
             !leaf &&
@@ -460,7 +471,11 @@ const PropagateSelectionFromParentsToDescendantsTemplate = () => {
           const { id, leaf, expanded, label, ...rest } = itemProps;
           let icon: React.ReactNode = null;
           if (!leaf) {
-            icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+            icon = expanded ? (
+              <ArrowDownIcon color="on-surface-variant" />
+            ) : (
+              <ArrowRightIcon color="on-surface-variant" />
+            );
           }
           return (
             <TreeItem id={id} expanded={expanded} {...rest}>
@@ -553,7 +568,11 @@ const PropagateSelectionFromDescendantsToParentsTemplate = () => {
           const { id, leaf, expanded, label, ...rest } = itemProps;
           let icon: React.ReactNode = null;
           if (!leaf) {
-            icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+            icon = expanded ? (
+              <ArrowDownIcon color="on-surface-variant" />
+            ) : (
+              <ArrowRightIcon color="on-surface-variant" />
+            );
           }
           return (
             <TreeItem id={id} expanded={expanded} {...rest}>
@@ -749,7 +768,11 @@ const LazyLoadingTemplate = () => {
           if (itemIdLoaded === id) {
             icon = <CircularProgress size={16} />;
           } else if (!leaf) {
-            icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+            icon = expanded ? (
+              <ArrowDownIcon color="on-surface-variant" />
+            ) : (
+              <ArrowRightIcon color="on-surface-variant" />
+            );
           }
           return (
             <TreeItem id={id} expanded={expanded} {...rest}>
@@ -917,7 +940,9 @@ export const TrackItemClick: Story = {
 
   return (
     <Stack spacing={20}>
-      <Text noMargin>Clicked item: {clickedItem}</Text>
+      <Text noMargin>
+        Clicked item: {clickedItem}
+      </Text>
       <Box style={{ width: '300px' }}>
         <Tree
           data={DATA}
@@ -967,7 +992,9 @@ export const ControlledSelection: Story = {
 
   return (
     <Stack spacing={20}>
-      <Text noMargin>Selected item: {selectedItem}</Text>
+      <Text noMargin>
+        Selected item: {selectedItem}
+      </Text>
       <Box style={{ width: '300px' }}>
         <Tree
           data={DATA}
@@ -1079,7 +1106,11 @@ export const CheckboxSelection: Story = {
           const { id, leaf, expanded, label, ...rest } = itemProps;
           let icon: React.ReactNode = null;
           if (!leaf) {
-            icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+            icon = expanded ? (
+              <ArrowDownIcon color="on-surface-variant" />
+            ) : (
+              <ArrowRightIcon color="on-surface-variant" />
+            );
           }
           const isChildNodeSelected =
             !leaf &&
@@ -1159,7 +1190,11 @@ export const PropagateSelectionFromParentsToDescendants: Story = {
           const { id, leaf, expanded, label, ...rest } = itemProps;
           let icon: React.ReactNode = null;
           if (!leaf) {
-            icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+            icon = expanded ? (
+              <ArrowDownIcon color="on-surface-variant" />
+            ) : (
+              <ArrowRightIcon color="on-surface-variant" />
+            );
           }
           return (
             <TreeItem id={id} expanded={expanded} {...rest}>
@@ -1261,7 +1296,11 @@ export const PropagateSelectionFromDescendantsToParents: Story = {
           const { id, leaf, expanded, label, ...rest } = itemProps;
           let icon: React.ReactNode = null;
           if (!leaf) {
-            icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+            icon = expanded ? (
+              <ArrowDownIcon color="on-surface-variant" />
+            ) : (
+              <ArrowRightIcon color="on-surface-variant" />
+            );
           }
           return (
             <TreeItem id={id} expanded={expanded} {...rest}>
@@ -1384,7 +1423,9 @@ export const ControlledExpansion: Story = {
 
   return (
     <Stack spacing={20}>
-      <Text noMargin>{\`Expanded items: [\${expandedItems.join(', ')}]\`}</Text>
+      <Text
+        noMargin
+      >{\`Expanded items: [\${expandedItems.join(', ')}]\`}</Text>
       <Box style={{ width: '300px' }}>
         <Tree
           data={DATA}
@@ -1528,7 +1569,11 @@ export const LazyLoading: Story = {
           if (itemIdLoaded === id) {
             icon = <CircularProgress size={16} />;
           } else if (!leaf) {
-            icon = expanded ? <ArrowDownIcon /> : <ArrowRightIcon />;
+            icon = expanded ? (
+              <ArrowDownIcon color="on-surface-variant" />
+            ) : (
+              <ArrowRightIcon color="on-surface-variant" />
+            );
           }
           return (
             <TreeItem id={id} expanded={expanded} {...rest}>
@@ -1572,7 +1617,8 @@ export const FocusableDisabledItems: Story = {
       </Box>
     </Stack>
   );
-};`.trim()
+};
+`.trim()
       }
     }
   }
@@ -1731,7 +1777,10 @@ const CustomLabel = ({
       <Text className="typo-label-medium" style={{ flex: 1 }}>
         {label}
       </Text>
-      <Text className="typo-label-small" style={{ color: 'gray-500' }}>
+      <Text
+        className="typo-label-small"
+        style={{ color: 'on-surface-variant' }}
+      >
         {count}
       </Text>
     </Stack>
@@ -1743,7 +1792,7 @@ const DATA: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="Mail"
-        icon={<MailIcon size={20} color="gray-600" />}
+        icon={<MailIcon size={20} color="on-surface-variant" />}
       />
     )
   },
@@ -1751,7 +1800,7 @@ const DATA: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="Trash"
-        icon={<TrashcanIcon size={20} color="gray-600" />}
+        icon={<TrashcanIcon size={20} color="on-surface-variant" />}
       />
     )
   },
@@ -1759,7 +1808,7 @@ const DATA: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="My Page"
-        icon={<PersonIcon size={20} color="gray-600" />}
+        icon={<PersonIcon size={20} color="on-surface-variant" />}
       />
     )
   },
@@ -1767,7 +1816,7 @@ const DATA: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="Bookmarks"
-        icon={<BookmarkIcon size={20} color="gray-600" />}
+        icon={<BookmarkIcon size={20} color="on-surface-variant" />}
         count={55}
       />
     )
@@ -1776,7 +1825,7 @@ const DATA: TreeProps['data'] = {
     label: (
       <CustomLabel
         label="Favorite"
-        icon={<FavoriteIcon size={20} color="gray-600" />}
+        icon={<FavoriteIcon size={20} color="on-surface-variant" />}
         count={13}
       />
     )

@@ -76,7 +76,7 @@ const WithMenu = () => {
         <Button
           ref={anchorRef}
           variant="subtle-filled"
-          color="gray-600"
+          color="on-surface-variant"
           size="sm"
           onClick={openMenu}
           aria-haspopup={true}
@@ -158,7 +158,7 @@ const BreadcrumbsWithTree = () => {
           <Chip
             key={route}
             as={ButtonBase}
-            variant="subtle-filled"
+            variant="filled"
             onClick={() => handleChipClick(route)}
           >
             {PAGES[route].label}
@@ -206,11 +206,11 @@ export const BreadcrumbsWithIcons: Story = {
     return (
       <Breadcrumbs aria-label="breadcrumb" {...args}>
         <Link href="#" underline="hover" style={ICON_LINK_STYLE}>
-          <HomeIcon size={15} />
+          <HomeIcon size={15} color="on-surface-variant" />
           Home
         </Link>
         <Link href="#" underline="hover" style={ICON_LINK_STYLE}>
-          <PersonIcon size={15} />
+          <PersonIcon size={15} color="on-surface-variant" />
           Profile
         </Link>
         <Link
@@ -219,7 +219,7 @@ export const BreadcrumbsWithIcons: Story = {
           style={ICON_LINK_STYLE}
           aria-current="page"
         >
-          <CartIcon size={15} />
+          <CartIcon size={15} color="on-surface-variant" />
           Cart
         </Link>
       </Breadcrumbs>
@@ -333,7 +333,7 @@ export const CondensedBreadcrumbsWithMenu: Story = {
         <Button
           ref={anchorRef}
           variant="subtle-filled"
-          color="gray-600"
+          color="on-surface-variant"
           size="sm"
           onClick={openMenu}
           aria-haspopup={true}
@@ -391,7 +391,7 @@ export const Separator: Story = {
           </Link>
         </Breadcrumbs>
         <Breadcrumbs
-          separator={<ArrowRightIcon size={15} />}
+          separator={<ArrowRightIcon size={15} color="on-surface-variant" />}
           aria-label="breadcrumb"
           {...args}
         >
@@ -459,7 +459,7 @@ const BreadcrumbsWithTree = () => {
           <Chip
             key={route}
             as={ButtonBase}
-            variant="subtle-filled"
+            variant="filled"
             onClick={() => handleChipClick(route)}
           >
             {PAGES[route].label}

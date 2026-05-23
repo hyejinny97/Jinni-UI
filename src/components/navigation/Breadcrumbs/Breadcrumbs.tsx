@@ -18,7 +18,7 @@ export type BreadcrumbsProps<T extends AsType = 'nav'> =
 const EllipsisButton = (props: ButtonProps) => (
   <Button
     variant="text"
-    color="black"
+    color="on-surface"
     size="sm"
     shape="rounded"
     aria-label="Show path"

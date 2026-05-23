@@ -200,7 +200,10 @@ const ControlledDateCalendarTemplate = () => {
 
   return (
     <Stack spacing={5}>
-      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
+      <Text
+        noMargin
+        style={{ display: 'inline-flex', gap: '5px', color: 'on-surface' }}
+      >
         Date:
         <span>{year !== undefined && `${year} /`}</span>
         <span>{month !== undefined && `${month + 1} /`}</span>
@@ -236,9 +239,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -286,9 +289,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -335,7 +338,7 @@ const CustomCalendarHeaderTemplate = () => {
         return (
           <CalendarHeader
             className={cn('custom-calendar-header', className)}
-            style={{ backgroundColor: 'gray-200' }}
+            style={{ backgroundColor: 'surface-container' }}
             {...rest}
           >
             <Stack
@@ -349,7 +352,7 @@ const CustomCalendarHeaderTemplate = () => {
                 style={{
                   padding: '3px 6px',
                   borderRadius: '4px',
-                  color: 'gray-600',
+                  color: 'on-surface-variant',
                   fontWeight: '700'
                 }}
                 onClick={() => handleChange(new Date())}
@@ -400,7 +403,10 @@ export const ControlledDateCalendar: Story = {
 
   return (
     <Stack spacing={5}>
-      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
+      <Text
+        noMargin
+        style={{ display: 'inline-flex', gap: '5px', color: 'on-surface' }}
+      >
         Date:
         <span>{year !== undefined && \`\${year} /\`}</span>
         <span>{month !== undefined && \`\${month + 1} /\`}</span>
@@ -458,9 +464,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -517,9 +523,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -838,7 +844,7 @@ export const CustomCalendarHeader: Story = {
         return (
           <CalendarHeader
             className={cn('custom-calendar-header', className)}
-            style={{ backgroundColor: 'gray-200' }}
+            style={{ backgroundColor: 'surface-container' }}
             {...rest}
           >
             <Stack
@@ -852,7 +858,7 @@ export const CustomCalendarHeader: Story = {
                 style={{
                   padding: '3px 6px',
                   borderRadius: '4px',
-                  color: 'gray-600',
+                  color: 'on-surface-variant',
                   fontWeight: '700'
                 }}
                 onClick={() => handleChange(new Date())}

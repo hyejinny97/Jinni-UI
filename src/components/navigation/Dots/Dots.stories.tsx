@@ -187,7 +187,7 @@ export const MaxDots: Story = {
         .fill(0)
         .map((_, idx) => {
           return (
-            <Dot key={idx} value={idx + 1} style={{ color: 'white' }}>
+            <Dot key={idx} value={idx + 1}>
               {idx + 1}
             </Dot>
           );

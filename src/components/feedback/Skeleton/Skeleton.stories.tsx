@@ -1,14 +1,7 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Skeleton from './Skeleton';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import {
-  JinniProvider,
-  DEFAULT_DESIGN_SYSTEM
-} from '@/components/_share/JinniProvider';
-import { Switch } from '@/components/data-entry/Switch';
-import { Label } from '@/components/data-entry/Label';
 import { Text, TextProps } from '@/components/general/Text';
 import { AsType } from '@/types/default-component-props';
 import { Avatar } from '@/components/data-display/Avatar';
@@ -50,55 +43,6 @@ const meta: Meta<typeof Skeleton> = {
 
 export default meta;
 type Story = StoryObj<typeof Skeleton>;
-
-const ColorByThemeWithSwitch = () => {
-  const [darkTheme, setDarkTheme] = useState(true);
-  const [wave, setWave] = useState(false);
-
-  const changeTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDarkTheme(e.target.checked);
-  };
-  const changeAnimation = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWave(e.target.checked);
-  };
-
-  return (
-    <Stack spacing={20}>
-      <Grid columns={2} spacing={20}>
-        <Label content="Dark Theme">
-          <Switch checked={darkTheme} onChange={changeTheme} />
-        </Label>
-        <Label content="Wave animation">
-          <Switch checked={wave} onChange={changeAnimation} />
-        </Label>
-      </Grid>
-      <JinniProvider
-        designSystem={{
-          ...DEFAULT_DESIGN_SYSTEM,
-          theme: darkTheme ? 'dark' : 'light'
-        }}
-      >
-        <Stack
-          spacing={20}
-          style={{
-            minWidth: '500px',
-            padding: '16px',
-            backgroundColor: darkTheme ? 'black' : 'white'
-          }}
-        >
-          <Skeleton variant="rectangular" animation={wave ? 'wave' : 'pulse'} />
-          <Skeleton variant="rounded" animation={wave ? 'wave' : 'pulse'} />
-          <Skeleton
-            variant="circular"
-            width={50}
-            height={50}
-            animation={wave ? 'wave' : 'pulse'}
-          />
-        </Stack>
-      </JinniProvider>
-    </Stack>
-  );
-};
 
 const Typo = <T extends AsType = 'p'>({
   loading,
@@ -155,7 +99,7 @@ const SkeltonInferringParent = () => {
 
 const Card = ({ loading }: { loading?: boolean }) => {
   return (
-    <Stack spacing={10}>
+    <Stack spacing={10} style={{ color: 'on-surface' }}>
       <Stack direction="row" spacing={10} style={{ alignItems: 'center' }}>
         {loading ? (
           <Skeleton variant="circular">
@@ -228,68 +172,13 @@ export const Animations: Story = {
   )
 };
 
-export const ColorByTheme: Story = {
-  render: () => <ColorByThemeWithSwitch />,
-  parameters: {
-    docs: {
-      source: {
-        code: `const ColorByThemeWithSwitch = () => {
-  const [darkTheme, setDarkTheme] = useState(true);
-  const [wave, setWave] = useState(false);
-
-  const changeTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDarkTheme(e.target.checked);
-  };
-  const changeAnimation = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWave(e.target.checked);
-  };
-
-  return (
-    <Stack spacing={20}>
-      <Grid columns={2} spacing={20}>
-        <Label content="Dark Theme">
-          <Switch checked={darkTheme} onChange={changeTheme} />
-        </Label>
-        <Label content="Wave animation">
-          <Switch checked={wave} onChange={changeAnimation} />
-        </Label>
-      </Grid>
-      <JinniProvider
-        designSystem={{
-          ...DEFAULT_DESIGN_SYSTEM,
-          theme: darkTheme ? 'dark' : 'light'
-        }}
-      >
-        <Stack
-          spacing={20}
-          style={{
-            minWidth: '500px',
-            padding: '16px',
-            backgroundColor: darkTheme ? 'black' : 'white'
-          }}
-        >
-          <Skeleton variant="rectangular" animation={wave ? 'wave' : 'pulse'} />
-          <Skeleton variant="rounded" animation={wave ? 'wave' : 'pulse'} />
-          <Skeleton
-            variant="circular"
-            width={50}
-            height={50}
-            animation={wave ? 'wave' : 'pulse'}
-          />
-        </Stack>
-      </JinniProvider>
-    </Stack>
-  );
-};`.trim()
-      }
-    }
-  }
-};
-
 export const CustomizeColor: Story = {
   render: (args) => (
     <Stack style={{ minWidth: '500px' }}>
-      <Skeleton style={{ backgroundColor: 'rgba(255, 0, 0, 0.1)' }} {...args} />
+      <Skeleton
+        style={{ backgroundColor: 'rgba(255, 255, 0, 0.5)' }}
+        {...args}
+      />
     </Stack>
   )
 };
@@ -363,7 +252,7 @@ export const InferringChildren: Story = {
       source: {
         code: `const Card = ({ loading }: { loading?: boolean }) => {
   return (
-    <Stack spacing={10}>
+    <Stack spacing={10} style={{ color: 'on-surface' }}>
       <Stack direction="row" spacing={10} style={{ alignItems: 'center' }}>
         {loading ? (
           <Skeleton variant="circular">

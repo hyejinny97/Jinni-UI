@@ -47,7 +47,7 @@ const meta: Meta<typeof LinearProgress> = {
       description: 'track 색상',
       table: {
         type: { summary: 'ColorType' },
-        defaultValue: { summary: `'gray-200'` }
+        defaultValue: { summary: `'surface-container-highest'` }
       }
     },
     value: {
@@ -82,7 +82,7 @@ const WithLabel = () => {
         style={{
           margin: 0,
           width: '50px',
-          color: 'gray-500'
+          color: 'on-surface-variant'
         }}
       >{`${value}%`}</Text>
     </Stack>
@@ -192,7 +192,7 @@ export const LinearWithLabel: Story = {
         style={{
           margin: 0,
           width: '50px',
-          color: 'gray-500'
+          color: 'on-surface-variant'
         }}
       >{\`\${value}%\`}</Text>
     </Stack>
@@ -232,10 +232,14 @@ export const TrackColor: Story = {
   render: (args) => {
     return (
       <Stack spacing={20} style={{ width: '500px' }}>
-        <LinearProgress trackColor="transparent" {...args} />
         <LinearProgress
-          progressColor="yellow-400"
-          trackColor="yellow-100"
+          progressColor="on-primary-container"
+          trackColor="primary-container"
+          {...args}
+        />
+        <LinearProgress
+          progressColor="yellow-500"
+          trackColor="yellow-200"
           {...args}
         />
       </Stack>

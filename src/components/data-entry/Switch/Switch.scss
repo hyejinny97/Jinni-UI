@@ -1,35 +1,59 @@
 @mixin overlay-effect {
-  &:not(.disabled):hover,
-  &:not(.disabled):focus-within {
-    .JinniSwitchThumbWrapper {
-      background-image: linear-gradient(var(--overlay-color));
+  &:not(.disabled):hover .JinniSwitchThumbWrapper {
+    &:not(.isChecked) {
+      &.light {
+        background-color: rgba(0, 0, 0, 0.03);
+      }
+      &.dark {
+        background-color: rgba(255, 255, 255, 0.03);
+      }
+    }
+    &.isChecked {
+      background-color: var(--checked-hover-color);
+    }
+  }
+  &:not(.disabled):focus-within .JinniSwitchThumbWrapper {
+    &:not(.isChecked) {
+      &.light {
+        background-color: rgba(0, 0, 0, 0.08);
+      }
+      &.dark {
+        background-color: rgba(255, 255, 255, 0.08);
+      }
+    }
+    &.isChecked {
+      background-color: var(--checked-focused-color);
     }
   }
 }
 
 @mixin thumb-color {
-  background-color: white;
-  &.isChecked:not(.disabled) {
+  background-color: var(--jinni-color-surface-container-high);
+  &.isChecked {
     background-color: var(--checked-color);
   }
-  &.disabled:not(.isChecked) {
-    background-color: var(--jinni-color-gray-100);
+  &.disabled {
+    background-color: var(--jinni-color-surface-container);
   }
-  &.isChecked.disabled {
-    background-color: var(--checked-disabled-color);
+  &.disabled.isChecked {
+    background-color: var(--checked-color);
+    &.light {
+      background-image: linear-gradient(rgba(255, 255, 255, 0.5));
+    }
+    &.dark {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5));
+    }
   }
 }
 
 @mixin track-color {
-  background-color: var(--jinni-color-gray-600);
-  &.isChecked:not(.disabled) {
+  background-color: var(--jinni-color-inverse-surface);
+  opacity: 0.5;
+  &.isChecked {
     background-color: var(--checked-color);
   }
-  &.disabled:not(.isChecked) {
-    background-color: var(--jinni-color-gray-400);
-  }
-  &.isChecked.disabled {
-    background-color: var(--checked-disabled-color);
+  &.disabled {
+    opacity: 0.2;
   }
 }
 
@@ -101,7 +125,6 @@
     width: 100%;
     height: 100%;
     border-radius: 1000px;
-    opacity: 0.5;
     @include track-color;
   }
 

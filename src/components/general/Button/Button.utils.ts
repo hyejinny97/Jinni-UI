@@ -1,6 +1,7 @@
 import type { ColorType, JinniColor } from '@/types/color';
 import type { ButtonProps } from './Button';
-import { lighten } from '@/utils/colorLuminance';
+import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
+import { getColorWithAlpha } from '@/utils/colorAlpha';
 
 type Props = {
   color: Exclude<ColorType, JinniColor>;
@@ -8,31 +9,36 @@ type Props = {
 };
 
 export const getColorStyle = ({ color, variant }: Props) => {
-  const lightenColor = lighten(color, 0.8);
-  const WHITE: ColorType = 'white';
+  const closerColor: ColorType = getCloserToWhiteOrBlack(color);
+  const contrastColor: ColorType = closerColor === 'white' ? 'black' : 'white';
+  const subtleColor = getColorWithAlpha(color, 0.3);
   const TRANSPARENT: ColorType = 'transparent';
 
-  let textColor, backgroundColor, borderColor;
+  let textColor, backgroundColor, borderColor, overlayColor, rippleColor;
   switch (variant) {
     case 'filled':
-      textColor = WHITE;
+      textColor = contrastColor;
       backgroundColor = color;
       borderColor = color;
+      overlayColor = rippleColor = contrastColor;
       break;
     case 'outlined':
       textColor = color;
       backgroundColor = TRANSPARENT;
       borderColor = color;
+      overlayColor = rippleColor = undefined;
       break;
     case 'text':
       textColor = color;
       backgroundColor = TRANSPARENT;
       borderColor = TRANSPARENT;
+      overlayColor = rippleColor = undefined;
       break;
     case 'subtle-filled':
       textColor = color;
-      backgroundColor = lightenColor;
-      borderColor = lightenColor;
+      backgroundColor = subtleColor;
+      borderColor = subtleColor;
+      overlayColor = rippleColor = undefined;
   }
-  return { textColor, backgroundColor, borderColor };
+  return { textColor, backgroundColor, borderColor, overlayColor, rippleColor };
 };

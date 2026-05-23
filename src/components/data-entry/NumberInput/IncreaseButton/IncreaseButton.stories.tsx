@@ -9,7 +9,7 @@ const meta: Meta<typeof IncreaseButton> = {
       description: '버튼 내부 내용',
       table: {
         type: { summary: `React.ReactNode` },
-        defaultValue: { summary: `<ArrowUpIcon color='gray-600' />` }
+        defaultValue: { summary: `<ArrowUpIcon color='on-surface-variant' />` }
       }
     }
   },

@@ -1,10 +1,16 @@
 @use '@/styles/mixins' as mix;
 
 .JinniText {
+  color: var(--jinni-color-on-surface);
+
   &.lineClamp {
     @include mix.line-clamp(var(--line-clamp));
   }
   &.noMargin {
     margin: 0;
   }
+}
+
+mark.JinniText {
+  color: inherit;
 }

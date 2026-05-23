@@ -206,6 +206,53 @@ export const TooltipPosition: Story = {
         ))}
       </Grid>
     );
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<Grid
+  spacing={20}
+  style={{
+    maxWidth: '600px',
+    justifyItems: 'center',
+    gridTemplateAreas: \`'. top-start top top-end .' 'left-start . . . right-start' 'left . . . right' 'left-end . . . right-end' '. bottom-start bottom bottom-end .'\`
+  }}
+>
+  {(
+    [
+      'top-start',
+      'top',
+      'top-end',
+      'bottom-start',
+      'bottom',
+      'bottom-end',
+      'left-start',
+      'left',
+      'left-end',
+      'right-start',
+      'right',
+      'right-end'
+    ] as const
+  ).map((placement) => (
+    <Tooltip
+      key={placement}
+      id={\`\${placement}-position-tooltip\`}
+      content="Tooltip Contents"
+      placement={placement}
+      {...args}
+    >
+      <Button
+        variant="outlined"
+        style={{ gridArea: placement }}
+        aria-describedby={\`\${placement}-position-tooltip\`}
+      >
+        {placement}
+      </Button>
+    </Tooltip>
+  ))}
+</Grid>`.trim()
+      }
+    }
   }
 };
 
@@ -255,6 +302,54 @@ export const ArrowTooltip: Story = {
         ))}
       </Grid>
     );
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<Grid
+  spacing={20}
+  style={{
+    maxWidth: '600px',
+    justifyItems: 'center',
+    gridTemplateAreas: \`'. top-start top top-end .' 'left-start . . . right-start' 'left . . . right' 'left-end . . . right-end' '. bottom-start bottom bottom-end .'\`
+  }}
+>
+  {(
+    [
+      'top-start',
+      'top',
+      'top-end',
+      'bottom-start',
+      'bottom',
+      'bottom-end',
+      'left-start',
+      'left',
+      'left-end',
+      'right-start',
+      'right',
+      'right-end'
+    ] as const
+  ).map((placement) => (
+    <Tooltip
+      key={placement}
+      id={\`\${placement}-position-arrow-tooltip\`}
+      content="Tooltip Contents"
+      placement={placement}
+      arrow
+      {...args}
+    >
+      <Button
+        variant="outlined"
+        style={{ gridArea: placement }}
+        aria-describedby={\`\${placement}-position-arrow-tooltip\`}
+      >
+        {placement}
+      </Button>
+    </Tooltip>
+  ))}
+</Grid>`.trim()
+      }
+    }
   }
 };
 
@@ -391,8 +486,8 @@ export const CustomizeTooltip: Story = {
           elevation: 5,
           style: {
             maxWidth: '300px',
-            backgroundColor: 'white',
-            color: 'black'
+            backgroundColor: 'surface-container',
+            color: 'on-surface'
           }
         }}
         {...args}

@@ -119,7 +119,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
         aria-expanded={open}
         aria-controls={popoverId}
       >
-        <AccessTimeIcon size={20} color="gray-500" />
+        <AccessTimeIcon size={20} color="on-surface-variant" />
       </ButtonBase>
     ),
     ...TimeFieldProps

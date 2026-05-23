@@ -4,8 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
-import { getColorStyle } from './InputBase.utils';
-import useColor from '@/hooks/useColor';
+import { useColorStyle } from './InputBase.hooks';
 
 export type RootInputBaseProps = {
   children?: React.ReactNode;
@@ -48,15 +47,7 @@ const InputBase = forwardRef(
       as: Component = 'div',
       ...rest
     } = props;
-    const [normalizedColor, normalizedFocusedColor] = useColor([
-      color,
-      focusedColor
-    ]);
-    const colorStyle = getColorStyle({
-      variant,
-      color: normalizedColor,
-      focusedColor: normalizedFocusedColor
-    });
+    const colorStyle = useColorStyle({ variant, color, focusedColor });
     const newStyle = useStyle({
       ...colorStyle,
       ...style

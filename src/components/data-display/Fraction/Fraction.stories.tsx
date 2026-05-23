@@ -60,7 +60,7 @@ export const Customization: Story = {
         count={5}
         value={2}
         style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          backgroundColor: 'surface-container-high',
           borderRadius: '20px',
           padding: '3px 10px'
         }}

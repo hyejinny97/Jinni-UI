@@ -185,9 +185,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -233,9 +233,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -301,7 +301,10 @@ export const ControlledDatePicker: Story = {
 
   return (
     <Stack spacing={5}>
-      <Text noMargin style={{ display: 'inline-flex', gap: '5px' }}>
+      <Text
+        noMargin
+        style={{ display: 'inline-flex', gap: '5px' }}
+      >
         Date:
         <span>{year !== undefined && \`\${year} /\`}</span>
         <span>{month !== undefined && \`\${month + 1} /\`}</span>
@@ -346,9 +349,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -403,9 +406,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -596,10 +599,12 @@ export const CustomDateField: Story = {
           format: 'YYYY / MM / DD',
           variant: 'filled',
           size: 'sm',
-          color: 'secondary',
+          color: 'gray-400',
           focusedColor: 'secondary',
           fullWidth: true,
-          startAdornment: <FlightTakeOffIcon size={20} color="gray-500" />,
+          startAdornment: (
+            <FlightTakeOffIcon size={20} color="on-surface-variant" />
+          ),
           disableHoverEffect: true
         }}
       />
@@ -615,10 +620,10 @@ export const CustomDateField: Story = {
       format: 'YYYY / MM / DD',
       variant: 'filled',
       size: 'sm',
-      color: 'secondary',
+      color: 'gray-400',
       focusedColor: 'secondary',
       fullWidth: true,
-      startAdornment: <FlightTakeOffIcon size={20} color="gray-500" />,
+      startAdornment: <FlightTakeOffIcon size={20} color="on-surface-variant" />,
       disableHoverEffect: true
     }}
   />
@@ -644,7 +649,7 @@ export const CustomDateCalendar: Story = {
               return (
                 <>
                   <CalendarHeader
-                    style={{ backgroundColor: 'gray-50' }}
+                    style={{ backgroundColor: 'surface-container' }}
                     prevIcon="Prev"
                     nextIcon="Next"
                     {...calendarHeaderProps}
@@ -653,7 +658,7 @@ export const CustomDateCalendar: Story = {
                     style={{
                       marginBottom: '5px',
                       padding: '5px 10px',
-                      backgroundColor: 'gray-200',
+                      backgroundColor: 'surface-container-highest',
                       textAlign: 'center'
                     }}
                   >
@@ -718,7 +723,7 @@ export const CustomDateCalendar: Story = {
           return (
             <>
               <CalendarHeader
-                style={{ backgroundColor: 'gray-50' }}
+                style={{ backgroundColor: 'surface-container' }}
                 prevIcon="Prev"
                 nextIcon="Next"
                 {...calendarHeaderProps}
@@ -727,7 +732,7 @@ export const CustomDateCalendar: Story = {
                 style={{
                   marginBottom: '5px', 
                   padding: '5px 10px',
-                  backgroundColor: 'gray-200',
+                  backgroundColor: 'surface-container-highest',
                   textAlign: 'center'
                 }}
               >

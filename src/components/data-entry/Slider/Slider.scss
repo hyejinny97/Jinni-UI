@@ -151,7 +151,7 @@ $mark-diameter: (
     background-color: var(--color);
     @include mark-size;
     &.onTrack {
-      background-color: white;
+      background-color: var(--jinni-color-inverse-on-surface);
     }
     &.horizontal {
       left: 0;
@@ -169,9 +169,10 @@ $mark-diameter: (
     position: absolute;
     font-weight: var(--jinni-font-weight-medium);
     user-select: none;
+    color: var(--jinni-color-on-surface-variant);
     @include font-size;
-    &:not(.onTrack) {
-      color: var(--jinni-color-gray-400);
+    &.onTrack {
+      color: var(--jinni-color-on-surface);
     }
     &.horizontal {
       left: 0;

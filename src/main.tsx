@@ -1,11 +1,16 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
-import { JinniProvider } from '@/components/_share/JinniProvider';
+import {
+  JinniProvider,
+  createDesignSystem
+} from '@/components/_share/JinniProvider';
+
+const designSystem = createDesignSystem();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <JinniProvider>
+    <JinniProvider designSystem={designSystem}>
       <App />
     </JinniProvider>
   </StrictMode>

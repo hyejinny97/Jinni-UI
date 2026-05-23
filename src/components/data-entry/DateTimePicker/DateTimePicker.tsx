@@ -153,7 +153,7 @@ const DateTimePicker = <
         aria-expanded={open}
         aria-controls={popoverId}
       >
-        <DateRangeIcon size={20} color="gray-500" />
+        <DateRangeIcon size={20} color="on-surface-variant" />
       </ButtonBase>
     ),
     ...DateTimeFieldProps
@@ -204,12 +204,7 @@ const DateTimePicker = <
         <Stack
           className="JinniDateTimePickerPopoverContainer"
           direction="row"
-          divider={
-            <Divider
-              orientation="vertical"
-              style={{ backgroundColor: 'gray-300' }}
-            />
-          }
+          divider={<Divider orientation="vertical" />}
         >
           {renderDateCalendar(dateCalendarProps)}
           {renderDigitalClock(digitClockProps)}

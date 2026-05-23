@@ -8,6 +8,9 @@ import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
+import { Box } from '@/components/layout/Box';
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import { Chip } from '@/components/data-display/Chip';
 
 const meta: Meta<typeof Modal> = {
   component: Modal,
@@ -86,7 +89,7 @@ const BasicModalTemplate = () => {
             onClick={closeModal}
             aria-label="close"
           >
-            <CloseIcon size={20} />
+            <CloseIcon size={20} color="on-surface-variant" />
           </ButtonBase>
         </ModalHeader>
         <ModalBody>Modal Body</ModalBody>
@@ -115,7 +118,7 @@ const ModalSizeTemplate = () => {
     }
   ] as const;
   const [open, setOpen] = useState(false);
-  const [checkedValue, setCheckedValue] = useState<number>(0);
+  const [size, setSize] = useState<(typeof SIZES)[number]['label']>('md');
 
   const openModal = () => {
     setOpen(true);
@@ -123,33 +126,43 @@ const ModalSizeTemplate = () => {
   const closeModal = () => {
     setOpen(false);
   };
-  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedValue(Number(e.target.value));
+  const handleSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSize(value as (typeof SIZES)[number]['label']);
   };
 
   return (
-    <Stack spacing={20}>
-      <Grid columns={6}>
-        {SIZES.map((size, idx) => {
-          return (
-            <Label
-              key={size.label}
-              content={size.label}
-              {...(idx === SIZES.length - 1 && {
-                style: { gridColumn: 'span 6' }
-              })}
-            >
-              <Radio
-                value={String(idx)}
-                checked={checkedValue === idx}
-                onChange={check}
-              />
-            </Label>
-          );
-        })}
-      </Grid>
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Size
+        </Chip>
+        <RadioGroup name="size" value={size} onChange={handleSizeChange}>
+          <Grid columns={6} spacing={5}>
+            {SIZES.map(({ label }, idx) => (
+              <Label
+                key={label}
+                content={label}
+                {...(idx === SIZES.length - 1 && {
+                  style: { gridColumn: 'span 6' }
+                })}
+              >
+                <Radio value={label} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
       <Button onClick={openModal}>Open Modal</Button>
-      <Modal open={open} onClose={closeModal} size={SIZES[checkedValue].value}>
+      <Modal
+        open={open}
+        onClose={closeModal}
+        size={SIZES.find(({ label }) => label === size)?.value || 'md'}
+      >
         <ModalHeader>Modal Header</ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>
@@ -385,7 +398,7 @@ export const BasicModal: Story = {
             onClick={closeModal}
             aria-content="close"
           >
-            <CloseIcon size={20} />
+            <CloseIcon size={20} color='on-surface-variant' />
           </ButtonBase>
         </ModalHeader>
         <ModalBody>Modal Body</ModalBody>
@@ -423,7 +436,7 @@ export const Sizes: Story = {
     }
   ] as const;
   const [open, setOpen] = useState(false);
-  const [checkedValue, setCheckedValue] = useState<number>(0);
+  const [size, setSize] = useState<(typeof SIZES)[number]['label']>('md');
 
   const openModal = () => {
     setOpen(true);
@@ -431,33 +444,43 @@ export const Sizes: Story = {
   const closeModal = () => {
     setOpen(false);
   };
-  const check = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedValue(Number(e.target.value));
+  const handleSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSize(value as (typeof SIZES)[number]['label']);
   };
 
   return (
-    <Stack spacing={20}>
-      <Grid columns={6}>
-        {SIZES.map((size, idx) => {
-          return (
-            <Label
-              key={size.label}
-              content={size.label}
-              {...(idx === SIZES.length - 1 && {
-                style: { gridColumn: 'span 6' }
-              })}
-            >
-              <Radio
-                value={idx}
-                checked={checkedValue === idx}
-                onChange={check}
-              />
-            </Label>
-          );
-        })}
-      </Grid>
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="md"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Size
+        </Chip>
+        <RadioGroup name="size" value={size} onChange={handleSizeChange}>
+          <Grid columns={6} spacing={5}>
+            {SIZES.map(({ label }, idx) => (
+              <Label
+                key={label}
+                content={label}
+                {...(idx === SIZES.length - 1 && {
+                  style: { gridColumn: 'span 6' }
+                })}
+              >
+                <Radio value={label} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
       <Button onClick={openModal}>Open Modal</Button>
-      <Modal open={open} onClose={closeModal} size={SIZES[checkedValue].value}>
+      <Modal
+        open={open}
+        onClose={closeModal}
+        size={SIZES.find(({ value }) => value === size)?.value || 'md'}
+      >
         <ModalHeader>Modal Header</ModalHeader>
         <ModalBody>Modal Body</ModalBody>
         <ModalFooter>

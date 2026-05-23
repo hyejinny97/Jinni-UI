@@ -22,8 +22,8 @@ const CalendarHeader = <T extends AsType = 'div'>(
   const {
     hidePrevButton,
     hideNextButton,
-    prevIcon = <ArrowLeftIcon color="gray-500" />,
-    nextIcon = <ArrowRightIcon color="gray-500" />,
+    prevIcon = <ArrowLeftIcon color="on-surface-variant" />,
+    nextIcon = <ArrowRightIcon color="on-surface-variant" />,
     onPrevClick,
     onNextClick,
     children,

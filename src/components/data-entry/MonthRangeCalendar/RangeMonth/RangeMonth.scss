@@ -21,12 +21,17 @@ $dash-border-width: 2px;
     width: inherit;
 
     &.isInSelectRange {
-      background-color: var(--lighten-color);
+      background-color: var(--selected-range-bg-color);
       &.isStartSelected {
         @include left-rounded;
       }
       &.isEndSelected {
         @include right-rounded;
+      }
+      &:not(.isStartSelected):not(.isEndSelected) {
+        .JinniMonth {
+          color: var(--selected-range-text-color);
+        }
       }
     }
 

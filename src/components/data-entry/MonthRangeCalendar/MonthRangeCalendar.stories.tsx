@@ -132,7 +132,7 @@ const ControlledSelectTemplate = () => {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Selected Date:</span>
         <DateText {...getDate('start')} />
@@ -163,7 +163,7 @@ const ControlledHoverTemplate = () => {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Hovered Date:</span>
         <DateText year={year} month={month} day={day} />
@@ -198,9 +198,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -259,7 +259,7 @@ export const ControlledSelect: Story = {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Selected Date:</span>
         <DateText {...getDate('start')} />
@@ -299,7 +299,7 @@ export const ControlledHover: Story = {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Hovered Date:</span>
         <DateText year={year} month={month} day={day} />
@@ -343,9 +343,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>

@@ -13,10 +13,16 @@ $item-size: (
   }
 }
 
+@mixin selected-color {
+  &.isSelected {
+    color: var(--selected-text-color);
+    background-color: var(--selected-background-color);
+  }
+}
+
 button.JinniToggleButton.JinniButtonBase.JinniButton,
 a.JinniToggleButton.JinniButtonBase.JinniButton {
   padding: 0;
-  color: var(--text-color);
-  background-color: var(--background-color);
+  @include selected-color;
   @include button-size;
 }

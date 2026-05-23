@@ -9,7 +9,9 @@ const meta: Meta<typeof DecreaseButton> = {
       description: '버튼 내부 내용',
       table: {
         type: { summary: `React.ReactNode` },
-        defaultValue: { summary: `<ArrowDownIcon color='gray-600' />` }
+        defaultValue: {
+          summary: `<ArrowDownIcon color='on-surface-variant' />`
+        }
       }
     }
   },

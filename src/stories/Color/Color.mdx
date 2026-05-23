@@ -1,0 +1,343 @@
+import { Meta } from '@storybook/blocks';
+import ColorPalette from './ColorPalette';
+import ColorScheme from './ColorScheme';
+
+<Meta title="Design System/Color" />
+
+# Jinni Color
+
+<br />
+<br />
+
+## CSS Color
+
+### 🔸 Color Keywords
+
+- 대소문자를 구분하지 않는 식별자로, `red`, `blue`, `black`, `lightseagreen`처럼 특정 색을 나타냄
+- 모든 색상 키워드는 투명도 없는 단일 색상을 표현함
+
+### 🔸 Transparent Keyword
+
+- 완전히 투명한 색으로, `rgba(0,0,0,0)`와 같음
+
+### 🔸 RGB Color
+
+- 빨강, 초록, 파랑을 통해 특정 색을 표현함
+- 선택사항으로 색의 투명도를 알파 채널로 표현할 수 있음
+- RGB 색상은 `#` 뒤의 **16진수 표기법**이나 **함수형 표기법**(`rgb()`, `rgba()`)으로 표현할 수 있음
+
+#### 1) 16진수 표기법 - `#RRGGBB[AA]` or `#RGB[A]`
+
+- `R`(빨강), `G`(초록), `B`(파랑), `A`(알파): 16진수 문자 (0-9, A-F)
+- `A`는 선택사항
+- 세 글자 표기법(`#RGB`) = 여섯 글자 표기법(`#RRGGBB`)의 단축 표현
+- ex) `#ff0000` = `#ff0000ff`
+- ex) `#f09` = `#ff0099`
+- ex) `#0f38` = `#00ff3388`
+
+#### 2) 함수형 표기법 - `rgb(R, G, B[, A])` or `rgba(R, G, B, A)`
+
+- `R`(빨강), `G`(초록), `B`(파랑): integer or percentage
+  - 숫자 `255` = `100%`
+- `A`(알파): 0과 1 사이의 number or percentage
+  - 숫자 `1` = `100%`(불투명)
+
+### 🔸 HSL Color
+
+- 색상, 채도, 명도를 통해 특정 색상을 표현함
+- 선택사항으로 색의 투명도를 알파 채널로 표현할 수 있음
+- HSL 색상은 함수형 `hsl()`과 `hsla()` 표기법을 사용함
+
+#### 1) 함수형 표기법 - `hsl(H, S, L[, A])` or `hsla(H, S, L, A)`
+
+- `H`(색상)
+
+  - 색상원에서의 angle로 `deg`, `rad`, `grad`, `turn` 단위를 사용할 수 있음
+  - 단위 없이 number로 표현할 경우 각도로 해석함
+  - ex) 빨강=`0deg`=`360deg`, 초록=`120deg`, 파랑=`240deg`
+
+- `S`(채도)
+
+  - percentage
+  - 채도 `100%` = 제일 진한 색
+  - 채도 `0%` = 회색
+
+- `L`(명도)
+
+  - percentage
+  - 명도 `100%` = 흰색
+  - 명도 `0%` = 검은색
+  - 명도 `50%` = 보통 색
+
+- `A`(알파)
+
+  - 0과 1 사이의 number or percentage
+  - 숫자 `1` = `100%`(불투명)
+
+<br />
+
+## JinniUI Color Tokens
+
+### 🔸 Color Palette
+
+- Base color
+- theme(light/dark mode)이나 contrast가 달라져도 변경되지 않는 고유 색깔을 지정할 때 사용
+
+<ColorPalette />
+
+### 🔸 Color Scheme
+
+- Semantic color
+- primary, error 등 역할에 따라 색상 지정
+- theme(light/dark mode)이나 contrast가 달라지면 색상이 달라짐
+
+<ColorScheme />
+
+<br />
+
+## Color Tokens 접근 및 사용
+
+### In CSS
+
+- css 내장 `var()` 함수를 사용해 root 요소에 등록된 color 변수 가져와 사용
+
+```css
+.classname {
+  color: var(--jinni-color-on-primary);
+  background-color: var(--jinni-color-primary);
+  border-color: var(--jinni-color-yellow-400);
+}
+```
+
+### In JSX
+
+#### 1. Inline style에서 CSS 변수 `var()` 사용
+
+```jsx
+const App = () => {
+  return (
+    <p style={{ color: 'var(--jinni-color-primary)' }}>text</p>
+    <p style={{ color: 'var(--jinni-color-yellow-400)' }}>text</p>
+    <p style={{ border: '1px solid var(--jinni-color-gray-200)' }}>text</p>
+  );
+}
+```
+
+#### 2. `useJinni` hook
+
+```jsx
+import useJinni from '@/hooks/useJinni';
+
+const App = () => {
+  const { color: { scheme, palette } } = useJinni();
+
+  const pStyle: React.CSSProperties & { [key: string]: string } = {
+    '--help-text-color': palette['gray-200']
+  }
+
+  return (
+    <Avatar style={{ color: scheme['primary'] }}>N</Avatar>
+    <Avatar style={{ color: palette['yellow-400'] }}>N</Avatar>
+    <Avatar style={{ '--help-text-color': palette['gray-200'] }}>N</Avatar>
+
+    <p style={{ color: scheme['primary'] }}>text</p>
+    <p style={{ color: palette['yellow-400'] }}>text</p>
+    <p style={pStyle}>text</p>
+  );
+}
+```
+
+#### 3. `useStyle` hook
+
+```jsx
+import useStyle from '@/hooks/useStyle';
+
+const App = () => {
+  const style = useStyle({
+    color: 'primary',
+    backgroundColor: 'yellow-400',
+    '--help-text-color': 'gray-200'
+  });
+
+  return <p style={style}>text</p>;
+};
+```
+
+### JinniUI Components
+
+- JinniUI에서 제공하는 컴포넌트 전부 `style` prop(`StyleType`, extended style type)을 받음
+- `style` prop의 값은 내부적으로 `useStyle` 훅으로 처리해주고 있음
+- 따라서, JinniUI 컴포넌트에 color tokens를 적용하고 싶으면 `style` prop에 바로 작성하면 됨
+
+```jsx
+<Avatar style={{ color: 'primary' }}>N</Avatar>
+<Avatar style={{ color: 'yellow-400' }}>N</Avatar>
+<Avatar style={{ '--help-text-color': 'gray-200' }}>N</Avatar>
+<Avatar
+  style={{
+    color: {
+      xs: 'primary',
+      md: 'secondary',
+      lg: 'tertiary'
+     }
+   }}
+>
+  N
+</Avatar>
+```
+
+<br />
+
+## Customization
+
+### Jinni UI - Color Scheme/Palette (기본값)
+
+- `createDesignSystem` 함수의 `color` props를 설정하지 않을 경우, 기본적으로 Jinni UI의 Color Scheme/Palette가 설정됨
+
+```jsx
+const designSystem = createDesignSystem();
+```
+
+```jsx
+const designSystem = createDesignSystem({
+  color: {
+    scheme: DEFAULT_COLOR_SCHEME,
+    palette: DEFAULT_COLOR_PALETTE
+  }
+});
+```
+
+### Customize color scheme/palette
+
+- `createDesignSystem` 함수의 `color` props로 설정된 값은 기존 Jinni UI의 Color Scheme/Palette에 덮어 씌워지게 됨
+- 즉, `DesignSystemType`의 color scheme/palette에 존재하는 key 값을 설정하면 기존 값이 변경되고, `DesignSystemType`의 color scheme/palette에 존재하지 않는 key 값을 설정하면 속성이 새로 추가됨
+
+  ```ts
+  interface DesignSystemType {
+    color: {
+      scheme: {
+        light: {
+          standard: Record<JinniColorScheme | string, string>;
+          medium: Record<JinniColorScheme | string, string>;
+          high: Record<JinniColorScheme | string, string>;
+        };
+        dark: {
+          standard: Record<JinniColorScheme | string, string>;
+          medium: Record<JinniColorScheme | string, string>;
+          high: Record<JinniColorScheme | string, string>;
+        };
+      };
+      palette: Record<JinniColorPalette | string, string>;
+    };
+    ...
+  }
+  ```
+
+#### 1) 기존 Color Scheme/Palette 값 변경
+
+1. 기존 color scheme 변경하기
+
+   ```jsx
+   const designSystem = createDesignSystem({
+     color: {
+       scheme: {
+         light {
+           standard: {
+             primary: '#123'
+           }
+         }
+       }
+     }
+   })
+   ```
+
+2. 기존 color palette 변경하기
+
+   ```jsx
+   const designSystem = createDesignSystem({
+     color: {
+       palette: {
+         'gray-50': '#ddd'
+       }
+     }
+   });
+   ```
+
+#### 2) 새로운 Color Scheme/Palette 속성 추가
+
+1.  새로운 color scheme 속성 추가
+
+    ```jsx
+    const designSystem = createDesignSystem({
+      color: {
+        scheme: {
+          light {
+            standard: {
+              text: '#444',
+              'primary-fixed': '#123'
+            }
+          },
+          dark: {
+            standard: {
+              text: '#ddd',
+              'primary-fixed': '#123'
+            }
+          }
+        }
+      }
+    })
+    ```
+
+2.  새로운 color palette 속성 추가
+
+    ```jsx
+    const designSystem = createDesignSystem({
+      color: {
+        palette: {
+          'ruby-50': '#55f'
+        }
+      }
+    });
+    ```
+
+3.  유의할 점
+
+    - 이 경우 `useStyle` 훅이나 JinniUI Component의 `style`(extended style type) prop에서는 새로 추가한 color scheme/palette 속성을 사용할 수는 없음
+
+    ```jsx
+    // ⭕ 가능
+    const App = () => {
+      const {
+        color: { scheme, palette }
+      } = useJinni();
+
+      return (
+        <>
+          <p style={{ color: 'var(--jinni-color-new-scheme)' }}>text</p>
+          <p style={{ color: scheme['new-scheme'] }}>N</p>
+          <Avatar style={{ color: palette['new-palette'] }}>N</Avatar>
+        </>
+      );
+    };
+    ```
+
+    ```jsx
+    // ❌ 불가
+    const App = () => {
+      const style = useStyle({
+        color: 'new-scheme',
+        backgroundColor: 'new-palette'
+      });
+
+      return (
+        <>
+          <p style={style}>text</p>
+          <Avatar
+            style={{ color: 'new-scheme', backgroundColor: 'new-palette' }}
+          >
+            N
+          </Avatar>
+        </>
+      );
+    };
+    ```

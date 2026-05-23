@@ -190,9 +190,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -251,9 +251,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -303,9 +303,9 @@ const TimeFormatTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Format
         </Chip>
         <RadioGroup name="format" value={format} onChange={handleFormatChange}>
@@ -359,9 +359,9 @@ const DetectValidationErrorStatusTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Time that cause validation error
         </Chip>
         <RadioGroup
@@ -498,9 +498,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -568,9 +568,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -629,9 +629,9 @@ export const TimeFormat: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Format
         </Chip>
         <RadioGroup name="format" value={format} onChange={handleFormatChange}>
@@ -909,9 +909,9 @@ export const DetectValidationErrorStatus: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Time that cause validation error
         </Chip>
         <RadioGroup

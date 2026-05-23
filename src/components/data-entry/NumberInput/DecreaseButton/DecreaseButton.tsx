@@ -22,7 +22,7 @@ const DecreaseButton = (props: DecreaseButtonProps) => {
       aria-label="decrease"
       {...rest}
     >
-      <ArrowDownIcon color="gray-600" />
+      <ArrowDownIcon color="on-surface-variant" />
     </ButtonBase>
   );
 };

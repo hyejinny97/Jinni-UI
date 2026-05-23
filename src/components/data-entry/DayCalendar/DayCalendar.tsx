@@ -7,6 +7,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Day, DayProps } from './Day';
 import { DateComponentProps } from '@/types/date-component';
 import { useWeekDayItems, useDayItems } from './DayCalendar.hooks';
+import useJinni from '@/hooks/useJinni';
 
 export type DayCalendarMainProps = {
   showDaysOutsideCurrentMonth?: boolean;
@@ -42,8 +43,10 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
     displayWeekNumber,
     renderDay = (dayProps: Omit<DayProps, 'ref'>) => <Day {...dayProps} />,
     className,
+    style,
     ...rest
   } = props;
+  const { theme } = useJinni();
   const { weekDayItems } = useWeekDayItems({ locale, displayWeekNumber });
   const { dayItems } = useDayItems({
     locale,
@@ -62,7 +65,16 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
   const gridColumns = displayWeekNumber ? 8 : 7;
 
   return (
-    <Stack className={cn('JinniDayCalendar', className)} spacing={4} {...rest}>
+    <Stack
+      className={cn('JinniDayCalendar', className)}
+      spacing={4}
+      style={{
+        '--week-number-color': theme === 'light' ? 'gray-300' : 'gray-700',
+        '--outside-day-color': theme === 'light' ? 'gray-400' : 'gray-600',
+        ...style
+      }}
+      {...rest}
+    >
       <Grid className="JinniWeekDayContainer" columns={gridColumns} spacing={4}>
         {weekDayItems.map(({ type, format }, idx) => (
           <span key={`${format}/${idx}`} className={cn('JinniWeekDay', type)}>

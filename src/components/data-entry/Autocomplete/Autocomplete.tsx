@@ -64,7 +64,7 @@ export type AutocompleteProps<Multiple extends boolean = false> = Omit<
     onClose?: (event: Event | React.SyntheticEvent) => void;
   };
 
-const defaultRenderValue = (
+const DefaultRenderValue = (
   autocompleteValueLabel: Array<{
     value: OptionValueType;
     label: OptionLabelType;
@@ -94,7 +94,7 @@ const defaultRenderValue = (
             aria-label="delete chip"
           >
             <CancelIcon
-              color="gray-700"
+              color="gray-600"
               style={{ width: '100%', height: '100%' }}
             />
           </ButtonBase>
@@ -121,7 +121,7 @@ const Autocomplete = <Multiple extends boolean = false>(
     inputValue,
     onChange,
     onInputChange,
-    renderValue = multiple ? defaultRenderValue : undefined,
+    renderValue = multiple ? DefaultRenderValue : undefined,
     MenuProps,
     startAdornment,
     endAdornment,
@@ -223,7 +223,7 @@ const Autocomplete = <Multiple extends boolean = false>(
         className={cn(
           'JinniAutocomplete',
           {
-            open,
+            open: isOpen,
             clearable: autocompleteValue.length > 0 || autocompleteInputValue
           },
           className
@@ -242,7 +242,7 @@ const Autocomplete = <Multiple extends boolean = false>(
                 inputElRef.current?.focus();
               }}
             >
-              <ArrowDownIcon color="gray-600" size={16} />
+              <ArrowDownIcon color="on-surface-variant" size={16} />
             </ButtonBase>
           )
         }

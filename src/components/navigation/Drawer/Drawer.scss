@@ -150,7 +150,7 @@ $default-drawer-size: 250px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background-color: var(--jinni-color-surface-container-lowest);
+    color: var(--jinni-color-on-surface);
     overflow-y: auto;
     @include drawer-content-part-styles;
   }
@@ -181,6 +181,7 @@ $default-drawer-size: 250px;
       flex-direction: column;
       box-sizing: border-box;
       background-color: var(--jinni-color-surface-container-lowest);
+      color: var(--jinni-color-on-surface);
       overflow-y: auto;
       @include drawer-content-part-styles;
     }

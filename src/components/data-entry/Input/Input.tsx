@@ -1,3 +1,4 @@
+import './Input.scss';
 import cn from 'classnames';
 import {
   InputBase,
@@ -6,6 +7,7 @@ import {
 import { DefaultComponentProps } from '@/types/default-component-props';
 import { useInputValue } from './Input.hooks';
 import { useLabelContext } from '@/components/data-entry/Label';
+import useJinni from '@/hooks/useJinni';
 
 export type InputProps = Omit<
   DefaultComponentProps<'input'>,
@@ -52,6 +54,7 @@ const Input = (props: InputProps) => {
     style,
     ...rest
   } = props;
+  const { theme } = useJinni();
   const { inputValue, handleChange } = useInputValue({
     defaultValue,
     value,
@@ -61,7 +64,7 @@ const Input = (props: InputProps) => {
   return (
     <InputBase
       className={cn('JinniInput', className)}
-      style={style}
+      style={{ '--icon-inverted': Number(theme === 'dark'), ...style }}
       startAdornment={startAdornment}
       endAdornment={endAdornment}
       variant={variant}

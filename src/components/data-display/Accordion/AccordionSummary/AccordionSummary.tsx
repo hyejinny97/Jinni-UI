@@ -18,7 +18,7 @@ const AccordionSummary = <T extends AsType = 'h3'>(
   const {
     children,
     expandIcon = (
-      <ArrowDownIcon color="gray-700" data-testid="arrow down icon" />
+      <ArrowDownIcon color="on-surface-variant" data-testid="arrow down icon" />
     ),
     ButtonBaseProps,
     className,
@@ -34,7 +34,7 @@ const AccordionSummary = <T extends AsType = 'h3'>(
 
   return (
     <Component
-      className="JinniAccordionSummaryRoot"
+      className={cn('JinniAccordionSummaryRoot', { disabled })}
       onClick={toggleExpand}
       style={newStyle}
       {...rest}

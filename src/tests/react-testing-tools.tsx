@@ -1,14 +1,20 @@
 import '@testing-library/jest-dom/vitest';
 import React, { ReactElement } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
-import { JinniProvider } from '@/components/_share/JinniProvider';
+import {
+  JinniProvider,
+  createDesignSystem
+} from '@/components/_share/JinniProvider';
 
 const customRender = (
   ui: ReactElement,
   options?: Omit<RenderOptions, 'wrapper'>
 ) => {
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
-    return <JinniProvider>{children}</JinniProvider>;
+    const designSystem = createDesignSystem();
+    return (
+      <JinniProvider designSystem={designSystem}>{children}</JinniProvider>
+    );
   };
   return render(ui, { wrapper: Wrapper, ...options });
 };

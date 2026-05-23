@@ -53,7 +53,7 @@ const meta: Meta<typeof Switch> = {
       description: 'ripple 색상',
       table: {
         type: { summary: `'black' | 'white'` },
-        defaultValue: { summary: `'black'` }
+        defaultValue: { summary: `theme === 'light' ? 'black' : 'white'` }
       }
     },
     rippleStartLocation: {
@@ -232,7 +232,7 @@ export const Color: Story = {
       <Switch color="error" defaultChecked {...args} />
       <Switch color="yellow-500" defaultChecked {...args} />
       <Switch color="green" defaultChecked {...args} />
-      <Switch color="rgb(10, 20, 30)" defaultChecked {...args} />
+      <Switch color="rgb(0, 0, 100)" defaultChecked {...args} />
     </Stack>
   )
 };

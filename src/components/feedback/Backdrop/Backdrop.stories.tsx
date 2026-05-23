@@ -3,13 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Backdrop from './Backdrop';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
 import { Button } from '@/components/general/Button';
-import {
-  JinniProvider,
-  DEFAULT_DESIGN_SYSTEM
-} from '@/components/_share/JinniProvider';
-import { Switch } from '@/components/data-entry/Switch';
-import { Label } from '@/components/data-entry/Label';
-import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof Backdrop> = {
   component: Backdrop,
@@ -68,49 +61,10 @@ const BackdropWithContentsTemplate = ({ ...rest }) => {
           }}
           {...rest}
         >
-          <CircularProgress progressColor="primary-container" />
+          <CircularProgress progressColor="primary" />
         </Backdrop>
       )}
     </>
-  );
-};
-
-const BackdropColorByThemeTemplate = () => {
-  const [open, setOpen] = useState(false);
-  const [darkTheme, setDarkTheme] = useState(false);
-
-  const openBackdrop = () => setOpen(true);
-  const closeBackdrop = () => setOpen(false);
-  const changeTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDarkTheme(e.target.checked);
-  };
-
-  return (
-    <JinniProvider
-      designSystem={{
-        ...DEFAULT_DESIGN_SYSTEM,
-        theme: darkTheme ? 'dark' : 'light'
-      }}
-    >
-      <Stack spacing={20}>
-        <Label content="Dark Theme">
-          <Switch checked={darkTheme} onChange={changeTheme} />
-        </Label>
-        <Button onClick={openBackdrop}>Open Backdrop</Button>
-        {open && (
-          <Backdrop
-            onClick={closeBackdrop}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            <CircularProgress progressColor="primary-container" />
-          </Backdrop>
-        )}
-      </Stack>
-    </JinniProvider>
   );
 };
 
@@ -160,7 +114,7 @@ export const BackdropWithContents: Story = {
             alignItems: 'center'
           }}
         >
-          <CircularProgress progressColor="primary-container" />
+          <CircularProgress progressColor="primary" />
         </Backdrop>
       )}
     </>
@@ -195,7 +149,7 @@ export const Invisible: Story = {
             alignItems: 'center'
           }}
         >
-          <CircularProgress progressColor="primary-container" />
+          <CircularProgress progressColor="primary" />
         </Backdrop>
       )}
     </>
@@ -230,61 +184,12 @@ export const DisableScroll: Story = {
             alignItems: 'center'
           }}
         >
-          <CircularProgress progressColor="primary-container" />
+          <CircularProgress progressColor="primary" />
         </Backdrop>
       )}
     </>
   );
 };`.trim()
-      }
-    }
-  }
-};
-
-export const BackdropColorByTheme: Story = {
-  render: () => <BackdropColorByThemeTemplate />,
-  parameters: {
-    docs: {
-      source: {
-        code: `const BackdropColorByThemeTemplate = () => {
-  const [open, setOpen] = useState(false);
-  const [darkTheme, setDarkTheme] = useState(false);
-
-  const openBackdrop = () => setOpen(true);
-  const closeBackdrop = () => setOpen(false);
-  const changeTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDarkTheme(e.target.checked);
-  };
-
-  return (
-    <JinniProvider
-      designSystem={{
-        ...DEFAULT_DESIGN_SYSTEM,
-        theme: darkTheme ? 'dark' : 'light'
-      }}
-    >
-      <Stack spacing={20}>
-        <Label content="Dark Theme">
-          <Switch checked={darkTheme} onChange={changeTheme} />
-        </Label>
-        <Button onClick={openBackdrop}>Open Backdrop</Button>
-        {open && (
-          <Backdrop
-            onClick={closeBackdrop}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            <CircularProgress progressColor="primary-container" />
-          </Backdrop>
-        )}
-      </Stack>
-    </JinniProvider>
-  );
-};
-`.trim()
       }
     }
   }

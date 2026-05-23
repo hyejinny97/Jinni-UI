@@ -12,6 +12,7 @@ import { useLabelContext } from '@/components/data-entry/Label';
 import useColor from '@/hooks/useColor';
 import { toRgbaObject } from '@/utils/colorFormat';
 import { useCheckboxGroupContext } from '@/components/data-entry/CheckboxGroup';
+import useJinni from '@/hooks/useJinni';
 
 export type CheckboxProps<T extends AsType = 'input'> = Omit<
   DefaultComponentProps<T>,
@@ -34,6 +35,7 @@ export type CheckboxProps<T extends AsType = 'input'> = Omit<
   };
 
 const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
+  const { theme } = useJinni();
   const labelContext = useLabelContext();
   const checkboxGroupContext = useCheckboxGroupContext();
   const {
@@ -50,7 +52,8 @@ const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
     required = labelContext?.required,
     color = checkboxGroupContext?.color || 'primary',
     size = labelContext?.size || 'md',
-    rippleColor = checkboxGroupContext?.rippleColor || 'black',
+    rippleColor = checkboxGroupContext?.rippleColor ||
+      (theme === 'light' ? 'black' : 'white'),
     rippleStartLocation = checkboxGroupContext?.rippleStartLocation || 'center',
     disableRipple = checkboxGroupContext?.disableRipple,
     className,
@@ -74,7 +77,8 @@ const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
   const { r, g, b } = toRgbaObject(computedColor);
   const newStyle = useStyle({
     '--checked-color': color,
-    '--overlay-color': `rgba(${r}, ${g}, ${b}, 0.05)`,
+    '--hover-color': `rgba(${r}, ${g}, ${b}, 0.05)`,
+    '--focused-color': `rgba(${r}, ${g}, ${b}, 0.15)`,
     ...(!isKeywordSize && { '--icon-size': size }),
     ...style
   });

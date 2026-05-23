@@ -1,3 +1,4 @@
+import './TabPanel.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Box, BoxProps } from '@/components/layout/Box';

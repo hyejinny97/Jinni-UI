@@ -5,7 +5,6 @@ import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { useWindowScroll } from './Backdrop.hooks';
-import useJinni from '@/hooks/useJinni';
 
 type BackdropProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children?: React.ReactNode;
@@ -30,7 +29,6 @@ const Backdrop = forwardRef(
       as: Component = 'div',
       ...rest
     } = props;
-    const { theme } = useJinni();
     const backdropElRef = useWindowScroll({ disableScroll });
     const newStyle = useStyle(style);
 
@@ -52,12 +50,7 @@ const Backdrop = forwardRef(
             }
           }
         }}
-        className={cn(
-          'JinniBackdrop',
-          { invisible },
-          `${theme}-theme`,
-          className
-        )}
+        className={cn('JinniBackdrop', { invisible }, className)}
         onClick={handleBackdropClick}
         style={newStyle}
         data-disable-scroll={disableScroll}

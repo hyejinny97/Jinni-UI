@@ -37,7 +37,9 @@ const StepDot = <T extends AsType = 'span'>(props: StepDotProps<T>) => {
   } = props;
   const { status } = useStep();
   const normalizedColor = useColor(
-    ['completed', 'active'].includes(status) ? color : 'gray-400'
+    ['completed', 'active'].includes(status)
+      ? color
+      : 'surface-container-highest'
   );
   const { borderColor, backgroundColor, textColor } = getDotColorStyle({
     color: normalizedColor,

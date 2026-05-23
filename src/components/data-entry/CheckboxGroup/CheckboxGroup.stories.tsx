@@ -97,7 +97,7 @@ const ControlledCheckboxGroupTemplate = () => {
   };
 
   return (
-    <Stack spacing={10} style={{ alignItems: 'center' }}>
+    <Stack spacing={10} style={{ alignItems: 'center', color: 'on-surface' }}>
       <Text>Checked color: {value.join(', ')}</Text>
       <CheckboxGroup name="color" value={value} onChange={handleChange}>
         <Stack spacing={5}>
@@ -163,7 +163,7 @@ export const ControlledCheckboxGroup: Story = {
   };
 
   return (
-    <Stack spacing={10} style={{ alignItems: 'center' }}>
+    <Stack spacing={10} style={{ alignItems: 'center', color: 'on-surface' }}>
       <Text>Checked color: {value.join(', ')}</Text>
       <CheckboxGroup name="color" value={value} onChange={handleChange}>
         <Stack spacing={5}>
@@ -197,14 +197,17 @@ export const CustomizeIcon: Story = {
             margin: '4px',
             width: '16px',
             height: '16px',
-            backgroundColor: 'gray-100',
+            backgroundColor: 'inverse-surface',
             borderRadius: '4px'
           }}
         />
       }
       checkedIcon={<CheckIcon />}
     >
-      <Stack direction="row" style={{ alignItems: 'center' }}>
+      <Stack
+        direction="row"
+        style={{ alignItems: 'center', color: 'on-surface' }}
+      >
         <Label content="빨간색">
           <Checkbox value="red" />
         </Label>
@@ -229,14 +232,17 @@ export const CustomizeIcon: Story = {
         margin: '4px',
         width: '16px',
         height: '16px',
-        backgroundColor: 'gray-100',
+        backgroundColor: 'inverse-surface',
         borderRadius: '4px'
       }}
     />
   }
   checkedIcon={<CheckIcon />}
 >
-  <Stack direction="row" style={{ alignItems: 'center' }}>
+  <Stack 
+    direction="row" 
+    style={{ alignItems: 'center', color: 'on-surface' }}
+  >
     <Label content="빨간색">
       <Checkbox value="red" />
     </Label>

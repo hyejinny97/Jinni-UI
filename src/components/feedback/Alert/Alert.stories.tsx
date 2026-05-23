@@ -71,7 +71,7 @@ const ActionTemplate = () => {
               }}
               aria-label="close alert"
             >
-              <CloseIcon />
+              <CloseIcon color="on-surface-variant" />
             </ButtonBase>
           }
         >
@@ -131,7 +131,7 @@ export const Actions: Story = {
               }}
               aria-label="close alert"
             >
-              <CloseIcon />
+              <CloseIcon color="on-surface-variant" />
             </ButtonBase>
           }
         >
@@ -221,9 +221,9 @@ export const Customization: Story = {
       <Alert
         icon={<CheckIcon />}
         style={{
-          backgroundColor: 'secondary',
-          color: 'on-secondary',
-          fill: 'on-secondary'
+          backgroundColor: 'tertiary',
+          color: 'on-tertiary',
+          fill: 'on-tertiary'
         }}
         {...args}
       >

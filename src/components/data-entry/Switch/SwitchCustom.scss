@@ -59,7 +59,7 @@ span.JinniSwitch.ios-style {
 
   .JinniSwitchTrack {
     opacity: 1;
-    background-color: var(--jinni-color-gray-300);
+    background-color: var(--jinni-color-surface-container-highest);
     &.isChecked {
       background-color: var(--checked-color);
     }

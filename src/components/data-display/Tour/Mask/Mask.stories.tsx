@@ -18,7 +18,7 @@ const meta: Meta<typeof Mask> = {
       table: {
         type: { summary: `ColorType` },
         defaultValue: {
-          summary: `theme = 'light' ? rgba(0, 0, 0, 0.7) : rgba(255, 255, 255, 0.7)`
+          summary: `'rgba(0, 0, 0, 0.7)'`
         }
       }
     },
@@ -130,9 +130,9 @@ const SpotlightShapeTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Shape
         </Chip>
         <RadioGroup name="shape" value={shape} onChange={handleShapeChange}>
@@ -304,9 +304,9 @@ export const SpotlightShape: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Shape
         </Chip>
         <RadioGroup name="shape" value={shape} onChange={handleShapeChange}>

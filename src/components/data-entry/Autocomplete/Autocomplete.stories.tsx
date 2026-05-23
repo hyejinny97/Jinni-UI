@@ -1098,7 +1098,9 @@ const LoadOnOpenTemplate = () => {
       MenuProps={{ className: 'remove-no-option-item' }}
     >
       {isLoading ? (
-        <ListItem className="loading">loading...</ListItem>
+        <ListItem className="loading" style={{ color: 'on-surface-variant' }}>
+          loading...
+        </ListItem>
       ) : (
         films.map(({ label }) => (
           <AutocompleteOption
@@ -1368,7 +1370,7 @@ export const RenderingValuesInChip: Story = {
                   aria-label="delete chip"
                 >
                   <CancelIcon
-                    color="gray-700"
+                    color="on-surface-variant"
                     style={{ width: '100%', height: '100%' }}
                   />
                 </ButtonBase>
@@ -1408,7 +1410,7 @@ export const RenderingValuesInChip: Story = {
               aria-label="delete chip"
             >
               <CancelIcon
-                color="gray-700"
+                color="on-surface-variant"
                 style={{ width: '100%', height: '100%' }}
               />
             </ButtonBase>
@@ -1766,7 +1768,12 @@ export const LimitTags: Story = {
 export const GroupOption: Story = {
   render: (args) => (
     <Autocomplete {...args}>
-      <ListItem className="typo-title-medium">Category 1</ListItem>
+      <ListItem
+        className="typo-title-medium"
+        style={{ color: 'on-surface-variant' }}
+      >
+        Category 1
+      </ListItem>
       <AutocompleteOption value="Option 1" label="Option 1">
         Option 1
       </AutocompleteOption>
@@ -1776,7 +1783,12 @@ export const GroupOption: Story = {
       <AutocompleteOption value="Option 3" label="Option 3">
         Option 3
       </AutocompleteOption>
-      <ListItem className="typo-title-medium">Category 2</ListItem>
+      <ListItem
+        className="typo-title-medium"
+        style={{ color: 'on-surface-variant' }}
+      >
+        Category 2
+      </ListItem>
       <AutocompleteOption value="Option 4" label="Option 4">
         Option 4
       </AutocompleteOption>
@@ -1903,7 +1915,9 @@ export const LoadOnOpen: Story = {
       MenuProps={{ className: 'remove-no-option-item' }}
     >
       {isLoading ? (
-        <ListItem className="loading">loading...</ListItem>
+        <ListItem className="loading" style={{ color: 'on-surface-variant' }}>
+          loading...
+        </ListItem>
       ) : (
         films.map(({ label }) => (
           <AutocompleteOption

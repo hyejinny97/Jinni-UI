@@ -23,7 +23,16 @@ export const lighten = (
   color: Exclude<ColorType, JinniColor>,
   luminance: number
 ) => adjustLuminance(color, luminance);
+
 export const darken = (
   color: Exclude<ColorType, JinniColor>,
   luminance: number
 ) => adjustLuminance(color, -luminance);
+
+export const getCloserToWhiteOrBlack = (
+  color: Exclude<ColorType, JinniColor>
+) => {
+  const { r, g, b } = toRgbaObject(color);
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luminance < 128 ? 'black' : 'white';
+};

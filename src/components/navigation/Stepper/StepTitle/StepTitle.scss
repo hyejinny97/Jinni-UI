@@ -2,12 +2,12 @@
   display: inline-block;
   box-sizing: border-box;
   &.pending {
-    color: var(--jinni-color-gray-700);
+    color: var(--jinni-color-on-surface-variant);
     font-weight: var(--jinni-font-weight-medium);
   }
   &.completed,
   &.active {
-    color: var(--jinni-color-gray-900);
+    color: var(--jinni-color-on-surface);
     font-weight: var(--jinni-font-weight-bold);
   }
 }

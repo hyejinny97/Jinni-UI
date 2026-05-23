@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Drawer, DrawerHeader, DrawerBody, DrawerFooter } from '.';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
+import { Text } from '@/components/general/Text';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
@@ -77,9 +78,18 @@ const LONG_TEXT = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Even
 const DRAWER_WIDTH = 200;
 
 const insertDocumentStyles = (iframeDoc: Document) => {
-  const styles = Array.from(window.document.head.querySelectorAll('style'));
-  styles.forEach((style) => {
-    iframeDoc.head.appendChild(style.cloneNode(true));
+  const replicateParentHeadToIframe = () => {
+    iframeDoc.head.innerHTML = '';
+    const headChildren = Array.from(window.document.head.children);
+    headChildren.forEach((child) => {
+      iframeDoc.head.appendChild(child.cloneNode(true));
+    });
+  };
+  const observer = new MutationObserver(replicateParentHeadToIframe);
+  observer.observe(window.document.head, {
+    childList: true,
+    attributes: true,
+    subtree: true
   });
 };
 
@@ -113,9 +123,9 @@ const DrawerContent = ({
   transition?: string;
 }) => {
   const LISTS = [
-    { label: 'Home', icon: <HomeIcon color="gray-500" /> },
-    { label: 'Mail', icon: <MailIcon color="gray-500" /> },
-    { label: 'Profile', icon: <PersonIcon color="gray-500" /> }
+    { label: 'Home', icon: <HomeIcon color="on-surface-variant" /> },
+    { label: 'Mail', icon: <MailIcon color="on-surface-variant" /> },
+    { label: 'Profile', icon: <PersonIcon color="on-surface-variant" /> }
   ];
 
   return (
@@ -132,7 +142,7 @@ const DrawerContent = ({
                     style={{
                       gap: '10px',
                       padding: isCollapsed ? '16px' : '8px 16px',
-                      color: 'gray-500',
+                      color: 'on-surface',
                       ...(transition && { transition: `padding ${transition}` })
                     }}
                   >
@@ -175,7 +185,7 @@ const BasicDrawerTemplate = () => {
             }}
             aria-label="close"
           >
-            <CloseIcon />
+            <CloseIcon color="on-surface-variant" />
           </ButtonBase>
         </DrawerHeader>
         <DrawerBody>Drawer Body</DrawerBody>
@@ -231,7 +241,7 @@ const PlacementTemplate = () => {
             }}
             aria-label="close"
           >
-            <CloseIcon />
+            <CloseIcon color="on-surface-variant" />
           </ButtonBase>
         </DrawerHeader>
         <DrawerBody>Drawer Body</DrawerBody>
@@ -277,13 +287,15 @@ const TemporaryDrawerTemplate = () => {
           onClick={openDrawer}
           aria-label="open drawer"
         >
-          <BurgerIcon color="white" />
+          <BurgerIcon color="surface-container-low" />
         </ButtonBase>
         Temporary Drawer
       </ToolBar>
       <main>
         <ToolBar />
-        <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+        <Text noMargin style={{ padding: '16px' }}>
+          {LONG_TEXT}
+        </Text>
       </main>
       <Drawer
         variant="temporary"
@@ -341,7 +353,7 @@ const MiniVariantDrawerTemplate = () => {
           onClick={expandDrawer}
           aria-label="open drawer"
         >
-          <BurgerIcon color="white" />
+          <BurgerIcon color="surface-container-low" />
         </ButtonBase>
         Permanent Drawer
       </ToolBar>
@@ -367,7 +379,7 @@ const MiniVariantDrawerTemplate = () => {
               onClick={collapseDrawer}
               aria-label="close drawer"
             >
-              <ArrowLeftIcon color="gray-500" />
+              <ArrowLeftIcon color="on-surface-variant" />
             </ButtonBase>
           </ToolBar>
           <div style={{ overflowY: 'auto', overflowX: 'hidden' }}>
@@ -376,7 +388,9 @@ const MiniVariantDrawerTemplate = () => {
         </Drawer>
         <main>
           <ToolBar />
-          <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+          <Text noMargin style={{ padding: '16px' }}>
+            {LONG_TEXT}
+          </Text>
         </main>
       </Box>
     </Iframe>
@@ -422,7 +436,7 @@ const LeftPersistentDrawerTemplate = () => {
             onClick={openDrawer}
             aria-label="open drawer"
           >
-            <BurgerIcon color="white" />
+            <BurgerIcon color="surface-container-low" />
           </ButtonBase>
         )}
         Persistent Drawer
@@ -444,7 +458,7 @@ const LeftPersistentDrawerTemplate = () => {
               onClick={closeDrawer}
               aria-label="close drawer"
             >
-              <ArrowLeftIcon color="gray-500" />
+              <ArrowLeftIcon color="on-surface-variant" />
             </ButtonBase>
           </ToolBar>
           <div style={{ overflowY: 'auto' }}>
@@ -459,7 +473,9 @@ const LeftPersistentDrawerTemplate = () => {
           }}
         >
           <ToolBar />
-          <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+          <Text noMargin style={{ padding: '16px' }}>
+            {LONG_TEXT}
+          </Text>
         </main>
       </Box>
     </Iframe>
@@ -507,7 +523,7 @@ const RightPersistentDrawerTemplate = () => {
             onClick={openDrawer}
             aria-label="open drawer"
           >
-            <BurgerIcon color="white" />
+            <BurgerIcon color="surface-container-low" />
           </ButtonBase>
         )}
       </ToolBar>
@@ -524,7 +540,9 @@ const RightPersistentDrawerTemplate = () => {
           }}
         >
           <ToolBar />
-          <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+          <Text noMargin style={{ padding: '16px' }}>
+            {LONG_TEXT}
+          </Text>
         </main>
         <Drawer
           open={open}
@@ -538,7 +556,7 @@ const RightPersistentDrawerTemplate = () => {
               onClick={closeDrawer}
               aria-label="close drawer"
             >
-              <ArrowRightIcon color="gray-500" />
+              <ArrowRightIcon color="on-surface-variant" />
             </ButtonBase>
           </ToolBar>
           <div style={{ overflowY: 'auto' }}>
@@ -585,7 +603,7 @@ const CustomizeDrawerTemplate = () => {
             }}
             aria-label="close"
           >
-            <CloseIcon />
+            <CloseIcon color="on-surface-variant" />
           </ButtonBase>
         </DrawerHeader>
         <DrawerBody>Drawer Body</DrawerBody>
@@ -630,7 +648,7 @@ export const BasicDrawer: Story = {
             }}
             aria-label='close'
           >
-            <CloseIcon />
+            <CloseIcon color='on-surface-variant' />
           </ButtonBase>
         </DrawerHeader>
         <DrawerBody>Drawer Body</DrawerBody>
@@ -696,7 +714,7 @@ export const Placement: Story = {
             }}
             aria-label='close'
           >
-            <CloseIcon />
+            <CloseIcon color='on-surface-variant' />
           </ButtonBase>
         </DrawerHeader>
         <DrawerBody>Drawer Body</DrawerBody>
@@ -752,20 +770,22 @@ export const Temporary: Story = {
           onClick={openDrawer}
           aria-label="open drawer"
         >
-          <BurgerIcon color="white" />
+          <BurgerIcon color="surface-container-low" />
         </ButtonBase>
         Temporary Drawer
       </ToolBar>
       <main>
         <ToolBar />
-        <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+        <Text noMargin style={{ padding: '16px' }}>
+          {LONG_TEXT}
+        </Text>
       </main>
       <Drawer
         variant="temporary"
         open={open}
         onClose={closeDrawer}
         container={iframeDocBody.current}
-        style={{ width: \`${DRAWER_WIDTH}px\` }}
+        style={{ width: \`\${DRAWER_WIDTH}px\` }}
       >
         <ToolBar />
         <div style={{ overflowY: 'auto' }}>
@@ -819,7 +839,9 @@ export const LeftPermanentDrawerWithFullHeader: Story = {
         </Drawer>
         <main>
           <ToolBar />
-          <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+          <Text noMargin style={{ padding: '16px' }}>
+            {LONG_TEXT}
+          </Text>
         </main>
       </Box>
     </Iframe>
@@ -854,7 +876,9 @@ export const RightPermanentDrawerWithFullHeader: Story = {
       >
         <main>
           <ToolBar />
-          <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+          <Text noMargin style={{ padding: '16px' }}>
+            {LONG_TEXT}
+          </Text>
         </main>
         <Drawer
           variant="permanent"
@@ -913,7 +937,9 @@ export const LeftPermanentDrawerWithPartialHeader: Story = {
         </Drawer>
         <main>
           <ToolBar />
-          <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+          <Text noMargin style={{ padding: '16px' }}>
+            {LONG_TEXT}
+          </Text>
         </main>
       </Box>
     </Iframe>
@@ -965,7 +991,7 @@ export const MiniVariantDrawer: Story = {
           onClick={expandDrawer}
           aria-label="open drawer"
         >
-          <BurgerIcon color="white" />
+          <BurgerIcon color="surface-container-low" />
         </ButtonBase>
         Permanent Drawer
       </ToolBar>
@@ -991,7 +1017,7 @@ export const MiniVariantDrawer: Story = {
               onClick={collapseDrawer}
               aria-label="close drawer"
             >
-              <ArrowLeftIcon color="gray-500" />
+              <ArrowLeftIcon color="on-surface-variant" />
             </ButtonBase>
           </ToolBar>
           <div style={{ overflowY: 'auto', overflowX: 'hidden' }}>
@@ -1000,7 +1026,9 @@ export const MiniVariantDrawer: Story = {
         </Drawer>
         <main>
           <ToolBar />
-          <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+          <Text noMargin style={{ padding: '16px' }}>
+            {LONG_TEXT}
+          </Text>
         </main>
       </Box>
     </Iframe>
@@ -1055,7 +1083,7 @@ export const LeftPersistentDrawer: Story = {
             onClick={openDrawer}
             aria-label="open drawer"
           >
-            <BurgerIcon color="white" />
+            <BurgerIcon color="surface-container-low" />
           </ButtonBase>
         )}
         Persistent Drawer
@@ -1077,7 +1105,7 @@ export const LeftPersistentDrawer: Story = {
               onClick={closeDrawer}
               aria-label="close drawer"
             >
-              <ArrowLeftIcon color="gray-500" />
+              <ArrowLeftIcon color="on-surface-variant" />
             </ButtonBase>
           </ToolBar>
           <div style={{ overflowY: 'auto' }}>
@@ -1092,7 +1120,9 @@ export const LeftPersistentDrawer: Story = {
           }}
         >
           <ToolBar />
-          <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+          <Text noMargin style={{ padding: '16px' }}>
+            {LONG_TEXT}
+          </Text>
         </main>
       </Box>
     </Iframe>
@@ -1149,7 +1179,7 @@ export const RightPersistentDrawer: Story = {
             onClick={openDrawer}
             aria-label="open drawer"
           >
-            <BurgerIcon color="white" />
+            <BurgerIcon color="surface-container-low" />
           </ButtonBase>
         )}
       </ToolBar>
@@ -1166,7 +1196,9 @@ export const RightPersistentDrawer: Story = {
           }}
         >
           <ToolBar />
-          <div style={{ padding: '16px' }}>{LONG_TEXT}</div>
+          <Text noMargin style={{ padding: '16px' }}>
+            {LONG_TEXT}
+          </Text>
         </main>
         <Drawer
           open={open}
@@ -1180,7 +1212,7 @@ export const RightPersistentDrawer: Story = {
               onClick={closeDrawer}
               aria-label="close drawer"
             >
-              <ArrowRightIcon color="gray-500" />
+              <ArrowRightIcon color="on-surface-variant" />
             </ButtonBase>
           </ToolBar>
           <div style={{ overflowY: 'auto' }}>
@@ -1237,7 +1269,7 @@ export const CustomizeDrawer: Story = {
             }}
             aria-label="close"
           >
-            <CloseIcon />
+            <CloseIcon color='on-surface-variant' />
           </ButtonBase>
         </DrawerHeader>
         <DrawerBody>Drawer Body</DrawerBody>

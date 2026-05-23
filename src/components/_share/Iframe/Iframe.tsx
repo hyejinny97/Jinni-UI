@@ -42,7 +42,8 @@ const Iframe = ({
       iframe.addEventListener('load', handleLoad);
       return () => iframe.removeEventListener('load', handleLoad);
     }
-  }, [onLoad]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <iframe

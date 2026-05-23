@@ -22,9 +22,9 @@ const CarouselPrevButton = <T extends AsType = 'button'>(
   const {
     position = orientation === 'horizontal' ? 'center-start' : 'top-center',
     children = orientation === 'horizontal' ? (
-      <ArrowLeftIcon size={30} color="gray-800" />
+      <ArrowLeftIcon size={30} color="on-surface-variant" />
     ) : (
-      <ArrowUpIcon size={30} color="gray-800" />
+      <ArrowUpIcon size={30} color="on-surface-variant" />
     ),
     className,
     onClick,

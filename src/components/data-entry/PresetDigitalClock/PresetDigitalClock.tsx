@@ -12,6 +12,7 @@ import {
 import { Box } from '@/components/layout/Box';
 import { MenuList } from '@/components/navigation/MenuList';
 import { MenuItem } from '@/components/navigation/MenuItem';
+import useJinni from '@/hooks/useJinni';
 
 export type PresetDigitalClockProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -38,8 +39,12 @@ const PresetDigitalClock = <T extends AsType = 'div'>(
     disabled,
     skipDisabledTime,
     className,
+    style,
     ...rest
   } = props;
+  const { theme } = useJinni();
+  const contrastColorToBg = theme === 'light' ? 'white' : 'black';
+
   const { selectedTime, handleChange } = useSelectedTime({
     defaultValue,
     value,
@@ -61,7 +66,14 @@ const PresetDigitalClock = <T extends AsType = 'div'>(
   const { menuListElRef, menuItemsElRef } = useScroll({ timeItems });
 
   return (
-    <Box className={cn('JinniPresetDigitalClock', className)} {...rest}>
+    <Box
+      className={cn('JinniPresetDigitalClock', className)}
+      style={{
+        '--text-color-selected': contrastColorToBg,
+        ...style
+      }}
+      {...rest}
+    >
       <MenuList ref={menuListElRef} elevation={0}>
         {timeItems.map(({ label, value, selected, disabled, hide }) => (
           <MenuItem
@@ -74,6 +86,10 @@ const PresetDigitalClock = <T extends AsType = 'div'>(
             className={cn({ selected, hide })}
             onClick={() => handleChange(value)}
             disabled={disabled}
+            {...(selected && {
+              overlayColor: contrastColorToBg,
+              rippleColor: contrastColorToBg
+            })}
           >
             {label}
           </MenuItem>

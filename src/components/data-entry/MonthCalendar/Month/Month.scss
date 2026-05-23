@@ -4,12 +4,13 @@
   border-radius: 9999px;
   box-sizing: border-box;
   font-size: 16px;
+  color: var(--jinni-color-on-surface);
 
   &.marked {
     border: 1px solid var(--jinni-color-gray-400);
   }
   &.selected {
-    background-color: var(--color);
-    color: white;
+    background-color: var(--bg-color-selected);
+    color: var(--text-color-selected);
   }
 }

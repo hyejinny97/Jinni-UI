@@ -1,7 +1,20 @@
+.custom-icon-tabs.JinniTabs {
+  .JinniTab[aria-selected='false'] {
+    fill: var(--jinni-color-on-surface-variant);
+  }
+  .JinniTab[aria-selected='true'] {
+    fill: var(--jinni-color-primary);
+  }
+  svg,
+  svg path {
+    fill: inherit;
+  }
+}
+
 .tabs-custom.JinniTabs {
   .JinniTabListContainer {
     box-sizing: border-box;
-    border-bottom: 1px solid var(--jinni-color-gray-300);
+    border-bottom: 1px solid var(--jinni-color-outline-variant);
 
     .JinniTabList {
       left: 50%;
@@ -12,7 +25,7 @@
       }
 
       .JinniTabListIndicator.horizontal {
-        background-color: var(--jinni-color-gray-600);
+        background-color: var(--jinni-color-inverse-surface);
         height: 3px;
       }
     }

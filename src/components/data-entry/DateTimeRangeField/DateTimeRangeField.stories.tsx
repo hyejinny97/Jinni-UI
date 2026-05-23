@@ -288,9 +288,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -355,9 +355,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -404,9 +404,9 @@ const DateFormatTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Format
         </Chip>
         <RadioGroup name="format" value={format} onChange={handleFormatChange}>
@@ -445,9 +445,9 @@ const TimeFormatTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Format
         </Chip>
         <RadioGroup name="format" value={format} onChange={handleFormatChange}>
@@ -502,7 +502,7 @@ const MultiDateTimeFieldTemplate = () => {
     dateToMinute(startDateTime) > dateToMinute(endDateTime);
 
   return (
-    <Stack spacing={20}>
+    <Stack spacing={20} style={{ color: 'on-surface' }}>
       <Text noMargin style={{ display: 'inline-flex', gap: '10px' }}>
         Date Time:
         <Stack direction="row" spacing={5}>
@@ -662,9 +662,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -738,9 +738,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -796,9 +796,9 @@ export const DateFormat: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Format
         </Chip>
         <RadioGroup name="format" value={format} onChange={handleFormatChange}>
@@ -846,9 +846,9 @@ export const TimeFormat: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Format
         </Chip>
         <RadioGroup name="format" value={format} onChange={handleFormatChange}>
@@ -1410,7 +1410,7 @@ export const MultiDateTimeField: Story = {
     dateToMinute(startDateTime) > dateToMinute(endDateTime);
 
   return (
-    <Stack spacing={20}>
+    <Stack spacing={20} style={{ color: 'on-surface' }}>
       <Text noMargin style={{ display: 'inline-flex', gap: '10px' }}>
         Date Time:
         <Stack direction="row" spacing={5}>

@@ -179,7 +179,7 @@ const ControlledDateRangePickerTemplate = () => {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Date:</span>
         <DateText {...getDate('start')} />
@@ -219,9 +219,9 @@ const LocaleTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -276,9 +276,9 @@ const OptionsTemplate = () => {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -331,14 +331,14 @@ const MultiDatePickerTemplate = () => {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Date:</span>
         <DateText {...getDate(startDate)} />
         <span>-</span>
         <DateText {...getDate(endDate)} />
       </Stack>
-      <Stack direction="row" spacing={20}>
+      <Stack direction="row" spacing={20} style={{ color: 'on-surface' }}>
         <DatePicker
           value={startDate}
           onChange={handleStartDateChange}
@@ -421,7 +421,7 @@ export const ControlledDateRangePicker: Story = {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Date:</span>
         <DateText {...getDate('start')} />
@@ -471,9 +471,9 @@ export const Locale: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Locale
         </Chip>
         <RadioGroup name="locale" value={locale} onChange={handleLocaleChange}>
@@ -537,9 +537,9 @@ export const Options: Story = {
       <Box
         as="fieldset"
         round="md"
-        style={{ backgroundColor: 'gray-100', border: 'none' }}
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
-        <Chip as="legend" variant="subtle-filled" color="gray-600">
+        <Chip as="legend" variant="filled" color="surface-container-highest">
           Option
         </Chip>
         <RadioGroup
@@ -741,14 +741,14 @@ export const CustomDateRangeField: Story = {
           format: 'YYYY/MM/DD',
           variant: 'filled',
           size: 'sm',
-          color: 'tertiary',
+          color: 'gray-400',
           focusedColor: 'tertiary',
           fullWidth: true,
           startAdornment: {
-            start: <FlightTakeOffIcon size={20} color="gray-600" />,
-            end: <FlightLandIcon size={20} color="gray-600" />
+            start: <FlightTakeOffIcon size={20} color="on-surface-variant" />,
+            end: <FlightLandIcon size={20} color="on-surface-variant" />
           },
-          centerIcon: <ArrowRightIcon size={20} color="gray-500" />
+          centerIcon: <ArrowRightIcon size={20} color="gray-400" />
         }}
       />
     </Box>
@@ -766,14 +766,14 @@ export const CustomDateRangeField: Story = {
       format: 'YYYY/MM/DD',
       variant: 'filled',
       size: 'sm',
-      color: 'tertiary',
+      color: 'gray-400',
       focusedColor: 'tertiary',
       fullWidth: true,
       startAdornment: {
-        start: <FlightTakeOffIcon size={20} color="gray-600" />,
-        end: <FlightLandIcon size={20} color="gray-600" />
+        start: <FlightTakeOffIcon size={20} color="on-surface-variant" />,
+        end: <FlightLandIcon size={20} color="on-surface-variant" />
       },
-      centerIcon: <ArrowRightIcon size={20} color="gray-500" />
+      centerIcon: <ArrowRightIcon size={20} color="gray-400" />
     }}
   />
 </Box>`.trim()
@@ -791,7 +791,7 @@ export const CustomDateRangeCalendar: Story = {
             <Box
               style={{
                 padding: '6px 0',
-                backgroundColor: 'gray-50',
+                backgroundColor: 'surface-container-highest',
                 textAlign: 'center',
                 fontWeight: '700'
               }}
@@ -821,7 +821,7 @@ export const CustomDateRangeCalendar: Story = {
         <Box
           style={{
             padding: '6px 0',
-            backgroundColor: 'gray-50',
+            backgroundColor: 'surface-container-highest',
             textAlign: 'center',
             fontWeight: '700'
           }}
@@ -886,14 +886,14 @@ export const MultiDatePicker: Story = {
       <Stack
         direction="row"
         spacing={8}
-        style={{ height: '20px', alignItems: 'center' }}
+        style={{ height: '20px', alignItems: 'center', color: 'on-surface' }}
       >
         <span>Date:</span>
         <DateText {...getDate(startDate)} />
         <span>-</span>
         <DateText {...getDate(endDate)} />
       </Stack>
-      <Stack direction="row" spacing={20}>
+      <Stack direction="row" spacing={20} style={{ color: 'on-surface' }}>
         <DatePicker
           value={startDate}
           onChange={handleStartDateChange}

@@ -10,11 +10,13 @@ $gradient-color: linear-gradient(
     &.active {
       .JinniStepDot {
         background-image: $gradient-color;
+        color: white;
       }
     }
     &.completed {
       .JinniStepDot {
         background-image: $gradient-color;
+        color: white;
       }
       .JinniStepConnector {
         background-image: $gradient-color;

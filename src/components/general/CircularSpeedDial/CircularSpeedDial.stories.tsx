@@ -105,19 +105,34 @@ export default meta;
 type Story = StoryObj<typeof CircularSpeedDial>;
 
 const insertDocumentStyles = (iframeDoc: Document) => {
-  const styles = Array.from(window.document.head.querySelectorAll('style'));
-  styles.forEach((style) => {
-    iframeDoc.head.appendChild(style.cloneNode(true));
+  const replicateParentHeadToIframe = () => {
+    iframeDoc.head.innerHTML = '';
+    const headChildren = Array.from(window.document.head.children);
+    headChildren.forEach((child) => {
+      iframeDoc.head.appendChild(child.cloneNode(true));
+    });
+  };
+  const observer = new MutationObserver(replicateParentHeadToIframe);
+  observer.observe(window.document.head, {
+    childList: true,
+    attributes: true,
+    subtree: true
   });
 };
 
 const BasicCircularSpeedDialTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    {
+      icon: <TrashcanIcon size={20} color="on-surface-variant" />,
+      name: 'Delete'
+    }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -136,7 +151,7 @@ const BasicCircularSpeedDialTemplate = () => {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -162,7 +177,7 @@ const BasicCircularSpeedDialTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"
@@ -187,9 +202,12 @@ const BasicCircularSpeedDialTemplate = () => {
 
 const CircularSpeedDialWithFABTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' }
   ];
   const iframeDocBody = useRef<HTMLElement>();
   const anchorElRef = useRef<HTMLElement>(null);
@@ -257,7 +275,7 @@ const CircularSpeedDialWithFABTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"
@@ -286,11 +304,17 @@ const CircularSpeedDialWithFABTemplate = () => {
 
 const VariantsTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    {
+      icon: <TrashcanIcon size={20} color="on-surface-variant" />,
+      name: 'Delete'
+    }
   ];
   const VARIANTS = ['circular', 'semi-circular', 'quarter-circular'] as const;
   const anchorElRef = useRef<HTMLElement>(null);
@@ -332,7 +356,7 @@ const VariantsTemplate = () => {
           width: '300px',
           height: '300px',
           border: '1px solid',
-          borderColor: 'gray-200'
+          borderColor: 'outline-variant'
         }}
       >
         <Button
@@ -358,7 +382,7 @@ const VariantsTemplate = () => {
           aria-expanded={open}
           aria-controls="basic-speed-dial"
         >
-          <AddIcon color="white" size={20} />
+          <AddIcon color="on-primary" size={20} />
         </Button>
         <CircularSpeedDial
           id="basic-speed-dial"
@@ -385,11 +409,17 @@ const VariantsTemplate = () => {
 
 const SemiCircularPlacementTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    {
+      icon: <TrashcanIcon size={20} color="on-surface-variant" />,
+      name: 'Delete'
+    }
   ];
   const PLACEMENTS = ['up', 'down', 'left', 'right'] as const;
   const anchorElRef = useRef<HTMLElement>(null);
@@ -429,7 +459,7 @@ const SemiCircularPlacementTemplate = () => {
           width: '300px',
           height: '300px',
           border: '1px solid',
-          borderColor: 'gray-200'
+          borderColor: 'outline-variant'
         }}
       >
         <Button
@@ -455,7 +485,7 @@ const SemiCircularPlacementTemplate = () => {
           aria-expanded={open}
           aria-controls="basic-speed-dial"
         >
-          <AddIcon color="white" size={20} />
+          <AddIcon color="on-primary" size={20} />
         </Button>
         <CircularSpeedDial
           id="basic-speed-dial"
@@ -483,9 +513,12 @@ const SemiCircularPlacementTemplate = () => {
 
 const QuarterCircularPlacementTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' }
   ];
   const PLACEMENTS = [
     'up-left',
@@ -531,7 +564,7 @@ const QuarterCircularPlacementTemplate = () => {
           width: '300px',
           height: '300px',
           border: '1px solid',
-          borderColor: 'gray-200'
+          borderColor: 'outline-variant'
         }}
       >
         <Button
@@ -557,7 +590,7 @@ const QuarterCircularPlacementTemplate = () => {
           aria-expanded={open}
           aria-controls="basic-speed-dial"
         >
-          <AddIcon color="white" size={20} />
+          <AddIcon color="on-primary" size={20} />
         </Button>
         <CircularSpeedDial
           id="basic-speed-dial"
@@ -585,11 +618,17 @@ const QuarterCircularPlacementTemplate = () => {
 
 const DistanceFromAnchorTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    {
+      icon: <TrashcanIcon size={20} color="on-surface-variant" />,
+      name: 'Delete'
+    }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -608,7 +647,7 @@ const DistanceFromAnchorTemplate = () => {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -634,7 +673,7 @@ const DistanceFromAnchorTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"
@@ -660,11 +699,17 @@ const DistanceFromAnchorTemplate = () => {
 
 const AnchorPositionTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    {
+      icon: <TrashcanIcon size={20} color="on-surface-variant" />,
+      name: 'Delete'
+    }
   ];
   const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
   const [open, setOpen] = useState(false);
@@ -692,7 +737,7 @@ const AnchorPositionTemplate = () => {
         width: '500px'
       }}
     >
-      <p
+      <Text
         onContextMenu={handleContextMenu}
         aria-haspopup="true"
         aria-expanded={open}
@@ -707,7 +752,7 @@ const AnchorPositionTemplate = () => {
         finibus ex, sit amet facilisis neque enim sed neque. Quisque accumsan
         metus vel maximus consequat. Suspendisse lacinia tellus a libero
         volutpat maximus.
-      </p>
+      </Text>
       <CircularSpeedDial
         id="basic-speed-dial"
         aria-label="useful tools"
@@ -733,11 +778,17 @@ const AnchorPositionTemplate = () => {
 
 const CustomizeButtonTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    {
+      icon: <FileCopyIcon size={20} color="tertiary" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="tertiary" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="tertiary" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="tertiary" />, name: 'Share' },
+    {
+      icon: <TrashcanIcon size={20} color="tertiary" />,
+      name: 'Delete'
+    }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -756,7 +807,7 @@ const CustomizeButtonTemplate = () => {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -782,7 +833,7 @@ const CustomizeButtonTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"
@@ -811,11 +862,17 @@ const CustomizeButtonTemplate = () => {
 
 const CustomizeTooltipTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    {
+      icon: <TrashcanIcon size={20} color="on-surface-variant" />,
+      name: 'Delete'
+    }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -834,7 +891,7 @@ const CustomizeTooltipTemplate = () => {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -860,7 +917,7 @@ const CustomizeTooltipTemplate = () => {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"
@@ -894,11 +951,11 @@ export const BasicCircularSpeedDial: Story = {
       source: {
         code: `const BasicCircularSpeedDialTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -917,7 +974,7 @@ export const BasicCircularSpeedDial: Story = {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -943,7 +1000,7 @@ export const BasicCircularSpeedDial: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"
@@ -978,9 +1035,9 @@ export const CircularSpeedDialWithFAB: Story = {
       source: {
         code: `const CircularSpeedDialWithFABTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' }
   ];
   const iframeDocBody = useRef<HTMLElement>();
   const anchorElRef = useRef<HTMLElement>(null);
@@ -1048,7 +1105,7 @@ export const CircularSpeedDialWithFAB: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"
@@ -1086,11 +1143,11 @@ export const Variants: Story = {
       source: {
         code: `const VariantsTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
   const VARIANTS = ['circular', 'semi-circular', 'quarter-circular'] as const;
   const anchorElRef = useRef<HTMLElement>(null);
@@ -1132,7 +1189,7 @@ export const Variants: Story = {
           width: '300px',
           height: '300px',
           border: '1px solid',
-          borderColor: 'gray-200'
+          borderColor: 'outline-variant'
         }}
       >
         <Button
@@ -1158,7 +1215,7 @@ export const Variants: Story = {
           aria-expanded={open}
           aria-controls="basic-speed-dial"
         >
-          <AddIcon color="white" size={20} />
+          <AddIcon color="on-primary" size={20} />
         </Button>
         <CircularSpeedDial
           id="basic-speed-dial"
@@ -1194,11 +1251,11 @@ export const SemiCircularPlacement: Story = {
       source: {
         code: `const SemiCircularPlacementTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
   const PLACEMENTS = ['up', 'down', 'left', 'right'] as const;
   const anchorElRef = useRef<HTMLElement>(null);
@@ -1238,7 +1295,7 @@ export const SemiCircularPlacement: Story = {
           width: '300px',
           height: '300px',
           border: '1px solid',
-          borderColor: 'gray-200'
+          borderColor: 'outline-variant'
         }}
       >
         <Button
@@ -1264,7 +1321,7 @@ export const SemiCircularPlacement: Story = {
           aria-expanded={open}
           aria-controls="basic-speed-dial"
         >
-          <AddIcon color="white" size={20} />
+          <AddIcon color="on-primary" size={20} />
         </Button>
         <CircularSpeedDial
           id="basic-speed-dial"
@@ -1302,9 +1359,9 @@ export const QuarterCircularPlacement: Story = {
       source: {
         code: `const QuarterCircularPlacementTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' }
   ];
   const PLACEMENTS = [
     'up-left',
@@ -1350,7 +1407,7 @@ export const QuarterCircularPlacement: Story = {
           width: '300px',
           height: '300px',
           border: '1px solid',
-          borderColor: 'gray-200'
+          borderColor: 'outline-variant'
         }}
       >
         <Button
@@ -1376,7 +1433,7 @@ export const QuarterCircularPlacement: Story = {
           aria-expanded={open}
           aria-controls="basic-speed-dial"
         >
-          <AddIcon color="white" size={20} />
+          <AddIcon color="on-primary" size={20} />
         </Button>
         <CircularSpeedDial
           id="basic-speed-dial"
@@ -1413,11 +1470,11 @@ export const DistanceFromAnchor: Story = {
       source: {
         code: `const DistanceFromAnchorTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -1436,7 +1493,7 @@ export const DistanceFromAnchor: Story = {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -1462,7 +1519,7 @@ export const DistanceFromAnchor: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"
@@ -1497,11 +1554,11 @@ export const AnchorPosition: Story = {
       source: {
         code: `const AnchorPositionTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
   const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
   const [open, setOpen] = useState(false);
@@ -1529,7 +1586,7 @@ export const AnchorPosition: Story = {
         width: '500px'
       }}
     >
-      <p
+      <Text
         onContextMenu={handleContextMenu}
         aria-haspopup="true"
         aria-expanded={open}
@@ -1544,7 +1601,7 @@ export const AnchorPosition: Story = {
         finibus ex, sit amet facilisis neque enim sed neque. Quisque accumsan
         metus vel maximus consequat. Suspendisse lacinia tellus a libero
         volutpat maximus.
-      </p>
+      </Text>
       <CircularSpeedDial
         id="basic-speed-dial"
         aria-label="useful tools"
@@ -1579,11 +1636,11 @@ export const CustomizeButton: Story = {
       source: {
         code: `const CustomizeButtonTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    { icon: <FileCopyIcon size={20} color="tertiary" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="tertiary" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="tertiary" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="tertiary" />, name: 'Share' },
+    { icon: <TrashcanIcon size={20} color="tertiary" />, name: 'Delete' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -1602,7 +1659,7 @@ export const CustomizeButton: Story = {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -1628,7 +1685,7 @@ export const CustomizeButton: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"
@@ -1666,11 +1723,11 @@ export const CustomizeTooltip: Story = {
       source: {
         code: `const CustomizeTooltipTemplate = () => {
   const ACTIONS = [
-    { icon: <FileCopyIcon size={20} color="gray-700" />, name: 'Copy' },
-    { icon: <SaveIcon size={20} color="gray-700" />, name: 'Save' },
-    { icon: <PrintIcon size={20} color="gray-700" />, name: 'Print' },
-    { icon: <ShareIcon size={20} color="gray-700" />, name: 'Share' },
-    { icon: <TrashcanIcon size={20} color="gray-700" />, name: 'Delete' }
+    { icon: <FileCopyIcon size={20} color="on-surface-variant" />, name: 'Copy' },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -1689,7 +1746,7 @@ export const CustomizeTooltip: Story = {
         width: '300px',
         height: '300px',
         border: '1px solid',
-        borderColor: 'gray-200'
+        borderColor: 'outline-variant'
       }}
     >
       <Button
@@ -1715,7 +1772,7 @@ export const CustomizeTooltip: Story = {
         aria-expanded={open}
         aria-controls="basic-speed-dial"
       >
-        <AddIcon color="white" size={20} />
+        <AddIcon color="on-primary" size={20} />
       </Button>
       <CircularSpeedDial
         id="basic-speed-dial"

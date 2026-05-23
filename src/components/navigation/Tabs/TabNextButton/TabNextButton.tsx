@@ -15,9 +15,9 @@ const TabNextButton = <T extends AsType = 'button'>(
     useTabsContext();
   const {
     children = tabListOrientation === 'horizontal' ? (
-      <ArrowRightIcon />
+      <ArrowRightIcon color="on-surface-variant" />
     ) : (
-      <ArrowDownIcon />
+      <ArrowDownIcon color="on-surface-variant" />
     ),
     className,
     ...rest

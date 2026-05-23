@@ -199,7 +199,7 @@ const DateTimeRangePicker = <
           aria-expanded={open}
           aria-controls={popoverId}
         >
-          <DateRangeIcon size={20} color="gray-500" />
+          <DateRangeIcon size={20} color="on-surface-variant" />
         </ButtonBase>
       )
     },
@@ -262,12 +262,7 @@ const DateTimeRangePicker = <
         <Stack
           className="JinniDateTimeRangePickerPopoverContainer"
           direction="row"
-          divider={
-            <Divider
-              orientation="vertical"
-              style={{ backgroundColor: 'gray-300' }}
-            />
-          }
+          divider={<Divider orientation="vertical" />}
         >
           {renderDateRangeCalendar(dateRangeCalendarProps)}
           <Fragment key={focusedField}>

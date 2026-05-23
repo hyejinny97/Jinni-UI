@@ -74,7 +74,11 @@ const LayerTemplate = () => {
           style={{ width: '100%' }}
         />
       </Label>
-      <TreeItem id={1} layer={layer} style={{ backgroundColor: 'gray-100' }}>
+      <TreeItem
+        id={1}
+        layer={layer}
+        style={{ backgroundColor: 'surface-container-highest' }}
+      >
         TreeItem Contents
       </TreeItem>
     </Stack>
@@ -116,7 +120,11 @@ export const Layer: Story = {
           style={{ width: '100%' }}
         />
       </Label>
-      <TreeItem id={1} layer={layer} style={{ backgroundColor: 'gray-100' }}>
+      <TreeItem
+        id={1}
+        layer={layer}
+        style={{ backgroundColor: 'surface-container-highest' }}
+      >
         TreeItem Contents
       </TreeItem>
     </Stack>
@@ -137,7 +145,7 @@ export const Selection: Story = {
 
 export const Color: Story = {
   render: (args) => (
-    <TreeItem id={1} selected color="yellow-200" {...args}>
+    <TreeItem id={1} selected color="primary" {...args}>
       TreeItem Contents
     </TreeItem>
   )

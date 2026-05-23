@@ -1,3 +1,5 @@
+@use '@/styles/mixins' as mixins;
+
 $margin-value: 16px;
 
 $label-size: (
@@ -45,10 +47,12 @@ $label-size: (
 
   .JinniLabelContent {
     cursor: pointer;
+    color: var(--jinni-color-on-surface);
     @include content-size;
+    @include mixins.no-highlight;
 
     &.disabled {
-      color: var(--jinni-color-gray-400);
+      opacity: 0.5;
       cursor: default;
     }
   }

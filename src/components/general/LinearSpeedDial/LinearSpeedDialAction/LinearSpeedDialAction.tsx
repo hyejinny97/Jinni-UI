@@ -18,7 +18,7 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
   const {
     TooltipProps,
     variant = 'text',
-    color = 'gray-600',
+    color = 'on-surface-variant',
     size = 'md',
     elevation = 3,
     shape = 'pill',

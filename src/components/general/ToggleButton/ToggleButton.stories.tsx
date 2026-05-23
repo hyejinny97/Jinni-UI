@@ -78,7 +78,7 @@ const ControlledToggleButtonTemplate = () => {
         selected={selected}
         onChange={handleChange}
       >
-        <FormatAlignLeftIcon color="gray-500" />
+        <FormatAlignLeftIcon color="on-surface" />
       </ToggleButton>
     </Stack>
   );
@@ -96,7 +96,13 @@ const AdornmentTemplate = () => {
       value="check"
       selected={selected}
       onChange={handleChange}
-      startAdornment={selected ? <CheckIcon /> : <CloseIcon />}
+      startAdornment={
+        selected ? (
+          <CheckIcon color="on-surface-variant" />
+        ) : (
+          <CloseIcon color="on-surface-variant" />
+        )
+      }
       style={{
         width: 'max-content',
         height: 'max-content',
@@ -110,18 +116,21 @@ const AdornmentTemplate = () => {
 
 const RadioButtonsTemplate = () => {
   const ITEMS = [
-    { value: 'left-alignment', icon: <FormatAlignLeftIcon color="gray-500" /> },
+    {
+      value: 'left-alignment',
+      icon: <FormatAlignLeftIcon color="on-surface" />
+    },
     {
       value: 'center-alignment',
-      icon: <FormatAlignCenterIcon color="gray-500" />
+      icon: <FormatAlignCenterIcon color="on-surface" />
     },
     {
       value: 'right-alignment',
-      icon: <FormatAlignRightIcon color="gray-500" />
+      icon: <FormatAlignRightIcon color="on-surface" />
     },
     {
       value: 'justify-alignment',
-      icon: <FormatAlignJustifyIcon color="gray-500" />
+      icon: <FormatAlignJustifyIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] =
@@ -150,14 +159,14 @@ const RadioButtonsTemplate = () => {
 
 const CheckboxButtonsTemplate = () => {
   const ITEMS = [
-    { value: 'bold', icon: <FormatBoldIcon color="gray-500" /> },
+    { value: 'bold', icon: <FormatBoldIcon color="on-surface" /> },
     {
       value: 'italic',
-      icon: <FormatItalicIcon color="gray-500" />
+      icon: <FormatItalicIcon color="on-surface" />
     },
     {
       value: 'underlined',
-      icon: <FormatUnderlinedIcon color="gray-500" />
+      icon: <FormatUnderlinedIcon color="on-surface" />
     }
   ];
   const [selectedValues, setSelectedValues] = useState<Array<ValueType>>([]);
@@ -193,10 +202,10 @@ export const BasicToggleButton: Story = {
   render: (args) => (
     <Stack direction="row" spacing={20}>
       <ToggleButton value="left-alignment" {...args}>
-        <FormatAlignLeftIcon color="gray-500" />
+        <FormatAlignLeftIcon color="on-surface" />
       </ToggleButton>
       <ToggleButton value="left-alignment" defaultSelected {...args}>
-        <FormatAlignLeftIcon color="gray-500" />
+        <FormatAlignLeftIcon color="on-surface" />
       </ToggleButton>
     </Stack>
   )
@@ -222,7 +231,7 @@ export const ControlledToggleButton: Story = {
         selected={selected}
         onChange={handleChange}
       >
-        <FormatAlignLeftIcon color="gray-500" />
+        <FormatAlignLeftIcon color="on-surface" />
       </ToggleButton>
     </Stack>
   );
@@ -236,11 +245,11 @@ export const Color: Story = {
   render: (args) => (
     <ToggleButton
       value="left-alignment"
-      color="tertiary"
+      color="yellow-400"
       defaultSelected
       {...args}
     >
-      <FormatAlignLeftIcon color="gray-500" />
+      <FormatAlignLeftIcon color="on-surface" />
     </ToggleButton>
   )
 };
@@ -249,13 +258,13 @@ export const Size: Story = {
   render: (args) => (
     <Stack direction="row" spacing={20} style={{ alignItems: 'center' }}>
       <ToggleButton value="left-alignment" size="sm" {...args}>
-        <FormatAlignLeftIcon color="gray-500" />
+        <FormatAlignLeftIcon color="on-surface" />
       </ToggleButton>
       <ToggleButton value="left-alignment" size="md" {...args}>
-        <FormatAlignLeftIcon color="gray-500" />
+        <FormatAlignLeftIcon color="on-surface" />
       </ToggleButton>
       <ToggleButton value="left-alignment" size="lg" {...args}>
-        <FormatAlignLeftIcon color="gray-500" />
+        <FormatAlignLeftIcon color="on-surface" />
       </ToggleButton>
     </Stack>
   )
@@ -278,7 +287,7 @@ export const Adornment: Story = {
       value="check"
       selected={selected}
       onChange={handleChange}
-      startAdornment={selected ? <CheckIcon /> : <CloseIcon />}
+      startAdornment={selected ? <CheckIcon color='on-surface-variant' /> : <CloseIcon color='on-surface-variant' />}
       style={{
         width: 'max-content',
         height: 'max-content',
@@ -297,7 +306,7 @@ export const Adornment: Story = {
 export const Shape: Story = {
   render: (args) => (
     <ToggleButton value="left-alignment" shape="pill" {...args}>
-      <FormatAlignLeftIcon color="gray-500" />
+      <FormatAlignLeftIcon color="on-surface" />
     </ToggleButton>
   )
 };
@@ -305,7 +314,7 @@ export const Shape: Story = {
 export const OverlayEffect: Story = {
   render: (args) => (
     <ToggleButton value="left-alignment" disableOverlay {...args}>
-      <FormatAlignLeftIcon color="gray-500" />
+      <FormatAlignLeftIcon color="on-surface" />
     </ToggleButton>
   )
 };
@@ -313,7 +322,7 @@ export const OverlayEffect: Story = {
 export const RippleEffect: Story = {
   render: (args) => (
     <ToggleButton value="left-alignment" rippleStartLocation="center" {...args}>
-      <FormatAlignLeftIcon color="gray-500" />
+      <FormatAlignLeftIcon color="on-surface" />
     </ToggleButton>
   )
 };
@@ -321,7 +330,7 @@ export const RippleEffect: Story = {
 export const ElevationEffect: Story = {
   render: (args) => (
     <ToggleButton value="left-alignment" elevation={3} {...args}>
-      <FormatAlignLeftIcon color="gray-500" />
+      <FormatAlignLeftIcon color="on-surface" />
     </ToggleButton>
   )
 };
@@ -329,7 +338,7 @@ export const ElevationEffect: Story = {
 export const Disabled: Story = {
   render: (args) => (
     <ToggleButton value="left-alignment" disabled {...args}>
-      <FormatAlignLeftIcon color="gray-500" />
+      <FormatAlignLeftIcon color="on-surface" />
     </ToggleButton>
   )
 };
@@ -341,18 +350,18 @@ export const RadioButtons: Story = {
       source: {
         code: `const RadioButtonsTemplate = () => {
   const ITEMS = [
-    { value: 'left-alignment', icon: <FormatAlignLeftIcon color="gray-500" /> },
+    { value: 'left-alignment', icon: <FormatAlignLeftIcon color="on-surface" /> },
     {
       value: 'center-alignment',
-      icon: <FormatAlignCenterIcon color="gray-500" />
+      icon: <FormatAlignCenterIcon color="on-surface" />
     },
     {
       value: 'right-alignment',
-      icon: <FormatAlignRightIcon color="gray-500" />
+      icon: <FormatAlignRightIcon color="on-surface" />
     },
     {
       value: 'justify-alignment',
-      icon: <FormatAlignJustifyIcon color="gray-500" />
+      icon: <FormatAlignJustifyIcon color="on-surface" />
     }
   ];
   const [selectedValue, setSelectedValue] =
@@ -390,14 +399,14 @@ export const CheckboxButtons: Story = {
       source: {
         code: `const CheckboxButtonsTemplate = () => {
   const ITEMS = [
-    { value: 'bold', icon: <FormatBoldIcon color="gray-500" /> },
+    { value: 'bold', icon: <FormatBoldIcon color="on-surface" /> },
     {
       value: 'italic',
-      icon: <FormatItalicIcon color="gray-500" />
+      icon: <FormatItalicIcon color="on-surface" />
     },
     {
       value: 'underlined',
-      icon: <FormatUnderlinedIcon color="gray-500" />
+      icon: <FormatUnderlinedIcon color="on-surface" />
     }
   ];
   const [selectedValues, setSelectedValues] = useState<Array<ValueType>>([]);

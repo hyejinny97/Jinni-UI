@@ -62,12 +62,16 @@ const SquareBox = (props: BoxProps) => (
 );
 
 export const BasicBox: Story = {
-  render: (args) => <Box {...args}>content</Box>
+  render: (args) => (
+    <Box style={{ color: 'on-surface' }} {...args}>
+      content
+    </Box>
+  )
 };
 
 export const AsHtmlElement: Story = {
   render: (args) => (
-    <Box as="section" {...args}>
+    <Box as="section" style={{ color: 'on-surface' }} {...args}>
       content
     </Box>
   )
@@ -115,8 +119,8 @@ export const Customization: Story = {
         alignItems: 'center',
         width: '100px',
         height: '100px',
-        backgroundColor: 'gray-100',
-        color: 'gray-500'
+        backgroundColor: 'surface-container-high',
+        color: 'on-surface-variant'
       }}
       {...args}
     >
@@ -127,7 +131,7 @@ export const Customization: Story = {
 
 export const Elevation: Story = {
   render: () => (
-    <Stack direction="row" spacing={50}>
+    <Stack direction="row" spacing={50} style={{ color: 'on-surface' }}>
       <SquareBox elevation={5}>content</SquareBox>
       <SquareBox elevation={20}>content</SquareBox>
     </Stack>
@@ -150,7 +154,7 @@ const SquareBox = (props: BoxProps) => (
   />
 );
 
-<Stack direction="row" spacing={50}>
+<Stack direction="row" spacing={50} style={{ color: 'on-surface' }}>
   <SquareBox elevation={5}>content</SquareBox>
   <SquareBox elevation={20}>content</SquareBox>
 </Stack>
@@ -162,7 +166,7 @@ const SquareBox = (props: BoxProps) => (
 
 export const Outlined: Story = {
   render: () => (
-    <Stack direction="row" spacing={50}>
+    <Stack direction="row" spacing={50} style={{ color: 'on-surface' }}>
       <SquareBox outlined>content</SquareBox>
       <SquareBox
         outlined
@@ -190,7 +194,7 @@ const SquareBox = (props: BoxProps) => (
   />
 );
 
-<Stack direction="row" spacing={50}>
+<Stack direction="row" spacing={50} style={{ color: 'on-surface' }}>
   <SquareBox outlined>content</SquareBox>
   <SquareBox
     outlined
@@ -207,7 +211,7 @@ const SquareBox = (props: BoxProps) => (
 
 export const Round: Story = {
   render: () => (
-    <Stack direction="row" spacing={50}>
+    <Stack direction="row" spacing={50} style={{ color: 'on-surface' }}>
       <SquareBox outlined round="sm">
         content
       </SquareBox>
@@ -240,7 +244,7 @@ const SquareBox = (props: BoxProps) => (
   />
 );
 
-<Stack direction="row" spacing={50}>
+<Stack direction="row" spacing={50} style={{ color: 'on-surface' }}>
   <SquareBox outlined round="sm">
     content
   </SquareBox>

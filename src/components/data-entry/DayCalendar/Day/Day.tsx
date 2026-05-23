@@ -1,8 +1,10 @@
 import './Day.scss';
-import { forwardRef, memo } from 'react';
+import { forwardRef, memo, useMemo } from 'react';
 import cn from 'classnames';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import { ColorType } from '@/types/color';
+import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
+import useColor from '@/hooks/useColor';
 
 export type DayProps = Omit<ButtonBaseProps<'button'>, 'children' | 'value'> & {
   value: Date;
@@ -21,23 +23,33 @@ const Day = forwardRef((props: DayProps, ref: React.Ref<HTMLElement>) => {
     marked,
     color = 'primary',
     readOnly,
-    overlayColor = selected ? 'white' : 'black',
-    rippleColor = selected ? 'white' : 'black',
     onClick,
     className,
     style,
     ...rest
   } = props;
 
+  const normalizedBgColorSelected = useColor(color);
+  const contrastColor = useMemo(() => {
+    const closerColor = getCloserToWhiteOrBlack(normalizedBgColorSelected);
+    return closerColor === 'white' ? 'black' : 'white';
+  }, [normalizedBgColorSelected]);
+
   return (
     <ButtonBase
       ref={ref}
       className={cn('JinniDay', { selected, marked }, className)}
-      overlayColor={overlayColor}
-      rippleColor={rippleColor}
       onClick={readOnly ? undefined : onClick}
-      style={{ '--color': color, ...style }}
+      style={{
+        '--bg-color-selected': color,
+        '--text-color-selected': contrastColor,
+        ...style
+      }}
       data-value={value.toISOString()}
+      {...(selected && {
+        overlayColor: contrastColor,
+        rippleColor: contrastColor
+      })}
       {...rest}
     >
       {children}
