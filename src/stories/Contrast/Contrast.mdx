@@ -1,0 +1,96 @@
+import { Meta } from '@storybook/blocks';
+import ContrastPlayground from './ContrastPlayground';
+
+<Meta title="Design System/Contrast" />
+
+# Contrast
+
+<br />
+<br />
+
+## JinniUI Contrast
+
+1. Standard contrast
+
+   - 기본적으로 적용되는 명암비
+
+2. Medium contrast
+
+   - Standard보다 전반적인 텍스트와 배경 사이의 명암비를 강화한 상태
+   - 햇빛이 있는 밝은 환경에서 사용하거나 가독성을 조금 더 개선해야 할 때 사용함
+
+3. High contrast
+
+   - 텍스트, 아이콘 등 UI 요소와 배경 사이의 대비를 극대화한 상태
+   - 화면이 잘 보이지 않는 환경이나 접근성 기능이 필요한 사용자일 때 사용함
+
+### Playground
+
+<ContrastPlayground />
+
+<br />
+
+## Contrast 접근 및 사용
+
+### In JSX
+
+#### 1. `useJinni` hook
+
+```jsx
+import useJinni from '@/hooks/useJinni';
+
+const App = () => {
+  const { contrast } = useJinni();
+
+  console.log(contrast);
+
+  return null;
+};
+```
+
+<br />
+
+## Customization
+
+### Standard contrast (기본값)
+
+- `createDesignSystem` 함수의 props로 contrast를 'standard'로 설정하거나, 설정하지 않을 경우 기본적으로 standard contrast로 설정됨
+
+```jsx
+const designSystem = createDesignSystem({ contrast: 'standard' });
+```
+
+### Medium contrast
+
+- `createDesignSystem` 함수의 props로 contrast를 'medium'로 설정하면 medium contrast가 됨
+
+```jsx
+const designSystem = createDesignSystem({ contrast: 'medium' });
+```
+
+### High contrast
+
+- `createDesignSystem` 함수의 props로 contrast를 'high'로 설정하면 high contrast가 됨
+
+```jsx
+const designSystem = createDesignSystem({ contrast: 'high' });
+```
+
+### 동적으로 Contrast 변경하기
+
+- `useJinni` 훅이 반환하는 `changeContrast` 함수를 사용해 동적으로 contrast 변경 가능
+
+```jsx
+const App = () => {
+  const { contrast, changeContrast } = useJinni();
+
+  return (
+    <>
+      <span>contrast: {contrast}</span>
+      <Button onClick={() => changeContrast('standard')}>Standard</Button>
+      <Button onClick={() => changeContrast('medium')}>Medium</Button>
+      <Button onClick={() => changeContrast('high')}>High</Button>
+    </>
+  );
+};
+```
