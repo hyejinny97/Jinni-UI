@@ -86,6 +86,12 @@ export const createDesignSystem = (
         target: props['color']
       }) as DesignSystemType['color'];
     }
+    if (props['typography']) {
+      designSystem['typography'] = overwrite({
+        base: designSystem['typography'],
+        target: props['typography']
+      }) as DesignSystemType['typography'];
+    }
   }
 
   return designSystem;
