@@ -1,21 +1,3 @@
-export const TYPOGRAPHY = [
-  'display-large',
-  'display-medium',
-  'display-small',
-  'headline-large',
-  'headline-medium',
-  'headline-small',
-  'title-large',
-  'title-medium',
-  'title-small',
-  'label-large',
-  'label-medium',
-  'label-small',
-  'body-large',
-  'body-medium',
-  'body-small'
-] as const;
-
 export const DEFAULT_TYPOGRAPHY = {
   'display-large': {
     'font-size': '57px',
@@ -71,24 +53,6 @@ export const DEFAULT_TYPOGRAPHY = {
     'letter-spacing': '0.1px',
     'font-weight': '500'
   },
-  'label-large': {
-    'font-size': '14px',
-    'line-height': '20px',
-    'letter-spacing': '0.1px',
-    'font-weight': '500'
-  },
-  'label-medium': {
-    'font-size': '12px',
-    'line-height': '16px',
-    'letter-spacing': '0.5px',
-    'font-weight': '500'
-  },
-  'label-small': {
-    'font-size': '11px',
-    'line-height': '16px',
-    'letter-spacing': '0.5px',
-    'font-weight': '500'
-  },
   'body-large': {
     'font-size': '16px',
     'line-height': '24px',
@@ -106,5 +70,27 @@ export const DEFAULT_TYPOGRAPHY = {
     'line-height': '16px',
     'letter-spacing': '0.4px',
     'font-weight': '400'
+  },
+  'label-large': {
+    'font-size': '14px',
+    'line-height': '20px',
+    'letter-spacing': '0.1px',
+    'font-weight': '500'
+  },
+  'label-medium': {
+    'font-size': '12px',
+    'line-height': '16px',
+    'letter-spacing': '0.5px',
+    'font-weight': '500'
+  },
+  'label-small': {
+    'font-size': '11px',
+    'line-height': '16px',
+    'letter-spacing': '0.5px',
+    'font-weight': '500'
   }
 } as const;
+
+export const TYPOGRAPHY = Object.keys(
+  DEFAULT_TYPOGRAPHY
+) as (keyof typeof DEFAULT_TYPOGRAPHY)[];

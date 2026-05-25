@@ -19,7 +19,7 @@ export interface DesignSystemType {
     >;
     palette: Record<JinniColorPalette | string, string>;
   };
-  typography: Record<TypographyType, TypographySpec>;
+  typography: Record<TypographyType | string, TypographySpec>;
   boxShadow: Record<ElevationLevelType, string>;
   whiteOverlay: Record<ElevationLevelType, string>;
   blackOverlay: Record<ElevationLevelType, string>;

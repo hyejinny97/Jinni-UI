@@ -1,0 +1,201 @@
+import { Meta } from '@storybook/blocks';
+import Typography from './Typography';
+
+<Meta title="Design System/Typography" />
+
+# Typography
+
+<br />
+<br />
+
+## JinniUI Typography Tokens
+
+1. Display
+
+   - 화면에서 가장 큰 텍스트
+   - 짧고 중요한 텍스트나 숫자에 사용함
+
+2. Headline
+
+   - 작은 화면에서 짧고 강조된 텍스트에 가장 적합함
+   - 주요 단락이나 중요한 콘텐츠 영역에 사용함
+
+3. Title
+
+   - 중간 정도의 강조가 있는 비교적 짧은 텍스트에 사용함
+   - 보조 단락이나 보조 콘텐츠 영역에 사용함
+
+4. Body
+
+   - 긴 텍스트 단락에 사용함
+
+5. Label
+
+   - 구성 요소 내부의 텍스트나 캡션처럼 콘텐츠 본문 내의 아주 작은 텍스트에 사용함
+
+<Typography />
+
+<br />
+
+## Typography Tokens 접근 및 사용
+
+### In JSX
+
+#### 1. className에 `typo-{typography 타입}` 작성
+
+```jsx
+<Avatar className="typo-display-large">N</Avatar>
+<p className="typo-display-large">text</p>
+```
+
+#### 2. `useJinni` hook
+
+```jsx
+import useJinni from '@/hooks/useJinni';
+
+const App = () => {
+  const { typography } = useJinni();
+
+  return (
+    <Avatar style={{ ...typography['display-large'] }}>N</Avatar>
+    <p style={{ ...typography['display-large'] }}>text</p>
+  );
+}
+```
+
+#### 3. `useStyle` hook
+
+```jsx
+import useStyle from '@/hooks/useStyle';
+
+const App = () => {
+  const style = useStyle({ typography: 'display-large' });
+
+  return (
+    <Avatar style={style}>N</Avatar>
+    <p style={style}>text</p>
+  );
+}
+```
+
+### JinniUI Components
+
+- JinniUI에서 제공하는 컴포넌트 전부 `style` prop(`StyleType`, extended style type)을 받음
+- `style` prop의 값은 내부적으로 `useStyle` 훅으로 처리해주고 있음
+- 따라서, JinniUI 컴포넌트에 typography tokens를 적용하고 싶으면 `style` prop에 바로 작성하면 됨
+
+```jsx
+<Avatar style={{ typography: 'display-large' }}>N</Avatar>
+<Avatar
+  style={{
+    typography: {
+      xs: 'label-large',
+      md: 'body-large',
+      lg: 'display-large'
+     }
+   }}
+>
+  N
+</Avatar>
+```
+
+<br />
+
+## Customization
+
+### Jinni UI - Typography (기본값)
+
+- `createDesignSystem` 함수의 `typography` props를 설정하지 않을 경우, 기본적으로 Jinni UI의 Typography가 설정됨
+
+```jsx
+const designSystem = createDesignSystem();
+```
+
+```jsx
+const designSystem = createDesignSystem({
+  typography: DEFAULT_TYPOGRAPHY
+});
+```
+
+### Customize typography
+
+- `createDesignSystem` 함수의 typography props로 설정된 값은 기존 Jinni UI의 typography에 덮어 씌워지게 됨
+- 즉, `DesignSystemType`의 typography에 존재하는 key 값을 설정하면 기존 값이 변경되고, `DesignSystemType`의 typography에 존재하지 않는 key 값을 설정하면 속성이 새로 추가됨
+
+  ```ts
+  interface DesignSystemType {
+    typography: {
+      'display-large': {
+        'font-size': '57px',
+        'line-height': '64px',
+        'letter-spacing': '-0.25px',
+        'font-weight': '400'
+      },
+      ...
+    }
+    ...
+  }
+  ```
+
+#### 1) 기존 typography 값 변경
+
+```jsx
+const designSystem = createDesignSystem({
+  typography: {
+    'display-large': {
+      'font-size': '70px',
+      'line-height': '80px',
+      'font-weight': '700'
+    }
+  }
+});
+```
+
+#### 2) 새로운 typography 속성 추가
+
+1.  새 typography 속성 추가
+
+    ```jsx
+    const designSystem = createDesignSystem({
+      typography: {
+        'subtitle-medium': {
+          'font-size': '16px',
+          'line-height': '20px',
+          'letter-spacing': '0.1px',
+          'font-weight': '400'
+        }
+      }
+    });
+    ```
+
+2.  유의할 점
+
+    - 이 경우 `useStyle` 훅이나 JinniUI Component의 style(extended style type)에서는 새로 추가한 typography 속성을 사용할 수는 없음
+
+    ```jsx
+    // ⭕ 가능
+    const App = () => {
+      const { typography } = useJinni();
+
+      return (
+        <>
+          <p className="typo-custom-typography">text</p>
+          <Avatar style={{ ...typography['custom-typography'] }}>N</Avatar>
+        </>
+      );
+    };
+    ```
+
+    ```jsx
+    // ❌ 불가
+    const App = () => {
+      const style = useStyle({ typography: 'custom-typography' });
+
+      return (
+        <>
+          <p style={style}>text</p>
+          <Avatar style={{ typography: 'custom-typography' }}>N</Avatar>
+        </>
+      );
+    };
+    ```
