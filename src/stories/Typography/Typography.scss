@@ -1,0 +1,41 @@
+.JinniTypographyContent {
+  position: relative;
+  min-width: 700px;
+
+  .container {
+    width: 650px;
+    align-items: start;
+
+    .typo-name-box {
+      flex: 1;
+      width: max-content;
+
+      .typo-name {
+        padding: 8px 16px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--jinni-color-surface-container);
+        }
+        &.selected {
+          text-decoration: underline;
+          background-color: var(--jinni-color-surface-dim);
+        }
+      }
+    }
+
+    .typo-spec-box {
+      position: sticky;
+      top: 10px;
+      min-width: 200px;
+      min-height: 100px;
+      padding: 8px 16px;
+      background-color: var(--jinni-color-inverse-surface);
+      border-radius: 4px;
+
+      .typo-spec {
+        color: var(--jinni-color-inverse-on-surface);
+      }
+    }
+  }
+}
