@@ -68,7 +68,8 @@ const checkColorType = (color: ObjectType) => {
 };
 
 export const createDesignSystem = (
-  props?: DeepPartial<DesignSystemType>
+  props?: DeepPartial<Omit<DesignSystemType, 'breakpoint'>> &
+    Partial<Pick<DesignSystemType, 'breakpoint'>>
 ): DesignSystemType => {
   const designSystem: DesignSystemType = DEFAULT_DESIGN_SYSTEM;
 
@@ -91,6 +92,9 @@ export const createDesignSystem = (
         base: designSystem['typography'],
         target: props['typography']
       }) as DesignSystemType['typography'];
+    }
+    if (props['breakpoint']) {
+      designSystem['breakpoint'] = props['breakpoint'];
     }
   }
 

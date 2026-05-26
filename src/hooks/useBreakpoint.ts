@@ -2,15 +2,19 @@ import { useState, useEffect } from 'react';
 import { BreakpointType } from '@/types/breakpoint';
 import useJinni from '@/hooks/useJinni';
 
-const getCurrentBreakpoint = (breakpoints: Record<BreakpointType, number>) => {
-  const { xl, lg, md, sm } = breakpoints;
+const getCurrentBreakpoint = (
+  breakpoints: Record<BreakpointType, number>
+): BreakpointType => {
+  const bpArr = Object.entries(breakpoints) as Array<[BreakpointType, number]>;
+  const bpSortedInDesc = bpArr.sort((bpA, bpB) => bpB[1] - bpA[1]);
   const windowWidth = window.innerWidth;
 
-  if (windowWidth >= xl) return 'xl';
-  else if (windowWidth >= lg) return 'lg';
-  else if (windowWidth >= md) return 'md';
-  else if (windowWidth >= sm) return 'sm';
-  else return 'xs';
+  for (const [bpType, bpValue] of bpSortedInDesc) {
+    if (windowWidth >= bpValue) {
+      return bpType;
+    }
+  }
+  return bpSortedInDesc[bpSortedInDesc.length - 1][0];
 };
 
 const useBreakpoint = (): BreakpointType => {

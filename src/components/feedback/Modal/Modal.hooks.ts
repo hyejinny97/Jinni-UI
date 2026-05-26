@@ -1,6 +1,5 @@
 import { useEffect, useRef, useContext } from 'react';
-import useBreakpoint from '@/hooks/useBreakpoint';
-import { isResponsive, editResponsive } from '@/utils/responsive';
+import useResponsive from '@/hooks/useResponsive';
 import { ModalProps } from './Modal';
 import ModalContext from './Modal.contexts';
 
@@ -67,9 +66,9 @@ export const useKeyboardAccessibility = ({
 };
 
 export const useModalSize = ({ size }: Pick<ModalProps, 'size'>) => {
-  const breakpoint = useBreakpoint();
+  const { isResponsive, editResponsive } = useResponsive();
 
-  if (isResponsive(size)) return editResponsive(size, breakpoint);
+  if (isResponsive(size)) return editResponsive(size);
   return size;
 };
 

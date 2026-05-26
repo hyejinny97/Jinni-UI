@@ -1,6 +1,5 @@
 import { StyleType } from '@/types/style';
 import { JinniColorScheme, JinniColorPalette } from '@/types/color';
-import useBreakpoint from '@/hooks/useBreakpoint';
 import useJinni from '@/hooks/useJinni';
 import { CSS_COLOR_PROPERTIES } from '@/constants/color';
 import { COLOR_SCHEME, COLOR_PALETTE } from '@/constants/color';
@@ -8,10 +7,10 @@ import { TYPOGRAPHY } from '@/constants/typography';
 import { ELEVATION_LEVELS } from '@/constants/elevation';
 import { TypographyType } from '@/types/typography';
 import { ElevationLevelType } from '@/types/elevation';
-import { isResponsive, editResponsive } from '@/utils/responsive';
 import { EASING_SET, DURATIONS } from '@/constants/motion';
 import { EasingType, DurationType } from '@/types/motion';
 import { kebabToCamelCase } from '@/utils/kebabToCamelCase';
+import useResponsive from '@/hooks/useResponsive';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
@@ -63,7 +62,7 @@ const useStyle = (
     easing,
     duration
   } = useJinni();
-  const breakpoint = useBreakpoint();
+  const { isResponsive, editResponsive } = useResponsive();
 
   if (!style) return;
 
@@ -71,7 +70,7 @@ const useStyle = (
   Object.entries(style).forEach(([key, value]) => {
     let editedValue = value;
     if (isResponsive(editedValue)) {
-      const val = editResponsive(editedValue, breakpoint);
+      const val = editResponsive(editedValue);
       if (!val) return;
       editedValue = val;
     }

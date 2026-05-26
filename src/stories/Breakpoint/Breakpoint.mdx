@@ -1,0 +1,268 @@
+import { Meta } from '@storybook/blocks';
+import BreakpointTable from './BreakpointTable';
+import BreakpointPlayground from './BreakpointPlayground';
+
+<Meta title="Design System/Breakpoint" />
+
+# Breakpoint / Responsive
+
+<br />
+<br />
+
+## JinniUI Breakpoint Tokens
+
+<BreakpointTable />
+
+### Playground
+
+- 화면의 너비를 변경해보세요.
+
+<BreakpointPlayground />
+
+<br />
+
+## Breakpoint Tokens 접근 및 사용
+
+### In JSX
+
+#### 1. `useJinni` hook
+
+```jsx
+import useJinni from '@/hooks/useJinni';
+
+const App = () => {
+  const { breakpoint } = useJinni();
+  console.log(breakpoint['md']);
+};
+```
+
+<br />
+
+## Responsive 처리
+
+### In JSX
+
+#### 1. `useBreakpoint` hook
+
+```jsx
+import useBreakpoint from '@/hooks/useBreakpoint';
+
+const App = () => {
+  const currentBreakpoint = useBreakpoint();
+
+  const pWidthStyle = {
+    xs: '100px',
+    sm: '150px',
+    md: '200px',
+    lg: '250px',
+    xl: '300px'
+  };
+
+  return <p style={{ width: pWidthStyle[currentBreakpoint] }}>contents</p>;
+};
+```
+
+#### 2. `useResponsive` hook
+
+```jsx
+import useResponsive from '@/hooks/useResponsive';
+import { Responsive } from '@/types/breakpoint';
+
+const App = () => {
+  const { editResponsive } = useResponsive();
+
+  const pWidthStyle: Responsive<string> = {
+    xs: '100px',
+    sm: '150px',
+    md: '200px',
+    lg: '250px',
+    xl: '300px'
+  };
+
+  return <p style={{ width: editResponsive(pWidthStyle) }}>text</p>;
+};
+```
+
+#### 3. `useStyle` hook
+
+```jsx
+import useStyle from '@/hooks/useStyle';
+
+const App = () => {
+  const style = useStyle({ color: { xs: 'yellow-400', lg: 'primary' } });
+
+  return <p style={style}>text</p>;
+};
+```
+
+### JinniUI Components
+
+- JinniUI에서 제공하는 컴포넌트 전부 `style` prop(`StyleType`, extended style type)을 받음
+- `style` prop의 값은 내부적으로 `useStyle` 훅으로 처리해주고 있음
+- 따라서, JinniUI 컴포넌트에 responsive를 적용하고 싶으면 `style` prop에 바로 작성하면 됨
+
+```jsx
+<Avatar
+  style={{
+    width: {
+      xs: '100px',
+      md: '200px',
+      lg: '300px'
+    }
+  }}
+>
+  N
+</Avatar>
+```
+
+<br />
+
+## Customization
+
+### Jinni UI - Breakpoint (기본값)
+
+- `createDesignSystem` 함수의 breakpoint props를 설정하지 않을 경우, 기본적으로 Jinni UI의 breakpoint가 설정됨
+
+```jsx
+const designSystem = createDesignSystem();
+```
+
+```jsx
+const designSystem = createDesignSystem({
+  breakpoint: DEFAULT_BREAKPOINT
+});
+```
+
+### Customize Breakpoint
+
+#### 1) 기존 breakpoint 값 변경
+
+- 기존 breakpoint 값을 변경하려면, 반드시 5가지 속성을 전부 지정해줘야 함
+
+1. 기존 breakpoint 값 전부 변경하려고 할 경우
+
+   ```jsx
+   const designSystem = createDesignSystem({
+     breakpoint: {
+       xs: 0,
+       sm: 400,
+       md: 700,
+       lg: 1000,
+       xl: 1200
+     }
+   });
+   ```
+
+2. 기존 breakpoint 값에서 일부만 변경하려고 할 경우
+
+   ```jsx
+   import { DEFAULT_BREAKPOINT } from '@/constants/breakpoint';
+
+   const designSystem = createDesignSystem({
+     breakpoint: {
+       ...DEFAULT_BREAKPOINT,
+       sm: 400
+     }
+   });
+   ```
+
+#### 2) 새로운 breakpoint 속성 추가
+
+1. 새 breakpoint 속성 추가
+
+   ```jsx
+   const designSystem = createDesignSystem({
+     breakpoint: {
+       mobileS: 0,
+       mobileM: 320,
+       mobileL: 375,
+       tablet: 425,
+       laptop: 768,
+       laptopL: 1024,
+       desktop: 1440
+     }
+   });
+   ```
+
+2. 만약 Typescript를 사용하고 있다면, `BreakpointOverride` 인터페이스를 설정해줘야 함 (Module Augmentation)
+
+   - 이를 통해, `BreakpointType`이 자동으로 custom breakpoint key로 변경됨
+   - 키의 존재 자체가 목적이므로, 값 타입은 `true` 또는 `number` 중 무엇이든 관계없음
+
+   ```tsx
+   // 사용자 프로젝트의 jinni.d.ts (또는 src/types/jinni.d.ts)
+   import 'jinni-ui';
+
+   declare module 'jinni-ui' {
+     interface BreakpointOverride {
+       mobileS: true;
+       mobileM: true;
+       mobileL: true;
+       tablet: true;
+       laptop: true;
+       laptopL: true;
+       desktop: true;
+     }
+   }
+   ```
+
+   ```tsx
+   // 타입 추론 결과
+   // 1) declare module 선언 전
+   type BreakpointType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+   // 2) declare module 선언 후
+   type BreakpointType =
+     | 'mobileS'
+     | 'mobileM'
+     | 'mobileL'
+     | 'tablet'
+     | 'laptop'
+     | 'laptopL'
+     | 'desktop';
+   ```
+
+3. 추가된 새 breakpoint 속성을 사용해 responsive 처리
+
+   ```jsx
+   import useBreakpoint from '@/hooks/useBreakpoint';
+   import useStyle from '@/hooks/useStyle';
+   import useResponsive from '@/hooks/useResponsive';
+   import { Avatar } from '@/components/data-display/Avatar';
+   import { Responsive } from '@/types/breakpoint';
+
+   const App = () => {
+     const currentBreakpoint = useBreakpoint();
+     const style = useStyle({ color: { mobileM: 'yellow-400', laptop: 'primary' }});
+     const { editResponsive } = useResponsive();
+
+     const pWidthStyle: Responsive<string> = {
+       mobileS: '10px',
+       mobileM: '50px',
+       mobileL: '100px',
+       tablet: '150px',
+       laptop: '200px',
+       laptopL: '250px',
+       desktop: '300px'
+     };
+
+     return (
+       <>
+         <p style={{ width: pWidthStyle[currentBreakpoint] }}>contents</p>
+         <p style={{ width: editResponsive(pWidthStyle) }}>text</p>
+         <p style={style}>text</p>
+         <Avatar
+           style={{
+             width: {
+               mobileM: '100px',
+               laptop: '200px',
+               desktop: '300px'
+             }
+           }}
+         >
+           N
+         </Avatar>
+       </>
+     );
+   }
+   ```

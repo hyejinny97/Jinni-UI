@@ -1,4 +1,4 @@
-import { BreakpointType } from '@/types/breakpoint';
+import { BreakpointValue } from '@/types/breakpoint';
 import { JinniColorScheme, JinniColorPalette } from '@/types/color';
 import { TypographyType, TypographySpec } from '@/types/typography';
 import { ElevationLevelType } from '@/types/elevation';
@@ -11,7 +11,6 @@ import { ZIndexType } from '@/types/zIndex';
 export interface DesignSystemType {
   theme: ThemeModeType;
   contrast: ContrastType;
-  breakpoint: Record<BreakpointType, number>;
   color: {
     scheme: Record<
       ThemeModeType,
@@ -20,6 +19,7 @@ export interface DesignSystemType {
     palette: Record<JinniColorPalette | string, string>;
   };
   typography: Record<TypographyType | string, TypographySpec>;
+  breakpoint: BreakpointValue;
   boxShadow: Record<ElevationLevelType, string>;
   whiteOverlay: Record<ElevationLevelType, string>;
   blackOverlay: Record<ElevationLevelType, string>;
