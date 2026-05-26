@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { Responsive } from '@/types/breakpoint';
-import { transformNumberToPx } from './Grid.utils';
+import { useTransform } from './Grid.hooks';
 
 type GridTemplateType = number | 'auto' | Responsive<number | 'auto'>;
 type SpacingType = number | string | Responsive<number | string>;
@@ -37,6 +37,7 @@ const Grid = forwardRef(
       as: Component = 'div',
       ...rest
     } = props;
+    const { transformNumberToPx } = useTransform();
     const newStyle = useStyle({
       '--flow': flow.replace('-', ' '),
       '--rows': rows,

@@ -1,22 +1,21 @@
 import { MasonryProps } from './Masonry';
-import useBreakpoint from '@/hooks/useBreakpoint';
-import { isResponsive, editResponsive } from '@/utils/responsive';
+import useResponsive from '@/hooks/useResponsive';
 import { DEFAULT_COLUMNS, DEFAULT_SPACING } from './Masonry.constants';
 
 export const useSpacing = ({
   spacing
 }: Required<Pick<MasonryProps, 'spacing'>>) => {
-  const breakpoint = useBreakpoint();
+  const { isResponsive, editResponsive } = useResponsive();
   return isResponsive(spacing)
-    ? editResponsive(spacing, breakpoint) || DEFAULT_SPACING
+    ? editResponsive(spacing) || DEFAULT_SPACING
     : spacing;
 };
 
 export const useColumns = ({
   columns
 }: Required<Pick<MasonryProps, 'columns'>>) => {
-  const breakpoint = useBreakpoint();
+  const { isResponsive, editResponsive } = useResponsive();
   return isResponsive(columns)
-    ? editResponsive(columns, breakpoint) || DEFAULT_COLUMNS
+    ? editResponsive(columns) || DEFAULT_COLUMNS
     : columns;
 };
