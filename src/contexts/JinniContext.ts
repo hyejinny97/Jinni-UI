@@ -12,12 +12,12 @@ import { ZIndexType } from '@/types/zIndex';
 export type JinniContextDesignSystemType = {
   theme: ThemeModeType;
   contrast: ContrastType;
-  breakpoint: Record<BreakpointType | string, number>;
   color: {
     scheme: Record<JinniColorScheme | string, string>;
     palette: Record<JinniColorPalette | string, string>;
   };
   typography: Record<TypographyType | string, TypographySpec>;
+  breakpoint: Record<BreakpointType, number>;
   boxShadow: Record<ElevationLevelType | string, string>;
   whiteOverlay: Record<ElevationLevelType | string, string>;
   blackOverlay: Record<ElevationLevelType | string, string>;

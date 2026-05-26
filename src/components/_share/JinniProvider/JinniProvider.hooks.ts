@@ -12,7 +12,6 @@ export const useAddStyleTag = ({
 }) => {
   useLayoutEffect(() => {
     const {
-      breakpoint,
       color: { scheme, palette },
       typography,
       boxShadow,
@@ -26,9 +25,6 @@ export const useAddStyleTag = ({
     } = computedDesignSystem;
     const PREFIX = '--jinni';
 
-    const breakpointCss = Object.entries(breakpoint).map(
-      ([key, value]) => `${[PREFIX, 'breakpoint', key].join('-')}: ${value};`
-    );
     const colorSchemeCss = Object.entries(scheme).map(
       ([key, value]) => `${[PREFIX, 'color', key].join('-')}: ${value};`
     );
@@ -75,7 +71,6 @@ export const useAddStyleTag = ({
     );
 
     const rootCssVariables = [
-      ...breakpointCss,
       ...colorSchemeCss,
       ...colorPaletteCss,
       ...boxShadowCss,
