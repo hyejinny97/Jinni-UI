@@ -4,6 +4,9 @@ import { TypographySpec } from '@/types/typography';
 import { ElevationSpecType } from '@/types/elevation';
 import { ThemeModeType } from '@/types/theme-mode';
 import { ContrastType } from '@/types/contrast';
+import { OverlayAlphaType } from '@/types/overlay';
+
+type OverlayType = Record<OverlayAlphaType | string, string>;
 
 export const useAddStyleTag = ({
   computedDesignSystem
@@ -14,9 +17,10 @@ export const useAddStyleTag = ({
     const {
       color: { scheme, palette },
       typography,
-      boxShadow,
+      overlayAlpha,
       whiteOverlay,
       blackOverlay,
+      boxShadow,
       elevation,
       easing,
       duration,
@@ -33,6 +37,9 @@ export const useAddStyleTag = ({
     );
     const boxShadowCss = Object.entries(boxShadow).map(
       ([key, value]) => `${[PREFIX, 'box-shadow', key].join('-')}: ${value};`
+    );
+    const overlayAlphaCss = Object.entries(overlayAlpha).map(
+      ([key, value]) => `${[PREFIX, 'overlay-alpha', key].join('-')}: ${value};`
     );
     const whiteOverlayCss = Object.entries(whiteOverlay).map(
       ([key, value]) => `${[PREFIX, 'white-overlay', key].join('-')}: ${value};`
@@ -73,9 +80,10 @@ export const useAddStyleTag = ({
     const rootCssVariables = [
       ...colorSchemeCss,
       ...colorPaletteCss,
-      ...boxShadowCss,
+      ...overlayAlphaCss,
       ...whiteOverlayCss,
       ...blackOverlayCss,
+      ...boxShadowCss,
       ...easingCss,
       ...durationCss,
       ...fontWeightCss,
@@ -150,4 +158,22 @@ export const useContrast = ({ contrast }: { contrast: ContrastType }) => {
   };
 
   return { computedContrast, changeContrast };
+};
+
+export const useOverlay = ({
+  overlayAlpha
+}: {
+  overlayAlpha: Record<OverlayAlphaType | string, number>;
+}) => {
+  const { whiteOverlay, blackOverlay } = useMemo(() => {
+    const whiteOverlay: OverlayType = {};
+    const blackOverlay: OverlayType = {};
+    Object.entries(overlayAlpha).forEach(([key, alpha]) => {
+      whiteOverlay[key] = `linear-gradient(rgba(255,255,255,${alpha}))`;
+      blackOverlay[key] = `linear-gradient(rgba(0,0,0,${alpha}))`;
+    });
+    return { whiteOverlay, blackOverlay };
+  }, [overlayAlpha]);
+
+  return { whiteOverlay, blackOverlay };
 };
