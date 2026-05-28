@@ -6,13 +6,8 @@
   color: var(--jinni-color-on-surface);
   cursor: pointer;
 
-  &:hover {
-    &.overlay-black {
-      background-image: var(--jinni-black-overlay-2);
-    }
-    &.overlay-white {
-      background-image: var(--jinni-white-overlay-5);
-    }
+  &:not(.disableOverlay):hover {
+    background-image: var(--hover-overlay);
   }
 
   &.disabled {

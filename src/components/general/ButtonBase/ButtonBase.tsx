@@ -7,6 +7,8 @@ import { useRipple, UseRippleProps } from '@/hooks/useRipple';
 import type { ElevationLevelType } from '@/types/elevation';
 import { useElevationEffect } from './ButtonBase.hooks';
 import useJinni from '@/hooks/useJinni';
+import useOverlay from '@/hooks/useOverlay';
+import { ColorType } from '@/types/color';
 
 export type ButtonBaseProps<T extends AsType = 'button'> =
   DefaultComponentProps<T> &
@@ -15,7 +17,7 @@ export type ButtonBaseProps<T extends AsType = 'button'> =
       children?: React.ReactNode;
       href?: string;
       disabled?: boolean;
-      overlayColor?: 'black' | 'white';
+      overlayColor?: ColorType;
       disableOverlay?: boolean;
       elevation?: ElevationLevelType;
     };
@@ -51,7 +53,11 @@ const ButtonBase = forwardRef(
       rippleStartLocation,
       disableRipple
     });
-    const newStyle = useStyle(style);
+    const hoverOverlay = useOverlay({
+      color: overlayColor,
+      alpha: overlayColor === 'black' ? 2 : 5
+    });
+    const newStyle = useStyle({ '--hover-overlay': hoverOverlay, ...style });
 
     return (
       <Component
@@ -70,10 +76,11 @@ const ButtonBase = forwardRef(
         }}
         className={cn(
           'JinniButtonBase',
+
           {
-            [`overlay-${overlayColor}`]: !disableOverlay,
             [`elevation-${elevation}`]: elevation,
-            disabled
+            disabled,
+            disableOverlay
           },
           className
         )}
