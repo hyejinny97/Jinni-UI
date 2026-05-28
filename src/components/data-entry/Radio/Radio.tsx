@@ -7,11 +7,10 @@ import { RadioCheckedIcon } from '@/components/icons/RadioCheckedIcon';
 import { ColorType } from '@/types/color';
 import { useRipple, UseRippleProps } from '@/hooks/useRipple';
 import { useLabelContext } from '@/components/data-entry/Label';
-import useColor from '@/hooks/useColor';
-import { toRgbaObject } from '@/utils/colorFormat';
 import { useRadioGroupContext } from '@/components/data-entry/RadioGroup';
 import { useCheck } from './Radio.hooks';
 import useJinni from '@/hooks/useJinni';
+import useOverlay from '@/hooks/useOverlay';
 
 export type RadioProps<T extends AsType = 'input'> = Omit<
   DefaultComponentProps<T>,
@@ -61,12 +60,14 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
     disableRipple
   });
   const { isChecked, handleChange } = useCheck({ checked, onChange, value });
-  const computedColor = useColor(color);
-  const { r, g, b } = toRgbaObject(computedColor);
+  const [hoverOverlay, focusOverlay] = useOverlay([
+    { color, alpha: 1 },
+    { color, alpha: 17 }
+  ]);
   const newStyle = useStyle({
     '--checked-color': color,
-    '--hover-color': `rgba(${r}, ${g}, ${b}, 0.05)`,
-    '--focused-color': `rgba(${r}, ${g}, ${b}, 0.15)`,
+    '--hover-overlay': hoverOverlay,
+    '--focus-overlay': focusOverlay,
     ...(!isKeywordSize && { '--icon-size': size }),
     ...style
   });

@@ -96,6 +96,12 @@ export const createDesignSystem = (
     if (props['breakpoint']) {
       designSystem['breakpoint'] = props['breakpoint'];
     }
+    if (props['overlayAlpha']) {
+      designSystem['overlayAlpha'] = overwrite({
+        base: designSystem['overlayAlpha'],
+        target: props['overlayAlpha']
+      }) as DesignSystemType['overlayAlpha'];
+    }
   }
 
   return designSystem;

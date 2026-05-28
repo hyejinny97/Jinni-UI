@@ -4,6 +4,7 @@ import { Responsive } from '@/types/breakpoint';
 import { TypographyType } from '@/types/typography';
 import { ElevationLevelType } from '@/types/elevation';
 import { EasingType, DurationType } from '@/types/motion';
+import { OverlayAlphaType } from '@/types/overlay';
 
 type CSSColorProperties = (typeof CSS_COLOR_PROPERTIES)[number];
 type CSSVariable = { [key: `--${string}`]: string | number };
@@ -14,8 +15,8 @@ type Typography = {
 type BoxShadow = {
   boxShadow?: ElevationLevelType | React.CSSProperties['boxShadow'];
 };
-type WhiteOverlay = { whiteOverlay?: ElevationLevelType };
-type BlackOverlay = { blackOverlay?: ElevationLevelType };
+type WhiteOverlay = { whiteOverlay?: OverlayAlphaType };
+type BlackOverlay = { blackOverlay?: OverlayAlphaType };
 type Elevation = { elevation?: ElevationLevelType };
 type Easing = {
   transitionTimingFunction?: EasingType | string;

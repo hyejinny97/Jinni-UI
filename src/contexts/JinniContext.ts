@@ -8,6 +8,7 @@ import { EasingType, DurationType } from '@/types/motion';
 import { ContrastType } from '@/types/contrast';
 import { FontWeightType } from '@/types/fontWeight';
 import { ZIndexType } from '@/types/zIndex';
+import { OverlayAlphaType } from '@/types/overlay';
 
 export type JinniContextDesignSystemType = {
   theme: ThemeModeType;
@@ -18,9 +19,10 @@ export type JinniContextDesignSystemType = {
   };
   typography: Record<TypographyType | string, TypographySpec>;
   breakpoint: Record<BreakpointType, number>;
+  overlayAlpha: Record<OverlayAlphaType | string, number>;
+  whiteOverlay: Record<OverlayAlphaType | string, string>;
+  blackOverlay: Record<OverlayAlphaType | string, string>;
   boxShadow: Record<ElevationLevelType | string, string>;
-  whiteOverlay: Record<ElevationLevelType | string, string>;
-  blackOverlay: Record<ElevationLevelType | string, string>;
   elevation: Record<ElevationLevelType | string, ElevationSpecType>;
   easing: Record<EasingType | string, string>;
   duration: Record<DurationType | string, string>;

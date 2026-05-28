@@ -6,18 +6,28 @@ import {
   useCallback,
   MutableRefObject
 } from 'react';
+import useOverlay from '@/hooks/useOverlay';
+import useJinni from '@/hooks/useJinni';
+import { ColorType } from '@/types/color';
 
 export interface UseRippleProps {
-  rippleColor?: 'white' | 'black';
+  rippleColor?: ColorType;
   rippleStartLocation?: 'center' | 'clicked';
   disableRipple?: boolean;
 }
 
-const useRipple = ({
-  rippleColor = 'black',
-  rippleStartLocation = 'clicked',
-  disableRipple = false
-}: UseRippleProps) => {
+const useRipple = (props: UseRippleProps) => {
+  const { theme } = useJinni();
+  const {
+    rippleColor = theme === 'light' ? 'black' : 'white',
+    rippleStartLocation = 'clicked',
+    disableRipple = false
+  } = props;
+  const rippleOverlay = useOverlay({
+    color: rippleColor,
+    alpha: rippleColor === 'black' ? 5 : 7
+  });
+
   const rippleTargetRef = useRef<HTMLElement>(null);
   const rippleContainerRef = useRef<HTMLDivElement>(null);
   const rippleTriggerRef = useRef<HTMLElement>(null);
@@ -88,8 +98,14 @@ const useRipple = ({
   }, [rippleColor, rippleStartLocation, disableRipple]);
 
   const RippleContainer = useCallback(
-    () => <div ref={rippleContainerRef} className="JinniRippleContainer"></div>,
-    []
+    () => (
+      <div
+        ref={rippleContainerRef}
+        className="JinniRippleContainer"
+        style={{ '--ripple-overlay': rippleOverlay }}
+      ></div>
+    ),
+    [rippleOverlay]
   );
 
   return { rippleTriggerRef, rippleTargetRef, RippleContainer };

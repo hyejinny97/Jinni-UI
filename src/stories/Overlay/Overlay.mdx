@@ -1,0 +1,294 @@
+import { Meta } from '@storybook/blocks';
+import OverlayPlayground from './OverlayPlayground';
+import WhiteOverlay from './WhiteOverlay';
+import BlackOverlay from './BlackOverlay';
+
+<Meta title="Design System/Overlay" />
+
+# Overlay
+
+<br />
+<br />
+
+## JinniUI Overlay Tokens
+
+### 🔸 Overlay Alpha
+
+- 0부터 24까지 총 25가지의 overlay alpha tokens
+- 0 이상 1이하 number type을 값으로 가짐
+
+#### Playground
+
+<OverlayPlayground />
+
+### 🔸 White Overlay
+
+- Overlay Alpha 값에 따라 생성된 총 25가지의 white overlay tokens
+
+<WhiteOverlay />
+
+### 🔸 Black Overlay
+
+- Overlay Alpha 값에 따라 생성된 총 25가지의 black overlay tokens
+
+<BlackOverlay />
+
+<br />
+
+## Overlay Alpha Tokens 접근 및 사용
+
+### In CSS
+
+- css 내장 `var()` 함수를 사용해 root 요소에 등록된 overlay-alpha 변수 가져와 사용
+
+```css
+.classname {
+  background-image: linear-gradient(
+    rgba(100, 100, 0, var(--jinni-overlay-alpha-10))
+  );
+}
+```
+
+### In JSX
+
+#### 1. Inline style에서 CSS 변수 `var()` 사용
+
+```jsx
+const App = () => {
+  return (
+    <p
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(100, 100, 0, var(--jinni-overlay-alpha-10)))'
+      }}
+    >
+      text
+    </p>
+  );
+};
+```
+
+#### 2. `useJinni` hook
+
+```jsx
+import useJinni from '@/hooks/useJinni';
+
+const App = () => {
+  const { overlayAlpha } = useJinni();
+
+  return (
+    <p
+      style={{
+        backgroundImage: `linear-gradient(rgba(100, 100, 0, ${overlayAlpha[10]}))`
+      }}
+    >
+      text
+    </p>
+  );
+};
+```
+
+<br />
+
+## White/Black Overlay Tokens 접근 및 사용
+
+### In CSS
+
+- css 내장 `var()` 함수를 사용해 root 요소에 등록된 white-overlay, black-overlay 변수 가져와 사용
+
+```css
+.classname {
+  background-image: var(--jinni-white-overlay-5);
+  background-image: var(--jinni-black-overlay-5);
+}
+```
+
+### In JSX
+
+#### 1. Inline style에서 CSS 변수 `var()` 사용
+
+```jsx
+const App = () => {
+  return (
+    <>
+      <p style={{ backgroundImage: 'var(--jinni-white-overlay-5)' }}>text</p>
+      <p style={{ backgroundImage: 'var(--jinni-black-overlay-5)' }}>text</p>
+    </>
+  );
+};
+```
+
+#### 2. `useJinni` hook
+
+```jsx
+import useJinni from '@/hooks/useJinni';
+
+const App = () => {
+  const { whiteOverlay, blackOverlay } = useJinni();
+
+  return (
+    <>
+      <p style={{ backgroundImage: whiteOverlay[10] }}>text</p>
+      <p style={{ backgroundImage: blackOverlay[10] }}>text</p>
+    </>
+  );
+};
+```
+
+#### 3. `useStyle` hook
+
+```jsx
+import useStyle from '@/hooks/useStyle';
+
+const App = () => {
+  const pStyle = useStyle({ whiteOverlay: 10 });
+  const divStyle = useStyle({ blackOverlay: 10 });
+
+  return (
+    <>
+      <p style={pStyle}>text</p>
+      <div style={divStyle}>text</div>
+    </>
+  );
+};
+```
+
+### JinniUI Components
+
+- JinniUI에서 제공하는 컴포넌트 전부 `style` prop(`StyleType`, extended style type)을 받음
+- `style` prop의 값은 내부적으로 `useStyle` 훅으로 처리해주고 있음
+- 따라서, JinniUI 컴포넌트에 white-overlay, black-overlay tokens를 적용하고 싶으면 `style` prop에 바로 작성하면 됨
+
+```jsx
+<Avatar style={{ whiteOverlay: 10 }}>N</Avatar>
+<Avatar style={{ blackOverlay: 10 }}>N</Avatar>
+<Avatar
+  style={{
+    blackOverlay: {
+      xs: 5,
+      md: 7,
+      lg: 9
+     }
+   }}
+>
+  N
+</Avatar>
+```
+
+<br />
+
+## Customization
+
+### Jinni UI - Overlay Alpha (기본값)
+
+- `createDesignSystem` 함수의 `overlayAlpha` props를 설정하지 않을 경우, 기본적으로 Jinni UI의 Overlay Alpha가 설정됨
+
+  ```jsx
+  const designSystem = createDesignSystem();
+  ```
+
+  ```jsx
+  const designSystem = createDesignSystem({
+    overlayAlpha: DEFAULT_OVERLAY_ALPHA
+  });
+  ```
+
+### Customize Overlay Alpha
+
+- `createDesignSystem` 함수의 `overlayAlpha` props로 설정된 값은 기존 Jinni UI의 `overlayAlpha`에 덮어 씌워지게 됨
+- 즉, `DesignSystemType`의 `overlayAlpha`에 존재하는 key 값을 설정하면 기존 값이 변경되고, `DesignSystemType`의 `overlayAlpha`에 존재하지 않는 key 값을 설정하면 속성이 새로 추가됨
+
+  ```tsx
+  interface DesignSystemType {
+    overlayAlpha: {
+      0: 0,
+      1: 0.051,
+      2: 0.069,
+      ...,
+      24: 0.165
+    }
+    ...
+  }
+  ```
+
+#### 1) 기존 overlay alpha 값 변경
+
+```tsx
+import { OverlayAlphaType } from '@/types/overlay';
+
+const NEW_OVERLAY_ALPHA: Partial<Record<OverlayAlphaType, number>> = {};
+let alpha = 0;
+for (let level = 0; level < 25; level++) {
+  NEW_OVERLAY_ALPHA[level as OverlayAlphaType] = alpha;
+  alpha += 0.01;
+}
+
+const designSystem = createDesignSystem({
+  overlayAlpha: NEW_OVERLAY_ALPHA
+});
+```
+
+#### 2) 새로운 overlay alpha 속성 추가
+
+1. 새 overlay alpha 속성 추가
+
+   ```jsx
+   const designSystem = createDesignSystem({
+     overlayAlpha: {
+       25: 0.2,
+       lowest: 0.1,
+       low: 0.3,
+       high: 0.6,
+       highest: 0.8
+     }
+   });
+   ```
+
+2. 유의할 점
+
+   - 이 경우 `useStyle` 훅이나 JinniUI Component의 style(extended style type)에서는 새로 추가한 overlay alpha 속성을 사용할 수는 없음
+
+   ```jsx
+   // ⭕ 가능
+   import useJinni from '@/hooks/useJinni';
+
+   const App = () => {
+     const { overlayAlpha, whiteOverlay, blackOverlay } = useJinni();
+
+     return (
+       <>
+         <p
+           style={{
+             backgroundImage: `linear-gradient(rgba(100, 100, 0, ${overlayAlpha[25]}))`
+           }}
+         >
+           text
+         </p>
+         <p style={{ backgroundImage: 'var(--jinni-white-overlay-high)' }}>
+           text
+         </p>
+         <p style={{ backgroundImage: 'var(--jinni-black-overlay-lowest)' }}>
+           text
+         </p>
+         <p style={{ backgroundImage: whiteOverlay['high'] }}>text</p>
+         <p style={{ backgroundImage: blackOverlay['lowest'] }}>text</p>
+       </>
+     );
+   };
+   ```
+
+   ```jsx
+   // ❌ 불가
+   import useStyle from '@/hooks/useStyle';
+
+   const App = () => {
+     const pStyle = useStyle({ whiteOverlay: 'high' });
+
+     return (
+       <>
+         <p style={pStyle}>text</p>
+         <Avatar style={{ blackOverlay: 'lowest' }}>N</Avatar>
+       </>
+     );
+   };
+   ```

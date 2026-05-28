@@ -35,10 +35,10 @@
 
 @mixin overlay-effect {
   &:not(.disabled):hover {
-    background-image: linear-gradient(var(--hover-color));
+    background-image: var(--hover-overlay);
   }
   &:not(.disabled):focus-within {
-    background-image: linear-gradient(var(--focused-color));
+    background-image: var(--focus-overlay);
   }
 }
 

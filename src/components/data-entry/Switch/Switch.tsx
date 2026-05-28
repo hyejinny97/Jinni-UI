@@ -64,8 +64,8 @@ const Switch = <T extends AsType = 'input'>(props: SwitchProps<T>) => {
   const { checkedHoverColor, checkedFocusedColor } = useMemo(() => {
     const { r, g, b } = toRgbaObject(normalizedCheckedColor);
     return {
-      checkedHoverColor: `rgba(${r}, ${g}, ${b}, 0.05)`,
-      checkedFocusedColor: `rgba(${r}, ${g}, ${b}, 0.15)`
+      checkedHoverColor: `rgba(${r}, ${g}, ${b}, var(--jinni-overlay-alpha-1))`,
+      checkedFocusedColor: `rgba(${r}, ${g}, ${b}, var(--jinni-overlay-alpha-17))`
     };
   }, [normalizedCheckedColor]);
   const newStyle = useStyle({

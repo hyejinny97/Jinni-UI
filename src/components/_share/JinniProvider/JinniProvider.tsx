@@ -5,7 +5,12 @@ import JinniContext, {
 } from '@/contexts/JinniContext';
 import { ELEVATION_LEVELS } from '@/constants/elevation';
 import { DesignSystemType } from './JinniProvider.types';
-import { useAddStyleTag, useTheme, useContrast } from './JinniProvider.hooks';
+import {
+  useAddStyleTag,
+  useTheme,
+  useContrast,
+  useOverlay
+} from './JinniProvider.hooks';
 
 interface JinniProviderProps {
   children: React.ReactNode;
@@ -25,9 +30,12 @@ const JinniProvider = ({
   const { computedContrast, changeContrast } = useContrast({
     contrast: designSystem.contrast
   });
+  const { whiteOverlay, blackOverlay } = useOverlay({
+    overlayAlpha: designSystem.overlayAlpha
+  });
 
   const computedDesignSystem = useMemo<JinniContextDesignSystemType>(() => {
-    const { color, boxShadow, whiteOverlay } = designSystem;
+    const { color, boxShadow } = designSystem;
     return {
       ...designSystem,
       theme: computedTheme,
@@ -36,6 +44,8 @@ const JinniProvider = ({
         scheme: color.scheme[computedTheme][computedContrast],
         palette: color.palette
       },
+      whiteOverlay,
+      blackOverlay,
       elevation: ELEVATION_LEVELS.map((level) =>
         computedTheme === 'dark'
           ? {
@@ -50,7 +60,13 @@ const JinniProvider = ({
         {} as JinniContextType['elevation']
       )
     };
-  }, [designSystem, computedTheme, computedContrast]);
+  }, [
+    designSystem,
+    computedTheme,
+    computedContrast,
+    whiteOverlay,
+    blackOverlay
+  ]);
 
   useAddStyleTag({ computedDesignSystem });
 
