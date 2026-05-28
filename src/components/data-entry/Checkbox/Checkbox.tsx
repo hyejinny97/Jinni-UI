@@ -9,10 +9,9 @@ import useCheck from './Checkbox.hooks';
 import { ColorType } from '@/types/color';
 import { useRipple, UseRippleProps } from '@/hooks/useRipple';
 import { useLabelContext } from '@/components/data-entry/Label';
-import useColor from '@/hooks/useColor';
-import { toRgbaObject } from '@/utils/colorFormat';
 import { useCheckboxGroupContext } from '@/components/data-entry/CheckboxGroup';
 import useJinni from '@/hooks/useJinni';
+import useOverlay from '@/hooks/useOverlay';
 
 export type CheckboxProps<T extends AsType = 'input'> = Omit<
   DefaultComponentProps<T>,
@@ -73,12 +72,14 @@ const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
     onChange,
     value
   });
-  const computedColor = useColor(color);
-  const { r, g, b } = toRgbaObject(computedColor);
+  const [hoverOverlay, focusOverlay] = useOverlay([
+    { color, alpha: 1 },
+    { color, alpha: 17 }
+  ]);
   const newStyle = useStyle({
     '--checked-color': color,
-    '--hover-color': `rgba(${r}, ${g}, ${b}, 0.05)`,
-    '--focused-color': `rgba(${r}, ${g}, ${b}, 0.15)`,
+    '--hover-overlay': hoverOverlay,
+    '--focus-overlay': focusOverlay,
     ...(!isKeywordSize && { '--icon-size': size }),
     ...style
   });
