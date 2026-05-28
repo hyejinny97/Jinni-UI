@@ -15,12 +15,6 @@
     border-radius: 50%;
     pointer-events: none;
     animation: ripple 0.5s ease-in;
-
-    &.white {
-      background-image: var(--jinni-white-overlay-7);
-    }
-    &.black {
-      background-image: var(--jinni-black-overlay-5);
-    }
+    background-image: var(--ripple-overlay);
   }
 }
