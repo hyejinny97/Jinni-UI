@@ -166,11 +166,12 @@ export const useOverlay = ({
   overlayAlpha: Record<OverlayAlphaType | string, number>;
 }) => {
   const { whiteOverlay, blackOverlay } = useMemo(() => {
-    const whiteOverlay: OverlayType = {};
-    const blackOverlay: OverlayType = {};
+    const whiteOverlay = {} as OverlayType;
+    const blackOverlay = {} as OverlayType;
     Object.entries(overlayAlpha).forEach(([key, alpha]) => {
-      whiteOverlay[key] = `linear-gradient(rgba(255,255,255,${alpha}))`;
-      blackOverlay[key] = `linear-gradient(rgba(0,0,0,${alpha}))`;
+      const overlayType = (Number(key) || key) as OverlayAlphaType | string;
+      whiteOverlay[overlayType] = `linear-gradient(rgba(255,255,255,${alpha}))`;
+      blackOverlay[overlayType] = `linear-gradient(rgba(0,0,0,${alpha}))`;
     });
     return { whiteOverlay, blackOverlay };
   }, [overlayAlpha]);
