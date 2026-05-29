@@ -22,7 +22,15 @@ const preview: Preview = {
         method: 'alphabetical',
         order: [
           'Design System',
-          ['Theme', 'Contrast', 'Color', 'Typography', 'Breakpoint', 'Overlay'],
+          [
+            'Theme',
+            'Contrast',
+            'Color',
+            'Typography',
+            'Breakpoint',
+            'Overlay',
+            'Box Shadow'
+          ],
           'Components'
         ]
       }

@@ -9,6 +9,7 @@ import { ContrastType } from '@/types/contrast';
 import { FontWeightType } from '@/types/fontWeight';
 import { ZIndexType } from '@/types/zIndex';
 import { OverlayAlphaType } from '@/types/overlay';
+import { BoxShadowType } from '@/types/boxShadow';
 
 export type JinniContextDesignSystemType = {
   theme: ThemeModeType;
@@ -22,7 +23,7 @@ export type JinniContextDesignSystemType = {
   overlayAlpha: Record<OverlayAlphaType | string, number>;
   whiteOverlay: Record<OverlayAlphaType | string, string>;
   blackOverlay: Record<OverlayAlphaType | string, string>;
-  boxShadow: Record<ElevationLevelType | string, string>;
+  boxShadow: Record<BoxShadowType | string, string>;
   elevation: Record<ElevationLevelType | string, ElevationSpecType>;
   easing: Record<EasingType | string, string>;
   duration: Record<DurationType | string, string>;

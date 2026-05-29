@@ -5,6 +5,7 @@ import { TypographyType } from '@/types/typography';
 import { ElevationLevelType } from '@/types/elevation';
 import { EasingType, DurationType } from '@/types/motion';
 import { OverlayAlphaType } from '@/types/overlay';
+import { BoxShadowType } from '@/types/boxShadow';
 
 type CSSColorProperties = (typeof CSS_COLOR_PROPERTIES)[number];
 type CSSVariable = { [key: `--${string}`]: string | number };
@@ -12,11 +13,11 @@ type Color = Partial<Record<CSSColorProperties, ColorType>>;
 type Typography = {
   typography?: TypographyType;
 };
-type BoxShadow = {
-  boxShadow?: ElevationLevelType | React.CSSProperties['boxShadow'];
-};
 type WhiteOverlay = { whiteOverlay?: OverlayAlphaType };
 type BlackOverlay = { blackOverlay?: OverlayAlphaType };
+type BoxShadow = {
+  boxShadow?: BoxShadowType | React.CSSProperties['boxShadow'];
+};
 type Elevation = { elevation?: ElevationLevelType };
 type Easing = {
   transitionTimingFunction?: EasingType | string;
