@@ -13,6 +13,8 @@ import { kebabToCamelCase } from '@/utils/kebabToCamelCase';
 import useResponsive from '@/hooks/useResponsive';
 import { OverlayAlphaType } from '@/types/overlay';
 import { OVERLAY_ALPHA } from '@/constants/overlay';
+import { BoxShadowType } from '@/types/boxShadow';
+import { BOX_SHADOW } from '@/constants/boxShadow';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
@@ -36,9 +38,14 @@ const isBoxShadow = (key: string) => key === 'boxShadow';
 const isWhiteOverlay = (key: string) => key === 'whiteOverlay';
 const isBlackOverlay = (key: string) => key === 'blackOverlay';
 const isElevation = (key: string) => key === 'elevation';
-const isOverlayAlpha = (
+const isOverlayAlphaType = (
   value: StyleType[keyof StyleType]
-): value is OverlayAlphaType => OVERLAY_ALPHA.some((alpha) => alpha === value);
+): value is OverlayAlphaType =>
+  OVERLAY_ALPHA.some((alphaType) => alphaType === value);
+const isBoxShadowType = (
+  value: StyleType[keyof StyleType]
+): value is BoxShadowType =>
+  BOX_SHADOW.some((shadowType) => shadowType === value);
 const isElevationLevel = (
   value: StyleType[keyof StyleType]
 ): value is ElevationLevelType =>
@@ -102,17 +109,17 @@ const useStyle = (
       Object.assign(editedStyle, typographyStyleInCamelCase);
       return;
     }
-    if (isWhiteOverlay(key) && isOverlayAlpha(editedValue)) {
+    if (isWhiteOverlay(key) && isOverlayAlphaType(editedValue)) {
       const val = whiteOverlay[editedValue];
       Object.assign(editedStyle, { backgroundImage: val });
       return;
     }
-    if (isBlackOverlay(key) && isOverlayAlpha(editedValue)) {
+    if (isBlackOverlay(key) && isOverlayAlphaType(editedValue)) {
       const val = blackOverlay[editedValue];
       Object.assign(editedStyle, { backgroundImage: val });
       return;
     }
-    if (isBoxShadow(key) && isElevationLevel(editedValue)) {
+    if (isBoxShadow(key) && isBoxShadowType(editedValue)) {
       editedStyle[key] = boxShadow[editedValue];
       return;
     }

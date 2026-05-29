@@ -102,6 +102,12 @@ export const createDesignSystem = (
         target: props['overlayAlpha']
       }) as DesignSystemType['overlayAlpha'];
     }
+    if (props['boxShadow']) {
+      designSystem['boxShadow'] = overwrite({
+        base: designSystem['boxShadow'],
+        target: props['boxShadow']
+      }) as DesignSystemType['boxShadow'];
+    }
   }
 
   return designSystem;
