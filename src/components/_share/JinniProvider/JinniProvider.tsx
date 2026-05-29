@@ -1,9 +1,7 @@
 import { useMemo } from 'react';
 import JinniContext, {
-  JinniContextType,
   JinniContextDesignSystemType
 } from '@/contexts/JinniContext';
-import { ELEVATION_LEVELS } from '@/constants/elevation';
 import { DesignSystemType } from './JinniProvider.types';
 import {
   useAddStyleTag,
@@ -46,18 +44,21 @@ const JinniProvider = ({
       },
       whiteOverlay,
       blackOverlay,
-      elevation: ELEVATION_LEVELS.map((level) =>
-        computedTheme === 'dark'
-          ? {
-              'box-shadow': boxShadow[level],
-              'background-image': whiteOverlay[level]
-            }
-          : {
-              'box-shadow': boxShadow[level]
-            }
-      ).reduce(
-        (acc, value, idx) => ({ ...acc, [idx]: value }),
-        {} as JinniContextType['elevation']
+      elevation: Object.fromEntries(
+        Object.keys(boxShadow)
+          .map((key) => {
+            if (!whiteOverlay[key]) return false;
+            return [
+              key,
+              {
+                'box-shadow': boxShadow[key],
+                ...(computedTheme === 'dark' && {
+                  'background-image': whiteOverlay[key]
+                })
+              }
+            ];
+          })
+          .filter((val) => val !== false)
       )
     };
   }, [
