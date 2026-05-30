@@ -1,12 +1,3 @@
-export const EASING_SET = [
-  'emphasized',
-  'emphasized-accelerate',
-  'emphasized-decelerate',
-  'standard',
-  'standard-accelerate',
-  'standard-decelerate'
-] as const;
-
 export const DURATIONS = [
   'short1',
   'short2',
@@ -53,6 +44,10 @@ export const DEFAULT_DURATION = {
   'extra-long3': '900ms',
   'extra-long4': '1000ms'
 } as const;
+
+export const EASING_SET = Object.keys(
+  DEFAULT_EASING_SET
+) as (keyof typeof DEFAULT_EASING_SET)[];
 
 export const TRANSITION_ARGTYPES = {
   children: {
