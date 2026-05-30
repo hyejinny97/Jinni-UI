@@ -1,0 +1,29 @@
+import { Meta } from '@storybook/blocks';
+import EasingPlayground from './EasingPlayground';
+
+<Meta title="Design System/[Motion] Easing" />
+
+# [Motion] Easing
+
+<br />
+<br />
+
+## JinniUI Easing
+
+- 총 6개의 timing-function (easing) tokens
+- 'Emphasized'가 'Standard' 보다 좀 더 극적인 변화를 줌
+- 가속도/감속도에 따라 아래 3가지로 분류할 수 있음
+
+1. Basic
+   - 서서히 속도를 올리다가 다시 서서히 속도를 줄이는 방식
+   - 대부분의 UI 상태 변화에 적합함
+2. Accelerate
+   - 빠르게 속도를 올리다가 천천히 속도를 줄이는 방식 (빠른 시작, 느린 종료)
+   - 새로운 요소가 화면에 나타날 때 사용하기 적합함
+3. Decelerate
+   - 천천히 속도를 올리다가 빠르게 속도를 줄이는 방식 (느린 시작, 빠른 종료)
+   - 요소가 화면 밖으로 사라질 때 사용하기 적합함
+
+### Playground
+
+<EasingPlayground />

@@ -29,7 +29,9 @@ const preview: Preview = {
             'Typography',
             'Breakpoint',
             'Overlay',
-            'Box Shadow'
+            'Box Shadow',
+            'Elevation',
+            '[Motion] Easing'
           ],
           'Components'
         ]
