@@ -114,6 +114,12 @@ export const createDesignSystem = (
         target: props['easing']
       }) as DesignSystemType['easing'];
     }
+    if (props['duration']) {
+      designSystem['duration'] = overwrite({
+        base: designSystem['duration'],
+        target: props['duration']
+      }) as DesignSystemType['duration'];
+    }
   }
 
   return designSystem;
