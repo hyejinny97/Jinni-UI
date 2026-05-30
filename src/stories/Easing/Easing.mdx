@@ -1,5 +1,6 @@
 import { Meta } from '@storybook/blocks';
 import EasingPlayground from './EasingPlayground';
+import EasingCustomization from './EasingCustomization';
 
 <Meta title="Design System/[Motion] Easing" />
 
@@ -27,3 +28,219 @@ import EasingPlayground from './EasingPlayground';
 ### Playground
 
 <EasingPlayground />
+
+<br />
+
+## Easing 접근 및 사용
+
+### In CSS
+
+- css 내장 `var()` 함수를 사용해 root 요소에 등록된 easing 변수 가져와 사용
+
+  ```css
+  .classname {
+    transition-property: opacity;
+    transition-timing-function: var(--jinni-easing-emphasized);
+    transition-duration: 1s;
+  }
+
+  .classname {
+    animation-name: appear;
+    animation-timing-function: var(--jinni-easing-emphasized);
+    animation-duration: 1s;
+  }
+  ```
+
+  ```css
+  .classname {
+    transition: opacity 1s var(--jinni-easing-emphasized);
+  }
+
+  .classname {
+    animation: appear 1s var(--jinni-easing-emphasized);
+  }
+  ```
+
+### In JSX
+
+#### 1. Inline style에서 CSS 변수 `var()` 사용
+
+```jsx
+const App = () => {
+  return (
+    <>
+      <p style={{ transition: 'opacity 1s var(--jinni-easing-emphasized)' }}>
+        text
+      </p>
+      <p style={{ animation: 'appear 1s var(--jinni-easing-emphasized)' }}>
+        text
+      </p>
+    </>
+  );
+};
+```
+
+#### 2. `useJinni` hook
+
+```jsx
+import useJinni from '@/hooks/useJinni';
+
+const App = () => {
+  const { easing } = useJinni();
+
+  return (
+    <p style={{ transition: `opacity 1s ${easing['emphasized-decelerate']}` }}>
+      text
+    </p>
+  );
+};
+```
+
+#### 3. `useStyle` hook
+
+```jsx
+import useStyle from '@/hooks/useStyle';
+
+const App = () => {
+  const style = useStyle({
+    animationName: 'appear',
+    animationTimingFunction: 'emphasized-decelerate',
+    animationDuration: '1s'
+  });
+
+  return <p style={style}>Appear Text</p>;
+};
+```
+
+### JinniUI Components
+
+- JinniUI에서 제공하는 컴포넌트 전부 `style` prop(`StyleType`, extended style type)을 받음
+- `style` prop의 값은 내부적으로 `useStyle` 훅으로 처리해주고 있음
+- 따라서, JinniUI 컴포넌트에 easing tokens를 적용하고 싶으면 `style` prop에 바로 작성하면 됨
+
+```jsx
+<Avatar
+  style={{
+    transitionProperty: 'opacity',
+    transitionTimingFunction: 'emphasized-decelerate',
+    transitionDuration: '1s'
+  }}
+>
+  N
+</Avatar>
+```
+
+<br />
+
+## Customization
+
+### Jinni UI - Easing (기본값)
+
+- `createDesignSystem` 함수의 `easing` props를 설정하지 않을 경우, 기본적으로 Jinni UI의 Easing이 설정됨
+
+  ```jsx
+  const designSystem = createDesignSystem();
+  ```
+
+  ```jsx
+  const designSystem = createDesignSystem({
+    easing: DEFAULT_EASING_SET
+  });
+  ```
+
+### Customize easing
+
+- `createDesignSystem` 함수의 `easing` props로 설정된 값은 기존 Jinni UI의 `easing`에 덮어 씌워지게 됨
+- 즉, `DesignSystemType`의 `easing`에 존재하는 key 값을 설정하면 기존 값이 변경되고, `DesignSystemType`의 `easing`에 존재하지 않는 key 값을 설정하면 속성이 새로 추가됨
+
+  ```tsx
+  interface DesignSystemType {
+    easing: {
+      'emphasized': 'ease',
+      'emphasized-accelerate': 'cubic-bezier(0.05, 0.7, 0.1, 1)',
+      'emphasized-decelerate': 'cubic-bezier(0.3, 0, 0.8, 0.15)',
+      'standard': 'cubic-bezier(0.2, 0, 0, 1)',
+      'standard-accelerate': 'cubic-bezier(0, 0, 0, 1)',
+      'standard-decelerate': 'cubic-bezier(0.3, 0, 1, 1)'
+    }
+    ...
+  }
+  ```
+
+#### 1) 기존 easing 값 변경
+
+```jsx
+const designSystem = createDesignSystem({
+  easing: {
+    'emphasized-accelerate': 'cubic-bezier(0.01, 0.9, 0.1, 1)',
+    'emphasized-decelerate': 'cubic-bezier(0.3, 0, 0.9, 0.15)'
+  }
+});
+```
+
+#### 2) 새로운 easing 속성 추가
+
+1. 새 easing 속성 추가
+
+   ```jsx
+   const designSystem = createDesignSystem({
+     easing: {
+       overshoot: 'cubic-bezier(0.83, 0, 0.5, 1.73)',
+       bounce: `linear(
+     0, 0.004, 0.016, 0.035, 0.063 9.1%, 0.141, 0.25, 0.391, 0.563, 0.765, 1,
+     0.891, 0.813 45.5%, 0.785, 0.766, 0.754, 0.75, 0.754, 0.766, 0.785, 0.813 63.6%, 0.891, 1 72.7%,
+     0.973, 0.953, 0.941, 0.938, 0.941, 0.953, 0.973, 1,
+     0.988, 0.984, 0.988, 1)`
+     }
+   });
+   ```
+
+   <EasingCustomization />
+
+2. 유의할 점
+
+   - 이 경우 `useStyle` 훅이나 JinniUI Component의 style(extended style type)에서는 새로 추가한 easing 속성을 사용할 수는 없음
+
+   ```jsx
+   // ⭕ 가능
+   import useJinni from '@/hooks/useJinni';
+
+   const App = () => {
+     const { easing } = useJinni();
+
+     return (
+       <>
+         <p style={{ transition: 'top 1s var(--jinni-easing-bounce)' }}>text</p>
+         <p style={{ transition: `top 1s ${easing['bounce']}` }}>text</p>
+       </>
+     );
+   };
+   ```
+
+   ```jsx
+   // ❌ 불가
+   import useStyle from '@/hooks/useStyle';
+
+   const App = () => {
+     const style = useStyle({
+       animationName: 'bounce',
+       animationTimingFunction: 'bounce',
+       animationDuration: '1s'
+     });
+
+     return (
+       <>
+         <p style={style}>text</p>
+         <Avatar
+           style={{
+             transitionProperty: 'top',
+             transitionTimingFunction: 'bounce',
+             transitionDuration: '1s'
+           }}
+         >
+           N
+         </Avatar>
+       </>
+     );
+   };
+   ```

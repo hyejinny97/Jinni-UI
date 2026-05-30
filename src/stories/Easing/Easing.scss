@@ -20,6 +20,17 @@
   }
 }
 
+@keyframes slide-to-bottom {
+  0% {
+    top: 0;
+    transform: translateY(0);
+  }
+  100% {
+    top: 100%;
+    transform: translateY(-100%);
+  }
+}
+
 @keyframes stretch {
   0% {
     width: 20px;
