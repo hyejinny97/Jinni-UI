@@ -23,7 +23,7 @@ export interface DesignSystemType {
   breakpoint: BreakpointValue;
   overlayAlpha: Record<OverlayAlphaType | string, number>;
   boxShadow: Record<BoxShadowType | string, string>;
-  easing: Record<EasingType, string>;
+  easing: Record<EasingType | string, string>;
   duration: Record<DurationType, string>;
   fontWeight: Record<FontWeightType, number>;
   zIndex: Record<ZIndexType, number>;

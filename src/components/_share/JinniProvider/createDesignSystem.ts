@@ -108,6 +108,12 @@ export const createDesignSystem = (
         target: props['boxShadow']
       }) as DesignSystemType['boxShadow'];
     }
+    if (props['easing']) {
+      designSystem['easing'] = overwrite({
+        base: designSystem['easing'],
+        target: props['easing']
+      }) as DesignSystemType['easing'];
+    }
   }
 
   return designSystem;
