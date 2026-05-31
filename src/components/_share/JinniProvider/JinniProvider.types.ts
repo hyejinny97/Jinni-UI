@@ -24,7 +24,7 @@ export interface DesignSystemType {
   overlayAlpha: Record<OverlayAlphaType | string, number>;
   boxShadow: Record<BoxShadowType | string, string>;
   easing: Record<EasingType | string, string>;
-  duration: Record<DurationType, string>;
+  duration: Record<DurationType | string, string>;
   fontWeight: Record<FontWeightType, number>;
   zIndex: Record<ZIndexType, number>;
 }

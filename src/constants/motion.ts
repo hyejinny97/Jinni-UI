@@ -1,22 +1,3 @@
-export const DURATIONS = [
-  'short1',
-  'short2',
-  'short3',
-  'short4',
-  'medium1',
-  'medium2',
-  'medium3',
-  'medium4',
-  'long1',
-  'long2',
-  'long3',
-  'long4',
-  'extra-long1',
-  'extra-long2',
-  'extra-long3',
-  'extra-long4'
-] as const;
-
 export const DEFAULT_EASING_SET = {
   emphasized: 'ease',
   'emphasized-accelerate': 'cubic-bezier(0.05, 0.7, 0.1, 1)',
@@ -48,6 +29,10 @@ export const DEFAULT_DURATION = {
 export const EASING_SET = Object.keys(
   DEFAULT_EASING_SET
 ) as (keyof typeof DEFAULT_EASING_SET)[];
+
+export const DURATIONS = Object.keys(
+  DEFAULT_DURATION
+) as (keyof typeof DEFAULT_DURATION)[];
 
 export const TRANSITION_ARGTYPES = {
   children: {
