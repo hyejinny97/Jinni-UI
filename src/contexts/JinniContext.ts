@@ -27,7 +27,7 @@ export type JinniContextDesignSystemType = {
   elevation: Record<ElevationLevelType | string, ElevationSpecType>;
   easing: Record<EasingType | string, string>;
   duration: Record<DurationType | string, string>;
-  fontWeight: Record<FontWeightType, number>;
+  fontWeight: Record<FontWeightType | string, number>;
   zIndex: Record<ZIndexType, number>;
 };
 

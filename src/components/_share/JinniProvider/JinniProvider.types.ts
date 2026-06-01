@@ -25,7 +25,7 @@ export interface DesignSystemType {
   boxShadow: Record<BoxShadowType | string, string>;
   easing: Record<EasingType | string, string>;
   duration: Record<DurationType | string, string>;
-  fontWeight: Record<FontWeightType, number>;
+  fontWeight: Record<FontWeightType | string, number>;
   zIndex: Record<ZIndexType, number>;
 }
 

@@ -15,6 +15,8 @@ import { OverlayAlphaType } from '@/types/overlay';
 import { OVERLAY_ALPHA } from '@/constants/overlay';
 import { BoxShadowType } from '@/types/boxShadow';
 import { BOX_SHADOW } from '@/constants/boxShadow';
+import { FontWeightType } from '@/types/fontWeight';
+import { FONT_WEIGHT } from '@/constants/fontWeight';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
@@ -38,6 +40,7 @@ const isBoxShadow = (key: string) => key === 'boxShadow';
 const isWhiteOverlay = (key: string) => key === 'whiteOverlay';
 const isBlackOverlay = (key: string) => key === 'blackOverlay';
 const isElevation = (key: string) => key === 'elevation';
+const isFontWeight = (key: string) => key === 'fontWeight';
 const isOverlayAlphaType = (
   value: StyleType[keyof StyleType]
 ): value is OverlayAlphaType =>
@@ -60,6 +63,9 @@ const isEasingToken = (
 const isDurationToken = (
   value: StyleType[keyof StyleType]
 ): value is DurationType => DURATIONS.some((duration) => duration === value);
+const isFontWeightToken = (
+  value: StyleType[keyof StyleType]
+): value is FontWeightType => FONT_WEIGHT.some((weight) => weight === value);
 
 const useStyle = (
   style: StyleType | undefined
@@ -72,7 +78,8 @@ const useStyle = (
     blackOverlay,
     elevation,
     easing,
-    duration
+    duration,
+    fontWeight
   } = useJinni();
   const { isResponsive, editResponsive } = useResponsive();
 
@@ -138,6 +145,10 @@ const useStyle = (
     }
     if (isDurationProperty(key) && isDurationToken(editedValue)) {
       editedStyle[key] = duration[editedValue];
+      return;
+    }
+    if (isFontWeight(key) && isFontWeightToken(editedValue)) {
+      editedStyle[key] = fontWeight[editedValue];
       return;
     }
     editedStyle[key] = editedValue;

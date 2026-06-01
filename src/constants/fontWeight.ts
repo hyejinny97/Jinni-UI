@@ -9,3 +9,7 @@ export const DEFAULT_FONT_WEIGHT = {
   'extra-bold': 800,
   black: 900
 } as const;
+
+export const FONT_WEIGHT = Object.keys(
+  DEFAULT_FONT_WEIGHT
+) as (keyof typeof DEFAULT_FONT_WEIGHT)[];

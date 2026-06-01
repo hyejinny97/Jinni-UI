@@ -1,3 +1,3 @@
-import { DEFAULT_FONT_WEIGHT } from '@/constants/fontWeight';
+import { FONT_WEIGHT } from '@/constants/fontWeight';
 
-export type FontWeightType = keyof typeof DEFAULT_FONT_WEIGHT;
+export type FontWeightType = (typeof FONT_WEIGHT)[number];
