@@ -26,7 +26,7 @@ export interface DesignSystemType {
   easing: Record<EasingType | string, string>;
   duration: Record<DurationType | string, string>;
   fontWeight: Record<FontWeightType | string, number>;
-  zIndex: Record<ZIndexType, number>;
+  zIndex: Record<ZIndexType | string, number>;
 }
 
 export type DeepPartial<T> = {

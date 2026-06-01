@@ -7,6 +7,7 @@ import { EasingType, DurationType } from '@/types/motion';
 import { OverlayAlphaType } from '@/types/overlay';
 import { BoxShadowType } from '@/types/boxShadow';
 import { FontWeightType } from '@/types/fontWeight';
+import { ZIndexType } from '@/types/zIndex';
 
 type CSSColorProperties = (typeof CSS_COLOR_PROPERTIES)[number];
 type CSSVariable = { [key: `--${string}`]: string | number };
@@ -31,6 +32,9 @@ type Duration = {
 type FontWeight = {
   fontWeight?: FontWeightType | React.CSSProperties['fontWeight'];
 };
+type ZIndex = {
+  zIndex?: ZIndexType | React.CSSProperties['zIndex'];
+};
 
 type BaseCSSProperties = Omit<
   React.CSSProperties,
@@ -45,7 +49,8 @@ type BaseCSSProperties = Omit<
   Elevation &
   Easing &
   Duration &
-  FontWeight;
+  FontWeight &
+  ZIndex;
 
 type ResponsiveCSSProperties = {
   [K in keyof BaseCSSProperties]?:

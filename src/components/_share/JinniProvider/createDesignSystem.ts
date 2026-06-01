@@ -124,6 +124,12 @@ export const createDesignSystem = (
     if (props['fontWeight']) {
       designSystem['fontWeight'] = props['fontWeight'];
     }
+    if (props['zIndex']) {
+      designSystem['zIndex'] = overwrite({
+        base: designSystem['zIndex'],
+        target: props['zIndex']
+      }) as DesignSystemType['zIndex'];
+    }
   }
 
   return designSystem;

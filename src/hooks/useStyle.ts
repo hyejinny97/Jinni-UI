@@ -17,6 +17,8 @@ import { BoxShadowType } from '@/types/boxShadow';
 import { BOX_SHADOW } from '@/constants/boxShadow';
 import { FontWeightType } from '@/types/fontWeight';
 import { FONT_WEIGHT } from '@/constants/fontWeight';
+import { ZIndexType } from '@/types/zIndex';
+import { Z_INDEX } from '@/constants/zIndex';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
@@ -41,6 +43,7 @@ const isWhiteOverlay = (key: string) => key === 'whiteOverlay';
 const isBlackOverlay = (key: string) => key === 'blackOverlay';
 const isElevation = (key: string) => key === 'elevation';
 const isFontWeight = (key: string) => key === 'fontWeight';
+const isZIndex = (key: string) => key === 'zIndex';
 const isOverlayAlphaType = (
   value: StyleType[keyof StyleType]
 ): value is OverlayAlphaType =>
@@ -66,6 +69,9 @@ const isDurationToken = (
 const isFontWeightToken = (
   value: StyleType[keyof StyleType]
 ): value is FontWeightType => FONT_WEIGHT.some((weight) => weight === value);
+const isZIndexToken = (
+  value: StyleType[keyof StyleType]
+): value is ZIndexType => Z_INDEX.some((zIndex) => zIndex === value);
 
 const useStyle = (
   style: StyleType | undefined
@@ -79,7 +85,8 @@ const useStyle = (
     elevation,
     easing,
     duration,
-    fontWeight
+    fontWeight,
+    zIndex
   } = useJinni();
   const { isResponsive, editResponsive } = useResponsive();
 
@@ -149,6 +156,10 @@ const useStyle = (
     }
     if (isFontWeight(key) && isFontWeightToken(editedValue)) {
       editedStyle[key] = fontWeight[editedValue];
+      return;
+    }
+    if (isZIndex(key) && isZIndexToken(editedValue)) {
+      editedStyle[key] = zIndex[editedValue];
       return;
     }
     editedStyle[key] = editedValue;
