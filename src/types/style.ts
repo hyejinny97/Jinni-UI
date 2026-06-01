@@ -6,6 +6,7 @@ import { ElevationLevelType } from '@/types/elevation';
 import { EasingType, DurationType } from '@/types/motion';
 import { OverlayAlphaType } from '@/types/overlay';
 import { BoxShadowType } from '@/types/boxShadow';
+import { FontWeightType } from '@/types/fontWeight';
 
 type CSSColorProperties = (typeof CSS_COLOR_PROPERTIES)[number];
 type CSSVariable = { [key: `--${string}`]: string | number };
@@ -27,6 +28,9 @@ type Duration = {
   transitionDuration?: DurationType | string;
   animationDuration?: DurationType | string;
 };
+type FontWeight = {
+  fontWeight?: FontWeightType | React.CSSProperties['fontWeight'];
+};
 
 type BaseCSSProperties = Omit<
   React.CSSProperties,
@@ -40,7 +44,8 @@ type BaseCSSProperties = Omit<
   BlackOverlay &
   Elevation &
   Easing &
-  Duration;
+  Duration &
+  FontWeight;
 
 type ResponsiveCSSProperties = {
   [K in keyof BaseCSSProperties]?:
