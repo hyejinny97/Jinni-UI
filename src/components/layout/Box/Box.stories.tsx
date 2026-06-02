@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Box, { BoxProps } from './Box';
 import { Stack } from '@/components/layout/Stack';
+import { Grid } from '@/components/layout/Grid';
 
 const meta: Meta<typeof Box> = {
   component: Box,
@@ -23,7 +24,9 @@ const meta: Meta<typeof Box> = {
     round: {
       description: 'border radius',
       table: {
-        type: { summary: `'sm' | 'md' | 'lg' | number` }
+        type: {
+          summary: `'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full' | number`
+        }
       }
     }
   }
@@ -211,20 +214,35 @@ const SquareBox = (props: BoxProps) => (
 
 export const Round: Story = {
   render: () => (
-    <Stack direction="row" spacing={50} style={{ color: 'on-surface' }}>
+    <Grid columns={3} spacing={20} style={{ color: 'on-surface' }}>
+      <SquareBox outlined round="none">
+        none
+      </SquareBox>
+      <SquareBox outlined round="xs">
+        xs
+      </SquareBox>
       <SquareBox outlined round="sm">
-        content
+        sm
       </SquareBox>
       <SquareBox outlined round="md">
-        content
+        md
       </SquareBox>
       <SquareBox outlined round="lg">
-        content
+        lg
+      </SquareBox>
+      <SquareBox outlined round="xl">
+        xl
+      </SquareBox>
+      <SquareBox outlined round="xxl">
+        xxl
+      </SquareBox>
+      <SquareBox outlined round="full">
+        full
       </SquareBox>
       <SquareBox outlined round={30}>
-        content
+        number 30
       </SquareBox>
-    </Stack>
+    </Grid>
   ),
   parameters: {
     docs: {
@@ -244,20 +262,35 @@ const SquareBox = (props: BoxProps) => (
   />
 );
 
-<Stack direction="row" spacing={50} style={{ color: 'on-surface' }}>
+<Grid columns={3} spacing={20} style={{ color: 'on-surface' }}>
+  <SquareBox outlined round="none">
+    none
+  </SquareBox>
+  <SquareBox outlined round="xs">
+    xs
+  </SquareBox>
   <SquareBox outlined round="sm">
-    content
+    sm
   </SquareBox>
   <SquareBox outlined round="md">
-    content
+    md
   </SquareBox>
   <SquareBox outlined round="lg">
-    content
+    lg
+  </SquareBox>
+  <SquareBox outlined round="xl">
+    xl
+  </SquareBox>
+  <SquareBox outlined round="xxl">
+    xxl
+  </SquareBox>
+  <SquareBox outlined round="full">
+    full
   </SquareBox>
   <SquareBox outlined round={30}>
-    content
+    number 30
   </SquareBox>
-</Stack>
+</Grid>
 `.trim()
       }
     }
