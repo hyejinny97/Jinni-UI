@@ -75,6 +75,8 @@ const App = () => {
 <Avatar style={{ zIndex: 'backdrop' }}>N</Avatar>
 ```
 
+<br />
+
 ## Customization
 
 ### Jinni UI - Z-Index (기본값)
@@ -99,11 +101,11 @@ const App = () => {
   ```ts
   interface DesignSystemType {
     zIndex: {
-      backdrop: 1000,
-      popper: 2000,
-      modal: 3000,
-      drawer: 3000,
-      toast: 4000
+      backdrop: number;
+      popper: number;
+      modal: number;
+      drawer: number;
+      toast: number;
     }
     ...
   }
