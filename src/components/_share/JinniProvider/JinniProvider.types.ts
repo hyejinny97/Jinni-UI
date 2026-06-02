@@ -8,6 +8,7 @@ import { FontWeightType } from '@/types/fontWeight';
 import { ZIndexType } from '@/types/zIndex';
 import { OverlayAlphaType } from '@/types/overlay';
 import { BoxShadowType } from '@/types/boxShadow';
+import { RoundType } from '@/types/round';
 
 export interface DesignSystemType {
   theme: ThemeModeType;
@@ -27,6 +28,7 @@ export interface DesignSystemType {
   duration: Record<DurationType | string, string>;
   fontWeight: Record<FontWeightType | string, number>;
   zIndex: Record<ZIndexType | string, number>;
+  round: Record<RoundType | string, string>;
 }
 
 export type DeepPartial<T> = {

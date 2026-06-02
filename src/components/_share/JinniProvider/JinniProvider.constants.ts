@@ -7,6 +7,7 @@ import { DEFAULT_OVERLAY_ALPHA } from '@/constants/overlay';
 import { DEFAULT_EASING_SET, DEFAULT_DURATION } from '@/constants/motion';
 import { DEFAULT_FONT_WEIGHT } from '@/constants/fontWeight';
 import { DEFAULT_Z_INDEX } from '@/constants/zIndex';
+import { DEFAULT_ROUND } from '@/constants/round';
 
 export const DEFAULT_DESIGN_SYSTEM: DesignSystemType = {
   theme: 'light',
@@ -22,5 +23,6 @@ export const DEFAULT_DESIGN_SYSTEM: DesignSystemType = {
   easing: DEFAULT_EASING_SET,
   duration: DEFAULT_DURATION,
   fontWeight: DEFAULT_FONT_WEIGHT,
-  zIndex: DEFAULT_Z_INDEX
+  zIndex: DEFAULT_Z_INDEX,
+  round: DEFAULT_ROUND
 };

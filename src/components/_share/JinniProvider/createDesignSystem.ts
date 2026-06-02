@@ -130,6 +130,12 @@ export const createDesignSystem = (
         target: props['zIndex']
       }) as DesignSystemType['zIndex'];
     }
+    if (props['round']) {
+      designSystem['round'] = overwrite({
+        base: designSystem['round'],
+        target: props['round']
+      }) as DesignSystemType['round'];
+    }
   }
 
   return designSystem;

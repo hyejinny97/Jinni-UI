@@ -25,7 +25,8 @@ export const useAddStyleTag = ({
       easing,
       duration,
       fontWeight,
-      zIndex
+      zIndex,
+      round
     } = computedDesignSystem;
     const PREFIX = '--jinni';
 
@@ -59,6 +60,9 @@ export const useAddStyleTag = ({
     const zIndexCss = Object.entries(zIndex).map(
       ([key, value]) => `${[PREFIX, 'z-index', key].join('-')}: ${value};`
     );
+    const roundCss = Object.entries(round).map(
+      ([key, value]) => `${[PREFIX, 'round', key].join('-')}: ${value};`
+    );
 
     const typographySpecToString = (typographySpec: TypographySpec) => {
       return Object.entries(typographySpec)
@@ -87,7 +91,8 @@ export const useAddStyleTag = ({
       ...easingCss,
       ...durationCss,
       ...fontWeightCss,
-      ...zIndexCss
+      ...zIndexCss,
+      ...roundCss
     ].join('\n');
 
     const prevStyleEl = document.querySelector(
