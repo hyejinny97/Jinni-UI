@@ -69,7 +69,7 @@ const GrayBox = ({
   style?: StyleType;
 }) => (
   <Box
-    round="sm"
+    round="xs"
     style={{
       boxSizing: 'border-box',
       display: 'inline-flex',

@@ -165,7 +165,7 @@ const LocaleTemplate = () => {
     <Stack spacing={20} style={{ alignItems: 'center' }}>
       <Box
         as="fieldset"
-        round="md"
+        round="sm"
         style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
         <Chip as="legend" variant="filled" color="surface-container-highest">
@@ -220,7 +220,7 @@ const OptionsTemplate = () => {
     <Stack spacing={20} style={{ alignItems: 'center' }}>
       <Box
         as="fieldset"
-        round="md"
+        round="sm"
         style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
         <Chip as="legend" variant="filled" color="surface-container-highest">
@@ -361,7 +361,7 @@ export const Locale: Story = {
     <Stack spacing={20} style={{ alignItems: 'center' }}>
       <Box
         as="fieldset"
-        round="md"
+        round="sm"
         style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
         <Chip as="legend" variant="filled" color="surface-container-highest">
@@ -425,7 +425,7 @@ export const Options: Story = {
     <Stack spacing={20} style={{ alignItems: 'center' }}>
       <Box
         as="fieldset"
-        round="md"
+        round="sm"
         style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
         <Chip as="legend" variant="filled" color="surface-container-highest">

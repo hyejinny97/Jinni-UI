@@ -25,7 +25,7 @@ const OvershootAnimation = ({
 }: AnimationProps) => {
   return (
     <Box
-      round="sm"
+      round="xs"
       style={{
         padding: '5px',
         width: '80%',
@@ -57,7 +57,7 @@ const BounceAnimation = ({
 }: AnimationProps) => {
   return (
     <Box
-      round="sm"
+      round="xs"
       style={{
         padding: '5px',
         width: '40px',

@@ -135,7 +135,7 @@ const ModalSizeTemplate = () => {
     <Stack spacing={20} style={{ alignItems: 'center' }}>
       <Box
         as="fieldset"
-        round="md"
+        round="sm"
         style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
         <Chip as="legend" variant="filled" color="surface-container-highest">
@@ -453,7 +453,7 @@ export const Sizes: Story = {
     <Stack spacing={20} style={{ alignItems: 'center' }}>
       <Box
         as="fieldset"
-        round="md"
+        round="sm"
         style={{ backgroundColor: 'surface-container', border: 'none' }}
       >
         <Chip as="legend" variant="filled" color="surface-container-highest">

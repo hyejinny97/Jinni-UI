@@ -48,7 +48,7 @@ const BreakpointPlaygroundContent = () => {
         </Text>
       </Stack>
       <Box
-        round="md"
+        round="sm"
         style={{
           width: '150px',
           height: '150px',

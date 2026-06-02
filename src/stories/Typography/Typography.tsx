@@ -27,7 +27,7 @@ const TypographyContent = () => {
               className={cn('typo-name', `typo-${typo}`, {
                 selected: typo === selectedTypo
               })}
-              round="sm"
+              round="xs"
               onClick={() => setSelectedTypo(typo)}
             >
               {typo}
