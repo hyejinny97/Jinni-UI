@@ -1,0 +1,184 @@
+import { Meta } from '@storybook/blocks';
+import Round from './Round';
+
+<Meta title="Design System/Round" />
+
+# Round
+
+<br />
+<br />
+
+## JinniUI Round Tokens
+
+- 총 8개의 round tokens
+
+<Round />
+
+<br />
+
+## Round 접근 및 사용
+
+### In CSS
+
+- css 내장 `var()` 함수를 사용해 root 요소에 등록된 round 변수 가져와 사용
+
+```css
+.classname {
+  border-radius: var(--jinni-round-sm);
+}
+```
+
+### In JSX
+
+#### 1. Inline style에서 CSS 변수 `var()` 사용
+
+```jsx
+const App = () => {
+  return <p style={{ borderRadius: 'var(--jinni-round-sm)' }}>text</p>;
+};
+```
+
+#### 2. `useJinni` hook
+
+```jsx
+import useJinni from '@/hooks/useJinni';
+
+const App = () => {
+  const { round } = useJinni();
+
+  return (
+    <>
+      <Avatar style={{ borderRadius: round['sm'] }}>N</Avatar>
+      <p style={{ borderRadius: round['sm'] }}>text</p>
+    </>
+  );
+};
+```
+
+#### 3. `useStyle` hook
+
+```jsx
+import useStyle from '@/hooks/useStyle';
+
+const App = () => {
+  const style = useStyle({ borderRadius: 'sm' });
+
+  return <p style={style}>text</p>;
+};
+```
+
+### JinniUI Components
+
+- JinniUI에서 제공하는 컴포넌트 전부 `style` prop(`StyleType`, extended style type)을 받음
+- `style` prop의 값은 내부적으로 `useStyle` 훅으로 처리해주고 있음
+- 따라서, JinniUI 컴포넌트에 round tokens를 적용하고 싶으면 `style` prop에 바로 작성하면 됨
+
+```jsx
+<Avatar style={{ borderRadius: 'sm' }}>N</Avatar>
+<Avatar
+  style={{
+    borderRadius: {
+      xs: 'sm',
+      md: 'xl',
+      lg: 'full'
+     }
+   }}
+>
+  N
+</Avatar>
+```
+
+<br />
+
+## Customization
+
+### Jinni UI - Round (기본값)
+
+- `createDesignSystem` 함수의 `round` props를 설정하지 않을 경우, 기본적으로 Jinni UI의 Round가 설정됨
+
+  ```jsx
+  const designSystem = createDesignSystem();
+  ```
+
+  ```jsx
+  const designSystem = createDesignSystem({
+    round: DEFAULT_ROUND
+  });
+  ```
+
+### Customize Round
+
+- `createDesignSystem` 함수의 `round` props로 설정된 값은 기존 Jinni UI의 `round`에 덮어 씌워지게 됨
+- 즉, `DesignSystemType`의 `round`에 존재하는 key 값을 설정하면 기존 값이 변경되고, `DesignSystemType`의 `round`에 존재하지 않는 key 값을 설정하면 속성이 새로 추가됨
+
+  ```ts
+  interface DesignSystemType {
+    round: {
+      none: string;
+      xs: string;
+      sm: string;
+      md: string;
+      lg: string;
+      xl: string;
+      xxl: string;
+      full: string;
+    }
+    ...
+  }
+  ```
+
+#### 1) 기존 round 값 변경
+
+```jsx
+const designSystem = createDesignSystem({
+  round: {
+    sm: '6px',
+    md: '10px'
+  }
+});
+```
+
+#### 2) 새로운 round 속성 추가
+
+1.  새로운 round 속성 추가
+
+    ```jsx
+    const designSystem = createDesignSystem({
+      round: {
+        xxs: '2px',
+        xxxl: '36px'
+      }
+    });
+    ```
+
+2.  유의할 점
+
+    - 이 경우 `useStyle` 훅이나 JinniUI Component의 `style`(extended style type) prop에서는 새로 추가한 round 속성을 사용할 수는 없음
+
+    ```jsx
+    // ⭕ 가능
+    const App = () => {
+      const { round } = useJinni();
+
+      return (
+        <>
+          <p style={{ borderRadius: 'var(--jinni-round-xxs)' }}>text</p>
+          <Avatar style={{ borderRadius: round['xxs'] }}>N</Avatar>
+        </>
+      );
+    };
+    ```
+
+    ```jsx
+    // ❌ 불가
+    const App = () => {
+      const style = useStyle({ borderRadius: 'xxs' });
+
+      return (
+        <>
+          <p style={style}>text</p>
+          <Avatar style={{ borderRadius: 'xxs' }}>N</Avatar>
+        </>
+      );
+    };
+    ```

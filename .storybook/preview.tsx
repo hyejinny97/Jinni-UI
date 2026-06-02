@@ -33,6 +33,7 @@ const preview: Preview = {
             'Elevation',
             'Font Weight',
             'Z-Index',
+            'Round',
             '[Motion] Easing',
             '[Motion] Duration'
           ],
