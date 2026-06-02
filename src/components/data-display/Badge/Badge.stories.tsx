@@ -122,7 +122,7 @@ const Visibility = () => {
         </Label>
       </Stack>
       <Box
-        round="md"
+        round="sm"
         style={{
           display: 'inline-flex',
           justifyContent: 'center',
@@ -303,7 +303,7 @@ export const BadgeVisibility: Story = {
         </Label>
       </Stack>
       <Box
-        round="md"
+        round="sm"
         style={{
           display: 'inline-flex',
           justifyContent: 'center',

@@ -458,7 +458,7 @@ const TablePaginationTemplate = () => {
   );
 
   return (
-    <Box elevation={2} round="sm">
+    <Box elevation={2} round="xs">
       <TableContainer>
         <Table>
           <TableHead>
@@ -565,7 +565,7 @@ const SortableTableTemplate = () => {
     : DESERT_ROWS;
 
   return (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table className="sortable-table">
         <TableHead>
           <TableRow>
@@ -647,7 +647,7 @@ const SelectableTableTemplate = () => {
   };
 
   return (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table>
         <TableHead>
           <TableRow>
@@ -754,7 +754,7 @@ const CollapsibleTableTemplate = () => {
   };
 
   return (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table>
         <TableHead>
           <TableRow>
@@ -847,7 +847,7 @@ const SpanningTableTemplate = () => {
   const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
   return (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table>
         <TableHead>
           <TableRow>
@@ -953,7 +953,7 @@ const EditingTableTemplate = () => {
     <TableContainer
       as={Box}
       elevation={2}
-      round="sm"
+      round="xs"
       style={{ width: 'max-content' }}
     >
       <Table className="editing-table">
@@ -1310,7 +1310,7 @@ const FilteringTableTemplate = () => {
       <TableContainer
         as={Box}
         elevation={2}
-        round="sm"
+        round="xs"
         style={{ width: 'max-content', margin: '0 auto' }}
       >
         <Table style={{ minWidth: '650px' }}>
@@ -1404,7 +1404,7 @@ const FilteringTableTemplate = () => {
 
 export const BasicTable: Story = {
   render: () => (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table>
         <TableHead>
           <TableRow>
@@ -1502,7 +1502,7 @@ const DESERT_COLUMNS = [
   }
 ] as const;
 
-<TableContainer as={Box} elevation={2} round="sm">
+<TableContainer as={Box} elevation={2} round="xs">
   <Table>
     <TableHead>
       <TableRow>
@@ -1546,7 +1546,7 @@ const DESERT_COLUMNS = [
 
 export const DenseTable: Story = {
   render: () => (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -1644,7 +1644,7 @@ const DESERT_COLUMNS = [
   }
 ] as const;
 
-<TableContainer as={Box} elevation={2} round="sm">
+<TableContainer as={Box} elevation={2} round="xs">
   <Table size='small'>
     <TableHead>
       <TableRow>
@@ -1691,7 +1691,7 @@ export const StickyHeader: Story = {
     <TableContainer
       as={Box}
       elevation={2}
-      round="sm"
+      round="xs"
       style={{ maxHeight: '250px', overflowY: 'auto' }}
     >
       <Table stickyHeader>
@@ -1794,7 +1794,7 @@ const DESERT_COLUMNS = [
 <TableContainer
   as={Box}
   elevation={2}
-  round="sm"
+  round="xs"
   style={{ maxHeight: '250px', overflowY: 'auto' }}
 >
   <Table stickyHeader>
@@ -1936,7 +1936,7 @@ const TablePaginationTemplate = () => {
   );
 
   return (
-    <Box elevation={2} round="sm">
+    <Box elevation={2} round="xs">
       <TableContainer>
         <Table>
           <TableHead>
@@ -2111,7 +2111,7 @@ const SortableTableTemplate = () => {
     : DESERT_ROWS;
 
   return (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table className="sortable-table">
         <TableHead>
           <TableRow>
@@ -2261,7 +2261,7 @@ const SelectableTableTemplate = () => {
   };
 
   return (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table>
         <TableHead>
           <TableRow>
@@ -2329,7 +2329,7 @@ export const ColumnGrouping: Story = {
     <TableContainer
       as={Box}
       elevation={2}
-      round="sm"
+      round="xs"
       style={{ maxHeight: '500px', overflowY: 'auto' }}
     >
       <Table stickyHeader>
@@ -2437,7 +2437,7 @@ const COUNTRY_SECOND_COLUMNS: CountryColumn[] = [
 <TableContainer
   as={Box}
   elevation={2}
-  round="sm"
+  round="xs"
   style={{ maxHeight: '500px', overflowY: 'auto' }}
 >
   <Table stickyHeader>
@@ -2623,7 +2623,7 @@ const CollapsibleTableTemplate = () => {
   };
 
   return (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table>
         <TableHead>
           <TableRow>
@@ -2767,7 +2767,7 @@ const SpanningTableTemplate = () => {
   const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
   return (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table>
         <TableHead>
           <TableRow>
@@ -2948,7 +2948,7 @@ const EditingTableTemplate = () => {
     <TableContainer
       as={Box}
       elevation={2}
-      round="sm"
+      round="xs"
       style={{ width: 'max-content' }}
     >
       <Table className="editing-table">
@@ -3376,7 +3376,7 @@ const FilteringTableTemplate = () => {
       <TableContainer
         as={Box}
         elevation={2}
-        round="sm"
+        round="xs"
         style={{ width: 'max-content', margin: '0 auto' }}
       >
         <Table style={{ minWidth: '650px' }}>
@@ -3475,7 +3475,7 @@ const FilteringTableTemplate = () => {
 
 export const Customization: Story = {
   render: () => (
-    <TableContainer as={Box} elevation={2} round="sm">
+    <TableContainer as={Box} elevation={2} round="xs">
       <Table className="custom-table">
         <TableHead>
           <TableRow>
@@ -3516,7 +3516,7 @@ export const Customization: Story = {
     docs: {
       source: {
         code: `
-<TableContainer as={Box} elevation={2} round="sm">
+<TableContainer as={Box} elevation={2} round="xs">
   <Table className="custom-table">
     <TableHead>
       <TableRow>

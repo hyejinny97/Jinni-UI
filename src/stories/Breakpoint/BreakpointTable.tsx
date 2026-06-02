@@ -28,7 +28,7 @@ const BreakpointTable = () => {
       <TableContainer
         as={Box}
         elevation={2}
-        round="sm"
+        round="xs"
         style={{ width: 'max-content' }}
       >
         <Table>

@@ -7,7 +7,7 @@ const Container = (props: BoxProps) => {
   return (
     <Box
       className={cn('JinniContainer', 'sb-unstyled', className)}
-      round="sm"
+      round="xs"
       style={{
         display: 'flex',
         flexDirection: 'column',

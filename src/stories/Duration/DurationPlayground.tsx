@@ -68,7 +68,7 @@ const DurationPlaygroundContent = () => {
         {Object.entries(duration).map(([durationType, durationTime]) => (
           <Box
             key={durationType}
-            round="sm"
+            round="xs"
             style={{
               width: '80%',
               aspectRatio: '1/1',

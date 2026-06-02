@@ -75,7 +75,7 @@ const StretchAnimation = ({
 }: AnimationProps) => {
   return (
     <Box
-      round="sm"
+      round="xs"
       style={{
         height: '30px',
         border: '1px solid var(--jinni-color-outline-variant)'
@@ -124,14 +124,14 @@ const FadeAnimation = ({
 }: AnimationProps) => {
   return (
     <Box
-      round="sm"
+      round="xs"
       style={{
         height: '30px',
         border: '1px solid var(--jinni-color-outline-variant)'
       }}
     >
       <Box
-        round="sm"
+        round="xs"
         style={{
           width: '100%',
           height: '30px',

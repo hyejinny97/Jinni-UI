@@ -19,6 +19,8 @@ import { FontWeightType } from '@/types/fontWeight';
 import { FONT_WEIGHT } from '@/constants/fontWeight';
 import { ZIndexType } from '@/types/zIndex';
 import { Z_INDEX } from '@/constants/zIndex';
+import { RoundType } from '@/types/round';
+import { ROUND } from '@/constants/round';
 
 type DefaultStyleType = React.CSSProperties & {
   [key: string]: React.CSSProperties[keyof React.CSSProperties];
@@ -44,6 +46,7 @@ const isBlackOverlay = (key: string) => key === 'blackOverlay';
 const isElevation = (key: string) => key === 'elevation';
 const isFontWeight = (key: string) => key === 'fontWeight';
 const isZIndex = (key: string) => key === 'zIndex';
+const isBorderRadius = (key: string) => key === 'borderRadius';
 const isOverlayAlphaType = (
   value: StyleType[keyof StyleType]
 ): value is OverlayAlphaType =>
@@ -72,6 +75,8 @@ const isFontWeightToken = (
 const isZIndexToken = (
   value: StyleType[keyof StyleType]
 ): value is ZIndexType => Z_INDEX.some((zIndex) => zIndex === value);
+const isRoundToken = (value: StyleType[keyof StyleType]): value is RoundType =>
+  ROUND.some((round) => round === value);
 
 const useStyle = (
   style: StyleType | undefined
@@ -86,7 +91,8 @@ const useStyle = (
     easing,
     duration,
     fontWeight,
-    zIndex
+    zIndex,
+    round
   } = useJinni();
   const { isResponsive, editResponsive } = useResponsive();
 
@@ -160,6 +166,10 @@ const useStyle = (
     }
     if (isZIndex(key) && isZIndexToken(editedValue)) {
       editedStyle[key] = zIndex[editedValue];
+      return;
+    }
+    if (isBorderRadius(key) && isRoundToken(editedValue)) {
+      editedStyle[key] = round[editedValue];
       return;
     }
     editedStyle[key] = editedValue;

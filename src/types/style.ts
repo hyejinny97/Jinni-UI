@@ -8,6 +8,7 @@ import { OverlayAlphaType } from '@/types/overlay';
 import { BoxShadowType } from '@/types/boxShadow';
 import { FontWeightType } from '@/types/fontWeight';
 import { ZIndexType } from '@/types/zIndex';
+import { RoundType } from '@/types/round';
 
 type CSSColorProperties = (typeof CSS_COLOR_PROPERTIES)[number];
 type CSSVariable = { [key: `--${string}`]: string | number };
@@ -35,10 +36,13 @@ type FontWeight = {
 type ZIndex = {
   zIndex?: ZIndexType | React.CSSProperties['zIndex'];
 };
+type Round = {
+  borderRadius?: RoundType | React.CSSProperties['borderRadius'];
+};
 
 type BaseCSSProperties = Omit<
   React.CSSProperties,
-  CSSColorProperties | 'boxShadow'
+  CSSColorProperties | 'boxShadow' | 'fontWeight' | 'zIndex' | 'borderRadius'
 > &
   CSSVariable &
   Color &
@@ -50,7 +54,8 @@ type BaseCSSProperties = Omit<
   Easing &
   Duration &
   FontWeight &
-  ZIndex;
+  ZIndex &
+  Round;
 
 type ResponsiveCSSProperties = {
   [K in keyof BaseCSSProperties]?:

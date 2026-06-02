@@ -5,11 +5,12 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ElevationLevelType } from '@/types/elevation';
 import { isNumber } from '@/utils/isNumber';
+import { RoundType } from '@/types/round';
 
 export type BoxProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   elevation?: ElevationLevelType;
   outlined?: boolean;
-  round?: 'sm' | 'md' | 'lg' | number;
+  round?: RoundType | number;
 };
 
 const Box = forwardRef(
@@ -28,11 +29,10 @@ const Box = forwardRef(
       ...rest
     } = props;
     const isNumberRound = isNumber(round);
-    const isKeywordRound = ['sm', 'md', 'lg'].some(
-      (keyword) => keyword === round
-    );
     const newStyle = useStyle({
-      ...(isNumberRound && { '--border-radius': `${round}px` }),
+      '--border-radius': isNumberRound
+        ? `${round}px`
+        : `var(--jinni-round-${round})`,
       ...style
     });
 
@@ -41,8 +41,7 @@ const Box = forwardRef(
         ref={ref}
         className={cn(
           'JinniBox',
-          { isNumberRound, outlined },
-          isKeywordRound && round,
+          { outlined },
           isNumber(elevation) && `elevation-${elevation}`,
           className
         )}

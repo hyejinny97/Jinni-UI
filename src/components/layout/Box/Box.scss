@@ -1,21 +1,3 @@
-$border-radius: (
-  sm: 4px,
-  md: 8px,
-  lg: 12px
-);
-
-@mixin round {
-  @each $keyword in sm, md, lg {
-    &.#{$keyword} {
-      border-radius: map-get($map: $border-radius, $key: $keyword);
-    }
-  }
-
-  &.isNumberRound {
-    border-radius: var(--border-radius);
-  }
-}
-
 @mixin outlined {
   &.outlined {
     border: 1px solid var(--jinni-color-outline-variant);
@@ -24,6 +6,6 @@ $border-radius: (
 
 .JinniBox {
   box-sizing: border-box;
+  border-radius: var(--border-radius);
   @include outlined;
-  @include round;
 }
