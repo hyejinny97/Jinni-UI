@@ -21,8 +21,10 @@ const preview: Preview = {
       storySort: {
         method: 'alphabetical',
         order: [
+          'Get Started',
           'Design System',
           [
+            'Basic',
             'Theme',
             'Contrast',
             'Color',

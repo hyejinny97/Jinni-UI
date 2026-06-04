@@ -1,0 +1,51 @@
+import { Meta } from '@storybook/blocks';
+import WarningAlert from './WarningAlert';
+
+<Meta title="Get Started/Introduction" />
+
+# Introduction
+
+<br />
+
+<WarningAlert />
+
+<br />
+
+## What is JinniUI?
+
+JinniUI는 React 기반의 컴포넌트 라이브러리로, MUI를 비롯한 다양한 컴포넌트 라이브러리를 참고하여 만들었습니다.
+
+JinniUI는 'Simple is best' 라는 원칙 아래 설계되었습니다.<br/>
+하나의 컴포넌트에 지나치게 많은 기능을 담기보다, 각 컴포넌트가 본연의 역할에 충실하도록 만들었습니다.<br/>
+그 결과, 컴포넌트를 사용하는 개발자가 더 많은 자율성을 가지고 자신의 프로젝트에 맞게 자유롭게 커스텀할 수 있습니다.<br/>
+다양한 활용 사례와 조합 방식을 문서화하여 컴포넌트를 최대한 유연하게 사용할 수 있는 방법을 제공합니다.
+
+또한, JinniUI 내장 Design System을 통해 일관된 디자인을 유지하면서도 프로젝트에 맞게 자유롭게 커스터마이징이 가능합니다.
+
+JinniUI는 오픈 소스 프로젝트이므로 버그 리포트, 기능 제안, 개선 아이디어 등 어떤 형태의 기여도 환영합니다.<br/>
+[GitHub](https://github.com/hyejinny97/Jinni-UI) 이슈나 PR을 통해 언제든지 의견을 남겨주세요.
+
+참고로, 상단 Toolbar 우측에는 theme과 contrast를 변경할 수 있는 두 개의 select가 있습니다.<br/>
+JinniUI Design System에서 theme, contrast의 변화는 color의 변화를 만들어 냅니다.<br/>
+JinniUI Component는 이러한 Design System을 사용해 만들어졌기 때문에 theme, contrast 변경 시 일부 색상이 변경될 수 있습니다.<br/>
+'COMPONENTS' section의 각 컴포넌트 문서에서 theme, contrast 두 옵션을 변경해가면서, <br/>
+해당 상황에 따라 컴포넌트의 색상이 어떻게 변하는지 확인할 수 있습니다.<br/>
+이를 통해, Design System을 간단히 경험하고 이해하는데 도움이 되기를 바랍니다.
+
+## Required
+
+Jinni Design System을 사용하기 위해선, 반드시 프로젝트의 root 컴포넌트를 `JinniProvider`로 감싸야 합니다.<br />
+Jinni UI의 모든 컴포넌트들은 Jinni Design System을 사용하기 때문에,<br />
+root 컴포넌트를 `JinniProvider`로 감싸지 않으면 에러가 발생하고 동작하지 않으니 이 점 유의해주세요.
+
+```tsx
+const designSystem = createDesignSystem();
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <JinniProvider designSystem={designSystem}>
+      <App />
+    </JinniProvider>
+  </StrictMode>
+);
+```
