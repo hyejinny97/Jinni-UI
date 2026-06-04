@@ -1,0 +1,133 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Design System/Basic" />
+
+# Basic
+
+<br />
+<br />
+
+## Overview
+
+```tsx
+const designSystem = createDesignSystem();
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <JinniProvider designSystem={designSystem}>
+      <App />
+    </JinniProvider>
+  </StrictMode>
+);
+```
+
+- Jinni Design System을 사용하기 위해선, 반드시 프로젝트의 root 컴포넌트를 `JinniProvider`로 감싸야 함
+- Jinni UI의 모든 컴포넌트들은 Jinni Design System을 사용하기 때문에, root 컴포넌트를 `JinniProvider`로 감싸지 않으면 에러가 발생하고 동작하지 않음
+
+<br />
+
+## `JinniProvider` 컴포넌트
+
+### 역할
+
+- css `root` 요소에 디자인 시스템 값들을 저장
+- 하위 컴포넌트에 디자인 시스템 값들을 전달하는 역할을 함
+- 하위 컴포넌트에 theme 값을 변경하는 `changeTheme` 함수 전달
+- 하위 컴포넌트에 contrast 값을 변경하는 `changeContrast` 함수 전달
+- `useJinni` 훅을 통해 JinniContext에 접근 가능
+
+### 사용법
+
+```tsx
+const designSystem: DesignSystemType = {
+  theme: 'light',
+  contrast: 'standard',
+  ...
+}
+
+<JinniProvider designSystem={designSystem}>
+  <RootComponent />
+</JinniProvider>
+```
+
+### `changeTheme` 함수
+
+```tsx
+const Component = () => {
+  const { theme, changeTheme } = useJinni();
+  console.log('현재 theme: ', theme);
+  return (
+    <>
+      <Button onClick={() => changeTheme('light')}>Light mode</Button>
+      <Button onClick={() => changeTheme('dark')}>Dark mode</Button>
+    </>
+  );
+};
+```
+
+- `JinniProvider` 하위 컴포넌트에서 사용 가능한 함수로, theme 값을 변경함
+
+### `changeContrast` 함수
+
+```tsx
+const Component = () => {
+  const { contrast, changeContrast } = useJinni();
+  console.log('현재 contrast: ', contrast);
+  return (
+    <>
+      <Button onClick={() => changeContrast('standard')}>
+        Standard contrast
+      </Button>
+      <Button onClick={() => changeContrast('medium')}>Medium contrast</Button>
+      <Button onClick={() => changeContrast('high')}>High contrast</Button>
+    </>
+  );
+};
+```
+
+- `JinniProvider` 하위 컴포넌트에서 사용 가능한 함수로, contrast 값을 변경함
+
+<br />
+
+## `createDesignSystem` 함수
+
+### 역할
+
+- `DesignSystemType`의 designSystem을 생성
+- `createDesignSystem` 함수를 사용해 design system을 다양하게 custom 할 수 있음
+
+### 사용법
+
+```tsx
+const designSystem = createDesignSystem({
+  theme: 'dark',
+  contrast: 'high',
+  round: {
+    xs: '2px'
+  }
+});
+```
+
+- `createDesignSystem` 함수의 입력값을 지정해주지 않는 경우, 자동으로 DEFAULT_DESIGN_SYSTEM을 반환함
+
+### DEFAULT_DESIGN_SYSTEM
+
+```tsx
+const DEFAULT_DESIGN_SYSTEM: DesignSystemType = {
+  theme: 'light',
+  contrast: 'standard',
+  color: {
+    scheme: DEFAULT_COLOR_SCHEME,
+    palette: DEFAULT_COLOR_PALETTE
+  },
+  typography: DEFAULT_TYPOGRAPHY,
+  breakpoint: DEFAULT_BREAKPOINT,
+  overlayAlpha: DEFAULT_OVERLAY_ALPHA,
+  boxShadow: DEFAULT_BOX_SHADOW,
+  easing: DEFAULT_EASING_SET,
+  duration: DEFAULT_DURATION,
+  fontWeight: DEFAULT_FONT_WEIGHT,
+  zIndex: DEFAULT_Z_INDEX,
+  round: DEFAULT_ROUND
+};
+```

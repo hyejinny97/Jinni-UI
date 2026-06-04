@@ -23,6 +23,7 @@ const preview: Preview = {
         order: [
           'Design System',
           [
+            'Basic',
             'Theme',
             'Contrast',
             'Color',
