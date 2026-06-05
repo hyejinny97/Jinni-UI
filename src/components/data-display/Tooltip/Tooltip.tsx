@@ -9,11 +9,11 @@ import React, {
 } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { useOpen, useHandleTriggers } from './Tooltip.hooks';
-import { PlacementType } from '@/types/popper';
+import { PlacementType } from '@/types/placement';
 import {
   placementToAnchorOrigin,
   placementToPopperOrigin
-} from '@/utils/popper';
+} from '@/utils/placement';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { Motion } from '@/components/motion/Motion';

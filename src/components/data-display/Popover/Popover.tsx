@@ -4,7 +4,6 @@ import { AsType } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { useKeyboardAccessibility } from './Popover.hooks';
-import { OriginType } from '@/types/popper';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
@@ -26,11 +25,11 @@ export type PopoverProps<T extends AsType = 'div'> = Omit<
 const DEFAULT_ANCHOR_ORIGIN = {
   horizontal: 'left',
   vertical: 'bottom'
-} as OriginType;
+} as PopperProps['anchorOrigin'];
 const DEFAULT_POPOVER_ORIGIN = {
   horizontal: 'left',
   vertical: 'top'
-} as OriginType;
+} as PopperProps['popperOrigin'];
 
 const ScaleFade = ({ children }: { children: React.ReactNode }) => {
   return (

@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect } from 'react';
-import { getAnchorCoordinate, getPopperCoordinate } from '@/utils/popper';
+import { getAnchorCoordinate, getPopperCoordinate } from './Popper.utils';
 import { PopperProps } from './Popper';
 
 type UsePopperPositionProps = Pick<

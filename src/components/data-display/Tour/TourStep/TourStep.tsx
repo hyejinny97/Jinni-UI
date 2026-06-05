@@ -5,11 +5,11 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Mask, MaskOptionalProps } from '../Mask';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { Popper } from '@/components/_share/Popper';
-import { PlacementType } from '@/types/popper';
+import { PlacementType } from '@/types/placement';
 import {
   placementToAnchorOrigin,
   placementToPopperOrigin
-} from '@/utils/popper';
+} from '@/utils/placement';
 import { useTour } from '../Tour.hooks';
 import { useScrollToAnchor } from './TourStep.hooks';
 

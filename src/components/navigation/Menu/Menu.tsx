@@ -3,7 +3,6 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { MenuList, MenuListProps } from '@/components/navigation/MenuList';
-import { OriginType } from '@/types/popper';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import { useKeyboardAccessibility } from './Menu.hooks';
 import { Motion } from '@/components/motion/Motion';
@@ -27,11 +26,11 @@ export type MenuProps<T extends AsType = 'div'> = Omit<
 const DEFAULT_ANCHOR_ORIGIN = {
   horizontal: 'left',
   vertical: 'bottom'
-} as OriginType;
+} as PopperProps['anchorOrigin'];
 const DEFAULT_MENU_ORIGIN = {
   horizontal: 'left',
   vertical: 'top'
-} as OriginType;
+} as PopperProps['popperOrigin'];
 
 const ScaleFade = ({ children }: { children: React.ReactNode }) => {
   return (

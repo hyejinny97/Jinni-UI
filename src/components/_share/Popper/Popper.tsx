@@ -2,7 +2,7 @@ import './Popper.scss';
 import cn from 'classnames';
 import { forwardRef, MutableRefObject } from 'react';
 import { createPortal } from 'react-dom';
-import { PopperType } from '@/types/popper';
+import { PopperType } from './Popper.types';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { usePopperPosition } from './Popper.hooks';
 import useStyle from '@/hooks/useStyle';
