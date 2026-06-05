@@ -13,7 +13,7 @@ export type MosaicProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
 const Mosaic = <T extends AsType = 'div'>(props: MosaicProps<T>) => {
   const {
     children,
-    mosaicColor = 'gray-200',
+    mosaicColor = 'surface-container-highest',
     size = 'md',
     className,
     style,
