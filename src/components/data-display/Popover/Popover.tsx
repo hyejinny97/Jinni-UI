@@ -7,11 +7,12 @@ import { useKeyboardAccessibility } from './Popover.hooks';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
+import { DistributiveOmit } from '@/types/distributiveOmit';
 
 export type CloseReason = 'escapeKeyDown' | 'backdropClick';
 
-export type PopoverProps<T extends AsType = 'div'> = Omit<
-  Partial<PopperProps<T>>,
+export type PopoverProps<T extends AsType = 'div'> = DistributiveOmit<
+  PopperProps<T>,
   'popperOrigin'
 > & {
   popoverOrigin?: PopperProps['popperOrigin'];
@@ -22,14 +23,14 @@ export type PopoverProps<T extends AsType = 'div'> = Omit<
   TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
 };
 
-const DEFAULT_ANCHOR_ORIGIN = {
+const DEFAULT_ANCHOR_ORIGIN: PopperProps['anchorOrigin'] = {
   horizontal: 'left',
   vertical: 'bottom'
-} as PopperProps['anchorOrigin'];
-const DEFAULT_POPOVER_ORIGIN = {
+};
+const DEFAULT_POPOVER_ORIGIN: PopperProps['popperOrigin'] = {
   horizontal: 'left',
   vertical: 'top'
-} as PopperProps['popperOrigin'];
+};
 
 const ScaleFade = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -68,6 +69,18 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     onClose(e.nativeEvent, 'backdropClick');
   };
 
+  const popperAnchorProps: PopperProps =
+    anchorReference === 'anchorEl'
+      ? {
+          anchorReference: 'anchorEl',
+          anchorElRef: anchorElRef!,
+          anchorOrigin
+        }
+      : {
+          anchorReference: 'anchorPosition',
+          anchorPosition: anchorPosition!
+        };
+
   return (
     <AnimatePresence>
       {open && (
@@ -80,10 +93,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
           />
           <Popper
             className={cn('JinniPopover', className)}
-            anchorReference={anchorReference}
-            anchorElRef={anchorElRef}
-            anchorOrigin={anchorOrigin}
-            anchorPosition={anchorPosition}
+            {...popperAnchorProps}
             popperOrigin={popoverOrigin}
             style={{
               '--transform-origin': `${popoverOrigin.horizontal} ${popoverOrigin.vertical}`,

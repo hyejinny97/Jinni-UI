@@ -22,7 +22,7 @@ import { AnimatePresence } from '@/components/motion/AnimatePresence';
 export type TriggerType = 'click' | 'hover' | 'focus';
 
 export type TooltipProps<T extends AsType = 'div'> = Omit<
-  Partial<PopperProps<T>>,
+  PopperProps<T>,
   | 'anchorReference'
   | 'anchorOrigin'
   | 'popperOrigin'
