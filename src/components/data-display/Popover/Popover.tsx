@@ -92,6 +92,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
             data-testid="popover-backdrop"
           />
           <Popper
+            role="dialog"
             className={cn('JinniPopover', className)}
             {...popperAnchorProps}
             popperOrigin={popoverOrigin}
@@ -105,7 +106,6 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
               <Box
                 ref={boxElRef}
                 className="JinniPopoverContent"
-                role="dialog"
                 elevation={5}
                 round={4}
                 tabIndex={0}

@@ -175,6 +175,7 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
       <AnimatePresence>
         {isOpen && (
           <Popper
+            role="tooltip"
             ref={popperRef}
             className={cn('JinniTooltip', className)}
             anchorReference="anchorEl"
@@ -197,7 +198,6 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
               leaveDelay={leaveDelay}
             >
               <Box
-                role="tooltip"
                 className={cn(
                   'JinniTooltipContent',
                   { arrow },
