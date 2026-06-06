@@ -1,16 +1,14 @@
 import { useRef, useLayoutEffect } from 'react';
-import { getAnchorCoordinate, getPopperCoordinate } from '@/utils/popper';
+import { getAnchorCoordinate, getPopperCoordinate } from './Popper.utils';
 import { PopperProps } from './Popper';
 
 type UsePopperPositionProps = Pick<
   PopperProps,
-  | 'anchorReference'
-  | 'popperOrigin'
-  | 'anchorElRef'
-  | 'anchorPosition'
-  | 'anchorOrigin'
+  'anchorElRef' | 'anchorOrigin' | 'anchorPosition'
 > &
-  Required<Pick<PopperProps, 'positionType'>>;
+  Required<
+    Pick<PopperProps, 'anchorReference' | 'popperOrigin' | 'positionType'>
+  >;
 
 export const usePopperPosition = ({
   anchorReference,
@@ -68,10 +66,12 @@ export const usePopperPosition = ({
       resizeObserver.observe(popperEl);
       mutationObserver.observe(popperEl, mutationOptions);
     }
+    resizeObserver.observe(document.body);
     return () => {
       window.removeEventListener('resize', setPopperPosition);
       if (anchorEl) resizeObserver.unobserve(anchorEl);
       if (popperEl) resizeObserver.unobserve(popperEl);
+      resizeObserver.unobserve(document.body);
       mutationObserver.disconnect();
     };
   }, [

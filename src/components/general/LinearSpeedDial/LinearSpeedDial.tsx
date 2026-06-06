@@ -10,6 +10,7 @@ import {
 } from './LinearSpeedDial.utils';
 import { useClose, useKeyboardAccessibility } from './LinearSpeedDial.hooks';
 import { LinearSpeedDialContext } from './LinearSpeedDial.contexts';
+import { DistributiveOmit } from '@/types/distributiveOmit';
 
 export type CloseReason =
   | 'backgroundClick'
@@ -18,8 +19,8 @@ export type CloseReason =
   | 'escapeKeyDown';
 export type PlacementType = 'down' | 'left' | 'right' | 'up';
 
-export type LinearSpeedDialProps<T extends AsType = 'div'> = Omit<
-  Partial<PopperProps<T>>,
+export type LinearSpeedDialProps<T extends AsType = 'div'> = DistributiveOmit<
+  PopperProps<T>,
   'anchorOrigin' | 'popperOrigin'
 > & {
   children: React.ReactNode;
@@ -61,6 +62,18 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
     container
   });
 
+  const popperAnchorProps: PopperProps =
+    anchorReference === 'anchorEl'
+      ? {
+          anchorReference: 'anchorEl',
+          anchorElRef: anchorElRef!,
+          anchorOrigin: getAnchorOrigin(placement)
+        }
+      : {
+          anchorReference: 'anchorPosition',
+          anchorPosition: anchorPosition!
+        };
+
   return (
     <>
       {open && (
@@ -72,11 +85,8 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
             role="menu"
             aria-orientation={getOrientation(placement)}
             className={cn('JinniLinearSpeedDial', className)}
-            anchorReference={anchorReference}
-            anchorElRef={anchorElRef}
-            anchorOrigin={anchorElRef && getAnchorOrigin(placement)}
+            {...popperAnchorProps}
             popperOrigin={getPopperOrigin(placement)}
-            anchorPosition={anchorPosition}
             positionType={positionType}
             container={container}
             style={{ '--offset': `${offset}px`, ...style }}

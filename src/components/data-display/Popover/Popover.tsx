@@ -4,15 +4,15 @@ import { AsType } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { useKeyboardAccessibility } from './Popover.hooks';
-import { OriginType } from '@/types/popper';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
+import { DistributiveOmit } from '@/types/distributiveOmit';
 
 export type CloseReason = 'escapeKeyDown' | 'backdropClick';
 
-export type PopoverProps<T extends AsType = 'div'> = Omit<
-  Partial<PopperProps<T>>,
+export type PopoverProps<T extends AsType = 'div'> = DistributiveOmit<
+  PopperProps<T>,
   'popperOrigin'
 > & {
   popoverOrigin?: PopperProps['popperOrigin'];
@@ -23,14 +23,14 @@ export type PopoverProps<T extends AsType = 'div'> = Omit<
   TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
 };
 
-const DEFAULT_ANCHOR_ORIGIN = {
+const DEFAULT_ANCHOR_ORIGIN: PopperProps['anchorOrigin'] = {
   horizontal: 'left',
   vertical: 'bottom'
-} as OriginType;
-const DEFAULT_POPOVER_ORIGIN = {
+};
+const DEFAULT_POPOVER_ORIGIN: PopperProps['popperOrigin'] = {
   horizontal: 'left',
   vertical: 'top'
-} as OriginType;
+};
 
 const ScaleFade = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -69,6 +69,18 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     onClose(e.nativeEvent, 'backdropClick');
   };
 
+  const popperAnchorProps: PopperProps =
+    anchorReference === 'anchorEl'
+      ? {
+          anchorReference: 'anchorEl',
+          anchorElRef: anchorElRef!,
+          anchorOrigin
+        }
+      : {
+          anchorReference: 'anchorPosition',
+          anchorPosition: anchorPosition!
+        };
+
   return (
     <AnimatePresence>
       {open && (
@@ -80,11 +92,9 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
             data-testid="popover-backdrop"
           />
           <Popper
+            role="dialog"
             className={cn('JinniPopover', className)}
-            anchorReference={anchorReference}
-            anchorElRef={anchorElRef}
-            anchorOrigin={anchorOrigin}
-            anchorPosition={anchorPosition}
+            {...popperAnchorProps}
             popperOrigin={popoverOrigin}
             style={{
               '--transform-origin': `${popoverOrigin.horizontal} ${popoverOrigin.vertical}`,
@@ -96,7 +106,6 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
               <Box
                 ref={boxElRef}
                 className="JinniPopoverContent"
-                role="dialog"
                 elevation={5}
                 round={4}
                 tabIndex={0}

@@ -11,6 +11,7 @@ import {
   useKeyboardAccessibility
 } from './CircularSpeedDial.hooks';
 import { CircularSpeedDialContext } from './CircularSpeedDial.contexts';
+import { DistributiveOmit } from '@/types/distributiveOmit';
 
 export type VariantType = 'circular' | 'semi-circular' | 'quarter-circular';
 export type PlacementMap = {
@@ -24,8 +25,8 @@ export type CloseReason =
   | 'mouseLeave'
   | 'escapeKeyDown';
 
-export type CircularSpeedDialProps<T extends AsType = 'div'> = Omit<
-  Partial<PopperProps<T>>,
+export type CircularSpeedDialProps<T extends AsType = 'div'> = DistributiveOmit<
+  PopperProps<T>,
   'anchorOrigin' | 'popperOrigin'
 > & {
   children: React.ReactNode;
@@ -75,6 +76,18 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
     container
   });
 
+  const popperAnchorProps: PopperProps =
+    anchorReference === 'anchorEl'
+      ? {
+          anchorReference: 'anchorEl',
+          anchorElRef: anchorElRef!,
+          anchorOrigin: HORIZONTAL_CENTER_VERTICAL_CENTER
+        }
+      : {
+          anchorReference: 'anchorPosition',
+          anchorPosition: anchorPosition!
+        };
+
   return (
     <>
       {open && (
@@ -83,11 +96,8 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
             ref={speedDialElRef}
             role="menu"
             className={cn('JinniCircularSpeedDial', className)}
-            anchorReference={anchorReference}
-            anchorElRef={anchorElRef}
-            anchorOrigin={anchorElRef && HORIZONTAL_CENTER_VERTICAL_CENTER}
+            {...popperAnchorProps}
             popperOrigin={HORIZONTAL_CENTER_VERTICAL_CENTER}
-            anchorPosition={anchorPosition}
             positionType={positionType}
             container={container}
             style={style}

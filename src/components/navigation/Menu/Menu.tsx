@@ -3,16 +3,16 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { MenuList, MenuListProps } from '@/components/navigation/MenuList';
-import { OriginType } from '@/types/popper';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import { useKeyboardAccessibility } from './Menu.hooks';
 import { Motion } from '@/components/motion/Motion';
 import { AnimatePresence } from '@/components/motion/AnimatePresence';
+import { DistributiveOmit } from '@/types/distributiveOmit';
 
 export type CloseReason = 'escapeKeyDown' | 'tabKeyDown' | 'backdropClick';
 
-export type MenuProps<T extends AsType = 'div'> = Omit<
-  Partial<PopperProps<T>>,
+export type MenuProps<T extends AsType = 'div'> = DistributiveOmit<
+  PopperProps<T>,
   'popperOrigin'
 > & {
   menuOrigin?: PopperProps['popperOrigin'];
@@ -24,14 +24,14 @@ export type MenuProps<T extends AsType = 'div'> = Omit<
   TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
 };
 
-const DEFAULT_ANCHOR_ORIGIN = {
+const DEFAULT_ANCHOR_ORIGIN: PopperProps['anchorOrigin'] = {
   horizontal: 'left',
   vertical: 'bottom'
-} as OriginType;
-const DEFAULT_MENU_ORIGIN = {
+};
+const DEFAULT_MENU_ORIGIN: PopperProps['popperOrigin'] = {
   horizontal: 'left',
   vertical: 'top'
-} as OriginType;
+};
 
 const ScaleFade = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -76,6 +76,18 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
     onClose(e.nativeEvent, 'backdropClick');
   };
 
+  const popperAnchorProps: PopperProps =
+    anchorReference === 'anchorEl'
+      ? {
+          anchorReference: 'anchorEl',
+          anchorElRef: anchorElRef!,
+          anchorOrigin
+        }
+      : {
+          anchorReference: 'anchorPosition',
+          anchorPosition: anchorPosition!
+        };
+
   return (
     <AnimatePresence>
       {open && (
@@ -88,10 +100,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
           />
           <Popper
             className={cn('JinniMenu', className)}
-            anchorReference={anchorReference}
-            anchorElRef={anchorElRef}
-            anchorOrigin={anchorOrigin}
-            anchorPosition={anchorPosition}
+            {...popperAnchorProps}
             popperOrigin={menuOrigin}
             style={{
               '--transform-origin': `${menuOrigin.horizontal} ${menuOrigin.vertical}`,

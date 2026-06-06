@@ -9,11 +9,11 @@ import React, {
 } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { useOpen, useHandleTriggers } from './Tooltip.hooks';
-import { PlacementType } from '@/types/popper';
+import { PlacementType } from '@/types/placement';
 import {
   placementToAnchorOrigin,
   placementToPopperOrigin
-} from '@/utils/popper';
+} from '@/utils/placement';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { Motion } from '@/components/motion/Motion';
@@ -22,7 +22,7 @@ import { AnimatePresence } from '@/components/motion/AnimatePresence';
 export type TriggerType = 'click' | 'hover' | 'focus';
 
 export type TooltipProps<T extends AsType = 'div'> = Omit<
-  Partial<PopperProps<T>>,
+  PopperProps<T>,
   | 'anchorReference'
   | 'anchorOrigin'
   | 'popperOrigin'
@@ -175,6 +175,7 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
       <AnimatePresence>
         {isOpen && (
           <Popper
+            role="tooltip"
             ref={popperRef}
             className={cn('JinniTooltip', className)}
             anchorReference="anchorEl"
@@ -197,7 +198,6 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
               leaveDelay={leaveDelay}
             >
               <Box
-                role="tooltip"
                 className={cn(
                   'JinniTooltipContent',
                   { arrow },
