@@ -4,13 +4,11 @@ import { PopperProps } from './Popper';
 
 type UsePopperPositionProps = Pick<
   PopperProps,
-  | 'anchorReference'
-  | 'popperOrigin'
-  | 'anchorElRef'
-  | 'anchorPosition'
-  | 'anchorOrigin'
+  'anchorElRef' | 'anchorOrigin' | 'anchorPosition'
 > &
-  Required<Pick<PopperProps, 'positionType'>>;
+  Required<
+    Pick<PopperProps, 'anchorReference' | 'popperOrigin' | 'positionType'>
+  >;
 
 export const usePopperPosition = ({
   anchorReference,

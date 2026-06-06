@@ -1,4 +1,5 @@
-import { PopperType, OriginType } from './Popper.types';
+import { OriginType } from './Popper.types';
+import { PopperProps } from './Popper';
 
 type PositionType = {
   top: number;
@@ -58,10 +59,8 @@ export const getAnchorCoordinate = ({
   anchorElRef,
   anchorOrigin,
   anchorPosition
-}: Partial<
-  Pick<PopperType, 'anchorElRef' | 'anchorPosition' | 'anchorOrigin'>
-> &
-  Pick<PopperType, 'anchorReference'>): PositionType => {
+}: Pick<PopperProps, 'anchorElRef' | 'anchorPosition' | 'anchorOrigin'> &
+  Required<Pick<PopperProps, 'anchorReference'>>): PositionType => {
   if (anchorReference === 'anchorPosition' && anchorPosition) {
     return anchorPosition;
   }

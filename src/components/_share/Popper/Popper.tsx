@@ -2,19 +2,39 @@ import './Popper.scss';
 import cn from 'classnames';
 import { forwardRef, MutableRefObject } from 'react';
 import { createPortal } from 'react-dom';
-import { PopperType } from './Popper.types';
+import { OriginType, PositionType } from './Popper.types';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { usePopperPosition } from './Popper.hooks';
 import useStyle from '@/hooks/useStyle';
 
-export type PopperProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
-  anchorReference: PopperType['anchorReference'];
-  anchorElRef?: PopperType['anchorElRef'];
-  anchorOrigin?: PopperType['anchorOrigin'];
-  anchorPosition?: PopperType['anchorPosition'];
-  popperOrigin: PopperType['popperOrigin'];
-  positionType?: 'absolute' | 'fixed';
-  container?: HTMLElement;
+type AnchorElProps = {
+  anchorReference?: 'anchorEl';
+  anchorElRef: React.RefObject<HTMLElement>;
+  anchorOrigin?: OriginType;
+  anchorPosition?: never;
+};
+
+type AnchorPositionProps = {
+  anchorReference: 'anchorPosition';
+  anchorPosition: PositionType;
+  anchorElRef?: never;
+  anchorOrigin?: never;
+};
+
+export type PopperProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
+  (AnchorElProps | AnchorPositionProps) & {
+    popperOrigin?: OriginType;
+    positionType?: 'absolute' | 'fixed';
+    container?: HTMLElement;
+  };
+
+const DEFAULT_POPPER_ORIGIN: OriginType = {
+  horizontal: 'center',
+  vertical: 'top'
+};
+const DEFAULT_ANCHOR_ORIGIN: OriginType = {
+  horizontal: 'center',
+  vertical: 'bottom'
 };
 
 const Popper = forwardRef(
@@ -24,11 +44,11 @@ const Popper = forwardRef(
   ) => {
     const {
       children,
-      anchorReference,
+      anchorReference = 'anchorEl',
       anchorElRef,
-      anchorOrigin,
+      anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
       anchorPosition,
-      popperOrigin,
+      popperOrigin = DEFAULT_POPPER_ORIGIN,
       positionType = 'absolute',
       container = document.body,
       className,
