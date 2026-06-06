@@ -29,11 +29,11 @@ export type PopperProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   };
 
 const DEFAULT_POPPER_ORIGIN: OriginType = {
-  horizontal: 'center',
+  horizontal: 'left',
   vertical: 'top'
 };
 const DEFAULT_ANCHOR_ORIGIN: OriginType = {
-  horizontal: 'center',
+  horizontal: 'left',
   vertical: 'bottom'
 };
 
@@ -70,6 +70,7 @@ const Popper = forwardRef(
       <>
         {createPortal(
           <Component
+            role="tooltip"
             ref={(element: HTMLElement | null) => {
               if (element) {
                 (popperRef as MutableRefObject<HTMLElement>).current = element;

@@ -66,10 +66,12 @@ export const usePopperPosition = ({
       resizeObserver.observe(popperEl);
       mutationObserver.observe(popperEl, mutationOptions);
     }
+    resizeObserver.observe(document.body);
     return () => {
       window.removeEventListener('resize', setPopperPosition);
       if (anchorEl) resizeObserver.unobserve(anchorEl);
       if (popperEl) resizeObserver.unobserve(popperEl);
+      resizeObserver.unobserve(document.body);
       mutationObserver.disconnect();
     };
   }, [

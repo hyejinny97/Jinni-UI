@@ -1,0 +1,18 @@
+.custom-popper.JinniPopper {
+  .JinniBox {
+    position: relative;
+    margin-top: 15px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 10px;
+      height: 10px;
+      background-color: var(--jinni-color-surface-container-lowest);
+      background-image: inherit;
+    }
+  }
+}
