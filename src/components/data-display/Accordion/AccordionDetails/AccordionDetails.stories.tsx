@@ -11,11 +11,18 @@ const meta: Meta<typeof AccordionDetails> = {
         type: { summary: 'React.ReactNode' }
       }
     },
+    WrapperComponent: {
+      description: 'wrapper 컴포넌트',
+      table: {
+        type: { summary: 'React.ComponentType<{ children: React.ReactNode }>' },
+        defaultValue: { summary: `React.Fragment` }
+      }
+    },
     TransitionComponent: {
       description: 'transition 컴포넌트',
       table: {
-        type: { summary: `React.ReactNode` },
-        defaultValue: { summary: `Collapse` }
+        type: { summary: `React.ComponentType<{ children: React.ReactNode }>` },
+        defaultValue: { summary: `React.Fragment` }
       }
     }
   },

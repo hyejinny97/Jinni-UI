@@ -7,7 +7,14 @@ import {
   AccordionDetails
 } from '.';
 import { ArrowCircleDownIcon } from '@/components/icons/ArrowCircleDownIcon';
-import { Motion } from '@/components/motion/Motion';
+import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import { Radio } from '@/components/data-entry/Radio';
+import { Label } from '@/components/data-entry/Label';
+import { Chip } from '@/components/data-display/Chip';
+import { Grid } from '@/components/layout/Grid';
+import { Stack } from '@/components/layout/Stack';
+import { Box } from '@/components/layout/Box';
+import { motion, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Accordion> = {
   component: Accordion,
@@ -57,16 +64,89 @@ const ControlledAccordionTemplate = () => {
   );
 };
 
-const Fade = ({ children }: { children: React.ReactNode }) => {
+const Collapse = ({ children }: { children: React.ReactNode }) => (
+  <motion.div
+    initial={{ height: 0 }}
+    animate={{ height: 'auto' }}
+    exit={{ height: 0 }}
+    style={{ overflow: 'hidden' }}
+  >
+    {children}
+  </motion.div>
+);
+
+const Fade = ({ children }: { children: React.ReactNode }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+  >
+    {children}
+  </motion.div>
+);
+
+const TransitionTemplate = () => {
+  const TRANSITIONS = ['collapse', 'fade'] as const;
+  const [transition, setTransition] = useState<(typeof TRANSITIONS)[number]>(
+    TRANSITIONS[0]
+  );
+
+  const handleTransitionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setTransition(event.target.value as (typeof TRANSITIONS)[number]);
+  };
+
+  let TransitionComponent: React.ComponentType<{ children: React.ReactNode }>;
+  switch (transition) {
+    case 'collapse':
+      TransitionComponent = Collapse;
+      break;
+    case 'fade':
+      TransitionComponent = Fade;
+      break;
+  }
+
   return (
-    <Motion
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition="opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized)"
-    >
-      {children}
-    </Motion>
+    <Stack spacing={30} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Transition
+        </Chip>
+        <RadioGroup
+          name="transition"
+          value={transition}
+          onChange={handleTransitionChange}
+        >
+          <Grid columns={2} spacing={5}>
+            {TRANSITIONS.map((transition) => (
+              <Label content={transition}>
+                <Radio value={transition} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <Accordion style={{ width: '500px' }}>
+        {ITEMS.map(({ summary, details }) => {
+          return (
+            <AccordionItem key={summary}>
+              <AccordionSummary>{summary}</AccordionSummary>
+              <AccordionDetails
+                WrapperComponent={AnimatePresence}
+                TransitionComponent={TransitionComponent}
+              >
+                {details}
+              </AccordionDetails>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
+    </Stack>
   );
 };
 
@@ -203,55 +283,100 @@ export const CustomizeAccordion: Story = {
   )
 };
 
-export const CustomizeTransition: Story = {
-  render: (args) => (
-    <Accordion style={{ width: '500px' }} {...args}>
-      {ITEMS.map(({ summary, details }) => {
-        return (
-          <AccordionItem key={summary}>
-            <AccordionSummary>{summary}</AccordionSummary>
-            <AccordionDetails TransitionComponent={Fade}>
-              {details}
-            </AccordionDetails>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
-  ),
+export const Transition: Story = {
+  render: () => <TransitionTemplate />,
   parameters: {
     docs: {
       source: {
         code: `
-const Fade = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Motion
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition="opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized)"
-    >
-      {children}
-    </Motion>
-  );
-};
+import { motion, AnimatePresence } from 'motion/react';
 
-const CustomizeTransition = () => {
+const Collapse = ({ children }: { children: React.ReactNode }) => (
+  <motion.div
+    initial={{ height: 0 }}
+    animate={{ height: 'auto' }}
+    exit={{ height: 0 }}
+    style={{ overflow: 'hidden' }}
+  >
+    {children}
+  </motion.div>
+);
+
+const Fade = ({ children }: { children: React.ReactNode }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+  >
+    {children}
+  </motion.div>
+);
+
+const TransitionTemplate = () => {
+  const TRANSITIONS = ['collapse', 'fade'] as const;
+  const [transition, setTransition] = useState<(typeof TRANSITIONS)[number]>(
+    TRANSITIONS[0]
+  );
+
+  const handleTransitionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setTransition(event.target.value as (typeof TRANSITIONS)[number]);
+  };
+
+  let TransitionComponent: React.ComponentType<{ children: React.ReactNode }>;
+  switch (transition) {
+    case 'collapse':
+      TransitionComponent = Collapse;
+      break;
+    case 'fade':
+      TransitionComponent = Fade;
+      break;
+  }
+
   return (
-    <Accordion style={{ width: '500px' }} {...args}>
-      {ITEMS.map(({ summary, details }) => {
-        return (
-          <AccordionItem key={summary}>
-            <AccordionSummary>{summary}</AccordionSummary>
-            <AccordionDetails TransitionComponent={Fade}>
-              {details}
-            </AccordionDetails>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
+    <Stack spacing={30} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Transition
+        </Chip>
+        <RadioGroup
+          name="transition"
+          value={transition}
+          onChange={handleTransitionChange}
+        >
+          <Grid columns={2} spacing={5}>
+            {TRANSITIONS.map((transition) => (
+              <Label content={transition}>
+                <Radio value={transition} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <Accordion style={{ width: '500px' }}>
+        {ITEMS.map(({ summary, details }) => {
+          return (
+            <AccordionItem key={summary}>
+              <AccordionSummary>{summary}</AccordionSummary>
+              <AccordionDetails
+                WrapperComponent={AnimatePresence}
+                TransitionComponent={TransitionComponent}
+              >
+                {details}
+              </AccordionDetails>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
+    </Stack>
   );
 };
-        `.trim()
+`.trim()
       }
     }
   }
