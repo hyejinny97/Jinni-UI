@@ -1,12 +1,11 @@
 import './Popover.scss';
 import cn from 'classnames';
+import { Fragment } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { useKeyboardAccessibility } from './Popover.hooks';
 import { Popper, PopperProps } from '@/components/_share/Popper';
-import { Motion } from '@/components/motion/Motion';
-import { AnimatePresence } from '@/components/motion/AnimatePresence';
 import { DistributiveOmit } from '@/types/distributiveOmit';
 
 export type CloseReason = 'escapeKeyDown' | 'backdropClick';
@@ -20,7 +19,9 @@ export type PopoverProps<T extends AsType = 'div'> = DistributiveOmit<
   onClose?: (event: MouseEvent | KeyboardEvent, reason: CloseReason) => void;
   BoxProps?: BoxProps;
   disableScroll?: boolean;
-  TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
+  WrapperComponent?: React.ComponentType<{ children: React.ReactNode }>;
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
+  TransitionComponent?: React.ComponentType<any>;
 };
 
 const DEFAULT_ANCHOR_ORIGIN: PopperProps['anchorOrigin'] = {
@@ -30,19 +31,6 @@ const DEFAULT_ANCHOR_ORIGIN: PopperProps['anchorOrigin'] = {
 const DEFAULT_POPOVER_ORIGIN: PopperProps['popperOrigin'] = {
   horizontal: 'left',
   vertical: 'top'
-};
-
-const ScaleFade = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Motion
-      initial={{ transform: 'scale(0.9)', opacity: 0 }}
-      animate={{ transform: 'scale(1)', opacity: 1 }}
-      exit={{ transform: 'scale(0.9)', opacity: 0 }}
-      transition="transform var(--jinni-duration-short3) var(--jinni-easing-emphasized), opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized)"
-    >
-      {children}
-    </Motion>
-  );
 };
 
 const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
@@ -57,7 +45,8 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     anchorPosition,
     popoverOrigin = DEFAULT_POPOVER_ORIGIN,
     disableScroll = false,
-    TransitionComponent = ScaleFade,
+    WrapperComponent = Fragment,
+    TransitionComponent,
     className,
     style,
     ...rest
@@ -82,7 +71,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
         };
 
   return (
-    <AnimatePresence>
+    <WrapperComponent>
       {open && (
         <>
           <Backdrop
@@ -94,6 +83,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
           <Popper
             role="dialog"
             className={cn('JinniPopover', className)}
+            as={TransitionComponent}
             {...popperAnchorProps}
             popperOrigin={popoverOrigin}
             style={{
@@ -102,22 +92,20 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
             }}
             {...rest}
           >
-            <TransitionComponent>
-              <Box
-                ref={boxElRef}
-                className="JinniPopoverContent"
-                elevation={5}
-                round={4}
-                tabIndex={0}
-                {...BoxProps}
-              >
-                {children}
-              </Box>
-            </TransitionComponent>
+            <Box
+              ref={boxElRef}
+              className="JinniPopoverContent"
+              elevation={5}
+              round={4}
+              tabIndex={0}
+              {...BoxProps}
+            >
+              {children}
+            </Box>
           </Popper>
         </>
       )}
-    </AnimatePresence>
+    </WrapperComponent>
   );
 };
 
