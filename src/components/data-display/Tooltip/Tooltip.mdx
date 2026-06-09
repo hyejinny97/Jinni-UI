@@ -59,24 +59,23 @@ import { Tooltip } from '@/components/data-display/Tooltip';
 
 <Canvas of={TooltipStories.ControlledTooltip} />
 
-### Showing and hiding delay
-
-- `enterDelay`: tooltip이 나타날 때까지 delay 되는 시간 (단위: ms)
-- `leaveDelay`: tooltip이 사라질 때까지 delay 되는 시간 (단위: ms)
-
-<Canvas of={TooltipStories.ShowingHidingDelay} />
-
 ### Customize Tooltip
 
 - `BoxProps`: Box 컴포넌트에 적용되는 props
 
 <Canvas of={TooltipStories.CustomizeTooltip} />
 
-### Customize Transition
+### Transition
 
+- `WrapperComponent`: wrapper 컴포넌트
 - `TransitionComponent`: transition 컴포넌트
+- motion 라이브러리를 사용해 transition 적용 가능
 
-<Canvas of={TooltipStories.CustomizeTransition} />
+<Canvas of={TooltipStories.Transition} />
+
+### Showing and hiding delay
+
+<Canvas of={TooltipStories.ShowingHidingDelay} />
 
 ## Props
 
