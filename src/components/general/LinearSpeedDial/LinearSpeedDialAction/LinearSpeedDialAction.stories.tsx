@@ -10,6 +10,13 @@ const meta: Meta<typeof LinearSpeedDialAction> = {
       table: {
         type: { summary: 'TooltipProps' }
       }
+    },
+    TransitionComponent: {
+      description: `transition 컴포넌트`,
+      table: {
+        type: { summary: `React.ComponentType<any>` },
+        defaultValue: { summary: `'span'` }
+      }
     }
   },
   decorators: [
