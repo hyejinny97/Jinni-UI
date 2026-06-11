@@ -2,7 +2,7 @@ import './ColorField.scss';
 import { forwardRef } from 'react';
 import cn from 'classnames';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
-import { Mosaic, MosaicProps } from '@/components/_share/Mosaic';
+import Mosaic, { MosaicProps } from '@/components/Mosaic';
 import { ColorValueType } from '../ColorPicker.types';
 import { useToCssColor } from './ColorField.hooks';
 

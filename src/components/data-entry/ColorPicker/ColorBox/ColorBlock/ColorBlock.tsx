@@ -1,5 +1,5 @@
 import './ColorBlock.scss';
-import { Mosaic } from '@/components/_share/Mosaic';
+import Mosaic from '@/components/Mosaic';
 import { useColorBoxContext } from '../ColorBox.hooks';
 import { hsbObjToRgbObj, rgbObjToRgbCss } from '../../ColorPicker.utils';
 
