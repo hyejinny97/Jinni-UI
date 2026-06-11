@@ -10,6 +10,8 @@ import { useTooltipPlacement } from './CircularSpeedDialAction.hooks';
 export type CircularSpeedDialActionProps<T extends AsType = 'button'> =
   ButtonProps<T> & {
     TooltipProps: Omit<TooltipProps, 'children'>;
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    TransitionComponent?: React.ComponentType<any>;
   };
 
 const CircularSpeedDialAction = <T extends AsType = 'button'>(
@@ -22,6 +24,7 @@ const CircularSpeedDialAction = <T extends AsType = 'button'>(
     size = 'md',
     elevation = 3,
     shape = 'pill',
+    TransitionComponent = 'span',
     className,
     ...rest
   } = props;
@@ -38,7 +41,7 @@ const CircularSpeedDialAction = <T extends AsType = 'button'>(
       container={container}
       {...TooltipProps}
     >
-      <span
+      <TransitionComponent
         ref={wrapperElRef}
         className={cn('JinniCircularSpeedDialActionWrapper')}
       >
@@ -54,7 +57,7 @@ const CircularSpeedDialAction = <T extends AsType = 'button'>(
           aria-labelledby={id}
           {...rest}
         />
-      </span>
+      </TransitionComponent>
     </Tooltip>
   );
 };
