@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '.';
 import { Button } from '@/components/general/Button';
@@ -10,7 +10,9 @@ import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Box } from '@/components/layout/Box';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import { Switch } from '@/components/data-entry/Switch';
 import { Chip } from '@/components/data-display/Chip';
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Modal> = {
   component: Modal,
@@ -53,6 +55,25 @@ const meta: Meta<typeof Modal> = {
           summary: `'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full' | Responsive<'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full'>`
         },
         defaultValue: { summary: `'md'` }
+      }
+    },
+    WrapperComponent: {
+      description: `wrapper 컴포넌트`,
+      table: {
+        type: { summary: `React.ComponentType<{ children: React.ReactNode }>` },
+        defaultValue: { summary: `Fragment` }
+      }
+    },
+    TransitionComponent: {
+      description: `modal에 대한 transition 컴포넌트`,
+      table: {
+        type: { summary: `React.ComponentType<any>` }
+      }
+    },
+    BackdropTransitionComponent: {
+      description: `backdrop에 대한 transition 컴포넌트`,
+      table: {
+        type: { summary: `React.ComponentType<any>` }
       }
     }
   }
@@ -359,6 +380,97 @@ const ModalFormTemplate = () => {
             Close
           </Button>
           <Button type="submit">Submit</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+};
+
+const SlideFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ y: '60%', opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: '60%', opacity: 0 }}
+        {...props}
+      />
+    );
+  }
+);
+
+const Fade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        {...props}
+      />
+    );
+  }
+);
+
+const TransitionTemplate = () => {
+  const [backdropTransition, setBackdropTransition] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const openModal = () => {
+    setOpen(true);
+  };
+  const closeModal = () => {
+    setOpen(false);
+  };
+  const changeBackdropTansition = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBackdropTransition(event.target.checked);
+  };
+
+  return (
+    <>
+      <Stack spacing={20}>
+        <Label content="Backdrop Transition">
+          <Switch
+            checked={backdropTransition}
+            onChange={changeBackdropTansition}
+          />
+        </Label>
+        <Button onClick={openModal}>Open Modal</Button>
+      </Stack>
+      <Modal
+        open={open}
+        onClose={closeModal}
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={SlideFade}
+        BackdropTransitionComponent={backdropTransition ? Fade : undefined}
+      >
+        <ModalHeader style={{ position: 'relative' }}>
+          Modal Header
+          <ButtonBase
+            style={{
+              display: 'inline-flex',
+              position: 'absolute',
+              top: '5px',
+              right: '5px',
+              padding: '4px',
+              borderRadius: '50%'
+            }}
+            onClick={closeModal}
+            aria-label="close"
+          >
+            <CloseIcon size={20} color="on-surface-variant" />
+          </ButtonBase>
+        </ModalHeader>
+        <ModalBody>Modal Body</ModalBody>
+        <ModalFooter>
+          <Button variant="subtle-filled" onClick={closeModal}>
+            Close
+          </Button>
+          <Button onClick={closeModal}>Ok</Button>
         </ModalFooter>
       </Modal>
     </>
@@ -709,6 +821,110 @@ export const CustomizeModal: Story = {
     </>
   );
 };`.trim()
+      }
+    }
+  }
+};
+
+export const Transition: Story = {
+  render: () => <TransitionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+
+const SlideFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ y: '60%', opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: '60%', opacity: 0 }}
+        {...props}
+      />
+    );
+  }
+);
+
+const Fade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        {...props}
+      />
+    );
+  }
+);
+
+const TransitionTemplate = () => {
+  const [backdropTransition, setBackdropTransition] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const openModal = () => {
+    setOpen(true);
+  };
+  const closeModal = () => {
+    setOpen(false);
+  };
+  const changeBackdropTansition = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBackdropTransition(event.target.checked);
+  };
+
+  return (
+    <>
+      <Stack spacing={20}>
+        <Label content="Backdrop Transition">
+          <Switch
+            checked={backdropTransition}
+            onChange={changeBackdropTansition}
+          />
+        </Label>
+        <Button onClick={openModal}>Open Modal</Button>
+      </Stack>
+      <Modal
+        open={open}
+        onClose={closeModal}
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={SlideFade}
+        BackdropTransitionComponent={backdropTransition ? Fade : undefined}
+      >
+        <ModalHeader style={{ position: 'relative' }}>
+          Modal Header
+          <ButtonBase
+            style={{
+              display: 'inline-flex',
+              position: 'absolute',
+              top: '5px',
+              right: '5px',
+              padding: '4px',
+              borderRadius: '50%'
+            }}
+            onClick={closeModal}
+            aria-label="close"
+          >
+            <CloseIcon size={20} color="on-surface-variant" />
+          </ButtonBase>
+        </ModalHeader>
+        <ModalBody>Modal Body</ModalBody>
+        <ModalFooter>
+          <Button variant="subtle-filled" onClick={closeModal}>
+            Close
+          </Button>
+          <Button onClick={closeModal}>Ok</Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+};        
+`.trim()
       }
     }
   }
