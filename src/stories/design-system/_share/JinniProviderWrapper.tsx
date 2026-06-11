@@ -1,7 +1,4 @@
-import {
-  JinniProvider,
-  createDesignSystem
-} from '@/components/_share/JinniProvider';
+import JinniProvider, { createDesignSystem } from '@/components/JinniProvider';
 
 const designSystem = createDesignSystem();
 
