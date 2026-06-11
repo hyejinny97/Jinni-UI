@@ -18,7 +18,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Radio } from '@/components/data-entry/Radio';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Label } from '@/components/data-entry/Label';
-import { Iframe } from '@/components/_share/Iframe';
+import Iframe from '@/components/Iframe';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof CircularSpeedDial> = {

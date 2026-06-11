@@ -13,7 +13,7 @@ import { HomeIcon } from '@/components/icons/HomeIcon';
 import { BurgerIcon } from '@/components/icons/BurgerIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Box, BoxProps } from '@/components/layout/Box';
-import { Iframe } from '@/components/_share/Iframe';
+import Iframe from '@/components/Iframe';
 import { List, ListItem, ListItemButton } from '@/components/data-display/List';
 import { Divider } from '@/components/layout/Divider';
 import { AsType } from '@/types/default-component-props';
