@@ -1,4 +1,4 @@
-import { PopperProps } from '@/components/_share/Popper';
+import { PopperProps } from '@/components/Popper';
 
 export const ANCHOR_ORIGIN: PopperProps['anchorOrigin'] = {
   horizontal: 'center',

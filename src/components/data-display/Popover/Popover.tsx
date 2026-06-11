@@ -5,7 +5,7 @@ import { AsType } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { useKeyboardAccessibility } from './Popover.hooks';
-import { Popper, PopperProps } from '@/components/_share/Popper';
+import Popper, { PopperProps } from '@/components/Popper';
 import { DistributiveOmit } from '@/types/distributiveOmit';
 
 export type CloseReason = 'escapeKeyDown' | 'backdropClick';

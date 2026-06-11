@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Text from './Text';
 import { Stack } from '@/components/layout/Stack';
-import { Popper } from '@/components/_share/Popper';
+import Popper from '@/components/Popper';
 import { ButtonGroup } from '@/components/general/ButtonGroup';
 import { Button } from '@/components/general/Button';
 import { Label } from '@/components/data-entry/Label';

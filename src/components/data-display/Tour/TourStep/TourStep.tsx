@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { Mask, MaskOptionalProps } from '../Mask';
 import { Box, BoxProps } from '@/components/layout/Box';
-import { Popper } from '@/components/_share/Popper';
+import Popper from '@/components/Popper';
 import { PlacementType } from '@/types/placement';
 import {
   placementToAnchorOrigin,

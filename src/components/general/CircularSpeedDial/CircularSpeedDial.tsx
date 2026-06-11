@@ -2,7 +2,7 @@ import './CircularSpeedDial.scss';
 import { useRef, Fragment } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Popper, PopperProps } from '@/components/_share/Popper';
+import Popper, { PopperProps } from '@/components/Popper';
 import { getDefaultPlacement } from './CircularSpeedDial.utils';
 import { HORIZONTAL_CENTER_VERTICAL_CENTER } from './CircularSpeedDial.constants';
 import {

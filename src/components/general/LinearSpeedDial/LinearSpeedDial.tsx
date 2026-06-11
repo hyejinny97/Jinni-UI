@@ -2,7 +2,7 @@ import './LinearSpeedDial.scss';
 import cn from 'classnames';
 import { useRef, Fragment } from 'react';
 import { AsType } from '@/types/default-component-props';
-import { Popper, PopperProps } from '@/components/_share/Popper';
+import Popper, { PopperProps } from '@/components/Popper';
 import {
   getAnchorOrigin,
   getPopperOrigin,
