@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import AccordionItem from './AccordionItem';
-import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
+import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof AccordionItem> = {
   component: AccordionItem,

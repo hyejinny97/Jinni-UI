@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TabList from './TabList';
-import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
+import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof TabList> = {
   component: TabList,

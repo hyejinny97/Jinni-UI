@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TimelineDot from './TimelineDot';
-import { StoryErrorBoundary } from '@/components/_share/StoryErrorBoundary';
+import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineDot> = {
   component: TimelineDot,
