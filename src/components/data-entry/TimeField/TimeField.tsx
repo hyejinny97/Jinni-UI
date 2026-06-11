@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { useRef, MutableRefObject } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
-import { AutoWidthInput } from '@/components/_share/AutoWidthInput';
+import AutoWidthInput from '@/components/AutoWidthInput';
 import {
   useTimeValue,
   useValidation,

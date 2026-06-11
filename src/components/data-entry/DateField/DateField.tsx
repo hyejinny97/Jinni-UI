@@ -12,7 +12,7 @@ import {
   useFocus
 } from './DateField.hooks';
 import { isKeyDatePart } from './DateField.utils';
-import { AutoWidthInput } from '@/components/_share/AutoWidthInput';
+import AutoWidthInput from '@/components/AutoWidthInput';
 import {
   DateComponentProps,
   DateValidationError
