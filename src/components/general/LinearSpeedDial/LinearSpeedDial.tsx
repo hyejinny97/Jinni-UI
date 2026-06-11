@@ -1,6 +1,6 @@
 import './LinearSpeedDial.scss';
 import cn from 'classnames';
-import { useRef } from 'react';
+import { useRef, Fragment } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import {
@@ -28,6 +28,7 @@ export type LinearSpeedDialProps<T extends AsType = 'div'> = DistributiveOmit<
   onClose?: (event: Event | React.SyntheticEvent, reason: CloseReason) => void;
   placement?: PlacementType;
   offset?: number;
+  WrapperComponent?: React.ComponentType<{ children: React.ReactNode }>;
 };
 
 const LinearSpeedDial = <T extends AsType = 'div'>(
@@ -44,6 +45,7 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
     anchorPosition,
     positionType,
     container = document.body,
+    WrapperComponent = Fragment,
     className,
     style,
     ...rest
@@ -75,11 +77,11 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
         };
 
   return (
-    <>
-      {open && (
-        <LinearSpeedDialContext.Provider
-          value={{ placement, positionType, container }}
-        >
+    <LinearSpeedDialContext.Provider
+      value={{ placement, positionType, container }}
+    >
+      <WrapperComponent>
+        {open && (
           <Popper
             ref={speedDialElRef}
             role="menu"
@@ -99,9 +101,9 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
               {children}
             </div>
           </Popper>
-        </LinearSpeedDialContext.Provider>
-      )}
-    </>
+        )}
+      </WrapperComponent>
+    </LinearSpeedDialContext.Provider>
   );
 };
 

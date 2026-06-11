@@ -10,6 +10,8 @@ import { useLinearDial } from '../LinearSpeedDial.hooks';
 export type LinearSpeedDialActionProps<T extends AsType = 'button'> =
   ButtonProps<T> & {
     TooltipProps: Omit<TooltipProps, 'children'>;
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    TransitionComponent?: React.ComponentType<any>;
   };
 
 const LinearSpeedDialAction = <T extends AsType = 'button'>(
@@ -22,6 +24,7 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
     size = 'md',
     elevation = 3,
     shape = 'pill',
+    TransitionComponent = 'span',
     className,
     ...rest
   } = props;
@@ -37,7 +40,7 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
       container={container}
       {...TooltipProps}
     >
-      <span className={cn('JinniLinearSpeedDialActionWrapper')}>
+      <TransitionComponent className={cn('JinniLinearSpeedDialActionWrapper')}>
         <Button
           role="menuitem"
           className={cn('JinniLinearSpeedDialAction', variant, className)}
@@ -50,7 +53,7 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
           aria-labelledby={id}
           {...rest}
         />
-      </span>
+      </TransitionComponent>
     </Tooltip>
   );
 };
