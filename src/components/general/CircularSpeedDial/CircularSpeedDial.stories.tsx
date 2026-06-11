@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   CircularSpeedDial,
@@ -19,6 +19,7 @@ import { Radio } from '@/components/data-entry/Radio';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Label } from '@/components/data-entry/Label';
 import { Iframe } from '@/components/_share/Iframe';
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof CircularSpeedDial> = {
   component: CircularSpeedDial,
@@ -96,6 +97,13 @@ const meta: Meta<typeof CircularSpeedDial> = {
       table: {
         type: { summary: `'circular' | 'semi-circular' | 'quarter-circular'` },
         defaultValue: { summary: `'circular'` }
+      }
+    },
+    WrapperComponent: {
+      description: `wrapper 컴포넌트`,
+      table: {
+        type: { summary: `React.ComponentType<{ children: React.ReactNode }>` },
+        defaultValue: { summary: `Fragment` }
       }
     }
   }
@@ -935,6 +943,113 @@ const CustomizeTooltipTemplate = () => {
               arrow: true,
               offset: 20
             }}
+          >
+            {action.icon}
+          </CircularSpeedDialAction>
+        ))}
+      </CircularSpeedDial>
+    </Box>
+  );
+};
+
+const getScaleWithDelay = ({
+  enterDelay,
+  exitDelay
+}: {
+  enterDelay: number;
+  exitDelay: number;
+}) =>
+  forwardRef(
+    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+      return (
+        <motion.div
+          ref={ref}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1, transition: { delay: enterDelay } }}
+          exit={{ scale: 0, transition: { delay: exitDelay } }}
+          style={{ x: '-50%', y: '-50%' }}
+          {...props}
+        />
+      );
+    }
+  );
+
+const TransitionTemplate = () => {
+  const ACTIONS = [
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    {
+      icon: <TrashcanIcon size={20} color="on-surface-variant" />,
+      name: 'Delete'
+    }
+  ];
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openSpeedDial = () => {
+    setOpen(true);
+  };
+  const closeSpeedDial = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Box
+      style={{
+        position: 'relative',
+        width: '300px',
+        height: '300px',
+        border: '1px solid',
+        borderColor: 'outline-variant'
+      }}
+    >
+      <Button
+        ref={anchorElRef}
+        onClick={openSpeedDial}
+        onFocus={openSpeedDial}
+        onMouseEnter={openSpeedDial}
+        shape="pill"
+        elevation={5}
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          padding: 0,
+          width: '50px',
+          height: '50px',
+          transform: open
+            ? 'translate(-50%, -50%) rotate(45deg)'
+            : 'translate(-50%, -50%)',
+          transition: 'transform 0.3s'
+        }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
+      >
+        <AddIcon color="on-primary" size={20} />
+      </Button>
+      <CircularSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeSpeedDial}
+        WrapperComponent={AnimatePresence}
+      >
+        {ACTIONS.map((action, idx) => (
+          <CircularSpeedDialAction
+            key={action.name}
+            TooltipProps={{ content: action.name }}
+            onClick={() => setOpen(false)}
+            TransitionComponent={getScaleWithDelay({
+              enterDelay: idx * 0.1,
+              exitDelay: (ACTIONS.length - 1 - idx) * 0.1
+            })}
           >
             {action.icon}
           </CircularSpeedDialAction>
@@ -1790,6 +1905,126 @@ export const CustomizeTooltip: Story = {
               arrow: true,
               offset: 20
             }}
+          >
+            {action.icon}
+          </CircularSpeedDialAction>
+        ))}
+      </CircularSpeedDial>
+    </Box>
+  );
+};
+`.trim()
+      }
+    }
+  }
+};
+
+export const Transition: Story = {
+  render: () => <TransitionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+
+const getScaleWithDelay = ({
+  enterDelay,
+  exitDelay
+}: {
+  enterDelay: number;
+  exitDelay: number;
+}) =>
+  forwardRef(
+    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+      return (
+        <motion.div
+          ref={ref}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1, transition: { delay: enterDelay } }}
+          exit={{ scale: 0, transition: { delay: exitDelay } }}
+          style={{ x: '-50%', y: '-50%' }}
+          {...props}
+        />
+      );
+    }
+  );
+
+const TransitionTemplate = () => {
+  const ACTIONS = [
+    {
+      icon: <FileCopyIcon size={20} color="on-surface-variant" />,
+      name: 'Copy'
+    },
+    { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
+    { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
+    { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
+    {
+      icon: <TrashcanIcon size={20} color="on-surface-variant" />,
+      name: 'Delete'
+    }
+  ];
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const openSpeedDial = () => {
+    setOpen(true);
+  };
+  const closeSpeedDial = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Box
+      style={{
+        position: 'relative',
+        width: '300px',
+        height: '300px',
+        border: '1px solid',
+        borderColor: 'outline-variant'
+      }}
+    >
+      <Button
+        ref={anchorElRef}
+        onClick={openSpeedDial}
+        onFocus={openSpeedDial}
+        onMouseEnter={openSpeedDial}
+        shape="pill"
+        elevation={5}
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          padding: 0,
+          width: '50px',
+          height: '50px',
+          transform: open
+            ? 'translate(-50%, -50%) rotate(45deg)'
+            : 'translate(-50%, -50%)',
+          transition: 'transform 0.3s'
+        }}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="basic-speed-dial"
+      >
+        <AddIcon color="on-primary" size={20} />
+      </Button>
+      <CircularSpeedDial
+        id="basic-speed-dial"
+        aria-label="useful tools"
+        anchorElRef={anchorElRef}
+        open={open}
+        onClose={closeSpeedDial}
+        WrapperComponent={AnimatePresence}
+      >
+        {ACTIONS.map((action, idx) => (
+          <CircularSpeedDialAction
+            key={action.name}
+            TooltipProps={{ content: action.name }}
+            onClick={() => setOpen(false)}
+            TransitionComponent={getScaleWithDelay({
+              enterDelay: idx * 0.1,
+              exitDelay: (ACTIONS.length - 1 - idx) * 0.1
+            })}
           >
             {action.icon}
           </CircularSpeedDialAction>
