@@ -49,12 +49,6 @@ import { Toast } from '@/components/feedback/Toast';
 
 <Canvas of={ToastStories.UseWithAlerts} />
 
-### Consecutive Toast
-
-- `key`를 통해 하나의 Toast 컴포넌트로 여러 개의 toast를 나타낼 수 있음
-
-<Canvas of={ToastStories.ConsecutiveToastWithoutStacking} />
-
 ### Customize Toast
 
 - `BoxProps`: `Box` 컴포넌트에 적용되는 props
@@ -62,11 +56,29 @@ import { Toast } from '@/components/feedback/Toast';
 
 <Canvas of={ToastStories.CustomizeToast} />
 
-### Customize Transition
+### Transition
 
 - `TransitionComponent`: transition 컴포넌트
+- `WrapperComponent`: wrapper 컴포넌트
+- motion 라이브러리를 사용해 transition 적용 가능
 
-<Canvas of={ToastStories.CustomizeTransition} />
+<Canvas of={ToastStories.Transition} />
+
+### Consecutive Toasts
+
+- `key`를 통해 하나의 Toast 컴포넌트로 여러 개의 toast를 나타낼 수 있음
+
+<Canvas of={ToastStories.ConsecutiveToasts} />
+
+### Stacking Toasts
+
+#### 1. Slide to right
+
+<Canvas of={ToastStories.SlideToRightToast} />
+
+#### 2. Slide to down
+
+<Canvas of={ToastStories.SlideToDownToast} />
 
 ## Props
 

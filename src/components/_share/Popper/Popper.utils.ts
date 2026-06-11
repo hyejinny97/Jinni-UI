@@ -84,8 +84,8 @@ export const getPopperCoordinate = ({
 }): PositionType => {
   const { top: anchorTop, left: anchorLeft } = anchorCoordinate;
   const { horizontal, vertical } = popperOrigin;
-  const { width: popperWidth, height: popperHeight } =
-    popperEl.getBoundingClientRect();
+  const popperWidth = popperEl.offsetWidth;
+  const popperHeight = popperEl.offsetHeight;
 
   let top, left;
   switch (horizontal) {

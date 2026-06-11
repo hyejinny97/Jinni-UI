@@ -18,6 +18,11 @@ import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
 import { Switch } from '@/components/data-entry/Switch';
 import { Label } from '@/components/data-entry/Label';
+import { Text } from '@/components/general/Text';
+import { ButtonBase } from '@/components/general/ButtonBase';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
+import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 
 const meta: Meta<typeof Timeline> = {
   component: Timeline,
@@ -325,7 +330,15 @@ const CustomizeTimelineTemplate = () => {
       {ORDER_PROCESS.map(({ content, oppositeContent, icon, status }) => {
         return (
           <TimelineItem key={content}>
-            <TimelineContent>{content}</TimelineContent>
+            <TimelineContent>
+              <Text
+                className="typo-title-medium"
+                style={{ lineHeight: '36px' }}
+                noMargin
+              >
+                {content}
+              </Text>
+            </TimelineContent>
             <TimelineSeparator>
               <TimelineDot
                 color={
@@ -342,10 +355,127 @@ const CustomizeTimelineTemplate = () => {
                 variant={status === 'inProgress' ? 'dotted' : 'solid'}
               />
             </TimelineSeparator>
+            <TimelineOppositeContent>
+              <Text
+                className="typo-label-medium"
+                style={{ lineHeight: '36px', color: 'gray-400' }}
+                noMargin
+              >
+                {oppositeContent}
+              </Text>
+            </TimelineOppositeContent>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  );
+};
+
+const TimelineWithCollapsedContentTemplate = () => {
+  const ORDER_PROCESS = [
+    {
+      id: 1,
+      title: '1. Ordered',
+      date: 'May 13, 2024',
+      icon: <ShoppingCartIcon />,
+      status: 'completed'
+    },
+    {
+      id: 2,
+      title: '2. Shipped',
+      date: 'June 20, 2024',
+      icon: <LocalShippingIcon />,
+      status: 'completed'
+    },
+    {
+      id: 3,
+      title: '3. Out for delivery',
+      date: 'July 2, 2024',
+      icon: <BoxIcon />,
+      status: 'inProgress'
+    },
+    {
+      id: 4,
+      title: '4. Estimated delivery date',
+      date: 'Aug 14, 2024',
+      icon: <DateRangeIcon />,
+      status: 'pending'
+    }
+  ];
+
+  const [collapsedItems, setCollapsedItems] = useState<Set<number>>(
+    new Set(ORDER_PROCESS.map((val) => val.id))
+  );
+
+  const toggle = (id: number) => {
+    const newCollapsedItems = new Set(collapsedItems);
+    if (collapsedItems.has(id)) newCollapsedItems.delete(id);
+    else newCollapsedItems.add(id);
+    setCollapsedItems(newCollapsedItems);
+  };
+
+  return (
+    <Timeline style={{ width: '600px' }}>
+      {ORDER_PROCESS.map(({ id, title, date }) => {
+        const showContent = !collapsedItems.has(id);
+        return (
+          <TimelineItem key={id}>
+            <TimelineContent>
+              <Stack
+                direction="row"
+                spacing={10}
+                style={{
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}
+              >
+                <Text className="typo-title-medium" noMargin>
+                  {title}
+                </Text>
+                <ButtonBase
+                  onClick={() => toggle(id)}
+                  style={{
+                    display: 'inline-flex',
+                    padding: '3px',
+                    borderRadius: '50%'
+                  }}
+                >
+                  {showContent ? (
+                    <ArrowUpIcon color="on-surface-variant" />
+                  ) : (
+                    <ArrowDownIcon color="on-surface-variant" />
+                  )}
+                </ButtonBase>
+              </Stack>
+              <AnimatePresence>
+                {showContent && (
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ height: 'auto' }}
+                    exit={{ height: 0 }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <Text
+                      className="typo-body-medium"
+                      noMargin
+                      style={{ marginBottom: '16px' }}
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Magni itaque ipsam tenetur cupiditate accusantium esse
+                      vitae provident autem asperiores quae!
+                    </Text>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
             <TimelineOppositeContent
               style={{ color: 'gray-400', fontSize: '12px' }}
             >
-              {oppositeContent}
+              {date}
             </TimelineOppositeContent>
           </TimelineItem>
         );
@@ -791,7 +921,15 @@ export const CustomizeTimeline: Story = {
       {ORDER_PROCESS.map(({ content, oppositeContent, icon, status }) => {
         return (
           <TimelineItem key={content}>
-            <TimelineContent>{content}</TimelineContent>
+            <TimelineContent>
+              <Text
+                className="typo-title-medium"
+                style={{ lineHeight: '36px' }}
+                noMargin
+              >
+                {content}
+              </Text>
+            </TimelineContent>
             <TimelineSeparator>
               <TimelineDot
                 color={
@@ -808,10 +946,14 @@ export const CustomizeTimeline: Story = {
                 variant={status === 'inProgress' ? 'dotted' : 'solid'}
               />
             </TimelineSeparator>
-            <TimelineOppositeContent
-              style={{ color: 'gray-400', fontSize: '12px' }}
-            >
-              {oppositeContent}
+            <TimelineOppositeContent>
+              <Text
+                className="typo-label-medium"
+                style={{ lineHeight: '36px', color: 'gray-400' }}
+                noMargin
+              >
+                {oppositeContent}
+              </Text>
             </TimelineOppositeContent>
           </TimelineItem>
         );
@@ -819,6 +961,132 @@ export const CustomizeTimeline: Story = {
     </Timeline>
   );
 };`.trim()
+      }
+    }
+  }
+};
+
+export const TimelineWithCollapsedContent: Story = {
+  render: () => <TimelineWithCollapsedContentTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+
+const TimelineWithCollapsedContentTemplate = () => {
+  const ORDER_PROCESS = [
+    {
+      id: 1,
+      title: '1. Ordered',
+      date: 'May 13, 2024',
+      icon: <ShoppingCartIcon />,
+      status: 'completed'
+    },
+    {
+      id: 2,
+      title: '2. Shipped',
+      date: 'June 20, 2024',
+      icon: <LocalShippingIcon />,
+      status: 'completed'
+    },
+    {
+      id: 3,
+      title: '3. Out for delivery',
+      date: 'July 2, 2024',
+      icon: <BoxIcon />,
+      status: 'inProgress'
+    },
+    {
+      id: 4,
+      title: '4. Estimated delivery date',
+      date: 'Aug 14, 2024',
+      icon: <DateRangeIcon />,
+      status: 'pending'
+    }
+  ];
+
+  const [collapsedItems, setCollapsedItems] = useState<Set<number>>(
+    new Set(ORDER_PROCESS.map((val) => val.id))
+  );
+
+  const toggle = (id: number) => {
+    const newCollapsedItems = new Set(collapsedItems);
+    if (collapsedItems.has(id)) newCollapsedItems.delete(id);
+    else newCollapsedItems.add(id);
+    setCollapsedItems(newCollapsedItems);
+  };
+
+  return (
+    <Timeline style={{ width: '600px' }}>
+      {ORDER_PROCESS.map(({ id, title, date }) => {
+        const showContent = !collapsedItems.has(id);
+        return (
+          <TimelineItem key={id}>
+            <TimelineContent>
+              <Stack
+                direction="row"
+                spacing={10}
+                style={{
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}
+              >
+                <Text className="typo-title-medium" noMargin>
+                  {title}
+                </Text>
+                <ButtonBase
+                  onClick={() => toggle(id)}
+                  style={{
+                    display: 'inline-flex',
+                    padding: '4px',
+                    borderRadius: '50%'
+                  }}
+                >
+                  {showContent ? (
+                    <ArrowUpIcon color="on-surface-variant" />
+                  ) : (
+                    <ArrowDownIcon color="on-surface-variant" />
+                  )}
+                </ButtonBase>
+              </Stack>
+              <AnimatePresence>
+                {showContent && (
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ height: 'auto' }}
+                    exit={{ height: 0 }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <Text
+                      className="typo-body-medium"
+                      noMargin
+                      style={{ marginBottom: '16px' }}
+                    >
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Magni itaque ipsam tenetur cupiditate accusantium esse
+                      vitae provident autem asperiores quae!
+                    </Text>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </TimelineContent>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineOppositeContent
+              style={{ color: 'gray-400', fontSize: '12px' }}
+            >
+              {date}
+            </TimelineOppositeContent>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  );
+};        
+`.trim()
       }
     }
   }

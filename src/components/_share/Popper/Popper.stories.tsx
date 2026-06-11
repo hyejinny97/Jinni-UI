@@ -1,5 +1,5 @@
 import './CustomPopper.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Popper, { PopperProps } from './Popper';
 import { Button } from '@/components/general/Button';
@@ -11,6 +11,7 @@ import { Label } from '@/components/data-entry/Label';
 import { Chip } from '@/components/data-display/Chip';
 import { Grid } from '@/components/layout/Grid';
 import { Stack } from '@/components/layout/Stack';
+import { motion, AnimatePresence, HTMLMotionProps } from 'motion/react';
 
 const meta: Meta<typeof Popper> = {
   component: Popper,
@@ -519,6 +520,60 @@ const PopperWithArrowTemplate = () => {
   );
 };
 
+const ScaleFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  }
+);
+
+const TransitionTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const toggle = () => {
+    setOpen((prev) => !prev);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={toggle}>
+        Toggle Popper
+      </Button>
+      <AnimatePresence>
+        {open && (
+          <Popper
+            anchorElRef={anchorElRef}
+            as={ScaleFade}
+            style={{ transformOrigin: 'top left' }}
+          >
+            <Box
+              className="typo-body-medium"
+              round="xs"
+              elevation={3}
+              style={{
+                display: 'inline-block',
+                padding: '4px 16px',
+                backgroundColor: 'surface-container-lowest',
+                color: 'on-surface'
+              }}
+            >
+              Popper Content
+            </Box>
+          </Popper>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
 export const BasicPopper: Story = {
   render: () => <BasicPopperTemplate />,
   parameters: {
@@ -1012,6 +1067,73 @@ export const PopperWithArrow: Story = {
     </>
   );
 };`.trim()
+      }
+    }
+  }
+};
+
+export const Transition: Story = {
+  render: () => <TransitionTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { motion, AnimatePresence, HTMLMotionProps } from 'motion/react';
+
+const ScaleFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  }
+);
+
+const TransitionTemplate = () => {
+  const anchorElRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const toggle = () => {
+    setOpen((prev) => !prev);
+  };
+
+  return (
+    <>
+      <Button ref={anchorElRef} onClick={toggle}>
+        Toggle Popper
+      </Button>
+      <AnimatePresence>
+        {open && (
+          <Popper
+            anchorElRef={anchorElRef}
+            as={ScaleFade}
+            style={{ transformOrigin: 'top left' }}
+          >
+            <Box
+              className="typo-body-medium"
+              round="xs"
+              elevation={3}
+              style={{
+                display: 'inline-block',
+                padding: '4px 16px',
+                backgroundColor: 'surface-container-lowest',
+                color: 'on-surface'
+              }}
+            >
+              Popper Content
+            </Box>
+          </Popper>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+`.trim()
       }
     }
   }

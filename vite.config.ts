@@ -15,5 +15,10 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./setupTest.ts']
+  },
+  build: {
+    rollupOptions: {
+      external: ['motion', 'motion/react']
+    }
   }
 });

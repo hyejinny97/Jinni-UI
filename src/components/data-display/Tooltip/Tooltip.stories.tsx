@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Tooltip from './Tooltip';
 import { Stack } from '@/components/layout/Stack';
@@ -6,7 +6,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
-import { Motion } from '@/components/motion/Motion';
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Tooltip> = {
   component: Tooltip,
@@ -27,20 +27,6 @@ const meta: Meta<typeof Tooltip> = {
     },
     content: {
       description: 'tooltip 콘텐츠'
-    },
-    enterDelay: {
-      description: 'tooltip이 나타날 때까지 delay 되는 시간 (단위: ms)',
-      table: {
-        type: { summary: `number` },
-        defaultValue: { summary: `0` }
-      }
-    },
-    leaveDelay: {
-      description: 'tooltip이 사라질 때까지 delay 되는 시간 (단위: ms)',
-      table: {
-        type: { summary: `number` },
-        defaultValue: { summary: `0` }
-      }
     },
     offset: {
       description: 'anchor와 tooltip 사이 거리',
@@ -70,11 +56,17 @@ const meta: Meta<typeof Tooltip> = {
         defaultValue: { summary: `'bottom'` }
       }
     },
+    WrapperComponent: {
+      description: `wrapper 컴포넌트`,
+      table: {
+        type: { summary: `React.ComponentType<{ children: React.ReactNode }>` },
+        defaultValue: { summary: `Fragment` }
+      }
+    },
     TransitionComponent: {
       description: `transition 컴포넌트`,
       table: {
-        type: { summary: `React.ReactNode` },
-        defaultValue: { summary: `ScaleFade` }
+        type: { summary: `React.ComponentType<any>` }
       }
     },
     triggers: {
@@ -132,22 +124,33 @@ const ControlledTooltipTemplate = () => {
   );
 };
 
-const Scale = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Motion
-      initial={{ transform: 'scale(0)' }}
-      animate={{ transform: 'scale(1)' }}
-      exit={{ transform: 'scale(0)' }}
-      transition={{
-        enter:
-          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
-        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
-      }}
-    >
-      {children}
-    </Motion>
-  );
-};
+const ScaleFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  }
+);
+
+const ScaleFadeWithDelay = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
+        exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
+        {...props}
+      />
+    );
+  }
+);
 
 export const BasicTooltip: Story = {
   render: (args) => {
@@ -458,24 +461,6 @@ export const ControlledTooltip: Story = {
   }
 };
 
-export const ShowingHidingDelay: Story = {
-  render: (args) => {
-    return (
-      <Tooltip
-        id="delay-tooltip"
-        content="Tooltip Contents"
-        enterDelay={300}
-        leaveDelay={500}
-        {...args}
-      >
-        <Button variant="outlined" aria-describedby="delay-tooltip">
-          Open Tooltip
-        </Button>
-      </Tooltip>
-    );
-  }
-};
-
 export const CustomizeTooltip: Story = {
   render: (args) => {
     return (
@@ -500,19 +485,17 @@ export const CustomizeTooltip: Story = {
   }
 };
 
-export const CustomizeTransition: Story = {
+export const Transition: Story = {
   render: (args) => {
     return (
       <Tooltip
-        id="jinni-customize-transition"
+        id="jinni-transition"
         content="Tooltip Contents"
-        TransitionComponent={Scale}
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={ScaleFade}
         {...args}
       >
-        <Button
-          variant="outlined"
-          aria-describedby="jinni-customize-transition"
-        >
+        <Button variant="outlined" aria-describedby="jinni-transition">
           Open Tooltip
         </Button>
       </Tooltip>
@@ -521,36 +504,86 @@ export const CustomizeTransition: Story = {
   parameters: {
     docs: {
       source: {
-        code: `const Scale = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Motion
-      initial={{ transform: 'scale(0)' }}
-      animate={{ transform: 'scale(1)' }}
-      exit={{ transform: 'scale(0)' }}
-      transition={{
-        enter:
-          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
-        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
-      }}
-    >
-      {children}
-    </Motion>
-  );
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+
+const ScaleFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  }
+);
+        
+<Tooltip
+  id="jinni-transition"
+  content="Tooltip Contents"
+  WrapperComponent={AnimatePresence}
+  TransitionComponent={ScaleFade}
+>
+  <Button variant="outlined" aria-describedby="jinni-transition">
+    Open Tooltip
+  </Button>
+</Tooltip>        
+`.trim()
+      }
+    }
+  }
 };
 
-const TransitionCustomization = () => {
-  return (
-    <Tooltip
-      id="customize-transition"
-      content="Tooltip Contents"
-      TransitionComponent={Scale}
-    >
-      <Button variant="outlined" aria-describedby="customize-transition">
-        Open Tooltip
-      </Button>
-    </Tooltip>
-  );
-};`.trim()
+export const ShowingHidingDelay: Story = {
+  render: (args) => {
+    return (
+      <Tooltip
+        id="jinni-delay"
+        content="Tooltip Contents"
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={ScaleFadeWithDelay}
+        {...args}
+      >
+        <Button variant="outlined" aria-describedby="jinni-delay">
+          Open Tooltip
+        </Button>
+      </Tooltip>
+    );
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+        
+const ScaleFadeWithDelay = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
+        exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
+        {...props}
+      />
+    );
+  }
+); 
+        
+<Tooltip
+  id="jinni-delay"
+  content="Tooltip Contents"
+  WrapperComponent={AnimatePresence}
+  TransitionComponent={ScaleFadeWithDelay}
+>
+  <Button variant="outlined" aria-describedby="jinni-delay">
+    Open Tooltip
+  </Button>
+</Tooltip>    
+`.trim()
       }
     }
   }

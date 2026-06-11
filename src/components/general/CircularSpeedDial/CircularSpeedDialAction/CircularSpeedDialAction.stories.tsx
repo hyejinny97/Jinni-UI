@@ -10,6 +10,13 @@ const meta: Meta<typeof CircularSpeedDialAction> = {
       table: {
         type: { summary: 'TooltipProps' }
       }
+    },
+    TransitionComponent: {
+      description: `transition 컴포넌트`,
+      table: {
+        type: { summary: `React.ComponentType<any>` },
+        type: { summary: `'span'` }
+      }
     }
   },
   decorators: [

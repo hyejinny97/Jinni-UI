@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, forwardRef, useRef, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Toast, { CloseReason } from './Toast';
 import { Stack } from '@/components/layout/Stack';
@@ -9,10 +9,10 @@ import { CloseIcon } from '@/components/icons/CloseIcon';
 import { Alert } from '@/components/feedback/Alert';
 import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
-import { Motion } from '@/components/motion/Motion';
 import { Box } from '@/components/layout/Box';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Chip } from '@/components/data-display/Chip';
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Toast> = {
   component: Toast,
@@ -64,11 +64,17 @@ const meta: Meta<typeof Toast> = {
     open: {
       description: 'true이면, toast가 나타남'
     },
+    WrapperComponent: {
+      description: `wrapper 컴포넌트`,
+      table: {
+        type: { summary: `React.ComponentType<{ children: React.ReactNode }>` },
+        defaultValue: { summary: `Fragment` }
+      }
+    },
     TransitionComponent: {
       description: `transition 컴포넌트`,
       table: {
-        type: { summary: `React.ReactNode` },
-        defaultValue: { summary: `ScaleFade` }
+        type: { summary: `React.ComponentType<any>` }
       }
     }
   }
@@ -265,50 +271,6 @@ const AlertToastTemplate = () => {
   );
 };
 
-const ConsecutiveToastWithoutStackingTemplate = () => {
-  const [toast, setToast] = useState({ message: '', key: -1 });
-  const [open, setOpen] = useState(false);
-
-  const openToast = (newMessage: string) => () => {
-    setToast({ message: newMessage, key: new Date().getTime() });
-    setOpen(true);
-  };
-  const closeToast = (
-    _: React.SyntheticEvent | Event | null,
-    reason: CloseReason
-  ) => {
-    if (reason === 'backgroundClick') return;
-    setOpen(false);
-  };
-
-  return (
-    <>
-      <Stack direction="row" spacing={20}>
-        <Button onClick={openToast('Message A')}>Show message A</Button>
-        <Button onClick={openToast('Message B')}>Show message B</Button>
-      </Stack>
-      <Toast
-        key={toast.key}
-        open={open}
-        onClose={closeToast}
-        message={toast.message}
-        action={
-          <ButtonBase
-            onClick={closeToast}
-            style={{
-              display: 'inline-flex',
-              padding: '4px',
-              borderRadius: '50%'
-            }}
-          >
-            <CloseIcon size={20} color="inverse-on-surface" />
-          </ButtonBase>
-        }
-      />
-    </>
-  );
-};
-
 const CustomizeToastTemplate = () => {
   const [open, setOpen] = useState(false);
 
@@ -339,20 +301,21 @@ const CustomizeToastTemplate = () => {
   );
 };
 
-const SlideFade = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Motion
-      initial={{ transform: 'translateY(20px)', opacity: 0 }}
-      animate={{ transform: 'translateY(0)', opacity: 1 }}
-      exit={{ transform: 'translateY(20px)', opacity: 0 }}
-      transition="transform var(--jinni-duration-short4) var(--jinni-easing-emphasized), opacity var(--jinni-duration-short4) var(--jinni-easing-emphasized)"
-    >
-      {children}
-    </Motion>
-  );
-};
+const ScaleFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  }
+);
 
-const CustomizeTransitionTemplate = () => {
+const TransitionTemplate = () => {
   const [open, setOpen] = useState(false);
 
   const openToast = () => {
@@ -369,8 +332,204 @@ const CustomizeTransitionTemplate = () => {
         open={open}
         onClose={closeToast}
         message="Toast Message"
-        TransitionComponent={SlideFade}
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={ScaleFade}
       />
+    </>
+  );
+};
+
+const getScaleFadeWithKey = (key: number) =>
+  forwardRef(
+    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+      return (
+        <motion.div
+          ref={ref}
+          key={key}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          {...props}
+        />
+      );
+    }
+  );
+
+const ConsecutiveToastsTemplate = () => {
+  const [toast, setToast] = useState({ message: '', key: -1 });
+  const [open, setOpen] = useState(false);
+
+  const openToast = (newMessage: string) => () => {
+    setToast({ message: newMessage, key: new Date().getTime() });
+    setOpen(true);
+  };
+  const closeToast = (
+    _: React.SyntheticEvent | Event | null,
+    reason: CloseReason
+  ) => {
+    if (reason === 'backgroundClick') return;
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Stack direction="row" spacing={20}>
+        <Button onClick={openToast('Message A')}>Show message A</Button>
+        <Button onClick={openToast('Message B')}>Show message B</Button>
+      </Stack>
+      <Toast
+        open={open}
+        onClose={closeToast}
+        message={toast.message}
+        action={
+          <ButtonBase
+            onClick={closeToast}
+            style={{
+              display: 'inline-flex',
+              padding: '4px',
+              borderRadius: '50%'
+            }}
+          >
+            <CloseIcon size={20} color="inverse-on-surface" />
+          </ButtonBase>
+        }
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={getScaleFadeWithKey(toast.key)}
+      />
+    </>
+  );
+};
+
+type Toast = {
+  id: number;
+  content: string;
+};
+
+const SlideToRight = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ x: '-100%' }}
+        animate={{ x: 0 }}
+        exit={{ x: '-100%' }}
+        {...props}
+      />
+    );
+  }
+);
+
+const SlideToRightTemplate = () => {
+  const countRef = useRef<number>(0);
+  const toastsInTimerRef = useRef<Set<number>>(new Set());
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const showToast = () => {
+    countRef.current += 1;
+    const newToast = {
+      id: countRef.current,
+      content: `This is Toast ${countRef.current}`
+    };
+    setToasts((prev) => [...prev, newToast]);
+  };
+  const hideToast = (idToHide: number) => {
+    setToasts((prev) => prev.filter(({ id }) => id !== idToHide));
+  };
+
+  useEffect(() => {
+    toasts.forEach(({ id }) => {
+      if (toastsInTimerRef.current.has(id)) return;
+      const timeoutId = setTimeout(() => {
+        hideToast(id);
+        toastsInTimerRef.current.delete(id);
+        clearTimeout(timeoutId);
+      }, 3000);
+      toastsInTimerRef.current.add(id);
+    });
+  }, [toasts]);
+
+  return (
+    <>
+      <Button onClick={showToast}>Show Toast</Button>
+      <AnimatePresence>
+        {toasts.map(({ id, content }, idx) => (
+          <Toast
+            key={id}
+            open
+            message={content}
+            TransitionComponent={SlideToRight}
+            style={{
+              bottom: `${(toasts.length - 1 - idx) * (60 + 8)}px`,
+              transition: 'bottom 0.3s ease'
+            }}
+          />
+        ))}
+      </AnimatePresence>
+    </>
+  );
+};
+
+const ScaleSlide = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
+        animate={{ transform: 'translate(-50%, 0)', scale: 1, opacity: 1 }}
+        exit={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
+        {...props}
+      />
+    );
+  }
+);
+
+const SlideToDownTemplate = () => {
+  const countRef = useRef<number>(0);
+  const toastsInTimerRef = useRef<Set<number>>(new Set());
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const showToast = () => {
+    countRef.current += 1;
+    const newToast = {
+      id: countRef.current,
+      content: `This is Toast ${countRef.current}`
+    };
+    setToasts((prev) => [...prev, newToast]);
+  };
+  const hideToast = (idToHide: number) => {
+    setToasts((prev) => prev.filter(({ id }) => id !== idToHide));
+  };
+
+  useEffect(() => {
+    toasts.forEach(({ id }) => {
+      if (toastsInTimerRef.current.has(id)) return;
+      const timeoutId = setTimeout(() => {
+        hideToast(id);
+        toastsInTimerRef.current.delete(id);
+        clearTimeout(timeoutId);
+      }, 3000);
+      toastsInTimerRef.current.add(id);
+    });
+  }, [toasts]);
+
+  return (
+    <>
+      <Button onClick={showToast}>Show Toast</Button>
+      <AnimatePresence>
+        {toasts.map(({ id, content }, idx) => (
+          <Toast
+            key={id}
+            open
+            message={content}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            TransitionComponent={ScaleSlide}
+            style={{
+              top: `${(toasts.length - 1 - idx) * (60 + 8)}px`,
+              transition: 'top 0.3s ease'
+            }}
+          />
+        ))}
+      </AnimatePresence>
     </>
   );
 };
@@ -609,59 +768,6 @@ export const UseWithAlerts: Story = {
   }
 };
 
-export const ConsecutiveToastWithoutStacking: Story = {
-  render: () => <ConsecutiveToastWithoutStackingTemplate />,
-  parameters: {
-    docs: {
-      source: {
-        code: `const ConsecutiveToastWithoutStackingTemplate = () => {
-  const [toast, setToast] = useState({ message: '', key: -1 });
-  const [open, setOpen] = useState(false);
-
-  const openToast = (newMessage: string) => () => {
-    setToast({ message: newMessage, key: new Date().getTime() });
-    setOpen(true);
-  };
-  const closeToast = (
-    _: React.SyntheticEvent | Event | null,
-    reason: CloseReason
-  ) => {
-    if (reason === 'backgroundClick') return;
-    setOpen(false);
-  };
-
-  return (
-    <>
-      <Stack direction="row" spacing={20}>
-        <Button onClick={openToast('Message A')}>Show message A</Button>
-        <Button onClick={openToast('Message B')}>Show message B</Button>
-      </Stack>
-      <Toast
-        key={toast.key}
-        open={open}
-        onClose={closeToast}
-        message={toast.message}
-        action={
-          <ButtonBase
-            onClick={closeToast}
-            style={{
-              display: 'inline-flex',
-              padding: '4px',
-              borderRadius: '50%'
-            }}
-          >
-            <CloseIcon size={20} color="inverse-on-surface" />
-          </ButtonBase>
-        }
-      />
-    </>
-  );
-};`.trim()
-      }
-    }
-  }
-};
-
 export const CustomizeToast: Story = {
   render: () => <CustomizeToastTemplate />,
   parameters: {
@@ -702,24 +808,29 @@ export const CustomizeToast: Story = {
   }
 };
 
-export const CustomizeTransition: Story = {
-  render: () => <CustomizeTransitionTemplate />,
+export const Transition: Story = {
+  render: () => <TransitionTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `const SlideFade = ({children}: {children: React.ReactNode}) => {
-return (
-	<Motion
-		initial={{ transform: 'translateY(20px)', opacity: 0 }}
-		animate={{ transform: 'translateY(0)', opacity: 1 }}
-		exit={{ transform: 'translateY(20px)', opacity: 0 }}
-		transition='transform var(--jinni-duration-short4) var(--jinni-easing-emphasized), opacity var(--jinni-duration-short4) var(--jinni-easing-emphasized)'
-	>
-		{children}
-	</Motion>
-)}
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+  
+const ScaleFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  }
+);
 
-const CustomizeTransitionTemplate = () => {
+const TransitionTemplate = () => {
   const [open, setOpen] = useState(false);
 
   const openToast = () => {
@@ -736,11 +847,252 @@ const CustomizeTransitionTemplate = () => {
         open={open}
         onClose={closeToast}
         message="Toast Message"
-        TransitionComponent={SlideFade}
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={ScaleFade}
       />
     </>
   );
-};`.trim()
+};        
+`.trim()
+      }
+    }
+  }
+};
+
+export const ConsecutiveToasts: Story = {
+  render: () => <ConsecutiveToastsTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+
+const getScaleFadeWithKey = (key: number) =>
+  forwardRef(
+    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+      return (
+        <motion.div
+          ref={ref}
+          key={key}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          {...props}
+        />
+      );
+    }
+  );
+
+const ConsecutiveToastsTemplate = () => {
+  const [toast, setToast] = useState({ message: '', key: -1 });
+  const [open, setOpen] = useState(false);
+
+  const openToast = (newMessage: string) => () => {
+    setToast({ message: newMessage, key: new Date().getTime() });
+    setOpen(true);
+  };
+  const closeToast = (
+    _: React.SyntheticEvent | Event | null,
+    reason: CloseReason
+  ) => {
+    if (reason === 'backgroundClick') return;
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Stack direction="row" spacing={20}>
+        <Button onClick={openToast('Message A')}>Show message A</Button>
+        <Button onClick={openToast('Message B')}>Show message B</Button>
+      </Stack>
+      <Toast
+        open={open}
+        onClose={closeToast}
+        message={toast.message}
+        action={
+          <ButtonBase
+            onClick={closeToast}
+            style={{
+              display: 'inline-flex',
+              padding: '4px',
+              borderRadius: '50%'
+            }}
+          >
+            <CloseIcon size={20} color="inverse-on-surface" />
+          </ButtonBase>
+        }
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={getScaleFadeWithKey(toast.key)}
+      />
+    </>
+  );
+};        
+`.trim()
+      }
+    }
+  }
+};
+
+export const SlideToRightToast: Story = {
+  render: () => <SlideToRightTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+   
+type Toast = {
+  id: number;
+  content: string;
+};
+
+const SlideToRight = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ x: '-100%' }}
+        animate={{ x: 0 }}
+        exit={{ x: '-100%' }}
+        {...props}
+      />
+    );
+  }
+);
+
+const SlideToRightTemplate = () => {
+  const countRef = useRef<number>(0);
+  const toastsInTimerRef = useRef<Set<number>>(new Set());
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const showToast = () => {
+    countRef.current += 1;
+    const newToast = {
+      id: countRef.current,
+      content: \`This is Toast \${countRef.current}\`
+    };
+    setToasts((prev) => [...prev, newToast]);
+  };
+  const hideToast = (idToHide: number) => {
+    setToasts((prev) => prev.filter(({ id }) => id !== idToHide));
+  };
+
+  useEffect(() => {
+    toasts.forEach(({ id }) => {
+      if (toastsInTimerRef.current.has(id)) return;
+      const timeoutId = setTimeout(() => {
+        hideToast(id);
+        toastsInTimerRef.current.delete(id);
+        clearTimeout(timeoutId);
+      }, 3000);
+      toastsInTimerRef.current.add(id);
+    });
+  }, [toasts]);
+
+  return (
+    <>
+      <Button onClick={showToast}>Show Toast</Button>
+      <AnimatePresence>
+        {toasts.map(({ id, content }, idx) => (
+          <Toast
+            key={id}
+            open
+            message={content}
+            TransitionComponent={SlideToRight}
+            style={{
+              bottom: \`\${(toasts.length - 1 - idx) * (60 + 8)}px\`,
+              transition: 'bottom 0.3s ease'
+            }}
+          />
+        ))}
+      </AnimatePresence>
+    </>
+  );
+};        
+`.trim()
+      }
+    }
+  }
+};
+
+export const SlideToDownToast: Story = {
+  render: () => <SlideToDownTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+   
+type Toast = {
+  id: number;
+  content: string;
+};
+        
+const ScaleSlide = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
+        animate={{ transform: 'translate(-50%, 0)', scale: 1, opacity: 1 }}
+        exit={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
+        {...props}
+      />
+    );
+  }
+);
+
+const SlideToDownTemplate = () => {
+  const countRef = useRef<number>(0);
+  const toastsInTimerRef = useRef<Set<number>>(new Set());
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const showToast = () => {
+    countRef.current += 1;
+    const newToast = {
+      id: countRef.current,
+      content: \`This is Toast \${countRef.current}\`
+    };
+    setToasts((prev) => [...prev, newToast]);
+  };
+  const hideToast = (idToHide: number) => {
+    setToasts((prev) => prev.filter(({ id }) => id !== idToHide));
+  };
+
+  useEffect(() => {
+    toasts.forEach(({ id }) => {
+      if (toastsInTimerRef.current.has(id)) return;
+      const timeoutId = setTimeout(() => {
+        hideToast(id);
+        toastsInTimerRef.current.delete(id);
+        clearTimeout(timeoutId);
+      }, 3000);
+      toastsInTimerRef.current.add(id);
+    });
+  }, [toasts]);
+
+  return (
+    <>
+      <Button onClick={showToast}>Show Toast</Button>
+      <AnimatePresence>
+        {toasts.map(({ id, content }, idx) => (
+          <Toast
+            key={id}
+            open
+            message={content}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            TransitionComponent={ScaleSlide}
+            style={{
+              top: \`\${(toasts.length - 1 - idx) * (60 + 8)}px\`,
+              transition: 'top 0.3s ease'
+            }}
+          />
+        ))}
+      </AnimatePresence>
+    </>
+  );
+};  
+`.trim()
       }
     }
   }

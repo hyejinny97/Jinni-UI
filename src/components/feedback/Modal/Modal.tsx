@@ -1,6 +1,6 @@
 import './Modal.scss';
 import cn from 'classnames';
-import { useId } from 'react';
+import { Fragment, useId } from 'react';
 import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
@@ -23,6 +23,10 @@ export type ModalProps<
   size?: ModalSizeType | Responsive<ModalSizeType>;
   scrollBehavior?: 'inside' | 'outside';
   BoxProps?: BoxProps<P>;
+  WrapperComponent?: React.ComponentType<{ children: React.ReactNode }>;
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
+  TransitionComponent?: React.ComponentType<any>;
+  BackdropTransitionComponent?: React.ComponentType<any>;
 };
 
 const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
@@ -35,9 +39,12 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
     size = 'md',
     scrollBehavior = 'inside',
     BoxProps,
+    WrapperComponent = Fragment,
+    TransitionComponent,
+    BackdropTransitionComponent,
     className,
     style,
-    as: Component = 'div',
+    as: Component = TransitionComponent || 'div',
     ...rest
   } = props;
   const modalHeaderId = useId();
@@ -54,37 +61,47 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
 
   return (
     <ModalContext.Provider value={{ modalHeaderId, modalBodyId }}>
-      {open &&
-        createPortal(
-          <div className="JinniModalContainer">
-            <Backdrop
-              disablePortal
-              disableScroll
-              data-testid="modal-backdrop"
-            />
-            <Component
-              role="dialog"
-              aria-modal={true}
-              aria-labelledby={modalHeaderId}
-              aria-describedby={modalBodyId}
-              className={cn('JinniModal', scrollBehavior, className)}
-              onClick={handleBackdropClick}
-              style={newStyle}
-              {...rest}
-            >
-              <Box
-                ref={boxElRef}
-                className={cn('JinniModalContent', modalSize, scrollBehavior)}
-                elevation={15}
-                round={size === 'full' ? 0 : 4}
-                {...BoxProps}
-              >
-                {children}
-              </Box>
-            </Component>
-          </div>,
-          document.body
+      <WrapperComponent>
+        {open && (
+          <>
+            {createPortal(
+              <div className="JinniModalContainer">
+                <Backdrop
+                  as={BackdropTransitionComponent}
+                  disablePortal
+                  disableScroll
+                  data-testid="modal-backdrop"
+                />
+                <Component
+                  role="dialog"
+                  aria-modal={true}
+                  aria-labelledby={modalHeaderId}
+                  aria-describedby={modalBodyId}
+                  className={cn('JinniModal', scrollBehavior, className)}
+                  onClick={handleBackdropClick}
+                  style={newStyle}
+                  {...rest}
+                >
+                  <Box
+                    ref={boxElRef}
+                    className={cn(
+                      'JinniModalContent',
+                      modalSize,
+                      scrollBehavior
+                    )}
+                    elevation={15}
+                    round={size === 'full' ? 0 : 4}
+                    {...BoxProps}
+                  >
+                    {children}
+                  </Box>
+                </Component>
+              </div>,
+              document.body
+            )}
+          </>
         )}
+      </WrapperComponent>
     </ModalContext.Provider>
   );
 };

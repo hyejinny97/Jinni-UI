@@ -1,5 +1,5 @@
 import './CircularSpeedDial.scss';
-import { useRef } from 'react';
+import { useRef, Fragment } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Popper, PopperProps } from '@/components/_share/Popper';
@@ -35,6 +35,7 @@ export type CircularSpeedDialProps<T extends AsType = 'div'> = DistributiveOmit<
   variant?: VariantType;
   placement?: PlacementMap[VariantType];
   offset?: number;
+  WrapperComponent?: React.ComponentType<{ children: React.ReactNode }>;
 };
 
 const CircularSpeedDial = <T extends AsType = 'div'>(
@@ -52,6 +53,7 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
     anchorPosition,
     positionType,
     container = document.body,
+    WrapperComponent = Fragment,
     className,
     style,
     ...rest
@@ -89,9 +91,9 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
         };
 
   return (
-    <>
-      {open && (
-        <CircularSpeedDialContext.Provider value={{ positionType, container }}>
+    <CircularSpeedDialContext.Provider value={{ positionType, container }}>
+      <WrapperComponent>
+        {open && (
           <Popper
             ref={speedDialElRef}
             role="menu"
@@ -110,9 +112,9 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
               {children}
             </div>
           </Popper>
-        </CircularSpeedDialContext.Provider>
-      )}
-    </>
+        )}
+      </WrapperComponent>
+    </CircularSpeedDialContext.Provider>
   );
 };
 

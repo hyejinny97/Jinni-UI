@@ -5,7 +5,8 @@ import React, {
   useMemo,
   isValidElement,
   cloneElement,
-  MutableRefObject
+  MutableRefObject,
+  Fragment
 } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { useOpen, useHandleTriggers } from './Tooltip.hooks';
@@ -16,8 +17,6 @@ import {
 } from '@/utils/placement';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import { Box, BoxProps } from '@/components/layout/Box';
-import { Motion } from '@/components/motion/Motion';
-import { AnimatePresence } from '@/components/motion/AnimatePresence';
 
 export type TriggerType = 'click' | 'hover' | 'focus';
 
@@ -40,31 +39,9 @@ export type TooltipProps<T extends AsType = 'div'> = Omit<
   onOpen?: (event: React.SyntheticEvent | Event) => void;
   onClose?: (event: React.SyntheticEvent | Event) => void;
   BoxProps?: BoxProps;
-  enterDelay?: number;
-  leaveDelay?: number;
-  TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
-};
-
-type ScaleFadeProps = {
-  children: React.ReactNode;
-  enterDelay: number;
-  leaveDelay: number;
-};
-
-const ScaleFade = ({ children, enterDelay, leaveDelay }: ScaleFadeProps) => {
-  return (
-    <Motion
-      initial={{ transform: 'scale(0.9)', opacity: 0 }}
-      animate={{ transform: 'scale(1)', opacity: 1 }}
-      exit={{ transform: 'scale(0.9)', opacity: 0 }}
-      transition={{
-        enter: `transform var(--jinni-duration-short3) var(--jinni-easing-emphasized) ${enterDelay}ms, opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized) ${enterDelay}ms`,
-        exit: `transform var(--jinni-duration-short3) var(--jinni-easing-emphasized) ${leaveDelay}ms, opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized) ${leaveDelay}ms`
-      }}
-    >
-      {children}
-    </Motion>
-  );
+  WrapperComponent?: React.ComponentType<{ children: React.ReactNode }>;
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
+  TransitionComponent?: React.ComponentType<any>;
 };
 
 const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
@@ -79,9 +56,8 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
     onOpen,
     onClose,
     BoxProps,
-    enterDelay = 0,
-    leaveDelay = 0,
-    TransitionComponent = ScaleFade,
+    WrapperComponent = Fragment,
+    TransitionComponent,
     positionType,
     container,
     className,
@@ -172,12 +148,13 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
   return (
     <>
       {anchor}
-      <AnimatePresence>
+      <WrapperComponent>
         {isOpen && (
           <Popper
             role="tooltip"
             ref={popperRef}
             className={cn('JinniTooltip', className)}
+            as={TransitionComponent}
             anchorReference="anchorEl"
             anchorElRef={anchorElRef}
             anchorOrigin={anchorOrigin}
@@ -193,26 +170,21 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
             onMouseLeave={handleMouseLeave}
             {...rest}
           >
-            <TransitionComponent
-              enterDelay={enterDelay}
-              leaveDelay={leaveDelay}
+            <Box
+              className={cn(
+                'JinniTooltipContent',
+                { arrow },
+                placement,
+                className
+              )}
+              round={4}
+              {...BoxProps}
             >
-              <Box
-                className={cn(
-                  'JinniTooltipContent',
-                  { arrow },
-                  placement,
-                  className
-                )}
-                round={4}
-                {...BoxProps}
-              >
-                {content}
-              </Box>
-            </TransitionComponent>
+              {content}
+            </Box>
           </Popper>
         )}
-      </AnimatePresence>
+      </WrapperComponent>
     </>
   );
 };

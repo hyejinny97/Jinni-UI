@@ -1,5 +1,5 @@
 import './CustomPopover.scss';
-import { useRef, useState } from 'react';
+import { useRef, useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Popover from './Popover';
 import { Stack } from '@/components/layout/Stack';
@@ -7,7 +7,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
 import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
-import { Motion } from '@/components/motion/Motion';
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Popover> = {
   component: Popover,
@@ -80,11 +80,17 @@ const meta: Meta<typeof Popover> = {
         defaultValue: { summary: `{ horizontal: 'left', vertical: 'top' }` }
       }
     },
+    WrapperComponent: {
+      description: `wrapper 컴포넌트`,
+      table: {
+        type: { summary: `React.ComponentType<{ children: React.ReactNode }>` },
+        defaultValue: { summary: `Fragment` }
+      }
+    },
     TransitionComponent: {
       description: `transition 컴포넌트`,
       table: {
-        type: { summary: `React.ReactNode` },
-        defaultValue: { summary: `ScaleFade` }
+        type: { summary: `React.ComponentType<any>` }
       }
     }
   }
@@ -454,24 +460,21 @@ const CustomizePopoverTemplate = () => {
   );
 };
 
-const Scale = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Motion
-      initial={{ transform: 'scale(0)' }}
-      animate={{ transform: 'scale(1)' }}
-      exit={{ transform: 'scale(0)' }}
-      transition={{
-        enter:
-          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
-        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
-      }}
-    >
-      {children}
-    </Motion>
-  );
-};
+const ScaleFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  }
+);
 
-const CustomizeTransitionTemplate = () => {
+const TransitionTemplate = () => {
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -499,7 +502,8 @@ const CustomizeTransitionTemplate = () => {
         open={open}
         onClose={closePopover}
         style={{ maxWidth: '300px' }}
-        TransitionComponent={Scale}
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={ScaleFade}
       >
         Are you sure you want to continue with your action?
         <Stack
@@ -932,29 +936,29 @@ export const CustomizePopover: Story = {
   }
 };
 
-export const CustomizeTransition: Story = {
-  render: () => <CustomizeTransitionTemplate />,
+export const Transition: Story = {
+  render: () => <TransitionTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `const Scale = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Motion
-      initial={{ transform: 'scale(0)' }}
-      animate={{ transform: 'scale(1)' }}
-      exit={{ transform: 'scale(0)' }}
-      transition={{
-        enter:
-          'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-decelerate)',
-        exit: 'transform var(--jinni-duration-short4) var(--jinni-easing-emphasized-accelerate)'
-      }}
-    >
-      {children}
-    </Motion>
-  );
-};
+        code: `
+import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
+   
+const ScaleFade = forwardRef(
+  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  }
+);
 
-const CustomizeTransitionTemplate = () => {
+const TransitionTemplate = () => {
   const anchorElRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -982,7 +986,8 @@ const CustomizeTransitionTemplate = () => {
         open={open}
         onClose={closePopover}
         style={{ maxWidth: '300px' }}
-        TransitionComponent={Scale}
+        WrapperComponent={AnimatePresence}
+        TransitionComponent={ScaleFade}
       >
         Are you sure you want to continue with your action?
         <Stack
@@ -998,7 +1003,8 @@ const CustomizeTransitionTemplate = () => {
       </Popover>
     </>
   );
-};`.trim()
+};     
+`.trim()
       }
     }
   }

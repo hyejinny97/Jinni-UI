@@ -1,12 +1,11 @@
 import './Menu.scss';
 import cn from 'classnames';
+import { Fragment } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { Backdrop } from '@/components/feedback/Backdrop';
 import { MenuList, MenuListProps } from '@/components/navigation/MenuList';
 import { Popper, PopperProps } from '@/components/_share/Popper';
 import { useKeyboardAccessibility } from './Menu.hooks';
-import { Motion } from '@/components/motion/Motion';
-import { AnimatePresence } from '@/components/motion/AnimatePresence';
 import { DistributiveOmit } from '@/types/distributiveOmit';
 
 export type CloseReason = 'escapeKeyDown' | 'tabKeyDown' | 'backdropClick';
@@ -21,7 +20,9 @@ export type MenuProps<T extends AsType = 'div'> = DistributiveOmit<
   MenuListProps?: MenuListProps;
   disableScroll?: boolean;
   disableMenuListFocused?: boolean;
-  TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
+  WrapperComponent?: React.ComponentType<{ children: React.ReactNode }>;
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
+  TransitionComponent?: React.ComponentType<any>;
 };
 
 const DEFAULT_ANCHOR_ORIGIN: PopperProps['anchorOrigin'] = {
@@ -31,19 +32,6 @@ const DEFAULT_ANCHOR_ORIGIN: PopperProps['anchorOrigin'] = {
 const DEFAULT_MENU_ORIGIN: PopperProps['popperOrigin'] = {
   horizontal: 'left',
   vertical: 'top'
-};
-
-const ScaleFade = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Motion
-      initial={{ transform: 'scale(0.9)', opacity: 0 }}
-      animate={{ transform: 'scale(1)', opacity: 1 }}
-      exit={{ transform: 'scale(0.9)', opacity: 0 }}
-      transition="transform var(--jinni-duration-short3) var(--jinni-easing-emphasized), opacity var(--jinni-duration-short3) var(--jinni-easing-emphasized)"
-    >
-      {children}
-    </Motion>
-  );
 };
 
 const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
@@ -59,7 +47,8 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
     menuOrigin = DEFAULT_MENU_ORIGIN,
     disableScroll = false,
     disableMenuListFocused,
-    TransitionComponent = ScaleFade,
+    WrapperComponent = Fragment,
+    TransitionComponent,
     className,
     style,
     ...rest
@@ -89,7 +78,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
         };
 
   return (
-    <AnimatePresence>
+    <WrapperComponent>
       {open && (
         <>
           <Backdrop
@@ -100,6 +89,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
           />
           <Popper
             className={cn('JinniMenu', className)}
+            as={TransitionComponent}
             {...popperAnchorProps}
             popperOrigin={menuOrigin}
             style={{
@@ -108,15 +98,13 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
             }}
             {...rest}
           >
-            <TransitionComponent>
-              <MenuList ref={menuListElRef} elevation={5} {...MenuListProps}>
-                {children}
-              </MenuList>
-            </TransitionComponent>
+            <MenuList ref={menuListElRef} elevation={5} {...MenuListProps}>
+              {children}
+            </MenuList>
           </Popper>
         </>
       )}
-    </AnimatePresence>
+    </WrapperComponent>
   );
 };
 
