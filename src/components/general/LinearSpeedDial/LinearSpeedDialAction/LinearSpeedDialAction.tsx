@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { useId } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { Button, ButtonProps } from '@/components/general/Button';
-import { Tooltip, TooltipProps } from '@/components/data-display/Tooltip';
+import Tooltip, { TooltipProps } from '@/components/Tooltip';
 import { getTooltipPlacement } from './LinearSpeedDialAction.utils';
 import { useLinearDial } from '../LinearSpeedDial.hooks';
 

@@ -3,7 +3,7 @@ import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { Grid } from '@/components/layout/Grid';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
-import { Tooltip } from '@/components/data-display/Tooltip';
+import Tooltip from '@/components/Tooltip';
 import useJinni from '@/hooks/useJinni';
 
 const BoxShadowContent = () => {

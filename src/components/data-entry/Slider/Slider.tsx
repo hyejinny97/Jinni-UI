@@ -15,7 +15,7 @@ import {
   generateMarksValueArray,
   generateMarksLabelArray
 } from './Slider.utils';
-import { Tooltip, TooltipProps } from '@/components/data-display/Tooltip';
+import Tooltip, { TooltipProps } from '@/components/Tooltip';
 
 export type SliderValueType = number | Array<number>;
 export type MarksType =

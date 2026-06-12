@@ -4,7 +4,7 @@ import Pagination from './Pagination';
 import { PaginationItem } from './PaginationItem';
 import { Stack } from '@/components/layout/Stack';
 import { Text } from '@/components/general/Text';
-import { Tooltip } from '@/components/data-display/Tooltip';
+import Tooltip from '@/components/Tooltip';
 import { Link } from '@/components/navigation/Link';
 
 const meta: Meta<typeof Pagination> = {

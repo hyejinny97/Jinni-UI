@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { isNumber } from '@/utils/isNumber';
-import { TooltipProps } from '@/components/data-display/Tooltip';
+import { TooltipProps } from '@/components/Tooltip';
 
 export const useTooltipPlacement = () => {
   const wrapperElRef = useRef<HTMLElement>(null);
