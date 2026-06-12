@@ -9,7 +9,7 @@ import { Text } from '@/components/general/Text';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
 import { FlightLandIcon } from '@/components/icons/FlightLandIcon';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';

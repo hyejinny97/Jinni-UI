@@ -13,7 +13,7 @@ import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Link } from '@/components/navigation/Link';
 import { Text } from '@/components/general/Text';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 import {
   Tree,
   TreeItemIdType,

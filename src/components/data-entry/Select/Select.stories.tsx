@@ -6,7 +6,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import { Checkbox } from '@/components/data-entry/Checkbox';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 import { Button } from '@/components/general/Button';
 import { ListItem } from '@/components/data-display/List';
 import { Label } from '@/components/data-entry/Label';

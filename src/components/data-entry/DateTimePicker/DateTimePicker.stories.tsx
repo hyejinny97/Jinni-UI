@@ -18,7 +18,7 @@ import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
 import { Switch } from '@/components/data-entry/Switch';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 import { Button } from '@/components/general/Button';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 

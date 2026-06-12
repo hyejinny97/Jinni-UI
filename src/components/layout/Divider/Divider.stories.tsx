@@ -2,7 +2,7 @@ import './custom.scss';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Divider } from '@/components/layout/Divider';
 import { Stack } from '@/components/layout/Stack';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 import { List, ListItem } from '@/components/data-display/List';
 
 const meta: Meta<typeof Divider> = {

@@ -8,7 +8,7 @@ import {
   RootInputBaseProps
 } from '@/components/data-entry/InputBase';
 import { Menu, MenuProps } from '@/components/navigation/Menu';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 import {
   useAutocompleteValue,
   useInputValue,

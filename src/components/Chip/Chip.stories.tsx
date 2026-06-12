@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 import Avatar from '@/components/Avatar';
 import { Stack } from '@/components/layout/Stack';
 import { ButtonBase } from '@/components/general/ButtonBase';

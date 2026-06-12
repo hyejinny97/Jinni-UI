@@ -11,7 +11,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Box } from '@/components/layout/Box';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Switch } from '@/components/data-entry/Switch';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Modal> = {

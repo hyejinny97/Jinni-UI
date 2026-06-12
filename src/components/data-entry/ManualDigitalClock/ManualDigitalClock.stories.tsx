@@ -11,7 +11,7 @@ import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
 import { Switch } from '@/components/data-entry/Switch';
 import { Label } from '@/components/data-entry/Label';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 
 const meta: Meta<typeof ManualDigitalClock> = {
   title: 'components/data-entry/TimePicker/ManualDigitalClock',

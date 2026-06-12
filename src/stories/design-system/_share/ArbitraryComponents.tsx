@@ -4,7 +4,7 @@ import { Button } from '@/components/general/Button';
 import { Slider } from '@/components/data-entry/Slider';
 import { Rating } from '@/components/data-entry/Rating';
 import { NumberInput } from '@/components/data-entry/NumberInput';
-import { Chip } from '@/components/data-display/Chip';
+import Chip from '@/components/Chip';
 import { Alert } from '@/components/feedback/Alert';
 
 const ArbitraryComponents = () => {
