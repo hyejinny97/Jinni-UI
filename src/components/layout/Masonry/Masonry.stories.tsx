@@ -7,12 +7,10 @@ import { Button } from '@/components/general/Button';
 import { Text } from '@/components/general/Text';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionSummary,
-  AccordionDetails
-} from '@/components/data-display/Accordion';
+import Accordion from '@/components/Accordion';
+import AccordionItem from '@/components/AccordionItem';
+import AccordionSummary from '@/components/AccordionSummary';
+import AccordionDetails from '@/components/AccordionDetails';
 import { Skeleton } from '@/components/feedback/Skeleton';
 
 const meta: Meta<typeof Masonry> = {

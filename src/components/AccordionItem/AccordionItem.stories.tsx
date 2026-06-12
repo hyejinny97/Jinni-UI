@@ -3,6 +3,7 @@ import AccordionItem from './AccordionItem';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof AccordionItem> = {
+  title: 'components/Accordion/AccordionItem',
   component: AccordionItem,
   argTypes: {
     children: {

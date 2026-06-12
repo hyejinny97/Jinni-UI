@@ -1,8 +1,8 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as AccordionStories from './Accordion.stories';
-import * as AccordionItemStories from './AccordionItem/AccordionItem.stories';
-import * as AccordionSummaryStories from './AccordionSummary/AccordionSummary.stories';
-import * as AccordionDetailsStories from './AccordionDetails/AccordionDetails.stories';
+import * as AccordionItemStories from '../AccordionItem/AccordionItem.stories';
+import * as AccordionSummaryStories from '../AccordionSummary/AccordionSummary.stories';
+import * as AccordionDetailsStories from '../AccordionDetails/AccordionDetails.stories';
 
 <Meta of={AccordionStories} />
 
@@ -19,12 +19,10 @@ import * as AccordionDetailsStories from './AccordionDetails/AccordionDetails.st
 ## Import
 
 ```js
-import {
-  Accordion,
-  AccordionItem,
-  AccordionSummary,
-  AccordionDetails
-} from '@/components/data-display/Accordion';
+import Accordion from '@/components/Accordion';
+import AccordionItem from '@/components/AccordionItem';
+import AccordionSummary from '@/components/AccordionSummary';
+import AccordionDetails from '@/components/AccordionDetails';
 ```
 
 ## Usage

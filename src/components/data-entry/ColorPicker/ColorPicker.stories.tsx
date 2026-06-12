@@ -17,12 +17,10 @@ import { Button } from '@/components/general/Button';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Divider } from '@/components/layout/Divider';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionSummary,
-  AccordionDetails
-} from '@/components/data-display/Accordion';
+import Accordion from '@/components/Accordion';
+import AccordionItem from '@/components/AccordionItem';
+import AccordionSummary from '@/components/AccordionSummary';
+import AccordionDetails from '@/components/AccordionDetails';
 import { ColorValueType, HSBObject } from './ColorPicker.types';
 import { Grid } from '@/components/layout/Grid';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';

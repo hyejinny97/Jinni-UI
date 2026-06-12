@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionSummary,
-  AccordionDetails
-} from '.';
+import Accordion from '@/components/Accordion';
+import AccordionItem from '@/components/AccordionItem';
+import AccordionSummary from '@/components/AccordionSummary';
+import AccordionDetails from '@/components/AccordionDetails';
 import { ArrowCircleDownIcon } from '@/components/icons/ArrowCircleDownIcon';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';

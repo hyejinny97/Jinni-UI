@@ -14,12 +14,10 @@ vi.mock('@/components/motion/AnimatePresence', () => ({
 // Accordion 테스트
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionSummary,
-  AccordionDetails
-} from '.';
+import Accordion from '@/components/Accordion';
+import AccordionItem from '@/components/AccordionItem';
+import AccordionSummary from '@/components/AccordionSummary';
+import AccordionDetails from '@/components/AccordionDetails';
 import { useState } from 'react';
 import { ArrowCircleDownIcon } from '@/components/icons/ArrowCircleDownIcon';
 

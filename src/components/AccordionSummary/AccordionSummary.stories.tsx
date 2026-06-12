@@ -3,6 +3,7 @@ import AccordionSummary from './AccordionSummary';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof AccordionSummary> = {
+  title: 'components/Accordion/AccordionSummary',
   component: AccordionSummary,
   argTypes: {
     ButtonBaseProps: {
