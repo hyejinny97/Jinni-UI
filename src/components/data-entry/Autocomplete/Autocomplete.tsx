@@ -25,7 +25,7 @@ import { Box } from '@/components/layout/Box';
 import { CancelIcon } from '@/components/icons/CancelIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { useLabelContext } from '@/components/data-entry/Label';
-import { ListItem } from '@/components/data-display/List';
+import ListItem from '@/components/ListItem';
 
 export type AutocompleteProps<Multiple extends boolean = false> = Omit<
   DefaultComponentProps<'input'>,

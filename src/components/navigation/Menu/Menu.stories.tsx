@@ -10,7 +10,7 @@ import { CartIcon } from '@/components/icons/CartIcon';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import { CheckIcon } from '@/components/icons/CheckIcon';
-import { ListItem } from '@/components/data-display/List';
+import ListItem from '@/components/ListItem';
 import { Radio } from '@/components/data-entry/Radio';
 import { Label } from '@/components/data-entry/Label';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';

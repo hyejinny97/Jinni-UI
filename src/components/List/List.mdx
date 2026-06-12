@@ -1,7 +1,7 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as ListStories from './List.stories';
-import * as ListItemStories from './ListItem/ListItem.stories';
-import * as ListItemButtonStories from './ListItemButton/ListItemButton.stories';
+import * as ListItemStories from '../ListItem/ListItem.stories';
+import * as ListItemButtonStories from '../ListItemButton/ListItemButton.stories';
 
 <Meta of={ListStories} />
 
@@ -12,7 +12,9 @@ import * as ListItemButtonStories from './ListItemButton/ListItemButton.stories'
 ## Import
 
 ```js
-import { List, ListItem, ListItemButton } from '@/components/data-display/List';
+import List from '@/components/List';
+import ListItem from '@/components/ListItem';
+import ListItemButton from '@/components/ListItemButton';
 ```
 
 ## Usage

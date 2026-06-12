@@ -13,7 +13,7 @@ import { CancelIcon } from '@/components/icons/CancelIcon';
 import { Radio } from '@/components/data-entry/Radio';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Label } from '@/components/data-entry/Label';
-import { ListItem } from '@/components/data-display/List';
+import ListItem from '@/components/ListItem';
 import { Checkbox } from '@/components/data-entry/Checkbox';
 
 const meta: Meta<typeof Autocomplete> = {

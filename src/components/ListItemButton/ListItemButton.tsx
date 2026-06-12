@@ -2,7 +2,7 @@ import './ListItemButton.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
-import { useList } from '../List.hooks';
+import { useList } from '../List';
 
 type ListItemButtonProps<T extends AsType = 'button'> = ButtonBaseProps<T> & {
   selected?: boolean;

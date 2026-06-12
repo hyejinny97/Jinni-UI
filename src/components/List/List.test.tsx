@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
-import { List, ListItem, ListItemButton } from '.';
+import List from '@/components/List';
+import ListItem from '@/components/ListItem';
+import ListItemButton from '@/components/ListItemButton';
 
 describe('<List />', () => {
   it('renders list', () => {

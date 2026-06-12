@@ -8,7 +8,7 @@ import { Text } from '@/components/general/Text';
 import { Checkbox } from '@/components/data-entry/Checkbox';
 import Chip from '@/components/Chip';
 import { Button } from '@/components/general/Button';
-import { ListItem } from '@/components/data-display/List';
+import ListItem from '@/components/ListItem';
 import { Label } from '@/components/data-entry/Label';
 
 const meta: Meta<typeof Select> = {

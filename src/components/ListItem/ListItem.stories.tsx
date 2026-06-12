@@ -3,6 +3,7 @@ import ListItem from './ListItem';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof ListItem> = {
+  title: 'components/List/ListItem',
   component: ListItem,
   argTypes: {
     children: {

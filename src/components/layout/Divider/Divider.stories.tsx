@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Divider } from '@/components/layout/Divider';
 import { Stack } from '@/components/layout/Stack';
 import Chip from '@/components/Chip';
-import { List, ListItem } from '@/components/data-display/List';
+import List from '@/components/List';
+import ListItem from '@/components/ListItem';
 
 const meta: Meta<typeof Divider> = {
   component: Divider,

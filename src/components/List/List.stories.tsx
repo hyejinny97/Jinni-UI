@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState, Fragment } from 'react';
-import { List, ListItem, ListItemButton } from '.';
+import List from '@/components/List';
+import ListItem from '@/components/ListItem';
+import ListItemButton from '@/components/ListItemButton';
 import Avatar from '@/components/Avatar';
 import { Text } from '@/components/general/Text';
 import { ButtonBase } from '@/components/general/ButtonBase';

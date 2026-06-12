@@ -14,7 +14,9 @@ import { BurgerIcon } from '@/components/icons/BurgerIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Box, BoxProps } from '@/components/layout/Box';
 import Iframe from '@/components/Iframe';
-import { List, ListItem, ListItemButton } from '@/components/data-display/List';
+import List from '@/components/List';
+import ListItem from '@/components/ListItem';
+import ListItemButton from '@/components/ListItemButton';
 import { Divider } from '@/components/layout/Divider';
 import { AsType } from '@/types/default-component-props';
 
