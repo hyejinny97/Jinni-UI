@@ -7,7 +7,7 @@ import {
   DateTimeRangeField,
   DateTimeRangeFieldProps
 } from '@/components/data-entry/DateTimeRangeField';
-import { Popover, PopoverProps } from '@/components/data-display/Popover';
+import Popover, { PopoverProps } from '@/components/Popover';
 import {
   DateRangeCalendar,
   DateRangeCalendarProps
@@ -46,7 +46,10 @@ export type DateTimeRangePickerProps<
 > = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
   DateTimeRangeComponent<Mode> & {
     name?: RangeType<string>;
-    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    PopoverProps?: Omit<
+      PopoverProps,
+      'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
+    >;
     DateTimeRangeFieldProps?: DateTimeRangeFieldProps;
     renderDateRangeCalendar?: (
       dateRangeCalendarProps: DateRangeCalendarProps<
@@ -124,8 +127,8 @@ const DateTimeRangePicker = <
     onChange
   });
   const newStyle = useStyle(style);
-  const { className: popoverClassName, ...restPopoverProps } = (PopoverProps ||
-    {}) as Partial<PopoverProps>;
+  const { className: popoverClassName, ...restPopoverProps } =
+    PopoverProps || {};
 
   const openPopover = () => {
     if (readOnly || disabled) return;
@@ -253,6 +256,7 @@ const DateTimeRangePicker = <
       <DateTimeRangeField ref={anchorElRef} {...dateTimeRangeProps} />
       <Popover
         id={popoverId}
+        anchorReference="anchorEl"
         anchorElRef={anchorElRef}
         className={cn('JinniDateTimeRangePickerPopover', popoverClassName)}
         open={open}

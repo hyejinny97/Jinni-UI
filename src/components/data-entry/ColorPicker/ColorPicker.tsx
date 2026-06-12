@@ -5,11 +5,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ColorField, ColorFieldProps } from './ColorField';
 import { ColorBox, ColorBoxProps } from './ColorBox';
-import {
-  Popover,
-  PopoverProps,
-  CloseReason
-} from '@/components/data-display/Popover';
+import Popover, { PopoverProps, CloseReason } from '@/components/Popover';
 import { useColorValue } from './ColorPicker.hooks';
 import { ColorValueType, HSBObject } from './ColorPicker.types';
 import { useLabelContext } from '@/components/data-entry/Label';
@@ -28,7 +24,10 @@ export type ColorPickerProps<T extends AsType = 'div'> = Omit<
   renderColorBox?: (colorBoxProps: ColorBoxProps) => React.ReactNode;
   disabled?: boolean;
   required?: boolean;
-  PopoverProps?: Partial<PopoverProps>;
+  PopoverProps?: Omit<
+    PopoverProps,
+    'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
+  >;
 };
 
 const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
@@ -66,7 +65,7 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
     BoxProps: popoverBoxProps,
     style: popoverStyle,
     ...restPopoverProps
-  } = (PopoverProps || {}) as Partial<PopoverProps>;
+  } = PopoverProps || {};
 
   const openPopover = () => {
     if (disabled) return;
@@ -108,6 +107,7 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
         disabled
       })}
       <Popover
+        anchorReference="anchorEl"
         anchorElRef={anchorElRef}
         open={open}
         onClose={handlePopoverClose}

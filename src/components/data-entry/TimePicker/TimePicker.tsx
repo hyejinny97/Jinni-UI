@@ -6,7 +6,7 @@ import useStyle from '@/hooks/useStyle';
 import { TimeField, TimeFieldProps } from '@/components/data-entry/TimeField';
 import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
 import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
-import { Popover, PopoverProps } from '@/components/data-display/Popover';
+import Popover, { PopoverProps } from '@/components/Popover';
 import { useTime } from './TimePicker.hooks';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
@@ -30,7 +30,10 @@ export type TimePickerProps<
   TimeComponentProps<Mode> & {
     name?: string;
     mode?: Mode;
-    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    PopoverProps?: Omit<
+      PopoverProps,
+      'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
+    >;
     TimeFieldProps?: TimeFieldProps;
     renderDigitalClock?: (
       digitalClockProps: DigitalClockProps
@@ -75,8 +78,8 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
   const [open, setOpen] = useState(false);
   const { time, handleChange } = useTime({ defaultValue, value, onChange });
   const newStyle = useStyle(style);
-  const { className: popoverClassName, ...restPopoverProps } = (PopoverProps ||
-    {}) as Partial<PopoverProps>;
+  const { className: popoverClassName, ...restPopoverProps } =
+    PopoverProps || {};
 
   const openPopover = () => {
     prevTimeRef.current = time;
@@ -145,6 +148,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
       <TimeField ref={anchorElRef} {...timeFieldProps} />
       <Popover
         id={popoverId}
+        anchorReference="anchorEl"
         anchorElRef={anchorElRef}
         className={cn('JinniTimePickerPopover', popoverClassName)}
         open={open}

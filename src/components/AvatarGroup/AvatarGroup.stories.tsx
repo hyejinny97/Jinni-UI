@@ -5,7 +5,7 @@ import Avatar from '@/components/Avatar';
 import { Stack } from '@/components/layout/Stack';
 import { Tooltip } from '@/components/data-display/Tooltip';
 import { Link } from '@/components/navigation/Link';
-import { Popover } from '@/components/data-display/Popover';
+import Popover from '@/components/Popover';
 import dogImage from '@/assets/images/dog-1.jpg';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import './custom.scss';

@@ -7,7 +7,7 @@ import {
   TimeRangeField,
   TimeRangeFieldProps
 } from '@/components/data-entry/TimeRangeField';
-import { Popover, PopoverProps } from '@/components/data-display/Popover';
+import Popover, { PopoverProps } from '@/components/Popover';
 import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
 import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { useTimeRangeValue } from './TimeRangePicker.hooks';
@@ -34,7 +34,10 @@ export type TimeRangePickerProps<
 > = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
   TimeRangeComponentProps<Mode> & {
     name?: RangeType<string>;
-    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    PopoverProps?: Omit<
+      PopoverProps,
+      'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
+    >;
     TimeRangeFieldProps?: TimeRangeFieldProps;
     renderDigitalClock?: (
       digitalClockProps: DigitalClockProps
@@ -91,8 +94,8 @@ const TimeRangePicker = <
       onChange
     });
   const newStyle = useStyle(style);
-  const { className: popoverClassName, ...restPopoverProps } = (PopoverProps ||
-    {}) as Partial<PopoverProps>;
+  const { className: popoverClassName, ...restPopoverProps } =
+    PopoverProps || {};
   const isStartFieldFocusable = !readOnly?.start && !disabled?.start;
   const isEndFieldFocusable = !readOnly?.end && !disabled?.end;
   const disableOpen = !isStartFieldFocusable && !isEndFieldFocusable;
@@ -193,6 +196,7 @@ const TimeRangePicker = <
       <TimeRangeField ref={anchorElRef} {...timeRangeFieldProps} />
       <Popover
         id={popoverId}
+        anchorReference="anchorEl"
         anchorElRef={anchorElRef}
         className={cn('JinniTimeRangePickerPopover', popoverClassName)}
         open={open}

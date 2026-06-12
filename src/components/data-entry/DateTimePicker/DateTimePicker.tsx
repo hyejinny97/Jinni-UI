@@ -7,7 +7,7 @@ import {
   DateTimeField,
   DateTimeFieldProps
 } from '@/components/data-entry/DateTimeField';
-import { Popover, PopoverProps } from '@/components/data-display/Popover';
+import Popover, { PopoverProps } from '@/components/Popover';
 import {
   DateCalendar,
   DateCalendarProps
@@ -38,7 +38,10 @@ export type DateTimePickerProps<
 > = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
   DateTimeComponentProps<Mode> & {
     name?: string;
-    PopoverProps?: Omit<PopoverProps, 'open' | 'children'>;
+    PopoverProps?: Omit<
+      PopoverProps,
+      'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
+    >;
     DateTimeFieldProps?: DateTimeFieldProps;
     renderDateCalendar?: (
       dateCalendarProps: DateCalendarProps
@@ -100,8 +103,8 @@ const DateTimePicker = <
     handleTimeChange
   } = useDateTimeValue({ defaultValue, value, onChange });
   const newStyle = useStyle(style);
-  const { className: popoverClassName, ...restPopoverProps } = (PopoverProps ||
-    {}) as Partial<PopoverProps>;
+  const { className: popoverClassName, ...restPopoverProps } =
+    PopoverProps || {};
 
   const openPopover = () => {
     if (readOnly || disabled) return;
@@ -195,6 +198,7 @@ const DateTimePicker = <
       <DateTimeField ref={anchorElRef} {...dateTimeFieldProps} />
       <Popover
         id={popoverId}
+        anchorReference="anchorEl"
         anchorElRef={anchorElRef}
         className={cn('JinniDateTimePickerPopover', popoverClassName)}
         open={open}

@@ -22,7 +22,7 @@ import { Rating } from '@/components/data-entry/Rating';
 import { Select, Option } from '@/components/data-entry/Select';
 import { Input } from '@/components/data-entry/Input';
 import { NumberInput } from '@/components/data-entry/NumberInput';
-import { Popover } from '@/components/data-display/Popover';
+import Popover from '@/components/Popover';
 import { FilterAltIcon } from '@/components/icons/FilterAltIcon';
 import { isNumber } from '@/utils/isNumber';
 import { isBoolean } from '@/utils/isBoolean';

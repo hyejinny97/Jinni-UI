@@ -288,10 +288,10 @@ const AnchorPositionTemplate = () => {
   const [open, setOpen] = useState(false);
   const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
 
-  const openPopover = () => {
+  const openPopper = () => {
     setOpen(true);
   };
-  const closePopover = () => {
+  const closePopper = () => {
     setOpen(false);
   };
   const handleContextMenu = (event: React.MouseEvent) => {
@@ -301,12 +301,12 @@ const AnchorPositionTemplate = () => {
       top: event.clientY
     };
     setCoordinate(newCoordinate);
-    openPopover();
+    openPopper();
   };
 
   return (
     <>
-      <Text onContextMenu={handleContextMenu} onClick={closePopover}>
+      <Text onContextMenu={handleContextMenu} onClick={closePopper}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
         bibendum vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed
@@ -424,12 +424,12 @@ const TriggerEventTemplate = () => {
     newValue[trigger] = !newValue[trigger];
     setOpen(newValue);
   };
-  const openPopover = (trigger: TriggerType) => {
+  const openPopper = (trigger: TriggerType) => {
     const newValue: Record<TriggerType, boolean> = { ...open };
     newValue[trigger] = true;
     setOpen(newValue);
   };
-  const closePopover = (trigger: TriggerType) => {
+  const closePopper = (trigger: TriggerType) => {
     const newValue: Record<TriggerType, boolean> = { ...open };
     newValue[trigger] = false;
     setOpen(newValue);
@@ -443,15 +443,15 @@ const TriggerEventTemplate = () => {
         </Button>
         <Button
           ref={anchorElRef.current.hover}
-          onMouseEnter={() => openPopover('hover')}
-          onMouseLeave={() => closePopover('hover')}
+          onMouseEnter={() => openPopper('hover')}
+          onMouseLeave={() => closePopper('hover')}
         >
           Trigger: 'hover'
         </Button>
         <Button
           ref={anchorElRef.current.focus}
-          onFocus={() => openPopover('focus')}
-          onBlur={() => closePopover('focus')}
+          onFocus={() => openPopper('focus')}
+          onBlur={() => closePopper('focus')}
         >
           Trigger: 'focus'
         </Button>
@@ -808,10 +808,10 @@ export const AnchorPosition: Story = {
   const [open, setOpen] = useState(false);
   const [coordinate, setCoordinate] = useState({ left: 0, top: 0 });
 
-  const openPopover = () => {
+  const openPopper = () => {
     setOpen(true);
   };
-  const closePopover = () => {
+  const closePopper = () => {
     setOpen(false);
   };
   const handleContextMenu = (event: React.MouseEvent) => {
@@ -821,12 +821,12 @@ export const AnchorPosition: Story = {
       top: event.clientY
     };
     setCoordinate(newCoordinate);
-    openPopover();
+    openPopper();
   };
 
   return (
     <>
-      <Text onContextMenu={handleContextMenu} onClick={closePopover}>
+      <Text onContextMenu={handleContextMenu} onClick={closePopper}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ipsum
         purus, bibendum sit amet vulputate eget, porta semper ligula. Donec
         bibendum vulputate erat, ac fringilla mi finibus nec. Donec ac dolor sed
@@ -962,12 +962,12 @@ export const TriggerEvent: Story = {
     newValue[trigger] = !newValue[trigger];
     setOpen(newValue);
   };
-  const openPopover = (trigger: TriggerType) => {
+  const openPopper = (trigger: TriggerType) => {
     const newValue: Record<TriggerType, boolean> = { ...open };
     newValue[trigger] = true;
     setOpen(newValue);
   };
-  const closePopover = (trigger: TriggerType) => {
+  const closePopper = (trigger: TriggerType) => {
     const newValue: Record<TriggerType, boolean> = { ...open };
     newValue[trigger] = false;
     setOpen(newValue);
@@ -981,15 +981,15 @@ export const TriggerEvent: Story = {
         </Button>
         <Button
           ref={anchorElRef.current.hover}
-          onMouseEnter={() => openPopover('hover')}
-          onMouseLeave={() => closePopover('hover')}
+          onMouseEnter={() => openPopper('hover')}
+          onMouseLeave={() => closePopper('hover')}
         >
           Trigger: 'hover'
         </Button>
         <Button
           ref={anchorElRef.current.focus}
-          onFocus={() => openPopover('focus')}
-          onBlur={() => closePopover('focus')}
+          onFocus={() => openPopper('focus')}
+          onBlur={() => closePopper('focus')}
         >
           Trigger: 'focus'
         </Button>
