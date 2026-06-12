@@ -4,7 +4,7 @@ import { AsType } from '@/types/default-component-props';
 import Fraction, { FractionProps } from '@/components/Fraction';
 import { NavigationPaginationPositionType, useCarousel } from '../Carousel';
 import { WithOptional } from '@/types/withOptional';
-import { useInfiniteCarousel } from '@/components/data-display/InfiniteCarousel';
+import { useInfiniteCarousel } from '@/components/InfiniteCarousel';
 
 type CarouselFractionProps<T extends AsType = 'span'> = WithOptional<
   FractionProps<T>,

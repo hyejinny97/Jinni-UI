@@ -6,7 +6,7 @@ import {
   LinearProgressProps
 } from '@/components/feedback/LinearProgress';
 import { useCarousel } from '../Carousel';
-import { useInfiniteCarousel } from '@/components/data-display/InfiniteCarousel';
+import { useInfiniteCarousel } from '@/components/InfiniteCarousel';
 
 type CarouselProgressProps<T extends AsType = 'div'> =
   LinearProgressProps<T> & {

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Dots, DotsProps, Dot } from '@/components/navigation/Dots';
 import { NavigationPaginationPositionType, useCarousel } from '../Carousel';
-import { useInfiniteCarousel } from '@/components/data-display/InfiniteCarousel';
+import { useInfiniteCarousel } from '@/components/InfiniteCarousel';
 
 type CarouselDotsProps<T extends AsType = 'div'> = Omit<
   DotsProps<T>,
