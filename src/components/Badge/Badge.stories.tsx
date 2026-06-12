@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Badge } from '.';
+import Badge from './Badge';
 import Avatar from '@/components/Avatar';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { Stack } from '@/components/layout/Stack';

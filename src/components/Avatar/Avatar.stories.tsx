@@ -4,7 +4,7 @@ import Avatar from '@/components/Avatar';
 import dogImage1 from '@/assets/images/dog-1.jpg';
 import dogImage2 from '@/assets/images/dog-2.jpg';
 import { PersonIcon } from '@/components/icons/PersonIcon';
-import { Badge } from '@/components/data-display/Badge';
+import Badge from '@/components/Badge';
 import { FileInput } from '@/components/data-entry/FileInput';
 
 const meta: Meta<typeof Avatar> = {
