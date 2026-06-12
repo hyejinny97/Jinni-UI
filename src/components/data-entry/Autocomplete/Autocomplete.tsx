@@ -58,7 +58,10 @@ export type AutocompleteProps<Multiple extends boolean = false> = Omit<
         valueToDelete: OptionValueType
       ) => void
     ) => React.ReactNode;
-    MenuProps?: Omit<Partial<MenuProps>, 'open' | 'onClose'>;
+    MenuProps?: Omit<
+      MenuProps,
+      'open' | 'onClose' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
+    >;
     open?: boolean;
     onOpen?: (event: Event | React.SyntheticEvent) => void;
     onClose?: (event: Event | React.SyntheticEvent) => void;
@@ -193,7 +196,7 @@ const Autocomplete = <Multiple extends boolean = false>(
     className: menuClassName,
     MenuListProps: menuListProps,
     ...restMenuProps
-  } = (MenuProps || {}) as Partial<MenuProps>;
+  } = MenuProps || {};
 
   const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -313,6 +316,7 @@ const Autocomplete = <Multiple extends boolean = false>(
       </InputBase>
       <Menu
         className={cn('JinniAutocompleteMenu', menuClassName)}
+        anchorReference="anchorEl"
         anchorElRef={inputBaseElRef}
         open={isOpen}
         onClose={(event: MouseEvent | KeyboardEvent) => closeMenu(event)}
