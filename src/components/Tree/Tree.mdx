@@ -1,6 +1,6 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as TreeStories from './Tree.stories';
-import * as TreeItemStories from './TreeItem/TreeItem.stories';
+import * as TreeItemStories from '../TreeItem/TreeItem.stories';
 
 <Meta of={TreeStories} />
 
@@ -11,7 +11,8 @@ import * as TreeItemStories from './TreeItem/TreeItem.stories';
 ## Import
 
 ```js
-import { Tree, TreeItem } from '@/components/data-display/Tree';
+import Tree from '@/components/Tree';
+import TreeItem from '@/components/TreeItem';
 ```
 
 ## Usage - Basic

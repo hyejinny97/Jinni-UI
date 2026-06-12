@@ -14,11 +14,8 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import { Link } from '@/components/navigation/Link';
 import { Text } from '@/components/general/Text';
 import Chip from '@/components/Chip';
-import {
-  Tree,
-  TreeItemIdType,
-  TreeProps
-} from '@/components/data-display/Tree';
+import Tree, { TreeProps } from '@/components/Tree';
+import { TreeItemIdType } from '@/components/TreeItem';
 
 const meta: Meta<typeof Breadcrumbs> = {
   component: Breadcrumbs,

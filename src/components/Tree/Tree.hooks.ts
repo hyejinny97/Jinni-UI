@@ -1,7 +1,7 @@
 import { useRef, useMemo, useState, useEffect } from 'react';
 import { TreeProps, ItemProps } from './Tree';
 import { ROOT_TREE_ITEM_ID } from './Tree.constants';
-import { TreeItemIdType } from './TreeItem';
+import { TreeItemIdType } from '../TreeItem';
 import { transformToArray } from '@/utils/transformToArray';
 import { isAlphabet } from '@/utils/isAlphabet';
 import { findLastIndex } from '@/utils/findIndex';

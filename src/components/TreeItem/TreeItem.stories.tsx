@@ -6,6 +6,7 @@ import { Label } from '@/components/data-entry/Label';
 import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof TreeItem> = {
+  title: 'components/Tree/TreeItem',
   component: TreeItem,
   argTypes: {
     children: {

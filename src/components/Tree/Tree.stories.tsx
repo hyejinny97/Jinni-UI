@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { Tree, TreeItem, TreeItemIdType, TreeProps } from '.';
+import Tree, { TreeProps } from '@/components/Tree';
+import TreeItem, { TreeItemIdType } from '@/components/TreeItem';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import { Stack } from '@/components/layout/Stack';

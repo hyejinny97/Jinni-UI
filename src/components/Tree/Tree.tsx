@@ -3,7 +3,7 @@ import cn from 'classnames';
 import React, { Fragment } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { TreeItem, TreeItemIdType } from './TreeItem';
+import TreeItem, { TreeItemIdType } from '../TreeItem';
 import {
   useSelect,
   useExpand,

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
-import { Tree, TreeProps } from '.';
+import Tree, { TreeProps } from '@/components/Tree';
 
 describe('Tree', () => {
   const mockData: TreeProps['data'] = {
