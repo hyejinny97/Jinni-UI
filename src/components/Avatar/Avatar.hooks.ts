@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AvatarGroupContext } from '@/components/data-display/AvatarGroup';
+import { AvatarGroupContext } from '@/components/AvatarGroup';
 
 export const useAvatarGroup = () => {
   const value = useContext(AvatarGroupContext);
