@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { MenuItem, MenuItemProps } from '@/components/navigation/MenuItem';
-import { useAutocompleteContext } from '../Autocomplete.hooks';
+import { useAutocompleteContext } from '../Autocomplete';
 
 export type OptionValueType = string | number;
 export type OptionLabelType = string;

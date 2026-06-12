@@ -1,6 +1,6 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as AutocompleteStories from './Autocomplete.stories';
-import * as AutocompleteOptionStories from './AutocompleteOption/AutocompleteOption.stories';
+import * as AutocompleteOptionStories from '../AutocompleteOption/AutocompleteOption.stories';
 
 <Meta of={AutocompleteStories} />
 
@@ -11,10 +11,8 @@ import * as AutocompleteOptionStories from './AutocompleteOption/AutocompleteOpt
 ## Import
 
 ```js
-import {
-  Autocomplete,
-  AutocompleteOption
-} from '@/components/data-entry/Autocomplete';
+import Autocomplete from '@/components/Autocomplete';
+import AutocompleteOption from '@/components/AutocompleteOption';
 ```
 
 ## Usage

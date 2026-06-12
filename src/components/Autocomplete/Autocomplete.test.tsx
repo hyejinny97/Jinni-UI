@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
-import { Autocomplete, AutocompleteOption } from '.';
+import Autocomplete from '@/components/Autocomplete';
+import AutocompleteOption from '@/components/AutocompleteOption';
 
 describe('<Autocomplete />', () => {
   it('renders autocomplete', async () => {

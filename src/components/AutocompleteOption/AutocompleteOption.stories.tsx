@@ -3,6 +3,7 @@ import AutocompleteOption from './AutocompleteOption';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof AutocompleteOption> = {
+  title: 'components/Autocomplete/AutocompleteOption',
   component: AutocompleteOption,
   argTypes: {
     children: {

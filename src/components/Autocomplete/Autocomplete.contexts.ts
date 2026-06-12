@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { OptionValueType } from './AutocompleteOption';
+import { OptionValueType } from '../AutocompleteOption';
 
 type AutocompleteContextType = {
   multiple: boolean;

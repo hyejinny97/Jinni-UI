@@ -1,10 +1,9 @@
 import { isValidElement, Children } from 'react';
-import {
-  AutocompleteOption,
+import AutocompleteOption, {
   AutocompleteOptionProps,
   OptionValueType,
   OptionLabelType
-} from './AutocompleteOption';
+} from '../AutocompleteOption';
 
 export type OptionsInfoType = {
   [value: OptionValueType]: OptionLabelType;

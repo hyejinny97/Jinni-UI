@@ -1,7 +1,10 @@
 import './CustomAutocomplete.scss';
 import { useState, FormEvent, useEffect, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Autocomplete, AutocompleteOption, OptionValueType } from '.';
+import Autocomplete from '@/components/Autocomplete';
+import AutocompleteOption, {
+  OptionValueType
+} from '@/components/AutocompleteOption';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';

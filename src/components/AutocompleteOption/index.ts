@@ -1,4 +1,4 @@
-export { default as AutocompleteOption } from './AutocompleteOption';
+export { default } from './AutocompleteOption';
 export type {
   AutocompleteOptionProps,
   OptionValueType,

@@ -2,7 +2,7 @@ import { useState, useContext, useEffect, useCallback, useMemo } from 'react';
 import { AutocompleteProps } from './Autocomplete';
 import AutocompleteContext from './Autocomplete.contexts';
 import { transformToArray } from '@/utils/transformToArray';
-import { OptionValueType } from './AutocompleteOption';
+import { OptionValueType } from '../AutocompleteOption';
 import { getOptionsInfo } from './Autocomplete.utils';
 
 type UseAutocompleteValueProps<Multiple extends boolean> = Pick<

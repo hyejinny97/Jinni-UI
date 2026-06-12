@@ -18,7 +18,7 @@ import {
   useAutocompleteValueLabel
 } from './Autocomplete.hooks';
 import AutocompleteContext from './Autocomplete.contexts';
-import { OptionValueType, OptionLabelType } from './AutocompleteOption';
+import { OptionValueType, OptionLabelType } from '../AutocompleteOption';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Box } from '@/components/layout/Box';
