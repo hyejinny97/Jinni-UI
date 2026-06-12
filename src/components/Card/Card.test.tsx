@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
-import { Card, CardHeader, CardBody, CardFooter } from '.';
+import Card from '@/components/Card';
+import CardHeader from '@/components/CardHeader';
+import CardBody from '@/components/CardBody';
+import CardFooter from '@/components/CardFooter';
 
 describe('<Card />', () => {
   it('renders card', () => {

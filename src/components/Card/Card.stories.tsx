@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Card, CardHeader, CardBody, CardFooter } from '.';
+import Card from '@/components/Card';
+import CardHeader from '@/components/CardHeader';
+import CardBody from '@/components/CardBody';
+import CardFooter from '@/components/CardFooter';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
