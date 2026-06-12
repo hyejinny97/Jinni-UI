@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Input from './Input';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Fraction } from '@/components/data-display/Fraction';
+import Fraction from '@/components/Fraction';
 import { Text } from '@/components/general/Text';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';

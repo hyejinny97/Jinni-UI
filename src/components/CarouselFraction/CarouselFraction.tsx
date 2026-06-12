@@ -1,7 +1,7 @@
 import './CarouselFraction.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Fraction, FractionProps } from '@/components/data-display/Fraction';
+import Fraction, { FractionProps } from '@/components/Fraction';
 import { NavigationPaginationPositionType, useCarousel } from '../Carousel';
 import { WithOptional } from '@/types/withOptional';
 import { useInfiniteCarousel } from '@/components/data-display/InfiniteCarousel';
