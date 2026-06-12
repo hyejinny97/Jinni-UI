@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { AvatarGroupProps } from './AvatarGroup';
-import { Avatar } from '@/components/data-display/Avatar';
+import Avatar from '@/components/Avatar';
 
 export const useAvatarChildren = ({
   children

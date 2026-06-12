@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState, Fragment } from 'react';
 import { List, ListItem, ListItemButton } from '.';
-import { Avatar } from '@/components/data-display/Avatar';
+import Avatar from '@/components/Avatar';
 import { Text } from '@/components/general/Text';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { TrashcanIcon } from '@/components/icons/TrashcanIcon';

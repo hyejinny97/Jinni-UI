@@ -1,7 +1,7 @@
 import { vi, describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
 import AvatarGroup from './AvatarGroup';
-import { Avatar } from '@/components/data-display/Avatar';
+import Avatar from '@/components/Avatar';
 
 describe('<AvatarGroup />', () => {
   it('render avatars', () => {

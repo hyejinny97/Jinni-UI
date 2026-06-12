@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Badge } from '.';
-import { Avatar } from '@/components/data-display/Avatar';
+import Avatar from '@/components/Avatar';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';

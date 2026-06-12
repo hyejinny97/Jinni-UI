@@ -2,7 +2,7 @@ import './AvatarGroup.scss';
 import React, { useId, useCallback } from 'react';
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';
-import { Avatar } from '@/components/data-display/Avatar';
+import Avatar from '@/components/Avatar';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { useAvatarChildren } from './AvatarGroup.hooks';
 import { getAvatarWidth } from './AvatarGroup.utils';

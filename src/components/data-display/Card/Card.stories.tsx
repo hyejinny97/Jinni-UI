@@ -7,7 +7,7 @@ import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
-import { Avatar } from '@/components/data-display/Avatar';
+import Avatar from '@/components/Avatar';
 import { Checkbox } from '@/components/data-entry/Checkbox';
 import { MorevertIcon } from '@/components/icons/MorevertIcon';
 import { FavoriteIcon } from '@/components/icons/FavoriteIcon';

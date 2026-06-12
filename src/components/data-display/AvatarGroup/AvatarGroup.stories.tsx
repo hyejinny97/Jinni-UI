@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { AvatarGroup } from '.';
-import { Avatar } from '@/components/data-display/Avatar';
+import Avatar from '@/components/Avatar';
 import { Stack } from '@/components/layout/Stack';
 import { Tooltip } from '@/components/data-display/Tooltip';
 import { Link } from '@/components/navigation/Link';

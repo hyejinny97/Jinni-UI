@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Chip } from '@/components/data-display/Chip';
-import { Avatar } from '@/components/data-display/Avatar';
+import Avatar from '@/components/Avatar';
 import { Stack } from '@/components/layout/Stack';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CircularProgress } from '@/components/feedback/CircularProgress';

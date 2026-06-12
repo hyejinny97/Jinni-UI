@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Avatar } from '@/components/data-display/Avatar';
+import Avatar from '@/components/Avatar';
 import dogImage1 from '@/assets/images/dog-1.jpg';
 import dogImage2 from '@/assets/images/dog-2.jpg';
 import { PersonIcon } from '@/components/icons/PersonIcon';
