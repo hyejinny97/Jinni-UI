@@ -13,14 +13,12 @@ import { MailIcon } from '@/components/icons/MailIcon';
 import { VisibilityIcon } from '@/components/icons/VisibilityIcon';
 import { VisibilityOffIcon } from '@/components/icons/VisibilityOffIcon';
 import { SearchIcon } from '@/components/icons/SearchIcon';
-import {
-  Table,
-  TableContainer,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell
-} from '@/components/data-display/Table';
+import Table from '@/components/Table';
+import TableContainer from '@/components/TableContainer';
+import TableHead from '@/components/TableHead';
+import TableBody from '@/components/TableBody';
+import TableRow from '@/components/TableRow';
+import TableCell from '@/components/TableCell';
 
 const meta: Meta<typeof Input> = {
   component: Input,

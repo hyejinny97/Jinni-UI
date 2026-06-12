@@ -1,13 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import {
-  Table,
-  TableContainer,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableFooter
-} from '.';
+import TableContainer from '@/components/TableContainer';
+import Table from '@/components/Table';
+import TableHead from '@/components/TableHead';
+import TableBody from '@/components/TableBody';
+import TableFooter from '@/components/TableFooter';
+import TableRow from '@/components/TableRow';
+import TableCell from '@/components/TableCell';
 import { render, screen } from '@/tests/react-testing-tools';
 
 const TableTemplate = () => {

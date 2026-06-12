@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import TablePagination from './TablePagination';
 
 const meta: Meta<typeof TablePagination> = {
+  title: 'components/Table/TablePagination',
   component: TablePagination,
   argTypes: {
     count: {

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useTableHead } from '../TableHead';
-import { useTable } from '../Table.hooks';
+import { useTable } from '../Table';
 
 type TableCellElement = 'td' | 'th';
 

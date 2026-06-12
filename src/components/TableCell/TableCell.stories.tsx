@@ -10,6 +10,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Box } from '@/components/layout/Box';
 
 const meta: Meta<typeof TableCell> = {
+  title: 'components/Table/TableCell',
   component: TableCell,
   argTypes: {
     align: {

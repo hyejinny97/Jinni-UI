@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import TableRow from './TableRow';
-import { TableCell } from '../TableCell';
+import TableCell from '../TableCell';
 
 const meta: Meta<typeof TableRow> = {
+  title: 'components/Table/TableRow',
   component: TableRow,
   argTypes: {
     children: {

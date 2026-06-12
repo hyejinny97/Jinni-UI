@@ -2,15 +2,13 @@ import './TableCustomization.scss';
 import cn from 'classnames';
 import { useState, Fragment, useRef, useCallback } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  Table,
-  TableContainer,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  TablePagination
-} from '.';
+import TableContainer from '@/components/TableContainer';
+import Table from '@/components/Table';
+import TableHead from '@/components/TableHead';
+import TableBody from '@/components/TableBody';
+import TableRow from '@/components/TableRow';
+import TableCell from '@/components/TableCell';
+import TablePagination from '@/components/TablePagination';
 import { Text } from '@/components/general/Text';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Stack } from '@/components/layout/Stack';
@@ -1134,6 +1132,8 @@ const FilteringTableTemplate = () => {
   );
   const [filteredRows, setFilteredRows] = useState(RATING_ROWS);
   const [open, setOpen] = useState(false);
+  const anchorElRef =
+    filteringColumn && anchorsRef.current[filteringColumn.field];
 
   const getAlign = (
     dataType: (typeof RATING_COLUMNS)[number]['dataType']
@@ -1387,17 +1387,17 @@ const FilteringTableTemplate = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Popover
-        anchorElRef={
-          filteringColumn && anchorsRef.current[filteringColumn.field]
-        }
-        open={open}
-        onClose={closePopover}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-        popoverOrigin={{ horizontal: 'left', vertical: 'top' }}
-      >
-        {renderFilterInput()}
-      </Popover>
+      {anchorElRef && (
+        <Popover
+          anchorElRef={anchorElRef}
+          open={open}
+          onClose={closePopover}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          popoverOrigin={{ horizontal: 'left', vertical: 'top' }}
+        >
+          {renderFilterInput()}
+        </Popover>
+      )}
     </>
   );
 };
@@ -3200,6 +3200,8 @@ const FilteringTableTemplate = () => {
   );
   const [filteredRows, setFilteredRows] = useState(RATING_ROWS);
   const [open, setOpen] = useState(false);
+  const anchorElRef =
+    filteringColumn && anchorsRef.current[filteringColumn.field];
 
   const getAlign = (
     dataType: (typeof RATING_COLUMNS)[number]['dataType']
@@ -3453,17 +3455,17 @@ const FilteringTableTemplate = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Popover
-        anchorElRef={
-          filteringColumn && anchorsRef.current[filteringColumn.field]
-        }
-        open={open}
-        onClose={closePopover}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-        popoverOrigin={{ horizontal: 'left', vertical: 'top' }}
-      >
-        {renderFilterInput()}
-      </Popover>
+      {anchorElRef && (
+        <Popover
+          anchorElRef={anchorElRef}
+          open={open}
+          onClose={closePopover}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          popoverOrigin={{ horizontal: 'left', vertical: 'top' }}
+        >
+          {renderFilterInput()}
+        </Popover>
+      )}
     </>
   );
 };        

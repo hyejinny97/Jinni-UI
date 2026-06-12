@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { TableHeadContext } from './TableHead.contexts';
-import { useTable } from '../Table.hooks';
+import { useTable } from '../Table';
 
 type TableHeadProps<T extends AsType = 'thead'> = DefaultComponentProps<T> & {};
 
