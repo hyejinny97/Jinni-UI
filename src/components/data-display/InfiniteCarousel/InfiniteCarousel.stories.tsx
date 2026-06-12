@@ -1,15 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import {
-  InfiniteCarousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselDots,
-  CarouselFraction,
-  CarouselPrevButton,
-  CarouselNextButton,
-  CarouselProgress
-} from '.';
+import InfiniteCarousel from './InfiniteCarousel';
+import CarouselContent from '@/components/CarouselContent';
+import CarouselItem from '@/components/CarouselItem';
+import CarouselDots from '@/components/CarouselDots';
+import CarouselFraction from '@/components/CarouselFraction';
+import CarouselPrevButton from '@/components/CarouselPrevButton';
+import CarouselNextButton from '@/components/CarouselNextButton';
+import CarouselProgress from '@/components/CarouselProgress';
 import useJinni from '@/hooks/useJinni';
 import { SECOND } from '@/constants/time';
 import { CircularProgress } from '@/components/feedback/CircularProgress';

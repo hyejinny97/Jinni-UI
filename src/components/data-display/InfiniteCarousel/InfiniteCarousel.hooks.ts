@@ -8,7 +8,7 @@ import {
 } from 'react';
 import InfiniteCarouselContext from './InfiniteCarousel.contexts';
 import { InfiniteCarouselProps } from './InfiniteCarousel';
-import { CarouselItemElement } from '@/components/data-display/Carousel';
+import { CarouselItemElement } from '@/components/CarouselContent';
 import { findCarouselItems } from './InfiniteCarousel.utils';
 
 type UseCarouselItemsValueProps = {

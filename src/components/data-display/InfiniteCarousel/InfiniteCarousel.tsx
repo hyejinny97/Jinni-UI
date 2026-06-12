@@ -1,7 +1,7 @@
 import { useRef, useMemo, forwardRef, MutableRefObject } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Carousel, CarouselProps } from '@/components/data-display/Carousel';
+import Carousel, { CarouselProps } from '@/components/Carousel';
 import InfiniteCarouselContext from './InfiniteCarousel.contexts';
 import { addItemsToFrontAndBack } from './InfiniteCarousel.utils';
 import {

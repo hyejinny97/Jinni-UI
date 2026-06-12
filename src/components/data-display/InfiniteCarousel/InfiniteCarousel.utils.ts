@@ -1,10 +1,9 @@
 import { isValidElement } from 'react';
-import {
-  CarouselContent,
+import CarouselItem from '@/components/CarouselItem';
+import CarouselContent, {
   CarouselContentProps,
-  CarouselItem,
   CarouselItemElement
-} from '@/components/data-display/Carousel';
+} from '@/components/CarouselContent';
 
 export const findCarouselItems = (
   children: React.ReactNode
