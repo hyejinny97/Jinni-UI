@@ -3,6 +3,7 @@ import TimelineSeparator from './TimelineSeparator';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineSeparator> = {
+  title: 'components/Timeline/TimelineSeparator',
   component: TimelineSeparator,
   argTypes: {
     children: {

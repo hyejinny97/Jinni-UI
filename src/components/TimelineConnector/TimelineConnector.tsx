@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
-import { useTimeline } from '../Timeline.hooks';
+import { useTimeline } from '../Timeline';
 
 type TimelineConnectorProps<T extends AsType = 'span'> =
   DefaultComponentProps<T> & {

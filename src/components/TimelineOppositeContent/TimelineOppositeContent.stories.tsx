@@ -3,6 +3,7 @@ import TimelineOppositeContent from './TimelineOppositeContent';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineOppositeContent> = {
+  title: 'components/Timeline/TimelineOppositeContent',
   component: TimelineOppositeContent,
   argTypes: {
     children: {

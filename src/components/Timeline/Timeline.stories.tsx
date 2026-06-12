@@ -1,14 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import {
-  Timeline,
-  TimelineItem,
-  TimelineContent,
-  TimelineOppositeContent,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineDot
-} from '@/components/data-display/Timeline';
+import Timeline from '@/components/Timeline';
+import TimelineItem from '@/components/TimelineItem';
+import TimelineContent from '@/components/TimelineContent';
+import TimelineOppositeContent from '@/components/TimelineOppositeContent';
+import TimelineSeparator from '@/components/TimelineSeparator';
+import TimelineConnector from '@/components/TimelineConnector';
+import TimelineDot from '@/components/TimelineDot';
 import { ShoppingCartIcon } from '@/components/icons/ShoppingCartIcon';
 import { LocalShippingIcon } from '@/components/icons/LocalShippingIcon';
 import { BoxIcon } from '@/components/icons/BoxIcon';

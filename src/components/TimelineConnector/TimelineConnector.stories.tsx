@@ -3,6 +3,7 @@ import TimelineConnector from './TimelineConnector';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineConnector> = {
+  title: 'components/Timeline/TimelineConnector',
   component: TimelineConnector,
   argTypes: {
     color: {

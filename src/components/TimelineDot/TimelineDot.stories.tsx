@@ -3,6 +3,7 @@ import TimelineDot from './TimelineDot';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof TimelineDot> = {
+  title: 'components/Timeline/TimelineDot',
   component: TimelineDot,
   argTypes: {
     children: {

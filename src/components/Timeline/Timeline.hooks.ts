@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from 'react';
 import TimelineContext from './Timeline.contexts';
 import { TimelineProps } from './Timeline';
-import { TimelineItem } from './TimelineItem';
+import TimelineItem from '../TimelineItem';
 
 export const useTimeline = () => {
   const value = useContext(TimelineContext);

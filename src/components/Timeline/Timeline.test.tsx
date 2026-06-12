@@ -1,14 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
-import {
-  Timeline,
-  TimelineItem,
-  TimelineContent,
-  TimelineOppositeContent,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineDot
-} from '.';
+import Timeline from '@/components/Timeline';
+import TimelineItem from '@/components/TimelineItem';
+import TimelineContent from '@/components/TimelineContent';
+import TimelineOppositeContent from '@/components/TimelineOppositeContent';
+import TimelineSeparator from '@/components/TimelineSeparator';
+import TimelineConnector from '@/components/TimelineConnector';
+import TimelineDot from '@/components/TimelineDot';
 
 describe('<Timeline />', () => {
   it('renders timeline', () => {

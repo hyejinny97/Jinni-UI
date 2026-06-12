@@ -2,7 +2,7 @@ import './TimelineItem.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { useTimeline } from '../Timeline.hooks';
+import { useTimeline } from '../Timeline';
 
 type TimelineItemProps<T extends AsType = 'li'> = DefaultComponentProps<T> & {};
 

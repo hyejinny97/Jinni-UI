@@ -1,11 +1,11 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as TimelineStories from './Timeline.stories';
-import * as TimelineItemStories from './TimelineItem/TimelineItem.stories';
-import * as TimelineContentStories from './TimelineContent/TimelineContent.stories';
-import * as TimelineOppositeContentStories from './TimelineOppositeContent/TimelineOppositeContent.stories';
-import * as TimelineSeparatorStories from './TimelineSeparator/TimelineSeparator.stories';
-import * as TimelineDotStories from './TimelineDot/TimelineDot.stories';
-import * as TimelineConnectorStories from './TimelineConnector/TimelineConnector.stories';
+import * as TimelineItemStories from '../TimelineItem/TimelineItem.stories';
+import * as TimelineContentStories from '../TimelineContent/TimelineContent.stories';
+import * as TimelineOppositeContentStories from '../TimelineOppositeContent/TimelineOppositeContent.stories';
+import * as TimelineSeparatorStories from '../TimelineSeparator/TimelineSeparator.stories';
+import * as TimelineDotStories from '../TimelineDot/TimelineDot.stories';
+import * as TimelineConnectorStories from '../TimelineConnector/TimelineConnector.stories';
 
 <Meta of={TimelineStories} />
 
@@ -25,15 +25,13 @@ import * as TimelineConnectorStories from './TimelineConnector/TimelineConnector
 ## Import
 
 ```js
-import {
-  Timeline,
-  TimelineItem,
-  TimelineContent,
-  TimelineOppositeContent,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineDot
-} from '@/components/data-display/Timeline';
+import Timeline from '@/components/Timeline';
+import TimelineItem from '@/components/TimelineItem';
+import TimelineContent from '@/components/TimelineContent';
+import TimelineOppositeContent from '@/components/TimelineOppositeContent';
+import TimelineSeparator from '@/components/TimelineSeparator';
+import TimelineConnector from '@/components/TimelineConnector';
+import TimelineDot from '@/components/TimelineDot';
 ```
 
 ## Usage
