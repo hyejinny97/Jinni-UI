@@ -1,7 +1,8 @@
 import { useState, useRef, forwardRef, createContext, useContext } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { AsType } from '@/types/default-component-props';
-import { Tour, TourStep, TourProps } from '.';
+import Tour, { TourProps } from './Tour';
+import TourStep from '../TourStep';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';

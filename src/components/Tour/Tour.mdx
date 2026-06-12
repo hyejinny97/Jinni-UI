@@ -1,6 +1,6 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as TourStories from './Tour.stories';
-import * as TourStepStories from './TourStep/TourStep.stories';
+import * as TourStepStories from '../TourStep/TourStep.stories';
 
 <Meta of={TourStories} />
 
@@ -11,7 +11,8 @@ import * as TourStepStories from './TourStep/TourStep.stories';
 ## Import
 
 ```js
-import { Tour, TourStep } from '@/components/data-display/Tour';
+import Tour from '@/components/Tour';
+import TourStep from '@/components/TourStep';
 ```
 
 ## Usage

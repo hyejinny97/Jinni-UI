@@ -1,2 +1,2 @@
-export { default as TourStep } from './TourStep';
+export { default } from './TourStep';
 export type { TourStepProps, TourStepOptionalProps } from './TourStep';

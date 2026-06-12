@@ -3,6 +3,7 @@ import TourStep from './TourStep';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof TourStep> = {
+  title: 'components/Tour/TourStep',
   component: TourStep,
   argTypes: {
     anchorElRef: {

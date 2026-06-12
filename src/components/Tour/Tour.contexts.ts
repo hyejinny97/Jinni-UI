@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { TourProps } from './Tour';
-import { MaskOptionalProps } from './Mask';
-import { TourStepOptionalProps } from './TourStep';
+import { MaskOptionalProps } from '../Mask';
+import { TourStepOptionalProps } from '../TourStep';
 
 type TourContextType = MaskOptionalProps &
   TourStepOptionalProps & {

@@ -11,6 +11,7 @@ import { Label } from '@/components/data-entry/Label';
 import Chip from '@/components/Chip';
 
 const meta: Meta<typeof Mask> = {
+  title: 'components/Tour/Mask',
   component: Mask,
   argTypes: {
     maskColor: {

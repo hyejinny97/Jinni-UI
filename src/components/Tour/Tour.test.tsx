@@ -15,7 +15,8 @@ vi.mock('@/components/motion/AnimatePresence', () => ({
 import { useRef } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
-import { Tour, TourStep } from '.';
+import Tour from './Tour';
+import TourStep from '../TourStep';
 
 describe('<Tour />', () => {
   it('renders nothing when open is false', () => {

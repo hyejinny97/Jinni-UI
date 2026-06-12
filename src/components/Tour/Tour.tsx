@@ -1,7 +1,7 @@
 import { useKeydown } from './Tour.hooks';
 import TourContext from './Tour.contexts';
-import { MaskOptionalProps } from './Mask';
-import { TourStepOptionalProps } from './TourStep';
+import { MaskOptionalProps } from '../Mask';
+import { TourStepOptionalProps } from '../TourStep';
 
 type CloseReason = 'escapeKeydown' | 'backdropClick';
 
