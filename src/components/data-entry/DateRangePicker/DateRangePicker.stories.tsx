@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { DateRangePicker, DateRangePickerProps } from '.';
-import { DatePicker } from '@/components/data-entry/DatePicker';
+import DatePicker from '@/components/DatePicker';
 import { DateRangeCalendar } from '@/components/data-entry/DateRangeCalendar';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
