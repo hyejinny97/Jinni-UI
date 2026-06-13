@@ -10,7 +10,7 @@ import { Text } from '@/components/general/Text';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
 import { Switch } from '@/components/data-entry/Switch';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 
 const meta: Meta<typeof PresetDigitalClock> = {

@@ -6,7 +6,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Alert } from '@/components/feedback/Alert';
 import { Radio } from '@/components/data-entry/Radio';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { HomeIcon } from '@/components/icons/HomeIcon';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import { MailIcon } from '@/components/icons/MailIcon';

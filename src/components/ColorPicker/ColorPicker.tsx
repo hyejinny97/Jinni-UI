@@ -8,7 +8,7 @@ import ColorBox, { ColorBoxProps } from '../ColorBox';
 import Popover, { PopoverProps, CloseReason } from '@/components/Popover';
 import { useColorValue } from './ColorPicker.hooks';
 import { ColorValueType, HSBObject } from './ColorPicker.types';
-import { useLabelContext } from '@/components/data-entry/Label';
+import { useLabelContext } from '@/components/Label';
 import { isRgbObject, isHsbObject } from './ColorPicker.utils';
 import useJinni from '@/hooks/useJinni';
 

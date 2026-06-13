@@ -2,7 +2,7 @@ import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Radio from './Radio';
 import { Stack } from '@/components/layout/Stack';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { RadioUncheckedIcon2 } from '@/components/icons/RadioUncheckedIcon2';
 import { RadioCheckedIcon2 } from '@/components/icons/RadioCheckedIcon2';
 import { Text } from '@/components/general/Text';

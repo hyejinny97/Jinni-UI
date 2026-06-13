@@ -23,7 +23,7 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import { Box } from '@/components/layout/Box';
 import { CancelIcon } from '@/components/icons/CancelIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
-import { useLabelContext } from '@/components/data-entry/Label';
+import { useLabelContext } from '@/components/Label';
 import ListItem from '@/components/ListItem';
 
 export type AutocompleteProps<Multiple extends boolean = false> = Omit<

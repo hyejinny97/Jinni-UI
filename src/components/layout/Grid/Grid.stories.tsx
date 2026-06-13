@@ -6,7 +6,7 @@ import { Text } from '@/components/general/Text';
 import { Stack } from '@/components/layout/Stack';
 import { StyleType } from '@/types/style';
 import { Radio } from '@/components/data-entry/Radio';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 
 const meta: Meta<typeof Grid> = {
   component: Grid,

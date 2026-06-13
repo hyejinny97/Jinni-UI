@@ -6,7 +6,7 @@ import { BookmarkIcon } from '@/components/icons/BookmarkIcon';
 import { BookmarkBorderIcon } from '@/components/icons/BookmarkBorderIcon';
 import { FavoriteIcon } from '@/components/icons/FavoriteIcon';
 import { FavoriteBorderIcon } from '@/components/icons/FavoriteBorderIcon';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { SquareIcon } from '@/components/icons/SquareIcon';
 import { Text } from '@/components/general/Text';
 import { Button } from '@/components/general/Button';

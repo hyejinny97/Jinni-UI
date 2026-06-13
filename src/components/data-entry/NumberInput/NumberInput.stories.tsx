@@ -3,7 +3,7 @@ import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { NumberInput, DecreaseButton, IncreaseButton } from '.';
 import { Text } from '@/components/general/Text';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
 import { Button } from '@/components/general/Button';
 import { Box } from '@/components/layout/Box';

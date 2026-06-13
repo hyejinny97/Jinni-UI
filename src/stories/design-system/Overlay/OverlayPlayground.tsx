@@ -1,7 +1,7 @@
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { useState } from 'react';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import ColorPicker, {
   HSBObject,
   isHsbObject,

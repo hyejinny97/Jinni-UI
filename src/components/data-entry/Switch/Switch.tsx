@@ -8,7 +8,7 @@ import { ColorType } from '@/types/color';
 import useColor from '@/hooks/useColor';
 import { toRgbaObject } from '@/utils/colorFormat';
 import { useRipple, UseRippleProps } from '@/hooks/useRipple';
-import { useLabelContext } from '@/components/data-entry/Label';
+import { useLabelContext } from '@/components/Label';
 import useJinni from '@/hooks/useJinni';
 
 export type SwitchProps<T extends AsType = 'input'> = Omit<

@@ -15,7 +15,7 @@ import { Stack } from '@/components/layout/Stack';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
 import { Switch } from '@/components/data-entry/Switch';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { Text } from '@/components/general/Text';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { motion, AnimatePresence } from 'motion/react';

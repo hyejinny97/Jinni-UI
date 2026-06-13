@@ -12,7 +12,7 @@ import { PersonIcon } from '@/components/icons/PersonIcon';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 import ListItem from '@/components/ListItem';
 import { Radio } from '@/components/data-entry/Radio';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Menu> = {

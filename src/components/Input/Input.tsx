@@ -3,7 +3,7 @@ import cn from 'classnames';
 import InputBase, { RootInputBaseProps } from '@/components/InputBase';
 import { DefaultComponentProps } from '@/types/default-component-props';
 import { useInputValue } from './Input.hooks';
-import { useLabelContext } from '@/components/data-entry/Label';
+import { useLabelContext } from '@/components/Label';
 import useJinni from '@/hooks/useJinni';
 
 export type InputProps = Omit<

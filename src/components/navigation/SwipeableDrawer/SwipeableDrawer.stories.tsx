@@ -8,7 +8,7 @@ import {
 } from '.';
 import { Button } from '@/components/general/Button';
 import { Stack } from '@/components/layout/Stack';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { Radio } from '@/components/data-entry/Radio';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 

@@ -6,7 +6,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
 import { Radio } from '@/components/data-entry/Radio';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Popover> = {

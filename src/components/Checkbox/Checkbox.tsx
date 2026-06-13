@@ -8,7 +8,7 @@ import { IndeterminateCheckIcon } from '@/components/icons/IndeterminateCheckIco
 import useCheck from './Checkbox.hooks';
 import { ColorType } from '@/types/color';
 import { useRipple, UseRippleProps } from '@/hooks/useRipple';
-import { useLabelContext } from '@/components/data-entry/Label';
+import { useLabelContext } from '@/components/Label';
 import { useCheckboxGroupContext } from '@/components/CheckboxGroup';
 import useJinni from '@/hooks/useJinni';
 import useOverlay from '@/hooks/useOverlay';

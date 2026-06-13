@@ -13,7 +13,7 @@ import { Toast } from '@/components/feedback/Toast';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 
 const meta: Meta<typeof FileInput> = {
   component: FileInput,

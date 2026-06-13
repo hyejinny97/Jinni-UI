@@ -7,7 +7,7 @@ import AccordionDetails from '@/components/AccordionDetails';
 import { ArrowCircleDownIcon } from '@/components/icons/ArrowCircleDownIcon';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 import { Grid } from '@/components/layout/Grid';
 import { Stack } from '@/components/layout/Stack';

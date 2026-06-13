@@ -9,7 +9,7 @@ import { MenuItem } from '@/components/navigation/MenuItem';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 
 const meta: Meta<typeof ButtonGroup> = {
   component: ButtonGroup,

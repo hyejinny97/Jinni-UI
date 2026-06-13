@@ -7,7 +7,7 @@ import Fraction from '@/components/Fraction';
 import { Text } from '@/components/general/Text';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { Alert } from '@/components/feedback/Alert';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { VisibilityIcon } from '@/components/icons/VisibilityIcon';

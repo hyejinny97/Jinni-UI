@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import TreeItem from './TreeItem';
 import { Slider } from '@/components/data-entry/Slider';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof TreeItem> = {

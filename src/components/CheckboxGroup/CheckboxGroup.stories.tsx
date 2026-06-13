@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import CheckboxGroup from './CheckboxGroup';
 import Checkbox from '@/components/Checkbox';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';

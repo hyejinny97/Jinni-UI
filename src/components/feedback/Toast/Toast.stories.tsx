@@ -8,7 +8,7 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { Alert } from '@/components/feedback/Alert';
 import { Radio } from '@/components/data-entry/Radio';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import { Box } from '@/components/layout/Box';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import Chip from '@/components/Chip';

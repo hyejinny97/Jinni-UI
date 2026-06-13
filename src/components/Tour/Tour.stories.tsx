@@ -17,7 +17,7 @@ import { StyleType } from '@/types/style';
 import { PlacementType } from '@/types/placement';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 
 const meta: Meta<typeof Tour> = {

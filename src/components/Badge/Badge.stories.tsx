@@ -10,7 +10,7 @@ import { Button } from '@/components/general/Button';
 import { ButtonGroup } from '@/components/general/ButtonGroup';
 import { Text } from '@/components/general/Text';
 import { Switch } from '@/components/data-entry/Switch';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import dogImage from '@/assets/images/dog-1.jpg';
 
 const meta: Meta<typeof Badge> = {

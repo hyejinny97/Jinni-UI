@@ -9,7 +9,7 @@ import Checkbox from '@/components/Checkbox';
 import Chip from '@/components/Chip';
 import { Button } from '@/components/general/Button';
 import ListItem from '@/components/ListItem';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 
 const meta: Meta<typeof Select> = {
   component: Select,

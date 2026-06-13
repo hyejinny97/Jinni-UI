@@ -8,7 +8,7 @@ import { Text } from '@/components/general/Text';
 import { Grid } from '@/components/layout/Grid';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import { Radio } from '@/components/data-entry/Radio';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 import { RangeType, RangeFieldType } from '@/types/date-component';
 

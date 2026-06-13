@@ -3,7 +3,7 @@ import React, { forwardRef, MutableRefObject } from 'react';
 import cn from 'classnames';
 import InputBase, { RootInputBaseProps } from '@/components/InputBase';
 import { DefaultComponentProps } from '@/types/default-component-props';
-import { useLabelContext } from '@/components/data-entry/Label';
+import { useLabelContext } from '@/components/Label';
 import {
   useNumberInputValue,
   useClampOnBlur,

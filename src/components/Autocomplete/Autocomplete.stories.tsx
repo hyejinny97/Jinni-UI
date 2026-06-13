@@ -15,7 +15,7 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import { CancelIcon } from '@/components/icons/CancelIcon';
 import { Radio } from '@/components/data-entry/Radio';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
-import { Label } from '@/components/data-entry/Label';
+import Label from '@/components/Label';
 import ListItem from '@/components/ListItem';
 import Checkbox from '@/components/Checkbox';
 
