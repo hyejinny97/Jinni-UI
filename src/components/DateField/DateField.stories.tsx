@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DateField, DateFieldProps } from '.';
+import DateField, { DateFieldProps } from './DateField';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
@@ -13,7 +13,7 @@ import { Label } from '@/components/data-entry/Label';
 import Chip from '@/components/Chip';
 
 const meta: Meta<typeof DateField> = {
-  title: 'components/data-entry/DatePicker/DateField',
+  title: 'components/DatePicker/DateField',
   component: DateField,
   argTypes: {
     defaultValue: {

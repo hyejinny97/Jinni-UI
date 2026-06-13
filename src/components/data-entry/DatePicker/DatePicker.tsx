@@ -3,7 +3,7 @@ import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { DateField, DateFieldProps } from '@/components/data-entry/DateField';
+import DateField, { DateFieldProps } from '@/components/DateField';
 import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import Popover, { PopoverProps } from '@/components/Popover';
 import { useDateValue } from './DatePicker.hooks';

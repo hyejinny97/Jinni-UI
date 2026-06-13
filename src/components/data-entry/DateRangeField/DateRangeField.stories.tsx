@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { DateRangeField, DateRangeFieldProps } from '.';
-import { DateField } from '@/components/data-entry/DateField';
+import DateField from '@/components/DateField';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';

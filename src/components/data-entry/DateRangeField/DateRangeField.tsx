@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
-import { DateField } from '@/components/data-entry/DateField';
+import DateField from '@/components/DateField';
 import {
   useDateRangeValue,
   useValidation,
