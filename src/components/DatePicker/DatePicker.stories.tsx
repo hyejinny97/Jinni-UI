@@ -15,7 +15,7 @@ import Chip from '@/components/Chip';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Year } from '@/components/data-entry/YearCalendar';
 import { Month } from '@/components/data-entry/MonthCalendar';
-import { Day } from '@/components/data-entry/DayCalendar';
+import Day from '@/components/Day';
 
 const meta: Meta<typeof DatePicker> = {
   component: DatePicker,

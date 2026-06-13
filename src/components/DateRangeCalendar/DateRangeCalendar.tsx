@@ -4,7 +4,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { YearCalendarMainProps } from '@/components/data-entry/YearCalendar';
 import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
-import { DayCalendarMainProps } from '@/components/data-entry/DayCalendar';
+import { DayCalendarMainProps } from '@/components/DayCalendar';
 import DateYearRangeCalendar from '../DateYearRangeCalendar';
 import HDateMonthRangeCalendar from '../HDateMonthRangeCalendar';
 import VDateMonthRangeCalendar from '../VDateMonthRangeCalendar';

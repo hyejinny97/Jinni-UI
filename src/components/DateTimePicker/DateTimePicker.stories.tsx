@@ -6,7 +6,7 @@ import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Year } from '@/components/data-entry/YearCalendar/Year';
 import { Month } from '@/components/data-entry/MonthCalendar/Month';
-import { Day } from '@/components/data-entry/DayCalendar/Day';
+import Day from '@/components/Day';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';

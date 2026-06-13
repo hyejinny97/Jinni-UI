@@ -1,11 +1,8 @@
 import './DayRangeCalendar.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import {
-  DayCalendar,
-  DayCalendarProps,
-  DayProps
-} from '@/components/data-entry/DayCalendar';
+import DayCalendar, { DayCalendarProps } from '@/components/DayCalendar';
+import { DayProps } from '@/components/Day';
 import { RangeType } from '@/types/date-component';
 import {
   useSelectedDateValue,

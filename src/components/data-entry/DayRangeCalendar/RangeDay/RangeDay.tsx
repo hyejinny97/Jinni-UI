@@ -1,7 +1,7 @@
 import './RangeDay.scss';
 import { useMemo } from 'react';
 import cn from 'classnames';
-import { Day, DayProps } from '@/components/data-entry/DayCalendar';
+import Day, { DayProps } from '@/components/Day';
 import { RangeType } from '@/types/date-component';
 import { Box } from '@/components/layout/Box';
 import { lighten, darken } from '@/utils/colorLuminance';

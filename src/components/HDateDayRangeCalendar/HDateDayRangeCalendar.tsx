@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { useState, useMemo } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
-import { DayCalendarMainProps } from '@/components/data-entry/DayCalendar';
+import { DayCalendarMainProps } from '@/components/DayCalendar';
 import { DayRangeCalendar } from '@/components/data-entry/DayRangeCalendar';
 import CalendarHeader, {
   CalendarHeaderProps

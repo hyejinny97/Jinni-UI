@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Stack, StackProps } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { Day, DayProps } from './Day';
+import Day, { DayProps } from '../Day';
 import { DateComponentProps } from '@/types/date-component';
 import { useWeekDayItems, useDayItems } from './DayCalendar.hooks';
 import useJinni from '@/hooks/useJinni';

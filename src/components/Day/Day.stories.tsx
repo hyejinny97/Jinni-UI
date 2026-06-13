@@ -3,8 +3,7 @@ import Day from './Day';
 import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof Day> = {
-  title:
-    'components/data-entry/DatePicker/DateCalendar/DateDayCalendar/DayCalendar/Day',
+  title: 'components/DatePicker/DateCalendar/DateDayCalendar/DayCalendar/Day',
   component: Day,
   argTypes: {
     children: {

@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DateCalendar, { DateCalendarProps } from './DateCalendar';
 import { Year } from '@/components/data-entry/YearCalendar';
 import { Month } from '@/components/data-entry/MonthCalendar';
-import { Day } from '@/components/data-entry/DayCalendar';
+import Day from '@/components/Day';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
 import { Text } from '@/components/general/Text';
