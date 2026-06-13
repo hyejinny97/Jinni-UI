@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DateTimeRangePicker, DateTimeRangePickerProps } from '.';
+import DateTimeRangePicker, {
+  DateTimeRangePickerProps
+} from './DateTimeRangePicker';
 import DateTimePicker from '@/components/DateTimePicker';
 import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
 import DateRangeCalendar from '@/components/DateRangeCalendar';
