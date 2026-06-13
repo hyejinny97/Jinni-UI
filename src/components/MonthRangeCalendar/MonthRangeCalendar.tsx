@@ -8,7 +8,7 @@ import {
   useSelectedDateValue,
   useHoveredDateValue
 } from './MonthRangeCalendar.hooks';
-import { RangeMonth } from './RangeMonth';
+import RangeMonth from './RangeMonth';
 
 export type MonthRangeCalendarProps<T extends AsType = 'div'> = Omit<
   MonthCalendarProps<T>,
