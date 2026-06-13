@@ -3,10 +3,7 @@ import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  DateTimeField,
-  DateTimeFieldProps
-} from '@/components/data-entry/DateTimeField';
+import DateTimeField, { DateTimeFieldProps } from '@/components/DateTimeField';
 import Popover, { PopoverProps } from '@/components/Popover';
 import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';

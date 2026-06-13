@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
-import { DateTimeField } from '@/components/data-entry/DateTimeField';
+import DateTimeField from '@/components/DateTimeField';
 import { ArrowRightAltIcon } from '@/components/icons/ArrowRightAltIcon';
 import {
   useDateTimeRangeValue,

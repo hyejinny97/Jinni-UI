@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DateTimeField, DateTimeFieldProps } from '.';
+import DateTimeField, { DateTimeFieldProps } from './DateTimeField';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
@@ -13,7 +13,7 @@ import Chip from '@/components/Chip';
 import { DateTimeValidationError } from '@/types/date-time-component';
 
 const meta: Meta<typeof DateTimeField> = {
-  title: 'components/data-entry/DateTimePicker/DateTimeField',
+  title: 'components/DateTimePicker/DateTimeField',
   component: DateTimeField,
   argTypes: {
     dateFormat: {
