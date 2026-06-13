@@ -3,10 +3,9 @@ import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  DateRangeField,
+import DateRangeField, {
   DateRangeFieldProps
-} from '@/components/data-entry/DateRangeField';
+} from '@/components/DateRangeField';
 import DateRangeCalendar, {
   DateRangeCalendarProps
 } from '@/components/DateRangeCalendar';

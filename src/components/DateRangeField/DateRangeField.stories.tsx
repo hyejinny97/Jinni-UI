@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DateRangeField, DateRangeFieldProps } from '.';
+import DateRangeField, { DateRangeFieldProps } from './DateRangeField';
 import DateField from '@/components/DateField';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
@@ -18,7 +18,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { DAY } from '@/constants/time';
 
 const meta: Meta<typeof DateRangeField> = {
-  title: 'components/data-entry/DateRangePicker/DateRangeField',
+  title: 'components/DateRangePicker/DateRangeField',
   component: DateRangeField,
   argTypes: {
     centerIcon: {
