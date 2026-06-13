@@ -8,7 +8,7 @@ import {
   useSelectedDateValue,
   useHoveredDateValue
 } from './DayRangeCalendar.hooks';
-import { RangeDay } from './RangeDay';
+import RangeDay from './RangeDay';
 
 export type DayRangeCalendarProps<T extends AsType = 'div'> = Omit<
   DayCalendarProps<T>,

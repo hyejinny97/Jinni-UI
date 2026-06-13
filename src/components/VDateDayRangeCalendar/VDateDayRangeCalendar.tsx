@@ -4,7 +4,7 @@ import { useState, useRef, useMemo } from 'react';
 import { AsType } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { DayCalendarMainProps } from '@/components/DayCalendar';
-import { DayRangeCalendar } from '@/components/data-entry/DayRangeCalendar';
+import DayRangeCalendar from '@/components/DayRangeCalendar';
 import CalendarHeader, {
   CalendarHeaderProps
 } from '@/components/CalendarHeader';
