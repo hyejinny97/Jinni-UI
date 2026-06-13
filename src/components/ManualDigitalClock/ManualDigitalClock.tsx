@@ -5,7 +5,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import { TimeComponentProps } from '@/types/time-component';
-import { UnitList } from './UnitList';
+import UnitList from './UnitList';
 import { TIME_STEP_MANUAL_DEFAULT } from './ManualDigitalClock.constants';
 import {
   useSelectedTime,

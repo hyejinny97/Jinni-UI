@@ -10,7 +10,7 @@ import Popover, { PopoverProps } from '@/components/Popover';
 import DateRangeCalendar, {
   DateRangeCalendarProps
 } from '@/components/DateRangeCalendar';
-import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import ManualDigitalClock from '@/components/ManualDigitalClock';
 import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { useDateTimeRangeValue } from './DateTimeRangePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';

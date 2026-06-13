@@ -6,7 +6,7 @@ import useStyle from '@/hooks/useStyle';
 import DateTimeField, { DateTimeFieldProps } from '@/components/DateTimeField';
 import Popover, { PopoverProps } from '@/components/Popover';
 import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
-import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import ManualDigitalClock from '@/components/ManualDigitalClock';
 import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { useDateTimeValue } from './DateTimePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';

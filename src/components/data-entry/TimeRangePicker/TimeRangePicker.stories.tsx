@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import TimeRangePicker, { TimeRangePickerProps } from './TimeRangePicker';
 import { TimePicker } from '@/components/data-entry/TimePicker';
 import { RangeType, RangeFieldType } from '@/types/time-component';
-import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import ManualDigitalClock from '@/components/ManualDigitalClock';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';

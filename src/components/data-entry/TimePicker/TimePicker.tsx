@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { TimeField, TimeFieldProps } from '@/components/data-entry/TimeField';
-import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import ManualDigitalClock from '@/components/ManualDigitalClock';
 import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import Popover, { PopoverProps } from '@/components/Popover';
 import { useTime } from './TimePicker.hooks';

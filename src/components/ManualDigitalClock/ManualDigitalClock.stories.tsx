@@ -14,7 +14,7 @@ import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 
 const meta: Meta<typeof ManualDigitalClock> = {
-  title: 'components/data-entry/TimePicker/ManualDigitalClock',
+  title: 'components/TimePicker/ManualDigitalClock',
   component: ManualDigitalClock,
   argTypes: {
     defaultValue: {

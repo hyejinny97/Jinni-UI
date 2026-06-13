@@ -2,7 +2,7 @@ import {
   KEY_TIME_PARTS,
   CHRONOLOGICAL_ORDER
 } from '@/constants/time-component';
-import { ManualDigitalClockProps } from '@/components/data-entry/ManualDigitalClock';
+import { ManualDigitalClockProps } from '@/components/ManualDigitalClock';
 import { PresetDigitalClockProps } from '@/components/data-entry/PresetDigitalClock';
 
 export type TimeMode = 'preset' | 'manual';

@@ -11,7 +11,7 @@ import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 import { Button } from '@/components/general/Button';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
-import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import ManualDigitalClock from '@/components/ManualDigitalClock';
 
 const meta: Meta<typeof TimePicker> = {
   component: TimePicker,

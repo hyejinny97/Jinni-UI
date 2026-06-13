@@ -8,7 +8,7 @@ import {
   TimeRangeFieldProps
 } from '@/components/data-entry/TimeRangeField';
 import Popover, { PopoverProps } from '@/components/Popover';
-import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import ManualDigitalClock from '@/components/ManualDigitalClock';
 import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { useTimeRangeValue } from './TimeRangePicker.hooks';
 import {

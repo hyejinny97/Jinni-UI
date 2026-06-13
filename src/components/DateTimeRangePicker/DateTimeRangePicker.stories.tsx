@@ -4,7 +4,7 @@ import DateTimeRangePicker, {
   DateTimeRangePickerProps
 } from './DateTimeRangePicker';
 import DateTimePicker from '@/components/DateTimePicker';
-import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
+import ManualDigitalClock from '@/components/ManualDigitalClock';
 import DateRangeCalendar from '@/components/DateRangeCalendar';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
