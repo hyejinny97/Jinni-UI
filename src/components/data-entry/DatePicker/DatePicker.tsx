@@ -4,10 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { DateField, DateFieldProps } from '@/components/data-entry/DateField';
-import {
-  DateCalendar,
-  DateCalendarProps
-} from '@/components/data-entry/DateCalendar';
+import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import Popover, { PopoverProps } from '@/components/Popover';
 import { useDateValue } from './DatePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';

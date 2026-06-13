@@ -7,9 +7,9 @@ import CalendarHeader, {
 import { YearCalendarMainProps } from '@/components/data-entry/YearCalendar';
 import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
 import { DayCalendarMainProps } from '@/components/data-entry/DayCalendar';
-import { DateYearCalendar } from './DateYearCalendar';
-import { DateMonthCalendar } from './DateMonthCalendar';
-import { DateDayCalendar } from './DateDayCalendar';
+import DateYearCalendar from '../DateYearCalendar';
+import DateMonthCalendar from '../DateMonthCalendar';
+import DateDayCalendar from '../DateDayCalendar';
 import { useCalendarType, useDateValue } from './DateCalendar.hooks';
 import { CalendarType } from '@/types/date-component';
 

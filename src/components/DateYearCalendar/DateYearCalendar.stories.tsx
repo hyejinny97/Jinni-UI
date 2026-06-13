@@ -13,7 +13,7 @@ import { Label } from '@/components/data-entry/Label';
 import Chip from '@/components/Chip';
 
 const meta: Meta<typeof DateYearCalendar> = {
-  title: 'components/data-entry/DatePicker/DateCalendar/DateYearCalendar',
+  title: 'components/DatePicker/DateCalendar/DateYearCalendar',
   component: DateYearCalendar,
   argTypes: {
     defaultValue: {

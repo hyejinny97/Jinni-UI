@@ -2,10 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { DateTimePicker, DateTimePickerProps } from '.';
 import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
-import {
-  DateCalendar,
-  DateCalendarProps
-} from '@/components/data-entry/DateCalendar';
+import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Year } from '@/components/data-entry/YearCalendar/Year';
 import { Month } from '@/components/data-entry/MonthCalendar/Month';

@@ -18,7 +18,7 @@ import Chip from '@/components/Chip';
 import { ButtonBase } from '@/components/general/ButtonBase';
 
 const meta: Meta<typeof DateCalendar> = {
-  title: 'components/data-entry/DatePicker/DateCalendar',
+  title: 'components/DatePicker/DateCalendar',
   component: DateCalendar,
   argTypes: {
     defaultValue: {
@@ -611,7 +611,7 @@ export const DisabledDates: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<DateDayCalendar
+        code: `<DateCalendar
   referenceDate={new Date(2025, 8, 1)}
   disabledDates={[new Date(2025, 8, 15), new Date(2025, 8, 28)]}
 />`.trim()
@@ -705,7 +705,7 @@ export const CustomMonth: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<DateMonthCalendar
+        code: `<DateCalendar
   renderMonth={(monthProps) => (
     <Month
       key={monthProps.value.toISOString()}

@@ -24,7 +24,7 @@ import { Button } from '@/components/general/Button';
 import { Input } from '@/components/data-entry/Input';
 
 const meta: Meta<typeof DateDayCalendar> = {
-  title: 'components/data-entry/DatePicker/DateCalendar/DateDayCalendar',
+  title: 'components/DatePicker/DateCalendar/DateDayCalendar',
   component: DateDayCalendar,
   argTypes: {
     defaultValue: {

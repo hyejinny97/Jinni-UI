@@ -8,10 +8,7 @@ import {
   DateTimeFieldProps
 } from '@/components/data-entry/DateTimeField';
 import Popover, { PopoverProps } from '@/components/Popover';
-import {
-  DateCalendar,
-  DateCalendarProps
-} from '@/components/data-entry/DateCalendar';
+import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
 import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
 import { useDateTimeValue } from './DateTimePicker.hooks';
