@@ -2,7 +2,7 @@ import './DateField.scss';
 import { forwardRef, useRef, MutableRefObject } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
+import InputBase, { InputBaseProps } from '@/components/InputBase';
 import { KeyDatePartType } from './DateField.types';
 import {
   useDateFormat,

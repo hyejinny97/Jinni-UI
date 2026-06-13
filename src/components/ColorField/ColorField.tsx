@@ -1,7 +1,7 @@
 import './ColorField.scss';
 import { forwardRef } from 'react';
 import cn from 'classnames';
-import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
+import InputBase, { InputBaseProps } from '@/components/InputBase';
 import { ColorValueType } from '../ColorPicker';
 import ColorBlock from '@/components/ColorBlock';
 

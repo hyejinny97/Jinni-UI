@@ -1,9 +1,6 @@
 import './TextArea.scss';
 import cn from 'classnames';
-import {
-  InputBase,
-  RootInputBaseProps
-} from '@/components/data-entry/InputBase';
+import InputBase, { RootInputBaseProps } from '@/components/InputBase';
 import { DefaultComponentProps } from '@/types/default-component-props';
 import { useTextAreaValue, useRows } from './TextArea.hooks';
 import { useLabelContext } from '@/components/data-entry/Label';

@@ -1,10 +1,7 @@
 import './NumberInput.scss';
 import React, { forwardRef, MutableRefObject } from 'react';
 import cn from 'classnames';
-import {
-  InputBase,
-  RootInputBaseProps
-} from '@/components/data-entry/InputBase';
+import InputBase, { RootInputBaseProps } from '@/components/InputBase';
 import { DefaultComponentProps } from '@/types/default-component-props';
 import { useLabelContext } from '@/components/data-entry/Label';
 import {

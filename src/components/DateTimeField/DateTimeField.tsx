@@ -2,7 +2,7 @@ import './DateTimeField.scss';
 import { forwardRef, MutableRefObject, useRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
+import InputBase, { InputBaseProps } from '@/components/InputBase';
 import DateField from '@/components/DateField';
 import { TimeField } from '@/components/data-entry/TimeField';
 import { useDateTimeValue, useValidation } from './DateTimeField.hooks';

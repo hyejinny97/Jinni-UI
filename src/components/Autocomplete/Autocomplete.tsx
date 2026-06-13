@@ -2,11 +2,10 @@ import './Autocomplete.scss';
 import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { DefaultComponentProps } from '@/types/default-component-props';
-import {
-  InputBase,
+import InputBase, {
   InputBaseProps,
   RootInputBaseProps
-} from '@/components/data-entry/InputBase';
+} from '@/components/InputBase';
 import { Menu, MenuProps } from '@/components/navigation/Menu';
 import Chip from '@/components/Chip';
 import {

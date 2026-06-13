@@ -2,7 +2,7 @@ import './DateRangeField.scss';
 import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
+import InputBase, { InputBaseProps } from '@/components/InputBase';
 import DateField from '@/components/DateField';
 import {
   useDateRangeValue,

@@ -2,7 +2,7 @@ import './TimeRangeField.scss';
 import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { InputBase, InputBaseProps } from '@/components/data-entry/InputBase';
+import InputBase, { InputBaseProps } from '@/components/InputBase';
 import { TimeField } from '@/components/data-entry/TimeField';
 import { ArrowRightAltIcon } from '@/components/icons/ArrowRightAltIcon';
 import {
