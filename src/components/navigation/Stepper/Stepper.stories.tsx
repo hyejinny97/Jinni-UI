@@ -18,7 +18,7 @@ import { MailIcon } from '@/components/icons/MailIcon';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import { Switch } from '@/components/data-entry/Switch';
 

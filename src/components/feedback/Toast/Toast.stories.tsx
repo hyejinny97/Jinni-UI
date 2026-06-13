@@ -7,7 +7,7 @@ import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { Alert } from '@/components/feedback/Alert';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import { Box } from '@/components/layout/Box';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';

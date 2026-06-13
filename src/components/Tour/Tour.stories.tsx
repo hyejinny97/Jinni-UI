@@ -16,7 +16,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { StyleType } from '@/types/style';
 import { PlacementType } from '@/types/placement';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 

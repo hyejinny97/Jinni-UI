@@ -4,7 +4,7 @@ import { Stack, DirectionType } from '.';
 import { Box } from '@/components/layout/Box';
 import { Divider } from '@/components/layout/Divider';
 import { ColorType } from '@/types/color';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 
 const meta: Meta<typeof Stack> = {

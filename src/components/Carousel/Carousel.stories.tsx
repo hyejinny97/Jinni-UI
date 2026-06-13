@@ -18,7 +18,7 @@ import { SECOND } from '@/constants/time';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import Label from '@/components/Label';
 import { roundToDecimal } from '@/utils/roundToDecimal';

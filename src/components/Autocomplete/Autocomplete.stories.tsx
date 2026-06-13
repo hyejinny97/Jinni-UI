@@ -13,7 +13,7 @@ import { Button } from '@/components/general/Button';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CancelIcon } from '@/components/icons/CancelIcon';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
 import Label from '@/components/Label';
 import ListItem from '@/components/ListItem';

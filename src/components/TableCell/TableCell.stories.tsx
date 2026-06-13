@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import TableCell from './TableCell';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 import { Stack } from '@/components/layout/Stack';

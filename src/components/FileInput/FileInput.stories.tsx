@@ -12,7 +12,7 @@ import { FileUploadIcon } from '@/components/icons/FileUploadIcon';
 import { Toast } from '@/components/feedback/Toast';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 
 const meta: Meta<typeof FileInput> = {

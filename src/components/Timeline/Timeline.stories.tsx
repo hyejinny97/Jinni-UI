@@ -13,7 +13,7 @@ import { BoxIcon } from '@/components/icons/BoxIcon';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import { Switch } from '@/components/data-entry/Switch';
 import Label from '@/components/Label';
 import { Text } from '@/components/general/Text';

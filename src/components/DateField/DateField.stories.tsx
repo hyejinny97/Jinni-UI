@@ -8,7 +8,7 @@ import { Text } from '@/components/general/Text';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { DateValidationError } from '@/types/date-component';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 

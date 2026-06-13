@@ -21,7 +21,7 @@ import AccordionSummary from '@/components/AccordionSummary';
 import AccordionDetails from '@/components/AccordionDetails';
 import { Grid } from '@/components/layout/Grid';
 import { RadioGroup } from '@/components/data-entry/RadioGroup';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 
 const meta: Meta<typeof ColorPicker> = {

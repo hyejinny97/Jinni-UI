@@ -5,7 +5,7 @@ import Popover from './Popover';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 

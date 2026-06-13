@@ -5,7 +5,7 @@ import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import { Stack } from '@/components/layout/Stack';
 import { StyleType } from '@/types/style';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 
 const meta: Meta<typeof Grid> = {

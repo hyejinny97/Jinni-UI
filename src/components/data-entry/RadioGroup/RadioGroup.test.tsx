@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, within } from '@/tests/react-testing-tools';
 import RadioGroup from './RadioGroup';
-import { Radio } from '@/components/data-entry/Radio';
+import Radio from '@/components/Radio';
 
 describe('<RadioGroup />', () => {
   it('renders the radio with defaultValue as checked by default', () => {
