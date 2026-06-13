@@ -15,7 +15,7 @@ import { Switch } from '@/components/data-entry/Switch';
 import { RangeType, RangeFieldType } from '@/types/date-component';
 
 const meta: Meta<typeof DateRangeCalendar> = {
-  title: 'components/data-entry/DateRangePicker/DateRangeCalendar',
+  title: 'components/DateRangePicker/DateRangeCalendar',
   component: DateRangeCalendar,
   argTypes: {
     dayCalendars: {

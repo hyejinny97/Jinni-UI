@@ -1,9 +1,9 @@
-import './HDateMonthRangeCalendarCustom.scss';
+import './VDateDayRangeCalendarCustom.scss';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import HDateMonthRangeCalendar, {
-  HDateMonthRangeCalendarProps
-} from './HDateMonthRangeCalendar';
+import VDateDayRangeCalendar, {
+  VDateDayRangeCalendarProps
+} from './VDateDayRangeCalendar';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
@@ -15,11 +15,17 @@ import { Label } from '@/components/data-entry/Label';
 import Chip from '@/components/Chip';
 import { RangeType, RangeFieldType } from '@/types/date-component';
 
-const meta: Meta<typeof HDateMonthRangeCalendar> = {
-  title:
-    'components/data-entry/DateRangePicker/DateRangeCalendar/HDateMonthRangeCalendar',
-  component: HDateMonthRangeCalendar,
+const meta: Meta<typeof VDateDayRangeCalendar> = {
+  title: 'components/DateRangePicker/DateRangeCalendar/VDateDayRangeCalendar',
+  component: VDateDayRangeCalendar,
   argTypes: {
+    dayCalendars: {
+      description: 'day calendars 갯수',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '5' }
+      }
+    },
     defaultValue: {
       description: '초기 selected date',
       table: {
@@ -30,6 +36,24 @@ const meta: Meta<typeof HDateMonthRangeCalendar> = {
       description: 'true이면, 비활성화됨',
       table: {
         type: { summary: 'boolean' }
+      }
+    },
+    disabledDates: {
+      description: '비활성화 하는 특정 날짜 모음',
+      table: {
+        type: { summary: 'Array<Date>' }
+      }
+    },
+    displayWeekNumber: {
+      description: 'true이면, week number가 나타남',
+      table: {
+        type: { summary: 'boolean' }
+      }
+    },
+    fixedWeekNumber: {
+      description: 'day calendar에서 보여지는 week 개수',
+      table: {
+        type: { summary: 'number' }
       }
     },
     locale: {
@@ -48,13 +72,6 @@ const meta: Meta<typeof HDateMonthRangeCalendar> = {
       description: '선택 가능한 최소 날짜',
       table: {
         type: { summary: 'Date' }
-      }
-    },
-    monthCalendars: {
-      description: 'month calendars 갯수',
-      table: {
-        type: { summary: '1 | 2 | 3' },
-        defaultValue: { summary: '2' }
       }
     },
     onChange: {
@@ -109,6 +126,15 @@ const meta: Meta<typeof HDateMonthRangeCalendar> = {
         }
       }
     },
+    showDaysOutsideCurrentMonth: {
+      description:
+        'true이면, day calendar에서 해당 month의 days 이외의 앞뒤 일부 days를 나타냄',
+      table: {
+        type: {
+          summary: `boolean`
+        }
+      }
+    },
     value: {
       description: 'date',
       table: {
@@ -121,7 +147,7 @@ const meta: Meta<typeof HDateMonthRangeCalendar> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof HDateMonthRangeCalendar>;
+type Story = StoryObj<typeof VDateDayRangeCalendar>;
 
 const DateText = ({
   year,
@@ -144,7 +170,7 @@ const DateText = ({
   );
 };
 
-const ControlledHDateMonthRangeCalendarTemplate = () => {
+const ControlledVDateDayRangeCalendarTemplate = () => {
   const [value, setValue] = useState<RangeType<Date | null>>({
     start: null,
     end: null
@@ -172,7 +198,7 @@ const ControlledHDateMonthRangeCalendarTemplate = () => {
         <span>-</span>
         <DateText {...getDate('end')} />
       </Stack>
-      <HDateMonthRangeCalendar value={value} onChange={handleChange} />
+      <VDateDayRangeCalendar value={value} onChange={handleChange} />
     </Stack>
   );
 };
@@ -213,24 +239,27 @@ const LocaleTemplate = () => {
           </Grid>
         </RadioGroup>
       </Box>
-      <HDateMonthRangeCalendar key={locale} locale={locale} />
+      <VDateDayRangeCalendar key={locale} locale={locale} />
     </Stack>
   );
 };
 
 const OptionsTemplate = () => {
-  const OPTIONS: Array<HDateMonthRangeCalendarProps['options']> = [
+  const OPTIONS: Array<VDateDayRangeCalendarProps['options']> = [
     { dateStyle: 'medium' },
-    { year: 'numeric' },
-    { year: '2-digit' }
+    { dateStyle: 'short' },
+    {
+      year: 'numeric',
+      month: 'numeric'
+    }
   ] as const;
-  const [option, setOption] = useState<HDateMonthRangeCalendarProps['options']>(
+  const [option, setOption] = useState<VDateDayRangeCalendarProps['options']>(
     OPTIONS[0]
   );
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setOption(JSON.parse(value) as HDateMonthRangeCalendarProps['options']);
+    setOption(JSON.parse(value) as VDateDayRangeCalendarProps['options']);
   };
 
   return (
@@ -260,17 +289,15 @@ const OptionsTemplate = () => {
           </Grid>
         </RadioGroup>
       </Box>
-      <HDateMonthRangeCalendar key={JSON.stringify(option)} options={option} />
+      <VDateDayRangeCalendar key={JSON.stringify(option)} options={option} />
     </Stack>
   );
 };
 
 const CountOfCalendarsTemplate = () => {
-  type calendarsType = NonNullable<
-    HDateMonthRangeCalendarProps['monthCalendars']
-  >;
-  const CALENDARS: Array<calendarsType> = [1, 2, 3] as const;
-  const [calendars, setCalendars] = useState<calendarsType>(2);
+  type calendarsType = NonNullable<VDateDayRangeCalendarProps['dayCalendars']>;
+  const CALENDARS: Array<calendarsType> = [3, 5, 8] as const;
+  const [calendars, setCalendars] = useState<calendarsType>(5);
 
   const handleCalendarsChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -306,18 +333,18 @@ const CountOfCalendarsTemplate = () => {
           </Grid>
         </RadioGroup>
       </Box>
-      <HDateMonthRangeCalendar monthCalendars={calendars} />
+      <VDateDayRangeCalendar dayCalendars={calendars} />
     </Stack>
   );
 };
 
-export const BasicHDateMonthRangeCalendar: Story = {
+export const BasicVDateDayRangeCalendar: Story = {
   render: (args) => (
     <Stack spacing={20}>
-      <HDateMonthRangeCalendar {...args} />
-      <HDateMonthRangeCalendar
+      <VDateDayRangeCalendar {...args} />
+      <VDateDayRangeCalendar
         defaultValue={{
-          start: new Date(2024, 6, 14),
+          start: new Date(2025, 6, 14),
           end: new Date(2025, 7, 20)
         }}
         {...args}
@@ -328,10 +355,10 @@ export const BasicHDateMonthRangeCalendar: Story = {
     docs: {
       source: {
         code: `<Stack spacing={20}>
-  <HDateMonthRangeCalendar />
-  <HDateMonthRangeCalendar
+  <VDateDayRangeCalendar />
+  <VDateDayRangeCalendar
     defaultValue={{
-      start: new Date(2024, 6, 14),
+      start: new Date(2025, 6, 14),
       end: new Date(2025, 7, 20)
     }}
   />
@@ -341,12 +368,12 @@ export const BasicHDateMonthRangeCalendar: Story = {
   }
 };
 
-export const ControlledHDateMonthRangeCalendar: Story = {
-  render: () => <ControlledHDateMonthRangeCalendarTemplate />,
+export const ControlledVDateDayRangeCalendar: Story = {
+  render: () => <ControlledVDateDayRangeCalendarTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `const ControlledHDateMonthRangeCalendarTemplate = () => {
+        code: `const ControlledVDateDayRangeCalendarTemplate = () => {
   const [value, setValue] = useState<RangeType<Date | null>>({
     start: null,
     end: null
@@ -374,7 +401,7 @@ export const ControlledHDateMonthRangeCalendar: Story = {
         <span>-</span>
         <DateText {...getDate('end')} />
       </Stack>
-      <HDateMonthRangeCalendar value={value} onChange={handleChange} />
+      <VDateDayRangeCalendar value={value} onChange={handleChange} />
     </Stack>
   );
 };`.trim()
@@ -385,12 +412,12 @@ export const ControlledHDateMonthRangeCalendar: Story = {
 
 export const ChooseInitialDate: Story = {
   render: (args) => (
-    <HDateMonthRangeCalendar referenceDate={new Date(2000, 1, 1)} {...args} />
+    <VDateDayRangeCalendar referenceDate={new Date(2000, 1, 1)} {...args} />
   ),
   parameters: {
     docs: {
       source: {
-        code: `<HDateMonthRangeCalendar referenceDate={new Date(2000, 1, 1)} />`.trim()
+        code: `<VDateDayRangeCalendar referenceDate={new Date(2000, 1, 1)} />`.trim()
       }
     }
   }
@@ -437,7 +464,7 @@ export const Locale: Story = {
           </Grid>
         </RadioGroup>
       </Box>
-      <HDateMonthRangeCalendar key={locale} locale={locale} />
+      <VDateDayRangeCalendar key={locale} locale={locale} />
     </Stack>
   );
 };`.trim()
@@ -452,18 +479,21 @@ export const Options: Story = {
     docs: {
       source: {
         code: `const OptionsTemplate = () => {
-  const OPTIONS: Array<HDateMonthRangeCalendarProps['options']> = [
+  const OPTIONS: Array<VDateDayRangeCalendarProps['options']> = [
     { dateStyle: 'medium' },
-    { year: 'numeric' },
-    { year: '2-digit' }
+    { dateStyle: 'short' },
+    {
+      year: 'numeric',
+      month: 'numeric'
+    }
   ] as const;
-  const [option, setOption] = useState<HDateMonthRangeCalendarProps['options']>(
+  const [option, setOption] = useState<VDateDayRangeCalendarProps['options']>(
     OPTIONS[0]
   );
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setOption(JSON.parse(value) as HDateMonthRangeCalendarProps['options']);
+    setOption(JSON.parse(value) as VDateDayRangeCalendarProps['options']);
   };
 
   return (
@@ -493,7 +523,7 @@ export const Options: Story = {
           </Grid>
         </RadioGroup>
       </Box>
-      <HDateMonthRangeCalendar key={JSON.stringify(option)} options={option} />
+      <VDateDayRangeCalendar key={JSON.stringify(option)} options={option} />
     </Stack>
   );
 };`.trim()
@@ -504,18 +534,18 @@ export const Options: Story = {
 
 export const MinDate: Story = {
   render: (args) => (
-    <HDateMonthRangeCalendar
+    <VDateDayRangeCalendar
       referenceDate={new Date(2025, 1, 1)}
-      minDate={new Date(2025, 2, 1)}
+      minDate={new Date(2025, 1, 10)}
       {...args}
     />
   ),
   parameters: {
     docs: {
       source: {
-        code: `<HDateMonthRangeCalendar
+        code: `<VDateDayRangeCalendar
   referenceDate={new Date(2025, 1, 1)}
-  minDate={new Date(2025, 2, 1)}
+  minDate={new Date(2025, 1, 10)}
 />`.trim()
       }
     }
@@ -524,18 +554,38 @@ export const MinDate: Story = {
 
 export const MaxDate: Story = {
   render: (args) => (
-    <HDateMonthRangeCalendar
+    <VDateDayRangeCalendar
       referenceDate={new Date(2025, 1, 1)}
-      maxDate={new Date(2025, 9, 1)}
+      maxDate={new Date(2025, 1, 20)}
       {...args}
     />
   ),
   parameters: {
     docs: {
       source: {
-        code: `<HDateMonthRangeCalendar
+        code: `<VDateDayRangeCalendar
   referenceDate={new Date(2025, 1, 1)}
-  maxDate={new Date(2025, 9, 1)}
+  maxDate={new Date(2025, 1, 20)}
+/>`.trim()
+      }
+    }
+  }
+};
+
+export const DisabledDates: Story = {
+  render: (args) => (
+    <VDateDayRangeCalendar
+      referenceDate={new Date(2025, 1, 1)}
+      disabledDates={[new Date(2025, 1, 15), new Date(2025, 1, 28)]}
+      {...args}
+    />
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<VDateDayRangeCalendar
+  referenceDate={new Date(2025, 1, 1)}
+  disabledDates={[new Date(2025, 1, 15), new Date(2025, 1, 28)]}
 />`.trim()
       }
     }
@@ -543,22 +593,22 @@ export const MaxDate: Story = {
 };
 
 export const ReadOnly: Story = {
-  render: (args) => <HDateMonthRangeCalendar readOnly {...args} />,
+  render: (args) => <VDateDayRangeCalendar readOnly {...args} />,
   parameters: {
     docs: {
       source: {
-        code: `<HDateMonthRangeCalendar readOnly />`.trim()
+        code: `<VDateDayRangeCalendar readOnly />`.trim()
       }
     }
   }
 };
 
 export const Disabled: Story = {
-  render: (args) => <HDateMonthRangeCalendar disabled {...args} />,
+  render: (args) => <VDateDayRangeCalendar disabled {...args} />,
   parameters: {
     docs: {
       source: {
-        code: `<HDateMonthRangeCalendar disabled />`.trim()
+        code: `<VDateDayRangeCalendar disabled />`.trim()
       }
     }
   }
@@ -570,11 +620,9 @@ export const CountOfCalendars: Story = {
     docs: {
       source: {
         code: `const CountOfCalendarsTemplate = () => {
-  type calendarsType = NonNullable<
-    HDateMonthRangeCalendarProps['monthCalendars']
-  >;
-  const CALENDARS: Array<calendarsType> = [1, 2, 3] as const;
-  const [calendars, setCalendars] = useState<calendarsType>(2);
+  type calendarsType = NonNullable<VDateDayRangeCalendarProps['dayCalendars']>;
+  const CALENDARS: Array<calendarsType> = [3, 5, 8] as const;
+  const [calendars, setCalendars] = useState<calendarsType>(5);
 
   const handleCalendarsChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -610,24 +658,37 @@ export const CountOfCalendars: Story = {
           </Grid>
         </RadioGroup>
       </Box>
-      <HDateMonthRangeCalendar monthCalendars={calendars} />
+      <VDateDayRangeCalendar dayCalendars={calendars} />
     </Stack>
   );
-};
-`.trim()
+};`.trim()
       }
     }
   }
 };
 
-export const CustomRangeMonth: Story = {
+export const ShowAdditionalDays: Story = {
   render: (args) => (
-    <HDateMonthRangeCalendar className="custom-range-month" {...args} />
+    <VDateDayRangeCalendar
+      showDaysOutsideCurrentMonth
+      fixedWeekNumber={6}
+      {...args}
+    />
+  )
+};
+
+export const DisplayWeekNumber: Story = {
+  render: (args) => <VDateDayRangeCalendar displayWeekNumber {...args} />
+};
+
+export const CustomRangeDay: Story = {
+  render: (args) => (
+    <VDateDayRangeCalendar className="custom-range-day" {...args} />
   ),
   parameters: {
     docs: {
       source: {
-        code: `<HDateMonthRangeCalendar className="custom-range-month" />`.trim()
+        code: `<VDateDayRangeCalendar className="custom-range-day" />`.trim()
       }
     }
   }
@@ -635,12 +696,10 @@ export const CustomRangeMonth: Story = {
 
 export const CustomCalendarHeader: Story = {
   render: (args) => (
-    <HDateMonthRangeCalendar
+    <VDateDayRangeCalendar
       renderCalendarHeader={(calendarHeaderProps) => (
         <CalendarHeader
-          prevIcon="Prev"
-          nextIcon="Next"
-          style={{ marginBottom: '5px', backgroundColor: 'surface-container' }}
+          style={{ backgroundColor: 'surface-container' }}
           {...calendarHeaderProps}
         />
       )}
@@ -650,12 +709,10 @@ export const CustomCalendarHeader: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<HDateMonthRangeCalendar
+        code: `<VDateDayRangeCalendar
   renderCalendarHeader={(calendarHeaderProps) => (
     <CalendarHeader
-      prevIcon="Prev"
-      nextIcon="Next"
-      style={{ marginBottom: '5px', backgroundColor: 'surface-container' }}
+      style={{ backgroundColor: 'surface-container' }}
       {...calendarHeaderProps}
     />
   )}

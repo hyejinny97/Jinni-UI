@@ -16,8 +16,7 @@ import Chip from '@/components/Chip';
 import { RangeType, RangeFieldType } from '@/types/date-component';
 
 const meta: Meta<typeof DateYearRangeCalendar> = {
-  title:
-    'components/data-entry/DateRangePicker/DateRangeCalendar/DateYearRangeCalendar',
+  title: 'components/DateRangePicker/DateRangeCalendar/DateYearRangeCalendar',
   component: DateYearRangeCalendar,
   argTypes: {
     defaultValue: {

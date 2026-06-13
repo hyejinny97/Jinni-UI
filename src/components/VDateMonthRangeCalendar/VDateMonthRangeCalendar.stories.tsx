@@ -16,8 +16,7 @@ import Chip from '@/components/Chip';
 import { RangeType, RangeFieldType } from '@/types/date-component';
 
 const meta: Meta<typeof VDateMonthRangeCalendar> = {
-  title:
-    'components/data-entry/DateRangePicker/DateRangeCalendar/VDateMonthRangeCalendar',
+  title: 'components/DateRangePicker/DateRangeCalendar/VDateMonthRangeCalendar',
   component: VDateMonthRangeCalendar,
   argTypes: {
     defaultValue: {

@@ -5,11 +5,11 @@ import { DateRangeComponentProps } from '@/types/date-component';
 import { YearCalendarMainProps } from '@/components/data-entry/YearCalendar';
 import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
 import { DayCalendarMainProps } from '@/components/data-entry/DayCalendar';
-import { DateYearRangeCalendar } from './DateYearRangeCalendar';
-import { HDateMonthRangeCalendar } from './HDateMonthRangeCalendar';
-import { VDateMonthRangeCalendar } from './VDateMonthRangeCalendar';
-import { HDateDayRangeCalendar } from './HDateDayRangeCalendar';
-import { VDateDayRangeCalendar } from './VDateDayRangeCalendar';
+import DateYearRangeCalendar from '../DateYearRangeCalendar';
+import HDateMonthRangeCalendar from '../HDateMonthRangeCalendar';
+import VDateMonthRangeCalendar from '../VDateMonthRangeCalendar';
+import HDateDayRangeCalendar from '../HDateDayRangeCalendar';
+import VDateDayRangeCalendar from '../VDateDayRangeCalendar';
 import { CalendarHeaderProps } from '@/components/CalendarHeader';
 import { getBaseCalendarType } from '@/utils/date-component';
 

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DateTimeRangePicker, DateTimeRangePickerProps } from '.';
 import { DateTimePicker } from '@/components/data-entry/DateTimePicker';
 import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
-import { DateRangeCalendar } from '@/components/data-entry/DateRangeCalendar';
+import DateRangeCalendar from '@/components/DateRangeCalendar';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';

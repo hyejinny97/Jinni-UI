@@ -7,10 +7,9 @@ import {
   DateRangeField,
   DateRangeFieldProps
 } from '@/components/data-entry/DateRangeField';
-import {
-  DateRangeCalendar,
+import DateRangeCalendar, {
   DateRangeCalendarProps
-} from '@/components/data-entry/DateRangeCalendar';
+} from '@/components/DateRangeCalendar';
 import Popover, { PopoverProps } from '@/components/Popover';
 import { useDateRangeValue } from './DateRangePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';

@@ -16,8 +16,7 @@ import Chip from '@/components/Chip';
 import { RangeType, RangeFieldType } from '@/types/date-component';
 
 const meta: Meta<typeof HDateDayRangeCalendar> = {
-  title:
-    'components/data-entry/DateRangePicker/DateRangeCalendar/HDateDayRangeCalendar',
+  title: 'components/DateRangePicker/DateRangeCalendar/HDateDayRangeCalendar',
   component: HDateDayRangeCalendar,
   argTypes: {
     dayCalendars: {
