@@ -18,7 +18,7 @@ import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import Checkbox from '@/components/Checkbox';
 import { Rating } from '@/components/data-entry/Rating';
 import { Select, Option } from '@/components/data-entry/Select';
-import { Input } from '@/components/data-entry/Input';
+import Input from '@/components/Input';
 import { NumberInput } from '@/components/data-entry/NumberInput';
 import Popover from '@/components/Popover';
 import { FilterAltIcon } from '@/components/icons/FilterAltIcon';

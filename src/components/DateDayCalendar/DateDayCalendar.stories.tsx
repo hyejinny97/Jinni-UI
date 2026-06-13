@@ -21,7 +21,7 @@ import {
   ModalFooter
 } from '@/components/feedback/Modal';
 import { Button } from '@/components/general/Button';
-import { Input } from '@/components/data-entry/Input';
+import Input from '@/components/Input';
 
 const meta: Meta<typeof DateDayCalendar> = {
   title: 'components/DatePicker/DateCalendar/DateDayCalendar',

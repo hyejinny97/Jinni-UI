@@ -1,6 +1,6 @@
 import './HexInput.scss';
 import { useState, useRef, useEffect } from 'react';
-import { Input } from '@/components/data-entry/Input';
+import Input from '@/components/Input';
 import { useColorBoxContext } from '../ColorBox.hooks';
 import { hsbObjToHex, hexToHsbObj } from '@/components/ColorPicker';
 import { HEX } from '@/types/color';
