@@ -1,11 +1,8 @@
 import './MonthRangeCalendar.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import {
-  MonthCalendar,
-  MonthCalendarProps,
-  MonthProps
-} from '@/components/data-entry/MonthCalendar';
+import MonthCalendar, { MonthCalendarProps } from '@/components/MonthCalendar';
+import { MonthProps } from '@/components/Month';
 import { RangeType } from '@/types/date-component';
 import {
   useSelectedDateValue,

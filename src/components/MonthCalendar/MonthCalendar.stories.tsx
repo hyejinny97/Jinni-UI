@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import MonthCalendar from './MonthCalendar';
-import { Month } from './Month';
+import Month from '../Month';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Grid } from '@/components/layout/Grid';
@@ -11,8 +11,7 @@ import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 
 const meta: Meta<typeof MonthCalendar> = {
-  title:
-    'components/data-entry/DatePicker/DateCalendar/DateMonthCalendar/MonthCalendar',
+  title: 'components/DatePicker/DateCalendar/DateMonthCalendar/MonthCalendar',
   component: MonthCalendar,
   argTypes: {
     disabled: {

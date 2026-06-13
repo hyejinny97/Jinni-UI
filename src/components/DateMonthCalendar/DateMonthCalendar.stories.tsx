@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DateMonthCalendar, { DateMonthCalendarProps } from './DateMonthCalendar';
-import { Month } from '@/components/data-entry/MonthCalendar';
+import Month from '@/components/Month';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
 import { Text } from '@/components/general/Text';

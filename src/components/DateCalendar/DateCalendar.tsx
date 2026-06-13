@@ -5,7 +5,7 @@ import CalendarHeader, {
   CalendarHeaderProps
 } from '@/components/CalendarHeader';
 import { YearCalendarMainProps } from '@/components/data-entry/YearCalendar';
-import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
+import { MonthCalendarMainProps } from '@/components/MonthCalendar';
 import { DayCalendarMainProps } from '@/components/DayCalendar';
 import DateYearCalendar from '../DateYearCalendar';
 import DateMonthCalendar from '../DateMonthCalendar';

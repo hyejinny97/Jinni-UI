@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { YearCalendarMainProps } from '@/components/data-entry/YearCalendar';
-import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
+import { MonthCalendarMainProps } from '@/components/MonthCalendar';
 import { DayCalendarMainProps } from '@/components/DayCalendar';
 import DateYearRangeCalendar from '../DateYearRangeCalendar';
 import HDateMonthRangeCalendar from '../HDateMonthRangeCalendar';

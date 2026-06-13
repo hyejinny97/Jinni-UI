@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DateCalendar, { DateCalendarProps } from './DateCalendar';
 import { Year } from '@/components/data-entry/YearCalendar';
-import { Month } from '@/components/data-entry/MonthCalendar';
+import Month from '@/components/Month';
 import Day from '@/components/Day';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';

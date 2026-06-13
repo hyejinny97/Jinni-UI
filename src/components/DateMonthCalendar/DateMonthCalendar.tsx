@@ -3,10 +3,9 @@ import cn from 'classnames';
 import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateComponentProps } from '@/types/date-component';
-import {
-  MonthCalendar,
+import MonthCalendar, {
   MonthCalendarMainProps
-} from '@/components/data-entry/MonthCalendar';
+} from '@/components/MonthCalendar';
 import CalendarHeader, {
   CalendarHeaderProps
 } from '@/components/CalendarHeader';

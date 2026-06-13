@@ -4,7 +4,7 @@ import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof Month> = {
   title:
-    'components/data-entry/DatePicker/DateCalendar/DateMonthCalendar/MonthCalendar/Month',
+    'components/DatePicker/DateCalendar/DateMonthCalendar/MonthCalendar/Month',
   component: Month,
   argTypes: {
     children: {

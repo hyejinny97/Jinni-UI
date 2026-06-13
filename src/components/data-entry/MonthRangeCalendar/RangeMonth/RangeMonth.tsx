@@ -1,7 +1,7 @@
 import './RangeMonth.scss';
 import { useMemo } from 'react';
 import cn from 'classnames';
-import { Month, MonthProps } from '@/components/data-entry/MonthCalendar';
+import Month, { MonthProps } from '@/components/Month';
 import { RangeType } from '@/types/date-component';
 import { Box } from '@/components/layout/Box';
 import { lighten, darken } from '@/utils/colorLuminance';
