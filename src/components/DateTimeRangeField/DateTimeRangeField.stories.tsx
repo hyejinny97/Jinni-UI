@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DateTimeRangeField, DateTimeRangeFieldProps } from '.';
+import DateTimeRangeField, {
+  DateTimeRangeFieldProps
+} from './DateTimeRangeField';
 import DateTimeField from '@/components/DateTimeField';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
@@ -18,7 +20,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { MINUTE } from '@/constants/time';
 
 const meta: Meta<typeof DateTimeRangeField> = {
-  title: 'components/data-entry/DateTimeRangePicker/DateTimeRangeField',
+  title: 'components/DateTimeRangePicker/DateTimeRangeField',
   component: DateTimeRangeField,
   argTypes: {
     centerIcon: {

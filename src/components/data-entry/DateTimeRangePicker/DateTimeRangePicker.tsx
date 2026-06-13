@@ -3,10 +3,9 @@ import { useRef, useState, useId, Fragment } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  DateTimeRangeField,
+import DateTimeRangeField, {
   DateTimeRangeFieldProps
-} from '@/components/data-entry/DateTimeRangeField';
+} from '@/components/DateTimeRangeField';
 import Popover, { PopoverProps } from '@/components/Popover';
 import DateRangeCalendar, {
   DateRangeCalendarProps
