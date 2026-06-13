@@ -5,7 +5,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { TimeField, TimeFieldProps } from '@/components/data-entry/TimeField';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
-import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
+import PresetDigitalClock from '@/components/PresetDigitalClock';
 import Popover, { PopoverProps } from '@/components/Popover';
 import { useTime } from './TimePicker.hooks';
 import { Button } from '@/components/general/Button';

@@ -3,7 +3,7 @@ import {
   CHRONOLOGICAL_ORDER
 } from '@/constants/time-component';
 import { ManualDigitalClockProps } from '@/components/ManualDigitalClock';
-import { PresetDigitalClockProps } from '@/components/data-entry/PresetDigitalClock';
+import { PresetDigitalClockProps } from '@/components/PresetDigitalClock';
 
 export type TimeMode = 'preset' | 'manual';
 

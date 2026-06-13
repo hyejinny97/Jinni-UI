@@ -14,7 +14,7 @@ import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 
 const meta: Meta<typeof PresetDigitalClock> = {
-  title: 'components/data-entry/TimePicker/PresetDigitalClock',
+  title: 'components/TimePicker/PresetDigitalClock',
   component: PresetDigitalClock,
   argTypes: {
     defaultValue: {

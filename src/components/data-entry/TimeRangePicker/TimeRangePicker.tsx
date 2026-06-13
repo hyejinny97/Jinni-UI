@@ -9,7 +9,7 @@ import {
 } from '@/components/data-entry/TimeRangeField';
 import Popover, { PopoverProps } from '@/components/Popover';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
-import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
+import PresetDigitalClock from '@/components/PresetDigitalClock';
 import { useTimeRangeValue } from './TimeRangePicker.hooks';
 import {
   TIME_STEP_PRESET_DEFAULT,

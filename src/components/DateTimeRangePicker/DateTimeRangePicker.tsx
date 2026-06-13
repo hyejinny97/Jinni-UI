@@ -11,7 +11,7 @@ import DateRangeCalendar, {
   DateRangeCalendarProps
 } from '@/components/DateRangeCalendar';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
-import { PresetDigitalClock } from '@/components/data-entry/PresetDigitalClock';
+import PresetDigitalClock from '@/components/PresetDigitalClock';
 import { useDateTimeRangeValue } from './DateTimeRangePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Button } from '@/components/general/Button';
