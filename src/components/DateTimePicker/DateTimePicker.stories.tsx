@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DateTimePicker, DateTimePickerProps } from '.';
+import DateTimePicker, { DateTimePickerProps } from './DateTimePicker';
 import { ManualDigitalClock } from '@/components/data-entry/ManualDigitalClock';
 import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import CalendarHeader from '@/components/CalendarHeader';
