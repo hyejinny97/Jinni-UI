@@ -3,6 +3,7 @@ import DecreaseButton from './DecreaseButton';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof DecreaseButton> = {
+  title: 'components/NumberInput/DecreaseButton',
   component: DecreaseButton,
   argTypes: {
     children: {

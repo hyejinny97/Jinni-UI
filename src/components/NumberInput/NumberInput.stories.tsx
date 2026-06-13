@@ -1,7 +1,9 @@
 import './CustomNumberInput.scss';
 import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { NumberInput, DecreaseButton, IncreaseButton } from '.';
+import NumberInput from '@/components/NumberInput';
+import IncreaseButton from '@/components/IncreaseButton';
+import DecreaseButton from '@/components/DecreaseButton';
 import { Text } from '@/components/general/Text';
 import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';

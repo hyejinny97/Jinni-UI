@@ -1,6 +1,6 @@
 import './HsbInput.scss';
 import { Stack } from '@/components/layout/Stack';
-import { NumberInput, ValueType } from '@/components/data-entry/NumberInput';
+import NumberInput, { ValueType } from '@/components/NumberInput';
 import { useColorBoxContext } from '../ColorBox.hooks';
 
 type ChannelType = 'h' | 's' | 'b' | 'a';

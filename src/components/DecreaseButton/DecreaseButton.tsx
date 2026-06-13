@@ -2,7 +2,7 @@ import './DecreaseButton.scss';
 import cn from 'classnames';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
-import { useNumberInput } from '../NumberInput.hooks';
+import { useNumberInput } from '../NumberInput';
 import { useButtonPress } from './DecreaseButton.hooks';
 
 type DecreaseButtonProps = Omit<ButtonBaseProps<'button'>, 'type' | 'href'>;

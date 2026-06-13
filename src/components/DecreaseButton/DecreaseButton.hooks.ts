@@ -1,6 +1,6 @@
 import { useRef, useCallback, useEffect } from 'react';
 import { usePress } from '@/hooks/usePress';
-import { useNumberInput } from '../NumberInput.hooks';
+import { useNumberInput } from '../NumberInput';
 import { SECOND } from '@/constants/time';
 
 export const useButtonPress = () => {

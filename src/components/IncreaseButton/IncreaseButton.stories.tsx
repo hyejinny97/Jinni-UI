@@ -3,6 +3,7 @@ import IncreaseButton from './IncreaseButton';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof IncreaseButton> = {
+  title: 'components/NumberInput/IncreaseButton',
   component: IncreaseButton,
   argTypes: {
     children: {

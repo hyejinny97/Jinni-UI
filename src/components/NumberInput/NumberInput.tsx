@@ -9,8 +9,8 @@ import {
   useClampOnBlur,
   useKeyboardAccessibility
 } from './NumberInput.hooks';
-import { IncreaseButton } from './IncreaseButton';
-import { DecreaseButton } from './DecreaseButton';
+import IncreaseButton from '../IncreaseButton';
+import DecreaseButton from '../DecreaseButton';
 import NumberInputContext from './NumberInput.contexts';
 import { isNumber } from '@/utils/isNumber';
 

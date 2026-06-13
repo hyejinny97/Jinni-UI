@@ -19,7 +19,7 @@ import Checkbox from '@/components/Checkbox';
 import { Rating } from '@/components/data-entry/Rating';
 import { Select, Option } from '@/components/data-entry/Select';
 import Input from '@/components/Input';
-import { NumberInput } from '@/components/data-entry/NumberInput';
+import NumberInput from '@/components/NumberInput';
 import Popover from '@/components/Popover';
 import { FilterAltIcon } from '@/components/icons/FilterAltIcon';
 import { isNumber } from '@/utils/isNumber';

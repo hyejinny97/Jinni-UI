@@ -2,7 +2,7 @@ import './IncreaseButton.scss';
 import cn from 'classnames';
 import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
-import { useNumberInput } from '../NumberInput.hooks';
+import { useNumberInput } from '../NumberInput';
 import { useButtonPress } from './IncreaseButton.hooks';
 
 type IncreaseButtonProps = Omit<ButtonBaseProps<'button'>, 'type' | 'href'>;

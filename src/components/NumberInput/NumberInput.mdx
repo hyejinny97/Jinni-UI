@@ -1,7 +1,7 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as NumberInputStories from './NumberInput.stories';
-import * as IncreaseButtonStories from './IncreaseButton/IncreaseButton.stories';
-import * as DecreaseButtonStories from './DecreaseButton/DecreaseButton.stories';
+import * as IncreaseButtonStories from '../IncreaseButton/IncreaseButton.stories';
+import * as DecreaseButtonStories from '../DecreaseButton/DecreaseButton.stories';
 
 <Meta of={NumberInputStories} />
 
@@ -12,11 +12,9 @@ import * as DecreaseButtonStories from './DecreaseButton/DecreaseButton.stories'
 ## Import
 
 ```js
-import {
-  NumberInput,
-  DecreaseButton,
-  IncreaseButton
-} from '@/components/data-entry/NumberInput';
+import NumberInput from '@/components/NumberInput';
+import IncreaseButton from '@/components/IncreaseButton';
+import DecreaseButton from '@/components/DecreaseButton';
 ```
 
 ## Usage
