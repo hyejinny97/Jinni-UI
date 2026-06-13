@@ -7,7 +7,7 @@ import { RadioCheckedIcon } from '@/components/icons/RadioCheckedIcon';
 import { ColorType } from '@/types/color';
 import { useRipple, UseRippleProps } from '@/hooks/useRipple';
 import { useLabelContext } from '@/components/Label';
-import { useRadioGroupContext } from '@/components/data-entry/RadioGroup';
+import { useRadioGroupContext } from '@/components/RadioGroup';
 import { useCheck } from './Radio.hooks';
 import useJinni from '@/hooks/useJinni';
 import useOverlay from '@/hooks/useOverlay';

@@ -10,7 +10,7 @@ import { Button } from '@/components/general/Button';
 import { Stack } from '@/components/layout/Stack';
 import Label from '@/components/Label';
 import Radio from '@/components/Radio';
-import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import RadioGroup from '@/components/RadioGroup';
 
 const meta: Meta<typeof SwipeableDrawer> = {
   component: SwipeableDrawer,

@@ -1,5 +1,5 @@
 import { RadioProps } from './Radio';
-import { useRadioGroupContext } from '@/components/data-entry/RadioGroup';
+import { useRadioGroupContext } from '@/components/RadioGroup';
 
 type useCheckProps = Pick<RadioProps, 'checked' | 'onChange' | 'value'>;
 

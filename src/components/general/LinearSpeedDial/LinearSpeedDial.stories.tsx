@@ -15,7 +15,7 @@ import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import Radio from '@/components/Radio';
-import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import RadioGroup from '@/components/RadioGroup';
 import Label from '@/components/Label';
 import Iframe from '@/components/Iframe';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';

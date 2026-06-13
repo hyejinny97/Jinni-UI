@@ -7,7 +7,7 @@ import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
-import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import { Switch } from '@/components/data-entry/Switch';
 import Label from '@/components/Label';

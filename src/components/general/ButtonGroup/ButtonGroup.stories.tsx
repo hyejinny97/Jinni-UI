@@ -7,7 +7,7 @@ import { Box } from '@/components/layout/Box';
 import { Menu } from '@/components/navigation/Menu';
 import { MenuItem } from '@/components/navigation/MenuItem';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
-import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 

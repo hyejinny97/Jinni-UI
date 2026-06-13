@@ -11,7 +11,7 @@ import { AddIcon } from '@/components/icons/AddIcon';
 import { FileUploadIcon } from '@/components/icons/FileUploadIcon';
 import { Toast } from '@/components/feedback/Toast';
 import { CircularProgress } from '@/components/feedback/CircularProgress';
-import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 

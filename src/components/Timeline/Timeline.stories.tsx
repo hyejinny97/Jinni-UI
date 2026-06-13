@@ -12,7 +12,7 @@ import { LocalShippingIcon } from '@/components/icons/LocalShippingIcon';
 import { BoxIcon } from '@/components/icons/BoxIcon';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';
-import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import { Switch } from '@/components/data-entry/Switch';
 import Label from '@/components/Label';

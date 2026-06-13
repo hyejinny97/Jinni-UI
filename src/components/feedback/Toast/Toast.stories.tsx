@@ -10,7 +10,7 @@ import { Alert } from '@/components/feedback/Alert';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import { Box } from '@/components/layout/Box';
-import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import RadioGroup from '@/components/RadioGroup';
 import Chip from '@/components/Chip';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 

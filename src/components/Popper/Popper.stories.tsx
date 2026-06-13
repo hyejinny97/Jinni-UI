@@ -5,7 +5,7 @@ import Popper, { PopperProps } from './Popper';
 import { Button } from '@/components/general/Button';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
-import { RadioGroup } from '@/components/data-entry/RadioGroup';
+import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
