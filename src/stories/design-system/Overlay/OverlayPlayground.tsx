@@ -2,12 +2,11 @@ import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { useState } from 'react';
 import { Label } from '@/components/data-entry/Label';
-import {
-  ColorPicker,
+import ColorPicker, {
   HSBObject,
   isHsbObject,
   hsbObjToHex
-} from '@/components/data-entry/ColorPicker';
+} from '@/components/ColorPicker';
 import { HEX } from '@/types/color';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
