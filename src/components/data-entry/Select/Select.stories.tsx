@@ -5,7 +5,7 @@ import { Option, OptionValueType } from './Option';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
-import { Checkbox } from '@/components/data-entry/Checkbox';
+import Checkbox from '@/components/Checkbox';
 import Chip from '@/components/Chip';
 import { Button } from '@/components/general/Button';
 import ListItem from '@/components/ListItem';

@@ -5,7 +5,7 @@ import TreeItem, { TreeItemIdType } from '@/components/TreeItem';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import { Stack } from '@/components/layout/Stack';
-import { Checkbox } from '@/components/data-entry/Checkbox';
+import Checkbox from '@/components/Checkbox';
 import { Switch } from '@/components/data-entry/Switch';
 import { Label } from '@/components/data-entry/Label';
 import { CircularProgress } from '@/components/feedback/CircularProgress';

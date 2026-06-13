@@ -15,7 +15,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
-import { Checkbox } from '@/components/data-entry/Checkbox';
+import Checkbox from '@/components/Checkbox';
 import { Rating } from '@/components/data-entry/Rating';
 import { Select, Option } from '@/components/data-entry/Select';
 import { Input } from '@/components/data-entry/Input';

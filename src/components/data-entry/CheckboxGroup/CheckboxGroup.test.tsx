@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, within } from '@/tests/react-testing-tools';
 import CheckboxGroup from './CheckboxGroup';
-import { Checkbox } from '@/components/data-entry/Checkbox';
+import Checkbox from '@/components/Checkbox';
 
 describe('<CheckboxGroup />', () => {
   it('renders the checkbox with defaultValue as checked by default', () => {

@@ -12,7 +12,7 @@ import { MailIcon } from '@/components/icons/MailIcon';
 import { FavoriteIcon } from '@/components/icons/FavoriteIcon';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
-import { Checkbox } from '@/components/data-entry/Checkbox';
+import Checkbox from '@/components/Checkbox';
 import { Switch } from '@/components/data-entry/Switch';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
