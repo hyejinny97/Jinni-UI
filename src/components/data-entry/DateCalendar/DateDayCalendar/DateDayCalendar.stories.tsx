@@ -4,7 +4,7 @@ import cn from 'classnames';
 import type { Meta, StoryObj } from '@storybook/react';
 import DateDayCalendar, { DateDayCalendarProps } from './DateDayCalendar';
 import { Day } from '@/components/data-entry/DayCalendar';
-import { CalendarHeader } from '@/components/data-entry/CalendarHeader';
+import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';

@@ -5,10 +5,9 @@ import { AsType } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { DayCalendarMainProps } from '@/components/data-entry/DayCalendar';
 import { DayRangeCalendar } from '@/components/data-entry/DayRangeCalendar';
-import {
-  CalendarHeader,
+import CalendarHeader, {
   CalendarHeaderProps
-} from '@/components/data-entry/CalendarHeader';
+} from '@/components/CalendarHeader';
 import { useSelectedDate, useScroll } from './VDateDayRangeCalendar.hooks';
 import { Stack, StackProps } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';

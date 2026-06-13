@@ -10,7 +10,7 @@ import { HDateMonthRangeCalendar } from './HDateMonthRangeCalendar';
 import { VDateMonthRangeCalendar } from './VDateMonthRangeCalendar';
 import { HDateDayRangeCalendar } from './HDateDayRangeCalendar';
 import { VDateDayRangeCalendar } from './VDateDayRangeCalendar';
-import { CalendarHeaderProps } from '@/components/data-entry/CalendarHeader';
+import { CalendarHeaderProps } from '@/components/CalendarHeader';
 import { getBaseCalendarType } from '@/utils/date-component';
 
 type Orientation = 'horizontal' | 'vertical';

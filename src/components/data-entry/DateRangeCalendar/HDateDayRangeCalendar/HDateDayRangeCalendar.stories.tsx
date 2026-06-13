@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import HDateDayRangeCalendar, {
   HDateDayRangeCalendarProps
 } from './HDateDayRangeCalendar';
-import { CalendarHeader } from '@/components/data-entry/CalendarHeader';
+import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';

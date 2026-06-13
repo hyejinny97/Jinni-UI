@@ -1,10 +1,9 @@
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateComponentProps } from '@/types/date-component';
-import {
-  CalendarHeader,
+import CalendarHeader, {
   CalendarHeaderProps
-} from '@/components/data-entry/CalendarHeader';
+} from '@/components/CalendarHeader';
 import { YearCalendarMainProps } from '@/components/data-entry/YearCalendar';
 import { MonthCalendarMainProps } from '@/components/data-entry/MonthCalendar';
 import { DayCalendarMainProps } from '@/components/data-entry/DayCalendar';

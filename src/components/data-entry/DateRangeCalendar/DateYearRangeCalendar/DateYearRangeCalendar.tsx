@@ -5,10 +5,9 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { YearCalendarMainProps } from '@/components/data-entry/YearCalendar';
 import { YearRangeCalendar } from '@/components/data-entry/YearRangeCalendar';
-import {
-  CalendarHeader,
+import CalendarHeader, {
   CalendarHeaderProps
-} from '@/components/data-entry/CalendarHeader';
+} from '@/components/CalendarHeader';
 import useStyle from '@/hooks/useStyle';
 import { useDateValue } from './DateYearRangeCalendar.hooks';
 import { getYearDateTimeFormat } from '@/utils/date-component';

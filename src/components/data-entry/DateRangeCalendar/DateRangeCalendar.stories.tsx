@@ -2,7 +2,7 @@ import './DateRangeCalendarCustom.scss';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DateRangeCalendar, { DateRangeCalendarProps } from './DateRangeCalendar';
-import { CalendarHeader } from '@/components/data-entry/CalendarHeader';
+import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';

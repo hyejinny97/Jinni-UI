@@ -7,10 +7,9 @@ import {
   YearCalendar,
   YearCalendarMainProps
 } from '@/components/data-entry/YearCalendar';
-import {
-  CalendarHeader,
+import CalendarHeader, {
   CalendarHeaderProps
-} from '@/components/data-entry/CalendarHeader';
+} from '@/components/CalendarHeader';
 import useStyle from '@/hooks/useStyle';
 import { useDateValue } from './DateYearCalendar.hooks';
 import { getYearDateTimeFormat } from '@/utils/date-component';
