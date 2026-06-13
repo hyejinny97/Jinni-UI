@@ -1,2 +1,2 @@
-export { default as CheckboxGroup } from './CheckboxGroup';
+export { default } from './CheckboxGroup';
 export { useCheckboxGroupContext } from './CheckboxGroup.hooks';

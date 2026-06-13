@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { isBoolean } from '@/utils/isBoolean';
 import { CheckboxProps } from './Checkbox';
-import { useCheckboxGroupContext } from '@/components/data-entry/CheckboxGroup';
+import { useCheckboxGroupContext } from '@/components/CheckboxGroup';
 
 type useCheckProps = Required<Pick<CheckboxProps, 'defaultChecked'>> &
   Pick<CheckboxProps, 'checked' | 'onChange' | 'value'>;
