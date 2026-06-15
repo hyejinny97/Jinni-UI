@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DatePicker, { DatePickerProps } from './DatePicker';
 import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Text from '@/components/Text';
 import Box from '@/components/Box';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';

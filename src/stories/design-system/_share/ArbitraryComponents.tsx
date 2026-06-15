@@ -1,4 +1,4 @@
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import { Stack } from '@/components/layout/Stack';
 import Button from '@/components/Button';
 import Slider from '@/components/Slider';

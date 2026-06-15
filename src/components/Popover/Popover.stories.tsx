@@ -3,7 +3,7 @@ import { useRef, useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Popover from './Popover';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Button from '@/components/Button';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';

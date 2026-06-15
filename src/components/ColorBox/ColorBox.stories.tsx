@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ColorBox from './ColorBox';
 import { useState } from 'react';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';

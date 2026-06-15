@@ -9,7 +9,7 @@ import Month from '@/components/Month';
 import Day from '@/components/Day';
 import Box from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Text from '@/components/Text';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';

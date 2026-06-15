@@ -5,7 +5,7 @@ import DatePicker from '@/components/DatePicker';
 import DateRangeCalendar from '@/components/DateRangeCalendar';
 import Box from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Text from '@/components/Text';
 import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';

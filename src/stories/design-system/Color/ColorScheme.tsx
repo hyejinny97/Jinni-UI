@@ -6,7 +6,7 @@ import Switch from '@/components/Switch';
 import Select from '@/components/Select';
 import Option from '@/components/Option';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Text from '@/components/Text';
 import ButtonBase from '@/components/ButtonBase';
 import Tooltip from '@/components/Tooltip';

@@ -9,7 +9,7 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import { Stack } from '@/components/layout/Stack';
 import Box from '@/components/Box';
 import { motion, AnimatePresence } from 'motion/react';

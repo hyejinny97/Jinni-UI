@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Alert from './Alert';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Box from '@/components/Box';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';

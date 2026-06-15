@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ColorField from './ColorField';
 import ColorBlock from '../ColorBlock';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import { ColorLensIcon } from '@/components/icons/ColorLensIcon';

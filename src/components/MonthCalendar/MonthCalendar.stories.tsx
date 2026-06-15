@@ -4,7 +4,7 @@ import MonthCalendar from './MonthCalendar';
 import Month from '../Month';
 import { Stack } from '@/components/layout/Stack';
 import Box from '@/components/Box';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';

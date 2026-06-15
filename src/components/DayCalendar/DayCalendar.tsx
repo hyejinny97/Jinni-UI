@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Stack, StackProps } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Day, { DayProps } from '../Day';
 import { DateComponentProps } from '@/types/date-component';
 import { useWeekDayItems, useDayItems } from './DayCalendar.hooks';

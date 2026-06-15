@@ -2,7 +2,7 @@ import './MonthCalendar.scss';
 import { Fragment } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Grid, GridProps } from '@/components/layout/Grid';
+import Grid, { GridProps } from '@/components/Grid';
 import Month, { MonthProps } from '../Month';
 import { DateComponentProps } from '@/types/date-component';
 import { useMonthItems } from './MonthCalendar.hooks';

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Box, { BoxProps } from './Box';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 
 const meta: Meta<typeof Box> = {
   component: Box,

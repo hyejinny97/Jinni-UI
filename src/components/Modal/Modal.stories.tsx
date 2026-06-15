@@ -10,7 +10,7 @@ import { CloseIcon } from '@/components/icons/CloseIcon';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Box from '@/components/Box';
 import RadioGroup from '@/components/RadioGroup';
 import Switch from '@/components/Switch';

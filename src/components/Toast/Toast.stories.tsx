@@ -2,7 +2,7 @@ import { useState, forwardRef, useRef, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Toast, { CloseReason } from './Toast';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';

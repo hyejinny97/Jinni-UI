@@ -4,7 +4,7 @@ import { AsType } from '@/types/default-component-props';
 import Tour, { TourProps } from './Tour';
 import TourStep from '../TourStep';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
 import Box, { BoxProps } from '@/components/Box';

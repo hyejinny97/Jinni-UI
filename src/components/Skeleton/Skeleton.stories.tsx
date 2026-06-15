@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Skeleton from './Skeleton';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Text, { TextProps } from '@/components/Text';
 import { AsType } from '@/types/default-component-props';
 import Avatar from '@/components/Avatar';

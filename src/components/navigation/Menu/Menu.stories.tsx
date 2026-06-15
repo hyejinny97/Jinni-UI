@@ -5,7 +5,7 @@ import { MenuItem } from '@/components/navigation/MenuItem';
 import Button from '@/components/Button';
 import Divider from '@/components/Divider';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import { CartIcon } from '@/components/icons/CartIcon';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { PersonIcon } from '@/components/icons/PersonIcon';

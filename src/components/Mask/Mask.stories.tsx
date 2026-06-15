@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import Mask from './Mask';
 import Box from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
+import Grid from '@/components/Grid';
 import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
