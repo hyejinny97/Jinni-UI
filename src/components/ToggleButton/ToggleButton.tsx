@@ -5,7 +5,7 @@ import { AsType } from '@/types/default-component-props';
 import Button, { ButtonProps } from '@/components/Button';
 import { useSelected } from './ToggleButton.hooks';
 import useColor from '@/hooks/useColor';
-import { useToggleButtonGroup } from '@/components/general/ToggleButtonGroup';
+import { useToggleButtonGroup } from '@/components/ToggleButtonGroup';
 import { getColorWithAlpha } from '@/utils/colorAlpha';
 
 export type ValueType = number | string | boolean;
