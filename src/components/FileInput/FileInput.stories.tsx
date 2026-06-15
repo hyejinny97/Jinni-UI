@@ -9,7 +9,7 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import { TrashcanIcon } from '@/components/icons/TrashcanIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
 import { FileUploadIcon } from '@/components/icons/FileUploadIcon';
-import { Toast } from '@/components/feedback/Toast';
+import Toast from '@/components/Toast';
 import CircularProgress from '@/components/CircularProgress';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';

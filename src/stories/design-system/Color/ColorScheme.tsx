@@ -10,7 +10,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import Tooltip from '@/components/Tooltip';
-import { Toast, ToastProps } from '@/components/feedback/Toast';
+import Toast, { ToastProps } from '@/components/Toast';
 import { JinniColorScheme } from '@/types/color';
 import useJinni from '@/hooks/useJinni';
 
