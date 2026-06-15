@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import InputBase from './InputBase';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 
 const meta: Meta<typeof InputBase> = {
   component: InputBase,

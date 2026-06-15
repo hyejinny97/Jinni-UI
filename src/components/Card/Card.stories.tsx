@@ -9,7 +9,7 @@ import { Grid } from '@/components/layout/Grid';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
 import Text from '@/components/Text';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Avatar from '@/components/Avatar';
 import Checkbox from '@/components/Checkbox';
 import { MorevertIcon } from '@/components/icons/MorevertIcon';

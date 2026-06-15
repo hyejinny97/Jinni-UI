@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import YearCalendar from './YearCalendar';
 import Year from '../Year';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Grid } from '@/components/layout/Grid';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';

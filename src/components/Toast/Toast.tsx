@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { useClose, useActionFocus } from './Toast.hooks';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 
 export type CloseReason = 'timeout' | 'backgroundClick' | 'escapeKeydown';
 export type AnchorOriginType = {

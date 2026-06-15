@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Switch from './Switch';
 import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Text from '@/components/Text';
 import Button from '@/components/Button';
 

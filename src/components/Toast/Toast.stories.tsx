@@ -9,7 +9,7 @@ import { CloseIcon } from '@/components/icons/CloseIcon';
 import Alert from '@/components/Alert';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import RadioGroup from '@/components/RadioGroup';
 import Chip from '@/components/Chip';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';

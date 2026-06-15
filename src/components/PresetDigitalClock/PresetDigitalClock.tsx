@@ -9,7 +9,7 @@ import {
   useTimeItems,
   useScroll
 } from './PresetDigitalClock.hooks';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { MenuList } from '@/components/navigation/MenuList';
 import { MenuItem } from '@/components/navigation/MenuItem';
 import useJinni from '@/hooks/useJinni';

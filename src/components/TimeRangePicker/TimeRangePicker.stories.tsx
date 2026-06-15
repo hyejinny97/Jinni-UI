@@ -4,7 +4,7 @@ import TimeRangePicker, { TimeRangePickerProps } from './TimeRangePicker';
 import TimePicker from '@/components/TimePicker';
 import { RangeType, RangeFieldType } from '@/types/time-component';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import Text from '@/components/Text';

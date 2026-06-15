@@ -11,7 +11,7 @@ import { ShareIcon } from '@/components/icons/ShareIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
 import Radio from '@/components/Radio';
 import RadioGroup from '@/components/RadioGroup';

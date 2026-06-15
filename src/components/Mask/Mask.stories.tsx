@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useRef } from 'react';
 import Mask from './Mask';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import Button from '@/components/Button';

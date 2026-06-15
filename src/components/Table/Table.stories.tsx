@@ -12,7 +12,7 @@ import TablePagination from '@/components/TablePagination';
 import Text from '@/components/Text';
 import ButtonBase from '@/components/ButtonBase';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import Checkbox from '@/components/Checkbox';

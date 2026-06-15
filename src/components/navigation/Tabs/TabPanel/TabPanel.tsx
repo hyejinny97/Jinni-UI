@@ -1,7 +1,7 @@
 import './TabPanel.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 import { ValueType } from '../Tabs.types';
 import { useTabsContext } from '../Tabs.hooks';
 

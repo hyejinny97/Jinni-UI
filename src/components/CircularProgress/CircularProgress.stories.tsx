@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useEffect } from 'react';
 import CircularProgress from './CircularProgress';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Text from '@/components/Text';
 import ButtonBase from '@/components/ButtonBase';
 import { SaveIcon } from '@/components/icons/SaveIcon';

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import Grid from './Grid';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Text from '@/components/Text';
 import { Stack } from '@/components/layout/Stack';
 import { StyleType } from '@/types/style';

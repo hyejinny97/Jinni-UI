@@ -8,7 +8,7 @@ import Text from '@/components/Text';
 import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
 import Button from '@/components/Button';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 
 const meta: Meta<typeof NumberInput> = {
   component: NumberInput,

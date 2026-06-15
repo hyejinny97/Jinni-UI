@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Popper, { PopperProps } from './Popper';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';

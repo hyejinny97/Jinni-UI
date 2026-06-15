@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Alert from './Alert';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';

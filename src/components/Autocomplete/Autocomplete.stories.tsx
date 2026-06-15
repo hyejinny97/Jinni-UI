@@ -6,7 +6,7 @@ import AutocompleteOption, {
   OptionValueType
 } from '@/components/AutocompleteOption';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Text from '@/components/Text';
 import Chip from '@/components/Chip';
 import Button from '@/components/Button';

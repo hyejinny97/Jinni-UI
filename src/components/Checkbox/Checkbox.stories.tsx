@@ -10,7 +10,7 @@ import Label from '@/components/Label';
 import { SquareIcon } from '@/components/icons/SquareIcon';
 import Text from '@/components/Text';
 import Button from '@/components/Button';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 
 const meta: Meta<typeof Checkbox> = {
   component: Checkbox,

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Tree, { TreeProps } from '@/components/Tree';
 import TreeItem, { TreeItemIdType } from '@/components/TreeItem';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Text from '@/components/Text';
 import { Stack } from '@/components/layout/Stack';
 import Checkbox from '@/components/Checkbox';

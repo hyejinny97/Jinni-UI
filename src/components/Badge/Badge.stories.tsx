@@ -4,7 +4,7 @@ import Badge from './Badge';
 import Avatar from '@/components/Avatar';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import ButtonBase from '@/components/ButtonBase';
 import Button from '@/components/Button';
 import ButtonGroup from '@/components/ButtonGroup';

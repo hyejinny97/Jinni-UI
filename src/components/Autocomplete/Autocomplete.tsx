@@ -20,7 +20,7 @@ import AutocompleteContext from './Autocomplete.contexts';
 import { OptionValueType, OptionLabelType } from '../AutocompleteOption';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import ButtonBase from '@/components/ButtonBase';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { CancelIcon } from '@/components/icons/CancelIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { useLabelContext } from '@/components/Label';

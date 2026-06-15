@@ -7,7 +7,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import Backdrop from '@/components/Backdrop';
 import { useModalSize, useKeyboardAccessibility } from './Modal.hooks';
 import { Responsive } from '@/types/breakpoint';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 import ModalContext from './Modal.contexts';
 
 export type CloseReason = 'escapeKeydown' | 'backdropClick';

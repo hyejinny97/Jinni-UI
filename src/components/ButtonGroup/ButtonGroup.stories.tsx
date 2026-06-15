@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ButtonGroup from './ButtonGroup';
 import Button from '@/components/Button';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Menu } from '@/components/navigation/Menu';
 import { MenuItem } from '@/components/navigation/MenuItem';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';

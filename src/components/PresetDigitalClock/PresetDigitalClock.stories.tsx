@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import PresetDigitalClock, {
   PresetDigitalClockProps
 } from './PresetDigitalClock';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import Text from '@/components/Text';

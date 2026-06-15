@@ -16,7 +16,7 @@ import {
   placementToPopperOrigin
 } from '@/utils/placement';
 import Popper, { PopperProps } from '@/components/Popper';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 
 export type TriggerType = 'click' | 'hover' | 'focus';
 

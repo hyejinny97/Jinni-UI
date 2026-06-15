@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Masonry from './Masonry';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import ButtonBase from '@/components/ButtonBase';
 import Button from '@/components/Button';
 import Text from '@/components/Text';

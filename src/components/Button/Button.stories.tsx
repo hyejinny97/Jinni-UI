@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import Button from './Button';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { CartIcon } from '@/components/icons/CartIcon';
 import { HomeIcon } from '@/components/icons/HomeIcon';

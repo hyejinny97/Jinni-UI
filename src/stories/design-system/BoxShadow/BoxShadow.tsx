@@ -1,7 +1,7 @@
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { Grid } from '@/components/layout/Grid';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Text from '@/components/Text';
 import Tooltip from '@/components/Tooltip';
 import useJinni from '@/hooks/useJinni';

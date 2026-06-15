@@ -13,7 +13,7 @@ import ColorPicker, {
 import { Stack } from '@/components/layout/Stack';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Divider } from '@/components/layout/Divider';
 import Accordion from '@/components/Accordion';
 import AccordionItem from '@/components/AccordionItem';

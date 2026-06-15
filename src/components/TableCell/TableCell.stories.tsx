@@ -7,7 +7,7 @@ import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 
 const meta: Meta<typeof TableCell> = {
   title: 'components/Table/TableCell',

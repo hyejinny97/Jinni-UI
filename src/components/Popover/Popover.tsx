@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { Fragment } from 'react';
 import { AsType } from '@/types/default-component-props';
 import Backdrop from '@/components/Backdrop';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 import { useKeyboardAccessibility } from './Popover.hooks';
 import Popper, { PopperProps } from '@/components/Popper';
 import { DistributiveOmit } from '@/types/distributiveOmit';

@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import Mask, { MaskOptionalProps } from '../Mask';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 import Popper from '@/components/Popper';
 import { PlacementType } from '@/types/placement';
 import {

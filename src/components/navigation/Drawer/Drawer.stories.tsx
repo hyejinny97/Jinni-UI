@@ -12,7 +12,7 @@ import { MailIcon } from '@/components/icons/MailIcon';
 import { HomeIcon } from '@/components/icons/HomeIcon';
 import { BurgerIcon } from '@/components/icons/BurgerIcon';
 import { Stack } from '@/components/layout/Stack';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 import Iframe from '@/components/Iframe';
 import List from '@/components/List';
 import ListItem from '@/components/ListItem';

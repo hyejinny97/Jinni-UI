@@ -1,7 +1,7 @@
 import './Card.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 
 type CardProps<T extends AsType = 'div'> = BoxProps<T> & {
   children: React.ReactNode;

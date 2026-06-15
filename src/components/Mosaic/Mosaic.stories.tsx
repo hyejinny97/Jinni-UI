@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Mosaic from './Mosaic';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
 
 const meta: Meta<typeof Mosaic> = {

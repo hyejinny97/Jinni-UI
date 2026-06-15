@@ -1,7 +1,7 @@
 import './UnitList.scss';
 import cn from 'classnames';
 import { useRef, useLayoutEffect, useEffect, useCallback } from 'react';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { MenuList } from '@/components/navigation/MenuList';
 import { MenuItem } from '@/components/navigation/MenuItem';
 import { UnitItemType } from '../ManualDigitalClock.types';

@@ -6,7 +6,7 @@ import VDateMonthRangeCalendar, {
 } from './VDateMonthRangeCalendar';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Text from '@/components/Text';
 import { Grid } from '@/components/layout/Grid';
 import RadioGroup from '@/components/RadioGroup';

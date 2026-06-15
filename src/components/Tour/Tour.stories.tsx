@@ -7,7 +7,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 import Text, { TextProps } from '@/components/Text';
 import { Dots, Dot } from '@/components/navigation/Dots';
 import { CloseIcon } from '@/components/icons/CloseIcon';

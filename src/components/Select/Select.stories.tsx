@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Select from './Select';
 import Option, { OptionValueType } from '../Option';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Text from '@/components/Text';
 import Checkbox from '@/components/Checkbox';
 import Chip from '@/components/Chip';

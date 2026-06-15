@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import FileInput from './FileInput';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
 import ButtonBase from '@/components/ButtonBase';
 import { TrashcanIcon } from '@/components/icons/TrashcanIcon';

@@ -6,7 +6,7 @@ import Select from '@/components/Select';
 import Option, { OptionValueType } from '@/components/Option';
 import { Grid } from '@/components/layout/Grid';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Text from '@/components/Text';
 import Button from '@/components/Button';
 import ToggleButtonGroup from '@/components/ToggleButtonGroup';

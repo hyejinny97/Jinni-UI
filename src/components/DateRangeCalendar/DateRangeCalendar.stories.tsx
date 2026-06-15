@@ -5,7 +5,7 @@ import DateRangeCalendar, { DateRangeCalendarProps } from './DateRangeCalendar';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
 import Text from '@/components/Text';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Grid } from '@/components/layout/Grid';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';

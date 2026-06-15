@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import useJinni from '@/hooks/useJinni';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { TypographySpec } from '@/types/typography';

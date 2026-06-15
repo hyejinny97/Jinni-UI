@@ -11,7 +11,7 @@ import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 import { Grid } from '@/components/layout/Grid';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { motion, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Accordion> = {

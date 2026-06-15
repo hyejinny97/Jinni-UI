@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { Box, BoxProps } from '@/components/layout/Box';
+import Box, { BoxProps } from '@/components/Box';
 
 const Container = (props: BoxProps) => {
   const { children, className, style, ...rest } = props;

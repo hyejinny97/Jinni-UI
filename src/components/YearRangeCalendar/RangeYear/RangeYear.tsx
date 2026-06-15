@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { YearCalendarProps } from '@/components/YearCalendar';
 import Year, { YearProps } from '@/components/Year';
 import { RangeType } from '@/types/date-component';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { lighten, darken } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
 import useJinni from '@/hooks/useJinni';

@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import cn from 'classnames';
 import Day, { DayProps } from '@/components/Day';
 import { RangeType } from '@/types/date-component';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import { lighten, darken } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
 import { dateToDay } from '@/utils/date-component';

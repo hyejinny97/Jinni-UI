@@ -5,7 +5,7 @@ import TableHead from '@/components/TableHead';
 import TableBody from '@/components/TableBody';
 import TableRow from '@/components/TableRow';
 import TableCell from '@/components/TableCell';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 
 const COLUMNS = [
   { headerName: 'Breakpoint Type', field: 'bpType' },

@@ -12,7 +12,7 @@ import useJinni from '@/hooks/useJinni';
 import { SECOND } from '@/constants/time';
 import CircularProgress from '@/components/CircularProgress';
 import Text from '@/components/Text';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 
 const meta: Meta<typeof InfiniteCarousel> = {
   component: InfiniteCarousel

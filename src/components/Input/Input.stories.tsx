@@ -2,7 +2,7 @@ import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Input from './Input';
 import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
+import Box from '@/components/Box';
 import Fraction from '@/components/Fraction';
 import Text from '@/components/Text';
 import Button from '@/components/Button';
