@@ -11,7 +11,7 @@ import Accordion from '@/components/Accordion';
 import AccordionItem from '@/components/AccordionItem';
 import AccordionSummary from '@/components/AccordionSummary';
 import AccordionDetails from '@/components/AccordionDetails';
-import { Skeleton } from '@/components/feedback/Skeleton';
+import Skeleton from '@/components/Skeleton';
 
 const meta: Meta<typeof Masonry> = {
   component: Masonry,
