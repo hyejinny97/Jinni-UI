@@ -2,7 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
 import { useState } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from '.';
+import Modal from '@/components/Modal';
+import ModalHeader from '@/components/ModalHeader';
+import ModalBody from '@/components/ModalBody';
+import ModalFooter from '@/components/ModalFooter';
 import { Button } from '@/components/general/Button';
 
 describe('<Modal />', () => {

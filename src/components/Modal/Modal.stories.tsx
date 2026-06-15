@@ -1,6 +1,9 @@
 import { useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from '.';
+import Modal from '@/components/Modal';
+import ModalHeader from '@/components/ModalHeader';
+import ModalBody from '@/components/ModalBody';
+import ModalFooter from '@/components/ModalFooter';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';

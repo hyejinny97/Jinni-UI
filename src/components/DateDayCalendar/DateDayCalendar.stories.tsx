@@ -14,12 +14,10 @@ import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 import { DAY } from '@/constants/time';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from '@/components/feedback/Modal';
+import Modal from '@/components/Modal';
+import ModalHeader from '@/components/ModalHeader';
+import ModalBody from '@/components/ModalBody';
+import ModalFooter from '@/components/ModalFooter';
 import { Button } from '@/components/general/Button';
 import Input from '@/components/Input';
 
