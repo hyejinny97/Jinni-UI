@@ -16,7 +16,7 @@ const meta: Meta<typeof CircularSpeedDialAction> = {
       description: `transition 컴포넌트`,
       table: {
         type: { summary: `React.ComponentType<any>` },
-        type: { summary: `'span'` }
+        defaultValue: { summary: `'span'` }
       }
     }
   },
