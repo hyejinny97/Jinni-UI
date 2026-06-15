@@ -1,10 +1,10 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as TabsStories from './Tabs.stories';
-import * as TabListStories from './TabList/TabList.stories';
-import * as TabStories from './Tab/Tab.stories';
-import * as TabPanelStories from './TabPanel/TabPanel.stories';
-import * as TabPrevButtonStories from './TabPrevButton/TabPrevButton.stories';
-import * as TabNextButtonStories from './TabNextButton/TabNextButton.stories';
+import * as TabListStories from '../TabList/TabList.stories';
+import * as TabStories from '../Tab/Tab.stories';
+import * as TabPanelStories from '../TabPanel/TabPanel.stories';
+import * as TabPrevButtonStories from '../TabPrevButton/TabPrevButton.stories';
+import * as TabNextButtonStories from '../TabNextButton/TabNextButton.stories';
 
 <Meta of={TabsStories} />
 
@@ -15,14 +15,12 @@ import * as TabNextButtonStories from './TabNextButton/TabNextButton.stories';
 ## Import
 
 ```js
-import {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanel,
-  TabPrevButton,
-  TabNextButton
-} from '@/components/navigation/Tabs';
+import Tabs from '@/components/Tabs';
+import TabList from '@/components/TabList';
+import Tab from '@/components/Tab';
+import TabPanel from '@/components/TabPanel';
+import TabPrevButton from '@/components/TabPrevButton';
+import TabNextButton from '@/components/TabNextButton';
 ```
 
 ## Usage

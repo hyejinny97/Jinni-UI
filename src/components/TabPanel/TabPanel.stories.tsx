@@ -1,20 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Tab from './Tab';
+import TabPanel from './TabPanel';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
-const meta: Meta<typeof Tab> = {
-  component: Tab,
+const meta: Meta<typeof TabPanel> = {
+  title: 'components/Tabs/TabPanel',
+  component: TabPanel,
   argTypes: {
     children: {
-      description: 'tab label',
+      description: 'tab panel content',
       table: {
         type: { summary: 'React.ReactNode' }
-      }
-    },
-    disabled: {
-      description: 'true이면, 비활성화됨',
-      table: {
-        type: { summary: 'boolean' }
       }
     },
     value: {
@@ -34,6 +29,6 @@ const meta: Meta<typeof Tab> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Tab>;
+type Story = StoryObj<typeof TabPanel>;
 
 export const Basic: Story = {};

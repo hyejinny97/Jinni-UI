@@ -11,7 +11,7 @@ import {
   useScroll,
   useKeyboardAccessibility
 } from './TabList.hooks';
-import { useTabsContext } from '../Tabs.hooks';
+import { useTabsContext } from '../Tabs';
 
 export type TabVariantType = {
   selectedTab: NonNullable<ButtonProps['variant']>;

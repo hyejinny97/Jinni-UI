@@ -3,6 +3,7 @@ import TabList from './TabList';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof TabList> = {
+  title: 'components/Tabs/TabList',
   component: TabList,
   argTypes: {
     color: {

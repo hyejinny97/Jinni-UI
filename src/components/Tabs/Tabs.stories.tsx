@@ -1,7 +1,12 @@
 import './TabsCustom.scss';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tabs, TabList, Tab, TabPrevButton, TabNextButton, TabPanel } from '.';
+import Tabs from '@/components/Tabs';
+import TabList from '@/components/TabList';
+import Tab from '@/components/Tab';
+import TabPanel from '@/components/TabPanel';
+import TabPrevButton from '@/components/TabPrevButton';
+import TabNextButton from '@/components/TabNextButton';
 import Stack from '@/components/Stack';
 import Alert from '@/components/Alert';
 import Radio from '@/components/Radio';

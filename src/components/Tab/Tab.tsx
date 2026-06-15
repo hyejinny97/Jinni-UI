@@ -2,8 +2,7 @@ import './Tab.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import Button, { ButtonProps } from '@/components/Button';
-import { ValueType } from '../Tabs.types';
-import { useTabsContext } from '../Tabs.hooks';
+import { ValueType, useTabsContext } from '../Tabs';
 import { useTabListContext } from '../TabList';
 
 type TabProps<T extends AsType = 'button'> = Omit<ButtonProps<T>, 'value'> & {

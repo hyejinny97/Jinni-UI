@@ -2,8 +2,7 @@ import './TabPanel.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import Box, { BoxProps } from '@/components/Box';
-import { ValueType } from '../Tabs.types';
-import { useTabsContext } from '../Tabs.hooks';
+import { ValueType, useTabsContext } from '../Tabs';
 
 type TabPanelProps<T extends AsType = 'div'> = Omit<BoxProps<T>, 'value'> & {
   value: ValueType;

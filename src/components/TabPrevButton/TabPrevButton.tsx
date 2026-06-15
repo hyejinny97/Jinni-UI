@@ -4,7 +4,7 @@ import { AsType } from '@/types/default-component-props';
 import Button, { ButtonProps } from '@/components/Button';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
-import { useTabsContext } from '../Tabs.hooks';
+import { useTabsContext } from '../Tabs';
 
 type TabPrevButtonProps<T extends AsType = 'button'> = ButtonProps<T>;
 

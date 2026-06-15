@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import TabNextButton from './TabNextButton';
+import TabPrevButton from './TabPrevButton';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
-const meta: Meta<typeof TabNextButton> = {
-  component: TabNextButton,
+const meta: Meta<typeof TabPrevButton> = {
+  title: 'components/Tabs/TabPrevButton',
+  component: TabPrevButton,
   argTypes: {
     children: {
       description: 'tab prev button content',
@@ -22,6 +23,6 @@ const meta: Meta<typeof TabNextButton> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof TabNextButton>;
+type Story = StoryObj<typeof TabPrevButton>;
 
 export const Basic: Story = {};

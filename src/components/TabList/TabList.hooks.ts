@@ -5,9 +5,8 @@ import {
   useCallback,
   useRef
 } from 'react';
-import { TabListOrientation } from '../Tabs.types';
+import { TabListOrientation, useTabsContext } from '../Tabs';
 import TabListContext from './TabList.context';
-import { useTabsContext } from '../Tabs.hooks';
 import { useMountRef } from '@/hooks/useMount';
 import { scrollIntoViewWithin } from './TabList.utils';
 
