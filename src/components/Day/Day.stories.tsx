@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Day from './Day';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 
 const meta: Meta<typeof Day> = {
   title: 'components/DatePicker/DateCalendar/DateDayCalendar/DayCalendar/Day',

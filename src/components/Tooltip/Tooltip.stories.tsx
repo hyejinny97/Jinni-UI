@@ -1,7 +1,7 @@
 import { useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Tooltip from './Tooltip';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';

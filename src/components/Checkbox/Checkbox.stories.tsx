@@ -1,7 +1,7 @@
 import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Checkbox from './Checkbox';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import { BookmarkIcon } from '@/components/icons/BookmarkIcon';
 import { BookmarkBorderIcon } from '@/components/icons/BookmarkBorderIcon';
 import { FavoriteIcon } from '@/components/icons/FavoriteIcon';

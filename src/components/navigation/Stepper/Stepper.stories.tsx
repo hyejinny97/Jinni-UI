@@ -9,7 +9,7 @@ import {
   StepDescription,
   StatusType
 } from '@/components/navigation/Stepper';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Box from '@/components/Box';
 import Button from '@/components/Button';
 import { CheckIcon } from '@/components/icons/CheckIcon';

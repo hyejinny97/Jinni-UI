@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { AsType } from '@/types/default-component-props';
 import Tour, { TourProps } from './Tour';
 import TourStep from '../TourStep';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';

@@ -2,7 +2,7 @@ import cn from 'classnames';
 import '../_share/ThemeSwitch.scss';
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Box from '@/components/Box';
 import Text from '@/components/Text';

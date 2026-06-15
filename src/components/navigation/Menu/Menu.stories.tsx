@@ -4,7 +4,7 @@ import Menu from './Menu';
 import { MenuItem } from '@/components/navigation/MenuItem';
 import Button from '@/components/Button';
 import Divider from '@/components/Divider';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import { CartIcon } from '@/components/icons/CartIcon';
 import { MailIcon } from '@/components/icons/MailIcon';

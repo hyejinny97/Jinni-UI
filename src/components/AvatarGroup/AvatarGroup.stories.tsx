@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import AvatarGroup from './AvatarGroup';
 import Avatar from '@/components/Avatar';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Tooltip from '@/components/Tooltip';
 import { Link } from '@/components/navigation/Link';
 import Popover from '@/components/Popover';

@@ -2,7 +2,7 @@ import './ButtonBaseCustom.scss';
 import cn from 'classnames';
 import type { Meta, StoryObj } from '@storybook/react';
 import ButtonBase from './ButtonBase';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 
 const meta: Meta<typeof ButtonBase> = {
   component: ButtonBase,

@@ -5,7 +5,7 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Box from '@/components/Box';
 

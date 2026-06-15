@@ -8,7 +8,7 @@ import Year from '@/components/Year';
 import Month from '@/components/Month';
 import Day from '@/components/Day';
 import Box from '@/components/Box';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Text from '@/components/Text';
 import RadioGroup from '@/components/RadioGroup';

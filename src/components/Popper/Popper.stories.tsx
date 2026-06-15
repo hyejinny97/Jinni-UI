@@ -10,7 +10,7 @@ import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 import Grid from '@/components/Grid';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import { motion, AnimatePresence, HTMLMotionProps } from 'motion/react';
 
 const meta: Meta<typeof Popper> = {

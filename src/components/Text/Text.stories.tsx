@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Text from './Text';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Popper from '@/components/Popper';
 import ButtonGroup from '@/components/ButtonGroup';
 import Button from '@/components/Button';

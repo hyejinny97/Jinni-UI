@@ -2,7 +2,7 @@ import './DayCalendar.scss';
 import { Fragment } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Stack, StackProps } from '@/components/layout/Stack';
+import Stack, { StackProps } from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Day, { DayProps } from '../Day';
 import { DateComponentProps } from '@/types/date-component';

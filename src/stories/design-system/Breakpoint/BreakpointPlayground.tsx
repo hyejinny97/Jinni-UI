@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import useBreakpoint from '@/hooks/useBreakpoint';

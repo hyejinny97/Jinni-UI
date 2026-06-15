@@ -8,7 +8,7 @@ import ColorPicker, {
   hsbObjToHex
 } from '@/components/ColorPicker';
 import { HEX } from '@/types/color';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Box from '@/components/Box';
 import Text from '@/components/Text';

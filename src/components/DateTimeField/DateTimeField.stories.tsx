@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DateTimeField, { DateTimeFieldProps } from './DateTimeField';
 import Box from '@/components/Box';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Text from '@/components/Text';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';

@@ -11,7 +11,7 @@ import { PersonIcon } from '@/components/icons/PersonIcon';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { HomeIcon } from '@/components/icons/HomeIcon';
 import { BurgerIcon } from '@/components/icons/BurgerIcon';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Box, { BoxProps } from '@/components/Box';
 import Iframe from '@/components/Iframe';
 import List from '@/components/List';

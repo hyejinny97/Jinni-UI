@@ -5,7 +5,7 @@ import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import useJinni from '@/hooks/useJinni';
 import Box from '@/components/Box';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import { TypographySpec } from '@/types/typography';
 

@@ -5,7 +5,7 @@ import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import Select from '@/components/Select';
 import Option, { OptionValueType } from '@/components/Option';
 import Grid from '@/components/Grid';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import Button from '@/components/Button';

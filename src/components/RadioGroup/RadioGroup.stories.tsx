@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import RadioGroup from './RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import { CheckIcon } from '@/components/icons/CheckIcon';

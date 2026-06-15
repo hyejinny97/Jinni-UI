@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DayCalendar from './DayCalendar';
 import Day from '../Day';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Box from '@/components/Box';
 import Grid from '@/components/Grid';
 import RadioGroup from '@/components/RadioGroup';

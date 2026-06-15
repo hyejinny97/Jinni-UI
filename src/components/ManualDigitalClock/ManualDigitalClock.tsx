@@ -1,7 +1,7 @@
 import './ManualDigitalClock.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Divider from '@/components/Divider';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import { TimeComponentProps } from '@/types/time-component';

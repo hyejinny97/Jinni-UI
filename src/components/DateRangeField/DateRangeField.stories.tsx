@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DateRangeField, { DateRangeFieldProps } from './DateRangeField';
 import DateField from '@/components/DateField';
 import Box from '@/components/Box';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Text from '@/components/Text';
 import RadioGroup from '@/components/RadioGroup';

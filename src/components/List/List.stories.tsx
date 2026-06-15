@@ -15,7 +15,7 @@ import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import Checkbox from '@/components/Checkbox';
 import Switch from '@/components/Switch';
 import Box from '@/components/Box';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 
 const meta: Meta<typeof List> = {
   component: List,

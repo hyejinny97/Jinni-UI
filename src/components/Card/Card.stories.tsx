@@ -4,7 +4,7 @@ import Card from '@/components/Card';
 import CardHeader from '@/components/CardHeader';
 import CardBody from '@/components/CardBody';
 import CardFooter from '@/components/CardFooter';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';

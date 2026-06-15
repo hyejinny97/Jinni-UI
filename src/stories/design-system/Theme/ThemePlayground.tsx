@@ -3,7 +3,7 @@ import Container from '../_share/Container';
 import ArbitraryComponents from '../_share/ArbitraryComponents';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import Switch from '@/components/Switch';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Text from '@/components/Text';
 import useJinni from '@/hooks/useJinni';
 

@@ -4,7 +4,7 @@ import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import Select from '@/components/Select';
 import Option, { OptionValueType } from '@/components/Option';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Box from '@/components/Box';
 import Button from '@/components/Button';
 

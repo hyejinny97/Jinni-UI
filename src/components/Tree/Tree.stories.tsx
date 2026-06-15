@@ -4,7 +4,7 @@ import Tree, { TreeProps } from '@/components/Tree';
 import TreeItem, { TreeItemIdType } from '@/components/TreeItem';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Checkbox from '@/components/Checkbox';
 import Switch from '@/components/Switch';
 import Label from '@/components/Label';

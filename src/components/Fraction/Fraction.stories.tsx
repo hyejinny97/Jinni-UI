@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Fraction from './Fraction';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 
 const meta: Meta<typeof Fraction> = {
   component: Fraction,

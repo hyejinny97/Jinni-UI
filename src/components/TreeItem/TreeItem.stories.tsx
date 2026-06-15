@@ -3,7 +3,7 @@ import { useState } from 'react';
 import TreeItem from './TreeItem';
 import Slider from '@/components/Slider';
 import Label from '@/components/Label';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 
 const meta: Meta<typeof TreeItem> = {
   title: 'components/Tree/TreeItem',

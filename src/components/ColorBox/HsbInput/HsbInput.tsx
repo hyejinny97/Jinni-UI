@@ -1,5 +1,5 @@
 import './HsbInput.scss';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import NumberInput, { ValueType } from '@/components/NumberInput';
 import { useColorBoxContext } from '../ColorBox.hooks';
 

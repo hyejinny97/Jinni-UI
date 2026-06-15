@@ -2,7 +2,7 @@ import './DayRangeCalendarCustom.scss';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DayRangeCalendar from './DayRangeCalendar';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Box from '@/components/Box';
 import Text from '@/components/Text';
 import Grid from '@/components/Grid';

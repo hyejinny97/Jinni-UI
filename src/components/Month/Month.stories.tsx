@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Month from './Month';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 
 const meta: Meta<typeof Month> = {
   title:

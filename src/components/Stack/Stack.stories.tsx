@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Stack, DirectionType } from '.';
+import Stack, { DirectionType } from './Stack';
 import Box from '@/components/Box';
 import Divider from '@/components/Divider';
 import { ColorType } from '@/types/color';

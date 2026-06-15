@@ -5,7 +5,7 @@ import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import Switch from '@/components/Switch';
 import Select from '@/components/Select';
 import Option from '@/components/Option';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Text from '@/components/Text';
 import useJinni from '@/hooks/useJinni';
 

@@ -11,7 +11,7 @@ import { ShoppingCartIcon } from '@/components/icons/ShoppingCartIcon';
 import { LocalShippingIcon } from '@/components/icons/LocalShippingIcon';
 import { BoxIcon } from '@/components/icons/BoxIcon';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Switch from '@/components/Switch';

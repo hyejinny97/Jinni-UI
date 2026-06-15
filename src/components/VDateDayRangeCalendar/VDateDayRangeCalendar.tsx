@@ -9,7 +9,7 @@ import CalendarHeader, {
   CalendarHeaderProps
 } from '@/components/CalendarHeader';
 import { useSelectedDate, useScroll } from './VDateDayRangeCalendar.hooks';
-import { Stack, StackProps } from '@/components/layout/Stack';
+import Stack, { StackProps } from '@/components/Stack';
 import Divider from '@/components/Divider';
 import { getYearMonthDateTimeFormat } from '@/utils/date-component';
 

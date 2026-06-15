@@ -7,7 +7,7 @@ import DateTimePicker from '@/components/DateTimePicker';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
 import DateRangeCalendar from '@/components/DateRangeCalendar';
 import Box from '@/components/Box';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Text from '@/components/Text';
 import RadioGroup from '@/components/RadioGroup';

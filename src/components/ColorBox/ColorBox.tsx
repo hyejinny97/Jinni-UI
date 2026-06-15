@@ -13,7 +13,7 @@ import FormatSelect from './FormatSelect';
 import RgbInput from './RgbInput';
 import HsbInput from './HsbInput';
 import HexInput from './HexInput';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 
 export type ColorBoxProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,

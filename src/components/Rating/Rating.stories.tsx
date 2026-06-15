@@ -2,7 +2,7 @@ import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Rating from '@/components/Rating';
 import Text from '@/components/Text';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import { StarIcon } from '@/components/icons/StarIcon';
 import { FavoriteIcon } from '@/components/icons/FavoriteIcon';
 import { FavoriteBorderIcon } from '@/components/icons/FavoriteBorderIcon';

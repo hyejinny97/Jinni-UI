@@ -17,7 +17,7 @@ import CircularProgress from '@/components/CircularProgress';
 import { SECOND } from '@/constants/time';
 import Text from '@/components/Text';
 import Box from '@/components/Box';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Radio from '@/components/Radio';
 import RadioGroup from '@/components/RadioGroup';
 import Label from '@/components/Label';

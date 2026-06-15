@@ -5,7 +5,7 @@ import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import Switch from '@/components/Switch';
 import Select from '@/components/Select';
 import Option from '@/components/Option';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Text from '@/components/Text';
 import ButtonBase from '@/components/ButtonBase';

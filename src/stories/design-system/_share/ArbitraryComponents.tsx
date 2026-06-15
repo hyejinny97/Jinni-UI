@@ -1,5 +1,5 @@
 import Grid from '@/components/Grid';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Button from '@/components/Button';
 import Slider from '@/components/Slider';
 import Rating from '@/components/Rating';

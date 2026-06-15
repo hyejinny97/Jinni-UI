@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useRef, useState } from 'react';
 import Breadcrumbs from './Breadcrumbs';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Box from '@/components/Box';
 import { HomeIcon } from '@/components/icons/HomeIcon';
 import { PersonIcon } from '@/components/icons/PersonIcon';

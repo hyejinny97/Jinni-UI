@@ -1,7 +1,7 @@
 import './CustomCalendarHeader.scss';
 import type { Meta, StoryObj } from '@storybook/react';
 import CalendarHeader from './CalendarHeader';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 
 const meta: Meta<typeof CalendarHeader> = {
   title: 'components/DatePicker/DateCalendar/CalendarHeader',

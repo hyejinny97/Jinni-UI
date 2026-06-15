@@ -12,7 +12,7 @@ import {
   useSelectedDate,
   useDisplayedDate
 } from './HDateDayRangeCalendar.hooks';
-import { Stack, StackProps } from '@/components/layout/Stack';
+import Stack, { StackProps } from '@/components/Stack';
 import Divider from '@/components/Divider';
 import { getYearMonthDateTimeFormat } from '@/utils/date-component';
 

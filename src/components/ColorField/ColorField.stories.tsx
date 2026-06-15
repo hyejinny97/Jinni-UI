@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import ColorField from './ColorField';
 import ColorBlock from '../ColorBlock';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Box from '@/components/Box';
 import Text from '@/components/Text';

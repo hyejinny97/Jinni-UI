@@ -10,7 +10,7 @@ import ColorPicker, {
   isRgbObject,
   isHsbObject
 } from '@/components/ColorPicker';
-import { Stack } from '@/components/layout/Stack';
+import Stack from '@/components/Stack';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
 import Box from '@/components/Box';
