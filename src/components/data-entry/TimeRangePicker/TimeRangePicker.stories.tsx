@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import TimeRangePicker, { TimeRangePickerProps } from './TimeRangePicker';
-import { TimePicker } from '@/components/data-entry/TimePicker';
+import TimePicker from '@/components/TimePicker';
 import { RangeType, RangeFieldType } from '@/types/time-component';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
 import { Box } from '@/components/layout/Box';
