@@ -8,7 +8,7 @@ import { FavoriteIcon } from '@/components/icons/FavoriteIcon';
 import { FavoriteBorderIcon } from '@/components/icons/FavoriteBorderIcon';
 import Label from '@/components/Label';
 import { SquareIcon } from '@/components/icons/SquareIcon';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Button from '@/components/Button';
 import { Box } from '@/components/layout/Box';
 

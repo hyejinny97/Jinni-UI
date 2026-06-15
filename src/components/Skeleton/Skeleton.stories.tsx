@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Skeleton from './Skeleton';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { Text, TextProps } from '@/components/general/Text';
+import Text, { TextProps } from '@/components/Text';
 import { AsType } from '@/types/default-component-props';
 import Avatar from '@/components/Avatar';
 import dogImage1 from '@/assets/images/dog-1.jpg';

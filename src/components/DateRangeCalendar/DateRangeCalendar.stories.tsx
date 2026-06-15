@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DateRangeCalendar, { DateRangeCalendarProps } from './DateRangeCalendar';
 import CalendarHeader from '@/components/CalendarHeader';
 import { Stack } from '@/components/layout/Stack';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Box } from '@/components/layout/Box';
 import { Grid } from '@/components/layout/Grid';
 import RadioGroup from '@/components/RadioGroup';

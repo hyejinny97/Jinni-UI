@@ -8,7 +8,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Box } from '@/components/layout/Box';
 import Avatar from '@/components/Avatar';
 import Checkbox from '@/components/Checkbox';

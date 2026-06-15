@@ -10,7 +10,7 @@ import { SaveIcon } from '@/components/icons/SaveIcon';
 import { ShareIcon } from '@/components/icons/ShareIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
 import Button from '@/components/Button';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import Radio from '@/components/Radio';

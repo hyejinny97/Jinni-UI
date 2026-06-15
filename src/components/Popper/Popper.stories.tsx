@@ -3,7 +3,7 @@ import { useRef, useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Popper, { PopperProps } from './Popper';
 import Button from '@/components/Button';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Box } from '@/components/layout/Box';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';

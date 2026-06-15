@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import LinearProgress from './LinearProgress';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Fraction from '@/components/Fraction';
 import Button from '@/components/Button';
 import ButtonGroup from '@/components/ButtonGroup';

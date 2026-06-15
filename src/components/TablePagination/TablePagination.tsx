@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { Stack } from '@/components/layout/Stack';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Select from '@/components/Select';
 import Option from '@/components/Option';
 import ButtonBase from '@/components/ButtonBase';

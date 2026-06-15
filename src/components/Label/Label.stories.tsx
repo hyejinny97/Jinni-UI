@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Label from './Label';
 import Checkbox from '@/components/Checkbox';
 import { Stack } from '@/components/layout/Stack';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Link } from '@/components/navigation/Link';
 
 const meta: Meta<typeof Label> = {

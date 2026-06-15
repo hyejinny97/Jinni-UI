@@ -15,7 +15,7 @@ import { FirstPageIcon } from '@/components/icons/FirstPageIcon';
 import { LastPageIcon } from '@/components/icons/LastPageIcon';
 import CircularProgress from '@/components/CircularProgress';
 import { SECOND } from '@/constants/time';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import Radio from '@/components/Radio';

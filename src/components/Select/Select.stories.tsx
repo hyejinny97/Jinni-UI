@@ -4,7 +4,7 @@ import Select from './Select';
 import Option, { OptionValueType } from '../Option';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Checkbox from '@/components/Checkbox';
 import Chip from '@/components/Chip';
 import Button from '@/components/Button';

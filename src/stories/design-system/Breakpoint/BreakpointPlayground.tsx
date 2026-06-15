@@ -3,7 +3,7 @@ import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import useBreakpoint from '@/hooks/useBreakpoint';
 import { BreakpointType } from '@/types/breakpoint';
 import { ColorType } from '@/types/color';

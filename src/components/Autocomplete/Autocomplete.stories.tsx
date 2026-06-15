@@ -7,7 +7,7 @@ import AutocompleteOption, {
 } from '@/components/AutocompleteOption';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Chip from '@/components/Chip';
 import Button from '@/components/Button';
 import CircularProgress from '@/components/CircularProgress';

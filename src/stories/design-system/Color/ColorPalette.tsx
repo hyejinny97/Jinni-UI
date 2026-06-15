@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { Grid } from '@/components/layout/Grid';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import ButtonBase from '@/components/ButtonBase';
 import Tooltip from '@/components/Tooltip';
 import Toast, { ToastProps } from '@/components/Toast';

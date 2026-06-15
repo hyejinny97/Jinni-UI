@@ -4,7 +4,7 @@ import ColorBlock from '../ColorBlock';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { ColorLensIcon } from '@/components/icons/ColorLensIcon';
 import { ColorValueType } from '../ColorPicker';
 

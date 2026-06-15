@@ -2,7 +2,7 @@ import React, { FormEvent, useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import FileInput from './FileInput';
 import Button from '@/components/Button';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import ButtonBase from '@/components/ButtonBase';

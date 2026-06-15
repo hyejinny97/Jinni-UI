@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import CircularProgress from './CircularProgress';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import ButtonBase from '@/components/ButtonBase';
 import { SaveIcon } from '@/components/icons/SaveIcon';
 import { CheckIcon } from '@/components/icons/CheckIcon';

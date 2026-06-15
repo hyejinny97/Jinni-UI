@@ -12,7 +12,7 @@ import { MenuItem } from '@/components/navigation/MenuItem';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
 import { Link } from '@/components/navigation/Link';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Chip from '@/components/Chip';
 import Tree, { TreeProps } from '@/components/Tree';
 import { TreeItemIdType } from '@/components/TreeItem';

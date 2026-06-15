@@ -9,7 +9,7 @@ import { ShareIcon } from '@/components/icons/ShareIcon';
 import { TrashcanIcon } from '@/components/icons/TrashcanIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
 import Button from '@/components/Button';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import Radio from '@/components/Radio';

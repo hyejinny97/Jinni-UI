@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import ToggleButton, { ValueType } from './ToggleButton';
 import { Stack } from '@/components/layout/Stack';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { FormatAlignLeftIcon } from '@/components/icons/FormatAlignLeftIcon';
 import { FormatAlignCenterIcon } from '@/components/icons/FormatAlignCenterIcon';
 import { FormatAlignRightIcon } from '@/components/icons/FormatAlignRightIcon';

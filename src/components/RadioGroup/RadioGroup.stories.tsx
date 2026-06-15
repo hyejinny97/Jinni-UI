@@ -5,7 +5,7 @@ import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 
 const meta: Meta<typeof RadioGroup> = {

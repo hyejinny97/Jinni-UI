@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import NumberInput from '@/components/NumberInput';
 import IncreaseButton from '@/components/IncreaseButton';
 import DecreaseButton from '@/components/DecreaseButton';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
 import Button from '@/components/Button';

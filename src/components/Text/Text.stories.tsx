@@ -266,7 +266,7 @@ const ProcessableText = () => {
           popperOrigin={{ horizontal: 'center', vertical: 'top' }}
           style={{ marginTop: '5px' }}
         >
-          <ButtonGroup variant="subtle-filled" color="gray-700">
+          <ButtonGroup variant="filled" color="gray-700">
             <Button onClick={processText('highlight')}>highlight</Button>
             <Button onClick={processText('underline')}>underline</Button>
             <Button onClick={processText('delete')}>delete</Button>
@@ -602,7 +602,7 @@ export const ComplexCustomization: Story = {
           popperOrigin={{ horizontal: 'center', vertical: 'top' }}
           style={{ marginTop: '5px' }}
         >
-          <ButtonGroup variant="subtle-filled" color="gray-700">
+          <ButtonGroup variant="filled" color="gray-700">
             <Button onClick={processText('highlight')}>highlight</Button>
             <Button onClick={processText('underline')}>underline</Button>
             <Button onClick={processText('delete')}>delete</Button>

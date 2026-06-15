@@ -8,7 +8,7 @@ import { Box } from '@/components/layout/Box';
 import ButtonBase from '@/components/ButtonBase';
 import Button from '@/components/Button';
 import ButtonGroup from '@/components/ButtonGroup';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Switch from '@/components/Switch';
 import Label from '@/components/Label';
 import dogImage from '@/assets/images/dog-1.jpg';

@@ -6,7 +6,7 @@ import Switch from '@/components/Switch';
 import Select from '@/components/Select';
 import Option from '@/components/Option';
 import { Stack } from '@/components/layout/Stack';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import useJinni from '@/hooks/useJinni';
 
 type ContrastType = 'standard' | 'medium' | 'high';

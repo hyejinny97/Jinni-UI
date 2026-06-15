@@ -5,7 +5,7 @@ import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Tooltip from '@/components/Tooltip';
 import Switch from '@/components/Switch';
 import useJinni from '@/hooks/useJinni';

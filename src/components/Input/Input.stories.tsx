@@ -4,7 +4,7 @@ import Input from './Input';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import Fraction from '@/components/Fraction';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
 import Label from '@/components/Label';

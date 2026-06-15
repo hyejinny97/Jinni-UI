@@ -7,7 +7,7 @@ import ManualDigitalClock from '@/components/ManualDigitalClock';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';

@@ -4,7 +4,7 @@ import Masonry from './Masonry';
 import { Box } from '@/components/layout/Box';
 import ButtonBase from '@/components/ButtonBase';
 import Button from '@/components/Button';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
 import Accordion from '@/components/Accordion';

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Drawer, DrawerHeader, DrawerBody, DrawerFooter } from '.';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';

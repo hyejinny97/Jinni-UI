@@ -4,7 +4,7 @@ import DatePicker, { DatePickerProps } from './DatePicker';
 import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Box } from '@/components/layout/Box';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import Button from '@/components/Button';

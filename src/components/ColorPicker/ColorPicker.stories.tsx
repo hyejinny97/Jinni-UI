@@ -12,7 +12,7 @@ import ColorPicker, {
 } from '@/components/ColorPicker';
 import { Stack } from '@/components/layout/Stack';
 import Button from '@/components/Button';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import { Box } from '@/components/layout/Box';
 import { Divider } from '@/components/layout/Divider';
 import Accordion from '@/components/Accordion';

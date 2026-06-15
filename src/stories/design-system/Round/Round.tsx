@@ -3,7 +3,7 @@ import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { Grid } from '@/components/layout/Grid';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
+import Text from '@/components/Text';
 import useJinni from '@/hooks/useJinni';
 
 const RoundContent = () => {
