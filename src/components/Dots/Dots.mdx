@@ -1,6 +1,6 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as DotsStories from './Dots.stories';
-import * as DotStories from './Dot/Dot.stories';
+import * as DotStories from '../Dot/Dot.stories';
 
 <Meta of={DotsStories} />
 
@@ -11,7 +11,8 @@ dot의 모음으로 pagination을 나타냄
 ## Import
 
 ```js
-import { Dots, Dot } from '@/components/navigation/Dots';
+import Dots from '@/components/Dots';
+import Dot from '@/components/Dot';
 ```
 
 ## Usage

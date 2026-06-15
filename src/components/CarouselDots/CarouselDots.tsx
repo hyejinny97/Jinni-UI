@@ -1,7 +1,8 @@
 import './CarouselDots.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Dots, DotsProps, Dot } from '@/components/navigation/Dots';
+import Dots, { DotsProps } from '@/components/Dots';
+import Dot from '@/components/Dot';
 import { NavigationPaginationPositionType, useCarousel } from '../Carousel';
 import { useInfiniteCarousel } from '@/components/InfiniteCarousel';
 

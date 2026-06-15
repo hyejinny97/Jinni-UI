@@ -6,7 +6,7 @@ import {
   useEffect
 } from 'react';
 import { DotsProps } from './Dots';
-import { DotValueType } from './Dot';
+import { DotValueType } from '../Dot';
 import DotsContext from './Dots.contexts';
 
 type UseSelectedValueProps = Required<Pick<DotsProps, 'defaultValue'>> &

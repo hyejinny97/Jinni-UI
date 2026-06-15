@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Dot, Dots, DotsProps } from '.';
+import Dots, { DotsProps } from './Dots';
+import Dot from '../Dot';
 import Stack from '@/components/Stack';
 import Text from '@/components/Text';
 

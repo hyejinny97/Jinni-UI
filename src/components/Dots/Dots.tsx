@@ -2,7 +2,7 @@ import './Dots.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { DotProps, DotValueType } from './Dot';
+import { DotProps, DotValueType } from '../Dot';
 import { useSelectedValue, useMaxDots } from './Dots.hooks';
 import DotsContext from './Dots.contexts';
 

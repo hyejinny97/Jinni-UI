@@ -3,6 +3,7 @@ import Dot from './Dot';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof Dot> = {
+  title: 'components/Dots/Dot',
   component: Dot,
   argTypes: {
     children: {

@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import { SomeDotProps } from './Dots';
-import { DotValueType } from './Dot';
+import { DotValueType } from '../Dot';
 
 type DotsContextProps = {
   selectedValue: DotValueType | null;

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
-import { Dots, Dot } from '.';
+import Dots from './Dots';
+import Dot from '../Dot';
 
 describe('<Dots />', () => {
   it('render dots', () => {

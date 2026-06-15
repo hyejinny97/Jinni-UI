@@ -9,7 +9,7 @@ import CarouselFraction from '@/components/CarouselFraction';
 import CarouselPrevButton from '@/components/CarouselPrevButton';
 import CarouselNextButton from '@/components/CarouselNextButton';
 import CarouselProgress from '@/components/CarouselProgress';
-import { Dot } from '@/components/navigation/Dots';
+import Dot from '@/components/Dots';
 import useJinni from '@/hooks/useJinni';
 import { FirstPageIcon } from '@/components/icons/FirstPageIcon';
 import { LastPageIcon } from '@/components/icons/LastPageIcon';

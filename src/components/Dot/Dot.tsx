@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { AsType } from '@/types/default-component-props';
 import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { ColorType } from '@/types/color';
-import { useDots } from '../Dots.hooks';
+import { useDots } from '../Dots';
 import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
 
