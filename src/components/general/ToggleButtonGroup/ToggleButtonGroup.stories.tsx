@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import ToggleButtonGroup from './ToggleButtonGroup';
-import { ToggleButton, ValueType } from '@/components/general/ToggleButton';
+import ToggleButton, { ValueType } from '@/components/ToggleButton';
 import { Stack } from '@/components/layout/Stack';
 import Text from '@/components/Text';
 import { FormatAlignLeftIcon } from '@/components/icons/FormatAlignLeftIcon';

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { ValueType } from '@/components/general/ToggleButton';
+import { ValueType } from '@/components/ToggleButton';
 import { SomeToggleButtonProps } from './ToggleButtonGroup';
 
 type ToggleButtonGroupContextProps = {

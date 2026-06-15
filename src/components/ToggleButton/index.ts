@@ -1,2 +1,2 @@
-export { default as ToggleButton } from './ToggleButton';
+export { default } from './ToggleButton';
 export type { ValueType, ToggleButtonProps } from './ToggleButton';

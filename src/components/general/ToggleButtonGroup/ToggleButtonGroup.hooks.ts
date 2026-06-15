@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { ToggleButtonGroupProps } from './ToggleButtonGroup';
-import { ValueType } from '@/components/general/ToggleButton';
+import { ValueType } from '@/components/ToggleButton';
 import ToggleButtonGroupContext from './ToggleButtonGroup.contexts';
 
 type UseSelectedValueProps = Required<

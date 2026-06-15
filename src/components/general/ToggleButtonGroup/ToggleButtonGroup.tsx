@@ -2,8 +2,7 @@ import './ToggleButtonGroup.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { ToggleButtonProps } from '@/components/general/ToggleButton';
-import { ValueType } from '@/components/general/ToggleButton';
+import { ToggleButtonProps, ValueType } from '@/components/ToggleButton';
 import { useSelectedValue } from './ToggleButtonGroup.hooks';
 import ToggleButtonGroupContext from './ToggleButtonGroup.contexts';
 

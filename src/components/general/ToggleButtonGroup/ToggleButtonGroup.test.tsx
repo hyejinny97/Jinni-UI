@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import ToggleButtonGroup from './ToggleButtonGroup';
-import { ToggleButton } from '@/components/general/ToggleButton';
+import ToggleButton from '@/components/ToggleButton';
 import { FormatAlignLeftIcon } from '@/components/icons/FormatAlignLeftIcon';
 import { FormatAlignCenterIcon } from '@/components/icons/FormatAlignCenterIcon';
 
