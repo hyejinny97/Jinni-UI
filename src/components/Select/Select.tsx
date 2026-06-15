@@ -3,7 +3,7 @@ import React, { useRef, useState, useCallback } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import InputBase, { InputBaseProps } from '@/components/InputBase';
-import { Menu, MenuProps, CloseReason } from '@/components/navigation/Menu';
+import Menu, { MenuProps, CloseReason } from '@/components/Menu';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { transformToArray } from '@/utils/transformToArray';
 import { useSelectedValue, useSelectedOption } from './Select.hooks';

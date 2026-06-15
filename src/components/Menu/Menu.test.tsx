@@ -17,7 +17,7 @@ import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
 import { useRef, useState } from 'react';
 import Menu from './Menu';
-import { MenuItem } from '@/components/navigation/MenuItem';
+import MenuItem from '@/components/MenuItem';
 import Button from '@/components/Button';
 
 describe('<Menu />', () => {

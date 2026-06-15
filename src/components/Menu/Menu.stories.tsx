@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useRef, useState, forwardRef } from 'react';
 import Menu from './Menu';
-import { MenuItem } from '@/components/navigation/MenuItem';
+import MenuItem from '@/components/MenuItem';
 import Button from '@/components/Button';
 import Divider from '@/components/Divider';
 import Stack from '@/components/Stack';

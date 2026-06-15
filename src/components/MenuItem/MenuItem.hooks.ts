@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { MenuListContext } from '@/components/navigation/MenuList';
+import { MenuListContext } from '@/components/MenuList';
 
 export const useMenuList = () => {
   const value = useContext(MenuListContext);

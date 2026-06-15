@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import MenuItem from './MenuItem';
 
 const meta: Meta<typeof MenuItem> = {
+  title: 'components/Menu/MenuItem',
   component: MenuItem,
   argTypes: {
     children: {

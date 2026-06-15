@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import MenuList from './MenuList';
-import { MenuItem } from '@/components/navigation/MenuItem';
+import MenuItem from '@/components/MenuItem';
 
 const meta: Meta<typeof MenuList> = {
+  title: 'components/Menu/MenuList',
   component: MenuList,
   argTypes: {
     children: {

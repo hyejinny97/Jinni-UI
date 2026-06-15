@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { Fragment } from 'react';
 import { AsType } from '@/types/default-component-props';
 import Backdrop from '@/components/Backdrop';
-import { MenuList, MenuListProps } from '@/components/navigation/MenuList';
+import MenuList, { MenuListProps } from '@/components/MenuList';
 import Popper, { PopperProps } from '@/components/Popper';
 import { useKeyboardAccessibility } from './Menu.hooks';
 import { DistributiveOmit } from '@/types/distributiveOmit';

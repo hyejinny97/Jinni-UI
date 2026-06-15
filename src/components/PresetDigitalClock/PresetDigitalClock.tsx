@@ -10,8 +10,8 @@ import {
   useScroll
 } from './PresetDigitalClock.hooks';
 import Box from '@/components/Box';
-import { MenuList } from '@/components/navigation/MenuList';
-import { MenuItem } from '@/components/navigation/MenuItem';
+import MenuList from '@/components/MenuList';
+import MenuItem from '@/components/MenuItem';
 import useJinni from '@/hooks/useJinni';
 
 export type PresetDigitalClockProps<T extends AsType = 'div'> = Omit<

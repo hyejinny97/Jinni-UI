@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { MenuItem, MenuItemProps } from '@/components/navigation/MenuItem';
+import MenuItem, { MenuItemProps } from '@/components/MenuItem';
 import { useSelectContext } from '../Select';
 
 export type OptionValueType = string | number;

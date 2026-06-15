@@ -2,8 +2,8 @@ import './UnitList.scss';
 import cn from 'classnames';
 import { useRef, useLayoutEffect, useEffect, useCallback } from 'react';
 import Box from '@/components/Box';
-import { MenuList } from '@/components/navigation/MenuList';
-import { MenuItem } from '@/components/navigation/MenuItem';
+import MenuList from '@/components/MenuList';
+import MenuItem from '@/components/MenuItem';
 import { UnitItemType } from '../ManualDigitalClock.types';
 import useJinni from '@/hooks/useJinni';
 

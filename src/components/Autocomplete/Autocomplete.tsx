@@ -6,7 +6,7 @@ import InputBase, {
   InputBaseProps,
   RootInputBaseProps
 } from '@/components/InputBase';
-import { Menu, MenuProps } from '@/components/navigation/Menu';
+import Menu, { MenuProps } from '@/components/Menu';
 import Chip from '@/components/Chip';
 import {
   useAutocompleteValue,
