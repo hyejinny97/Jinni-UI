@@ -3,6 +3,7 @@ import CircularSpeedDialAction from './CircularSpeedDialAction';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof CircularSpeedDialAction> = {
+  title: 'components/CircularSpeedDial/CircularSpeedDialAction',
   component: CircularSpeedDialAction,
   argTypes: {
     TooltipProps: {

@@ -1,10 +1,7 @@
 import { useState, useRef, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  CircularSpeedDial,
-  CircularSpeedDialProps,
-  CircularSpeedDialAction
-} from '.';
+import CircularSpeedDial, { CircularSpeedDialProps } from './CircularSpeedDial';
+import CircularSpeedDialAction from '../CircularSpeedDialAction';
 import { FileCopyIcon } from '@/components/icons/FileCopyIcon';
 import { PrintIcon } from '@/components/icons/PrintIcon';
 import { SaveIcon } from '@/components/icons/SaveIcon';
