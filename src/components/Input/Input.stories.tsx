@@ -6,7 +6,7 @@ import { Box } from '@/components/layout/Box';
 import Fraction from '@/components/Fraction';
 import { Text } from '@/components/general/Text';
 import Button from '@/components/Button';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import Label from '@/components/Label';
 import Alert from '@/components/Alert';
 import { MailIcon } from '@/components/icons/MailIcon';

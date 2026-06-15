@@ -9,7 +9,7 @@ import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
 import PresetDigitalClock from '@/components/PresetDigitalClock';
 import { useDateTimeValue } from './DateTimePicker.hooks';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import Button from '@/components/Button';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';

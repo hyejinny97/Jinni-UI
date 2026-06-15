@@ -4,7 +4,7 @@ import Tooltip from './Tooltip';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import Button from '@/components/Button';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 

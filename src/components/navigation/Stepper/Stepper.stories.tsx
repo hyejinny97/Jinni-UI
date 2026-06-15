@@ -16,7 +16,7 @@ import { CheckIcon } from '@/components/icons/CheckIcon';
 import { CartIcon } from '@/components/icons/CartIcon';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { PersonIcon } from '@/components/icons/PersonIcon';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';

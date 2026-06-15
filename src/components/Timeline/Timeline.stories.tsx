@@ -17,7 +17,7 @@ import Radio from '@/components/Radio';
 import Switch from '@/components/Switch';
 import Label from '@/components/Label';
 import { Text } from '@/components/general/Text';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';

@@ -4,7 +4,7 @@ import CircularProgress from './CircularProgress';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { SaveIcon } from '@/components/icons/SaveIcon';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 

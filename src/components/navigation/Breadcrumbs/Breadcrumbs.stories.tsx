@@ -10,7 +10,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { Menu } from '@/components/navigation/Menu';
 import { MenuItem } from '@/components/navigation/MenuItem';
 import Button from '@/components/Button';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { Link } from '@/components/navigation/Link';
 import { Text } from '@/components/general/Text';
 import Chip from '@/components/Chip';

@@ -2,7 +2,7 @@ import './Dot.scss';
 import cn from 'classnames';
 import { useMemo } from 'react';
 import { AsType } from '@/types/default-component-props';
-import { ButtonBaseProps, ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { ColorType } from '@/types/color';
 import { useDots } from '../Dots.hooks';
 import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';

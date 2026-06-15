@@ -9,7 +9,7 @@ import PresetDigitalClock from '@/components/PresetDigitalClock';
 import Popover, { PopoverProps } from '@/components/Popover';
 import { useTime } from './TimePicker.hooks';
 import Button from '@/components/Button';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
 import {
   TimeMode,

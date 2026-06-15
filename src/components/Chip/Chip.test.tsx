@@ -3,7 +3,7 @@ import { render, screen } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
 import Chip from './Chip';
 import Avatar from '@/components/Avatar';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { CancelIcon } from '@/components/icons/CancelIcon';
 import dogImage from '@/assets/images/dog-1.jpg';
 

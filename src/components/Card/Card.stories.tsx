@@ -7,7 +7,7 @@ import CardFooter from '@/components/CardFooter';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import Button from '@/components/Button';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import Avatar from '@/components/Avatar';

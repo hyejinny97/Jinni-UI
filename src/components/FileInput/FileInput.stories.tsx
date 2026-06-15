@@ -5,7 +5,7 @@ import Button from '@/components/Button';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { TrashcanIcon } from '@/components/icons/TrashcanIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
 import { FileUploadIcon } from '@/components/icons/FileUploadIcon';

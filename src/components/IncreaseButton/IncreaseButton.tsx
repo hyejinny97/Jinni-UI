@@ -1,6 +1,6 @@
 import './IncreaseButton.scss';
 import cn from 'classnames';
-import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
+import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { useNumberInput } from '../NumberInput';
 import { useButtonPress } from './IncreaseButton.hooks';

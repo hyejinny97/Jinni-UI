@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Chip from '@/components/Chip';
 import Avatar from '@/components/Avatar';
 import { Stack } from '@/components/layout/Stack';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import CircularProgress from '@/components/CircularProgress';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import { CancelIcon } from '@/components/icons/CancelIcon';

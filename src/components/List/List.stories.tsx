@@ -5,7 +5,7 @@ import ListItem from '@/components/ListItem';
 import ListItemButton from '@/components/ListItemButton';
 import Avatar from '@/components/Avatar';
 import { Text } from '@/components/general/Text';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { TrashcanIcon } from '@/components/icons/TrashcanIcon';
 import { HomeIcon } from '@/components/icons/HomeIcon';
 import { MailIcon } from '@/components/icons/MailIcon';

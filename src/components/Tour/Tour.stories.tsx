@@ -6,7 +6,7 @@ import TourStep from '../TourStep';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import Button from '@/components/Button';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { Text, TextProps } from '@/components/general/Text';
 import { Dots, Dot } from '@/components/navigation/Dots';

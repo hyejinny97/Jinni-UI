@@ -1,7 +1,7 @@
 import './CarouselNextButton.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
+import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { NavigationPaginationPositionType, useCarousel } from '../Carousel';

@@ -8,7 +8,7 @@ import Option from '@/components/Option';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import Tooltip from '@/components/Tooltip';
 import Toast, { ToastProps } from '@/components/Toast';
 import { JinniColorScheme } from '@/types/color';

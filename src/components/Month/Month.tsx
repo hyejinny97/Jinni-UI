@@ -1,7 +1,7 @@
 import './Month.scss';
 import { forwardRef, memo, useMemo } from 'react';
 import cn from 'classnames';
-import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
+import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { ColorType } from '@/types/color';
 import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';

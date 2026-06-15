@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, within } from '@/tests/react-testing-tools';
 import Alert from './Alert';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 
 describe('<Alert />', () => {

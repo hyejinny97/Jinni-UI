@@ -7,7 +7,7 @@ import DateField, { DateFieldProps } from '@/components/DateField';
 import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import Popover, { PopoverProps } from '@/components/Popover';
 import { useDateValue } from './DatePicker.hooks';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { DateComponentProps } from '@/types/date-component';
 

@@ -3,7 +3,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { useAccordionItem } from '../AccordionItem';
-import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
+import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 
 export type AccordionSummaryProps<T extends AsType = 'h3'> =
   DefaultComponentProps<T> & {

@@ -3,7 +3,7 @@ import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { Grid } from '@/components/layout/Grid';
 import { Text } from '@/components/general/Text';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import Tooltip from '@/components/Tooltip';
 import Toast, { ToastProps } from '@/components/Toast';
 import { DEFAULT_COLOR_PALETTE } from '@/constants/color';

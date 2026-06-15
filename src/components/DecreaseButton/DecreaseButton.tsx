@@ -1,6 +1,6 @@
 import './DecreaseButton.scss';
 import cn from 'classnames';
-import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
+import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { useNumberInput } from '../NumberInput';
 import { useButtonPress } from './DecreaseButton.hooks';

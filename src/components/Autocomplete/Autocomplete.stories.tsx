@@ -11,7 +11,7 @@ import { Text } from '@/components/general/Text';
 import Chip from '@/components/Chip';
 import Button from '@/components/Button';
 import CircularProgress from '@/components/CircularProgress';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { CancelIcon } from '@/components/icons/CancelIcon';
 import Radio from '@/components/Radio';
 import RadioGroup from '@/components/RadioGroup';

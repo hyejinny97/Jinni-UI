@@ -6,7 +6,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Text } from '@/components/general/Text';
 import Select from '@/components/Select';
 import Option from '@/components/Option';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { isObject } from '@/utils/isObject';

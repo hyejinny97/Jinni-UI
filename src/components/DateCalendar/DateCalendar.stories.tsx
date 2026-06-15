@@ -15,7 +15,7 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 
 const meta: Meta<typeof DateCalendar> = {
   title: 'components/DatePicker/DateCalendar',

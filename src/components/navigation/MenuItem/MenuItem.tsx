@@ -2,7 +2,7 @@ import './MenuItem.scss';
 import React, { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
+import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { useMenuList } from './MenuItem.hooks';
 import useJinni from '@/hooks/useJinni';
 

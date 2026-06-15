@@ -11,7 +11,7 @@ import DateRangeCalendar, {
 } from '@/components/DateRangeCalendar';
 import Popover, { PopoverProps } from '@/components/Popover';
 import { useDateRangeValue } from './DateRangePicker.hooks';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import {
   DateRangeComponentProps,

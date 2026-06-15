@@ -10,7 +10,7 @@ import CalendarHeader, {
 import useStyle from '@/hooks/useStyle';
 import { useDateValue } from './DateDayCalendar.hooks';
 import { getYearMonthDateTimeFormat } from '@/utils/date-component';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 
 export type DateDayCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,

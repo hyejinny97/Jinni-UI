@@ -5,7 +5,7 @@ import Avatar from '@/components/Avatar';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import Button from '@/components/Button';
 import { ButtonGroup } from '@/components/general/ButtonGroup';
 import { Text } from '@/components/general/Text';

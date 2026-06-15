@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Masonry from './Masonry';
 import { Box } from '@/components/layout/Box';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import Button from '@/components/Button';
 import { Text } from '@/components/general/Text';
 import { CloseIcon } from '@/components/icons/CloseIcon';

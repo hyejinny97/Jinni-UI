@@ -10,7 +10,7 @@ import TableRow from '@/components/TableRow';
 import TableCell from '@/components/TableCell';
 import TablePagination from '@/components/TablePagination';
 import { Text } from '@/components/general/Text';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';

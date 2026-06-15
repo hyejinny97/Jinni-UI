@@ -5,7 +5,7 @@ import ModalHeader from '@/components/ModalHeader';
 import ModalBody from '@/components/ModalBody';
 import ModalFooter from '@/components/ModalFooter';
 import Button from '@/components/Button';
-import { ButtonBase } from '@/components/general/ButtonBase';
+import ButtonBase from '@/components/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
