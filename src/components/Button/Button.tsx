@@ -6,7 +6,7 @@ import { AsType } from '@/types/default-component-props';
 import { getColorStyle } from './Button.utils';
 import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import useColor from '@/hooks/useColor';
-import { useButtonGroupContext } from '@/components/general/ButtonGroup';
+import { useButtonGroupContext } from '@/components/ButtonGroup';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 export type SizeType = 'sm' | 'md' | 'lg';

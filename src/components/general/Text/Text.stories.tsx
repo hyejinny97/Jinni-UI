@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Text from './Text';
 import { Stack } from '@/components/layout/Stack';
 import Popper from '@/components/Popper';
-import { ButtonGroup } from '@/components/general/ButtonGroup';
+import ButtonGroup from '@/components/ButtonGroup';
 import Button from '@/components/Button';
 import Label from '@/components/Label';
 import Switch from '@/components/Switch';

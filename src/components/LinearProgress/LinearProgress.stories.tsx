@@ -6,7 +6,7 @@ import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import Fraction from '@/components/Fraction';
 import Button from '@/components/Button';
-import { ButtonGroup } from '@/components/general/ButtonGroup';
+import ButtonGroup from '@/components/ButtonGroup';
 
 const meta: Meta<typeof LinearProgress> = {
   component: LinearProgress,
