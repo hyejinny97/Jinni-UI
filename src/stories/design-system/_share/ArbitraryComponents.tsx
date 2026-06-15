@@ -2,7 +2,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Stack } from '@/components/layout/Stack';
 import { Button } from '@/components/general/Button';
 import { Slider } from '@/components/data-entry/Slider';
-import { Rating } from '@/components/data-entry/Rating';
+import Rating from '@/components/Rating';
 import NumberInput from '@/components/NumberInput';
 import Chip from '@/components/Chip';
 import { Alert } from '@/components/feedback/Alert';

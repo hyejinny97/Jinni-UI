@@ -16,7 +16,7 @@ import { Box } from '@/components/layout/Box';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import Checkbox from '@/components/Checkbox';
-import { Rating } from '@/components/data-entry/Rating';
+import Rating from '@/components/Rating';
 import { Select, Option } from '@/components/data-entry/Select';
 import Input from '@/components/Input';
 import NumberInput from '@/components/NumberInput';
