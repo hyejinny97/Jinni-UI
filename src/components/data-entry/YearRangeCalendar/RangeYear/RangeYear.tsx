@@ -1,11 +1,8 @@
 import './RangeYear.scss';
 import { useMemo } from 'react';
 import cn from 'classnames';
-import {
-  Year,
-  YearProps,
-  YearCalendarProps
-} from '@/components/data-entry/YearCalendar';
+import { YearCalendarProps } from '@/components/YearCalendar';
+import Year, { YearProps } from '@/components/Year';
 import { RangeType } from '@/types/date-component';
 import { Box } from '@/components/layout/Box';
 import { lighten, darken } from '@/utils/colorLuminance';

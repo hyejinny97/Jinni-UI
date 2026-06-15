@@ -4,7 +4,7 @@ import DateTimePicker, { DateTimePickerProps } from './DateTimePicker';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
 import DateCalendar, { DateCalendarProps } from '@/components/DateCalendar';
 import CalendarHeader from '@/components/CalendarHeader';
-import { Year } from '@/components/data-entry/YearCalendar/Year';
+import Year from '@/components/Year';
 import Month from '@/components/Month';
 import Day from '@/components/Day';
 import { Box } from '@/components/layout/Box';

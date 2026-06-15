@@ -13,7 +13,7 @@ import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
 import CalendarHeader from '@/components/CalendarHeader';
-import { Year } from '@/components/data-entry/YearCalendar';
+import Year from '@/components/Year';
 import Month from '@/components/Month';
 import Day from '@/components/Day';
 

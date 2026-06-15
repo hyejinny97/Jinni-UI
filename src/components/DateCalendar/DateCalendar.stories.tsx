@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import DateCalendar, { DateCalendarProps } from './DateCalendar';
-import { Year } from '@/components/data-entry/YearCalendar';
+import Year from '@/components/Year';
 import Month from '@/components/Month';
 import Day from '@/components/Day';
 import CalendarHeader from '@/components/CalendarHeader';

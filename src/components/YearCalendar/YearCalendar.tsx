@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import { Grid, GridProps } from '@/components/layout/Grid';
-import { Year, YearProps } from './Year';
+import Year, { YearProps } from '../Year';
 import { DateComponentProps } from '@/types/date-component';
 import { useYearItems, useScroll } from './YearCalendar.hooks';
 

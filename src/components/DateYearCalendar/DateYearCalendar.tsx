@@ -3,10 +3,7 @@ import cn from 'classnames';
 import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateComponentProps } from '@/types/date-component';
-import {
-  YearCalendar,
-  YearCalendarMainProps
-} from '@/components/data-entry/YearCalendar';
+import YearCalendar, { YearCalendarMainProps } from '@/components/YearCalendar';
 import CalendarHeader, {
   CalendarHeaderProps
 } from '@/components/CalendarHeader';

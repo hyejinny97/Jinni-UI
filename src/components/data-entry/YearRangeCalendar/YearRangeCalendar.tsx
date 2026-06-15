@@ -1,11 +1,8 @@
 import './YearRangeCalendar.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import {
-  YearCalendar,
-  YearCalendarProps,
-  YearProps
-} from '@/components/data-entry/YearCalendar';
+import YearCalendar, { YearCalendarProps } from '@/components/YearCalendar';
+import { YearProps } from '@/components/Year';
 import { RangeType } from '@/types/date-component';
 import {
   useSelectedDateValue,
