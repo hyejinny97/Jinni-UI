@@ -3,7 +3,7 @@ import { useRef, useState, forwardRef } from 'react';
 import Menu from './Menu';
 import { MenuItem } from '@/components/navigation/MenuItem';
 import Button from '@/components/Button';
-import { Divider } from '@/components/layout/Divider';
+import Divider from '@/components/Divider';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
 import { CartIcon } from '@/components/icons/CartIcon';

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Stack, DirectionType } from '.';
 import Box from '@/components/Box';
-import { Divider } from '@/components/layout/Divider';
+import Divider from '@/components/Divider';
 import { ColorType } from '@/types/color';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';

@@ -17,7 +17,7 @@ import ButtonBase from '@/components/ButtonBase';
 import Button from '@/components/Button';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';
-import { Divider } from '@/components/layout/Divider';
+import Divider from '@/components/Divider';
 import { TimeMode, DigitalClockProps } from '@/types/time-component';
 import {
   DateTimeRangeComponent,

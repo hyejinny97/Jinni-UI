@@ -14,7 +14,7 @@ import { Stack } from '@/components/layout/Stack';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
 import Box from '@/components/Box';
-import { Divider } from '@/components/layout/Divider';
+import Divider from '@/components/Divider';
 import Accordion from '@/components/Accordion';
 import AccordionItem from '@/components/AccordionItem';
 import AccordionSummary from '@/components/AccordionSummary';

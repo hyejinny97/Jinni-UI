@@ -17,7 +17,7 @@ import Iframe from '@/components/Iframe';
 import List from '@/components/List';
 import ListItem from '@/components/ListItem';
 import ListItemButton from '@/components/ListItemButton';
-import { Divider } from '@/components/layout/Divider';
+import Divider from '@/components/Divider';
 import { AsType } from '@/types/default-component-props';
 
 const meta: Meta<typeof Drawer> = {

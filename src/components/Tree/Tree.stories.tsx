@@ -10,7 +10,7 @@ import Switch from '@/components/Switch';
 import Label from '@/components/Label';
 import CircularProgress from '@/components/CircularProgress';
 import Button from '@/components/Button';
-import { Divider } from '@/components/layout/Divider';
+import Divider from '@/components/Divider';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { MailIcon } from '@/components/icons/MailIcon';

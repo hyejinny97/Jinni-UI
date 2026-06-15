@@ -10,7 +10,7 @@ import CalendarHeader, {
 } from '@/components/CalendarHeader';
 import { useSelectedDate, useScroll } from './VDateMonthRangeCalendar.hooks';
 import { Stack, StackProps } from '@/components/layout/Stack';
-import { Divider } from '@/components/layout/Divider';
+import Divider from '@/components/Divider';
 import { getYearDateTimeFormat } from '@/utils/date-component';
 
 export type VDateMonthRangeCalendarProps<T extends AsType = 'div'> = Omit<

@@ -1,6 +1,6 @@
 import './custom.scss';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Divider } from '@/components/layout/Divider';
+import Divider from './Divider';
 import { Stack } from '@/components/layout/Stack';
 import Chip from '@/components/Chip';
 import List from '@/components/List';

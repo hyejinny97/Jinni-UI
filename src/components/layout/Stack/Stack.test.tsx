@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
 import Stack from './Stack';
-import { Divider } from '@/components/layout/Divider';
+import Divider from '@/components/Divider';
 
 const Item = ({ children }: { children: React.ReactNode }) => (
   <li>{children}</li>

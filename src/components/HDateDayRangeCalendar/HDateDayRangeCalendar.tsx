@@ -13,7 +13,7 @@ import {
   useDisplayedDate
 } from './HDateDayRangeCalendar.hooks';
 import { Stack, StackProps } from '@/components/layout/Stack';
-import { Divider } from '@/components/layout/Divider';
+import Divider from '@/components/Divider';
 import { getYearMonthDateTimeFormat } from '@/utils/date-component';
 
 export type HDateDayRangeCalendarProps<T extends AsType = 'div'> = Omit<
