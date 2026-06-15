@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import TimeRangeField, { TimeRangeFieldProps } from './TimeRangeField';
-import { TimeField } from '@/components/data-entry/TimeField';
+import TimeField from '@/components/TimeField';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';

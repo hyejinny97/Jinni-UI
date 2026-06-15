@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import InputBase, { InputBaseProps } from '@/components/InputBase';
 import DateField from '@/components/DateField';
-import { TimeField } from '@/components/data-entry/TimeField';
+import TimeField from '@/components/TimeField';
 import { useDateTimeValue, useValidation } from './DateTimeField.hooks';
 import { TimeMode } from '@/types/time-component';
 import {

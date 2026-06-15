@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TimeField, TimeFieldProps } from '.';
+import TimeField, { TimeFieldProps } from './TimeField';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
@@ -13,7 +13,7 @@ import Chip from '@/components/Chip';
 import { TimeValidationError } from '@/types/time-component';
 
 const meta: Meta<typeof TimeField> = {
-  title: 'components/data-entry/TimePicker/TimeField',
+  title: 'components/TimePicker/TimeField',
   component: TimeField,
   argTypes: {
     defaultValue: {

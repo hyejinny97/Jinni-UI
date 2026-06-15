@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import InputBase, { InputBaseProps } from '@/components/InputBase';
-import { TimeField } from '@/components/data-entry/TimeField';
+import TimeField from '@/components/TimeField';
 import { ArrowRightAltIcon } from '@/components/icons/ArrowRightAltIcon';
 import {
   useTimeRangeValue,

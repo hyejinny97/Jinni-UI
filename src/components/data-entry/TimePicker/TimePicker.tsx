@@ -3,7 +3,7 @@ import { useRef, useState, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { TimeField, TimeFieldProps } from '@/components/data-entry/TimeField';
+import TimeField, { TimeFieldProps } from '@/components/TimeField';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
 import PresetDigitalClock from '@/components/PresetDigitalClock';
 import Popover, { PopoverProps } from '@/components/Popover';
