@@ -3,6 +3,7 @@ import Option from './Option';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof Option> = {
+  title: 'components/Select/Option',
   component: Option,
   argTypes: {
     children: {

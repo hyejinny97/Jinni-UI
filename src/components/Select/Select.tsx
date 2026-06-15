@@ -9,7 +9,7 @@ import { transformToArray } from '@/utils/transformToArray';
 import { useSelectedValue, useSelectedOption } from './Select.hooks';
 import SelectContext from './Select.contexts';
 import { ANCHOR_ORIGIN, MENU_ORIGIN } from './Select.constants';
-import { OptionValueType } from './Option';
+import { OptionValueType } from '../Option';
 import { useLabelContext } from '@/components/Label';
 
 export type SelectedOptionType = Array<{

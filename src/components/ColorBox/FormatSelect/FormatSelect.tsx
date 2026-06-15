@@ -1,9 +1,6 @@
 import './FormatSelect.scss';
-import {
-  Select,
-  Option,
-  OptionValueType
-} from '@/components/data-entry/Select';
+import Select from '@/components/Select';
+import Option, { OptionValueType } from '@/components/Option';
 import { useColorBoxContext } from '../ColorBox.hooks';
 import { FORMAT } from '../ColorBox.constants';
 

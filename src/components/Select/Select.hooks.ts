@@ -2,7 +2,7 @@ import { useState, useContext, useMemo } from 'react';
 import SelectContext from './Select.contexts';
 import { transformToArray } from '@/utils/transformToArray';
 import { SelectProps, SelectedOptionType } from './Select';
-import { OptionValueType } from './Option';
+import { OptionValueType } from '../Option';
 import { getOptionsInfo } from './Select.utils';
 
 type UseSelectedValueProps<Multiple extends boolean> = Pick<

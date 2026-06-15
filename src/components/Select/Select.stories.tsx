@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Select from './Select';
-import { Option, OptionValueType } from './Option';
+import Option, { OptionValueType } from '../Option';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';

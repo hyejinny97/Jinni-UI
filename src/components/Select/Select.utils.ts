@@ -1,5 +1,5 @@
 import { isValidElement, Children } from 'react';
-import { Option, OptionProps, OptionValueType } from './Option';
+import Option, { OptionProps, OptionValueType } from '../Option';
 
 type OptionLabelType = React.ReactNode;
 type OptionsInfoType = {

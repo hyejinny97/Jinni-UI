@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
-import { Select, Option } from '.';
+import Select from './Select';
+import Option from '../Option';
 
 describe('<Select />', () => {
   it('renders select', async () => {

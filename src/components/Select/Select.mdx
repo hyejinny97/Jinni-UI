@@ -1,6 +1,6 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as SelectStories from './Select.stories';
-import * as OptionStories from './Option/Option.stories';
+import * as OptionStories from '../Option/Option.stories';
 
 <Meta of={SelectStories} />
 
@@ -11,7 +11,8 @@ options 목록에서 하나 선택 가능한 필드
 ## Import
 
 ```js
-import { Select, Option } from '@/components/data-entry/Select';
+import Select from '@/components/Select';
+import Option from '@/components/Option';
 ```
 
 ## Usage

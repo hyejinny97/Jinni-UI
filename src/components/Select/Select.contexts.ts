@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { OptionValueType } from './Option';
+import { OptionValueType } from '../Option';
 
 type SelectContextType = {
   multiple?: boolean;
