@@ -4,13 +4,12 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { VariantType } from '@/components/Button';
 import { ColorType } from '@/types/color';
-import {
-  PaginationItem,
+import PaginationItem, {
   PaginationItemProps,
   PageButtonType,
   ShapeType,
   SizeType
-} from './PaginationItem';
+} from '../PaginationItem';
 import PaginationEllipsis, {
   PaginationEllipsisProps
 } from './PaginationEllipsis';

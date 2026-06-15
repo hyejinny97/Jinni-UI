@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { SizeType } from './PaginationItem';
+import { SizeType } from '../PaginationItem';
 
 export type PaginationEllipsisProps<T extends AsType = 'span'> =
   DefaultComponentProps<T> & {

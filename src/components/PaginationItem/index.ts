@@ -1,4 +1,4 @@
-export { default as PaginationItem } from './PaginationItem';
+export { default } from './PaginationItem';
 export type {
   ShapeType,
   SizeType,

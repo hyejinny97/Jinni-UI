@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Pagination from './Pagination';
-import { PaginationItem } from './PaginationItem';
+import PaginationItem from '../PaginationItem';
 import Stack from '@/components/Stack';
 import Text from '@/components/Text';
 import Tooltip from '@/components/Tooltip';

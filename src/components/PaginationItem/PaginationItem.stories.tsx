@@ -3,6 +3,7 @@ import PaginationItem from './PaginationItem';
 import Stack from '@/components/Stack';
 
 const meta: Meta<typeof PaginationItem> = {
+  title: 'components/Pagination/PaginationItem',
   component: PaginationItem,
   argTypes: {
     color: {

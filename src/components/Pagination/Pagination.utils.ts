@@ -1,6 +1,6 @@
 import { AsType } from '@/types/default-component-props';
 import { PaginationProps } from './Pagination';
-import { PaginationItemProps } from './PaginationItem';
+import { PaginationItemProps } from '../PaginationItem';
 import { PaginationEllipsisProps } from './PaginationEllipsis';
 
 type PageType =
