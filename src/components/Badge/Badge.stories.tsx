@@ -6,7 +6,7 @@ import { MailIcon } from '@/components/icons/MailIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { ButtonBase } from '@/components/general/ButtonBase';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { ButtonGroup } from '@/components/general/ButtonGroup';
 import { Text } from '@/components/general/Text';
 import Switch from '@/components/Switch';

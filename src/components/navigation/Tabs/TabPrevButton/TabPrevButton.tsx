@@ -1,7 +1,7 @@
 import './TabPrevButton.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Button, ButtonProps } from '@/components/general/Button';
+import Button, { ButtonProps } from '@/components/Button';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { useTabsContext } from '../Tabs.hooks';

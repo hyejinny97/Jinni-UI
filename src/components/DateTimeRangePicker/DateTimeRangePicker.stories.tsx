@@ -20,7 +20,7 @@ import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { MINUTE } from '@/constants/time';
 import Switch from '@/components/Switch';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 const meta: Meta<typeof DateTimeRangePicker> = {
   component: DateTimeRangePicker,

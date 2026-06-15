@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import { ValueType, TabListOrientation } from './Tabs.types';
-import { ButtonProps } from '@/components/general/Button';
+import { ButtonProps } from '@/components/Button';
 
 type TabsContextProps = {
   tabsId: string;

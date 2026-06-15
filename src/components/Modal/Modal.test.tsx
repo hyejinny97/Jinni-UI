@@ -6,7 +6,7 @@ import Modal from '@/components/Modal';
 import ModalHeader from '@/components/ModalHeader';
 import ModalBody from '@/components/ModalBody';
 import ModalFooter from '@/components/ModalFooter';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 describe('<Modal />', () => {
   it('opens when trigger button is clicked', () => {

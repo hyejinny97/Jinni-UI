@@ -6,7 +6,7 @@ import Select from '@/components/Select';
 import Option, { OptionValueType } from '@/components/Option';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 type AnimationType = 'overshoot' | 'bounce';
 type AnimationProps = {

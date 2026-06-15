@@ -5,7 +5,7 @@ import useStyle from '@/hooks/useStyle';
 import TabsContext from './Tabs.context';
 import { useTabValue, useSlideTab } from './Tabs.hooks';
 import { ValueType, TabListOrientation } from './Tabs.types';
-import { ButtonProps } from '@/components/general/Button';
+import { ButtonProps } from '@/components/Button';
 
 export type TabsProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,

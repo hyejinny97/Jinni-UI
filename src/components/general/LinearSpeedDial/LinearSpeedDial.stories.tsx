@@ -10,7 +10,7 @@ import { PrintIcon } from '@/components/icons/PrintIcon';
 import { SaveIcon } from '@/components/icons/SaveIcon';
 import { ShareIcon } from '@/components/icons/ShareIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';

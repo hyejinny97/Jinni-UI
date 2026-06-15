@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Popover from './Popover';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';

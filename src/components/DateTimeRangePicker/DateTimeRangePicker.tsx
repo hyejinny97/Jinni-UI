@@ -14,7 +14,7 @@ import ManualDigitalClock from '@/components/ManualDigitalClock';
 import PresetDigitalClock from '@/components/PresetDigitalClock';
 import { useDateTimeRangeValue } from './DateTimeRangePicker.hooks';
 import { ButtonBase } from '@/components/general/ButtonBase';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';
 import { Divider } from '@/components/layout/Divider';

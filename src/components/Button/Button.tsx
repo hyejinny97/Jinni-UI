@@ -8,17 +8,20 @@ import { ButtonBase, ButtonBaseProps } from '@/components/general/ButtonBase';
 import useColor from '@/hooks/useColor';
 import { useButtonGroupContext } from '@/components/general/ButtonGroup';
 
+export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
+export type SizeType = 'sm' | 'md' | 'lg';
+
 export type ButtonProps<T extends AsType = 'button'> = Omit<
   ButtonBaseProps<T>,
   'children'
 > & {
   children?: React.ReactNode;
-  variant?: 'filled' | 'subtle-filled' | 'outlined' | 'text';
+  variant?: VariantType;
   shape?: 'pill' | 'rounded';
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
   fullWidth?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: SizeType;
   color?: ColorType;
 };
 

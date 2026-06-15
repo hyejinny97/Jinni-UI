@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
 import ButtonGroup from './ButtonGroup';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 describe('<ButtonGroup />', () => {
   it('renders button group', () => {

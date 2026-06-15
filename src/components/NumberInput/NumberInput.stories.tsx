@@ -7,7 +7,7 @@ import DecreaseButton from '@/components/DecreaseButton';
 import { Text } from '@/components/general/Text';
 import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { Box } from '@/components/layout/Box';
 
 const meta: Meta<typeof NumberInput> = {

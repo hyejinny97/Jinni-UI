@@ -5,7 +5,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import Fraction from '@/components/Fraction';
 import { Text } from '@/components/general/Text';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import Label from '@/components/Label';
 import Alert from '@/components/Alert';

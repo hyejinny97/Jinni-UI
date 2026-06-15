@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import { CircularSpeedDial, CircularSpeedDialAction } from '.';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 describe('<CircularSpeedDial />', () => {
   it('renders speed dial', () => {

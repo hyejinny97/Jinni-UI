@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import TabListContext from './TabList.context';
-import { ButtonProps } from '@/components/general/Button';
+import { ButtonProps } from '@/components/Button';
 import { ColorType } from '@/types/color';
 import {
   useIndicator,

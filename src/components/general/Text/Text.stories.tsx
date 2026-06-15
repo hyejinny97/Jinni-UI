@@ -4,7 +4,7 @@ import Text from './Text';
 import { Stack } from '@/components/layout/Stack';
 import Popper from '@/components/Popper';
 import { ButtonGroup } from '@/components/general/ButtonGroup';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import Label from '@/components/Label';
 import Switch from '@/components/Switch';
 

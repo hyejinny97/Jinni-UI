@@ -6,7 +6,7 @@ import Label from '@/components/Label';
 import { RadioUncheckedIcon2 } from '@/components/icons/RadioUncheckedIcon2';
 import { RadioCheckedIcon2 } from '@/components/icons/RadioCheckedIcon2';
 import { Text } from '@/components/general/Text';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { Box } from '@/components/layout/Box';
 
 const meta: Meta<typeof Radio> = {

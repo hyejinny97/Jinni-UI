@@ -2,7 +2,7 @@ import './CustomPopper.scss';
 import { useRef, useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Popper, { PopperProps } from './Popper';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import RadioGroup from '@/components/RadioGroup';

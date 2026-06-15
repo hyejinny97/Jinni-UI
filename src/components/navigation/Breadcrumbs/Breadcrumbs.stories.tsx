@@ -9,7 +9,7 @@ import { CartIcon } from '@/components/icons/CartIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { Menu } from '@/components/navigation/Menu';
 import { MenuItem } from '@/components/navigation/MenuItem';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Link } from '@/components/navigation/Link';
 import { Text } from '@/components/general/Text';

@@ -2,7 +2,7 @@ import './Pagination.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { VariantType } from '@/components/general/Button';
+import { VariantType } from '@/components/Button';
 import { ColorType } from '@/types/color';
 import {
   PaginationItem,

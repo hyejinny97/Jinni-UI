@@ -8,7 +8,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { ToggleButtonGroup } from '@/components/general/ToggleButtonGroup';
 import { ToggleButton, ValueType } from '@/components/general/ToggleButton';
 import useJinni from '@/hooks/useJinni';

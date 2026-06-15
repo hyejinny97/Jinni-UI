@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import { ButtonProps } from '@/components/general/Button';
+import { ButtonProps } from '@/components/Button';
 import { darken } from '@/utils/colorLuminance';
 import useColor from '@/hooks/useColor';
 import ButtonGroupContext from './ButtonGroup.contexts';

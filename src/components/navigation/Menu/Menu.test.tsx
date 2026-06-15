@@ -18,7 +18,7 @@ import { userEvent } from '@testing-library/user-event';
 import { useRef, useState } from 'react';
 import Menu from './Menu';
 import { MenuItem } from '@/components/navigation/MenuItem';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 describe('<Menu />', () => {
   it('opens when trigger button is clicked', async () => {

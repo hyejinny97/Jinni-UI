@@ -11,7 +11,7 @@ import ColorPicker, {
   isHsbObject
 } from '@/components/ColorPicker';
 import { Stack } from '@/components/layout/Stack';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 import { Divider } from '@/components/layout/Divider';

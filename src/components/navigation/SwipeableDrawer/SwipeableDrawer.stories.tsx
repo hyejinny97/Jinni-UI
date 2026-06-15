@@ -6,7 +6,7 @@ import {
   SwipeableDrawerBody,
   SwipeableDrawerFooter
 } from '.';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { Stack } from '@/components/layout/Stack';
 import Label from '@/components/Label';
 import Radio from '@/components/Radio';

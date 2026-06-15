@@ -7,7 +7,7 @@ import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import Checkbox from '@/components/Checkbox';
 import Chip from '@/components/Chip';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import ListItem from '@/components/ListItem';
 import Label from '@/components/Label';
 

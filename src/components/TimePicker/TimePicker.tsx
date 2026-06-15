@@ -8,7 +8,7 @@ import ManualDigitalClock from '@/components/ManualDigitalClock';
 import PresetDigitalClock from '@/components/PresetDigitalClock';
 import Popover, { PopoverProps } from '@/components/Popover';
 import { useTime } from './TimePicker.hooks';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
 import {

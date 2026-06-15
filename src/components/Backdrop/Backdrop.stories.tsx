@@ -2,7 +2,7 @@ import { useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Backdrop from './Backdrop';
 import CircularProgress from '@/components/CircularProgress';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
 const meta: Meta<typeof Backdrop> = {

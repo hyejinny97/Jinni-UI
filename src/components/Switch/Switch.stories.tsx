@@ -6,7 +6,7 @@ import Label from '@/components/Label';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 const meta: Meta<typeof Switch> = {
   component: Switch,

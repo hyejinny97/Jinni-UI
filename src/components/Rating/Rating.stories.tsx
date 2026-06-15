@@ -6,7 +6,7 @@ import { Stack } from '@/components/layout/Stack';
 import { StarIcon } from '@/components/icons/StarIcon';
 import { FavoriteIcon } from '@/components/icons/FavoriteIcon';
 import { FavoriteBorderIcon } from '@/components/icons/FavoriteBorderIcon';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 const meta: Meta<typeof Rating> = {
   component: Rating,

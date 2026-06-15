@@ -5,7 +5,7 @@ import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { FirstPageIcon } from '@/components/icons/FirstPageIcon';
 import { LastPageIcon } from '@/components/icons/LastPageIcon';
-import { ButtonProps, Button } from '@/components/general/Button';
+import Button, { ButtonProps } from '@/components/Button';
 import { ColorType } from '@/types/color';
 import { genericForwardRef } from '@/utils/genericForwardRef';
 

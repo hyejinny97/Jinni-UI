@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import ButtonGroup from './ButtonGroup';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import { Menu } from '@/components/navigation/Menu';

@@ -4,7 +4,7 @@ import Mask from './Mask';
 import { Box } from '@/components/layout/Box';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';

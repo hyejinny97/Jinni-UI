@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
 import { useState } from 'react';
 import { Drawer, DrawerHeader, DrawerBody, DrawerFooter } from '.';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 describe('<Drawer />', () => {
   it('opens when trigger button is clicked', () => {

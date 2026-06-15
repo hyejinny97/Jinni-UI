@@ -5,7 +5,7 @@ import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
 import Fraction from '@/components/Fraction';
 import { MailIcon } from '@/components/icons/MailIcon';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { Text } from '@/components/general/Text';
 import Label from '@/components/Label';
 

@@ -1,7 +1,7 @@
 import { Fragment, useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Drawer, DrawerHeader, DrawerBody, DrawerFooter } from '.';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { Text } from '@/components/general/Text';
 import { CloseIcon } from '@/components/icons/CloseIcon';

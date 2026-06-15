@@ -2,7 +2,7 @@ import './CircularSpeedDialAction.scss';
 import cn from 'classnames';
 import { useId } from 'react';
 import { AsType } from '@/types/default-component-props';
-import { Button, ButtonProps } from '@/components/general/Button';
+import Button, { ButtonProps } from '@/components/Button';
 import Tooltip, { TooltipProps } from '@/components/Tooltip';
 import { useCircularDial } from '../CircularSpeedDial.hooks';
 import { useTooltipPlacement } from './CircularSpeedDialAction.hooks';

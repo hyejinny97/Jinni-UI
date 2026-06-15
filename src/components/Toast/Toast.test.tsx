@@ -17,7 +17,7 @@ import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
 import { useRef, useState } from 'react';
 import Toast from './Toast';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import Alert from '@/components/Alert';
 
 describe('<Toast />', () => {

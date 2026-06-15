@@ -17,7 +17,7 @@ import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
 import { useRef, useState } from 'react';
 import Popover from './Popover';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 describe('<Popover />', () => {
   it('opens when trigger button is clicked', async () => {

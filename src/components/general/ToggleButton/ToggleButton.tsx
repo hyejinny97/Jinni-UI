@@ -2,7 +2,7 @@ import './ToggleButton.scss';
 import { useMemo } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { Button, ButtonProps } from '@/components/general/Button';
+import Button, { ButtonProps } from '@/components/Button';
 import { useSelected } from './ToggleButton.hooks';
 import useColor from '@/hooks/useColor';
 import { useToggleButtonGroup } from '@/components/general/ToggleButtonGroup';

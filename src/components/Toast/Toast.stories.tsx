@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Toast, { CloseReason } from './Toast';
 import { Stack } from '@/components/layout/Stack';
 import { Grid } from '@/components/layout/Grid';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
 import Alert from '@/components/Alert';

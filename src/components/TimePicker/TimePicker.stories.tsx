@@ -9,7 +9,7 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
 

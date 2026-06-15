@@ -13,7 +13,7 @@ import {
   SwipeableDrawerBody,
   SwipeableDrawerFooter
 } from '.';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 
 describe('<SwipeableDrawer />', () => {
   it('opens when trigger button is clicked', async () => {

@@ -11,7 +11,7 @@ import {
 } from '@/components/navigation/Stepper';
 import { Stack } from '@/components/layout/Stack';
 import { Box } from '@/components/layout/Box';
-import { Button } from '@/components/general/Button';
+import Button from '@/components/Button';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 import { CartIcon } from '@/components/icons/CartIcon';
 import { MailIcon } from '@/components/icons/MailIcon';

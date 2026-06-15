@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { Children, Fragment, useMemo, useState } from 'react';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { Button, ButtonProps } from '@/components/general/Button';
+import Button, { ButtonProps } from '@/components/Button';
 import { validatePositiveInteger } from '@/utils/isNumber';
 
 export type BreadcrumbsProps<T extends AsType = 'nav'> =
