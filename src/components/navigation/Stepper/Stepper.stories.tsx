@@ -20,7 +20,7 @@ import { ButtonBase } from '@/components/general/ButtonBase';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
-import { Switch } from '@/components/data-entry/Switch';
+import Switch from '@/components/Switch';
 
 const meta: Meta<typeof Stepper> = {
   component: Stepper,

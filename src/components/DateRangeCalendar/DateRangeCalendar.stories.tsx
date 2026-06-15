@@ -11,7 +11,7 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { Switch } from '@/components/data-entry/Switch';
+import Switch from '@/components/Switch';
 import { RangeType, RangeFieldType } from '@/types/date-component';
 
 const meta: Meta<typeof DateRangeCalendar> = {

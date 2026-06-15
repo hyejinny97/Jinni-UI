@@ -2,7 +2,7 @@ import '../_share/ThemeSwitch.scss';
 import { useState } from 'react';
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
-import { Switch } from '@/components/data-entry/Switch';
+import Switch from '@/components/Switch';
 import Select from '@/components/Select';
 import Option from '@/components/Option';
 import { Stack } from '@/components/layout/Stack';

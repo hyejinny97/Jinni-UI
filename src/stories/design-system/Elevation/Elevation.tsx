@@ -7,7 +7,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import Tooltip from '@/components/Tooltip';
-import { Switch } from '@/components/data-entry/Switch';
+import Switch from '@/components/Switch';
 import useJinni from '@/hooks/useJinni';
 
 const ElevationContent = () => {

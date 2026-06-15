@@ -6,7 +6,7 @@ import Popper from '@/components/Popper';
 import { ButtonGroup } from '@/components/general/ButtonGroup';
 import { Button } from '@/components/general/Button';
 import Label from '@/components/Label';
-import { Switch } from '@/components/data-entry/Switch';
+import Switch from '@/components/Switch';
 
 const meta: Meta<typeof Text> = {
   component: Text,

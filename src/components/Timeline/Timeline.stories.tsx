@@ -14,7 +14,7 @@ import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import { Stack } from '@/components/layout/Stack';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
-import { Switch } from '@/components/data-entry/Switch';
+import Switch from '@/components/Switch';
 import Label from '@/components/Label';
 import { Text } from '@/components/general/Text';
 import { ButtonBase } from '@/components/general/ButtonBase';

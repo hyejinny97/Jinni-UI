@@ -5,7 +5,7 @@ import Slider from './Slider';
 import { Text } from '@/components/general/Text';
 import { Stack } from '@/components/layout/Stack';
 import { Button } from '@/components/general/Button';
-import { Switch } from '@/components/data-entry/Switch';
+import Switch from '@/components/Switch';
 import Label from '@/components/Label';
 
 const meta: Meta<typeof Slider> = {
