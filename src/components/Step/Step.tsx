@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import StepContext from './Step.contexts';
-import { useStepper } from '../Stepper.hooks';
+import { useStepper } from '../Stepper';
 
 export type StatusType = 'completed' | 'active' | 'pending';
 

@@ -1,14 +1,11 @@
 import './CustomStepper.scss';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import {
-  Stepper,
-  Step,
-  StepDot,
-  StepTitle,
-  StepDescription,
-  StatusType
-} from '@/components/navigation/Stepper';
+import Stepper from '@/components/Stepper';
+import Step, { StatusType } from '@/components/Step';
+import StepDot from '@/components/StepDot';
+import StepTitle from '@/components/StepTitle';
+import StepDescription from '@/components/StepDescription';
 import Stack from '@/components/Stack';
 import Box from '@/components/Box';
 import Button from '@/components/Button';

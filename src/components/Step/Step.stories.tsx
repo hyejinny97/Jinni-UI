@@ -3,6 +3,7 @@ import Step from './Step';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof Step> = {
+  title: 'components/Stepper/Step',
   component: Step,
   argTypes: {
     children: {

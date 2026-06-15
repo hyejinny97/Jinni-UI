@@ -3,6 +3,7 @@ import StepDot from './StepDot';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof StepDot> = {
+  title: 'components/Stepper/StepDot',
   component: StepDot,
   argTypes: {
     children: {

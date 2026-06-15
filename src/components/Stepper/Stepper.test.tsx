@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
-import { Stepper, Step, StepDot, StepTitle, StepDescription } from '.';
+import Stepper from '@/components/Stepper';
+import Step from '@/components/Step';
+import StepDot from '@/components/StepDot';
+import StepTitle from '@/components/StepTitle';
+import StepDescription from '@/components/StepDescription';
 
 describe('<Stepper />', () => {
   it('render stepper', () => {

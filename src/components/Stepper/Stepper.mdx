@@ -1,9 +1,9 @@
 import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
 import * as StepperStories from './Stepper.stories';
-import * as StepStories from './Step/Step.stories';
-import * as StepDotStories from './StepDot/StepDot.stories';
-import * as StepTitleStories from './StepTitle/StepTitle.stories';
-import * as StepDescriptionStories from './StepDescription/StepDescription.stories';
+import * as StepStories from '../Step/Step.stories';
+import * as StepDotStories from '../StepDot/StepDot.stories';
+import * as StepTitleStories from '../StepTitle/StepTitle.stories';
+import * as StepDescriptionStories from '../StepDescription/StepDescription.stories';
 
 <Meta of={StepperStories} />
 
@@ -14,13 +14,11 @@ import * as StepDescriptionStories from './StepDescription/StepDescription.stori
 ## Import
 
 ```js
-import {
-  Stepper,
-  Step,
-  StepDot,
-  StepTitle,
-  StepDescription
-} from '@/components/navigation/Stepper';
+import Stepper from '@/components/Stepper';
+import Step from '@/components/Step';
+import StepDot from '@/components/StepDot';
+import StepTitle from '@/components/StepTitle';
+import StepDescription from '@/components/StepDescription';
 ```
 
 ## Usage
