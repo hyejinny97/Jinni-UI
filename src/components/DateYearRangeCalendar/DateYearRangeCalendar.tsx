@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { DateRangeComponentProps } from '@/types/date-component';
 import { YearCalendarMainProps } from '@/components/YearCalendar';
-import { YearRangeCalendar } from '@/components/data-entry/YearRangeCalendar';
+import YearRangeCalendar from '@/components/YearRangeCalendar';
 import CalendarHeader, {
   CalendarHeaderProps
 } from '@/components/CalendarHeader';
