@@ -1,7 +1,7 @@
 import './SliderCustom.scss';
 import { useState, FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Slider } from '@/components/data-entry/Slider';
+import Slider from './Slider';
 import { Text } from '@/components/general/Text';
 import { Stack } from '@/components/layout/Stack';
 import { Button } from '@/components/general/Button';

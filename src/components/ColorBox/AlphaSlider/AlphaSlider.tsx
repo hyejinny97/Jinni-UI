@@ -1,6 +1,6 @@
 import './AlphaSlider.scss';
 import Mosaic from '@/components/Mosaic';
-import { Slider, SliderValueType } from '@/components/data-entry/Slider';
+import Slider, { SliderValueType } from '@/components/Slider';
 import { useColorBoxContext } from '../ColorBox.hooks';
 import { hsbObjToRgbObj } from '@/components/ColorPicker';
 

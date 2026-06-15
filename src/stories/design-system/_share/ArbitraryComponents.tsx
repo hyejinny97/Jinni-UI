@@ -1,7 +1,7 @@
 import { Grid } from '@/components/layout/Grid';
 import { Stack } from '@/components/layout/Stack';
 import { Button } from '@/components/general/Button';
-import { Slider } from '@/components/data-entry/Slider';
+import Slider from '@/components/Slider';
 import Rating from '@/components/Rating';
 import NumberInput from '@/components/NumberInput';
 import Chip from '@/components/Chip';
