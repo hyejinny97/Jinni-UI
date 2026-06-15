@@ -2,7 +2,7 @@ import './Menu.scss';
 import cn from 'classnames';
 import { Fragment } from 'react';
 import { AsType } from '@/types/default-component-props';
-import { Backdrop } from '@/components/feedback/Backdrop';
+import Backdrop from '@/components/Backdrop';
 import { MenuList, MenuListProps } from '@/components/navigation/MenuList';
 import Popper, { PopperProps } from '@/components/Popper';
 import { useKeyboardAccessibility } from './Menu.hooks';

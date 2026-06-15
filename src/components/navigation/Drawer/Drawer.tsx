@@ -4,7 +4,7 @@ import { useId } from 'react';
 import { createPortal } from 'react-dom';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { Backdrop } from '@/components/feedback/Backdrop';
+import Backdrop from '@/components/Backdrop';
 import { Box, BoxProps } from '@/components/layout/Box';
 import { useKeyboardAccessibility } from './Drawer.hooks';
 import DrawerContext from './Drawer.contexts';
