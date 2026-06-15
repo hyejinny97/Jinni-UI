@@ -1,5 +1,5 @@
 import JinniProvider, { createDesignSystem } from '@/components/JinniProvider';
-import { Alert } from '@/components/feedback/Alert';
+import Alert from '@/components/Alert';
 
 const designSystem = createDesignSystem();
 

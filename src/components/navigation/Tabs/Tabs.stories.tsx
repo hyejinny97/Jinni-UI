@@ -3,7 +3,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tabs, TabList, Tab, TabPrevButton, TabNextButton, TabPanel } from '.';
 import { Stack } from '@/components/layout/Stack';
-import { Alert } from '@/components/feedback/Alert';
+import Alert from '@/components/Alert';
 import Radio from '@/components/Radio';
 import RadioGroup from '@/components/RadioGroup';
 import Label from '@/components/Label';

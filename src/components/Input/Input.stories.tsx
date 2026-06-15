@@ -8,7 +8,7 @@ import { Text } from '@/components/general/Text';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import Label from '@/components/Label';
-import { Alert } from '@/components/feedback/Alert';
+import Alert from '@/components/Alert';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { VisibilityIcon } from '@/components/icons/VisibilityIcon';
 import { VisibilityOffIcon } from '@/components/icons/VisibilityOffIcon';

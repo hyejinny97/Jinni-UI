@@ -6,7 +6,7 @@ import { Grid } from '@/components/layout/Grid';
 import { Button } from '@/components/general/Button';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CloseIcon } from '@/components/icons/CloseIcon';
-import { Alert } from '@/components/feedback/Alert';
+import Alert from '@/components/Alert';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import { Box } from '@/components/layout/Box';

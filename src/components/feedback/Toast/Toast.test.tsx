@@ -18,7 +18,7 @@ import { userEvent } from '@testing-library/user-event';
 import { useRef, useState } from 'react';
 import Toast from './Toast';
 import { Button } from '@/components/general/Button';
-import { Alert } from '@/components/feedback/Alert';
+import Alert from '@/components/Alert';
 
 describe('<Toast />', () => {
   it('opens when trigger button is clicked', () => {

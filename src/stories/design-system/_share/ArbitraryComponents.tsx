@@ -5,7 +5,7 @@ import Slider from '@/components/Slider';
 import Rating from '@/components/Rating';
 import NumberInput from '@/components/NumberInput';
 import Chip from '@/components/Chip';
-import { Alert } from '@/components/feedback/Alert';
+import Alert from '@/components/Alert';
 
 const ArbitraryComponents = () => {
   return (
