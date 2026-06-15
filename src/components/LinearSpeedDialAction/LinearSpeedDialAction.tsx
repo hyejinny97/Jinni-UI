@@ -5,7 +5,7 @@ import { AsType } from '@/types/default-component-props';
 import Button, { ButtonProps } from '@/components/Button';
 import Tooltip, { TooltipProps } from '@/components/Tooltip';
 import { getTooltipPlacement } from './LinearSpeedDialAction.utils';
-import { useLinearDial } from '../LinearSpeedDial.hooks';
+import { useLinearDial } from '../LinearSpeedDial';
 
 export type LinearSpeedDialActionProps<T extends AsType = 'button'> =
   ButtonProps<T> & {

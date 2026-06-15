@@ -3,6 +3,7 @@ import LinearSpeedDialAction from './LinearSpeedDialAction';
 import StoryErrorBoundary from '@/components/StoryErrorBoundary';
 
 const meta: Meta<typeof LinearSpeedDialAction> = {
+  title: 'components/LinearSpeedDial/LinearSpeedDialAction',
   component: LinearSpeedDialAction,
   argTypes: {
     TooltipProps: {

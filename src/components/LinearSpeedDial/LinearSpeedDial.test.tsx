@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
-import { LinearSpeedDial, LinearSpeedDialAction } from '.';
+import LinearSpeedDial from '@/components/LinearSpeedDial';
+import LinearSpeedDialAction from '@/components/LinearSpeedDialAction';
 import Button from '@/components/Button';
 
 describe('<LinearSpeedDial />', () => {

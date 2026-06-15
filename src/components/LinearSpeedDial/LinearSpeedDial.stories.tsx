@@ -1,10 +1,9 @@
 import { useState, useRef, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  LinearSpeedDial,
-  LinearSpeedDialAction,
+import LinearSpeedDial, {
   LinearSpeedDialProps
-} from '.';
+} from '@/components/LinearSpeedDial';
+import LinearSpeedDialAction from '@/components/LinearSpeedDialAction';
 import { FileCopyIcon } from '@/components/icons/FileCopyIcon';
 import { PrintIcon } from '@/components/icons/PrintIcon';
 import { SaveIcon } from '@/components/icons/SaveIcon';
