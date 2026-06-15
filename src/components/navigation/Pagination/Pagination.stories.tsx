@@ -5,7 +5,7 @@ import { PaginationItem } from './PaginationItem';
 import Stack from '@/components/Stack';
 import Text from '@/components/Text';
 import Tooltip from '@/components/Tooltip';
-import { Link } from '@/components/navigation/Link';
+import Link from '@/components/Link';
 
 const meta: Meta<typeof Pagination> = {
   component: Pagination,

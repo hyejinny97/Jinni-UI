@@ -11,7 +11,7 @@ import { CheckIcon } from '@/components/icons/CheckIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
 import { ColorType } from '@/types/color';
 import dogImage from '@/assets/images/dog-1.jpg';
-import { Link } from '@/components/navigation/Link';
+import Link from '@/components/Link';
 
 const meta: Meta<typeof Chip> = {
   component: Chip,

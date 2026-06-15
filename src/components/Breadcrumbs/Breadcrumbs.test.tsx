@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import Breadcrumbs from './Breadcrumbs';
-import { Link } from '@/components/navigation/Link';
+import Link from '@/components/Link';
 
 describe('<Breadcrumbs />', () => {
   it('render breadcrumbs with separators', () => {

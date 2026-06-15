@@ -3,7 +3,7 @@ import Label from './Label';
 import Checkbox from '@/components/Checkbox';
 import Stack from '@/components/Stack';
 import Text from '@/components/Text';
-import { Link } from '@/components/navigation/Link';
+import Link from '@/components/Link';
 
 const meta: Meta<typeof Label> = {
   component: Label,
