@@ -1,6 +1,9 @@
 import { Fragment, useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Drawer, DrawerHeader, DrawerBody, DrawerFooter } from '.';
+import Drawer from '@/components/Drawer';
+import DrawerHeader from '@/components/DrawerHeader';
+import DrawerBody from '@/components/DrawerBody';
+import DrawerFooter from '@/components/DrawerFooter';
 import Button from '@/components/Button';
 import ButtonBase from '@/components/ButtonBase';
 import Text from '@/components/Text';

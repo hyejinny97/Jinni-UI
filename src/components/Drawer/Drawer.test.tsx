@@ -2,7 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
 import { useState } from 'react';
-import { Drawer, DrawerHeader, DrawerBody, DrawerFooter } from '.';
+import Drawer from '@/components/Drawer';
+import DrawerHeader from '@/components/DrawerHeader';
+import DrawerBody from '@/components/DrawerBody';
+import DrawerFooter from '@/components/DrawerFooter';
 import Button from '@/components/Button';
 
 describe('<Drawer />', () => {
