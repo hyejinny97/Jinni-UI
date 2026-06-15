@@ -10,7 +10,7 @@ import CarouselNextButton from '@/components/CarouselNextButton';
 import CarouselProgress from '@/components/CarouselProgress';
 import useJinni from '@/hooks/useJinni';
 import { SECOND } from '@/constants/time';
-import { CircularProgress } from '@/components/feedback/CircularProgress';
+import CircularProgress from '@/components/CircularProgress';
 import { Text } from '@/components/general/Text';
 import { Box } from '@/components/layout/Box';
 

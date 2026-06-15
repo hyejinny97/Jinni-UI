@@ -10,7 +10,7 @@ import { TrashcanIcon } from '@/components/icons/TrashcanIcon';
 import { AddIcon } from '@/components/icons/AddIcon';
 import { FileUploadIcon } from '@/components/icons/FileUploadIcon';
 import { Toast } from '@/components/feedback/Toast';
-import { CircularProgress } from '@/components/feedback/CircularProgress';
+import CircularProgress from '@/components/CircularProgress';
 import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';

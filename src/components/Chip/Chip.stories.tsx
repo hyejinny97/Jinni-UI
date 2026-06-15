@@ -4,7 +4,7 @@ import Chip from '@/components/Chip';
 import Avatar from '@/components/Avatar';
 import { Stack } from '@/components/layout/Stack';
 import { ButtonBase } from '@/components/general/ButtonBase';
-import { CircularProgress } from '@/components/feedback/CircularProgress';
+import CircularProgress from '@/components/CircularProgress';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import { CancelIcon } from '@/components/icons/CancelIcon';
 import { CheckIcon } from '@/components/icons/CheckIcon';

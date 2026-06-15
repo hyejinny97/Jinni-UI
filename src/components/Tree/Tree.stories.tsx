@@ -8,7 +8,7 @@ import { Stack } from '@/components/layout/Stack';
 import Checkbox from '@/components/Checkbox';
 import Switch from '@/components/Switch';
 import Label from '@/components/Label';
-import { CircularProgress } from '@/components/feedback/CircularProgress';
+import CircularProgress from '@/components/CircularProgress';
 import { Button } from '@/components/general/Button';
 import { Divider } from '@/components/layout/Divider';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';

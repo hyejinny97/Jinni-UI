@@ -1,7 +1,7 @@
 import { useState, forwardRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Backdrop from './Backdrop';
-import { CircularProgress } from '@/components/feedback/CircularProgress';
+import CircularProgress from '@/components/CircularProgress';
 import { Button } from '@/components/general/Button';
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 

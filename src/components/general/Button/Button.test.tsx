@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@/tests/react-testing-tools';
 import Button from './Button';
 import { MailIcon } from '@/components/icons/MailIcon';
-import { CircularProgress } from '@/components/feedback/CircularProgress';
+import CircularProgress from '@/components/CircularProgress';
 
 describe('<Button />', () => {
   it('renders button ', () => {

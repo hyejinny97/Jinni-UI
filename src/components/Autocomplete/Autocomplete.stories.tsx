@@ -10,7 +10,7 @@ import { Box } from '@/components/layout/Box';
 import { Text } from '@/components/general/Text';
 import Chip from '@/components/Chip';
 import { Button } from '@/components/general/Button';
-import { CircularProgress } from '@/components/feedback/CircularProgress';
+import CircularProgress from '@/components/CircularProgress';
 import { ButtonBase } from '@/components/general/ButtonBase';
 import { CancelIcon } from '@/components/icons/CancelIcon';
 import Radio from '@/components/Radio';

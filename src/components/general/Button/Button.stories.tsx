@@ -7,7 +7,7 @@ import { MailIcon } from '@/components/icons/MailIcon';
 import { CartIcon } from '@/components/icons/CartIcon';
 import { HomeIcon } from '@/components/icons/HomeIcon';
 import { PersonIcon } from '@/components/icons/PersonIcon';
-import { CircularProgress } from '@/components/feedback/CircularProgress';
+import CircularProgress from '@/components/CircularProgress';
 
 const meta: Meta<typeof Button> = {
   component: Button,
