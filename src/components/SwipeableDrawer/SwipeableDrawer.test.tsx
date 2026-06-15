@@ -7,12 +7,10 @@ import {
 } from '@/tests/react-testing-tools';
 import { userEvent } from '@testing-library/user-event';
 import { useState } from 'react';
-import {
-  SwipeableDrawer,
-  SwipeableDrawerHeader,
-  SwipeableDrawerBody,
-  SwipeableDrawerFooter
-} from '.';
+import SwipeableDrawer from '@/components/SwipeableDrawer';
+import SwipeableDrawerHeader from '@/components/SwipeableDrawerHeader';
+import SwipeableDrawerBody from '@/components/SwipeableDrawerBody';
+import SwipeableDrawerFooter from '@/components/SwipeableDrawerFooter';
 import Button from '@/components/Button';
 
 describe('<SwipeableDrawer />', () => {

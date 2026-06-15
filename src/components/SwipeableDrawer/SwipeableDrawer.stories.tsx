@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  SwipeableDrawer,
-  SwipeableDrawerHeader,
-  SwipeableDrawerBody,
-  SwipeableDrawerFooter
-} from '.';
+import SwipeableDrawer from '@/components/SwipeableDrawer';
+import SwipeableDrawerHeader from '@/components/SwipeableDrawerHeader';
+import SwipeableDrawerBody from '@/components/SwipeableDrawerBody';
+import SwipeableDrawerFooter from '@/components/SwipeableDrawerFooter';
 import Button from '@/components/Button';
 import Stack from '@/components/Stack';
 import Label from '@/components/Label';
