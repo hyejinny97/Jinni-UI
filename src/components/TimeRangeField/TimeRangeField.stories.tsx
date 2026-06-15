@@ -17,7 +17,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { RangeType, RangeFieldType } from '@/types/time-component';
 
 const meta: Meta<typeof TimeRangeField> = {
-  title: 'components/data-entry/TimeRangePicker/TimeRangeField',
+  title: 'components/TimeRangePicker/TimeRangeField',
   component: TimeRangeField,
   argTypes: {
     centerIcon: {

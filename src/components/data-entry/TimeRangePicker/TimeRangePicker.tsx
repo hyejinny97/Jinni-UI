@@ -3,10 +3,9 @@ import { useRef, useState, Fragment, useId } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
-import {
-  TimeRangeField,
+import TimeRangeField, {
   TimeRangeFieldProps
-} from '@/components/data-entry/TimeRangeField';
+} from '@/components/TimeRangeField';
 import Popover, { PopoverProps } from '@/components/Popover';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
 import PresetDigitalClock from '@/components/PresetDigitalClock';
