@@ -52,6 +52,8 @@ export const useMaxDots = ({
     if (!max || !dotsContainerEl || !dotsEl) return;
 
     const dotElList = dotsEl.querySelectorAll<HTMLElement>('li.JinniDot');
+    if (dotElList.length === 0) return;
+
     switch (orientation) {
       case 'horizontal': {
         const dotElWidth = dotElList[0].offsetWidth;
