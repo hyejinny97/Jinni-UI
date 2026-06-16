@@ -21,6 +21,7 @@ const preview: Preview = {
         method: 'alphabetical',
         order: [
           'Get Started',
+          ['Introduction', 'All Components'],
           'Design System',
           [
             'Basic',
