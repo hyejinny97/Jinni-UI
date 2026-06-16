@@ -1,0 +1,39 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as MosaicStories from './Mosaic.stories';
+
+<Meta of={MosaicStories} />
+
+# Mosaic
+
+모자이크
+
+## Import
+
+```js
+import Mosaic from '@/components/Mosaic';
+```
+
+## Usage
+
+### Basic Mosaic
+
+- `children`: 모자이크 영역 하위 콘텐츠
+- `children` 크기만큼 모자이크가 그려짐
+
+<Canvas of={MosaicStories.BasicMosaic} />
+
+### Size
+
+- `size`: 모자이크 크기
+
+<Canvas of={MosaicStories.Size} />
+
+### Color
+
+- `color`: 모자이크 색상
+
+<Canvas of={MosaicStories.Color} />
+
+## Props
+
+<ArgTypes of={MosaicStories} sort="alpha" />

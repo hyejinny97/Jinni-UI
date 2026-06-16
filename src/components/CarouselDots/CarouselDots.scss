@@ -1,0 +1,6 @@
+@use '../Carousel/mixins.scss' as mixins;
+
+.JinniCarouselDots {
+  position: absolute;
+  @include mixins.navigation-pagination-position;
+}

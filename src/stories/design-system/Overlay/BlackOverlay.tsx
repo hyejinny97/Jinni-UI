@@ -1,8 +1,8 @@
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
-import { Grid } from '@/components/layout/Grid';
-import { Box } from '@/components/layout/Box';
-import { Tooltip } from '@/components/data-display/Tooltip';
+import Grid from '@/components/Grid';
+import Box from '@/components/Box';
+import Tooltip from '@/components/Tooltip';
 import useJinni from '@/hooks/useJinni';
 
 const BlackOverlayContent = () => {

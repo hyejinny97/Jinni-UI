@@ -1,0 +1,75 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as PopoverStories from './Popover.stories';
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+화면 상단에 콘텐츠를 띄움
+
+- 키보드 접근성
+  - `Escape` 키로 메뉴 닫기
+  - Focus Trap (`Tab`/`Shift+Tab` 로 이동할 때 Popover 밖으로 나가지 않고 순환)
+
+## Import
+
+```js
+import Popover from '@/components/Popover';
+```
+
+## Usage
+
+### Basic Popover
+
+- `children`: popover의 콘텐츠
+- `anchorElRef`: anchor 요소 참조 객체
+- `open`: true이면, popover가 나타남
+- `onClose`: Escape 키/backdrop 클릭 이벤트가 발생 시 호출되는 함수
+
+<Canvas of={PopoverStories.BasicPopover} />
+
+### Popover Position
+
+- `popoverOrigin`: anchor의 origin에 부착할 popover의 origin
+- `anchorReference`: popover의 위치를 설정할 때, 어떤 anchor prop을 참조할지 결정
+- `anchorOrigin`: popover의 origin이 부착될 anchorEl의 origin
+- `anchorPosition`: client area에서 popover의 상대적인 위치
+
+#### 1. Popover origin
+
+<Canvas of={PopoverStories.PopoverOrigin} />
+
+#### 2. Anchor origin
+
+<Canvas of={PopoverStories.AnchorOrigin} />
+
+#### 3. Anchor position
+
+- 텍스트 위에 마우스를 두고 우클릭 해보세요.
+
+<Canvas of={PopoverStories.AnchorPosition} />
+
+### Disable scroll
+
+- `disableScroll`: true이면, 화면이 스크롤 되지 않음
+
+<Canvas of={PopoverStories.DisableScroll} />
+
+### Customize Popover
+
+- `BoxProps`: Box 컴포넌트에 적용되는 props
+- style을 통해 margin 등 커스텀 가능
+
+<Canvas of={PopoverStories.CustomizePopover} />
+
+### Transition
+
+- `WrapperComponent`: wrapper 컴포넌트
+- `TransitionComponent`: transition 컴포넌트
+- motion 라이브러리를 사용해 transition 적용 가능
+
+<Canvas of={PopoverStories.Transition} />
+
+## Props
+
+<ArgTypes of={PopoverStories} sort="alpha" />

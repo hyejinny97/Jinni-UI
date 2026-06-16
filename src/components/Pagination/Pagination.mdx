@@ -1,0 +1,99 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as PaginationStories from './Pagination.stories';
+
+<Meta of={PaginationStories} />
+
+# Pagination
+
+여러 페이지 범위에서 특정 페이지를 선택 가능하게 함
+
+## Import
+
+```js
+import Pagination from '@/components/Pagination';
+import PaginationItem from '@/components/PaginationItem';
+```
+
+## Usage
+
+### Basic Pagination
+
+- `count`: 전체 페이지 수
+- `displayCount`: 화면에 보여지는 페이지 최대 개수
+- `defaultPage`: 초기 selected page (uncontrolled 상태일 때만 적용 가능)
+
+<Canvas of={PaginationStories.BasicPagination} />
+
+### Controlled Pagination
+
+- `page` prop을 통해 pagination을 control 할 수 있음
+- `page`: selected page
+- `onChange`: selected page가 변경됐을 때마다 호출되는 함수
+
+<Canvas of={PaginationStories.ControlledPagination} />
+
+### Display Method
+
+#### 1. Basic
+
+- `displayMethod`: `displayCount` 만큼의 pagination items를 나타내는 방법
+
+<Canvas of={PaginationStories.DisplayMethod} />
+
+#### 2. Restrict displayed count at ellipsis
+
+- displayMethod가 'ellipsis'인 경우, `siblingCount`와 `boundaryCount`를 통해 보여지는 범위를 제한할 수 있음
+- `siblingCount`: selected page 양옆으로 보여지는 페이지 수
+- `boundaryCount`: 처음과 끝에 보여지는 페이지 수
+
+<Canvas of={PaginationStories.RestrictDisplayedCount} />
+
+### Router Integration
+
+- `renderPaginationItem`: `paginationItemProps`를 인자로 받아 `PaginationItem` 컴포넌트를 렌더하는 함수
+
+<Canvas of={PaginationStories.RouterIntegration} />
+
+### Variant
+
+- `variant`: pagination item 종류
+
+<Canvas of={PaginationStories.Variant} />
+
+### Color
+
+- `color`: selected page 색상
+
+<Canvas of={PaginationStories.Color} />
+
+### Disabled
+
+- `disabled`: true이면, 비활성화됨
+
+<Canvas of={PaginationStories.Disabled} />
+
+### Shape
+
+- `shape`: pagination item 모양
+
+<Canvas of={PaginationStories.Shape} />
+
+### Size
+
+- `size`: pagination item 크기
+
+<Canvas of={PaginationStories.Size} />
+
+### Customize Control Button
+
+#### 1. Hide control button
+
+<Canvas of={PaginationStories.HideControlButton} />
+
+#### 2. Customize icon
+
+<Canvas of={PaginationStories.CustomIcon} />
+
+## Props
+
+<ArgTypes of={PaginationStories} sort="alpha" />

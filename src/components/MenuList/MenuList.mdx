@@ -1,0 +1,44 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as MenuListStories from './MenuList.stories';
+
+<Meta of={MenuListStories} />
+
+# MenuList
+
+메뉴의 목록
+
+## Import
+
+```js
+import MenuList from '@/components/MenuList';
+```
+
+## Usage
+
+### Basic MenuList
+
+- `children`: MenuItem 등 메뉴 항목
+
+<Canvas of={MenuListStories.BasicMenuList} />
+
+### Dense
+
+- `dense`: true이면, MenuItem 컴포넌트 내 padding과 font-size를 줄여줌
+
+<Canvas of={MenuListStories.Dense} />
+
+### Elevation
+
+- `elevation`: 계층(높낮이)
+
+<Canvas of={MenuListStories.Elevation} />
+
+### DisableAlphabetKeyFocus
+
+- `disableAlphabetKeyFocus`: true이면, 알파벳 키를 눌러도 해당 item이 focus 되지 않음
+
+<Canvas of={MenuListStories.DisableAlphabetKeyFocus} />
+
+## Props
+
+<ArgTypes of={MenuListStories} sort="alpha" />

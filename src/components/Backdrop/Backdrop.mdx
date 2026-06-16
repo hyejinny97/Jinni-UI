@@ -1,0 +1,50 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as BackdropStories from './Backdrop.stories';
+
+<Meta of={BackdropStories} />
+
+# Backdrop
+
+배경을 딤 처리해 화면 위의 특정 요소에 사용자의 시선을 집중 시킬 수 있도록 함
+
+## Import
+
+```js
+import Backdrop from '@/components/Backdrop';
+```
+
+## Usage
+
+### Basic Backdrop
+
+- `onClick`: backdrop을 클릭했을 때 호출되는 함수 (children에 대한 click 이벤트는 포함 안됨)
+
+<Canvas of={BackdropStories.BasicBackdrop} />
+
+### Backdrop with contents
+
+- `children`: backdrop 위에 위치할 콘텐츠
+
+<Canvas of={BackdropStories.BackdropWithContents} />
+
+### Invisible
+
+- `invisible`: true인 경우, 투명한 backdrop이 나타남
+
+<Canvas of={BackdropStories.Invisible} />
+
+### Disable scroll
+
+- `disableScroll`: true이면, 화면이 스크롤 되지 않음
+
+<Canvas of={BackdropStories.DisableScroll} />
+
+### Transition
+
+- motion 라이브러리를 사용해 transition 적용 가능
+
+<Canvas of={BackdropStories.Transition} />
+
+## Props
+
+<ArgTypes of={BackdropStories} sort="alpha" />

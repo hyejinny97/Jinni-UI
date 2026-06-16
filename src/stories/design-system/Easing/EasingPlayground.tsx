@@ -2,18 +2,15 @@ import './Easing.scss';
 import { useState, Fragment, useRef } from 'react';
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
-import {
-  Select,
-  Option,
-  OptionValueType
-} from '@/components/data-entry/Select';
-import { Grid } from '@/components/layout/Grid';
-import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
-import { Button } from '@/components/general/Button';
-import { ToggleButtonGroup } from '@/components/general/ToggleButtonGroup';
-import { ToggleButton, ValueType } from '@/components/general/ToggleButton';
+import Select from '@/components/Select';
+import Option, { OptionValueType } from '@/components/Option';
+import Grid from '@/components/Grid';
+import Stack from '@/components/Stack';
+import Box from '@/components/Box';
+import Text from '@/components/Text';
+import Button from '@/components/Button';
+import ToggleButtonGroup from '@/components/ToggleButtonGroup';
+import ToggleButton, { ValueType } from '@/components/ToggleButton';
 import useJinni from '@/hooks/useJinni';
 
 type AnimationType = 'slide' | 'stretch' | 'scale' | 'fade';

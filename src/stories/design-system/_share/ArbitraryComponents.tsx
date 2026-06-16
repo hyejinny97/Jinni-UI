@@ -1,11 +1,11 @@
-import { Grid } from '@/components/layout/Grid';
-import { Stack } from '@/components/layout/Stack';
-import { Button } from '@/components/general/Button';
-import { Slider } from '@/components/data-entry/Slider';
-import { Rating } from '@/components/data-entry/Rating';
-import { NumberInput } from '@/components/data-entry/NumberInput';
-import { Chip } from '@/components/data-display/Chip';
-import { Alert } from '@/components/feedback/Alert';
+import Grid from '@/components/Grid';
+import Stack from '@/components/Stack';
+import Button from '@/components/Button';
+import Slider from '@/components/Slider';
+import Rating from '@/components/Rating';
+import NumberInput from '@/components/NumberInput';
+import Chip from '@/components/Chip';
+import Alert from '@/components/Alert';
 
 const ArbitraryComponents = () => {
   return (

@@ -1,9 +1,9 @@
 import { Fragment } from 'react';
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
-import { Grid } from '@/components/layout/Grid';
-import { Stack } from '@/components/layout/Stack';
-import { Text } from '@/components/general/Text';
+import Grid from '@/components/Grid';
+import Stack from '@/components/Stack';
+import Text from '@/components/Text';
 import useJinni from '@/hooks/useJinni';
 
 const FontWeightContent = () => {

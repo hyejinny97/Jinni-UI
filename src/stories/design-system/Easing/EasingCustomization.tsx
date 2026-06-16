@@ -2,14 +2,11 @@ import './Easing.scss';
 import { useState } from 'react';
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
-import {
-  Select,
-  Option,
-  OptionValueType
-} from '@/components/data-entry/Select';
-import { Stack } from '@/components/layout/Stack';
-import { Box } from '@/components/layout/Box';
-import { Button } from '@/components/general/Button';
+import Select from '@/components/Select';
+import Option, { OptionValueType } from '@/components/Option';
+import Stack from '@/components/Stack';
+import Box from '@/components/Box';
+import Button from '@/components/Button';
 
 type AnimationType = 'overshoot' | 'bounce';
 type AnimationProps = {

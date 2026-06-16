@@ -1,0 +1,75 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TourStories from './Tour.stories';
+import * as TourStepStories from '../TourStep/TourStep.stories';
+
+<Meta of={TourStories} />
+
+# Tour
+
+사용자에게 특정 위치마다 정보를 순서대로 제공함
+
+## Import
+
+```js
+import Tour from '@/components/Tour';
+import TourStep from '@/components/TourStep';
+```
+
+## Usage
+
+### Basic Tour
+
+- `children`: `TourStep` 컴포넌트들
+- `value`: 현재 display 되는 `TourStep`의 value
+- `open`: true이면, tour가 나타남
+- `onClose`: `'escapeKeydown'`, `'backdropClick'` 이벤트 발생 시 호출되는 함수
+
+<Canvas of={TourStories.BasicTour} />
+
+### Mask props
+
+- `Tour` 컴포넌트는 내부적으로 `Mask` 컴포넌트를 반환하므로, `Mask`의 일부 props 사용 가능
+- `Tour`와 `TourStep` 컴포넌트에 동일한 prop을 적용한 경우, `TourStep` 컴포넌트에 적용한 prop 값이 우선 됨
+
+#### 1. Mask color
+
+<Canvas of={TourStories.MaskColor} />
+
+#### 2. Spotlight shape
+
+<Canvas of={TourStories.SpotlightShape} />
+
+#### 3. Spotlight padding
+
+<Canvas of={TourStories.SpotlightPadding} />
+
+### TourStep props
+
+- `Tour`에 적용된 `TourStep`의 props는 하위 `TourStep` 컴포넌트에 일괄 적용 됨
+- `Tour`와 `TourStep` 컴포넌트에 동일한 prop을 적용한 경우, `TourStep` 컴포넌트에 적용한 prop 값이 우선 됨
+
+#### 1. Placement
+
+<Canvas of={TourStories.Placement} />
+
+#### 2. Offset
+
+<Canvas of={TourStories.Offset} />
+
+#### 3. Custom Box
+
+<Canvas of={TourStories.CustomBox} />
+
+### Apply Tour to entire page
+
+<Canvas of={TourStories.ApplyTourToEntirePage} />
+
+## Props
+
+### Tour
+
+<ArgTypes of={TourStories} sort="alpha" />
+
+### TourStep
+
+<ArgTypes of={TourStepStories} sort="alpha" />

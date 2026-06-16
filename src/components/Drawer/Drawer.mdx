@@ -1,0 +1,92 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as DrawerStories from './Drawer.stories';
+
+<Meta of={DrawerStories} />
+
+# Drawer
+
+현 페이지를 벗어나지 않고 손쉽게 페이지 이동이나 기능 처리를 가능하게 함
+
+## Import
+
+```js
+import Drawer from '@/components/Drawer';
+import DrawerHeader from '@/components/DrawerHeader';
+import DrawerBody from '@/components/DrawerBody';
+import DrawerFooter from '@/components/DrawerFooter';
+```
+
+## Usage
+
+### Basic Drawer
+
+- `children`: drawer 콘텐츠 (`DrawerHeader`, `DrawerBody`, `DrawerFooter` 등)
+- `open`: true이면, drawer가 나타남
+- `onClose`: Escape 키/backdrop 클릭 이벤트가 일어날 때 호출되는 함수
+
+<Canvas of={DrawerStories.BasicDrawer} />
+
+### Placement
+
+- `anchorOrigin`: drawer가 위치할 anchor의 origin
+
+<Canvas of={DrawerStories.Placement} />
+
+### Variant
+
+- `variant`: drawer 종류
+- `container`: portal container
+
+#### 1. Temporary
+
+- 다른 content보다 상위 level에 drawer가 띄워짐
+- open/close 토글 가능
+- `onClose` 함수 호출됨
+
+<Canvas of={DrawerStories.Temporary} />
+
+#### 2. Permanent
+
+- 다른 content와 동일 level에 drawer가 띄워짐
+- 항상 open된 상태
+- `onClose` 함수 호출하지 않음
+
+##### 1) Left permanent drawer with full header
+
+<Canvas of={DrawerStories.LeftPermanentDrawerWithFullHeader} />
+
+##### 2) Right permanent drawer with full header
+
+<Canvas of={DrawerStories.RightPermanentDrawerWithFullHeader} />
+
+##### 3) Left permanent drawer with partial header
+
+<Canvas of={DrawerStories.LeftPermanentDrawerWithPartialHeader} />
+
+##### 4) Mini variant drawer
+
+<Canvas of={DrawerStories.MiniVariantDrawer} />
+
+#### 3. Persistent
+
+- 다른 content와 동일 level에 drawer가 띄워짐
+- open/close 토글 가능
+- `onClose` 함수 호출하지 않음
+
+##### 1) Left persistent drawer
+
+<Canvas of={DrawerStories.LeftPersistentDrawer} />
+
+##### 2) Right persistent drawer
+
+<Canvas of={DrawerStories.RightPersistentDrawer} />
+
+### Customize Drawer
+
+- `BoxProps`: Box 컴포넌트에 적용되는 props
+
+<Canvas of={DrawerStories.CustomizeDrawer} />
+
+## Props
+
+<ArgTypes of={DrawerStories} sort="alpha" />

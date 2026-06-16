@@ -1,0 +1,73 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as AvatarGroupStories from './AvatarGroup.stories';
+
+<Meta of={AvatarGroupStories} />
+
+# AvatarGroup
+
+아바타를 하나의 그룹으로 쌓음
+
+## Import
+
+```js
+import AvatarGroup from '@/components/AvatarGroup';
+```
+
+## Usage
+
+### Basic AvatarGroup
+
+<Canvas of={AvatarGroupStories.BasicAvatarGroup} />
+
+### Max Avatar Number
+
+- `max`: surplus avatar를 제외한 화면 상에 나타나는 최대 아바타 갯수
+
+<Canvas of={AvatarGroupStories.MaxAvatarNumber} />
+
+### Total Avatar Number
+
+- `total`: 전체 아바타 갯수 (= 화면 상에 나타나는 아바타 갯수 + surplus 갯수)
+
+<Canvas of={AvatarGroupStories.TotalAvatarNumber} />
+
+### Custom Surplus Avatar
+
+- `renderSurplus`: surplus avatar를 렌더하는 함수
+
+<Canvas of={AvatarGroupStories.CustomSurplusAvatar} />
+
+### Spacing
+
+- `spacing`: 아바타 간 벌어짐 정도
+  - `sm`: `Avatar` 너비 x 40% 만큼 겹쳐침
+  - `md`: `Avatar` 너비 x 30% 만큼 겹쳐침
+  - `lg`: `Avatar` 너비 x 20% 만큼 겹쳐침
+
+<Canvas of={AvatarGroupStories.Spacing} />
+
+### Sizes
+
+- `size`: 하위 모든 `Avatar`의 크기
+
+<Canvas of={AvatarGroupStories.Sizes} />
+
+### Shape
+
+- `shape`: 하위 모든 `Avatar`의 모양
+
+<Canvas of={AvatarGroupStories.Shape} />
+
+### AvatarGroup with wrapped avatars
+
+#### 1) Avatar wrapped in Tooltip
+
+<Canvas of={AvatarGroupStories.AvatarWrappedInTooltip} />
+
+#### 2) Avatar wrapped in Link
+
+<Canvas of={AvatarGroupStories.AvatarWrappedInLink} />
+
+## Props
+
+<ArgTypes of={AvatarGroupStories} sort="alpha" />

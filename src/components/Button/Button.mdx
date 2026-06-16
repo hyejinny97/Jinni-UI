@@ -1,0 +1,117 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+form을 제출하거나, 모달창을 여는 등 action이나 event를 유발/취소/삭제하기 위해서 사용됨
+
+## Import
+
+```js
+import Button from '@/components/Button';
+```
+
+## Usage
+
+### Basic Button
+
+- `children`: 버튼 내부 내용(label)
+
+<Canvas of={ButtonStories.BasicButton} />
+
+### Button variants
+
+- `variant`: 버튼 종류
+
+<Canvas of={ButtonStories.ButtonVariant} />
+
+### Button shape
+
+- `shape`: 버튼 모양
+
+<Canvas of={ButtonStories.ButtonShape} />
+
+### Button adornments
+
+- `startAdornment`: content 앞에 위치하는 부가 요소 (icon, avatar 등)
+- `endAdornment`: content 뒤에 위치하는 부가 요소 (icon, avatar 등)
+
+#### 1) Icon Button
+
+<Canvas of={ButtonStories.IconButton} />
+
+#### 2) Loading Button
+
+<Canvas of={ButtonStories.LoadingButton} />
+
+### Full Width
+
+- `fullWidth`: true이면, 버튼 너비는 parent의 너비와 동일하게 맞춰짐
+
+<Canvas of={ButtonStories.FullWidth} />
+
+### Color
+
+- `color`: 버튼 색상
+
+<Canvas of={ButtonStories.Color} />
+
+### Size
+
+- `size`: 버튼 크기
+
+<Canvas of={ButtonStories.Size} />
+
+### ButtonBase props
+
+- `Button` 컴포넌트는 내부적으로 `ButtonBase` 컴포넌트를 반환하므로, `ButtonBase`의 모든 props 사용 가능
+
+#### 1) Button type
+
+<Canvas of={ButtonStories.ButtonType} />
+
+#### 2) Link Button
+
+<Canvas of={ButtonStories.LinkButton} />
+
+#### 2) Overlay effect
+
+1. Overlay color
+
+<Canvas of={ButtonStories.OverlayColor} />
+
+2. Disable overlay effect
+
+<Canvas of={ButtonStories.DisableOverlay} />
+
+#### 3) Ripple effect
+
+1. Ripple color
+
+<Canvas of={ButtonStories.RippleColor} />
+
+2. Ripple start location
+
+<Canvas of={ButtonStories.RippleLocation} />
+
+3. Disable overlay effect
+
+<Canvas of={ButtonStories.DisableRipple} />
+
+#### 4) Elevation effect
+
+<Canvas of={ButtonStories.Elevation} />
+
+#### 5) Disabled
+
+<Canvas of={ButtonStories.Disabled} />
+
+### Custom Button
+
+<Canvas of={ButtonStories.CustomButton} />
+
+## Props
+
+<ArgTypes of={ButtonStories} sort="alpha" />

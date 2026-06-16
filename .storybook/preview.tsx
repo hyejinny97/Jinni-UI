@@ -1,8 +1,7 @@
 import type { Preview } from '@storybook/react';
-import {
-  JinniProvider,
+import JinniProvider, {
   createDesignSystem
-} from '../src/components/_share/JinniProvider';
+} from '../src/components/JinniProvider';
 import ChangeThemeContrastByStorage from './ChangeThemeContrastByStorage';
 
 const preview: Preview = {

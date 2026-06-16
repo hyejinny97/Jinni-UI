@@ -1,10 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
-import {
-  JinniProvider,
-  createDesignSystem
-} from '@/components/_share/JinniProvider';
+import JinniProvider, { createDesignSystem } from '@/components/JinniProvider';
 
 const designSystem = createDesignSystem();
 

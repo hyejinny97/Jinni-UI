@@ -2,9 +2,9 @@ import '../_share/ThemeSwitch.scss';
 import Container from '../_share/Container';
 import ArbitraryComponents from '../_share/ArbitraryComponents';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
-import { Switch } from '@/components/data-entry/Switch';
-import { Stack } from '@/components/layout/Stack';
-import { Text } from '@/components/general/Text';
+import Switch from '@/components/Switch';
+import Stack from '@/components/Stack';
+import Text from '@/components/Text';
 import useJinni from '@/hooks/useJinni';
 
 const ThemePlaygroundContent = () => {

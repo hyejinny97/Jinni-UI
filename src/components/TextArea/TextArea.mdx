@@ -1,0 +1,107 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as TextAreaStories from './TextArea.stories';
+
+<Meta of={TextAreaStories} />
+
+# TextArea
+
+여러 줄의 text를 입력하거나 수정할 수 있는 필드
+
+## Import
+
+```js
+import TextArea from '@/components/TextArea';
+```
+
+## Usage
+
+### Basic TextArea
+
+- `defaultValue`: 초기 textarea value (uncontrolled 상태일 때만 적용 가능)
+
+<Canvas of={TextAreaStories.BasicTextArea} />
+
+### Controlled TextArea
+
+- `value` prop을 통해 control 가능
+- `value`: textarea value
+- `onChange`: value가 변경됐을 때 호출되는 함수
+  - `event.target.value`를 통해 new value 접근 가능
+
+<Canvas of={TextAreaStories.ControlledTextArea} />
+
+### Rows
+
+- 기본적으로, textarea는 한 줄이고 라인 수가 증가할 때마다 높이가 자동으로 일정하게 증가함
+
+#### 1. Rows
+
+- `rows`: rows 개수
+- 이 속성을 설정하면, `maxRows`나 `minRows` 값을 지정해도 반영이 안되고 줄 수(높이)가 고정됨
+
+<Canvas of={TextAreaStories.Rows} />
+
+#### 2. Max rows
+
+- `maxRows`: 최대 rows 개수
+- rows 값이 `maxRows` 이하이면, textarea는 라인 수가 증가할 때마다 높이가 자동으로 일정하게 증가함
+
+<Canvas of={TextAreaStories.MaxRows} />
+
+#### 3. Min rows
+
+- `minRows`: 최소 rows 개수
+- rows 값이 `minRows` 이상이면, textarea는 라인 수가 증가할 때마다 높이가 자동으로 일정하게 증가함
+
+<Canvas of={TextAreaStories.MinRows} />
+
+#### 4. Max and Min rows
+
+<Canvas of={TextAreaStories.MinAndMaxRows} />
+
+### Resize TextArea
+
+- `resize`: textarea 사이즈 조절 가능 여부
+- `resizeDirection`: textarea 사이즈 조절 방향
+
+<Canvas of={TextAreaStories.ResizeTextArea} />
+
+### InputBase props
+
+- `TextArea` 컴포넌트는 내부적으로 `InputBase` 컴포넌트를 반환하므로, `InputBase` 의 모든 props 사용 가능
+
+#### 1. Variants
+
+<Canvas of={TextAreaStories.Variants} />
+
+#### 2. Sizes
+
+<Canvas of={TextAreaStories.Sizes} />
+
+#### 3. Disabled
+
+<Canvas of={TextAreaStories.Disabled} />
+
+#### 4. Color
+
+<Canvas of={TextAreaStories.Color} />
+
+#### 5. Full Width
+
+<Canvas of={TextAreaStories.FullWidth} />
+
+#### 6. Adornments
+
+<Canvas of={TextAreaStories.Adornments} />
+
+#### 7. Disable Effect
+
+<Canvas of={TextAreaStories.DisableEffect} />
+
+### TextArea with form
+
+<Canvas of={TextAreaStories.TextAreaWithForm} />
+
+## Props
+
+<ArgTypes of={TextAreaStories} sort="alpha" />

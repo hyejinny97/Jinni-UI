@@ -1,0 +1,59 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as BoxStories from './Box.stories';
+
+<Meta of={BoxStories} />
+
+# Box
+
+컨테이너
+
+## Import
+
+```js
+import Box from '@/components/Box';
+```
+
+## Usage
+
+### Basic Box
+
+- 기본적으로 `<div>` 요소로 렌더됨
+- `as` prop을 통해서 다른 HTML Element나 컴포넌트로 변경 가능
+
+<Canvas of={BoxStories.BasicBox} />
+
+#### 1) 다른 HTML Element로 변경
+
+<Canvas of={BoxStories.AsHtmlElement} />
+
+#### 2) 다른 Component로 변경
+
+<Canvas of={BoxStories.AsComponent} />
+
+### Customization
+
+- `style` prop을 통해 너비, 색상 등 자유롭게 커스텀 가능
+
+<Canvas of={BoxStories.Customization} />
+
+### Elevation
+
+- `elevation`: 계층(높낮이)
+
+<Canvas of={BoxStories.Elevation} />
+
+### Outlined
+
+- `outlined`: true이면, 테두리가 나타남
+
+<Canvas of={BoxStories.Outlined} />
+
+### Round
+
+- `round`: border radius
+
+<Canvas of={BoxStories.Round} />
+
+## Props
+
+<ArgTypes of={BoxStories} sort="alpha" />

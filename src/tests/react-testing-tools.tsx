@@ -1,10 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import React, { ReactElement } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
-import {
-  JinniProvider,
-  createDesignSystem
-} from '@/components/_share/JinniProvider';
+import JinniProvider, { createDesignSystem } from '@/components/JinniProvider';
 
 const customRender = (
   ui: ReactElement,

@@ -1,0 +1,31 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import DecreaseButton from './DecreaseButton';
+import StoryErrorBoundary from '@/components/StoryErrorBoundary';
+
+const meta: Meta<typeof DecreaseButton> = {
+  title: 'components/NumberInput/DecreaseButton',
+  component: DecreaseButton,
+  argTypes: {
+    children: {
+      description: '버튼 내부 내용',
+      table: {
+        type: { summary: `React.ReactNode` },
+        defaultValue: {
+          summary: `<ArrowDownIcon color='on-surface-variant' />`
+        }
+      }
+    }
+  },
+  decorators: [
+    (Story) => (
+      <StoryErrorBoundary>
+        <Story />
+      </StoryErrorBoundary>
+    )
+  ]
+};
+
+export default meta;
+type Story = StoryObj<typeof DecreaseButton>;
+
+export const Basic: Story = {};

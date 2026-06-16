@@ -1,0 +1,98 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as AccordionStories from './Accordion.stories';
+import * as AccordionItemStories from '../AccordionItem/AccordionItem.stories';
+import * as AccordionSummaryStories from '../AccordionSummary/AccordionSummary.stories';
+import * as AccordionDetailsStories from '../AccordionDetails/AccordionDetails.stories';
+
+<Meta of={AccordionStories} />
+
+# Accordion
+
+콘텐츠를 보여주거나(expand) 숨기는(collapse) 컴포넌트
+
+- 구성 컴포넌트
+  - `Accordion` 컴포넌트: 여러 개의 `AccordionItem`를 감싸는 wrapper
+  - `AccordionItem` 컴포넌트: `AccordionSummary`, `AccordionDetails`를 감싸는 wrapper
+  - `AccordionSummary` 컴포넌트: accordion header (trigger)
+  - `AccordionDetails` 컴포넌트: accordion body (panel)
+
+## Import
+
+```js
+import Accordion from '@/components/Accordion';
+import AccordionItem from '@/components/AccordionItem';
+import AccordionSummary from '@/components/AccordionSummary';
+import AccordionDetails from '@/components/AccordionDetails';
+```
+
+## Usage
+
+### Basic Accordion
+
+<Canvas of={AccordionStories.BasicAccordion} />
+
+### Expanded by default
+
+- `AccordionItem` 컴포넌트
+  - `defaultExpanded`: true이면, 초기에 expand 됨 (uncontrolled인 경우에만 적용 가능)
+
+<Canvas of={AccordionStories.ExpandedByDefault} />
+
+### Controlled Accordion
+
+- `expanded` prop을 통해 accordion을 control 할 수 있음
+- `AccordionItem` 컴포넌트
+
+  - `expanded`: true이면, expand 됨
+  - `onChange`: expand/collapse state에 변화가 있을 때 호출되는 함수
+
+<Canvas of={AccordionStories.ControlledAccordion} />
+
+### Disabled Item
+
+- `AccordionItem` 컴포넌트
+  - `disabled`: true이면, 비활성화 됨
+
+<Canvas of={AccordionStories.DisabledItem} />
+
+### Expand Icon
+
+- `AccordionSummary` 컴포넌트
+  - `expandIcon`: expand indicator icon (`false`이면, expandIcon이 나타나지 않음)
+
+<Canvas of={AccordionStories.ExpandIcon} />
+
+### Customize Accordion
+
+- `AccordionSummary` 컴포넌트
+  - `ButtonBaseProps`: `ButtonBase` 컴포넌트의 props
+- `style` prop을 통해 background-color, border 등 커스텀 가능
+
+<Canvas of={AccordionStories.CustomizeAccordion} />
+
+### Transition
+
+- `AccordionDetails` 컴포넌트
+  - `WrapperComponent`: wrapper 컴포넌트
+  - `TransitionComponent`: transition 컴포넌트
+- motion 라이브러리를 사용해 transition 적용 가능
+
+<Canvas of={AccordionStories.Transition} />
+
+## Props
+
+### 1. Accordion
+
+<ArgTypes of={AccordionStories} sort="alpha" />
+
+### 2. AccordionItem
+
+<ArgTypes of={AccordionItemStories} sort="alpha" />
+
+### 3. AccordionSummary
+
+<ArgTypes of={AccordionSummaryStories} sort="alpha" />
+
+### 4. AccordionDetails
+
+<ArgTypes of={AccordionDetailsStories} sort="alpha" />

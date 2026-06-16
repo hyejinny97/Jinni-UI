@@ -1,0 +1,107 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as ToggleButtonGroupStories from './ToggleButtonGroup.stories';
+
+<Meta of={ToggleButtonGroupStories} />
+
+# ToggleButtonGroup
+
+연관된 option button들을 그룹핑함
+
+## Import
+
+```js
+import ToggleButtonGroup from '@/components/ToggleButtonGroup';
+```
+
+## Usage
+
+### Basic ToggleButtonGroup
+
+- Selection 타입
+
+  1. **Exclusive Selection**: 1개 이하의 toggle button만 선택 가능
+  2. **Multiple Selection**: 0개 이상의 toggle button 선택 가능
+
+- 기본적으로 Exclusive Selection 상태임
+
+<Canvas of={ToggleButtonGroupStories.BasicToggleButtonGroup} />
+
+### Default value
+
+- `defaultValue`: 초기 selected value (uncontrolled 상태일 때만 적용 가능)
+
+#### 1) Exclusive Selection
+
+- `defaultValue` 타입이 `string` | `number` | `boolean` | `null`인 경우
+
+<Canvas of={ToggleButtonGroupStories.ExclusiveDefaultValue} />
+
+#### 2) Multiple Selection
+
+- `defaultValue` 타입이 `Array<string | number | boolean>`인 경우
+
+<Canvas of={ToggleButtonGroupStories.MultipleDefaultValue} />
+
+### Controlled ToggleButtonGroup
+
+- `value` prop을 통해 ToggleButtonGroup을 control 가능
+- `value`: selected value
+- `onChange`: selected value가 변경됐을 때 호출되는 함수
+
+#### 1) Exclusive Selection
+
+- `value` 타입이 `string` | `number` | `boolean` | `null` 인 경우
+
+<Canvas of={ToggleButtonGroupStories.ExclusiveControlled} />
+
+#### 2) Multiple Selection
+
+- `value` 타입이 `Array<string | number | boolean>`인 경우
+
+<Canvas of={ToggleButtonGroupStories.MultipleControlled} />
+
+### Orientation
+
+- `orientation`: toggle buttons 방향
+
+<Canvas of={ToggleButtonGroupStories.Orientation} />
+
+### ToggleButton props
+
+- `ToggleButtonGroup` 컴포넌트에 적용된 일부 ToggleButtonProps는 하위 모든 `ToggleButton`에 일괄 적용됨
+
+#### 1. Color
+
+<Canvas of={ToggleButtonGroupStories.Color} />
+
+#### 2. Size
+
+<Canvas of={ToggleButtonGroupStories.Size} />
+
+#### 3. Overlay effect
+
+<Canvas of={ToggleButtonGroupStories.OverlayEffect} />
+
+#### 4. Ripple effect
+
+<Canvas of={ToggleButtonGroupStories.RippleEffect} />
+
+#### 5. Disabled
+
+<Canvas of={ToggleButtonGroupStories.Disabled} />
+
+### Select at least one
+
+- `onChange` prop을 통해 적어도 1개 이상의 toggle button을 선택하도록 구현 가능
+
+#### 1) Exclusive Selection
+
+<Canvas of={ToggleButtonGroupStories.ExclusiveSelectAtLeastOne} />
+
+#### 2) Multiple Selection
+
+<Canvas of={ToggleButtonGroupStories.MultipleSelectAtLeastOne} />
+
+## Props
+
+<ArgTypes of={ToggleButtonGroupStories} sort="alpha" />

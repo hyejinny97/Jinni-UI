@@ -1,13 +1,11 @@
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
-import {
-  Table,
-  TableContainer,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell
-} from '@/components/data-display/Table';
-import { Box } from '@/components/layout/Box';
+import TableContainer from '@/components/TableContainer';
+import Table from '@/components/Table';
+import TableHead from '@/components/TableHead';
+import TableBody from '@/components/TableBody';
+import TableRow from '@/components/TableRow';
+import TableCell from '@/components/TableCell';
+import Box from '@/components/Box';
 
 const COLUMNS = [
   { headerName: 'Breakpoint Type', field: 'bpType' },

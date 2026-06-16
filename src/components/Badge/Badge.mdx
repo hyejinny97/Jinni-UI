@@ -1,0 +1,68 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as BadgeStories from './Badge.stories';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+하위 요소(아이콘이나 버튼 등)의 모서리 한 부분에 숫자 등 정보를 제공함
+
+## Import
+
+```js
+import Badge from '@/components/Badge';
+```
+
+## Usage
+
+### Basic Badge
+
+- `children`: 배지가 부착될 anchor (Icon, Avatar, text 등)
+- `content`: 배지에 들어갈 내용 (number, icon, text 등)
+
+<Canvas of={BadgeStories.BasicBadge} />
+
+### Maximum Value
+
+- `max`: content 숫자 최댓값
+
+<Canvas of={BadgeStories.MaximumValue} />
+
+### Show on Zero
+
+- 기본적으로 content가 0인 경우, 배지가 자동으로 숨겨짐
+- `showZero`: true이면, content가 0이어도 배지가 숨겨지지 않음
+
+<Canvas of={BadgeStories.ShowOnZero} />
+
+### Dot Badge
+
+- `variant`: 배지의 형태
+
+<Canvas of={BadgeStories.DotBadge} />
+
+### Badge Visibility
+
+- `invisible`: true면, 배지가 보이지 않음
+
+<Canvas of={BadgeStories.BadgeVisibility} />
+
+### Size
+
+- `size`: 배지 크기
+
+<Canvas of={BadgeStories.Size} />
+
+### Badge Alignment
+
+- `anchorOrigin`: 배지가 부착될 anchor의 origin
+
+<Canvas of={BadgeStories.BadgeAlignment} />
+
+### Customization
+
+<Canvas of={BadgeStories.Customization} />
+
+## Props
+
+<ArgTypes of={BadgeStories} sort="alpha" />

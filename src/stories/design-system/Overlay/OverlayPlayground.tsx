@@ -1,19 +1,18 @@
 import Container from '../_share/Container';
 import JinniProviderWrapper from '../_share/JinniProviderWrapper';
 import { useState } from 'react';
-import { Label } from '@/components/data-entry/Label';
-import {
-  ColorPicker,
+import Label from '@/components/Label';
+import ColorPicker, {
   HSBObject,
   isHsbObject,
   hsbObjToHex
-} from '@/components/data-entry/ColorPicker';
+} from '@/components/ColorPicker';
 import { HEX } from '@/types/color';
-import { Stack } from '@/components/layout/Stack';
-import { Grid } from '@/components/layout/Grid';
-import { Box } from '@/components/layout/Box';
-import { Text } from '@/components/general/Text';
-import { Tooltip } from '@/components/data-display/Tooltip';
+import Stack from '@/components/Stack';
+import Grid from '@/components/Grid';
+import Box from '@/components/Box';
+import Text from '@/components/Text';
+import Tooltip from '@/components/Tooltip';
 import useJinni from '@/hooks/useJinni';
 import { toRgbaObject } from '@/utils/colorFormat';
 

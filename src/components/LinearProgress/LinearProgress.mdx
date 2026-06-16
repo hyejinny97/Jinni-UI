@@ -1,0 +1,83 @@
+import { Meta, Canvas, ArgTypes, Stories } from '@storybook/blocks';
+import * as LinearProgressStories from './LinearProgress.stories';
+
+<Meta of={LinearProgressStories} />
+
+# LinearProgress
+
+명확하지 않은 대기 시간을 알려주거나 처리 정도를 나타내줌
+
+- LinearProgress 종류
+  - Indeterminate LinearProgress: 명확하지 않은 대기 상태를 나타냄
+  - Determinate LinearProgress: 명확한 진행 정도를 나타냄
+
+## Import
+
+```js
+import LinearProgress from '@/components/LinearProgress';
+```
+
+## Usage
+
+### Indeterminate LinearProgress
+
+#### 1. Basic
+
+<Canvas of={LinearProgressStories.Indeterminate} />
+
+#### 2. Speed
+
+- `speed`: 한번 이동하는데 걸리는 시간 (단위: s)
+
+<Canvas of={LinearProgressStories.Speed} />
+
+### Determinate LinearProgress
+
+#### 1. Basic
+
+- `value`: 처리 정도 (0~100)
+- `value` prop이 있으면 determinate, 없으면 indeterminate
+
+<Canvas of={LinearProgressStories.Determinate} />
+
+#### 2. Linear with label
+
+<Canvas of={LinearProgressStories.LinearWithLabel} />
+
+### Orientation
+
+- `orientation`: LinearProgress 방향
+
+<Canvas of={LinearProgressStories.Orientation} />
+
+### Progress Color
+
+- `progressColor`: progress 색상
+
+<Canvas of={LinearProgressStories.ProgressColor} />
+
+### Track Color
+
+- `trackColor`: track 색상
+
+<Canvas of={LinearProgressStories.TrackColor} />
+
+### Thickness
+
+- `thickness`: progress 두께
+
+<Canvas of={LinearProgressStories.Thickness} />
+
+### LineCap
+
+- `lineCap`: progress/track line 끝 모양
+
+<Canvas of={LinearProgressStories.LineCap} />
+
+### Customization
+
+<Canvas of={LinearProgressStories.Customization} />
+
+## Props
+
+<ArgTypes of={LinearProgressStories} sort="alpha" />
