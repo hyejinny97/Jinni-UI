@@ -45,9 +45,10 @@ const InputBase = <T extends AsType = 'div'>({
     focused,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const colorStyle = useColorStyle({ variant, color, focusedColor });
   const newStyle = useStyle({
     ...colorStyle,

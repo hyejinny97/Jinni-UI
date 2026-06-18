@@ -69,7 +69,7 @@ const Dots = <T extends AsType = 'ol'>(props: DotsProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <DotsContext.Provider
+    <DotsContext
       value={{
         selectedValue,
         handleChange,
@@ -99,7 +99,7 @@ const Dots = <T extends AsType = 'ol'>(props: DotsProps<T>) => {
           {children}
         </Component>
       </div>
-    </DotsContext.Provider>
+    </DotsContext>
   );
 };
 

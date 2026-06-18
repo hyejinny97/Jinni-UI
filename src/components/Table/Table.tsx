@@ -23,7 +23,7 @@ const Table = <T extends AsType = 'table'>(props: TableProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <TableContext.Provider value={{ size, stickyHeader }}>
+    <TableContext value={{ size, stickyHeader }}>
       <Component
         className={cn('JinniTable', { stickyHeader }, className)}
         style={newStyle}
@@ -31,7 +31,7 @@ const Table = <T extends AsType = 'table'>(props: TableProps<T>) => {
       >
         {children}
       </Component>
-    </TableContext.Provider>
+    </TableContext>
   );
 };
 

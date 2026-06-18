@@ -43,7 +43,7 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <ColorBoxContext.Provider
+    <ColorBoxContext
       value={{ colorValue, format, changeColorValue, changeFormat }}
     >
       <Component
@@ -68,7 +68,7 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
           </Stack>
         </Stack>
       </Component>
-    </ColorBoxContext.Provider>
+    </ColorBoxContext>
   );
 };
 

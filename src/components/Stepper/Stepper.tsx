@@ -27,7 +27,7 @@ const Stepper = <T extends AsType = 'div'>(props: StepperProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <StepperContext.Provider value={{ orientation, alignment, connectorColor }}>
+    <StepperContext value={{ orientation, alignment, connectorColor }}>
       <Component
         className={cn('JinniStepper', orientation, alignment, className)}
         style={newStyle}
@@ -35,7 +35,7 @@ const Stepper = <T extends AsType = 'div'>(props: StepperProps<T>) => {
       >
         {children}
       </Component>
-    </StepperContext.Provider>
+    </StepperContext>
   );
 };
 

@@ -85,7 +85,7 @@ const DefaultRenderValue = (
         endAdornment={
           <ButtonBase
             type="button"
-            onClick={(e: MouseEvent) => {
+            onClick={(e: React.MouseEvent) => {
               e.preventDefault();
               e.stopPropagation();
               onDelete(e, value);
@@ -145,7 +145,7 @@ const Autocomplete = <Multiple extends boolean = false>(
     ...rest
   } = props;
   const menuListId = useId();
-  const inputBaseElRef = useRef<HTMLElement>(null);
+  const inputBaseElRef = useRef<HTMLDivElement>(null);
   const inputElRef = useRef<HTMLInputElement>(null);
   const menuListElRef = useRef<HTMLUListElement>(null);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -208,7 +208,7 @@ const Autocomplete = <Multiple extends boolean = false>(
   };
 
   return (
-    <AutocompleteContext.Provider
+    <AutocompleteContext
       value={{
         multiple,
         isFiltered,
@@ -238,7 +238,7 @@ const Autocomplete = <Multiple extends boolean = false>(
               className="show-menu"
               disabled={disabled}
               tabIndex={-1}
-              onClick={(event: MouseEvent) => {
+              onClick={(event: React.MouseEvent) => {
                 toggleMenu(event);
                 setIsFiltered(false);
                 inputElRef.current?.focus();
@@ -296,7 +296,7 @@ const Autocomplete = <Multiple extends boolean = false>(
         <ButtonBase
           type="button"
           className="clear"
-          onClick={(event: MouseEvent) => {
+          onClick={(event: React.MouseEvent) => {
             initInputValue(event);
             initAutocompleteValue(event);
           }}
@@ -332,7 +332,7 @@ const Autocomplete = <Multiple extends boolean = false>(
         {children}
         <ListItem className="no-options">No Options</ListItem>
       </Menu>
-    </AutocompleteContext.Provider>
+    </AutocompleteContext>
   );
 };
 

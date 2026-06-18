@@ -37,7 +37,7 @@ const MenuList = <T extends AsType = 'ul'>({
   const newStyle = useStyle(style);
 
   return (
-    <MenuListContext.Provider value={{ dense }}>
+    <MenuListContext value={{ dense }}>
       <Component
         ref={mergeRefs(ref as React.Ref<HTMLElement>, menuListElRef)}
         className={cn(
@@ -52,7 +52,7 @@ const MenuList = <T extends AsType = 'ul'>({
       >
         {children}
       </Component>
-    </MenuListContext.Provider>
+    </MenuListContext>
   );
 };
 

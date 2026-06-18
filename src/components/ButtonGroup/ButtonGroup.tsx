@@ -59,7 +59,7 @@ const ButtonGroup = <T extends AsType = 'div'>({
   });
 
   return (
-    <ButtonGroupContext.Provider
+    <ButtonGroupContext
       value={{
         fullWidth,
         variant,
@@ -88,7 +88,7 @@ const ButtonGroup = <T extends AsType = 'div'>({
       >
         {children}
       </Component>
-    </ButtonGroupContext.Provider>
+    </ButtonGroupContext>
   );
 };
 

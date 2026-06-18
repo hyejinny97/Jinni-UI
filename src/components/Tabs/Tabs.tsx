@@ -28,9 +28,10 @@ const Tabs = <T extends AsType = 'div'>(props: TabsProps<T>) => {
     children,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const tabsId = useId();
   const { selectedValue, handleChange } = useTabValue({
     defaultValue,
@@ -44,7 +45,7 @@ const Tabs = <T extends AsType = 'div'>(props: TabsProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <TabsContext.Provider
+    <TabsContext
       value={{
         tabsId,
         selectedValue,
@@ -65,7 +66,7 @@ const Tabs = <T extends AsType = 'div'>(props: TabsProps<T>) => {
       >
         {children}
       </Component>
-    </TabsContext.Provider>
+    </TabsContext>
   );
 };
 

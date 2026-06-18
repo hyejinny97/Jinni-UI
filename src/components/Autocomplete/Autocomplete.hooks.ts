@@ -27,8 +27,8 @@ type UseBlurProps<Multiple extends boolean = false> = Required<
   Pick<AutocompleteProps, 'mode'>
 > &
   Pick<AutocompleteProps<Multiple>, 'multiple'> & {
-    inputElRef: React.RefObject<HTMLInputElement>;
-    menuListElRef: React.RefObject<HTMLUListElement>;
+    inputElRef: React.RefObject<HTMLInputElement | null>;
+    menuListElRef: React.RefObject<HTMLUListElement | null>;
     autocompleteValue: OptionValueType[];
     valueToLabel: (value: OptionValueType) => string;
     changeInputValue: (
@@ -43,8 +43,8 @@ type UseBlurProps<Multiple extends boolean = false> = Required<
 type UseAutocompleteValueLabel = Pick<AutocompleteProps, 'children'>;
 
 type UseKeyboardAccessibility = {
-  inputElRef: React.RefObject<HTMLInputElement>;
-  menuListElRef: React.RefObject<HTMLUListElement>;
+  inputElRef: React.RefObject<HTMLInputElement | null>;
+  menuListElRef: React.RefObject<HTMLUListElement | null>;
 };
 
 export const useAutocompleteValue = <Multiple extends boolean = false>({

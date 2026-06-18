@@ -65,7 +65,7 @@ const InfiniteCarousel = ({ ref, ...props }: InfiniteCarouselProps) => {
   );
 
   return (
-    <InfiniteCarouselContext.Provider
+    <InfiniteCarouselContext
       value={{
         count: baseCount,
         slideValue: transformToSlideIdx(carouselValue),
@@ -84,7 +84,7 @@ const InfiniteCarousel = ({ ref, ...props }: InfiniteCarouselProps) => {
       >
         {infiniteCarouselChildren}
       </Carousel>
-    </InfiniteCarouselContext.Provider>
+    </InfiniteCarouselContext>
   );
 };
 

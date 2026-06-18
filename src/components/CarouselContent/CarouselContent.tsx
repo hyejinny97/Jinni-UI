@@ -36,14 +36,14 @@ const CarouselContent = <T extends AsType = 'ul'>(
         {...rest}
       >
         {Children.map(children, (child, index) => (
-          <CarouselContentContext.Provider
+          <CarouselContentContext
             value={{
               carouselContainerElRef,
               itemValue: index
             }}
           >
             {child}
-          </CarouselContentContext.Provider>
+          </CarouselContentContext>
         ))}
       </Component>
     </div>

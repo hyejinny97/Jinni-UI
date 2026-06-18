@@ -121,7 +121,7 @@ const Carousel = <T extends AsType = 'div'>({
   const newStyle = useStyle(style);
 
   return (
-    <CarouselContext.Provider
+    <CarouselContext
       value={{
         count,
         slideValue,
@@ -147,7 +147,7 @@ const Carousel = <T extends AsType = 'div'>({
       >
         {children}
       </Component>
-    </CarouselContext.Provider>
+    </CarouselContext>
   );
 };
 

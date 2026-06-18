@@ -54,9 +54,10 @@ const SwipeableDrawer = <T extends AsType = 'div'>(
     BoxProps,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const drawerHeaderId = useId();
   const drawerBodyId = useId();
   const drawerContainerElRef = useRef<HTMLDivElement>(null);
@@ -255,7 +256,7 @@ const SwipeableDrawer = <T extends AsType = 'div'>(
   };
 
   return (
-    <SwipeableDrawerContext.Provider value={{ drawerHeaderId, drawerBodyId }}>
+    <SwipeableDrawerContext value={{ drawerHeaderId, drawerBodyId }}>
       {createPortal(
         <div
           ref={drawerContainerElRef}
@@ -291,7 +292,7 @@ const SwipeableDrawer = <T extends AsType = 'div'>(
         </div>,
         document.body
       )}
-    </SwipeableDrawerContext.Provider>
+    </SwipeableDrawerContext>
   );
 };
 

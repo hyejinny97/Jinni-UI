@@ -1164,7 +1164,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
   return (
-    <TourContext.Provider value={{ openTour, registerAnchor }}>
+    <TourContext value={{ openTour, registerAnchor }}>
       {children}
       <Tour
         open={open}
@@ -1255,7 +1255,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
           }
         )}
       </Tour>
-    </TourContext.Provider>
+    </TourContext>
   );
 };
 
@@ -2423,7 +2423,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
   return (
-    <TourContext.Provider value={{ openTour, registerAnchor }}>
+    <TourContext value={{ openTour, registerAnchor }}>
       {children}
       <Tour
         open={open}
@@ -2514,7 +2514,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
           }
         )}
       </Tour>
-    </TourContext.Provider>
+    </TourContext>
   );
 };
 

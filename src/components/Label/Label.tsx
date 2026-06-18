@@ -36,7 +36,7 @@ const Label = <T extends AsType = 'label'>(props: LabelProps<T>) => {
   });
 
   return (
-    <LabelContext.Provider value={{ required, disabled, size }}>
+    <LabelContext value={{ required, disabled, size }}>
       <Component
         className={cn('JinniLabel', labelPlacement, className)}
         style={newStyle}
@@ -55,7 +55,7 @@ const Label = <T extends AsType = 'label'>(props: LabelProps<T>) => {
           )}
         </span>
       </Component>
-    </LabelContext.Provider>
+    </LabelContext>
   );
 };
 

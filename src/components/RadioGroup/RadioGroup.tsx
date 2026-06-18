@@ -35,7 +35,7 @@ const RadioGroup = (props: RadioGroupProps) => {
   });
 
   return (
-    <RadioGroupContext.Provider
+    <RadioGroupContext
       value={{
         name,
         checkedValue,
@@ -49,7 +49,7 @@ const RadioGroup = (props: RadioGroupProps) => {
       }}
     >
       {children}
-    </RadioGroupContext.Provider>
+    </RadioGroupContext>
   );
 };
 

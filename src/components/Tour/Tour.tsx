@@ -22,9 +22,9 @@ const Tour = (props: TourProps) => {
 
   if (!open) return;
   return (
-    <TourContext.Provider value={{ tourValue: value, onClose, ...rest }}>
+    <TourContext value={{ tourValue: value, onClose, ...rest }}>
       {children}
-    </TourContext.Provider>
+    </TourContext>
   );
 };
 

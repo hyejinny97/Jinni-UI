@@ -65,7 +65,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
     onClose(e.nativeEvent, 'backdropClick');
   };
 
-  const popperAnchorProps: PopperProps =
+  const popperAnchorProps: PopperProps<T> =
     anchorReference === 'anchorEl'
       ? {
           anchorReference: 'anchorEl',

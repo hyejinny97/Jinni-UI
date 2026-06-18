@@ -87,7 +87,7 @@ const NumberInput = ({ ref, ...props }: NumberInputProps) => {
   const { inputElRef } = useKeyboardAccessibility({ increase, decrease });
 
   return (
-    <NumberInputContext.Provider
+    <NumberInputContext
       value={{
         size,
         increase,
@@ -124,7 +124,7 @@ const NumberInput = ({ ref, ...props }: NumberInputProps) => {
           {...rest}
         />
       </InputBase>
-    </NumberInputContext.Provider>
+    </NumberInputContext>
   );
 };
 

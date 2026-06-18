@@ -72,11 +72,11 @@ const JinniProvider = ({
   useAddStyleTag({ computedDesignSystem });
 
   return (
-    <JinniContext.Provider
+    <JinniContext
       value={{ ...computedDesignSystem, changeTheme, changeContrast }}
     >
       {children}
-    </JinniContext.Provider>
+    </JinniContext>
   );
 };
 

@@ -29,7 +29,7 @@ const Timeline = <T extends AsType = 'ul'>(props: TimelineProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <TimelineContext.Provider value={{ orientation }}>
+    <TimelineContext value={{ orientation }}>
       <Component
         className={cn(
           'JinniTimeline',
@@ -43,7 +43,7 @@ const Timeline = <T extends AsType = 'ul'>(props: TimelineProps<T>) => {
       >
         {reverse ? timelineItemChildren.reverse() : timelineItemChildren}
       </Component>
-    </TimelineContext.Provider>
+    </TimelineContext>
   );
 };
 

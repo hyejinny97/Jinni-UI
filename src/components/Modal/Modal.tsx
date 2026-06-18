@@ -60,7 +60,7 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
   };
 
   return (
-    <ModalContext.Provider value={{ modalHeaderId, modalBodyId }}>
+    <ModalContext value={{ modalHeaderId, modalBodyId }}>
       <WrapperComponent>
         {open && (
           <>
@@ -102,7 +102,7 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
           </>
         )}
       </WrapperComponent>
-    </ModalContext.Provider>
+    </ModalContext>
   );
 };
 
