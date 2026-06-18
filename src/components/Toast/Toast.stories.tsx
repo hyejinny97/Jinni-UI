@@ -1,4 +1,4 @@
-import { useState, forwardRef, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Toast, { CloseReason } from './Toast';
 import Stack from '@/components/Stack';
@@ -125,7 +125,7 @@ const ToastActionTemplate = () => {
         action={
           <>
             <Button
-              onClick={closeToast}
+              onClick={() => setOpen(false)}
               variant="text"
               color="primary"
               size="sm"
@@ -134,7 +134,7 @@ const ToastActionTemplate = () => {
               UNDO
             </Button>
             <ButtonBase
-              onClick={closeToast}
+              onClick={() => setOpen(false)}
               style={{
                 display: 'inline-flex',
                 padding: '4px',
@@ -210,7 +210,7 @@ const ToastPositionTemplate = () => {
         message="Toast Message"
         action={
           <ButtonBase
-            onClick={closeToast}
+            onClick={() => setOpen(false)}
             style={{
               display: 'inline-flex',
               padding: '4px',
@@ -301,19 +301,17 @@ const CustomizeToastTemplate = () => {
   );
 };
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
   const [open, setOpen] = useState(false);
@@ -339,21 +337,20 @@ const TransitionTemplate = () => {
   );
 };
 
-const getScaleFadeWithKey = (key: number) =>
-  forwardRef(
-    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-      return (
-        <motion.div
-          ref={ref}
-          key={key}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          {...props}
-        />
-      );
-    }
-  );
+const getScaleFadeWithKey =
+  (key: number) =>
+  ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+    return (
+      <motion.div
+        ref={ref}
+        key={key}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  };
 
 const ConsecutiveToastsTemplate = () => {
   const [toast, setToast] = useState({ message: '', key: -1 });
@@ -383,7 +380,7 @@ const ConsecutiveToastsTemplate = () => {
         message={toast.message}
         action={
           <ButtonBase
-            onClick={closeToast}
+            onClick={() => setOpen(false)}
             style={{
               display: 'inline-flex',
               padding: '4px',
@@ -405,19 +402,17 @@ type Toast = {
   content: string;
 };
 
-const SlideToRight = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ x: '-100%' }}
-        animate={{ x: 0 }}
-        exit={{ x: '-100%' }}
-        {...props}
-      />
-    );
-  }
-);
+const SlideToRight = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ x: '-100%' }}
+      animate={{ x: 0 }}
+      exit={{ x: '-100%' }}
+      {...props}
+    />
+  );
+};
 
 const SlideToRightTemplate = () => {
   const countRef = useRef<number>(0);
@@ -469,19 +464,17 @@ const SlideToRightTemplate = () => {
   );
 };
 
-const ScaleSlide = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
-        animate={{ transform: 'translate(-50%, 0)', scale: 1, opacity: 1 }}
-        exit={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleSlide = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
+      animate={{ transform: 'translate(-50%, 0)', scale: 1, opacity: 1 }}
+      exit={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
+      {...props}
+    />
+  );
+};
 
 const SlideToDownTemplate = () => {
   const countRef = useRef<number>(0);
@@ -590,7 +583,7 @@ export const ToastAction: Story = {
         action={
           <>
             <Button
-              onClick={closeToast}
+              onClick={() => setOpen(false)}
               variant="text"
               color="primary"
               size="sm"
@@ -599,7 +592,7 @@ export const ToastAction: Story = {
               UNDO
             </Button>
             <ButtonBase
-              onClick={closeToast}
+              onClick={() => setOpen(false)}
               style={{
                 display: 'inline-flex',
                 padding: '4px',
@@ -684,7 +677,7 @@ export const ToastPosition: Story = {
         message="Toast Message"
         action={
           <ButtonBase
-            onClick={closeToast}
+            onClick={() => setOpen(false)}
             style={{
               display: 'inline-flex',
               padding: '4px',
@@ -816,19 +809,17 @@ export const Transition: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
   
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
   const [open, setOpen] = useState(false);
@@ -867,21 +858,20 @@ export const ConsecutiveToasts: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
-const getScaleFadeWithKey = (key: number) =>
-  forwardRef(
-    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-      return (
-        <motion.div
-          ref={ref}
-          key={key}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          {...props}
-        />
-      );
-    }
-  );
+const getScaleFadeWithKey =
+  (key: number) =>
+  ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+    return (
+      <motion.div
+        ref={ref}
+        key={key}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        {...props}
+      />
+    );
+  };
 
 const ConsecutiveToastsTemplate = () => {
   const [toast, setToast] = useState({ message: '', key: -1 });
@@ -911,7 +901,7 @@ const ConsecutiveToastsTemplate = () => {
         message={toast.message}
         action={
           <ButtonBase
-            onClick={closeToast}
+            onClick={() => setOpen(false)}
             style={{
               display: 'inline-flex',
               padding: '4px',
@@ -946,19 +936,17 @@ type Toast = {
   content: string;
 };
 
-const SlideToRight = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ x: '-100%' }}
-        animate={{ x: 0 }}
-        exit={{ x: '-100%' }}
-        {...props}
-      />
-    );
-  }
-);
+const SlideToRight = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ x: '-100%' }}
+      animate={{ x: 0 }}
+      exit={{ x: '-100%' }}
+      {...props}
+    />
+  );
+};
 
 const SlideToRightTemplate = () => {
   const countRef = useRef<number>(0);
@@ -1028,19 +1016,17 @@ type Toast = {
   content: string;
 };
         
-const ScaleSlide = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
-        animate={{ transform: 'translate(-50%, 0)', scale: 1, opacity: 1 }}
-        exit={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleSlide = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
+      animate={{ transform: 'translate(-50%, 0)', scale: 1, opacity: 1 }}
+      exit={{ transform: 'translate(-50%, -50%)', scale: 0.8, opacity: 0 }}
+      {...props}
+    />
+  );
+};
 
 const SlideToDownTemplate = () => {
   const countRef = useRef<number>(0);

@@ -1,5 +1,5 @@
 import './Month.scss';
-import { forwardRef, memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import cn from 'classnames';
 import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { ColorType } from '@/types/color';
@@ -19,7 +19,7 @@ export type MonthProps = Omit<
   actualMonth?: number;
 };
 
-const Month = forwardRef((props: MonthProps, ref: React.Ref<HTMLElement>) => {
+const Month = ({ ref, ...props }: MonthProps) => {
   const {
     value,
     children,
@@ -61,6 +61,6 @@ const Month = forwardRef((props: MonthProps, ref: React.Ref<HTMLElement>) => {
       {children}
     </ButtonBase>
   );
-});
+};
 
 export default memo(Month);

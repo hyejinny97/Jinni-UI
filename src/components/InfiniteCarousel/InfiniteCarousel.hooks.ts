@@ -19,7 +19,7 @@ type UseAddItemsProps = Pick<InfiniteCarouselProps, 'children'> &
   Required<
     Pick<InfiniteCarouselProps, 'orientation' | 'spacing' | 'slideAlignment'>
   > & {
-    infiniteCarouselElRef: React.RefObject<HTMLElement>;
+    infiniteCarouselElRef: React.RefObject<HTMLElement | null>;
     defaultValue: number;
     handleChange: (newValue: number) => void;
   };
@@ -32,8 +32,8 @@ type UseTransformProps = {
 type UseCarouselJumpOnLimitProps = Required<
   Pick<InfiniteCarouselProps, 'orientation' | 'slideAlignment'>
 > & {
-  infiniteCarouselElRef: React.RefObject<HTMLElement>;
-  freezeCarouselValueRef: React.MutableRefObject<boolean>;
+  infiniteCarouselElRef: React.RefObject<HTMLElement | null>;
+  freezeCarouselValueRef: React.RefObject<boolean>;
   baseCount: number;
   itemsAddedToFront: CarouselItemElement[];
   itemsAddedToBack: CarouselItemElement[];

@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Tooltip from './Tooltip';
 import Stack from '@/components/Stack';
@@ -124,33 +124,29 @@ const ControlledTooltipTemplate = () => {
   );
 };
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
-const ScaleFadeWithDelay = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
-        exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFadeWithDelay = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
+      exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
+      {...props}
+    />
+  );
+};
 
 export const BasicTooltip: Story = {
   render: (args) => {
@@ -507,19 +503,17 @@ export const Transition: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
         
 <Tooltip
   id="jinni-transition"
@@ -559,19 +553,17 @@ export const ShowingHidingDelay: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
         
-const ScaleFadeWithDelay = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
-        exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
-        {...props}
-      />
-    );
-  }
-); 
+const ScaleFadeWithDelay = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
+      exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
+      {...props}
+    />
+  );
+};
         
 <Tooltip
   id="jinni-delay"

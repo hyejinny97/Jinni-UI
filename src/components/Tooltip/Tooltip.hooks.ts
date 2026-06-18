@@ -41,8 +41,8 @@ export const useHandleTriggers = ({
   handleClose
 }: {
   triggers: Array<TriggerType>;
-  anchorElRef: React.RefObject<HTMLElement>;
-  popperRef: React.RefObject<HTMLElement>;
+  anchorElRef: React.RefObject<HTMLElement | null>;
+  popperRef: React.RefObject<HTMLElement | null>;
   handleOpen: (event: React.SyntheticEvent | Event) => void;
   handleClose: (event: React.SyntheticEvent | Event) => void;
 }) => {

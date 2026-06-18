@@ -1,4 +1,4 @@
-import { useState, useRef, forwardRef } from 'react';
+import { useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import LinearSpeedDial, {
   LinearSpeedDialProps
@@ -123,7 +123,7 @@ const BasicLinearSpeedDialTemplate = () => {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -198,8 +198,8 @@ const LinearSpeedDialWithFABTemplate = () => {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const iframeDocBody = useRef<HTMLElement>();
-  const anchorElRef = useRef<HTMLElement>(null);
+  const iframeDocBody = useRef<HTMLElement>(undefined);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const closeSpeedDial: LinearSpeedDialProps['onClose'] = (_, reason) => {
@@ -298,7 +298,7 @@ const PlacementTemplate = () => {
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const PLACEMENTS = ['up', 'down', 'left', 'right'] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState<(typeof PLACEMENTS)[number]>('up');
 
@@ -397,7 +397,7 @@ const DistanceFromAnchorTemplate = () => {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -544,7 +544,7 @@ const CustomizeButtonTemplate = () => {
     { icon: <PrintIcon size={20} color="tertiary" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="tertiary" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -623,7 +623,7 @@ const CustomizeTooltipTemplate = () => {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -693,26 +693,19 @@ const CustomizeTooltipTemplate = () => {
   );
 };
 
-const getScaleWithDelay = ({
-  enterDelay,
-  exitDelay
-}: {
-  enterDelay: number;
-  exitDelay: number;
-}) =>
-  forwardRef(
-    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-      return (
-        <motion.div
-          ref={ref}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1, transition: { delay: enterDelay } }}
-          exit={{ scale: 0, transition: { delay: exitDelay } }}
-          {...props}
-        />
-      );
-    }
-  );
+const getScaleWithDelay =
+  ({ enterDelay, exitDelay }: { enterDelay: number; exitDelay: number }) =>
+  ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, transition: { delay: enterDelay } }}
+        exit={{ scale: 0, transition: { delay: exitDelay } }}
+        {...props}
+      />
+    );
+  };
 
 const TransitionTemplate = () => {
   const ACTIONS = [
@@ -724,7 +717,7 @@ const TransitionTemplate = () => {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -806,7 +799,7 @@ export const BasicLinearSpeedDial: Story = {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -887,8 +880,8 @@ export const LinearSpeedDialWithFAB: Story = {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const iframeDocBody = useRef<HTMLElement>();
-  const anchorElRef = useRef<HTMLElement>(null);
+  const iframeDocBody = useRef<HTMLElement>(undefined);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const closeSpeedDial: LinearSpeedDialProps['onClose'] = (_, reason) => {
@@ -993,7 +986,7 @@ export const Placement: Story = {
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
   const PLACEMENTS = ['up', 'down', 'left', 'right'] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState<(typeof PLACEMENTS)[number]>('up');
 
@@ -1098,7 +1091,7 @@ export const DistanceFromAnchor: Story = {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -1260,7 +1253,7 @@ export const CustomizeButton: Story = {
     { icon: <PrintIcon size={20} color="tertiary" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="tertiary" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -1345,7 +1338,7 @@ export const CustomizeTooltip: Story = {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -1427,26 +1420,19 @@ export const Transition: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
         
-const getScaleWithDelay = ({
-  enterDelay,
-  exitDelay
-}: {
-  enterDelay: number;
-  exitDelay: number;
-}) =>
-  forwardRef(
-    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-      return (
-        <motion.div
-          ref={ref}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1, transition: { delay: enterDelay } }}
-          exit={{ scale: 0, transition: { delay: exitDelay } }}
-          {...props}
-        />
-      );
-    }
-  );
+const getScaleWithDelay =
+  ({ enterDelay, exitDelay }: { enterDelay: number; exitDelay: number }) =>
+  ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, transition: { delay: enterDelay } }}
+        exit={{ scale: 0, transition: { delay: exitDelay } }}
+        {...props}
+      />
+    );
+  };
 
 const TransitionTemplate = () => {
   const ACTIONS = [
@@ -1458,7 +1444,7 @@ const TransitionTemplate = () => {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' },
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {

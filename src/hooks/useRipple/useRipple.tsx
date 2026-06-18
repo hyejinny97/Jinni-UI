@@ -1,11 +1,5 @@
 import './ripple.scss';
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useCallback,
-  MutableRefObject
-} from 'react';
+import { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import useOverlay from '@/hooks/useOverlay';
 import useJinni from '@/hooks/useJinni';
 import { ColorType } from '@/types/color';
@@ -43,8 +37,7 @@ const useRipple = (props: UseRippleProps) => {
     }
 
     if (!rippleTriggerRef.current) {
-      (rippleTriggerRef as MutableRefObject<HTMLElement>).current =
-        rippleTargetEl;
+      rippleTriggerRef.current = rippleTargetEl;
     }
   }, []);
 

@@ -1,4 +1,4 @@
-import { useState, useRef, forwardRef } from 'react';
+import { useState, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import CircularSpeedDial, { CircularSpeedDialProps } from './CircularSpeedDial';
 import CircularSpeedDialAction from '../CircularSpeedDialAction';
@@ -139,7 +139,7 @@ const BasicCircularSpeedDialTemplate = () => {
       name: 'Delete'
     }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -214,8 +214,8 @@ const CircularSpeedDialWithFABTemplate = () => {
     { icon: <SaveIcon size={20} color="on-surface-variant" />, name: 'Save' },
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' }
   ];
-  const iframeDocBody = useRef<HTMLElement>();
-  const anchorElRef = useRef<HTMLElement>(null);
+  const iframeDocBody = useRef<HTMLElement>(undefined);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -322,7 +322,7 @@ const VariantsTemplate = () => {
     }
   ];
   const VARIANTS = ['circular', 'semi-circular', 'quarter-circular'] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [variant, setVariant] = useState<(typeof VARIANTS)[number]>('circular');
   const actionsToDisplay =
@@ -427,7 +427,7 @@ const SemiCircularPlacementTemplate = () => {
     }
   ];
   const PLACEMENTS = ['up', 'down', 'left', 'right'] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState<(typeof PLACEMENTS)[number]>('up');
 
@@ -531,7 +531,7 @@ const QuarterCircularPlacementTemplate = () => {
     'down-left',
     'down-right'
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] =
     useState<(typeof PLACEMENTS)[number]>('up-left');
@@ -635,7 +635,7 @@ const DistanceFromAnchorTemplate = () => {
       name: 'Delete'
     }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -795,7 +795,7 @@ const CustomizeButtonTemplate = () => {
       name: 'Delete'
     }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -879,7 +879,7 @@ const CustomizeTooltipTemplate = () => {
       name: 'Delete'
     }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -949,27 +949,20 @@ const CustomizeTooltipTemplate = () => {
   );
 };
 
-const getScaleWithDelay = ({
-  enterDelay,
-  exitDelay
-}: {
-  enterDelay: number;
-  exitDelay: number;
-}) =>
-  forwardRef(
-    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-      return (
-        <motion.div
-          ref={ref}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1, transition: { delay: enterDelay } }}
-          exit={{ scale: 0, transition: { delay: exitDelay } }}
-          style={{ x: '-50%', y: '-50%' }}
-          {...props}
-        />
-      );
-    }
-  );
+const getScaleWithDelay =
+  ({ enterDelay, exitDelay }: { enterDelay: number; exitDelay: number }) =>
+  ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, transition: { delay: enterDelay } }}
+        exit={{ scale: 0, transition: { delay: exitDelay } }}
+        style={{ x: '-50%', y: '-50%' }}
+        {...props}
+      />
+    );
+  };
 
 const TransitionTemplate = () => {
   const ACTIONS = [
@@ -985,7 +978,7 @@ const TransitionTemplate = () => {
       name: 'Delete'
     }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -1069,7 +1062,7 @@ export const BasicCircularSpeedDial: Story = {
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
     { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -1152,7 +1145,7 @@ export const CircularSpeedDialWithFAB: Story = {
     { icon: <PrintIcon size={20} color="on-surface-variant" />, name: 'Print' }
   ];
   const iframeDocBody = useRef<HTMLElement>();
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -1262,7 +1255,7 @@ export const Variants: Story = {
     { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
   const VARIANTS = ['circular', 'semi-circular', 'quarter-circular'] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [variant, setVariant] = useState<(typeof VARIANTS)[number]>('circular');
   const actionsToDisplay =
@@ -1370,7 +1363,7 @@ export const SemiCircularPlacement: Story = {
     { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
   const PLACEMENTS = ['up', 'down', 'left', 'right'] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState<(typeof PLACEMENTS)[number]>('up');
 
@@ -1481,7 +1474,7 @@ export const QuarterCircularPlacement: Story = {
     'down-left',
     'down-right'
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] =
     useState<(typeof PLACEMENTS)[number]>('up-left');
@@ -1588,7 +1581,7 @@ export const DistanceFromAnchor: Story = {
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
     { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -1754,7 +1747,7 @@ export const CustomizeButton: Story = {
     { icon: <ShareIcon size={20} color="tertiary" />, name: 'Share' },
     { icon: <TrashcanIcon size={20} color="tertiary" />, name: 'Delete' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -1841,7 +1834,7 @@ export const CustomizeTooltip: Story = {
     { icon: <ShareIcon size={20} color="on-surface-variant" />, name: 'Share' },
     { icon: <TrashcanIcon size={20} color="on-surface-variant" />, name: 'Delete' }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {
@@ -1924,27 +1917,20 @@ export const Transition: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
-const getScaleWithDelay = ({
-  enterDelay,
-  exitDelay
-}: {
-  enterDelay: number;
-  exitDelay: number;
-}) =>
-  forwardRef(
-    (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-      return (
-        <motion.div
-          ref={ref}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1, transition: { delay: enterDelay } }}
-          exit={{ scale: 0, transition: { delay: exitDelay } }}
-          style={{ x: '-50%', y: '-50%' }}
-          {...props}
-        />
-      );
-    }
-  );
+const getScaleWithDelay =
+  ({ enterDelay, exitDelay }: { enterDelay: number; exitDelay: number }) =>
+  ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, transition: { delay: enterDelay } }}
+        exit={{ scale: 0, transition: { delay: exitDelay } }}
+        style={{ x: '-50%', y: '-50%' }}
+        {...props}
+      />
+    );
+  };
 
 const TransitionTemplate = () => {
   const ACTIONS = [
@@ -1960,7 +1946,7 @@ const TransitionTemplate = () => {
       name: 'Delete'
     }
   ];
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openSpeedDial = () => {

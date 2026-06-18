@@ -21,10 +21,10 @@ type SnapPoint = {
   snapTo: number;
 };
 
-export type SwipeableDrawerProps<
-  T extends AsType = 'div',
-  P extends AsType = 'div'
-> = Omit<DefaultComponentProps<T>, 'children'> & {
+export type SwipeableDrawerProps<T extends AsType = 'div'> = Omit<
+  DefaultComponentProps<T>,
+  'children'
+> & {
   children: React.ReactNode;
   open: boolean;
   onOpen?: (event: React.SyntheticEvent | Event) => void;
@@ -32,7 +32,7 @@ export type SwipeableDrawerProps<
   snapPoints?: Array<SnapPoint>;
   anchorOrigin?: 'left' | 'right' | 'top' | 'bottom';
   size?: number;
-  BoxProps?: BoxProps<P>;
+  BoxProps?: BoxProps<'div'>;
 };
 
 const DEFAULT_SNAP_POINTS: SnapPoint[] = [
@@ -40,8 +40,8 @@ const DEFAULT_SNAP_POINTS: SnapPoint[] = [
   { threshold: 1, snapTo: 1 }
 ];
 
-const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
-  props: SwipeableDrawerProps<T, P>
+const SwipeableDrawer = <T extends AsType = 'div'>(
+  props: SwipeableDrawerProps<T>
 ) => {
   const {
     children,
@@ -61,7 +61,7 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
   const drawerBodyId = useId();
   const drawerContainerElRef = useRef<HTMLDivElement>(null);
   const drawerElRef = useRef<HTMLElement>(null);
-  const backdropElRef = useRef<HTMLElement>(null);
+  const backdropElRef = useRef<HTMLDivElement>(null);
 
   const visibleDrawer = useCallback(() => {
     const drawerContainerEl = drawerContainerElRef.current;

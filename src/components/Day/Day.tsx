@@ -1,5 +1,5 @@
 import './Day.scss';
-import { forwardRef, memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import cn from 'classnames';
 import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { ColorType } from '@/types/color';
@@ -15,7 +15,7 @@ export type DayProps = Omit<ButtonBaseProps<'button'>, 'children' | 'value'> & {
   readOnly?: boolean;
 };
 
-const Day = forwardRef((props: DayProps, ref: React.Ref<HTMLElement>) => {
+const Day = ({ ref, ...props }: DayProps) => {
   const {
     value,
     children,
@@ -55,6 +55,6 @@ const Day = forwardRef((props: DayProps, ref: React.Ref<HTMLElement>) => {
       {children}
     </ButtonBase>
   );
-});
+};
 
 export default memo(Day);

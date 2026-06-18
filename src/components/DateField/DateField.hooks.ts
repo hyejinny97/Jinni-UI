@@ -60,7 +60,7 @@ type UseInputProps = {
 };
 
 type UseFocusProps = {
-  datePartsElRef: React.MutableRefObject<HTMLElement[]>;
+  datePartsElRef: React.RefObject<HTMLElement[]>;
 };
 
 export const useDateValue = ({

@@ -13,7 +13,7 @@ export const useKeyboardAccessibility = ({
   open,
   onClose
 }: Pick<SwipeableDrawerProps, 'open' | 'onClose'>) => {
-  const boxElRef = useRef<HTMLElement>(null);
+  const boxElRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -77,7 +77,7 @@ export const useDrawerTranslateWatcher = ({
   maxTranslate,
   onProgress
 }: {
-  ref: React.RefObject<HTMLElement>;
+  ref: React.RefObject<HTMLElement | null>;
   anchorOrigin: NonNullable<SwipeableDrawerProps['anchorOrigin']>;
   maxTranslate: number;
   onProgress: (progress: number) => void;
@@ -131,7 +131,7 @@ export const useSwipe = ({
   onSwipe,
   onSwipeEnd
 }: {
-  drawerElRef: React.RefObject<HTMLElement>;
+  drawerElRef: React.RefObject<HTMLElement | null>;
   anchorOrigin: NonNullable<SwipeableDrawerProps['anchorOrigin']>;
   onSwipeStart: (event: PointerEvent, trigger: boolean) => void;
   onSwipe: (event: PointerEvent) => void;

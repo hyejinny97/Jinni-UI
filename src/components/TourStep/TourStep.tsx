@@ -23,7 +23,7 @@ export type TourStepProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   MaskOptionalProps &
   TourStepOptionalProps & {
     children: React.ReactNode;
-    anchorElRef: React.RefObject<HTMLElement>;
+    anchorElRef: React.RefObject<HTMLElement | null>;
     value: number | string;
   };
 

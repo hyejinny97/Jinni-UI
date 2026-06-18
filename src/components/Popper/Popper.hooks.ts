@@ -18,7 +18,7 @@ export const usePopperPosition = ({
   popperOrigin,
   positionType
 }: UsePopperPositionProps) => {
-  const popperRef = useRef<HTMLDivElement>(null);
+  const popperRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
     const setPopperPosition = () => {

@@ -1,5 +1,5 @@
 import './CustomPopover.scss';
-import { useRef, useState, forwardRef } from 'react';
+import { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Popover from './Popover';
 import Stack from '@/components/Stack';
@@ -100,7 +100,7 @@ export default meta;
 type Story = StoryObj<typeof Popover>;
 
 const BasicPopoverTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openPopover = () => {
@@ -157,7 +157,7 @@ const PopoverOriginTemplate = () => {
     { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
     { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [checkedValue, setCheckedValue] = useState<number>(0);
 
@@ -235,7 +235,7 @@ const AnchorOriginTemplate = () => {
     { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
     { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [checkedValue, setCheckedValue] = useState<number>(0);
 
@@ -364,7 +364,7 @@ const AnchorPositionTemplate = () => {
 };
 
 const DisableScrollTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openPopover = () => {
@@ -410,7 +410,7 @@ const DisableScrollTemplate = () => {
 };
 
 const CustomizePopoverTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openPopover = () => {
@@ -460,22 +460,20 @@ const CustomizePopoverTemplate = () => {
   );
 };
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openPopover = () => {
@@ -527,7 +525,7 @@ export const BasicPopover: Story = {
     docs: {
       source: {
         code: `const BasicPopoverTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openPopover = () => {
@@ -593,7 +591,7 @@ export const PopoverOrigin: Story = {
     { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
     { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [checkedValue, setCheckedValue] = useState<number>(0);
 
@@ -680,7 +678,7 @@ export const AnchorOrigin: Story = {
     { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
     { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [checkedValue, setCheckedValue] = useState<number>(0);
 
@@ -827,7 +825,7 @@ export const DisableScroll: Story = {
     docs: {
       source: {
         code: `const DisableScrollTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openPopover = () => {
@@ -882,7 +880,7 @@ export const CustomizePopover: Story = {
     docs: {
       source: {
         code: `const CustomizePopoverTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openPopover = () => {
@@ -944,22 +942,20 @@ export const Transition: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
    
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openPopover = () => {

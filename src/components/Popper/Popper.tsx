@@ -1,15 +1,15 @@
 import './Popper.scss';
 import cn from 'classnames';
-import { forwardRef, MutableRefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { OriginType, PositionType } from './Popper.types';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { usePopperPosition } from './Popper.hooks';
 import useStyle from '@/hooks/useStyle';
+import { mergeRefs } from '@/utils/mergeRefs';
 
 type AnchorElProps = {
   anchorReference?: 'anchorEl';
-  anchorElRef: React.RefObject<HTMLElement>;
+  anchorElRef: React.RefObject<HTMLElement | null>;
   anchorOrigin?: OriginType;
   anchorPosition?: never;
 };
@@ -37,61 +37,50 @@ const DEFAULT_ANCHOR_ORIGIN: OriginType = {
   vertical: 'bottom'
 };
 
-const Popper = forwardRef(
-  <T extends AsType = 'div'>(
-    props: PopperProps<T>,
-    ref: React.Ref<HTMLElement>
-  ) => {
-    const {
-      children,
-      anchorReference = 'anchorEl',
-      anchorElRef,
-      anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
-      anchorPosition,
-      popperOrigin = DEFAULT_POPPER_ORIGIN,
-      positionType = 'absolute',
-      container = document.body,
-      className,
-      style,
-      as: Component = 'div',
-      ...rest
-    } = props;
-    const { popperRef } = usePopperPosition({
-      anchorReference,
-      anchorElRef,
-      anchorOrigin,
-      anchorPosition,
-      popperOrigin,
-      positionType
-    });
-    const newStyle = useStyle({ '--position': positionType, ...style });
+const Popper = <T extends AsType = 'div'>({
+  ref,
+  ...props
+}: PopperProps<T>) => {
+  const {
+    children,
+    anchorReference = 'anchorEl',
+    anchorElRef,
+    anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
+    anchorPosition,
+    popperOrigin = DEFAULT_POPPER_ORIGIN,
+    positionType = 'absolute',
+    container = document.body,
+    className,
+    style,
+    as: Component = 'div',
+    ...rest
+  } = props;
+  const { popperRef } = usePopperPosition({
+    anchorReference,
+    anchorElRef,
+    anchorOrigin,
+    anchorPosition,
+    popperOrigin,
+    positionType
+  });
+  const newStyle = useStyle({ '--position': positionType, ...style });
 
-    return (
-      <>
-        {createPortal(
-          <Component
-            role="tooltip"
-            ref={(element: HTMLElement | null) => {
-              if (element) {
-                (popperRef as MutableRefObject<HTMLElement>).current = element;
-                if (typeof ref === 'function') {
-                  ref(element);
-                } else if (ref && 'current' in ref) {
-                  (ref as MutableRefObject<HTMLElement>).current = element;
-                }
-              }
-            }}
-            className={cn('JinniPopper', className)}
-            style={newStyle}
-            {...rest}
-          >
-            {children}
-          </Component>,
-          container
-        )}
-      </>
-    );
-  }
-);
+  return (
+    <>
+      {createPortal(
+        <Component
+          role="tooltip"
+          ref={mergeRefs(ref as React.Ref<HTMLElement>, popperRef)}
+          className={cn('JinniPopper', className)}
+          style={newStyle}
+          {...rest}
+        >
+          {children}
+        </Component>,
+        container
+      )}
+    </>
+  );
+};
 
 export default Popper;

@@ -78,7 +78,7 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
     container
   });
 
-  const popperAnchorProps: PopperProps =
+  const popperAnchorProps: PopperProps<T> =
     anchorReference === 'anchorEl'
       ? {
           anchorReference: 'anchorEl',

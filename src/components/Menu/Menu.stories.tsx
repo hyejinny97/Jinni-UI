@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useRef, useState, forwardRef } from 'react';
+import { useRef, useState } from 'react';
 import Menu from './Menu';
 import MenuItem from '@/components/MenuItem';
 import Button from '@/components/Button';
@@ -111,7 +111,7 @@ export default meta;
 type Story = StoryObj<typeof Menu>;
 
 const BasicMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -147,7 +147,7 @@ const BasicMenuTemplate = () => {
 };
 
 const IconMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -192,7 +192,7 @@ const IconMenuTemplate = () => {
 };
 
 const DenseMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -229,7 +229,7 @@ const DenseMenuTemplate = () => {
 };
 
 const SelectedMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(1);
 
@@ -276,7 +276,7 @@ const SelectedMenuTemplate = () => {
 };
 
 const GroupMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -334,7 +334,7 @@ const GroupMenuTemplate = () => {
 };
 
 const LinkMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -376,7 +376,7 @@ const LinkMenuTemplate = () => {
 };
 
 const OptionMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
 
@@ -468,7 +468,7 @@ const MenuOriginTemplate = () => {
     { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
     { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [checkedValue, setCheckedValue] = useState<number>(0);
 
@@ -537,7 +537,7 @@ const AnchorOriginTemplate = () => {
     { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
     { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [checkedValue, setCheckedValue] = useState<number>(0);
 
@@ -648,7 +648,7 @@ const AnchorPositionTemplate = () => {
 };
 
 const DisableScrollTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -685,7 +685,7 @@ const DisableScrollTemplate = () => {
 };
 
 const CustomizeMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -724,22 +724,20 @@ const CustomizeMenuTemplate = () => {
   );
 };
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -782,7 +780,7 @@ export const BasicMenu: Story = {
     docs: {
       source: {
         code: `const BasicMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -827,7 +825,7 @@ export const IconMenu: Story = {
     docs: {
       source: {
         code: `const IconMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -881,7 +879,7 @@ export const DenseMenu: Story = {
     docs: {
       source: {
         code: `const DenseMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -928,7 +926,7 @@ export const SelectedMenu: Story = {
     docs: {
       source: {
         code: `const SelectedMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(1);
 
@@ -985,7 +983,7 @@ export const GroupMenu: Story = {
     docs: {
       source: {
         code: `const GroupMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -1052,7 +1050,7 @@ export const LinkMenu: Story = {
     docs: {
       source: {
         code: `const LinkMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -1103,7 +1101,7 @@ export const OptionMenu: Story = {
     docs: {
       source: {
         code: `const OptionMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
 
@@ -1198,7 +1196,7 @@ export const MenuOrigin: Story = {
     { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
     { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [checkedValue, setCheckedValue] = useState<number>(0);
 
@@ -1276,7 +1274,7 @@ export const AnchorOrigin: Story = {
     { label: 'H right / V bottom', horizontal: 'right', vertical: 'bottom' },
     { label: 'H 0 / V 20', horizontal: 0, vertical: 20 }
   ] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [checkedValue, setCheckedValue] = useState<number>(0);
 
@@ -1406,7 +1404,7 @@ export const DisableScroll: Story = {
     docs: {
       source: {
         code: `const DisableScrollTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -1452,7 +1450,7 @@ export const CustomizeMenu: Story = {
     docs: {
       source: {
         code: `const CustomizeMenuTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -1503,22 +1501,20 @@ export const Transition: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
