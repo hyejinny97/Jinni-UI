@@ -25,31 +25,29 @@ const Tab = <T extends AsType = 'button'>(props: TabProps<T>) => {
   } = useTabListContext();
   const selected = selectedValue === value;
 
-  return (
-    <Button
-      role="tab"
-      className={cn('JinniTab', className)}
-      onClick={(e: React.MouseEvent) => handleChange(e, value)}
-      id={`${tabsId}-${value}-tab`}
-      aria-controls={`${tabsId}-${value}-panel`}
-      tabIndex={selected ? 0 : -1}
-      aria-selected={selected}
-      data-value={value}
-      variant={variant[selected ? 'selectedTab' : 'tab']}
-      color={selected ? color : 'on-surface-variant'}
-      size={tabSize}
-      fullWidth={fullWidth}
-      disabled={disabled}
-      overlayColor={overlayColor}
-      disableOverlay={disableOverlay}
-      rippleColor={rippleColor}
-      rippleStartLocation={rippleStartLocation}
-      disableRipple={disableRipple}
-      {...(rest as ButtonProps<T>)}
-    >
-      {children}
-    </Button>
-  );
+  const buttonProps = {
+    role: 'tab',
+    className: cn('JinniTab', className),
+    onClick: (e: React.MouseEvent) => handleChange(e, value),
+    id: `${tabsId}-${value}-tab`,
+    'aria-controls': `${tabsId}-${value}-panel`,
+    tabIndex: selected ? 0 : -1,
+    'aria-selected': selected,
+    'data-value': value,
+    variant: variant[selected ? 'selectedTab' : 'tab'],
+    color: selected ? color : 'on-surface-variant',
+    size: tabSize,
+    fullWidth,
+    disabled,
+    overlayColor,
+    disableOverlay,
+    rippleColor,
+    rippleStartLocation,
+    disableRipple,
+    ...rest
+  } as ButtonProps<T>;
+
+  return <Button {...buttonProps}>{children}</Button>;
 };
 
 export default Tab;
