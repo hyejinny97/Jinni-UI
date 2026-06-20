@@ -10,6 +10,7 @@ import { PresetDigitalClockProps } from './PresetDigitalClock';
 import { isAvailableLocale } from '@/utils/dateTimeFormat';
 import { dateToSeconds } from '@/utils/time-component';
 import { TimeItemType } from './PresetDigitalClock.types';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedTimeProps = Pick<
   PresetDigitalClockProps,
@@ -42,7 +43,7 @@ export const useSelectedTime = ({
   readOnly,
   disabled
 }: UseSelectedTimeProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledTime, setUncontrolledTime] = useState<Date | undefined>(
     defaultValue
   );

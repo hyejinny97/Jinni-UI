@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { InputProps } from './Input';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseInputValueProps = Required<Pick<InputProps, 'defaultValue'>> &
   Pick<InputProps, 'value' | 'onChange'>;
@@ -9,7 +10,7 @@ export const useInputValue = ({
   value,
   onChange
 }: UseInputValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

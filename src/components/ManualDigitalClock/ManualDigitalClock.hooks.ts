@@ -11,6 +11,7 @@ import {
   dateToSeconds
 } from '@/utils/time-component';
 import { isAvailableLocale } from '@/utils/dateTimeFormat';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedTimeProps = Pick<
   ManualDigitalClockProps,
@@ -45,7 +46,7 @@ export const useSelectedTime = ({
   dateToTimeObject,
   timeObjectToDate
 }: UseSelectedTimeProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledTime, setUncontrolledTime] = useState<TimeObjectType>(
     dateToTimeObject(defaultValue)
   );

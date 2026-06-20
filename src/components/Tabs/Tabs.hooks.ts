@@ -2,12 +2,13 @@ import { useContext, useState, useRef, useEffect } from 'react';
 import TabsContext from './Tabs.context';
 import { TabsProps } from './Tabs';
 import { ValueType, TabListOrientation } from './Tabs.types';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseTabValue = Required<Pick<TabsProps, 'defaultValue'>> &
   Pick<TabsProps, 'value' | 'onChange'>;
 
 export const useTabValue = ({ defaultValue, value, onChange }: UseTabValue) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] = useState<ValueType | null>(
     defaultValue
   );

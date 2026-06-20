@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, useContext, useCallback } from 'react';
 import { CarouselProps } from './Carousel';
 import CarouselContext from './Carousel.context';
 import { useTimer } from '@/hooks/useTimer';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseScrollToActiveSlideProps = Pick<CarouselProps, 'value'>;
 
@@ -76,7 +77,7 @@ export const useSlideValue = ({
   value,
   onChange
 }: UseSlideValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledSlideValue, setUncontrolledSlideValue] =
     useState(defaultValue);
   const slideValue = isControlled ? value : uncontrolledSlideValue;

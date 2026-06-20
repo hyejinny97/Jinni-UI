@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { DateDayCalendarProps } from './DateDayCalendar';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseDateValueProps = Pick<
   DateDayCalendarProps,
@@ -12,7 +13,7 @@ export const useDateValue = ({
   onChange,
   referenceDate
 }: UseDateValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledSelectedDate, setUncontrolledSelectedDate] = useState<
     Date | undefined
   >(defaultValue);

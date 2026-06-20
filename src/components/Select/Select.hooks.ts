@@ -4,6 +4,7 @@ import { transformToArray } from '@/utils/transformToArray';
 import { SelectProps, SelectedOptionType } from './Select';
 import { OptionValueType } from '../Option';
 import { getOptionsInfo } from './Select.utils';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedValueProps<Multiple extends boolean> = Pick<
   SelectProps<Multiple>,
@@ -20,7 +21,7 @@ export const useSelectedValue = <Multiple extends boolean>({
   onChange,
   multiple
 }: UseSelectedValueProps<Multiple>) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] = useState<OptionValueType[]>(
     transformToArray(defaultValue)
   );

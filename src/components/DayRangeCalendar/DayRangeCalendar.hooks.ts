@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { DayRangeCalendarProps } from './DayRangeCalendar';
 import { RangeType } from '@/types/date-component';
 import { dateToDay } from '@/utils/date-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedDateValueProps = Pick<
   DayRangeCalendarProps,
@@ -17,7 +18,7 @@ export const useSelectedDateValue = ({
   selectedDate,
   onSelectDate
 }: UseSelectedDateValueProps) => {
-  const isControlled = selectedDate !== undefined;
+  const isControlled = useIsControlled(selectedDate);
   const [unControlledDate, setUnControlledDate] = useState<
     RangeType<Date | null>
   >({ start: null, end: null });

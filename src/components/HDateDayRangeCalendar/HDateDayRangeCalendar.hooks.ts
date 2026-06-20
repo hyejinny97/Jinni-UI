@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { HDateDayRangeCalendarProps } from './HDateDayRangeCalendar';
 import { RangeType } from '@/types/date-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedDateProps = Pick<
   HDateDayRangeCalendarProps,
@@ -19,7 +20,7 @@ export const useSelectedDate = ({
   value,
   onChange
 }: UseSelectedDateProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledSelectedDate, setUncontrolledSelectedDate] = useState<
     RangeType<Date | null>
   >(defaultValue || { start: null, end: null });

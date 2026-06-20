@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { DateCalendarProps } from './DateCalendar';
 import { CalendarType } from '@/types/date-component';
 import { getBaseCalendarType } from '@/utils/date-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseCalendarTypeProps = Pick<DateCalendarProps, 'locale' | 'options'>;
 
@@ -42,7 +43,7 @@ export const useDateValue = ({
   value,
   onChange
 }: UseDateValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledSelectedDate, setUncontrolledSelectedDate] = useState<
     Date | undefined
   >(defaultValue);

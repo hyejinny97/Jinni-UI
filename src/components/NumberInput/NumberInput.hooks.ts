@@ -2,6 +2,7 @@ import { useState, useContext, useCallback, useRef, useEffect } from 'react';
 import { NumberInputProps } from './NumberInput';
 import NumberInputContext from './NumberInput.contexts';
 import { isNumber } from '@/utils/isNumber';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseNumberInputValueProps = Required<
   Pick<NumberInputProps, 'defaultValue' | 'min' | 'max' | 'step' | 'parser'>
@@ -31,7 +32,7 @@ export const useNumberInputValue = ({
   step,
   parser
 }: UseNumberInputValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const inputValue = isControlled ? value : uncontrolledValue;
   const noInputValue = inputValue === '';

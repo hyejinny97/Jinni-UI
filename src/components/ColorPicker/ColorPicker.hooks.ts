@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ColorPickerProps } from './ColorPicker';
 import { ColorValueType, HSBObject } from './ColorPicker.types';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseColorValueProps = Required<Pick<ColorPickerProps, 'defaultValue'>> &
   Pick<ColorPickerProps, 'value' | 'onChange'>;
@@ -10,7 +11,7 @@ export const useColorValue = ({
   value,
   onChange
 }: UseColorValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] =
     useState<ColorValueType>(defaultValue);
   const colorValue = isControlled ? value : uncontrolledValue;

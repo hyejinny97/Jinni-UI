@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { DatePickerProps } from './DatePicker';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 export const useDateValue = ({
   defaultValue,
   value,
   onChange
 }: Pick<DatePickerProps, 'defaultValue' | 'value' | 'onChange'>) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledDate, setUncontrolledDate] = useState<Date | null>(
     defaultValue || null
   );

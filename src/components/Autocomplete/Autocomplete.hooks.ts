@@ -4,6 +4,7 @@ import AutocompleteContext from './Autocomplete.contexts';
 import { transformToArray } from '@/utils/transformToArray';
 import { OptionValueType } from '../AutocompleteOption';
 import { getOptionsInfo } from './Autocomplete.utils';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseAutocompleteValueProps<Multiple extends boolean> = Pick<
   AutocompleteProps<Multiple>,
@@ -53,7 +54,7 @@ export const useAutocompleteValue = <Multiple extends boolean = false>({
   onChange,
   multiple
 }: UseAutocompleteValueProps<Multiple>) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] = useState<OptionValueType[]>(
     transformToArray(defaultValue)
   );

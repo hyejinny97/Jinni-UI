@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { DateTimePickerProps } from './DateTimePicker';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseDateTimeValueProps = Pick<
   DateTimePickerProps,
@@ -14,7 +15,7 @@ export const useDateTimeValue = ({
   value,
   onChange
 }: UseDateTimeValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledDateTimeValue, setUncontrolledDateTimeValue] =
     useState<Date | null>(defaultValue || null);
   const dateTimeValue: Date | null = isControlled

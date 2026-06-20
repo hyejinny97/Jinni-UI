@@ -3,6 +3,7 @@ import { DateTimeFieldProps } from './DateTimeField';
 import { TimeValidationError } from '@/types/time-component';
 import { DateValidationError } from '@/types/date-component';
 import { DateTimeValidationError } from '@/types/date-time-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseDateTimeValueProps = Pick<
   DateTimeFieldProps,
@@ -17,7 +18,7 @@ export const useDateTimeValue = ({
   value,
   onChange
 }: UseDateTimeValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledDateTimeValue, setUncontrolledDateTimeValue] =
     useState<Date | null>(defaultValue || null);
   const dateTimeValue: Date | null = isControlled

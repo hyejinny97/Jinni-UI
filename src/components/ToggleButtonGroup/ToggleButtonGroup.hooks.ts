@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { ToggleButtonGroupProps } from './ToggleButtonGroup';
 import { ValueType } from '@/components/ToggleButton';
 import ToggleButtonGroupContext from './ToggleButtonGroup.contexts';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedValueProps = Required<
   Pick<ToggleButtonGroupProps, 'defaultValue'>
@@ -13,7 +14,7 @@ export const useSelectedValue = ({
   value,
   onChange
 }: UseSelectedValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const isMultiple = isControlled
     ? Array.isArray(value)
     : Array.isArray(defaultValue);

@@ -17,6 +17,7 @@ import { CSS_COLOR_KEYWORDS } from '@/constants/color';
 import useJinni from '@/hooks/useJinni';
 import ColorBoxContext from './ColorBox.contexts';
 import { FORMAT } from './ColorBox.constants';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseColorValueProps = Required<Pick<ColorBoxProps, 'defaultValue'>> &
   Pick<ColorBoxProps, 'value' | 'onChange'>;
@@ -66,7 +67,7 @@ export const useColorValue = ({
   onChange
 }: UseColorValueProps) => {
   const { toHsbObject } = useToHsbObject();
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] = useState<HSBObject>(
     toHsbObject(defaultValue)
   );

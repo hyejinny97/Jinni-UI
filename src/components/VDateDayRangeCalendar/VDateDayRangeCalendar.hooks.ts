@@ -2,6 +2,7 @@ import { useState, useLayoutEffect, useRef } from 'react';
 import { VDateDayRangeCalendarProps } from './VDateDayRangeCalendar';
 import { RangeType } from '@/types/date-component';
 import { dateToMonth } from '@/utils/date-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedDateProps = Pick<
   VDateDayRangeCalendarProps,
@@ -17,7 +18,7 @@ export const useSelectedDate = ({
   value,
   onChange
 }: UseSelectedDateProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledSelectedDate, setUncontrolledSelectedDate] = useState<
     RangeType<Date | null>
   >(defaultValue || { start: null, end: null });
