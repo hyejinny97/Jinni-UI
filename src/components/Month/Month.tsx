@@ -1,3 +1,5 @@
+'use client';
+
 import './Month.scss';
 import { memo, useMemo } from 'react';
 import cn from 'classnames';

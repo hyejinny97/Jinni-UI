@@ -1,3 +1,5 @@
+'use client';
+
 import './TimeRangePicker.scss';
 import { useRef, useState, Fragment, useId } from 'react';
 import cn from 'classnames';

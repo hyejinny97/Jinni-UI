@@ -1,3 +1,5 @@
+'use client';
+
 import './Alert.scss';
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';

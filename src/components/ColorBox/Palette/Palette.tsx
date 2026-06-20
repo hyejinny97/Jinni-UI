@@ -1,3 +1,5 @@
+'use client';
+
 import './Palette.scss';
 import { usePalette } from './Palette.hooks';
 

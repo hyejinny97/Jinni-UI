@@ -1,3 +1,5 @@
+'use client';
+
 import './TablePagination.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';

@@ -1,3 +1,5 @@
+'use client';
+
 import './Switch.scss';
 import { useMemo } from 'react';
 import cn from 'classnames';

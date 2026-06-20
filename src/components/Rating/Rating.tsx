@@ -1,3 +1,5 @@
+'use client';
+
 import './Rating.scss';
 import cn from 'classnames';
 import { DefaultComponentProps } from '@/types/default-component-props';

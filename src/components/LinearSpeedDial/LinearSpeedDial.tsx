@@ -1,3 +1,5 @@
+'use client';
+
 import './LinearSpeedDial.scss';
 import cn from 'classnames';
 import { useRef, Fragment } from 'react';

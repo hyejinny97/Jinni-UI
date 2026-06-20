@@ -1,3 +1,5 @@
+'use client';
+
 import './Breadcrumbs.scss';
 import cn from 'classnames';
 import { Children, Fragment, useMemo, useState } from 'react';

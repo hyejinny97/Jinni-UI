@@ -1,3 +1,5 @@
+'use client';
+
 import './TimelineConnector.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';

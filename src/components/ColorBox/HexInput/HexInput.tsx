@@ -1,3 +1,5 @@
+'use client';
+
 import './HexInput.scss';
 import { useState, useRef, useEffect } from 'react';
 import Input from '@/components/Input';

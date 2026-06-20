@@ -1,3 +1,5 @@
+'use client';
+
 import './Slider.scss';
 import cn from 'classnames';
 import React, { useRef, useMemo } from 'react';

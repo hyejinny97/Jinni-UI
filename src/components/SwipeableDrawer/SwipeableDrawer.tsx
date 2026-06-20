@@ -1,3 +1,5 @@
+'use client';
+
 import './SwipeableDrawer.scss';
 import cn from 'classnames';
 import { useId, useLayoutEffect, useRef, useCallback } from 'react';

@@ -1,3 +1,5 @@
+'use client';
+
 import './RangeDay.scss';
 import { useMemo } from 'react';
 import cn from 'classnames';

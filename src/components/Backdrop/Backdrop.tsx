@@ -1,3 +1,5 @@
+'use client';
+
 import './Backdrop.scss';
 import cn from 'classnames';
 import React from 'react';

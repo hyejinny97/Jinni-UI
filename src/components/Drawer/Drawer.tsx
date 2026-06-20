@@ -1,3 +1,5 @@
+'use client';
+
 import './Drawer.scss';
 import cn from 'classnames';
 import { useId } from 'react';

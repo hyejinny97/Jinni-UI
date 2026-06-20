@@ -1,3 +1,5 @@
+'use client';
+
 import { ColorType } from '@/types/color';
 import useColor from '@/hooks/useColor';
 

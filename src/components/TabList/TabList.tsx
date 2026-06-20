@@ -1,3 +1,5 @@
+'use client';
+
 import './TabList.scss';
 import cn from 'classnames';
 import { useRef } from 'react';

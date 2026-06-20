@@ -1,3 +1,5 @@
+'use client';
+
 import './Popper.scss';
 import cn from 'classnames';
 import { createPortal } from 'react-dom';

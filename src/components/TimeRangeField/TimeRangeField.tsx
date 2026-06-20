@@ -1,3 +1,5 @@
+'use client';
+
 import './TimeRangeField.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';

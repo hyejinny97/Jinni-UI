@@ -1,3 +1,5 @@
+'use client';
+
 import useColor from '@/hooks/useColor';
 import { CircularProgressProps, VIEW_BOX_SIZE } from './CircularProgress';
 

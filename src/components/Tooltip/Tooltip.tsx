@@ -1,3 +1,5 @@
+'use client';
+
 import './Tooltip.scss';
 import cn from 'classnames';
 import React, {

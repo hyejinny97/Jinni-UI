@@ -1,3 +1,5 @@
+'use client';
+
 import './DateField.scss';
 import { useRef } from 'react';
 import cn from 'classnames';

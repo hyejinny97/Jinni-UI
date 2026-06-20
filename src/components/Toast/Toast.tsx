@@ -1,3 +1,5 @@
+'use client';
+
 import './Toast.scss';
 import cn from 'classnames';
 import { Fragment } from 'react';

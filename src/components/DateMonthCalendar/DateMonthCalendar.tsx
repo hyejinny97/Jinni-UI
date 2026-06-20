@@ -1,3 +1,5 @@
+'use client';
+
 import './DateMonthCalendar.scss';
 import cn from 'classnames';
 import { useMemo } from 'react';

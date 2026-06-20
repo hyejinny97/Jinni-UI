@@ -1,3 +1,5 @@
+'use client';
+
 import './HDateDayRangeCalendar.scss';
 import cn from 'classnames';
 import { useState, useMemo } from 'react';

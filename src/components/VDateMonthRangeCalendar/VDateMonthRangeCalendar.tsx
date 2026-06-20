@@ -1,3 +1,5 @@
+'use client';
+
 import './VDateMonthRangeCalendar.scss';
 import cn from 'classnames';
 import { useState, useRef, useMemo } from 'react';

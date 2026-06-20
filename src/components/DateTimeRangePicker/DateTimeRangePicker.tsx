@@ -1,3 +1,5 @@
+'use client';
+
 import './DateTimeRangePicker.scss';
 import { useRef, useState, useId, Fragment } from 'react';
 import cn from 'classnames';

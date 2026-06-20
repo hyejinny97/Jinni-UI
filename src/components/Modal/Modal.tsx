@@ -1,3 +1,5 @@
+'use client';
+
 import './Modal.scss';
 import cn from 'classnames';
 import { Fragment, useId } from 'react';

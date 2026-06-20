@@ -1,3 +1,5 @@
+'use client';
+
 import { SuccessIcon } from '@/components/icons/SuccessIcon';
 import { InfoIcon } from '@/components/icons/InfoIcon';
 import { WarningIcon } from '@/components/icons/WarningIcon';

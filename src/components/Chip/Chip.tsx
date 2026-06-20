@@ -1,3 +1,5 @@
+'use client';
+
 import './Chip.scss';
 import cn from 'classnames';
 import React from 'react';
