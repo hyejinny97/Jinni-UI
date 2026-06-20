@@ -1,3 +1,5 @@
+'use client';
+
 import './MonthCalendar.scss';
 import { Fragment } from 'react';
 import cn from 'classnames';

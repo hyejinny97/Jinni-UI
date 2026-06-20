@@ -1,3 +1,5 @@
+'use client';
+
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';

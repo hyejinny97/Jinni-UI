@@ -1,3 +1,5 @@
+'use client';
+
 import './Avatar.scss';
 import cn from 'classnames';
 import { useState } from 'react';

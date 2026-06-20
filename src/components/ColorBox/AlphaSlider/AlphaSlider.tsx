@@ -1,3 +1,5 @@
+'use client';
+
 import './AlphaSlider.scss';
 import Mosaic from '@/components/Mosaic';
 import Slider, { SliderValueType } from '@/components/Slider';

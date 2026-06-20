@@ -1,3 +1,5 @@
+'use client';
+
 import cn from 'classnames';
 import { useId } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';

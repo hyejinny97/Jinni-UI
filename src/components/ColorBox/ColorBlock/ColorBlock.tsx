@@ -1,3 +1,5 @@
+'use client';
+
 import './ColorBlock.scss';
 import Mosaic from '@/components/Mosaic';
 import { useColorBoxContext } from '../ColorBox.hooks';

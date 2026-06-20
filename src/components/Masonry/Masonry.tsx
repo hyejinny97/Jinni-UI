@@ -1,3 +1,5 @@
+'use client';
+
 import './Masonry.scss';
 import React, { useLayoutEffect, useRef } from 'react';
 import cn from 'classnames';

@@ -1,3 +1,5 @@
+'use client';
+
 import './RangeMonth.scss';
 import { useMemo } from 'react';
 import cn from 'classnames';

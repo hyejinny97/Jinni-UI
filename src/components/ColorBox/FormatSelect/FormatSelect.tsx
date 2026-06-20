@@ -1,3 +1,5 @@
+'use client';
+
 import './FormatSelect.scss';
 import Select from '@/components/Select';
 import Option, { OptionValueType } from '@/components/Option';

@@ -1,3 +1,5 @@
+'use client';
+
 import './CircularProgress.scss';
 import cn from 'classnames';
 import useStyle from '@/hooks/useStyle';

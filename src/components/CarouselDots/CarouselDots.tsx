@@ -1,3 +1,5 @@
+'use client';
+
 import './CarouselDots.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';

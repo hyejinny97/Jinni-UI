@@ -1,3 +1,5 @@
+'use client';
+
 import './Mask.scss';
 import { useId } from 'react';
 import { createPortal } from 'react-dom';

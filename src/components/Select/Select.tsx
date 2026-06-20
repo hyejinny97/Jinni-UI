@@ -1,3 +1,5 @@
+'use client';
+
 import './Select.scss';
 import React, { useRef, useState, useCallback } from 'react';
 import cn from 'classnames';

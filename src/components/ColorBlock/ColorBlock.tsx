@@ -1,3 +1,5 @@
+'use client';
+
 import cn from 'classnames';
 import Mosaic, { MosaicProps } from '@/components/Mosaic';
 import { useToCssColor } from './ColorBlock.hooks';

@@ -1,3 +1,5 @@
+'use client';
+
 import './CircularSpeedDial.scss';
 import { useRef, Fragment } from 'react';
 import cn from 'classnames';

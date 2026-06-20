@@ -1,3 +1,5 @@
+'use client';
+
 import './UnitList.scss';
 import cn from 'classnames';
 import { useRef, useLayoutEffect, useEffect, useCallback } from 'react';

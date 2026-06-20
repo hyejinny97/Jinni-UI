@@ -1,3 +1,5 @@
+'use client';
+
 import './Stack.scss';
 import cn from 'classnames';
 import { Responsive } from '@/types/breakpoint';

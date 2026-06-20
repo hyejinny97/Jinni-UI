@@ -1,3 +1,5 @@
+'use client';
+
 import './DecreaseButton.scss';
 import cn from 'classnames';
 import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';

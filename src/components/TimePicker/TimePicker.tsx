@@ -1,3 +1,5 @@
+'use client';
+
 import './TimePicker.scss';
 import { useRef, useState, useId } from 'react';
 import cn from 'classnames';

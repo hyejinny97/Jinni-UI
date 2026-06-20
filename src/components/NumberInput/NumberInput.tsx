@@ -1,3 +1,5 @@
+'use client';
+
 import './NumberInput.scss';
 import React from 'react';
 import cn from 'classnames';

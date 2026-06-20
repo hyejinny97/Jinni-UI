@@ -1,3 +1,5 @@
+'use client';
+
 import './ColorPicker.scss';
 import { useRef, useState } from 'react';
 import cn from 'classnames';

@@ -1,3 +1,5 @@
+'use client';
+
 import './DayCalendar.scss';
 import { Fragment } from 'react';
 import cn from 'classnames';

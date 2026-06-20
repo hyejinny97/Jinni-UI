@@ -1,3 +1,5 @@
+'use client';
+
 import './ColorField.scss';
 import cn from 'classnames';
 import InputBase, { InputBaseProps } from '@/components/InputBase';

@@ -1,3 +1,5 @@
+'use client';
+
 import './TimeField.scss';
 import cn from 'classnames';
 import { useRef } from 'react';

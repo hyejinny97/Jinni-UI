@@ -1,3 +1,5 @@
+'use client';
+
 import './TextArea.scss';
 import cn from 'classnames';
 import InputBase, { RootInputBaseProps } from '@/components/InputBase';

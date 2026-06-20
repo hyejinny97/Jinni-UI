@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useMemo } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';

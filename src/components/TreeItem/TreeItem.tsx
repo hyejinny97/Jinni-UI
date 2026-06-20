@@ -1,3 +1,5 @@
+'use client';
+
 import './TreeItem.scss';
 import cn from 'classnames';
 import { useMemo } from 'react';

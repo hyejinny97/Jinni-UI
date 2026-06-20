@@ -1,3 +1,5 @@
+'use client';
+
 import './CarouselContent.scss';
 import { Children, useRef } from 'react';
 import cn from 'classnames';

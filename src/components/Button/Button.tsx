@@ -1,3 +1,5 @@
+'use client';
+
 import './Button.scss';
 import cn from 'classnames';
 import type { ColorType } from '@/types/color';

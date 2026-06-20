@@ -1,3 +1,5 @@
+'use client';
+
 import './Tree.scss';
 import cn from 'classnames';
 import React, { Fragment } from 'react';

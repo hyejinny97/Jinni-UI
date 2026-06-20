@@ -1,3 +1,5 @@
+'use client';
+
 import { UseRippleProps } from '@/hooks/useRipple';
 import { ColorType } from '@/types/color';
 import { useCheck } from './RadioGroup.hooks';

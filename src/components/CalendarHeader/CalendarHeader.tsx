@@ -1,3 +1,5 @@
+'use client';
+
 import './CalendarHeader.scss';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';

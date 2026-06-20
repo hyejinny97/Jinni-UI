@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef, useState, useLayoutEffect } from 'react';
 import cn from 'classnames';
 import { DefaultComponentProps } from '@/types/default-component-props';

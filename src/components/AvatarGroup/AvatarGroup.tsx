@@ -1,3 +1,5 @@
+'use client';
+
 import './AvatarGroup.scss';
 import React, { useId, useCallback } from 'react';
 import cn from 'classnames';
