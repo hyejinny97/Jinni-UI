@@ -13,7 +13,7 @@ export const getOptionsInfo = (children: React.ReactNode): OptionsInfoType => {
   const childrenArray = Children.toArray(children);
   const optionEls: Array<React.ReactElement<AutocompleteOptionProps>> =
     childrenArray.filter(
-      (element): element is React.ReactElement =>
+      (element): element is React.ReactElement<AutocompleteOptionProps> =>
         isValidElement(element) && element.type === AutocompleteOption
     );
 

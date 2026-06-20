@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Backdrop from './Backdrop';
 import CircularProgress from '@/components/CircularProgress';
@@ -69,19 +69,17 @@ const BackdropWithContentsTemplate = ({ ...rest }) => {
   );
 };
 
-const Fade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        {...props}
-      />
-    );
-  }
-);
+const Fade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
   const [open, setOpen] = useState(false);
@@ -246,19 +244,17 @@ export const Transition: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
         
-const Fade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        {...props}
-      />
-    );
-  }
-);
+const Fade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
   const [open, setOpen] = useState(false);

@@ -152,7 +152,7 @@ const LocaleTemplate = () => {
 };
 
 export const BasicDayCalendar: Story = {
-  render: (args) => <DayCalendar displayedDate={new Date()} {...args} />,
+  render: () => <DayCalendar displayedDate={new Date()} />,
   parameters: {
     docs: {
       source: {
@@ -163,12 +163,11 @@ export const BasicDayCalendar: Story = {
 };
 
 export const SelectedDate: Story = {
-  render: (args) => (
+  render: () => (
     <DayCalendar
       displayedDate={new Date(2025, 0, 1)}
       selectedDate={new Date(2025, 0, 5)}
       onDayChange={(newDate) => alert(newDate.toString())}
-      {...args}
     />
   ),
   parameters: {
@@ -235,11 +234,10 @@ export const Locale: Story = {
 };
 
 export const MinDate: Story = {
-  render: (args) => (
+  render: () => (
     <DayCalendar
       displayedDate={new Date(2025, 0, 1)}
       minDate={new Date(2025, 0, 10)}
-      {...args}
     />
   ),
   parameters: {
@@ -255,11 +253,10 @@ export const MinDate: Story = {
 };
 
 export const MaxDate: Story = {
-  render: (args) => (
+  render: () => (
     <DayCalendar
       displayedDate={new Date(2025, 0, 1)}
       maxDate={new Date(2025, 0, 20)}
-      {...args}
     />
   ),
   parameters: {
@@ -275,11 +272,10 @@ export const MaxDate: Story = {
 };
 
 export const DisabledDates: Story = {
-  render: (args) => (
+  render: () => (
     <DayCalendar
       displayedDate={new Date(2025, 0, 1)}
       disabledDates={[new Date(2025, 0, 15), new Date(2025, 0, 28)]}
-      {...args}
     />
   ),
   parameters: {
@@ -295,9 +291,7 @@ export const DisabledDates: Story = {
 };
 
 export const ReadOnly: Story = {
-  render: (args) => (
-    <DayCalendar displayedDate={new Date()} readOnly {...args} />
-  ),
+  render: () => <DayCalendar displayedDate={new Date()} readOnly />,
   parameters: {
     docs: {
       source: {
@@ -308,9 +302,7 @@ export const ReadOnly: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => (
-    <DayCalendar displayedDate={new Date()} disabled {...args} />
-  ),
+  render: () => <DayCalendar displayedDate={new Date()} disabled />,
   parameters: {
     docs: {
       source: {
@@ -321,34 +313,27 @@ export const Disabled: Story = {
 };
 
 export const ShowDaysOutside: Story = {
-  render: (args) => (
-    <DayCalendar
-      displayedDate={new Date()}
-      showDaysOutsideCurrentMonth
-      {...args}
-    />
+  render: () => (
+    <DayCalendar displayedDate={new Date()} showDaysOutsideCurrentMonth />
   )
 };
 
 export const FixWeekNumber: Story = {
-  render: (args) => (
+  render: () => (
     <DayCalendar
       displayedDate={new Date()}
       showDaysOutsideCurrentMonth
       fixedWeekNumber={6}
-      {...args}
     />
   )
 };
 
 export const DisplayWeekNumber: Story = {
-  render: (args) => (
-    <DayCalendar displayedDate={new Date()} displayWeekNumber {...args} />
-  )
+  render: () => <DayCalendar displayedDate={new Date()} displayWeekNumber />
 };
 
 export const CustomDay: Story = {
-  render: (args) => (
+  render: () => (
     <DayCalendar
       displayedDate={new Date(2025, 0, 1)}
       selectedDate={new Date(2025, 0, 5)}
@@ -390,7 +375,6 @@ export const CustomDay: Story = {
           </Day>
         );
       }}
-      {...args}
     />
   ),
   parameters: {

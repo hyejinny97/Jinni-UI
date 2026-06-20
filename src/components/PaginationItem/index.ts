@@ -3,5 +3,6 @@ export type {
   ShapeType,
   SizeType,
   PageButtonType,
+  ControlButtonType,
   PaginationItemProps
 } from './PaginationItem';

@@ -8,7 +8,7 @@ type UseSelectedDateProps = Pick<
 >;
 
 type UseScrollProps = {
-  baseDisplayedDateRef: React.MutableRefObject<Date>;
+  baseDisplayedDateRef: React.RefObject<Date>;
 };
 
 export const useSelectedDate = ({
@@ -39,7 +39,7 @@ export const useSelectedDate = ({
 };
 
 export const useScroll = ({ baseDisplayedDateRef }: UseScrollProps) => {
-  const dateMonthRangeCalendarElRef = useRef<HTMLElement>();
+  const dateMonthRangeCalendarElRef = useRef<HTMLElement>(undefined);
 
   useLayoutEffect(() => {
     const dateMonthRangeCalendarEl = dateMonthRangeCalendarElRef.current;

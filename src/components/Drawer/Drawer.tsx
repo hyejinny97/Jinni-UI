@@ -74,7 +74,7 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
           anchorOrigin
         )}
         {...(variant === 'temporary' && { elevation: 15 })}
-        {...BoxProps}
+        {...(BoxProps as BoxProps<P>)}
       >
         {children}
       </Box>
@@ -87,7 +87,7 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
       return content;
     case 'temporary':
       return (
-        <DrawerContext.Provider value={{ drawerHeaderId, drawerBodyId }}>
+        <DrawerContext value={{ drawerHeaderId, drawerBodyId }}>
           {open &&
             createPortal(
               <div className="JinniDrawerContainer">
@@ -101,7 +101,7 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
               </div>,
               container
             )}
-        </DrawerContext.Provider>
+        </DrawerContext>
       );
   }
 };

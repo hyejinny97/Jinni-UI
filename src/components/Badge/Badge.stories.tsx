@@ -270,7 +270,7 @@ export const DotBadge: Story = {
 };
 
 export const BadgeVisibility: Story = {
-  render: (args) => <Visibility {...args} />,
+  render: () => <Visibility />,
   parameters: {
     docs: {
       source: {
@@ -432,7 +432,7 @@ export const BadgeAlignment: Story = {
 };
 
 export const Customization: Story = {
-  render: (args) => <NotificationButton {...args} />,
+  render: () => <NotificationButton />,
   parameters: {
     docs: {
       source: {

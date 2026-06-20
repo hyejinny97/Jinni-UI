@@ -114,7 +114,7 @@ const ToolBar = <T extends AsType = 'div'>({
       boxSizing: 'border-box',
       ...style
     }}
-    {...rest}
+    {...(rest as BoxProps<T>)}
   >
     {children}
   </Box>
@@ -260,7 +260,7 @@ const PlacementTemplate = () => {
 
 const TemporaryDrawerTemplate = () => {
   const [open, setOpen] = useState(false);
-  const iframeDocBody = useRef<Element>();
+  const iframeDocBody = useRef<Element>(undefined);
 
   const openDrawer = () => {
     setOpen(true);

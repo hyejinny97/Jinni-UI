@@ -7,7 +7,7 @@ export const useKeyboardAccessibility = ({
   open,
   onClose
 }: Pick<ModalProps, 'open' | 'onClose'>) => {
-  const boxElRef = useRef<HTMLElement>(null);
+  const boxElRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;

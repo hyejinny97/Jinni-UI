@@ -3,7 +3,7 @@ import React, { useRef, useState, useCallback } from 'react';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import InputBase, { InputBaseProps } from '@/components/InputBase';
-import Menu, { MenuProps, CloseReason } from '@/components/Menu';
+import Menu, { MenuProps } from '@/components/Menu';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { transformToArray } from '@/utils/transformToArray';
 import { useSelectedValue, useSelectedOption } from './Select.hooks';
@@ -20,7 +20,10 @@ export type SelectedOptionType = Array<{
 export type SelectProps<
   Multiple extends boolean = false,
   T extends AsType = 'div'
-> = Omit<InputBaseProps<T>, 'defaultValue' | 'value' | 'onChange'> & {
+> = Omit<
+  InputBaseProps<T>,
+  'defaultValue' | 'value' | 'onChange' | 'children'
+> & {
   name?: string;
   children: React.ReactNode;
   placeholder?: string;
@@ -32,7 +35,10 @@ export type SelectProps<
     value: Multiple extends true ? OptionValueType[] : OptionValueType
   ) => void;
   renderValue?: (selectedOption: SelectedOptionType) => React.ReactNode;
-  MenuProps?: Partial<MenuProps>;
+  MenuProps?: Omit<
+    MenuProps,
+    'open' | 'onClose' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
+  >;
   required?: boolean;
 };
 
@@ -72,7 +78,7 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
     className,
     ...rest
   } = props;
-  const inputBaseElRef = useRef<HTMLElement>(null);
+  const inputBaseElRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const { selectedValue, handleChange } = useSelectedValue<Multiple>({
     defaultValue,
@@ -87,10 +93,9 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
   const notSelected = selectedValue.length === 0;
   const {
     className: menuClassName,
-    onClose: menuOnClose,
     MenuListProps: menuListProps,
     ...restMenuProps
-  } = (MenuProps || {}) as Partial<MenuProps>;
+  } = MenuProps || {};
 
   const openMenu = () => {
     if (disabled) return;
@@ -99,18 +104,9 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
   const closeMenu = useCallback(() => {
     setOpen(false);
   }, []);
-  const handleMenuClose = useCallback(
-    (event: MouseEvent | KeyboardEvent, reason: CloseReason) => {
-      closeMenu();
-      menuOnClose?.(event, reason);
-    },
-    [closeMenu, menuOnClose]
-  );
 
   return (
-    <SelectContext.Provider
-      value={{ multiple, selectedValue, handleChange, closeMenu }}
-    >
+    <SelectContext value={{ multiple, selectedValue, handleChange, closeMenu }}>
       <InputBase
         role="combobox"
         ref={inputBaseElRef}
@@ -120,7 +116,9 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
           className
         )}
         onClick={openMenu}
-        onKeyDown={(e: KeyboardEvent) => e.key === 'Enter' && openMenu()}
+        onKeyDown={(e: React.KeyboardEvent) => {
+          if (e.key === 'Enter') openMenu();
+        }}
         startAdornment={startAdornment}
         endAdornment={endAdornment}
         variant={variant}
@@ -135,7 +133,7 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
         tabIndex={0}
         aria-expanded={open}
         aria-haspopup="listbox"
-        {...rest}
+        {...(rest as InputBaseProps<T>)}
       >
         {notSelected ? placeholder : renderValue(selectedOption)}
         <select
@@ -156,17 +154,18 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
       </InputBase>
       <Menu
         className={cn('JinniSelectMenu', menuClassName)}
+        anchorReference="anchorEl"
         anchorElRef={inputBaseElRef}
-        open={open}
-        onClose={handleMenuClose}
         anchorOrigin={ANCHOR_ORIGIN}
         menuOrigin={MENU_ORIGIN}
+        open={open}
+        onClose={closeMenu}
         MenuListProps={{ role: 'listbox', ...menuListProps }}
         {...restMenuProps}
       >
         {children}
       </Menu>
-    </SelectContext.Provider>
+    </SelectContext>
   );
 };
 

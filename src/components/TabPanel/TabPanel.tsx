@@ -20,7 +20,7 @@ const TabPanel = <T extends AsType = 'div'>(props: TabPanelProps<T>) => {
       id={`${tabsId}-${value}-panel`}
       aria-labelledby={`${tabsId}-${value}-tab`}
       hidden={!selected}
-      {...rest}
+      {...(rest as BoxProps<T>)}
     >
       {selected && children}
     </Box>

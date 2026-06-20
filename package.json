@@ -8,7 +8,8 @@
     "build": "vite build && tsc -b",
     "preview": "vite preview",
     "prepare": "husky",
-    "type-check": "tsc -p tsconfig.json --noEmit",
+    "type-check": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
+    "type-check:save": "tsc -p tsconfig.app.json --noEmit --extendedDiagnostics --pretty false 2>&1 | tee tsc-errors.txt",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest run",
@@ -25,8 +26,8 @@
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
     "classnames": "^2.5.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.2",
@@ -44,8 +45,8 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/eslint-plugin-jsx-a11y": "^6",
     "@types/node": "^22.8.6",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.3.3",
     "@vitest/ui": "2.1.4",
     "chromatic": "^13.3.4",

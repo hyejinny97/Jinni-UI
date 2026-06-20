@@ -13,7 +13,7 @@ type UseSpeedDialContentProps = Pick<
   'open' | 'anchorElRef' | 'placement'
 > &
   Required<Pick<CircularSpeedDialProps, 'offset'>> & {
-    speedDialContentElRef: React.RefObject<HTMLDivElement>;
+    speedDialContentElRef: React.RefObject<HTMLDivElement | null>;
   };
 
 type UseCloseProps = Pick<
@@ -24,7 +24,7 @@ type UseCloseProps = Pick<
 
 type UseKeyboardAccessibilityProps = Pick<CircularSpeedDialProps, 'open'> &
   Required<Pick<CircularSpeedDialProps, 'container'>> & {
-    speedDialContentElRef: React.RefObject<HTMLDivElement>;
+    speedDialContentElRef: React.RefObject<HTMLDivElement | null>;
   };
 
 export const useSpeedDialContent = ({

@@ -9,7 +9,7 @@ describe('<CircularSpeedDial />', () => {
   it('renders speed dial', () => {
     const Template = () => {
       const [open, setOpen] = useState(false);
-      const anchorElRef = useRef<HTMLElement>(null);
+      const anchorElRef = useRef<HTMLButtonElement>(null);
       return (
         <>
           <Button ref={anchorElRef} onClick={() => setOpen(true)}>

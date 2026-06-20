@@ -25,7 +25,7 @@ const useDrag = ({
   const currentPositionRef = useRef<number>(0);
   const lastEventTimeRef = useRef<number>(0);
   const lastVelocityRef = useRef<number>(0);
-  const intervalIdRef = useRef<NodeJS.Timeout>();
+  const intervalIdRef = useRef<NodeJS.Timeout>(undefined);
 
   const getTargetTranslatedValue = (targetEl: HTMLElement): number => {
     const transform = window.getComputedStyle(targetEl).transform;

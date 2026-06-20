@@ -62,7 +62,7 @@ const AvatarGroup = <T extends AsType = 'span'>(props: AvatarGroupProps<T>) => {
   );
 
   return (
-    <AvatarGroupContext.Provider value={{ shape, size }}>
+    <AvatarGroupContext value={{ shape, size }}>
       <Component
         className={cn('JinniAvatarGroup', spacing, className)}
         style={newStyle}
@@ -83,7 +83,7 @@ const AvatarGroup = <T extends AsType = 'span'>(props: AvatarGroupProps<T>) => {
           </span>
         ))}
       </Component>
-    </AvatarGroupContext.Provider>
+    </AvatarGroupContext>
   );
 };
 

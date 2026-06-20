@@ -31,9 +31,10 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
     onChange,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const { colorValue, changeColorValue } = useColorValue({
     defaultValue,
     value,
@@ -43,7 +44,7 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <ColorBoxContext.Provider
+    <ColorBoxContext
       value={{ colorValue, format, changeColorValue, changeFormat }}
     >
       <Component
@@ -68,7 +69,7 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
           </Stack>
         </Stack>
       </Component>
-    </ColorBoxContext.Provider>
+    </ColorBoxContext>
   );
 };
 

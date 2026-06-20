@@ -54,7 +54,7 @@ const ICON_LINK_STYLE = {
 };
 
 const WithMenu = () => {
-  const anchorRef = useRef<HTMLElement>(null);
+  const anchorRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {
@@ -311,7 +311,7 @@ export const CondensedBreadcrumbsWithMenu: Story = {
     docs: {
       source: {
         code: `const WithMenu = () => {
-  const anchorRef = useRef<HTMLElement>(null);
+  const anchorRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const openMenu = () => {

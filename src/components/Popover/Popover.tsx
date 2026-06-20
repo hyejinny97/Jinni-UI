@@ -58,7 +58,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
     onClose(e.nativeEvent, 'backdropClick');
   };
 
-  const popperAnchorProps: PopperProps =
+  const popperAnchorProps: PopperProps<T> =
     anchorReference === 'anchorEl'
       ? {
           anchorReference: 'anchorEl',

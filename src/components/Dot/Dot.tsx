@@ -30,7 +30,7 @@ const Dot = <T extends AsType = 'button'>(props: DotProps<T>) => {
     className,
     style,
     ...rest
-  } = { ...restDotsContext, ...props };
+  } = { ...restDotsContext, ...(props as DotProps) };
   const selected = selectedValue === value;
 
   const backgroundColor = selected ? color : 'surface-container-highest';
@@ -40,9 +40,9 @@ const Dot = <T extends AsType = 'button'>(props: DotProps<T>) => {
     return closerColor === 'white' ? 'black' : 'white';
   }, [normalizedBackgroundColor]);
 
-  const handleClick = (e: MouseEvent) => {
+  const handleClick = (e: React.MouseEvent) => {
     handleChange(e, value);
-    onClick?.();
+    onClick?.(e as React.MouseEvent<HTMLButtonElement>);
   };
 
   return (
@@ -57,7 +57,7 @@ const Dot = <T extends AsType = 'button'>(props: DotProps<T>) => {
         }}
         aria-label={`go to ${value}`}
         aria-current={selected}
-        {...rest}
+        {...(rest as ButtonBaseProps<T>)}
       >
         {children}
       </ButtonBase>

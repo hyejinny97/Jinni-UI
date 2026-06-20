@@ -54,14 +54,15 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
     BoxProps,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const drawerHeaderId = useId();
   const drawerBodyId = useId();
   const drawerContainerElRef = useRef<HTMLDivElement>(null);
   const drawerElRef = useRef<HTMLElement>(null);
-  const backdropElRef = useRef<HTMLElement>(null);
+  const backdropElRef = useRef<HTMLDivElement>(null);
 
   const visibleDrawer = useCallback(() => {
     const drawerContainerEl = drawerContainerElRef.current;
@@ -255,7 +256,7 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
   };
 
   return (
-    <SwipeableDrawerContext.Provider value={{ drawerHeaderId, drawerBodyId }}>
+    <SwipeableDrawerContext value={{ drawerHeaderId, drawerBodyId }}>
       {createPortal(
         <div
           ref={drawerContainerElRef}
@@ -283,7 +284,7 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
               ref={boxElRef}
               className="JinniSwipeableDrawerContent"
               elevation={15}
-              {...BoxProps}
+              {...(BoxProps as BoxProps<P>)}
             >
               {children}
             </Box>
@@ -291,7 +292,7 @@ const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
         </div>,
         document.body
       )}
-    </SwipeableDrawerContext.Provider>
+    </SwipeableDrawerContext>
   );
 };
 

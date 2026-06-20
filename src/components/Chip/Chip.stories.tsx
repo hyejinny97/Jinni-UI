@@ -229,7 +229,7 @@ export const ClickableChip: Story = {
 };
 
 export const DeletableChip: Story = {
-  render: (args) => <DeletableChipTemplate {...args} />,
+  render: () => <DeletableChipTemplate />,
   parameters: {
     docs: {
       source: {
@@ -265,7 +265,7 @@ export const DeletableChip: Story = {
 };
 
 export const ClickableDeletableChip: Story = {
-  render: (args) => <ClickableDeletableChipTemplate {...args} />,
+  render: () => <ClickableDeletableChipTemplate />,
   parameters: {
     docs: {
       source: {
@@ -382,24 +382,30 @@ export const Color: Story = {
   render: (args) => {
     return (
       <Stack spacing={30}>
-        {['secondary', 'yellow-400', 'green', '#159', 'rgb(100,100,100)'].map(
-          (color) => (
-            <Stack direction="row" spacing={30}>
-              <Chip variant="filled" color={color} {...args}>
-                chip
-              </Chip>
-              <Chip variant="subtle-filled" color={color} {...args}>
-                chip
-              </Chip>
-              <Chip variant="outlined" color={color} {...args}>
-                chip
-              </Chip>
-              <Chip variant="text" color={color} {...args}>
-                chip
-              </Chip>
-            </Stack>
-          )
-        )}
+        {(
+          [
+            'secondary',
+            'yellow-400',
+            'green',
+            '#159',
+            'rgb(100,100,100)'
+          ] as ColorType[]
+        ).map((color) => (
+          <Stack direction="row" spacing={30}>
+            <Chip variant="filled" color={color} {...args}>
+              chip
+            </Chip>
+            <Chip variant="subtle-filled" color={color} {...args}>
+              chip
+            </Chip>
+            <Chip variant="outlined" color={color} {...args}>
+              chip
+            </Chip>
+            <Chip variant="text" color={color} {...args}>
+              chip
+            </Chip>
+          </Stack>
+        ))}
       </Stack>
     );
   }
@@ -472,7 +478,7 @@ export const Size: Story = {
 };
 
 export const Customization: Story = {
-  render: (args) => <IngredientChips {...args} />,
+  render: () => <IngredientChips />,
   parameters: {
     docs: {
       source: {

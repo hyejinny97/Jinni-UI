@@ -6,7 +6,7 @@ export const useKeyboardAccessibility = ({
   onClose,
   anchorElRef
 }: Pick<PopoverProps, 'open' | 'onClose' | 'anchorElRef'>) => {
-  const boxElRef = useRef<HTMLElement>(null);
+  const boxElRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;

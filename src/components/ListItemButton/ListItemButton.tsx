@@ -21,7 +21,7 @@ const ListItemButton = <T extends AsType = 'button'>(
         { dense: listContext?.dense, selected },
         className
       )}
-      {...rest}
+      {...(rest as ButtonBaseProps<T>)}
     >
       {children}
     </ButtonBase>

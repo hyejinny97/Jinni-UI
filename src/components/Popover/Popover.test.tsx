@@ -22,7 +22,7 @@ import Button from '@/components/Button';
 describe('<Popover />', () => {
   it('opens when trigger button is clicked', async () => {
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -55,7 +55,7 @@ describe('<Popover />', () => {
   it('calls onClose with reason "escapeKeyDown" when Escape is pressed', () => {
     const onClose = vi.fn();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -84,7 +84,7 @@ describe('<Popover />', () => {
   it('calls onClose with reason "backdropClick" when Backdrop is clicked', () => {
     const onClose = vi.fn();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -114,7 +114,7 @@ describe('<Popover />', () => {
   it('prevents outside interaction when popover is open and Tab or Shift+Tab is pressed (focus trap)', async () => {
     const user = userEvent.setup();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>

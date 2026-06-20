@@ -26,9 +26,10 @@ const Label = <T extends AsType = 'label'>(props: LabelProps<T>) => {
     size = 'md',
     className,
     style,
-    as: Component = 'label',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'label') as React.ElementType;
   const isKeywordSize = ['sm', 'md', 'lg'].includes(size);
   const newStyle = useStyle({
     ...(!isKeywordSize && { '--size': size }),
@@ -36,7 +37,7 @@ const Label = <T extends AsType = 'label'>(props: LabelProps<T>) => {
   });
 
   return (
-    <LabelContext.Provider value={{ required, disabled, size }}>
+    <LabelContext value={{ required, disabled, size }}>
       <Component
         className={cn('JinniLabel', labelPlacement, className)}
         style={newStyle}
@@ -55,7 +56,7 @@ const Label = <T extends AsType = 'label'>(props: LabelProps<T>) => {
           )}
         </span>
       </Component>
-    </LabelContext.Provider>
+    </LabelContext>
   );
 };
 

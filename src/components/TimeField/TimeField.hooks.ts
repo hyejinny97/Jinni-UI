@@ -3,8 +3,7 @@ import {
   useMemo,
   useLayoutEffect,
   useEffect,
-  useCallback,
-  MutableRefObject
+  useCallback
 } from 'react';
 import { TimeFieldProps } from './TimeField';
 import { TokensType, TimeObjectType } from './TimeField.types';
@@ -67,7 +66,7 @@ type UseValidationProps<Mode extends TimeMode = 'preset'> = Pick<
 };
 
 type UseFocusProps = {
-  timePartsElRef: MutableRefObject<HTMLElement[]>;
+  timePartsElRef: React.RefObject<HTMLElement[]>;
 };
 
 type UseInputProps = {

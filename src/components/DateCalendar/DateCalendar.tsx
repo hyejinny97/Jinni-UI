@@ -7,9 +7,11 @@ import CalendarHeader, {
 import { YearCalendarMainProps } from '@/components/YearCalendar';
 import { MonthCalendarMainProps } from '@/components/MonthCalendar';
 import { DayCalendarMainProps } from '@/components/DayCalendar';
-import DateYearCalendar from '../DateYearCalendar';
-import DateMonthCalendar from '../DateMonthCalendar';
-import DateDayCalendar from '../DateDayCalendar';
+import DateYearCalendar, { DateYearCalendarProps } from '../DateYearCalendar';
+import DateMonthCalendar, {
+  DateMonthCalendarProps
+} from '../DateMonthCalendar';
+import DateDayCalendar, { DateDayCalendarProps } from '../DateDayCalendar';
 import { useCalendarType, useDateValue } from './DateCalendar.hooks';
 import { CalendarType } from '@/types/date-component';
 
@@ -89,19 +91,19 @@ const DateCalendar = <T extends AsType = 'div'>(
     renderCalendarHeader,
     ...rest
   };
-  const dateYearCalendarProps = {
+  const dateYearCalendarProps: DateYearCalendarProps = {
     ...commonProps,
     onChange: handleChange('year'),
     yearsOrder,
     renderYear
   };
-  const dateMonthCalendarProps = {
+  const dateMonthCalendarProps: DateMonthCalendarProps = {
     ...commonProps,
     onChange: handleChange('month'),
     renderMonth,
     onYearClick: changeToYearCalendar
   };
-  const dateDayCalendarProps = {
+  const dateDayCalendarProps: DateDayCalendarProps = {
     ...commonProps,
     onChange: handleChange('day'),
     disabledDates,

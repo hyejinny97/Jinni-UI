@@ -26,9 +26,10 @@ const AccordionItem = <T extends AsType = 'div'>(
     disabled,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const { isExpanded, toggleExpand } = useExpand({
     defaultExpanded,
     expanded,
@@ -37,7 +38,7 @@ const AccordionItem = <T extends AsType = 'div'>(
   const newStyle = useStyle(style);
 
   return (
-    <AccordionItemContext.Provider
+    <AccordionItemContext
       value={{ isExpanded, toggleExpand, disabled: !!disabled }}
     >
       <Component
@@ -47,7 +48,7 @@ const AccordionItem = <T extends AsType = 'div'>(
       >
         {children}
       </Component>
-    </AccordionItemContext.Provider>
+    </AccordionItemContext>
   );
 };
 

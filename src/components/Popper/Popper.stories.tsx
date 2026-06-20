@@ -1,5 +1,5 @@
 import './CustomPopper.scss';
-import { useRef, useState, forwardRef } from 'react';
+import { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Popper, { PopperProps } from './Popper';
 import Button from '@/components/Button';
@@ -87,7 +87,7 @@ export default meta;
 type Story = StoryObj<typeof Popper>;
 
 const BasicPopperTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const toggle = () => {
@@ -138,7 +138,7 @@ const AnchorOriginTemplate = () => {
     vertical: 'bottom'
   };
 
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [anchorOrigin, setAnchorOrigin] =
     useState<PopperProps['anchorOrigin']>(DEFAULT_ORIGIN);
@@ -220,7 +220,7 @@ const PopperOriginTemplate = () => {
     vertical: 'top'
   };
 
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [popperOrigin, setPopperOrigin] =
     useState<PopperProps['popperOrigin']>(DEFAULT_ORIGIN);
@@ -340,7 +340,7 @@ const AnchorPositionTemplate = () => {
 
 const PositionTypeTemplate = () => {
   const POSITION_TYPE = ['absolute', 'fixed'] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [positionType, setPositionType] =
     useState<PopperProps['positionType']>('absolute');
@@ -407,7 +407,7 @@ const TriggerEventTemplate = () => {
   type TriggerType = (typeof TRIGGERS)[number];
 
   const anchorElRef = useRef<
-    Record<TriggerType, { current: HTMLElement | null }>
+    Record<TriggerType, { current: HTMLButtonElement | null }>
   >({
     click: { current: null },
     hover: { current: null },
@@ -482,7 +482,7 @@ const TriggerEventTemplate = () => {
 };
 
 const PopperWithArrowTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const toggle = () => {
@@ -520,22 +520,20 @@ const PopperWithArrowTemplate = () => {
   );
 };
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const toggle = () => {
@@ -580,7 +578,7 @@ export const BasicPopper: Story = {
     docs: {
       source: {
         code: `const BasicPopperTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const toggle = () => {
@@ -640,7 +638,7 @@ export const AnchorOrigin: Story = {
     vertical: 'bottom'
   };
 
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [anchorOrigin, setAnchorOrigin] =
     useState<PopperProps['anchorOrigin']>(DEFAULT_ORIGIN);
@@ -731,7 +729,7 @@ export const PopperOrigin: Story = {
     vertical: 'top'
   };
 
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [popperOrigin, setPopperOrigin] =
     useState<PopperProps['popperOrigin']>(DEFAULT_ORIGIN);
@@ -869,7 +867,7 @@ export const PositionType: Story = {
       source: {
         code: `const PositionTypeTemplate = () => {
   const POSITION_TYPE = ['absolute', 'fixed'] as const;
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [positionType, setPositionType] =
     useState<PopperProps['positionType']>('absolute');
@@ -1030,7 +1028,7 @@ export const PopperWithArrow: Story = {
     docs: {
       source: {
         code: `const PopperWithArrowTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const toggle = () => {
@@ -1080,22 +1078,20 @@ export const Transition: Story = {
         code: `
 import { motion, AnimatePresence, HTMLMotionProps } from 'motion/react';
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
   const toggle = () => {

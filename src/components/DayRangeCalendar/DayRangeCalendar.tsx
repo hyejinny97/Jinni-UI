@@ -59,7 +59,7 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
     <DayCalendar
       className={cn('JinniDayRangeCalendar', className)}
       renderDay={renderRangeDay}
-      {...rest}
+      {...(rest as DayCalendarProps<T>)}
     />
   );
 };

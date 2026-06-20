@@ -103,7 +103,7 @@ const HDateDayRangeCalendar = <T extends AsType = 'div'>(
       direction="row"
       divider={<Divider orientation="vertical" />}
       spacing={10}
-      {...rest}
+      {...(rest as StackProps<T>)}
     >
       {Array(dayCalendars)
         .fill(0)

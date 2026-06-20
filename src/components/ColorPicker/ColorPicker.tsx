@@ -48,9 +48,10 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
     required = labelContext?.required,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const { theme } = useJinni();
   const anchorElRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);

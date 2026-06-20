@@ -10,7 +10,7 @@ export const useKeyboardAccessibility = ({
   MenuProps,
   'open' | 'onClose' | 'anchorElRef' | 'disableMenuListFocused'
 >) => {
-  const menuListElRef = useRef<HTMLElement>(null);
+  const menuListElRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     if (!open || !onClose) return;

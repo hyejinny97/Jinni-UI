@@ -1,5 +1,4 @@
 import './ButtonGroup.scss';
-import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
@@ -29,70 +28,69 @@ type ButtonGroupProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
     orientation?: 'horizontal' | 'vertical';
   };
 
-const ButtonGroup = forwardRef(
-  <T extends AsType = 'div'>(
-    props: ButtonGroupProps<T>,
-    ref: React.Ref<HTMLElement>
-  ) => {
-    const {
-      children,
-      orientation = 'horizontal',
-      fullWidth,
-      variant = 'filled',
-      color = 'primary',
-      size,
-      overlayColor,
-      disableOverlay,
-      rippleColor,
-      rippleStartLocation,
-      disableRipple,
-      elevation,
-      disabled,
-      className,
-      style,
-      as: Component = 'div',
-      ...rest
-    } = props;
-    const normalizedColor = useColor(color);
-    const newStyle = useStyle({
-      '--divider-color':
-        variant === 'filled' ? darken(normalizedColor, 0.8) : color,
-      ...style
-    });
+const ButtonGroup = <T extends AsType = 'div'>({
+  ref,
+  ...props
+}: ButtonGroupProps<T>) => {
+  const {
+    children,
+    orientation = 'horizontal',
+    fullWidth,
+    variant = 'filled',
+    color = 'primary',
+    size,
+    overlayColor,
+    disableOverlay,
+    rippleColor,
+    rippleStartLocation,
+    disableRipple,
+    elevation,
+    disabled,
+    className,
+    style,
+    as,
+    ...rest
+  } = props;
+  const Component = (as ?? 'div') as React.ElementType;
+  const normalizedColor = useColor(color);
+  const newStyle = useStyle({
+    '--divider-color':
+      variant === 'filled' ? darken(normalizedColor, 0.8) : color,
+    ...style
+  });
 
-    return (
-      <ButtonGroupContext.Provider
-        value={{
-          fullWidth,
-          variant,
-          color,
-          size,
-          overlayColor,
-          disableOverlay,
-          rippleColor,
-          rippleStartLocation,
-          disableRipple,
-          elevation,
-          disabled
-        }}
+  return (
+    <ButtonGroupContext
+      value={{
+        fullWidth,
+        variant,
+        color,
+        size,
+        overlayColor,
+        disableOverlay,
+        rippleColor,
+        rippleStartLocation,
+        disableRipple,
+        elevation,
+        disabled
+      }}
+    >
+      <Component
+        ref={ref}
+        role="group"
+        className={cn(
+          'JinniButtonGroup',
+          { fullWidth },
+          orientation,
+          className
+        )}
+        style={newStyle}
+        {...rest}
       >
-        <Component
-          ref={ref}
-          role="group"
-          className={cn(
-            'JinniButtonGroup',
-            { fullWidth },
-            orientation,
-            className
-          )}
-          style={newStyle}
-          {...rest}
-        >
-          {children}
-        </Component>
-      </ButtonGroupContext.Provider>
-    );
-  }
-);
+        {children}
+      </Component>
+    </ButtonGroupContext>
+  );
+};
 
 export default ButtonGroup;

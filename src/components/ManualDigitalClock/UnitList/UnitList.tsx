@@ -15,7 +15,7 @@ type UnitListProps = {
 const UnitList = ({ items, onClick }: UnitListProps) => {
   const { theme } = useJinni();
   const contrastColorToBg = theme === 'light' ? 'white' : 'black';
-  const menuListElRef = useRef<HTMLElement>(null);
+  const menuListElRef = useRef<HTMLUListElement>(null);
   const menuItemsElRef = useRef<Map<number, HTMLElement>>(new Map());
 
   const scrollToSelected = useCallback(

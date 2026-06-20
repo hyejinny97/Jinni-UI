@@ -38,7 +38,7 @@ const CarouselProgress = <T extends AsType = 'div'>(
       value={value}
       lineCap="butt"
       orientation={orientation}
-      {...rest}
+      {...(rest as LinearProgressProps<T>)}
     />
   );
 };

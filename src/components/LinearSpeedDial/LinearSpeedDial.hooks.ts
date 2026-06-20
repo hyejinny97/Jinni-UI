@@ -11,7 +11,7 @@ type UseCloseProps = Pick<
 
 type UseKeyboardAccessibilityProps = Pick<LinearSpeedDialProps, 'open'> &
   Required<Pick<LinearSpeedDialProps, 'placement' | 'container'>> & {
-    speedDialContentElRef: React.RefObject<HTMLDivElement>;
+    speedDialContentElRef: React.RefObject<HTMLDivElement | null>;
   };
 
 export const useClose = ({

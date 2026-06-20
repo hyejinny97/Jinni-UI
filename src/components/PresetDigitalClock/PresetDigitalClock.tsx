@@ -1,6 +1,6 @@
 import './PresetDigitalClock.scss';
 import cn from 'classnames';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
+import { AsType } from '@/types/default-component-props';
 import { TimeComponentProps } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import { TIME_STEP_PRESET_DEFAULT } from './PresetDigitalClock.constants';
@@ -9,14 +9,14 @@ import {
   useTimeItems,
   useScroll
 } from './PresetDigitalClock.hooks';
-import Box from '@/components/Box';
+import Box, { BoxProps } from '@/components/Box';
 import MenuList from '@/components/MenuList';
 import MenuItem from '@/components/MenuItem';
 import useJinni from '@/hooks/useJinni';
 
 export type PresetDigitalClockProps<T extends AsType = 'div'> = Omit<
-  DefaultComponentProps<T>,
-  'defaultValue' | 'onChange'
+  BoxProps<T>,
+  'defaultValue' | 'onChange' | 'children'
 > &
   TimeComponentProps<'preset'> & {
     skipDisabledTime?: boolean;
@@ -72,7 +72,7 @@ const PresetDigitalClock = <T extends AsType = 'div'>(
         '--text-color-selected': contrastColorToBg,
         ...style
       }}
-      {...rest}
+      {...(rest as BoxProps<T>)}
     >
       <MenuList ref={menuListElRef} elevation={0}>
         {timeItems.map(({ label, value, selected, disabled, hide }) => (

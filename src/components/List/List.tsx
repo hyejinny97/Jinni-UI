@@ -21,7 +21,7 @@ const List = <T extends AsType = 'ul'>(props: ListProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <ListContext.Provider value={{ dense }}>
+    <ListContext value={{ dense }}>
       <Component
         className={cn('JinniList', className)}
         style={newStyle}
@@ -29,7 +29,7 @@ const List = <T extends AsType = 'ul'>(props: ListProps<T>) => {
       >
         {children}
       </Component>
-    </ListContext.Provider>
+    </ListContext>
   );
 };
 

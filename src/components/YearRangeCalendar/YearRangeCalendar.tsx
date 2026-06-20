@@ -63,7 +63,7 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
       spacing={0}
       yearsOrder={yearsOrder}
       renderYear={renderRangeYear}
-      {...rest}
+      {...(rest as YearCalendarProps<T>)}
     />
   );
 };

@@ -32,6 +32,19 @@ const CircularSpeedDialAction = <T extends AsType = 'button'>(
   const { positionType, container } = useCircularDial();
   const { wrapperElRef, tooltipPlacement } = useTooltipPlacement();
 
+  const buttonProps = {
+    role: 'menuitem',
+    className: cn('JinniCircularSpeedDialAction', variant, className),
+    variant,
+    color,
+    size,
+    elevation,
+    shape,
+    tabIndex: -1,
+    'aria-labelledby': id,
+    ...rest
+  } as ButtonProps<T>;
+
   return (
     <Tooltip
       id={id}
@@ -45,18 +58,7 @@ const CircularSpeedDialAction = <T extends AsType = 'button'>(
         ref={wrapperElRef}
         className={cn('JinniCircularSpeedDialActionWrapper')}
       >
-        <Button
-          role="menuitem"
-          className={cn('JinniCircularSpeedDialAction', variant, className)}
-          variant={variant}
-          color={color}
-          size={size}
-          elevation={elevation}
-          shape={shape}
-          tabIndex={-1}
-          aria-labelledby={id}
-          {...rest}
-        />
+        <Button {...buttonProps} />
       </TransitionComponent>
     </Tooltip>
   );

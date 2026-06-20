@@ -1,4 +1,4 @@
-import { useState, useRef, forwardRef, createContext, useContext } from 'react';
+import { useState, useRef, createContext, useContext } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { AsType } from '@/types/default-component-props';
 import Tour, { TourProps } from './Tour';
@@ -68,38 +68,34 @@ const COMMON_BUTTON_BASE_STYLE = {
   borderRadius: '50%'
 };
 
-const GrayLineBox = forwardRef(
-  (
-    {
-      children,
-      circular,
-      style
-    }: { children: React.ReactNode; circular?: boolean; style?: StyleType },
-    ref: React.Ref<HTMLElement>
-  ) => {
-    return (
-      <Box
-        ref={ref}
-        style={{
-          display: 'inline-flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '16px',
-          width: '200px',
-          height: '200px',
-          border: '1px solid lightgrey',
-          borderRadius: circular ? '100%' : '4px',
-          boxSizing: 'border-box',
-          backgroundColor: 'surface-container-lowest',
-          color: 'on-surface',
-          ...style
-        }}
-      >
-        {children}
-      </Box>
-    );
-  }
-);
+const GrayLineBox = ({
+  ref,
+  children,
+  circular,
+  style
+}: BoxProps & { circular?: boolean; style?: StyleType }) => {
+  return (
+    <Box
+      ref={ref}
+      style={{
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '16px',
+        width: '200px',
+        height: '200px',
+        border: '1px solid lightgrey',
+        borderRadius: circular ? '100%' : '4px',
+        boxSizing: 'border-box',
+        backgroundColor: 'surface-container-lowest',
+        color: 'on-surface',
+        ...style
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
 
 const BasicTourTemplate = () => {
   type TourItemType = {
@@ -126,7 +122,7 @@ const BasicTourTemplate = () => {
   ];
   const INIT_VALUE = TOUR_LIST[0].value;
   const anchorElListRef = useRef<
-    Record<TourProps['value'], React.RefObject<HTMLElement>>
+    Record<TourProps['value'], React.RefObject<HTMLDivElement | null>>
   >(
     Object.fromEntries(TOUR_LIST.map(({ value }) => [value, { current: null }]))
   );
@@ -275,7 +271,7 @@ const MaskColorTemplate = () => {
   ];
   const INIT_VALUE = TOUR_LIST[0].value;
   const anchorElListRef = useRef<
-    Record<TourProps['value'], React.RefObject<HTMLElement>>
+    Record<TourProps['value'], React.RefObject<HTMLDivElement | null>>
   >(
     Object.fromEntries(TOUR_LIST.map(({ value }) => [value, { current: null }]))
   );
@@ -392,7 +388,7 @@ const SpotlightShapeTemplate = () => {
   const INIT_VALUE = TOUR_LIST[0].value;
   const SHAPES = ['rectangular', 'rounded', 'circular'] as const;
   const anchorElListRef = useRef<
-    Record<TourProps['value'], React.RefObject<HTMLElement>>
+    Record<TourProps['value'], React.RefObject<HTMLDivElement | null>>
   >(
     Object.fromEntries(TOUR_LIST.map(({ value }) => [value, { current: null }]))
   );
@@ -545,7 +541,7 @@ const SpotlightPaddingTemplate = () => {
   ];
   const INIT_VALUE = TOUR_LIST[0].value;
   const anchorElListRef = useRef<
-    Record<TourProps['value'], React.RefObject<HTMLElement>>
+    Record<TourProps['value'], React.RefObject<HTMLDivElement | null>>
   >(
     Object.fromEntries(TOUR_LIST.map(({ value }) => [value, { current: null }]))
   );
@@ -668,7 +664,7 @@ const PlacementTemplate = () => {
   }));
   const INIT_VALUE = TOUR_LIST[0].value;
   const anchorElListRef = useRef<
-    Record<TourProps['value'], React.RefObject<HTMLElement>>
+    Record<TourProps['value'], React.RefObject<HTMLDivElement | null>>
   >(
     Object.fromEntries(TOUR_LIST.map(({ value }) => [value, { current: null }]))
   );
@@ -783,7 +779,7 @@ const OffsetTemplate = () => {
   ];
   const INIT_VALUE = TOUR_LIST[0].value;
   const anchorElListRef = useRef<
-    Record<TourProps['value'], React.RefObject<HTMLElement>>
+    Record<TourProps['value'], React.RefObject<HTMLDivElement | null>>
   >(
     Object.fromEntries(TOUR_LIST.map(({ value }) => [value, { current: null }]))
   );
@@ -903,7 +899,7 @@ const CustomBoxTemplate = () => {
   ];
   const INIT_VALUE = TOUR_LIST[0].value;
   const anchorElListRef = useRef<
-    Record<TourProps['value'], React.RefObject<HTMLElement>>
+    Record<TourProps['value'], React.RefObject<HTMLDivElement | null>>
   >(
     Object.fromEntries(TOUR_LIST.map(({ value }) => [value, { current: null }]))
   );
@@ -1008,47 +1004,40 @@ const CustomBoxTemplate = () => {
   );
 };
 
-const GrayBox = forwardRef(
-  <T extends AsType = 'div'>(
-    props: BoxProps<T>,
-    ref: React.Ref<HTMLElement>
-  ) => {
-    const { style, ...rest } = { ...props };
-    return (
-      <Box
-        ref={ref}
-        style={{
-          backgroundColor: 'gray-200',
-          minHeight: '100px',
-          borderRadius: '4px',
-          ...style
-        }}
-        {...rest}
-      />
-    );
-  }
-);
+const GrayBox = <T extends AsType = 'div'>({ ref, ...props }: BoxProps<T>) => {
+  const { style, ...rest } = { ...props };
+  return (
+    <Box
+      ref={ref}
+      style={{
+        backgroundColor: 'gray-200',
+        minHeight: '100px',
+        borderRadius: '4px',
+        ...style
+      }}
+      {...(rest as BoxProps<T>)}
+    />
+  );
+};
 
-const YellowBox = forwardRef(
-  <T extends AsType = 'div'>(
-    props: BoxProps<T>,
-    ref: React.Ref<HTMLElement>
-  ) => {
-    const { style, ...rest } = { ...props };
-    return (
-      <Box
-        ref={ref}
-        style={{
-          backgroundColor: 'yellow-200',
-          minHeight: '100px',
-          borderRadius: '4px',
-          ...style
-        }}
-        {...rest}
-      />
-    );
-  }
-);
+const YellowBox = <T extends AsType = 'div'>({
+  ref,
+  ...props
+}: BoxProps<T>) => {
+  const { style, ...rest } = { ...props };
+  return (
+    <Box
+      ref={ref}
+      style={{
+        backgroundColor: 'yellow-200',
+        minHeight: '100px',
+        borderRadius: '4px',
+        ...style
+      }}
+      {...(rest as BoxProps<T>)}
+    />
+  );
+};
 
 const BoxName = (props: TextProps) => {
   const { style, ...rest } = props;
@@ -1121,7 +1110,7 @@ type TourContextType = {
   openTour: () => void;
   registerAnchor: (
     stepValue: TourStepValueListType
-  ) => (element: HTMLElement) => void;
+  ) => (element: HTMLElement | null) => void;
 };
 
 const TourContext = createContext<TourContextType | null>(null);
@@ -1134,7 +1123,7 @@ const useTour = () => {
 
 const TourProvider = ({ children }: { children: React.ReactNode }) => {
   const anchorElListRef = useRef<
-    Record<TourStepValueListType, React.MutableRefObject<HTMLElement | null>>
+    Record<TourStepValueListType, React.RefObject<HTMLElement | null>>
   >(
     Object.fromEntries(TOUR_LIST.map(({ value }) => [value, { current: null }]))
   );
@@ -1168,12 +1157,14 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
     setTourValue(TOUR_LIST[activeDotIdx as number].value);
   };
   const registerAnchor =
-    (stepValue: TourStepValueListType) => (element: HTMLElement) => {
-      anchorElListRef.current[stepValue].current = element;
+    (stepValue: TourStepValueListType) => (element: HTMLElement | null) => {
+      if (anchorElListRef.current[stepValue]) {
+        anchorElListRef.current[stepValue].current = element;
+      }
     };
 
   return (
-    <TourContext.Provider value={{ openTour, registerAnchor }}>
+    <TourContext value={{ openTour, registerAnchor }}>
       {children}
       <Tour
         open={open}
@@ -1264,7 +1255,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
           }
         )}
       </Tour>
-    </TourContext.Provider>
+    </TourContext>
   );
 };
 
@@ -2378,7 +2369,7 @@ type TourContextType = {
   openTour: () => void;
   registerAnchor: (
     stepValue: TourStepValueListType
-  ) => (element: HTMLElement) => void;
+  ) => (element: HTMLElement | null) => void;
 };
 
 const TourContext = createContext<TourContextType | null>(null);
@@ -2391,7 +2382,7 @@ const useTour = () => {
 
 const TourProvider = ({ children }: { children: React.ReactNode }) => {
   const anchorElListRef = useRef<
-    Record<TourStepValueListType, React.RefObject<HTMLElement>>
+    Record<TourStepValueListType, React.RefObject<HTMLElement | null>>
   >(
     Object.fromEntries(TOUR_LIST.map(({ value }) => [value, { current: null }]))
   );
@@ -2407,7 +2398,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
   const closeTour = () => {
     setOpen(false);
   };
-  const handleTourClose: TourProps['onClose'] = (event, reason) => {
+  const handleTourClose: TourProps['onClose'] = (_, reason) => {
     if (reason !== 'backdropClick') {
       closeTour();
     }
@@ -2425,12 +2416,14 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
     setTourValue(TOUR_LIST[activeDotIdx as number].value);
   };
   const registerAnchor =
-    (stepValue: TourStepValueListType) => (element: HTMLElement) => {
-      anchorElListRef.current[stepValue].current = element;
+    (stepValue: TourStepValueListType) => (element: HTMLElement | null) => {
+      if (anchorElListRef.current[stepValue]) {
+        anchorElListRef.current[stepValue].current = element;
+      }
     };
 
   return (
-    <TourContext.Provider value={{ openTour, registerAnchor }}>
+    <TourContext value={{ openTour, registerAnchor }}>
       {children}
       <Tour
         open={open}
@@ -2463,7 +2456,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
                   }}
                   aria-label="close tour"
                 >
-                  <CloseIcon color='on-surface-variant' />
+                  <CloseIcon color="on-surface-variant" />
                 </ButtonBase>
                 <Text
                   className="typo-title-large"
@@ -2494,7 +2487,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
                     style={COMMON_BUTTON_BASE_STYLE}
                     aria-label="go prev tour step"
                   >
-                    <ArrowLeftIcon color='on-surface-variant' />
+                    <ArrowLeftIcon color="on-surface-variant" />
                   </ButtonBase>
                   <Dots value={stepIdx} onChange={handleDotChange}>
                     {Array(TOUR_LIST.length)
@@ -2513,7 +2506,7 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
                     style={COMMON_BUTTON_BASE_STYLE}
                     aria-label="go next tour step"
                   >
-                    <ArrowRightIcon color='on-surface-variant' />
+                    <ArrowRightIcon color="on-surface-variant" />
                   </ButtonBase>
                 </Stack>
               </TourStep>
@@ -2521,11 +2514,11 @@ const TourProvider = ({ children }: { children: React.ReactNode }) => {
           }
         )}
       </Tour>
-    </TourContext.Provider>
+    </TourContext>
   );
 };
 
-const GrayBox = forwardRef((props: BoxProps, ref: React.Ref<HTMLElement>) => {
+const GrayBox = <T extends AsType = 'div'>({ ref, ...props }: BoxProps<T>) => {
   const { style, ...rest } = { ...props };
   return (
     <Box
@@ -2536,12 +2529,15 @@ const GrayBox = forwardRef((props: BoxProps, ref: React.Ref<HTMLElement>) => {
         borderRadius: '4px',
         ...style
       }}
-      {...rest}
+       {...(rest as BoxProps<T>)}
     />
   );
-});
+};
 
-const YellowBox = forwardRef((props: BoxProps, ref: React.Ref<HTMLElement>) => {
+const YellowBox = <T extends AsType = 'div'>({
+  ref,
+  ...props
+}: BoxProps<T>) => {
   const { style, ...rest } = { ...props };
   return (
     <Box
@@ -2552,10 +2548,10 @@ const YellowBox = forwardRef((props: BoxProps, ref: React.Ref<HTMLElement>) => {
         borderRadius: '4px',
         ...style
       }}
-      {...rest}
+       {...(rest as BoxProps<T>)}
     />
   );
-});
+};
 
 const BoxName = (props: TextProps) => {
   const { style, ...rest } = props;

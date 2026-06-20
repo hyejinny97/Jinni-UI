@@ -190,7 +190,7 @@ export const Disabled: Story = {
 };
 
 export const ComplexButton: Story = {
-  render: (args) => <ComplexButtonTemplate {...args} />,
+  render: () => <ComplexButtonTemplate />,
   parameters: {
     docs: {
       source: {

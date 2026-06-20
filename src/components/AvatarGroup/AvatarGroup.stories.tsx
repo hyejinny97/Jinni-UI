@@ -171,7 +171,7 @@ export const TotalAvatarNumber: Story = {
 };
 
 export const CustomSurplusAvatar: Story = {
-  render: (args) => <SurplusAvatar {...args} />,
+  render: () => <SurplusAvatar />,
   parameters: {
     docs: {
       source: {

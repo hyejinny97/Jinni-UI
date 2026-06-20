@@ -16,7 +16,7 @@ export type MaskOptionalProps = {
 
 export type MaskProps<T extends AsType = 'svg'> = DefaultComponentProps<T> &
   MaskOptionalProps & {
-    spotlightElRef: React.RefObject<HTMLElement>;
+    spotlightElRef: React.RefObject<HTMLElement | null>;
   };
 
 const ROUNDED = 4;

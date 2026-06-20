@@ -80,7 +80,7 @@ const TabList = <T extends AsType = 'div'>(props: TabListProps<T>) => {
   const newStyle = useStyle({ '--color': color, ...style });
 
   return (
-    <TabListContext.Provider
+    <TabListContext
       value={{
         variant,
         color,
@@ -111,7 +111,7 @@ const TabList = <T extends AsType = 'div'>(props: TabListProps<T>) => {
           />
         </div>
       </Component>
-    </TabListContext.Provider>
+    </TabListContext>
   );
 };
 

@@ -1334,7 +1334,7 @@ const FilteringTableTemplate = () => {
                     >
                       {column.headerName}
                       <ButtonBase
-                        ref={(element) => {
+                        ref={(element: HTMLElement | null) => {
                           if (element)
                             anchorsRef.current[column.field] = {
                               current: element

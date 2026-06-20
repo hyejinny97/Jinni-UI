@@ -19,7 +19,7 @@ const TableHead = <T extends AsType = 'thead'>(props: TableHeadProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <TableHeadContext.Provider value={true}>
+    <TableHeadContext value={true}>
       <Component
         className={cn(
           'JinniTableHead',
@@ -31,7 +31,7 @@ const TableHead = <T extends AsType = 'thead'>(props: TableHeadProps<T>) => {
       >
         {children}
       </Component>
-    </TableHeadContext.Provider>
+    </TableHeadContext>
   );
 };
 

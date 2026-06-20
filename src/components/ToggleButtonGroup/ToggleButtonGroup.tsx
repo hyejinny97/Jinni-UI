@@ -54,9 +54,10 @@ const ToggleButtonGroup = <T extends AsType = 'div'>(
     disabled,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const { selectedValue, handleChange } = useSelectedValue({
     defaultValue,
     value,
@@ -65,7 +66,7 @@ const ToggleButtonGroup = <T extends AsType = 'div'>(
   const newStyle = useStyle(style);
 
   return (
-    <ToggleButtonGroupContext.Provider
+    <ToggleButtonGroupContext
       value={{
         selectedValue,
         handleChange,
@@ -88,7 +89,7 @@ const ToggleButtonGroup = <T extends AsType = 'div'>(
       >
         {children}
       </Component>
-    </ToggleButtonGroupContext.Provider>
+    </ToggleButtonGroupContext>
   );
 };
 

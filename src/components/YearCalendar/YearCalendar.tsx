@@ -62,7 +62,7 @@ const YearCalendar = <T extends AsType = 'div'>(
       className={cn('JinniYearCalendar', className)}
       columns={3}
       spacing={10}
-      {...rest}
+      {...(rest as GridProps<T>)}
     >
       {yearItems.map((itemProps) => (
         <Fragment key={itemProps.value.getTime()}>

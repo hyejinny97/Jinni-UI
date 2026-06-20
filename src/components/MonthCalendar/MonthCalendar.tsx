@@ -59,7 +59,7 @@ const MonthCalendar = <T extends AsType = 'div'>(
       className={cn('JinniMonthCalendar', className)}
       columns={3}
       spacing={10}
-      {...rest}
+      {...(rest as GridProps<T>)}
     >
       {monthItems.map((itemProps) => (
         <Fragment key={itemProps.value.getTime()}>

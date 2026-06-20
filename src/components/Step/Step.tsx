@@ -25,7 +25,7 @@ const Step = <T extends AsType = 'div'>(props: StepProps<T>) => {
   const newStyle = useStyle({ '--connector-color': connectorColor, ...style });
 
   return (
-    <StepContext.Provider value={{ status }}>
+    <StepContext value={{ status }}>
       <Component
         className={cn('JinniStep', orientation, alignment, status, className)}
         style={newStyle}
@@ -35,7 +35,7 @@ const Step = <T extends AsType = 'div'>(props: StepProps<T>) => {
         {children}
         <div className={cn('JinniStepConnector', 'after', orientation)} />
       </Component>
-    </StepContext.Provider>
+    </StepContext>
   );
 };
 

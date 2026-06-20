@@ -57,11 +57,12 @@ const DateRangePicker = <T extends AsType = 'div'>(
     ) => <DateRangeCalendar {...dateRangeCalendarProps} />,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const popoverId = useId();
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [focusedField, setFocusedField] = useState<RangeFieldType>();
   const { dateRangeValue, handleDateRangeChange } = useDateRangeValue({

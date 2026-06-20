@@ -1,5 +1,4 @@
 import './InputBase.scss';
-import { forwardRef } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
@@ -21,69 +20,69 @@ export type RootInputBaseProps = {
   focused?: boolean;
 };
 
-export type InputBaseProps<T extends AsType = 'div'> =
-  DefaultComponentProps<T> & RootInputBaseProps;
+export type InputBaseProps<T extends AsType = 'div'> = Omit<
+  DefaultComponentProps<T>,
+  'children'
+> &
+  RootInputBaseProps;
 
-const InputBase = forwardRef(
-  <T extends AsType = 'div'>(
-    props: InputBaseProps<T>,
-    ref: React.Ref<HTMLElement>
-  ) => {
-    const {
-      children,
-      startAdornment,
-      endAdornment,
-      variant = 'outlined',
-      size = 'md',
-      color = 'gray-400',
-      focusedColor = 'primary',
-      disabled,
-      disableHoverEffect = disabled,
-      disableFocusEffect = disabled,
-      fullWidth,
-      focused,
-      className,
-      style,
-      as: Component = 'div',
-      ...rest
-    } = props;
-    const colorStyle = useColorStyle({ variant, color, focusedColor });
-    const newStyle = useStyle({
-      ...colorStyle,
-      ...style
-    });
+const InputBase = <T extends AsType = 'div'>({
+  ref,
+  ...props
+}: InputBaseProps<T>) => {
+  const {
+    children,
+    startAdornment,
+    endAdornment,
+    variant = 'outlined',
+    size = 'md',
+    color = 'gray-400',
+    focusedColor = 'primary',
+    disabled,
+    disableHoverEffect = disabled,
+    disableFocusEffect = disabled,
+    fullWidth,
+    focused,
+    className,
+    style,
+    as,
+    ...rest
+  } = props;
+  const Component = (as ?? 'div') as React.ElementType;
+  const colorStyle = useColorStyle({ variant, color, focusedColor });
+  const newStyle = useStyle({
+    ...colorStyle,
+    ...style
+  });
 
-    return (
-      <Component
-        ref={ref}
-        className={cn(
-          'JinniInputBase',
-          {
-            disabled,
-            disableHoverEffect,
-            disableFocusEffect,
-            fullWidth,
-            focused
-          },
-          variant,
-          size,
-          className
-        )}
-        style={newStyle}
-        {...rest}
-      >
-        {startAdornment && (
-          <span className="JinniInputBaseAdornment start">
-            {startAdornment}
-          </span>
-        )}
-        <div className="JinniInputBaseContent">{children}</div>
-        {endAdornment && (
-          <span className="JinniInputBaseAdornment end">{endAdornment}</span>
-        )}
-      </Component>
-    );
-  }
-);
+  return (
+    <Component
+      ref={ref}
+      className={cn(
+        'JinniInputBase',
+        {
+          disabled,
+          disableHoverEffect,
+          disableFocusEffect,
+          fullWidth,
+          focused
+        },
+        variant,
+        size,
+        className
+      )}
+      style={newStyle}
+      {...rest}
+    >
+      {startAdornment && (
+        <span className="JinniInputBaseAdornment start">{startAdornment}</span>
+      )}
+      <div className="JinniInputBaseContent">{children}</div>
+      {endAdornment && (
+        <span className="JinniInputBaseAdornment end">{endAdornment}</span>
+      )}
+    </Component>
+  );
+};
 
 export default InputBase;

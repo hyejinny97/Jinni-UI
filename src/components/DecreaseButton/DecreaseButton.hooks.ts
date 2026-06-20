@@ -32,7 +32,7 @@ export const useButtonPress = () => {
     }
   }, []);
 
-  return usePress({
+  return usePress<HTMLButtonElement>({
     longPressTime: 0.5 * SECOND,
     onPressed,
     onLongPressed,

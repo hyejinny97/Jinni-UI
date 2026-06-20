@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Tooltip from './Tooltip';
 import Stack from '@/components/Stack';
@@ -124,38 +124,34 @@ const ControlledTooltipTemplate = () => {
   );
 };
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
 
-const ScaleFadeWithDelay = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
-        exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFadeWithDelay = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
+      exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
+      {...props}
+    />
+  );
+};
 
 export const BasicTooltip: Story = {
-  render: (args) => {
+  render: () => {
     return (
-      <Tooltip id="jinni-basic-tooltip" content="Tooltip Contents" {...args}>
+      <Tooltip id="jinni-basic-tooltip" content="Tooltip Contents">
         <Button variant="outlined" aria-describedby="jinni-basic-tooltip">
           Open Tooltip
         </Button>
@@ -165,7 +161,7 @@ export const BasicTooltip: Story = {
 };
 
 export const TooltipPosition: Story = {
-  render: (args) => {
+  render: () => {
     return (
       <Grid
         spacing={20}
@@ -196,7 +192,6 @@ export const TooltipPosition: Story = {
             id={`${placement}-position-tooltip`}
             content="Tooltip Contents"
             placement={placement}
-            {...args}
           >
             <Button
               variant="outlined"
@@ -242,7 +237,7 @@ export const TooltipPosition: Story = {
       id={\`\${placement}-position-tooltip\`}
       content="Tooltip Contents"
       placement={placement}
-      {...args}
+      
     >
       <Button
         variant="outlined"
@@ -260,7 +255,7 @@ export const TooltipPosition: Story = {
 };
 
 export const ArrowTooltip: Story = {
-  render: (args) => {
+  render: () => {
     return (
       <Grid
         spacing={20}
@@ -292,7 +287,6 @@ export const ArrowTooltip: Story = {
             content="Tooltip Contents"
             placement={placement}
             arrow
-            {...args}
           >
             <Button
               variant="outlined"
@@ -339,7 +333,7 @@ export const ArrowTooltip: Story = {
       content="Tooltip Contents"
       placement={placement}
       arrow
-      {...args}
+      
     >
       <Button
         variant="outlined"
@@ -357,14 +351,9 @@ export const ArrowTooltip: Story = {
 };
 
 export const DistanceFromAnchor: Story = {
-  render: (args) => {
+  render: () => {
     return (
-      <Tooltip
-        id="offset-tooltip"
-        content="Tooltip Contents"
-        offset={0}
-        {...args}
-      >
+      <Tooltip id="offset-tooltip" content="Tooltip Contents" offset={0}>
         <Button variant="outlined" aria-describedby="offset-tooltip">
           Open Tooltip
         </Button>
@@ -374,14 +363,13 @@ export const DistanceFromAnchor: Story = {
 };
 
 export const Triggers: Story = {
-  render: (args) => {
+  render: () => {
     return (
       <Stack direction="row" spacing={20}>
         <Tooltip
           id="click-trigger-tooltip"
           content="Tooltip Contents"
           triggers={['click']}
-          {...args}
         >
           <Button variant="outlined" aria-describedby="click-trigger-tooltip">
             Triggers: click
@@ -391,7 +379,6 @@ export const Triggers: Story = {
           id="hover-trigger-tooltip"
           content="Tooltip Contents"
           triggers={['hover']}
-          {...args}
         >
           <Button variant="outlined" aria-describedby="hover-trigger-tooltip">
             Triggers: hover
@@ -401,7 +388,6 @@ export const Triggers: Story = {
           id="focus-trigger-tooltip"
           content="Tooltip Contents"
           triggers={['focus']}
-          {...args}
         >
           <Button variant="outlined" aria-describedby="focus-trigger-tooltip">
             Triggers: focus
@@ -462,7 +448,7 @@ export const ControlledTooltip: Story = {
 };
 
 export const CustomizeTooltip: Story = {
-  render: (args) => {
+  render: () => {
     return (
       <Tooltip
         id="jinni-customize-tooltip"
@@ -475,7 +461,6 @@ export const CustomizeTooltip: Story = {
             color: 'on-surface'
           }
         }}
-        {...args}
       >
         <Button variant="outlined" aria-describedby="jinni-customize-tooltip">
           Open Tooltip
@@ -486,14 +471,13 @@ export const CustomizeTooltip: Story = {
 };
 
 export const Transition: Story = {
-  render: (args) => {
+  render: () => {
     return (
       <Tooltip
         id="jinni-transition"
         content="Tooltip Contents"
         WrapperComponent={AnimatePresence}
         TransitionComponent={ScaleFade}
-        {...args}
       >
         <Button variant="outlined" aria-describedby="jinni-transition">
           Open Tooltip
@@ -507,19 +491,17 @@ export const Transition: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
-const ScaleFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        {...props}
-      />
-    );
-  }
-);
+const ScaleFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      {...props}
+    />
+  );
+};
         
 <Tooltip
   id="jinni-transition"
@@ -538,14 +520,13 @@ const ScaleFade = forwardRef(
 };
 
 export const ShowingHidingDelay: Story = {
-  render: (args) => {
+  render: () => {
     return (
       <Tooltip
         id="jinni-delay"
         content="Tooltip Contents"
         WrapperComponent={AnimatePresence}
         TransitionComponent={ScaleFadeWithDelay}
-        {...args}
       >
         <Button variant="outlined" aria-describedby="jinni-delay">
           Open Tooltip
@@ -559,19 +540,17 @@ export const ShowingHidingDelay: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
         
-const ScaleFadeWithDelay = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
-        exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
-        {...props}
-      />
-    );
-  }
-); 
+const ScaleFadeWithDelay = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1, transition: { delay: 0.5 } }}
+      exit={{ opacity: 0, scale: 0.8, transition: { delay: 0.5 } }}
+      {...props}
+    />
+  );
+};
         
 <Tooltip
   id="jinni-delay"

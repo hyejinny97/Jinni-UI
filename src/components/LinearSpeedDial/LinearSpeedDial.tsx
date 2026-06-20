@@ -64,7 +64,7 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
     container
   });
 
-  const popperAnchorProps: PopperProps =
+  const popperAnchorProps: PopperProps<T> =
     anchorReference === 'anchorEl'
       ? {
           anchorReference: 'anchorEl',
@@ -77,9 +77,7 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
         };
 
   return (
-    <LinearSpeedDialContext.Provider
-      value={{ placement, positionType, container }}
-    >
+    <LinearSpeedDialContext value={{ placement, positionType, container }}>
       <WrapperComponent>
         {open && (
           <Popper
@@ -103,7 +101,7 @@ const LinearSpeedDial = <T extends AsType = 'div'>(
           </Popper>
         )}
       </WrapperComponent>
-    </LinearSpeedDialContext.Provider>
+    </LinearSpeedDialContext>
   );
 };
 

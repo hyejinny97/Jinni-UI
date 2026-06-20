@@ -24,7 +24,11 @@ import {
   TIME_STEP_MANUAL_DEFAULT
 } from './DateTimePicker.constants';
 import { fixTypeByMode } from '@/utils/time-component';
-import { TimeMode, DigitalClockProps } from '@/types/time-component';
+import {
+  TimeMode,
+  DigitalClockProps,
+  TimeStepManualType
+} from '@/types/time-component';
 
 export type DateTimePickerProps<
   T extends AsType = 'div',
@@ -58,9 +62,11 @@ const DateTimePicker = <
     locale,
     options,
     timeMode = 'manual' as Mode,
-    timeStep = timeMode === 'preset'
+    timeStep = (timeMode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
-      : TIME_STEP_MANUAL_DEFAULT,
+      : TIME_STEP_MANUAL_DEFAULT) as Mode extends 'preset'
+      ? number
+      : TimeStepManualType,
     minTime,
     maxTime,
     disabledTimes,
@@ -83,11 +89,12 @@ const DateTimePicker = <
       ),
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const popoverId = useId();
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLDivElement>(null);
   const prevDateTimeRef = useRef<Date | null>(null);
   const [open, setOpen] = useState(false);
   const {

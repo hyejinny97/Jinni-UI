@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Modal from '@/components/Modal';
 import ModalHeader from '@/components/ModalHeader';
@@ -389,33 +389,29 @@ const ModalFormTemplate = () => {
   );
 };
 
-const SlideFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ y: '60%', opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: '60%', opacity: 0 }}
-        {...props}
-      />
-    );
-  }
-);
+const SlideFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ y: '60%', opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: '60%', opacity: 0 }}
+      {...props}
+    />
+  );
+};
 
-const Fade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        {...props}
-      />
-    );
-  }
-);
+const Fade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
   const [backdropTransition, setBackdropTransition] = useState(false);
@@ -837,33 +833,29 @@ export const Transition: Story = {
         code: `
 import { motion, HTMLMotionProps, AnimatePresence } from 'motion/react';
 
-const SlideFade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ y: '60%', opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: '60%', opacity: 0 }}
-        {...props}
-      />
-    );
-  }
-);
+const SlideFade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ y: '60%', opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: '60%', opacity: 0 }}
+      {...props}
+    />
+  );
+};
 
-const Fade = forwardRef(
-  (props: HTMLMotionProps<'div'>, ref: React.Ref<HTMLDivElement>) => {
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        {...props}
-      />
-    );
-  }
-);
+const Fade = ({ ref, ...props }: HTMLMotionProps<'div'>) => {
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      {...props}
+    />
+  );
+};
 
 const TransitionTemplate = () => {
   const [backdropTransition, setBackdropTransition] = useState(false);

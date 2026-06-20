@@ -78,7 +78,7 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
     container
   });
 
-  const popperAnchorProps: PopperProps =
+  const popperAnchorProps: PopperProps<T> =
     anchorReference === 'anchorEl'
       ? {
           anchorReference: 'anchorEl',
@@ -91,7 +91,7 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
         };
 
   return (
-    <CircularSpeedDialContext.Provider value={{ positionType, container }}>
+    <CircularSpeedDialContext value={{ positionType, container }}>
       <WrapperComponent>
         {open && (
           <Popper
@@ -114,7 +114,7 @@ const CircularSpeedDial = <T extends AsType = 'div'>(
           </Popper>
         )}
       </WrapperComponent>
-    </CircularSpeedDialContext.Provider>
+    </CircularSpeedDialContext>
   );
 };
 

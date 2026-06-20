@@ -1,6 +1,6 @@
 import './Avatar.scss';
 import cn from 'classnames';
-import { useState, forwardRef } from 'react';
+import { useState } from 'react';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
@@ -20,61 +20,59 @@ const DefaultAvatarIcon = () => (
   <PersonIcon color="on-primary" role="img" aria-label="fallback icon" />
 );
 
-const Avatar = forwardRef(
-  <T extends AsType = 'span'>(
-    props: AvatarProps<T>,
-    ref: React.Ref<HTMLElement>
+const Avatar = <T extends AsType = 'span'>({
+  ref,
+  ...props
+}: AvatarProps<T>) => {
+  const avatarGroupValue = useAvatarGroup();
+  const {
+    src,
+    alt,
+    imgProps,
+    size = avatarGroupValue?.size || 'md',
+    shape = avatarGroupValue?.shape || 'circle',
+    children,
+    className,
+    style,
+    as,
+    ...rest
+  } = props;
+  let newStyle = useStyle(style);
+  const Component = (as ?? 'span') as React.ElementType;
+  const [isImageAvatar, setIsImageAvatar] = useState(!!src);
+  const hasNumberTypeSize = typeof size === 'number';
+
+  const handleImageLoadError = (
+    event: React.SyntheticEvent<HTMLImageElement>
   ) => {
-    const avatarGroupValue = useAvatarGroup();
-    const {
-      src,
-      alt,
-      imgProps,
-      size = avatarGroupValue?.size || 'md',
-      shape = avatarGroupValue?.shape || 'circle',
-      children,
-      className,
-      style,
-      as: Component = 'span',
-      ...rest
-    } = props;
-    let newStyle = useStyle(style);
-    const [isImageAvatar, setIsImageAvatar] = useState(!!src);
-    const hasNumberTypeSize = typeof size === 'number';
+    setIsImageAvatar(false);
+    if (imgProps?.onError) imgProps.onError(event);
+  };
 
-    const handleImageLoadError = (
-      event: React.SyntheticEvent<HTMLImageElement>
-    ) => {
-      setIsImageAvatar(false);
-      if (imgProps?.onError) imgProps.onError(event);
-    };
+  if (hasNumberTypeSize) newStyle = { ...newStyle, width: size, height: size };
 
-    if (hasNumberTypeSize)
-      newStyle = { ...newStyle, width: size, height: size };
-
-    let content = children || alt || <DefaultAvatarIcon />;
-    if (isImageAvatar)
-      content = (
-        <img src={src} alt={alt} {...imgProps} onError={handleImageLoadError} />
-      );
-
-    return (
-      <Component
-        ref={ref}
-        className={cn(
-          'JinniAvatar',
-          { 'image-avatar': isImageAvatar },
-          { [size]: !hasNumberTypeSize },
-          shape,
-          className
-        )}
-        style={newStyle}
-        {...rest}
-      >
-        {content}
-      </Component>
+  let content = children || alt || <DefaultAvatarIcon />;
+  if (isImageAvatar)
+    content = (
+      <img src={src} alt={alt} {...imgProps} onError={handleImageLoadError} />
     );
-  }
-);
+
+  return (
+    <Component
+      ref={ref}
+      className={cn(
+        'JinniAvatar',
+        { 'image-avatar': isImageAvatar },
+        { [size]: !hasNumberTypeSize },
+        shape,
+        className
+      )}
+      style={newStyle}
+      {...rest}
+    >
+      {content}
+    </Component>
+  );
+};
 
 export default Avatar;

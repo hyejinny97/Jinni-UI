@@ -42,7 +42,7 @@ const CarouselNextButton = <T extends AsType = 'button'>(
       onClick={handleClick}
       disabled={noNextSlide}
       aria-label="go next slide"
-      {...rest}
+      {...(rest as ButtonBaseProps<T>)}
     >
       {children}
     </ButtonBase>

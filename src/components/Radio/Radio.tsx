@@ -50,9 +50,10 @@ const Radio = <T extends AsType = 'input'>(props: RadioProps<T>) => {
     disableRipple = radioGroupContext?.disableRipple,
     className,
     style,
-    as: Component = 'input',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'input') as React.ElementType;
   const isKeywordSize = ['sm', 'md', 'lg'].some((val) => val === size);
   const { rippleTargetRef, RippleContainer } = useRipple({
     rippleColor,

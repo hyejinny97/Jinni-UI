@@ -25,7 +25,7 @@ const Card = <T extends AsType = 'div'>(props: CardProps<T>) => {
       round={round}
       outlined={outlined}
       style={style}
-      {...rest}
+      {...(rest as BoxProps<T>)}
     >
       {children}
     </Box>

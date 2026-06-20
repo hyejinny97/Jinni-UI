@@ -22,9 +22,9 @@ export const useIndicator = ({
   indicatorElRef,
   tabListOrientation
 }: {
-  tabListContainerElRef: React.RefObject<HTMLDivElement>;
-  tabListElRef: React.RefObject<HTMLDivElement>;
-  indicatorElRef: React.RefObject<HTMLDivElement>;
+  tabListContainerElRef: React.RefObject<HTMLDivElement | null>;
+  tabListElRef: React.RefObject<HTMLDivElement | null>;
+  indicatorElRef: React.RefObject<HTMLDivElement | null>;
   tabListOrientation: TabListOrientation;
 }) => {
   const isMountedRef = useMountRef();
@@ -90,8 +90,8 @@ export const useScroll = ({
   scrollable,
   tabListOrientation
 }: {
-  tabListContainerElRef: React.RefObject<HTMLDivElement>;
-  tabListElRef: React.RefObject<HTMLDivElement>;
+  tabListContainerElRef: React.RefObject<HTMLDivElement | null>;
+  tabListElRef: React.RefObject<HTMLDivElement | null>;
   scrollable: boolean;
   tabListOrientation: TabListOrientation;
 }) => {
@@ -162,7 +162,7 @@ export const useKeyboardAccessibility = ({
   tabListElRef,
   tabListOrientation
 }: {
-  tabListElRef: React.RefObject<HTMLDivElement>;
+  tabListElRef: React.RefObject<HTMLDivElement | null>;
   tabListOrientation: TabListOrientation;
 }) => {
   const { selectedValue } = useTabsContext();

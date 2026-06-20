@@ -932,7 +932,7 @@ const FixedOptionsTemplate = () => {
                     color="gray-600"
                     endAdornment={
                       <ButtonBase
-                        onClick={(e: MouseEvent) => onDelete?.(e, value)}
+                        onClick={(e: React.MouseEvent) => onDelete?.(e, value)}
                         disableOverlay
                         disableRipple
                         style={{ width: '100%', height: '100%' }}
@@ -981,7 +981,7 @@ const LimitTagsTemplate = () => {
                 color="gray-600"
                 endAdornment={
                   <ButtonBase
-                    onClick={(e: MouseEvent) => onDelete?.(e, value)}
+                    onClick={(e: React.MouseEvent) => onDelete?.(e, value)}
                     disableOverlay
                     disableRipple
                     style={{ width: '100%', height: '100%' }}
@@ -1366,7 +1366,7 @@ export const RenderingValuesInChip: Story = {
               color="primary"
               endAdornment={
                 <ButtonBase
-                  onClick={(e: MouseEvent) => onDelete(e, value)}
+                  onClick={(e: React.MouseEvent) => onDelete(e, value)}
                   disableOverlay
                   disableRipple
                   style={{ width: '100%', height: '100%' }}

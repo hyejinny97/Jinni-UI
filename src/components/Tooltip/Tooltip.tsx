@@ -5,7 +5,6 @@ import React, {
   useMemo,
   isValidElement,
   cloneElement,
-  MutableRefObject,
   Fragment
 } from 'react';
 import { AsType } from '@/types/default-component-props';
@@ -17,6 +16,7 @@ import {
 } from '@/utils/placement';
 import Popper, { PopperProps } from '@/components/Popper';
 import Box, { BoxProps } from '@/components/Box';
+import { mergeRefs } from '@/utils/mergeRefs';
 
 export type TriggerType = 'click' | 'hover' | 'focus';
 
@@ -106,21 +106,10 @@ const TooltipComponent = <T extends AsType = 'div'>(props: TooltipProps<T>) => {
   let anchor = <span {...tooltipAnchorProps}>{children}</span>;
   if (isSingleElement) {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
-    const element = children as React.ReactElement & { ref?: React.Ref<any> };
+    const element = children as React.ReactElement<any>;
     anchor = cloneElement(element, {
       ...tooltipAnchorProps,
-      ref: (el: HTMLElement | null) => {
-        if (el) {
-          if (element.ref) {
-            if (typeof element.ref === 'function') {
-              element.ref(el);
-            } else if ('current' in element.ref) {
-              (element.ref as MutableRefObject<HTMLElement>).current = el;
-            }
-          }
-          (anchorElRef as MutableRefObject<HTMLElement>).current = el;
-        }
-      },
+      ref: mergeRefs(anchorElRef),
       className: cn(element.props.className, tooltipAnchorProps.className),
       onMouseEnter: (e: React.MouseEvent) => {
         if (element.props.onMouseEnter) element.props.onMouseEnter(e);

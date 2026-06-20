@@ -47,11 +47,12 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
     ),
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const popoverId = useId();
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const { selectedDate, onSelectDate } = useDateValue({
     defaultValue,

@@ -72,7 +72,7 @@ const ToggleButton = <T extends AsType = 'button'>(
         ...style
       }}
       aria-pressed={isSelected}
-      {...rest}
+      {...(rest as ButtonProps<T>)}
     />
   );
 };

@@ -118,8 +118,8 @@ export const usePointerEvent = ({
   handleChange,
   handleChangeEnd
 }: {
-  sliderElRef: React.RefObject<HTMLDivElement>;
-  thumbsElRef: React.MutableRefObject<HTMLInputElement[]>;
+  sliderElRef: React.RefObject<HTMLDivElement | null>;
+  thumbsElRef: React.RefObject<HTMLInputElement[]>;
   sliderValue: Array<number>;
   stepValueArray: Array<number>;
   min: number;
@@ -130,9 +130,9 @@ export const usePointerEvent = ({
   handleChangeEnd: ChangeEndHandlerType;
 }) => {
   const isPressedRef = useRef<boolean>(false);
-  const pressedXRef = useRef<number | undefined>();
-  const pressedYRef = useRef<number | undefined>();
-  const activeThumbIdx = useRef<number | undefined>();
+  const pressedXRef = useRef<number | undefined>(undefined);
+  const pressedYRef = useRef<number | undefined>(undefined);
+  const activeThumbIdx = useRef<number | undefined>(undefined);
 
   const calculateCurrentValue = useCallback(() => {
     const sliderEl = sliderElRef.current;
@@ -263,7 +263,7 @@ export const useKeyEvent = ({
   handleChange,
   handleChangeEnd
 }: {
-  thumbsElRef: React.MutableRefObject<HTMLInputElement[]>;
+  thumbsElRef: React.RefObject<HTMLInputElement[]>;
   sliderValue: Array<number>;
   stepValueArray: Array<number>;
   handleChange: ChangeHandlerType;

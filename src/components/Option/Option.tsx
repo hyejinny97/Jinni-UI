@@ -28,7 +28,7 @@ const Option = <T extends AsType = 'li'>(props: OptionProps<T>) => {
       selected={isSelected}
       onClick={handleClick}
       aria-selected={isSelected}
-      {...rest}
+      {...(rest as MenuItemProps<T>)}
     >
       {children}
     </MenuItem>

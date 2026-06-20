@@ -14,7 +14,7 @@ type UseScrollLimitProps = Required<
   Pick<CarouselProps, 'orientation' | 'slideAlignment'>
 > &
   Pick<CarouselProps, 'children'> & {
-    carouselElRef: React.RefObject<HTMLElement>;
+    carouselElRef: React.RefObject<HTMLElement | null>;
   };
 
 type UseSwipeProps = Required<
@@ -27,7 +27,7 @@ type UseSwipeProps = Required<
     CarouselProps,
     'disableBounceEffect' | 'disableSlipEffect' | 'disableSwipeEffect'
   > & {
-    carouselElRef: React.RefObject<HTMLElement>;
+    carouselElRef: React.RefObject<HTMLElement | null>;
     scrollStartLimit: number;
     scrollEndLimit: number;
     goSlide: (newValue: number) => void;
@@ -41,7 +41,7 @@ type UseAutoplayProps = Required<
     CarouselProps,
     'autoplay' | 'disableAutoplayOnInteraction' | 'onAutoplayLeftTimeChange'
   > & {
-    carouselElRef: React.RefObject<HTMLElement>;
+    carouselElRef: React.RefObject<HTMLElement | null>;
     slideValue: number;
     goNextSlide: () => void;
     noNextSlide: boolean;
