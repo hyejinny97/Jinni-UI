@@ -16,6 +16,7 @@ import {
   KEY_TIME_PARTS
 } from '@/constants/time-component';
 import { SECOND } from '@/constants/time';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseDateTimeRangeValueProps = Pick<
   DateTimeRangeFieldProps,
@@ -36,7 +37,7 @@ export const useDateTimeRangeValue = ({
   value,
   onChange
 }: UseDateTimeRangeValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledDateTimeRange, setUncontrolledDateTimeRange] = useState<
     RangeType<Date | null>
   >(defaultValue || INIT_DEFAULT_VALUE);

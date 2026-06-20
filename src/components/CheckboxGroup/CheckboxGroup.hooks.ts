@@ -1,12 +1,13 @@
 import { useState, useContext } from 'react';
 import { CheckboxGroupProps } from './CheckboxGroup';
 import CheckboxGroupContext from './CheckboxGroup.contexts';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type useCheckProps = Required<Pick<CheckboxGroupProps, 'defaultValue'>> &
   Pick<CheckboxGroupProps, 'value' | 'onChange'>;
 
 export const useCheck = ({ defaultValue, value, onChange }: useCheckProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledCheckedValue, setUncontrolledCheckedValue] =
     useState(defaultValue);
 

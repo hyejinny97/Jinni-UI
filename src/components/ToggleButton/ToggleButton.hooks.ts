@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ToggleButtonProps } from './ToggleButton';
-import { isBoolean } from '@/utils/isBoolean';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedProps = Required<Pick<ToggleButtonProps, 'defaultSelected'>> &
   Pick<ToggleButtonProps, 'selected' | 'onChange'>;
@@ -10,7 +10,7 @@ export const useSelected = ({
   selected,
   onChange
 }: UseSelectedProps) => {
-  const isControlled = selected !== undefined && isBoolean(selected);
+  const isControlled = useIsControlled(selected);
   const [uncontrolledSelected, setUncontrolledSelected] =
     useState(defaultSelected);
 

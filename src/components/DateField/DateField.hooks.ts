@@ -27,6 +27,7 @@ import {
 import { isAvailableLocale } from '@/utils/dateTimeFormat';
 import { isNumber } from '@/utils/isNumber';
 import { getLastDay } from '@/utils/date-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type HandleDateChangeType = ({ year, month, day }: DateObjectType) => void;
 
@@ -70,7 +71,7 @@ export const useDateValue = ({
   dateToDateObject,
   dateObjectToDate
 }: UseDateValue) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledDate, setUncontrolledDate] = useState<DateObjectType>(
     dateToDateObject(defaultValue)
   );

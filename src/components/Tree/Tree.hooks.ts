@@ -5,6 +5,7 @@ import { TreeItemIdType } from '../TreeItem';
 import { transformToArray } from '@/utils/transformToArray';
 import { isAlphabet } from '@/utils/isAlphabet';
 import { findLastIndex } from '@/utils/findIndex';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectProp<MultiSelect extends boolean = false> = Pick<
   TreeProps<MultiSelect>,
@@ -54,7 +55,7 @@ export const useSelect = <MultiSelect extends boolean = false>({
   selectedItem,
   onSelectedItemChange
 }: UseSelectProp<MultiSelect>) => {
-  const isControlled = selectedItem !== undefined;
+  const isControlled = useIsControlled(selectedItem);
   const [uncontrolledSelectedItem, setUncontrolledSelectedItems] = useState<
     TreeItemIdType[]
   >(transformToArray(defaultSelectedItem));

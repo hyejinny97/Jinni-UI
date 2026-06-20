@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { isBoolean } from '@/utils/isBoolean';
 import { SwitchProps } from './Switch';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type useCheckProps = Required<Pick<SwitchProps, 'defaultChecked'>> &
   Pick<SwitchProps, 'checked' | 'onChange'>;
@@ -10,7 +10,7 @@ export const useCheck = ({
   checked,
   onChange
 }: useCheckProps) => {
-  const isControlled = checked !== undefined && isBoolean(checked);
+  const isControlled = useIsControlled(checked);
   const [uncontrolledChecked, setUncontrolledChecked] =
     useState<boolean>(defaultChecked);
 

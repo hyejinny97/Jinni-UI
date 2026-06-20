@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { AccordionItemProps } from './AccordionItem';
 import AccordionItemContext from './AccordionItem.contexts';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type useExpandProps = Pick<AccordionItemProps, 'expanded' | 'onChange'> &
   Required<Pick<AccordionItemProps, 'defaultExpanded'>>;
@@ -10,7 +11,7 @@ export const useExpand = ({
   expanded,
   onChange
 }: useExpandProps) => {
-  const isControlled = expanded !== undefined;
+  const isControlled = useIsControlled(expanded);
   const [uncontrolledExpanded, setUncontrolledExpanded] =
     useState<boolean>(defaultExpanded);
 

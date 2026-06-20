@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TimeRangePickerProps } from './TimeRangePicker';
 import { RangeType, RangeFieldType } from '@/types/time-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseTimeRangeValueProps = Pick<
   TimeRangePickerProps,
@@ -14,7 +15,7 @@ export const useTimeRangeValue = ({
   value,
   onChange
 }: UseTimeRangeValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledTimeRange, setUncontrolledTimeRange] = useState<
     RangeType<Date | null>
   >(defaultValue || INIT_DEFAULT_VALUE);

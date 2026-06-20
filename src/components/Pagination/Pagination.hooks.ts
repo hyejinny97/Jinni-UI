@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PaginationProps, FIRST_PAGE } from './Pagination';
-import { isNumber } from '@/utils/isNumber';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UsePageProps = Required<
   Pick<PaginationProps, 'defaultPage' | 'displayCount'>
@@ -14,7 +14,7 @@ export const usePage = ({
   page,
   onChange
 }: UsePageProps) => {
-  const isControlled = page !== undefined && isNumber(page);
+  const isControlled = useIsControlled(page);
   const calculateRound = (page: number) =>
     Math.floor((page - FIRST_PAGE) / displayCount);
 

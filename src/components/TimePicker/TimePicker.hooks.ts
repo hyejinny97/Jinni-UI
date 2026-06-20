@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TimePickerProps } from './TimePicker';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseTimeProps = Pick<
   TimePickerProps,
@@ -7,7 +8,7 @@ type UseTimeProps = Pick<
 >;
 
 export const useTime = ({ defaultValue, value, onChange }: UseTimeProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledTime, setUncontrolledTime] = useState<Date | null>(
     defaultValue || null
   );

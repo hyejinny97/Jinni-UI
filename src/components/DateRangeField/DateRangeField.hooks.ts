@@ -11,6 +11,7 @@ import {
   INCLUDE_DISABLED_DATE
 } from '@/constants/date-component';
 import { SECOND } from '@/constants/time';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseDateRangeValueProps = Pick<
   DateRangeFieldProps,
@@ -31,7 +32,7 @@ export const useDateRangeValue = ({
   value,
   onChange
 }: UseDateRangeValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledDateRange, setUncontrolledDateRange] = useState<
     RangeType<Date | null>
   >(defaultValue || INIT_DEFAULT_VALUE);

@@ -7,6 +7,7 @@ import {
   RangeFieldType
 } from '@/types/time-component';
 import { CHRONOLOGICAL_ORDER } from '@/constants/time-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseTimeRangeValueProps = Pick<
   TimeRangeFieldProps,
@@ -24,7 +25,7 @@ export const useTimeRangeValue = ({
   value,
   onChange
 }: UseTimeRangeValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledTimeRange, setUncontrolledTimeRange] = useState<
     RangeType<Date | null>
   >(defaultValue || INIT_DEFAULT_VALUE);

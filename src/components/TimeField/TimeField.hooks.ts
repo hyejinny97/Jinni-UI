@@ -29,6 +29,7 @@ import {
   isTimeStepManualType
 } from '@/utils/time-component';
 import { isAvailableLocale, is2Digit } from '@/utils/dateTimeFormat';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type TimeObjectToDate = ({
   hour,
@@ -85,7 +86,7 @@ export const useTimeValue = ({
   dateToTimeObject,
   timeObjectToDate
 }: UseTimeProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledTime, setUncontrolledTime] = useState<TimeObjectType>(
     dateToTimeObject(defaultValue)
   );

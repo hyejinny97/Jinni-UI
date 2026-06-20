@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { RatingProps } from './Rating';
-import { isNumber } from '@/utils/isNumber';
 import { ceilByStep, floorByStep } from './Rating.utils';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseRatingValueProps = Pick<
   RatingProps,
@@ -19,7 +19,7 @@ export const useRatingValue = ({
 }: UseRatingValueProps) => {
   const inputElRef = useRef<HTMLInputElement>(null);
   const isDownKeyboardPressedRef = useRef<boolean>(false);
-  const isControlled = value !== undefined && isNumber(value);
+  const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

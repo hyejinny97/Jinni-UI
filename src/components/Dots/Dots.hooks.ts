@@ -8,6 +8,7 @@ import {
 import { DotsProps } from './Dots';
 import { DotValueType } from '../Dot';
 import DotsContext from './Dots.contexts';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedValueProps = Required<Pick<DotsProps, 'defaultValue'>> &
   Pick<DotsProps, 'value' | 'onChange'>;
@@ -20,7 +21,7 @@ export const useSelectedValue = ({
   value,
   onChange
 }: UseSelectedValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledSelectedValue, setUncontrolledSelectedValue] =
     useState(defaultValue);
 

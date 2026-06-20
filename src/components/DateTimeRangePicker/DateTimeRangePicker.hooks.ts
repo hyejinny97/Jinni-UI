@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { DateTimeRangePickerProps } from './DateTimeRangePicker';
 import { RangeType, RangeFieldType } from '@/types/date-time-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseDateTimeRangeValueProps = Pick<
   DateTimeRangePickerProps,
@@ -16,7 +17,7 @@ export const useDateTimeRangeValue = ({
   value,
   onChange
 }: UseDateTimeRangeValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledDateTimeRange, setUncontrolledDateTimeRange] = useState<
     RangeType<Date | null>
   >(defaultValue || INIT_DEFAULT_VALUE);

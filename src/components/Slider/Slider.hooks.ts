@@ -7,6 +7,7 @@ import {
 } from './Slider.utils';
 import { isNumber } from '@/utils/isNumber';
 import { getTrackStyle, getPositionStyle, isMarkOnTrack } from './Slider.utils';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type ChangeHandlerType = ({
   event,
@@ -43,7 +44,7 @@ export const useSliderValue = ({
     () => preprocessValue(defaultValue, stepValueArray),
     [defaultValue, stepValueArray]
   );
-  const isControlled = preprocessedValue !== undefined;
+  const isControlled = useIsControlled(preprocessedValue);
   const [uncontrolledValue, setUncontrolledValue] = useState<Array<number>>(
     preprocessedDefaultValue || [min]
   );

@@ -1,13 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
 import { TriggerType, TooltipProps } from './Tooltip';
-import { isBoolean } from '@/utils/isBoolean';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 export const useOpen = ({
   open,
   onOpen,
   onClose
 }: Pick<TooltipProps, 'open' | 'onOpen' | 'onClose'>) => {
-  const isControlled = open !== undefined && isBoolean(open);
+  const isControlled = useIsControlled(open);
   const [uncontrolledOpen, setUncontrolledOpen] = useState<boolean>(false);
 
   const handleOpen = useCallback(

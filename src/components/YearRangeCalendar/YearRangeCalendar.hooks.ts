@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { YearRangeCalendarProps } from './YearRangeCalendar';
 import { RangeType } from '@/types/date-component';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseSelectedDateValueProps = Pick<
   YearRangeCalendarProps,
@@ -16,7 +17,7 @@ export const useSelectedDateValue = ({
   selectedDate,
   onSelectDate
 }: UseSelectedDateValueProps) => {
-  const isControlled = selectedDate !== undefined;
+  const isControlled = useIsControlled(selectedDate);
   const [unControlledDate, setUnControlledDate] = useState<
     RangeType<Date | null>
   >({ start: null, end: null });

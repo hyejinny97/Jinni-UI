@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { TextAreaProps } from './TextArea';
 import { validatePositiveInteger } from '@/utils/isNumber';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type UseTextAreaValueProps = Required<Pick<TextAreaProps, 'defaultValue'>> &
   Pick<TextAreaProps, 'value' | 'onChange'> & {
@@ -19,7 +20,7 @@ export const useTextAreaValue = ({
   onChange,
   adjustRows
 }: UseTextAreaValueProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const textAreaValue = isControlled ? value : uncontrolledValue;
 

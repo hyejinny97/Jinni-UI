@@ -1,12 +1,13 @@
 import { useState, useContext } from 'react';
 import { RadioGroupProps } from './RadioGroup';
 import RadioGroupContext from './RadioGroup.contexts';
+import { useIsControlled } from '@/hooks/useIsControlled';
 
 type useCheckProps = Required<Pick<RadioGroupProps, 'defaultValue'>> &
   Pick<RadioGroupProps, 'value' | 'onChange'>;
 
 export const useCheck = ({ defaultValue, value, onChange }: useCheckProps) => {
-  const isControlled = value !== undefined;
+  const isControlled = useIsControlled(value);
   const [uncontrolledCheckedValue, setUncontrolledCheckedValue] =
     useState(defaultValue);
 
