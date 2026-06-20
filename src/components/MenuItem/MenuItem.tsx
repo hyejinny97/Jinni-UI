@@ -38,7 +38,7 @@ const MenuItem = <T extends AsType = 'li'>({
               : 'var(--jinni-white-overlay-8)',
           ...style
         }}
-        {...rest}
+        {...(rest as ButtonBaseProps<T>)}
       >
         {children}
       </ButtonBase>

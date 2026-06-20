@@ -125,7 +125,7 @@ const LocaleTemplate = () => {
 };
 
 export const BasicMonthCalendar: Story = {
-  render: (args) => <MonthCalendar displayedDate={new Date()} {...args} />,
+  render: () => <MonthCalendar displayedDate={new Date()} />,
   parameters: {
     docs: {
       source: {
@@ -136,12 +136,11 @@ export const BasicMonthCalendar: Story = {
 };
 
 export const SelectedDate: Story = {
-  render: (args) => (
+  render: () => (
     <MonthCalendar
       displayedDate={new Date(2000, 0, 1)}
       selectedDate={new Date(2000, 3, 1)}
       onMonthChange={(newDate) => alert(newDate.toString())}
-      {...args}
     />
   ),
   parameters: {
@@ -209,11 +208,10 @@ export const Locale: Story = {
 };
 
 export const MinDate: Story = {
-  render: (args) => (
+  render: () => (
     <MonthCalendar
       displayedDate={new Date(2025, 0, 1)}
       minDate={new Date(2025, 2, 1)}
-      {...args}
     />
   ),
   parameters: {
@@ -229,11 +227,10 @@ export const MinDate: Story = {
 };
 
 export const MaxDate: Story = {
-  render: (args) => (
+  render: () => (
     <MonthCalendar
       displayedDate={new Date(2025, 0, 1)}
       maxDate={new Date(2025, 9, 1)}
-      {...args}
     />
   ),
   parameters: {
@@ -249,9 +246,7 @@ export const MaxDate: Story = {
 };
 
 export const ReadOnly: Story = {
-  render: (args) => (
-    <MonthCalendar displayedDate={new Date()} readOnly {...args} />
-  ),
+  render: () => <MonthCalendar displayedDate={new Date()} readOnly />,
   parameters: {
     docs: {
       source: {
@@ -262,9 +257,7 @@ export const ReadOnly: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => (
-    <MonthCalendar displayedDate={new Date()} disabled {...args} />
-  ),
+  render: () => <MonthCalendar displayedDate={new Date()} disabled />,
   parameters: {
     docs: {
       source: {
@@ -275,7 +268,7 @@ export const Disabled: Story = {
 };
 
 export const CustomMonth: Story = {
-  render: (args) => (
+  render: () => (
     <MonthCalendar
       displayedDate={new Date(2025, 0, 1)}
       selectedDate={new Date(2025, 1, 1)}
@@ -287,7 +280,6 @@ export const CustomMonth: Story = {
           {...monthProps}
         />
       )}
-      {...args}
     />
   ),
   parameters: {

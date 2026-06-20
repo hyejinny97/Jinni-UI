@@ -5,11 +5,21 @@ import { DateRangeComponentProps } from '@/types/date-component';
 import { YearCalendarMainProps } from '@/components/YearCalendar';
 import { MonthCalendarMainProps } from '@/components/MonthCalendar';
 import { DayCalendarMainProps } from '@/components/DayCalendar';
-import DateYearRangeCalendar from '../DateYearRangeCalendar';
-import HDateMonthRangeCalendar from '../HDateMonthRangeCalendar';
-import VDateMonthRangeCalendar from '../VDateMonthRangeCalendar';
-import HDateDayRangeCalendar from '../HDateDayRangeCalendar';
-import VDateDayRangeCalendar from '../VDateDayRangeCalendar';
+import DateYearRangeCalendar, {
+  DateYearRangeCalendarProps
+} from '../DateYearRangeCalendar';
+import HDateMonthRangeCalendar, {
+  HDateMonthRangeCalendarProps
+} from '../HDateMonthRangeCalendar';
+import VDateMonthRangeCalendar, {
+  VDateMonthRangeCalendarProps
+} from '../VDateMonthRangeCalendar';
+import HDateDayRangeCalendar, {
+  HDateDayRangeCalendarProps
+} from '../HDateDayRangeCalendar';
+import VDateDayRangeCalendar, {
+  VDateDayRangeCalendarProps
+} from '../VDateDayRangeCalendar';
 import { CalendarHeaderProps } from '@/components/CalendarHeader';
 import { getBaseCalendarType } from '@/utils/date-component';
 
@@ -85,12 +95,17 @@ const DateRangeCalendar = <
     renderCalendarHeader,
     ...rest
   };
-  const dateYearRangeCalendarProps = {
+  const dateYearRangeCalendarProps: DateYearRangeCalendarProps = {
     ...commonProps,
     yearsOrder
   };
-  const dateMonthRangeCalendarProps = {
-    ...commonProps
+  const hDateMonthRangeCalendarProps: HDateMonthRangeCalendarProps = {
+    ...commonProps,
+    monthCalendars: monthCalendars as 1 | 2 | 3 | undefined
+  };
+  const vDateMonthRangeCalendarProps: VDateMonthRangeCalendarProps = {
+    ...commonProps,
+    monthCalendars: monthCalendars as number | undefined
   };
   const dateDayRangeCalendarProps = {
     ...commonProps,
@@ -99,6 +114,14 @@ const DateRangeCalendar = <
     fixedWeekNumber,
     displayWeekNumber
   };
+  const hDateDayRangeCalendarProps: HDateDayRangeCalendarProps = {
+    ...dateDayRangeCalendarProps,
+    dayCalendars: dayCalendars as 1 | 2 | 3 | undefined
+  };
+  const vDateDayRangeCalendarProps: VDateDayRangeCalendarProps = {
+    ...dateDayRangeCalendarProps,
+    dayCalendars: dayCalendars as number | undefined
+  };
 
   switch (baseCalendarType) {
     case 'year':
@@ -106,38 +129,18 @@ const DateRangeCalendar = <
     case 'month': {
       switch (monthCalendarsOrientation) {
         case 'horizontal':
-          return (
-            <HDateMonthRangeCalendar
-              monthCalendars={monthCalendars as 1 | 2 | 3 | undefined}
-              {...dateMonthRangeCalendarProps}
-            />
-          );
+          return <HDateMonthRangeCalendar {...hDateMonthRangeCalendarProps} />;
         case 'vertical':
-          return (
-            <VDateMonthRangeCalendar
-              monthCalendars={monthCalendars as number | undefined}
-              {...dateMonthRangeCalendarProps}
-            />
-          );
+          return <VDateMonthRangeCalendar {...vDateMonthRangeCalendarProps} />;
       }
       break;
     }
     case 'day': {
       switch (dayCalendarsOrientation) {
         case 'horizontal':
-          return (
-            <HDateDayRangeCalendar
-              dayCalendars={dayCalendars as 1 | 2 | 3 | undefined}
-              {...dateDayRangeCalendarProps}
-            />
-          );
+          return <HDateDayRangeCalendar {...hDateDayRangeCalendarProps} />;
         case 'vertical':
-          return (
-            <VDateDayRangeCalendar
-              dayCalendars={dayCalendars as number | undefined}
-              {...dateDayRangeCalendarProps}
-            />
-          );
+          return <VDateDayRangeCalendar {...vDateDayRangeCalendarProps} />;
       }
     }
   }

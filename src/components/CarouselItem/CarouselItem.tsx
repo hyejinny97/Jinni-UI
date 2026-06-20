@@ -18,7 +18,8 @@ const CarouselItem = <T extends AsType = 'li'>({
   ref,
   ...props
 }: CarouselItemProps<T>) => {
-  const { children, className, style, as: Component = 'li', ...rest } = props;
+  const { children, className, style, as, ...rest } = props;
+  const Component = (as ?? 'li') as React.ElementType;
   const { count } = useCarousel();
   const { itemValue } = useCarouselContent();
   const { carouselItemElRef } = useScrollBySlideValue();

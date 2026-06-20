@@ -23,7 +23,7 @@ import Button from '@/components/Button';
 describe('<Menu />', () => {
   it('opens when trigger button is clicked', async () => {
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -56,7 +56,7 @@ describe('<Menu />', () => {
   it('calls onClose with reason "escapeKeyDown" when Escape is pressed', () => {
     const onClose = vi.fn();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -85,7 +85,7 @@ describe('<Menu />', () => {
   it('calls onClose with reason "tabKeyDown" when Tab is pressed', () => {
     const onClose = vi.fn();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -114,7 +114,7 @@ describe('<Menu />', () => {
   it('calls onClose with reason "backdropClick" when Backdrop is clicked', () => {
     const onClose = vi.fn();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -144,7 +144,7 @@ describe('<Menu />', () => {
   it('moves focus between menu items with arrow keys', async () => {
     const user = userEvent.setup();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -189,7 +189,7 @@ describe('<Menu />', () => {
   it('moves focus to the menu item that starts with the pressed key', async () => {
     const user = userEvent.setup();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -230,7 +230,7 @@ describe('<Menu />', () => {
     const user = userEvent.setup();
     const onClick = vi.fn();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>

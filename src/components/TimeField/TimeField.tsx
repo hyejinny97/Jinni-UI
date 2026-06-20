@@ -24,7 +24,6 @@ import {
   TIME_STEP_MANUAL_DEFAULT
 } from './TimeField.constants';
 import { mergeRefs } from '@/utils/mergeRefs';
-import { ColorType } from '@/types/color';
 
 export type TimeFieldProps<
   T extends AsType = 'div',
@@ -121,16 +120,18 @@ const TimeField = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>({
     }
   };
 
+  const inputBaseProps = {
+    ref: mergeRefs(ref, inputBaseElRef),
+    className: cn('JinniTimeField', { noValue }, className),
+    color: isValidationError ? 'error' : color,
+    focusedColor: isValidationError ? 'error' : focusedColor,
+    disabled,
+    onClick: handleClick,
+    ...rest
+  } as InputBaseProps<T>;
+
   return (
-    <InputBase
-      ref={mergeRefs(ref, inputBaseElRef)}
-      className={cn('JinniTimeField', { noValue }, className)}
-      color={isValidationError ? ('error' as ColorType) : color}
-      focusedColor={isValidationError ? ('error' as ColorType) : focusedColor}
-      disabled={disabled}
-      onClick={handleClick}
-      {...rest}
-    >
+    <InputBase {...inputBaseProps}>
       {timeParts.map((part, idx) => {
         const hasBlank = part.type === 'literal' && part.value.includes(' ');
         return isKeyTimePart(part.type) ? (

@@ -2,7 +2,7 @@ import './TimeRangeField.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import InputBase, { InputBaseProps } from '@/components/InputBase';
-import TimeField from '@/components/TimeField';
+import TimeField, { TimeFieldProps } from '@/components/TimeField';
 import { ArrowRightAltIcon } from '@/components/icons/ArrowRightAltIcon';
 import {
   useTimeRangeValue,
@@ -97,7 +97,9 @@ const TimeRangeField = <
     focusedField
   });
 
-  const getCommonProps = (rangeField: RangeFieldType) => ({
+  const getCommonProps = (
+    rangeField: RangeFieldType
+  ): TimeFieldProps<'div'> => ({
     mode,
     value: timeRangeValue[rangeField],
     onChange: handleChange(rangeField),

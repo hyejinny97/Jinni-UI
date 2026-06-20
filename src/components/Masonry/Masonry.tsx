@@ -25,9 +25,10 @@ const Masonry = <T extends AsType = 'div'>(props: MasonryProps<T>) => {
     sequential,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const masonryElRef = useRef<HTMLElement>(null);
   const gap = useSpacing({ spacing });
   const columnsCount = useColumns({ columns });

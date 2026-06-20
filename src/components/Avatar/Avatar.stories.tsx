@@ -328,7 +328,7 @@ export const AvatarWithBadge: Story = {
 };
 
 export const AvatarUpload: Story = {
-  render: (args) => <AvatarUploadTemplate {...args} />,
+  render: () => <AvatarUploadTemplate />,
   parameters: {
     docs: {
       source: {

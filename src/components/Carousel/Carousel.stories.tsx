@@ -1735,7 +1735,7 @@ const DotsAnimationTemplate = () => {
             return (
               <CarouselItem
                 key={idx}
-                ref={(element) => {
+                ref={(element: HTMLElement | null) => {
                   if (element) {
                     carouselItemsRef.current.push(element);
                   }
@@ -1851,7 +1851,7 @@ const CoverflowEffectTemplate = () => {
             return (
               <CarouselItem
                 key={idx}
-                ref={(element) => {
+                ref={(element: HTMLElement | null) => {
                   if (element) {
                     carouselItemsRef.current.push(element);
                   }

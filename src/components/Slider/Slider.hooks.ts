@@ -118,7 +118,7 @@ export const usePointerEvent = ({
   handleChange,
   handleChangeEnd
 }: {
-  sliderElRef: React.RefObject<HTMLDivElement>;
+  sliderElRef: React.RefObject<HTMLDivElement | null>;
   thumbsElRef: React.RefObject<HTMLInputElement[]>;
   sliderValue: Array<number>;
   stepValueArray: Array<number>;

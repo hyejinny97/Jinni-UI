@@ -26,9 +26,10 @@ const Label = <T extends AsType = 'label'>(props: LabelProps<T>) => {
     size = 'md',
     className,
     style,
-    as: Component = 'label',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'label') as React.ElementType;
   const isKeywordSize = ['sm', 'md', 'lg'].includes(size);
   const newStyle = useStyle({
     ...(!isKeywordSize && { '--size': size }),

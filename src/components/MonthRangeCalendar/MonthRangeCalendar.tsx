@@ -60,7 +60,7 @@ const MonthRangeCalendar = <T extends AsType = 'div'>(
       className={cn('JinniMonthRangeCalendar', className)}
       spacing={0}
       renderMonth={renderRangeMonth}
-      {...rest}
+      {...(rest as MonthCalendarProps<T>)}
     />
   );
 };

@@ -27,9 +27,10 @@ const MenuList = <T extends AsType = 'ul'>({
     disableAlphabetKeyFocus,
     className,
     style,
-    as: Component = 'ul',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'ul') as React.ElementType;
   const { menuListElRef } = useKeyboardAccessibility({
     children,
     disableAlphabetKeyFocus

@@ -19,7 +19,6 @@ import {
   isEllipsis,
   isPaginationItem
 } from './Pagination.utils';
-import { WithKey } from './Pagination.types';
 import { validatePositiveInteger } from '@/utils/isNumber';
 
 export type PaginationProps<
@@ -65,7 +64,7 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
     siblingCount = 1,
     boundaryCount = 1,
     renderPaginationItem = (itemProps: PaginationItemProps<P>) => (
-      <PaginationItem {...itemProps} />
+      <PaginationItem {...(itemProps as PaginationItemProps)} />
     ),
     variant = VARIANT,
     color = 'primary',
@@ -74,9 +73,10 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
     size = 'md',
     className,
     style,
-    as: Component = 'ul',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'ul') as React.ElementType;
   const pageCount = validatePositiveInteger({ value: count });
   const pageDisplayCount = validatePositiveInteger({ value: displayCount });
   const { roundFirstPage, roundLastPage, selectedPage, handleChange } = usePage(
@@ -98,11 +98,8 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
   });
   const newStyle = useStyle(style);
 
-  const items: Array<
-    WithKey<PaginationItemProps<P>> | WithKey<PaginationEllipsisProps>
-  > = [
+  const items: Array<PaginationItemProps<P> | PaginationEllipsisProps> = [
     {
-      key: 'first',
       type: 'first',
       page: FIRST_PAGE,
       onClick: handleChange(FIRST_PAGE),
@@ -112,7 +109,6 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
       'aria-label': 'go to first page'
     },
     {
-      key: 'prev',
       type: 'prev',
       page: selectedPage - 1,
       onClick: handleChange(selectedPage - 1),
@@ -121,12 +117,11 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
       size,
       'aria-label': 'go to previous page'
     },
-    ...pageArray.map(({ key, type, page }) => {
+    ...pageArray.map(({ type, page }) => {
       switch (type) {
         case 'page': {
           const selected = selectedPage === page;
           return {
-            key,
             type: 'page',
             page,
             selected,
@@ -138,19 +133,17 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
             size,
             'aria-label': `go to page ${page}`,
             'aria-current': selected ? 'page' : undefined
-          } as WithKey<PageButtonType<P>>;
+          } as unknown as PageButtonType<P>;
         }
         case 'ellipsis':
           return {
-            key,
             type: 'ellipsis',
             page,
             size
-          } as WithKey<PaginationEllipsisProps>;
+          } as PaginationEllipsisProps;
       }
     }),
     {
-      key: 'next',
       type: 'next',
       page: selectedPage + 1,
       onClick: handleChange(selectedPage + 1),
@@ -160,7 +153,6 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
       'aria-label': 'go to next page'
     },
     {
-      key: 'last',
       type: 'last',
       page: pageCount,
       onClick: handleChange(pageCount),
@@ -179,8 +171,14 @@ const Pagination = <T extends AsType = 'ul', P extends AsType = 'button'>(
       style={newStyle}
       {...rest}
     >
-      {items.map(({ key, ...itemProps }) => (
-        <li key={key}>
+      {items.map((itemProps, idx) => (
+        <li
+          key={
+            itemProps.type === 'ellipsis'
+              ? `ellipsis/${idx}`
+              : `${itemProps.type}/${itemProps.page}`
+          }
+        >
           {isEllipsis<P>(itemProps) && <PaginationEllipsis {...itemProps} />}
           {isPaginationItem<P>(itemProps) && renderPaginationItem(itemProps)}
         </li>

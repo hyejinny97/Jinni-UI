@@ -1,7 +1,7 @@
 import './ManualDigitalClock.scss';
 import cn from 'classnames';
-import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import Stack from '@/components/Stack';
+import { AsType } from '@/types/default-component-props';
+import Stack, { StackProps } from '@/components/Stack';
 import Divider from '@/components/Divider';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import { TimeComponentProps } from '@/types/time-component';
@@ -14,8 +14,8 @@ import {
 } from './ManualDigitalClock.hooks';
 
 export type ManualDigitalClockProps<T extends AsType = 'div'> = Omit<
-  DefaultComponentProps<T>,
-  'defaultValue' | 'onChange'
+  StackProps<T>,
+  'defaultValue' | 'onChange' | 'children'
 > &
   TimeComponentProps<'manual'> & {
     skipDisabledTime?: boolean;
@@ -89,7 +89,7 @@ const ManualDigitalClock = <T extends AsType = 'div'>(
       className={cn('JinniManualDigitalClock', className)}
       direction="row"
       divider={<Divider orientation="vertical" />}
-      {...rest}
+      {...(rest as StackProps<T>)}
     >
       {unitsOrder.map((unit) => {
         switch (unit) {

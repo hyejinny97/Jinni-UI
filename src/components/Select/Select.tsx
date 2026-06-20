@@ -1,6 +1,7 @@
 import './Select.scss';
 import React, { useRef, useState, useCallback } from 'react';
 import cn from 'classnames';
+import { AsType } from '@/types/default-component-props';
 import InputBase, { InputBaseProps } from '@/components/InputBase';
 import Menu, { MenuProps } from '@/components/Menu';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
@@ -16,8 +17,11 @@ export type SelectedOptionType = Array<{
   label: React.ReactNode;
 }>;
 
-export type SelectProps<Multiple extends boolean = false> = Omit<
-  InputBaseProps,
+export type SelectProps<
+  Multiple extends boolean = false,
+  T extends AsType = 'div'
+> = Omit<
+  InputBaseProps<T>,
   'defaultValue' | 'value' | 'onChange' | 'children'
 > & {
   name?: string;
@@ -38,8 +42,8 @@ export type SelectProps<Multiple extends boolean = false> = Omit<
   required?: boolean;
 };
 
-const Select = <Multiple extends boolean = false>(
-  props: SelectProps<Multiple>
+const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
+  props: SelectProps<Multiple, T>
 ) => {
   const labelContext = useLabelContext();
   const {
@@ -129,7 +133,7 @@ const Select = <Multiple extends boolean = false>(
         tabIndex={0}
         aria-expanded={open}
         aria-haspopup="listbox"
-        {...rest}
+        {...(rest as InputBaseProps<T>)}
       >
         {notSelected ? placeholder : renderValue(selectedOption)}
         <select

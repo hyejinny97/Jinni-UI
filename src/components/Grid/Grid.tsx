@@ -29,12 +29,13 @@ const Grid = <T extends AsType = 'div'>({ ref, ...props }: GridProps<T>) => {
     children,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const { transformNumberToPx } = useTransform();
   const newStyle = useStyle({
-    '--flow': flow.replace('-', ' '),
+    '--flow': (flow as string).replace('-', ' '),
     '--rows': rows,
     '--columns': columns,
     '--grid-row-gap': transformNumberToPx(rowSpacing || spacing),

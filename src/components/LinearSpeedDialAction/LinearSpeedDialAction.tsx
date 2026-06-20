@@ -31,6 +31,19 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
   const id = useId();
   const { placement, positionType, container } = useLinearDial();
 
+  const buttonProps = {
+    role: 'menuitem',
+    className: cn('JinniLinearSpeedDialAction', variant, className),
+    variant,
+    color,
+    size,
+    elevation,
+    shape,
+    tabIndex: -1,
+    'aria-labelledby': id,
+    ...rest
+  } as ButtonProps<T>;
+
   return (
     <Tooltip
       id={id}
@@ -41,18 +54,7 @@ const LinearSpeedDialAction = <T extends AsType = 'button'>(
       {...TooltipProps}
     >
       <TransitionComponent className={cn('JinniLinearSpeedDialActionWrapper')}>
-        <Button
-          role="menuitem"
-          className={cn('JinniLinearSpeedDialAction', variant, className)}
-          variant={variant}
-          color={color}
-          size={size}
-          elevation={elevation}
-          shape={shape}
-          tabIndex={-1}
-          aria-labelledby={id}
-          {...rest}
-        />
+        <Button {...buttonProps} />
       </TransitionComponent>
     </Tooltip>
   );

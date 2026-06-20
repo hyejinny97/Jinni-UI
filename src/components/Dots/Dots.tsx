@@ -53,9 +53,10 @@ const Dots = <T extends AsType = 'ol'>(props: DotsProps<T>) => {
     disabled,
     className,
     style,
-    as: Component = 'ol',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'ol') as React.ElementType;
   const { selectedValue, handleChange } = useSelectedValue({
     defaultValue,
     value,

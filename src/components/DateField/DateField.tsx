@@ -18,7 +18,6 @@ import {
   DateValidationError
 } from '@/types/date-component';
 import { mergeRefs } from '@/utils/mergeRefs';
-import { ColorType } from '@/types/color';
 
 export type DateFieldProps<T extends AsType = 'div'> = Omit<
   InputBaseProps<T>,
@@ -114,16 +113,18 @@ const DateField = <T extends AsType = 'div'>({
     }
   };
 
+  const inputBaseProps = {
+    ref: mergeRefs(ref, inputBaseElRef),
+    className: cn('JinniDateField', { noValue }, className),
+    color: isValidationError ? 'error' : color,
+    focusedColor: isValidationError ? 'error' : focusedColor,
+    disabled,
+    onClick: handleClick,
+    ...rest
+  } as InputBaseProps<T>;
+
   return (
-    <InputBase
-      ref={mergeRefs(ref, inputBaseElRef)}
-      className={cn('JinniDateField', { noValue }, className)}
-      color={isValidationError ? ('error' as ColorType) : color}
-      focusedColor={isValidationError ? ('error' as ColorType) : focusedColor}
-      disabled={disabled}
-      onClick={handleClick}
-      {...(rest as Record<string, unknown>)}
-    >
+    <InputBase {...inputBaseProps}>
       {dateParts.map((part, idx) => {
         const hasBlank = part.type === 'literal' && part.value.includes(' ');
         return isKeyDatePart(part.type) ? (

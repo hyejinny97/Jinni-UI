@@ -38,9 +38,10 @@ const Badge = <T extends AsType = 'span'>(props: BadgeProps<T>) => {
     anchorOrigin = DEFAULT_ANCHOR_ORIGIN,
     className,
     style,
-    as: Component = 'span',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'span') as React.ElementType;
   const validatedMax = validatePositiveInteger({ value: max });
   const computedAnchorOrigin = useMemo(
     () => ({ ...DEFAULT_ANCHOR_ORIGIN, ...anchorOrigin }),

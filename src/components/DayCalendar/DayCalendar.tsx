@@ -73,7 +73,7 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
         '--outside-day-color': theme === 'light' ? 'gray-400' : 'gray-600',
         ...style
       }}
-      {...rest}
+      {...(rest as StackProps<T>)}
     >
       <Grid className="JinniWeekDayContainer" columns={gridColumns} spacing={4}>
         {weekDayItems.map(({ type, format }, idx) => (

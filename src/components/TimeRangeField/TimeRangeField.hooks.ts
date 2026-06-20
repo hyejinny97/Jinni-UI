@@ -133,8 +133,8 @@ export const useIndicator = ({
   focusedField
 }: Pick<TimeRangeFieldProps, 'focusedField'>) => {
   const indicatorElRef = useRef<HTMLDivElement>(null);
-  const startFieldElRef = useRef<HTMLElement>(null);
-  const endFieldElRef = useRef<HTMLElement>(null);
+  const startFieldElRef = useRef<HTMLDivElement>(null);
+  const endFieldElRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const indicatorEl = indicatorElRef.current;

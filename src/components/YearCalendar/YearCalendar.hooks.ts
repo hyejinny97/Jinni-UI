@@ -71,7 +71,7 @@ export const useYearItems = ({
 };
 
 export const useScroll = ({ displayedDate }: UseScrollProps) => {
-  const yearCalendarElRef = useRef<HTMLElement>();
+  const yearCalendarElRef = useRef<HTMLElement>(undefined);
   const displayedDateYear = useMemo(
     () => displayedDate.getFullYear(),
     [displayedDate]

@@ -22,9 +22,10 @@ const Stack = <T extends AsType = 'div'>({ ref, ...props }: StackProps<T>) => {
     children,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const computedChildren = computeChildren(children, divider);
   const newStyle = useStyle({
     '--flex-direction': direction,

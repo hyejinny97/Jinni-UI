@@ -52,9 +52,10 @@ const Popper = <T extends AsType = 'div'>({
     container = document.body,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const { popperRef } = usePopperPosition({
     anchorReference,
     anchorElRef,

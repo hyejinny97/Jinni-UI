@@ -26,9 +26,10 @@ const Backdrop = <T extends AsType = 'div'>({
     disablePortal,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const backdropElRef = useWindowScroll({ disableScroll });
   const newStyle = useStyle(style);
 

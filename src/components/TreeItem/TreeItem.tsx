@@ -34,9 +34,10 @@ const TreeItem = <T extends AsType = 'li'>(props: TreeItemProps<T>) => {
     disabled,
     className,
     style,
-    as: Component = 'li',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'li') as React.ElementType;
   const { theme } = useJinni();
   const normalizedColor = useColor(color);
   const textColor = useMemo(() => {

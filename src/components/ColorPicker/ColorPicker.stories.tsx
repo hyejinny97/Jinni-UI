@@ -222,7 +222,9 @@ const CustomColorFieldTemplate = () => {
                 noMargin
                 style={{ flex: 1, textAlign: 'center' }}
               >
-                {isHsbObject(value) ? hsbObjToHex(value) : value}
+                {isHsbObject(value)
+                  ? hsbObjToHex(value)
+                  : JSON.stringify(value)}
               </Text>
             </Stack>
           </ColorField>
@@ -237,7 +239,7 @@ const ColorPreset = ({
   onClick
 }: {
   color: ColorValueType;
-  onClick: (e: MouseEvent, value: ColorValueType) => void;
+  onClick: (e: React.MouseEvent, value: ColorValueType) => void;
 }) => {
   const PRESET = [-60, -50, -40, -30, -20, -10, 0];
   const { toHsbObject } = useToHsbObject();
@@ -262,7 +264,7 @@ const ColorPreset = ({
               backgroundColor: hex,
               cursor: 'pointer'
             }}
-            onClick={(e: MouseEvent) => onClick(e, hex)}
+            onClick={(e: React.MouseEvent) => onClick(e, hex)}
             tabIndex={0}
             aria-label={`preset color - ${hex}`}
           />
@@ -282,7 +284,10 @@ const CustomColorBoxTemplate = () => {
   ) => {
     setValue(newValue);
   };
-  const handleColorPresetClick = (_: MouseEvent, newValue: ColorValueType) => {
+  const handleColorPresetClick = (
+    _: React.MouseEvent,
+    newValue: ColorValueType
+  ) => {
     setValue(newValue);
   };
 

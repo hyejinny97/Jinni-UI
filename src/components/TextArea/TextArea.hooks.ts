@@ -45,7 +45,7 @@ export const useRows = ({
   maxRows
 }: Pick<TextAreaProps, 'rows' | 'minRows' | 'maxRows'>) => {
   const textAreaElRef = useRef<HTMLTextAreaElement>(null);
-  const singleLineHeightRef = useRef<number>();
+  const singleLineHeightRef = useRef<number>(undefined);
   const hasRowsValue =
     rows !== undefined && validatePositiveInteger({ value: rows });
   const hasMinRowsValue =

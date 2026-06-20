@@ -23,7 +23,7 @@ import Alert from '@/components/Alert';
 describe('<Toast />', () => {
   it('opens when trigger button is clicked', () => {
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -57,7 +57,7 @@ describe('<Toast />', () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -84,7 +84,7 @@ describe('<Toast />', () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -111,7 +111,7 @@ describe('<Toast />', () => {
     vi.useFakeTimers();
     const onClose = vi.fn();
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>
@@ -145,7 +145,7 @@ describe('<Toast />', () => {
 
   it('renders children when they are provided', () => {
     const TestToggle = () => {
-      const anchorElRef = useRef<HTMLElement | null>(null);
+      const anchorElRef = useRef<HTMLButtonElement | null>(null);
       const [open, setOpen] = useState(false);
       return (
         <>

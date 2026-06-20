@@ -44,9 +44,10 @@ const DateYearCalendar = <T extends AsType = 'div'>(
     ),
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const { selectedDate, displayedDate, onYearChange } = useDateValue({
     defaultValue,
     value,

@@ -57,9 +57,10 @@ const Checkbox = <T extends AsType = 'input'>(props: CheckboxProps<T>) => {
     disableRipple = checkboxGroupContext?.disableRipple,
     className,
     style,
-    as: Component = 'input',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'input') as React.ElementType;
   const isKeywordSize = ['sm', 'md', 'lg'].some((val) => val === size);
   const { rippleTargetRef, RippleContainer } = useRipple({
     rippleColor,

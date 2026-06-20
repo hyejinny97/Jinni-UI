@@ -74,7 +74,7 @@ const Drawer = <T extends AsType = 'div', P extends AsType = 'div'>(
           anchorOrigin
         )}
         {...(variant === 'temporary' && { elevation: 15 })}
-        {...BoxProps}
+        {...(BoxProps as BoxProps<P>)}
       >
         {children}
       </Box>

@@ -42,7 +42,7 @@ const CarouselPrevButton = <T extends AsType = 'button'>(
       onClick={handleClick}
       disabled={noPrevSlide}
       aria-label="go previous slide"
-      {...rest}
+      {...(rest as ButtonBaseProps<T>)}
     >
       {children}
     </ButtonBase>

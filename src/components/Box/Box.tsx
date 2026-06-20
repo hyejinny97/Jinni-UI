@@ -24,9 +24,10 @@ const Box = <T extends AsType = 'div'>({ ref, ...props }: BoxProps<T>) => {
     children,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const isNumberRound = isNumber(round);
   const newStyle = useStyle({
     '--border-radius': isNumberRound

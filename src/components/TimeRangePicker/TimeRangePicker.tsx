@@ -22,7 +22,8 @@ import {
   TimeRangeComponentProps,
   RangeType,
   RangeFieldType,
-  DigitalClockProps
+  DigitalClockProps,
+  TimeStepManualType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import { fixTypeByMode } from '@/utils/time-component';
@@ -59,9 +60,11 @@ const TimeRangePicker = <
     minTime,
     maxTime,
     disabledTimes,
-    timeStep = mode === 'preset'
+    timeStep = (mode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
-      : TIME_STEP_MANUAL_DEFAULT,
+      : TIME_STEP_MANUAL_DEFAULT) as Mode extends 'preset'
+      ? number
+      : TimeStepManualType,
     readOnly,
     disabled,
     name,
@@ -75,9 +78,10 @@ const TimeRangePicker = <
       ),
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const popoverId = useId();
   const anchorElRef = useRef<HTMLDivElement>(null);
   const prevTimeRangeRef = useRef<RangeType<Date | null>>({

@@ -98,7 +98,7 @@ const VDateDayRangeCalendar = <T extends AsType = 'div'>(
       ref={dateDayRangeCalendarElRef}
       className={cn('JinniVDateDayRangeCalendar', className)}
       divider={<Divider orientation="horizontal" />}
-      {...rest}
+      {...(rest as StackProps<T>)}
     >
       {Array(dayCalendars)
         .fill(0)

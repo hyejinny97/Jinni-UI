@@ -45,7 +45,7 @@ const Tab = <T extends AsType = 'button'>(props: TabProps<T>) => {
       rippleColor={rippleColor}
       rippleStartLocation={rippleStartLocation}
       disableRipple={disableRipple}
-      {...rest}
+      {...(rest as ButtonProps<T>)}
     >
       {children}
     </Button>

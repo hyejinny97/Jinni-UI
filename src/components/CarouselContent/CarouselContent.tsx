@@ -23,7 +23,8 @@ const CarouselContent = <T extends AsType = 'ul'>(
   props: CarouselContentProps<T>
 ) => {
   const { orientation, spacing } = useCarousel();
-  const { children, className, style, as: Component = 'ul', ...rest } = props;
+  const { children, className, style, as, ...rest } = props;
+  const Component = (as ?? 'ul') as React.ElementType;
   const carouselContainerElRef = useRef<HTMLDivElement>(null);
   const newStyle = useStyle({ '--spacing': `${spacing}px`, ...style });
 

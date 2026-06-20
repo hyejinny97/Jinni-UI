@@ -1,7 +1,6 @@
 import './DateTimeField.scss';
 import { useRef } from 'react';
 import cn from 'classnames';
-import { AsType } from '@/types/default-component-props';
 import InputBase, { InputBaseProps } from '@/components/InputBase';
 import DateField from '@/components/DateField';
 import TimeField from '@/components/TimeField';
@@ -18,10 +17,10 @@ import {
 import { mergeRefs } from '@/utils/mergeRefs';
 import { ColorType } from '@/types/color';
 
-export type DateTimeFieldProps<
-  T extends AsType = 'div',
-  Mode extends TimeMode = 'preset'
-> = Omit<InputBaseProps<T>, 'defaultValue' | 'onChange'> &
+export type DateTimeFieldProps<Mode extends TimeMode = 'preset'> = Omit<
+  InputBaseProps,
+  'defaultValue' | 'onChange'
+> &
   DateTimeComponentProps<Mode> & {
     placeholder?: string;
     dateFormat?: string;
@@ -32,13 +31,10 @@ export type DateTimeFieldProps<
     ) => void;
   };
 
-const DateTimeField = <
-  T extends AsType = 'div',
-  Mode extends TimeMode = 'preset'
->({
+const DateTimeField = <Mode extends TimeMode = 'preset'>({
   ref,
   ...props
-}: DateTimeFieldProps<T, Mode>) => {
+}: DateTimeFieldProps<Mode>) => {
   const {
     defaultValue,
     value,
@@ -103,7 +99,7 @@ const DateTimeField = <
     onErrorStatus: onTimeFieldErrorStatus
   };
 
-  const handleClick = (event: MouseEvent) => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     onClick?.(event);
     const inputBaseEl = inputBaseElRef.current;
     if (!inputBaseEl || inputBaseEl.matches(':focus-within')) return;

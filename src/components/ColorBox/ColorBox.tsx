@@ -31,9 +31,10 @@ const ColorBox = <T extends AsType = 'div'>(props: ColorBoxProps<T>) => {
     onChange,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const { colorValue, changeColorValue } = useColorValue({
     defaultValue,
     value,

@@ -34,10 +34,11 @@ const Avatar = <T extends AsType = 'span'>({
     children,
     className,
     style,
-    as: Component = 'span',
+    as,
     ...rest
   } = props;
   let newStyle = useStyle(style);
+  const Component = (as ?? 'span') as React.ElementType;
   const [isImageAvatar, setIsImageAvatar] = useState(!!src);
   const hasNumberTypeSize = typeof size === 'number';
 

@@ -2,7 +2,7 @@ import './DateRangeField.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import InputBase, { InputBaseProps } from '@/components/InputBase';
-import DateField from '@/components/DateField';
+import DateField, { DateFieldProps } from '@/components/DateField';
 import {
   useDateRangeValue,
   useValidation,
@@ -82,7 +82,9 @@ const DateRangeField = <T extends AsType = 'div'>({
     focusedField
   });
 
-  const getCommonProps = (rangeField: RangeFieldType) => ({
+  const getCommonProps = (
+    rangeField: RangeFieldType
+  ): DateFieldProps<'div'> => ({
     value: dateRangeValue[rangeField],
     onChange: handleChange(rangeField),
     locale,

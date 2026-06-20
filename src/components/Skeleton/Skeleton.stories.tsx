@@ -52,7 +52,7 @@ const Typo = <T extends AsType = 'p'>({
   loading?: boolean;
 }) => {
   return (
-    <Text noMargin style={{ textAlign: 'right' }} {...rest}>
+    <Text noMargin style={{ textAlign: 'right' }} {...(rest as TextProps<T>)}>
       {loading ? <Skeleton /> : children}
     </Text>
   );

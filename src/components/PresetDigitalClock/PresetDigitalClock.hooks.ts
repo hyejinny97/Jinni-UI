@@ -127,7 +127,7 @@ export const useTimeItems = ({
 };
 
 export const useScroll = ({ timeItems }: UseScrollProps) => {
-  const menuListElRef = useRef<HTMLElement>(null);
+  const menuListElRef = useRef<HTMLUListElement>(null);
   const menuItemsElRef = useRef<Map<string, HTMLElement>>(new Map());
 
   const scrollToSelected = useCallback(

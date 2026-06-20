@@ -48,9 +48,10 @@ const ButtonGroup = <T extends AsType = 'div'>({
     disabled,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const normalizedColor = useColor(color);
   const newStyle = useStyle({
     '--divider-color':

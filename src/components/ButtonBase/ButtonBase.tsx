@@ -42,9 +42,10 @@ const ButtonBase = <T extends AsType = 'button'>({
     elevation,
     className,
     style,
-    as: Component = href ? 'a' : 'button',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? (href ? 'a' : 'button')) as React.ElementType;
   const { buttonBaseElRef } = useElevationEffect({
     elevation,
     disabled

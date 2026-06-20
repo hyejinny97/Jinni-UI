@@ -19,9 +19,10 @@ const Link = <T extends AsType = 'a'>({ ref, ...props }: LinkProps<T>) => {
     underline = 'always',
     className,
     style,
-    as: Component = 'a',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'a') as React.ElementType;
   const newStyle = useStyle({
     '--line-clamp': lineClamp && validatePositiveInteger({ value: lineClamp }),
     ...style

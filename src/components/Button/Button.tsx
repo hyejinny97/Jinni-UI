@@ -69,7 +69,7 @@ const Button = <T extends AsType = 'button'>({
         '--border-color': borderColor,
         ...style
       }}
-      {...rest}
+      {...(rest as ButtonBaseProps<T>)}
     >
       {startAdornment && (
         <span className={cn('JinniButtonAdornment start', size)}>

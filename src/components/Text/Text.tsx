@@ -11,15 +11,9 @@ export type TextProps<T extends AsType = 'p'> = DefaultComponentProps<T> & {
 };
 
 const Text = <T extends AsType = 'p'>({ ref, ...props }: TextProps<T>) => {
-  const {
-    children,
-    lineClamp,
-    noMargin,
-    className,
-    style,
-    as: Component = 'p',
-    ...rest
-  } = props;
+  const { children, lineClamp, noMargin, className, style, as, ...rest } =
+    props;
+  const Component = (as ?? 'p') as React.ElementType;
   const newStyle = useStyle({
     '--line-clamp': lineClamp && validatePositiveInteger({ value: lineClamp }),
     ...style

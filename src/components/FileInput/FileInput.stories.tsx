@@ -1069,7 +1069,7 @@ const FileInputWithPreviewImageTemplate = () => {
 
 const DragAndDropTemplate = () => {
   const [files, setFiles] = useState<Array<File>>([]);
-  const boxElRef = useRef<HTMLElement>(null);
+  const boxElRef = useRef<HTMLDivElement>(null);
 
   const updateFile = (
     _: React.ChangeEvent<HTMLInputElement>,

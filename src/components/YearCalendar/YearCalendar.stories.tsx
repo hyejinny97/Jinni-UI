@@ -136,7 +136,7 @@ const LocaleTemplate = () => {
 };
 
 export const BasicYearCalendar: Story = {
-  render: (args) => <YearCalendar displayedDate={new Date()} {...args} />,
+  render: () => <YearCalendar displayedDate={new Date()} />,
   parameters: {
     docs: {
       source: {
@@ -147,12 +147,11 @@ export const BasicYearCalendar: Story = {
 };
 
 export const SelectedDate: Story = {
-  render: (args) => (
+  render: () => (
     <YearCalendar
       displayedDate={new Date(2000, 0, 1)}
       selectedDate={new Date(2003, 0, 1)}
       onYearChange={(newDate) => alert(newDate.toString())}
-      {...args}
     />
   ),
   parameters: {
@@ -219,12 +218,8 @@ export const Locale: Story = {
 };
 
 export const MinDate: Story = {
-  render: (args) => (
-    <YearCalendar
-      displayedDate={new Date()}
-      minDate={new Date(2025, 0, 1)}
-      {...args}
-    />
+  render: () => (
+    <YearCalendar displayedDate={new Date()} minDate={new Date(2025, 0, 1)} />
   ),
   parameters: {
     docs: {
@@ -239,12 +234,8 @@ export const MinDate: Story = {
 };
 
 export const MaxDate: Story = {
-  render: (args) => (
-    <YearCalendar
-      displayedDate={new Date()}
-      maxDate={new Date(2030, 0, 1)}
-      {...args}
-    />
+  render: () => (
+    <YearCalendar displayedDate={new Date()} maxDate={new Date(2030, 0, 1)} />
   ),
   parameters: {
     docs: {
@@ -259,9 +250,7 @@ export const MaxDate: Story = {
 };
 
 export const ReadOnly: Story = {
-  render: (args) => (
-    <YearCalendar displayedDate={new Date()} readOnly {...args} />
-  ),
+  render: () => <YearCalendar displayedDate={new Date()} readOnly />,
   parameters: {
     docs: {
       source: {
@@ -272,9 +261,7 @@ export const ReadOnly: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => (
-    <YearCalendar displayedDate={new Date()} disabled {...args} />
-  ),
+  render: () => <YearCalendar displayedDate={new Date()} disabled />,
   parameters: {
     docs: {
       source: {
@@ -285,9 +272,7 @@ export const Disabled: Story = {
 };
 
 export const OrderOfYears: Story = {
-  render: (args) => (
-    <YearCalendar displayedDate={new Date()} yearsOrder="dsc" {...args} />
-  ),
+  render: () => <YearCalendar displayedDate={new Date()} yearsOrder="dsc" />,
   parameters: {
     docs: {
       source: {
@@ -298,7 +283,7 @@ export const OrderOfYears: Story = {
 };
 
 export const CustomYear: Story = {
-  render: (args) => (
+  render: () => (
     <YearCalendar
       displayedDate={new Date()}
       selectedDate={new Date(2025, 0, 1)}
@@ -310,7 +295,6 @@ export const CustomYear: Story = {
           {...yearProps}
         />
       )}
-      {...args}
     />
   ),
   parameters: {

@@ -55,7 +55,7 @@ const CarouselDots = <T extends AsType = 'div'>(
       value={slideValue}
       onChange={handleChange}
       orientation={orientation}
-      {...rest}
+      {...(rest as DotsProps<T>)}
     >
       {children}
     </Dots>

@@ -811,7 +811,7 @@ const FocusableDisabledItemsTemplate = () => {
 };
 
 const FocusAndScrollTemplate = () => {
-  const treeBoxElRef = useRef<HTMLElement>(null);
+  const treeBoxElRef = useRef<HTMLDivElement>(null);
 
   const handleClick = () => {
     const treeBoxEl = treeBoxElRef.current;

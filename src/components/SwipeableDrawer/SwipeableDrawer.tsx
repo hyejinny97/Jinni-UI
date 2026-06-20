@@ -21,10 +21,10 @@ type SnapPoint = {
   snapTo: number;
 };
 
-export type SwipeableDrawerProps<T extends AsType = 'div'> = Omit<
-  DefaultComponentProps<T>,
-  'children'
-> & {
+export type SwipeableDrawerProps<
+  T extends AsType = 'div',
+  P extends AsType = 'div'
+> = Omit<DefaultComponentProps<T>, 'children'> & {
   children: React.ReactNode;
   open: boolean;
   onOpen?: (event: React.SyntheticEvent | Event) => void;
@@ -32,7 +32,7 @@ export type SwipeableDrawerProps<T extends AsType = 'div'> = Omit<
   snapPoints?: Array<SnapPoint>;
   anchorOrigin?: 'left' | 'right' | 'top' | 'bottom';
   size?: number;
-  BoxProps?: BoxProps<'div'>;
+  BoxProps?: BoxProps<P>;
 };
 
 const DEFAULT_SNAP_POINTS: SnapPoint[] = [
@@ -40,8 +40,8 @@ const DEFAULT_SNAP_POINTS: SnapPoint[] = [
   { threshold: 1, snapTo: 1 }
 ];
 
-const SwipeableDrawer = <T extends AsType = 'div'>(
-  props: SwipeableDrawerProps<T>
+const SwipeableDrawer = <T extends AsType = 'div', P extends AsType = 'div'>(
+  props: SwipeableDrawerProps<T, P>
 ) => {
   const {
     children,
@@ -284,7 +284,7 @@ const SwipeableDrawer = <T extends AsType = 'div'>(
               ref={boxElRef}
               className="JinniSwipeableDrawerContent"
               elevation={15}
-              {...BoxProps}
+              {...(BoxProps as BoxProps<P>)}
             >
               {children}
             </Box>

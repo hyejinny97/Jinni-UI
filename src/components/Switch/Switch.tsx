@@ -45,9 +45,10 @@ const Switch = <T extends AsType = 'input'>(props: SwitchProps<T>) => {
     disableRipple,
     className,
     style,
-    as: Component = 'input',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'input') as React.ElementType;
   const isKeywordSize = ['sm', 'md', 'lg'].some((val) => val === size);
   const { rippleTargetRef, rippleTriggerRef, RippleContainer } = useRipple({
     rippleColor,

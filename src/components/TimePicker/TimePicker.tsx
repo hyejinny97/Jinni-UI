@@ -14,7 +14,8 @@ import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
 import {
   TimeMode,
   TimeComponentProps,
-  DigitalClockProps
+  DigitalClockProps,
+  TimeStepManualType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import {
@@ -53,9 +54,11 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
     minTime,
     maxTime,
     disabledTimes,
-    timeStep = mode === 'preset'
+    timeStep = (mode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
-      : TIME_STEP_MANUAL_DEFAULT,
+      : TIME_STEP_MANUAL_DEFAULT) as Mode extends 'preset'
+      ? number
+      : TimeStepManualType,
     readOnly,
     disabled,
     name,
@@ -69,11 +72,12 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
       ),
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const popoverId = useId();
-  const anchorElRef = useRef<HTMLElement>(null);
+  const anchorElRef = useRef<HTMLDivElement>(null);
   const prevTimeRef = useRef<Date | null>(null);
   const [open, setOpen] = useState(false);
   const { time, handleChange } = useTime({ defaultValue, value, onChange });

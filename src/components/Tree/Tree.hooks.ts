@@ -304,7 +304,7 @@ export const useTreeItems = <MultiSelect extends boolean = false>({
 export const useKeyboardAccessibility = ({
   disabledItemsFocusable
 }: UseKeyboardAccessibilityProps) => {
-  const treeElRef = useRef<HTMLElement>(null);
+  const treeElRef = useRef<HTMLUListElement>(null);
   const treeItemElListRef = useRef<HTMLElement[]>([]);
 
   useEffect(() => {

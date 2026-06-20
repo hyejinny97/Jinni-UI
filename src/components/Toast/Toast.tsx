@@ -50,9 +50,13 @@ const Toast = <T extends AsType = 'div'>({ ref, ...props }: ToastProps<T>) => {
     TransitionComponent,
     className,
     style,
-    as: Component = TransitionComponent || 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? (TransitionComponent || 'div')) as React.ElementType;
+  const Wrapper = (WrapperComponent ?? Fragment) as React.ComponentType<{
+    children: React.ReactNode;
+  }>;
   const { pauseTimer, resumeTimer } = useClose({
     onClose,
     open,
@@ -62,7 +66,7 @@ const Toast = <T extends AsType = 'div'>({ ref, ...props }: ToastProps<T>) => {
   const newStyle = useStyle(style);
 
   return (
-    <WrapperComponent>
+    <Wrapper>
       {open && (
         <>
           {createPortal(
@@ -71,8 +75,8 @@ const Toast = <T extends AsType = 'div'>({ ref, ...props }: ToastProps<T>) => {
               ref={mergeRefs(ref as React.Ref<HTMLElement>, toastElRef)}
               className={cn(
                 'JinniToast',
-                anchorOrigin.horizontal,
-                anchorOrigin.vertical,
+                (anchorOrigin as AnchorOriginType).horizontal,
+                (anchorOrigin as AnchorOriginType).vertical,
                 className
               )}
               style={newStyle}
@@ -96,7 +100,7 @@ const Toast = <T extends AsType = 'div'>({ ref, ...props }: ToastProps<T>) => {
           )}
         </>
       )}
-    </WrapperComponent>
+    </Wrapper>
   );
 };
 

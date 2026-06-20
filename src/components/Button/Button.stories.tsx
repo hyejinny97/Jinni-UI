@@ -8,6 +8,7 @@ import { CartIcon } from '@/components/icons/CartIcon';
 import { HomeIcon } from '@/components/icons/HomeIcon';
 import { PersonIcon } from '@/components/icons/PersonIcon';
 import CircularProgress from '@/components/CircularProgress';
+import { ColorType } from '@/types/color';
 
 const meta: Meta<typeof Button> = {
   component: Button,
@@ -271,19 +272,25 @@ export const Color: Story = {
   render: (args) => {
     return (
       <Stack spacing={20}>
-        {['secondary', 'yellow-400', 'green', '#159', 'rgb(100,100, 100)'].map(
-          (color) => (
-            <Stack direction="row" spacing={20}>
-              {(['filled', 'subtle-filled', 'outlined', 'text'] as const).map(
-                (variant) => (
-                  <Button variant={variant} color={color} {...args}>
-                    Label
-                  </Button>
-                )
-              )}
-            </Stack>
-          )
-        )}
+        {(
+          [
+            'secondary',
+            'yellow-400',
+            'green',
+            '#159',
+            'rgb(100,100, 100)'
+          ] as ColorType[]
+        ).map((color) => (
+          <Stack direction="row" spacing={20}>
+            {(['filled', 'subtle-filled', 'outlined', 'text'] as const).map(
+              (variant) => (
+                <Button variant={variant} color={color} {...args}>
+                  Label
+                </Button>
+              )
+            )}
+          </Stack>
+        ))}
       </Stack>
     );
   }

@@ -119,7 +119,7 @@ const RouterIntegrationTemplate = () => {
   const page = parseInt(query.get('page') || '1', 10);
 
   return (
-    <Pagination
+    <Pagination<'ul', typeof Link>
       count={10}
       page={page}
       renderPaginationItem={(itemProps) => (
@@ -187,12 +187,12 @@ const CustomIconTemplate = () => {
 };
 
 export const BasicPagination: Story = {
-  render: (args) => (
+  render: () => (
     <Stack spacing={20}>
-      <Pagination count={10} {...args} />
-      <Pagination count={10} displayCount={10} {...args} />
-      <Pagination count={10} displayCount={3} {...args} />
-      <Pagination count={10} defaultPage={4} {...args} />
+      <Pagination count={10} />
+      <Pagination count={10} displayCount={10} />
+      <Pagination count={10} displayCount={3} />
+      <Pagination count={10} defaultPage={4} />
     </Stack>
   )
 };
@@ -222,19 +222,18 @@ export const ControlledPagination: Story = {
 };
 
 export const DisplayMethod: Story = {
-  render: (args) => (
+  render: () => (
     <Pagination
       count={10}
       displayCount={10}
       defaultPage={5}
       displayMethod="ellipsis"
-      {...args}
     />
   )
 };
 
 export const RestrictDisplayedCount: Story = {
-  render: (args) => (
+  render: () => (
     <Stack spacing={20}>
       <Pagination
         count={10}
@@ -242,7 +241,6 @@ export const RestrictDisplayedCount: Story = {
         defaultPage={5}
         displayMethod="ellipsis"
         siblingCount={0}
-        {...args}
       />
       <Pagination
         count={10}
@@ -250,7 +248,6 @@ export const RestrictDisplayedCount: Story = {
         defaultPage={5}
         displayMethod="ellipsis"
         boundaryCount={2}
-        {...args}
       />
     </Stack>
   )
@@ -285,12 +282,11 @@ export const RouterIntegration: Story = {
 };
 
 export const Variant: Story = {
-  render: (args) => (
+  render: () => (
     <Stack spacing={20}>
       <Pagination
         count={10}
         variant={{ selectedPage: 'outlined', page: 'text' }}
-        {...args}
       />
       <Pagination
         count={10}
@@ -298,35 +294,34 @@ export const Variant: Story = {
           selectedPage: 'filled',
           page: 'subtle-filled'
         }}
-        {...args}
       />
     </Stack>
   )
 };
 
 export const Color: Story = {
-  render: (args) => <Pagination count={10} color="yellow-500" {...args} />
+  render: () => <Pagination count={10} color="yellow-500" />
 };
 
 export const Disabled: Story = {
-  render: (args) => <Pagination count={10} disabled {...args} />
+  render: () => <Pagination count={10} disabled />
 };
 
 export const Shape: Story = {
-  render: (args) => (
+  render: () => (
     <Stack spacing={20}>
-      <Pagination count={10} shape="rounded" {...args} />
-      <Pagination count={10} shape="circular" {...args} />
+      <Pagination count={10} shape="rounded" />
+      <Pagination count={10} shape="circular" />
     </Stack>
   )
 };
 
 export const Size: Story = {
-  render: (args) => (
+  render: () => (
     <Stack spacing={20}>
-      <Pagination count={10} size="sm" {...args} />
-      <Pagination count={10} size="md" {...args} />
-      <Pagination count={10} size="lg" {...args} />
+      <Pagination count={10} size="sm" />
+      <Pagination count={10} size="md" />
+      <Pagination count={10} size="lg" />
     </Stack>
   )
 };

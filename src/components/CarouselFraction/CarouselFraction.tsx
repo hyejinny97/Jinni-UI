@@ -33,14 +33,14 @@ const CarouselFraction = <T extends AsType = 'span'>(
     ...rest
   } = props;
 
-  return (
-    <Fraction
-      className={cn('JinniCarouselFraction', position, className)}
-      count={count}
-      value={value}
-      {...rest}
-    />
-  );
+  const fractionProps = {
+    className: cn('JinniCarouselFraction', position, className),
+    count,
+    value,
+    ...rest
+  } as FractionProps<T>;
+
+  return <Fraction {...fractionProps} />;
 };
 
 export default CarouselFraction;

@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 type CarouselContentProps = {
-  carouselContainerElRef: React.RefObject<HTMLElement>;
+  carouselContainerElRef: React.RefObject<HTMLDivElement | null>;
   itemValue: number;
 };
 

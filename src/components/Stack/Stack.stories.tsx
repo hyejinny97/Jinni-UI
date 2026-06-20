@@ -130,7 +130,7 @@ export const BasicStack: Story = {
 };
 
 export const Direction: Story = {
-  render: (args) => <DirectionPlayground {...args} />,
+  render: () => <DirectionPlayground />,
   parameters: {
     docs: {
       source: {

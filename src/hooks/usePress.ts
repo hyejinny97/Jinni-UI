@@ -8,13 +8,13 @@ type UsePressProps = {
   onPressedEnd?: (event: PointerEvent) => void;
 };
 
-export const usePress = ({
+export const usePress = <T extends HTMLElement = HTMLElement>({
   longPressTime = 1 * SECOND,
   onPressed,
   onLongPressed,
   onPressedEnd
 }: UsePressProps) => {
-  const targetElRef = useRef<HTMLElement>(null);
+  const targetElRef = useRef<T>(null);
   const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {

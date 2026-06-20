@@ -31,7 +31,7 @@ const TabNextButton = <T extends AsType = 'button'>(
       size={tabSize}
       disabled={noNextTab}
       onClick={slideNextTab}
-      {...rest}
+      {...(rest as ButtonProps<T>)}
     >
       {children}
     </Button>

@@ -176,7 +176,7 @@ const TypographyWithMarginSwitch = () => {
 const ProcessableText = () => {
   const [open, setOpen] = useState(false);
   const [anchorPosition, setAnchorPosition] = useState({ top: 0, left: 0 });
-  const popperElRef = useRef<HTMLElement>(null);
+  const popperElRef = useRef<HTMLDivElement>(null);
   const selectionRef = useRef<Selection | null>(null);
 
   useEffect(() => {

@@ -41,42 +41,42 @@ export default meta;
 type Story = StoryObj<typeof Label>;
 
 export const BasicLabel: Story = {
-  render: (args) => (
-    <Label content="빨간색" {...args}>
+  render: () => (
+    <Label content="빨간색">
       <Checkbox name="color" value="red" />
     </Label>
   )
 };
 
 export const Required: Story = {
-  render: (args) => (
-    <Label content="빨간색" required {...args}>
+  render: () => (
+    <Label content="빨간색" required>
       <Checkbox name="color" value="red" />
     </Label>
   )
 };
 
 export const Disabled: Story = {
-  render: (args) => (
-    <Label content="빨간색" disabled {...args}>
+  render: () => (
+    <Label content="빨간색" disabled>
       <Checkbox name="color" value="red" />
     </Label>
   )
 };
 
 export const LabelPlacement: Story = {
-  render: (args) => (
+  render: () => (
     <Stack direction="row" spacing={10}>
-      <Label content="빨간색" labelPlacement="start" {...args}>
+      <Label content="빨간색" labelPlacement="start">
         <Checkbox name="color" value="red" />
       </Label>
-      <Label content="빨간색" labelPlacement="end" {...args}>
+      <Label content="빨간색" labelPlacement="end">
         <Checkbox name="color" value="red" />
       </Label>
-      <Label content="빨간색" labelPlacement="top" {...args}>
+      <Label content="빨간색" labelPlacement="top">
         <Checkbox name="color" value="red" />
       </Label>
-      <Label content="빨간색" labelPlacement="bottom" {...args}>
+      <Label content="빨간색" labelPlacement="bottom">
         <Checkbox name="color" value="red" />
       </Label>
     </Stack>
@@ -84,18 +84,18 @@ export const LabelPlacement: Story = {
 };
 
 export const Size: Story = {
-  render: (args) => (
+  render: () => (
     <Stack direction="row" spacing={10}>
-      <Label content="빨간색" size="sm" {...args}>
+      <Label content="빨간색" size="sm">
         <Checkbox name="color" value="red" />
       </Label>
-      <Label content="빨간색" size="md" {...args}>
+      <Label content="빨간색" size="md">
         <Checkbox name="color" value="red" />
       </Label>
-      <Label content="빨간색" size="lg" {...args}>
+      <Label content="빨간색" size="lg">
         <Checkbox name="color" value="red" />
       </Label>
-      <Label content="빨간색" size="35px" {...args}>
+      <Label content="빨간색" size="35px">
         <Checkbox name="color" value="red" />
       </Label>
     </Stack>
@@ -103,7 +103,7 @@ export const Size: Story = {
 };
 
 export const Customization: Story = {
-  render: (args) => (
+  render: () => (
     <Label
       content={
         <Text className="typo-label-large">
@@ -125,7 +125,6 @@ export const Customization: Story = {
         borderRadius: '4px',
         cursor: 'default'
       }}
-      {...args}
     >
       <Checkbox name="terms" required />
     </Label>

@@ -91,7 +91,7 @@ const Modal = <T extends AsType = 'div', P extends AsType = 'div'>(
                     )}
                     elevation={15}
                     round={size === 'full' ? 0 : 4}
-                    {...BoxProps}
+                    {...(BoxProps as BoxProps<P>)}
                   >
                     {children}
                   </Box>

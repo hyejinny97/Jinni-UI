@@ -64,9 +64,10 @@ const Carousel = <T extends AsType = 'div'>({
     disableBounceEffect,
     className,
     style,
-    as: Component = 'div',
+    as,
     ...rest
   } = props;
+  const Component = (as ?? 'div') as React.ElementType;
   const carouselElRef = useRef<HTMLElement>(null);
   const count = countCarouselItems(children);
   const {

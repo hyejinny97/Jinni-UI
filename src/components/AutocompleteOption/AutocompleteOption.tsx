@@ -34,7 +34,7 @@ const AutocompleteOption = <T extends AsType = 'li'>(
     .includes(autocompleteInputValue.toLowerCase());
   const isSelected = autocompleteValue.includes(value);
 
-  const handleClick = (e: MouseEvent) => {
+  const handleClick = (e: React.MouseEvent) => {
     changeAutocompleteValue(e, value);
     if (multiple) {
       initInputValue(e);
@@ -53,7 +53,7 @@ const AutocompleteOption = <T extends AsType = 'li'>(
       selected={isSelected}
       onClick={handleClick}
       aria-selected={isSelected}
-      {...rest}
+      {...(rest as MenuItemProps<T>)}
     >
       {children}
     </MenuItem>
