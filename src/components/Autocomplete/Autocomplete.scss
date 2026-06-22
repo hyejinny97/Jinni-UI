@@ -44,22 +44,21 @@
   @include animate-arrow-button;
   @include clear-button-style-by-size;
 
-  &:not(.disabled):hover {
-    cursor: pointer;
-  }
-
   .JinniInputBaseContent {
     position: relative;
     display: inline-flex;
     gap: 5px;
     align-items: center;
+    padding-right: 5px;
+    box-sizing: border-box;
+    min-width: 0;
 
     .JinniAutocompleteContent {
       flex: 1;
       display: inline-flex;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 5px;
-      width: 100%;
+      min-width: 0;
 
       input.JinniAutocompleteInput {
         flex: 1;
@@ -69,9 +68,12 @@
 
       .JinniChip {
         display: inline-flex;
+        margin: 3px 0px 3px 5px;
         max-width: 100%;
         box-sizing: border-box;
         .JinniChipLabel {
+          flex: 1;
+          min-width: 0;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
