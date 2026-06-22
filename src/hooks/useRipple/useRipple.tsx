@@ -10,6 +10,8 @@ export interface UseRippleProps {
   disableRipple?: boolean;
 }
 
+const DURATION_TIME = 500; // ms
+
 const useRipple = (props: UseRippleProps) => {
   const { theme } = useJinni();
   const {
@@ -74,9 +76,10 @@ const useRipple = (props: UseRippleProps) => {
       ripple.className = `JinniRipple ${rippleColor}`;
 
       rippleContainerEl.appendChild(ripple);
-      setTimeout(() => {
-        ripple.remove();
-      }, 500);
+      const timeoutId = setTimeout(() => {
+        rippleContainerEl.removeChild(ripple);
+        clearTimeout(timeoutId);
+      }, DURATION_TIME);
     };
 
     const handleKeyDown = (e: KeyboardEvent) =>
@@ -95,7 +98,10 @@ const useRipple = (props: UseRippleProps) => {
       <div
         ref={rippleContainerRef}
         className="JinniRippleContainer"
-        style={{ '--ripple-overlay': rippleOverlay }}
+        style={{
+          '--ripple-overlay': rippleOverlay,
+          '--duration-time': `${DURATION_TIME}ms`
+        }}
       ></div>
     ),
     [rippleOverlay]
