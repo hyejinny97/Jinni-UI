@@ -14,7 +14,7 @@
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
-    animation: ripple 0.5s ease-in;
+    animation: ripple var(--duration-time) ease-in forwards;
     background-image: var(--ripple-overlay);
   }
 }
