@@ -53,14 +53,10 @@
   &.sm {
     min-height: 29px;
     .JinniInputBaseContent {
-      &:not(:has(input, textarea)) {
-        padding: 3px 12px;
-      }
-      input,
-      textarea {
-        padding: 3px 12px;
-      }
       font-size: 14px;
+    }
+    .JinniInputBasePadding {
+      padding: 3px 12px;
     }
     .JinniInputBaseAdornment {
       padding: 3px 6px;
@@ -69,14 +65,10 @@
   &.md {
     min-height: 36px;
     .JinniInputBaseContent {
-      &:not(:has(input, textarea)) {
-        padding: 5px 14px;
-      }
-      input,
-      textarea {
-        padding: 5px 14px;
-      }
       font-size: 16px;
+    }
+    .JinniInputBasePadding {
+      padding: 5px 14px;
     }
     .JinniInputBaseAdornment {
       padding: 5px 7px;
@@ -85,14 +77,10 @@
   &.lg {
     min-height: 43px;
     .JinniInputBaseContent {
-      &:not(:has(input, textarea)) {
-        padding: 7px 16px;
-      }
-      input,
-      textarea {
-        padding: 7px 16px;
-      }
       font-size: 18px;
+    }
+    .JinniInputBasePadding {
+      padding: 7px 16px;
     }
     .JinniInputBaseAdornment {
       padding: 7px 8px;
