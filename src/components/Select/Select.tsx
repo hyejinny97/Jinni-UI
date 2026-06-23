@@ -119,8 +119,8 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
         )}
         onClick={openMenu}
         onKeyDown={(e: React.KeyboardEvent) => {
-          e.preventDefault();
           if (e.key === 'Enter') {
+            e.preventDefault();
             openMenu();
           }
         }}
