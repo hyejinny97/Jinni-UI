@@ -74,10 +74,11 @@ const TextArea = (props: TextAreaProps) => {
       disableHoverEffect={disableHoverEffect}
       disableFocusEffect={disableFocusEffect}
       fullWidth={fullWidth}
+      noPadding
     >
       <textarea
         ref={textAreaElRef}
-        className={cn({ resize }, resizeDirection)}
+        className={cn({ resize }, resizeDirection, 'JinniInputBasePadding')}
         value={textAreaValue}
         onChange={handleChange}
         disabled={disabled}
