@@ -113,8 +113,10 @@ const NumberInput = ({ ref, ...props }: NumberInputProps) => {
         disableHoverEffect={disableHoverEffect}
         disableFocusEffect={disableFocusEffect}
         fullWidth={fullWidth}
+        noPadding
       >
         <input
+          className="JinniInputBasePadding"
           ref={inputElRef}
           type="text"
           inputMode="numeric"
