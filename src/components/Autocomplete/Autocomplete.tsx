@@ -259,6 +259,7 @@ const Autocomplete = <Multiple extends boolean = false>(
         disableFocusEffect={disableFocusEffect}
         fullWidth={fullWidth}
         focused={focused || isOpen}
+        noPadding
         style={style}
       >
         <Box className="JinniAutocompleteContent">
@@ -273,7 +274,7 @@ const Autocomplete = <Multiple extends boolean = false>(
           <input
             role="combobox"
             ref={inputElRef}
-            className="JinniAutocompleteInput"
+            className={cn('JinniAutocompleteInput', 'JinniInputBasePadding')}
             type="text"
             value={autocompleteInputValue}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {

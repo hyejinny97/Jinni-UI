@@ -997,7 +997,12 @@ const LimitTagsTemplate = () => {
                 {label}
               </Chip>
             ))}
-            {restCount > 0 && <Text noMargin>{`+${restCount}`}</Text>}
+            {restCount > 0 && (
+              <Text
+                noMargin
+                style={{ marginLeft: '5px' }}
+              >{`+${restCount}`}</Text>
+            )}
           </>
         );
       }}
@@ -1734,7 +1739,7 @@ export const LimitTags: Story = {
                 color="gray-600"
                 endAdornment={
                   <ButtonBase
-                    onClick={(e: MouseEvent) => onDelete?.(e, value)}
+                    onClick={(e: React.MouseEvent) => onDelete?.(e, value)}
                     disableOverlay
                     disableRipple
                     style={{ width: '100%', height: '100%' }}
@@ -1750,7 +1755,12 @@ export const LimitTags: Story = {
                 {label}
               </Chip>
             ))}
-            {restCount > 0 && <Text noMargin>{\`+\${restCount}\`}</Text>}
+            {restCount > 0 && (
+              <Text
+                noMargin
+                style={{ marginLeft: '5px' }}
+              >{\`+\${restCount}\`}</Text>
+            )}
           </>
         );
       }}

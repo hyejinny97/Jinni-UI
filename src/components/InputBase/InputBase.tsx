@@ -20,6 +20,7 @@ export type RootInputBaseProps = {
   disableFocusEffect?: boolean;
   fullWidth?: boolean;
   focused?: boolean;
+  noPadding?: boolean;
 };
 
 export type InputBaseProps<T extends AsType = 'div'> = Omit<
@@ -45,6 +46,7 @@ const InputBase = <T extends AsType = 'div'>({
     disableFocusEffect = disabled,
     fullWidth,
     focused,
+    noPadding,
     className,
     style,
     as,
@@ -79,7 +81,13 @@ const InputBase = <T extends AsType = 'div'>({
       {startAdornment && (
         <span className="JinniInputBaseAdornment start">{startAdornment}</span>
       )}
-      <div className="JinniInputBaseContent">{children}</div>
+      <div
+        className={cn('JinniInputBaseContent', {
+          JinniInputBasePadding: !noPadding
+        })}
+      >
+        {children}
+      </div>
       {endAdornment && (
         <span className="JinniInputBaseAdornment end">{endAdornment}</span>
       )}
