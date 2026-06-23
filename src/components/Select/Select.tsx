@@ -119,7 +119,10 @@ const Select = <Multiple extends boolean = false, T extends AsType = 'div'>(
         )}
         onClick={openMenu}
         onKeyDown={(e: React.KeyboardEvent) => {
-          if (e.key === 'Enter') openMenu();
+          e.preventDefault();
+          if (e.key === 'Enter') {
+            openMenu();
+          }
         }}
         startAdornment={startAdornment}
         endAdornment={endAdornment}
