@@ -74,8 +74,10 @@ const Input = (props: InputProps) => {
       disableHoverEffect={disableHoverEffect}
       disableFocusEffect={disableFocusEffect}
       fullWidth={fullWidth}
+      noPadding
     >
       <input
+        className="JinniInputBasePadding"
         type={type}
         value={inputValue}
         onChange={handleChange}
