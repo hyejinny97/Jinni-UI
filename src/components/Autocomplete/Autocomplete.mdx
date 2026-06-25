@@ -156,24 +156,25 @@ import AutocompleteOption from '@/components/AutocompleteOption';
 
 <Canvas of={AutocompleteStories.DisableEffects} />
 
-### Customize Menu
+### Customize Popper and MenuList
 
-- `Autocomplete` 컴포넌트는 내부적으로 `Menu` 컴포넌트를 반환하므로, `MenuProps`를 통해 `Menu`를 커스텀 가능
-- `MenuProps`: `Menu` 컴포넌트의 props
+- `Autocomplete` 컴포넌트는 내부적으로 `Popper`와 `MenuList` 컴포넌트를 반환하므로, `PopperProps`와 `MenuListProps`를 통해 `Popper`와 `MenuList`를 커스텀 가능
+- `PopperProps`: `Popper` 컴포넌트의 props
+- `MenuListProps`: `MenuList` 컴포넌트의 props
 
 #### 1. Dense
 
 <Canvas of={AutocompleteStories.Dense} />
 
-#### 2. Menu Position
+#### 2. Popper Position
 
-<Canvas of={AutocompleteStories.MenuPosition} />
+<Canvas of={AutocompleteStories.PopperPosition} />
 
 ## Props
 
 ### Autocomplete
 
-- `InputBase` 컴포넌트 + `Menu` 컴포넌트로 구성됨
+- `InputBase` + `Popper` + `MenuList` 컴포넌트로 구성됨
 
 <ArgTypes of={AutocompleteStories} sort="alpha" />
 

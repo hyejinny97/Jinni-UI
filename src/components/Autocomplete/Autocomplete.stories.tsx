@@ -46,10 +46,10 @@ const meta: Meta<typeof Autocomplete> = {
         type: { summary: `string` }
       }
     },
-    MenuProps: {
-      description: 'Menu 컴포넌트의 props',
+    MenuListProps: {
+      description: 'MenuList 컴포넌트의 props',
       table: {
-        type: { summary: `MenuProps` }
+        type: { summary: `MenuListProps` }
       }
     },
     mode: {
@@ -109,6 +109,12 @@ const meta: Meta<typeof Autocomplete> = {
         type: {
           summary: `boolean`
         }
+      }
+    },
+    PopperProps: {
+      description: 'Popper 컴포넌트의 props',
+      table: {
+        type: { summary: `PopperProps` }
       }
     },
     placeholder: {
@@ -1103,7 +1109,7 @@ const LoadOnOpenTemplate = () => {
       open={open}
       onOpen={openMenu}
       onClose={closeMenu}
-      MenuProps={{ className: 'remove-no-option-item' }}
+      MenuListProps={{ className: 'remove-no-option-item' }}
     >
       {isLoading ? (
         <ListItem className="loading" style={{ color: 'on-surface-variant' }}>
@@ -1158,7 +1164,7 @@ const SearchAsTypeTemplate = () => {
     <Autocomplete
       inputValue={inputValue}
       onInputChange={handleInputChange}
-      MenuProps={{ className: 'remove-no-option-item' }}
+      MenuListProps={{ className: 'remove-no-option-item' }}
     >
       {isLoading ? (
         <Box
@@ -1925,7 +1931,7 @@ export const LoadOnOpen: Story = {
       open={open}
       onOpen={openMenu}
       onClose={closeMenu}
-      MenuProps={{ className: 'remove-no-option-item' }}
+      MenuListProps={{ className: 'remove-no-option-item' }}
     >
       {isLoading ? (
         <ListItem className="loading" style={{ color: 'on-surface-variant' }}>
@@ -1989,7 +1995,7 @@ export const SearchAsYourType: Story = {
     <Autocomplete
       inputValue={inputValue}
       onInputChange={handleInputChange}
-      MenuProps={{ className: 'remove-no-option-item' }}
+      MenuListProps={{ className: 'remove-no-option-item' }}
     >
       {isLoading ? (
         <Box
@@ -2147,7 +2153,7 @@ export const DisableEffects: Story = {
 
 export const Dense: Story = {
   render: (args) => (
-    <Autocomplete MenuProps={{ MenuListProps: { dense: true } }} {...args}>
+    <Autocomplete MenuListProps={{ dense: true }} {...args}>
       {OPTIONS.map(({ value, label }) => (
         <AutocompleteOption key={value} value={value} label={label}>
           {label}
@@ -2157,12 +2163,12 @@ export const Dense: Story = {
   )
 };
 
-export const MenuPosition: Story = {
+export const PopperPosition: Story = {
   render: (args) => (
     <Autocomplete
-      MenuProps={{
+      PopperProps={{
         anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
-        menuOrigin: { horizontal: 'left', vertical: 'top' }
+        popperOrigin: { horizontal: 'left', vertical: 'top' }
       }}
       {...args}
     >
