@@ -1,5 +1,5 @@
-.remove-no-option-item.JinniAutocompleteMenu {
-  .loading + .JinniListItem.no-options {
+.remove-no-option-item.JinniMenuList {
+  .JinniListItem.loading + .JinniListItem.no-options {
     display: none;
   }
 }
