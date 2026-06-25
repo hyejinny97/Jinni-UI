@@ -8,7 +8,8 @@ import InputBase, {
   InputBaseProps,
   RootInputBaseProps
 } from '@/components/InputBase';
-import Menu, { MenuProps } from '@/components/Menu';
+import MenuList, { MenuListProps } from '@/components/MenuList';
+import Popper, { PopperProps } from '@/components/Popper';
 import Chip from '@/components/Chip';
 import {
   useAutocompleteValue,
@@ -59,10 +60,11 @@ export type AutocompleteProps<Multiple extends boolean = false> = Omit<
         valueToDelete: OptionValueType
       ) => void
     ) => React.ReactNode;
-    MenuProps?: Omit<
-      MenuProps,
-      'open' | 'onClose' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
+    PopperProps?: Omit<
+      PopperProps,
+      'anchorReference' | 'anchorElRef' | 'anchorPosition'
     >;
+    MenuListProps?: MenuListProps;
     open?: boolean;
     onOpen?: (event: Event | React.SyntheticEvent) => void;
     onClose?: (event: Event | React.SyntheticEvent) => void;
@@ -126,7 +128,6 @@ const Autocomplete = <Multiple extends boolean = false>(
     onChange,
     onInputChange,
     renderValue = multiple ? DefaultRenderValue : undefined,
-    MenuProps,
     startAdornment,
     endAdornment,
     variant,
@@ -142,6 +143,8 @@ const Autocomplete = <Multiple extends boolean = false>(
     open,
     onOpen,
     onClose,
+    MenuListProps,
+    PopperProps,
     className,
     style,
     ...rest
@@ -179,6 +182,7 @@ const Autocomplete = <Multiple extends boolean = false>(
   });
   useBlur({
     inputElRef,
+    inputBaseElRef,
     menuListElRef,
     mode,
     multiple,
@@ -191,13 +195,11 @@ const Autocomplete = <Multiple extends boolean = false>(
   });
   useKeyboardAccessibility({
     inputElRef,
-    menuListElRef
+    menuListElRef,
+    isOpen,
+    closeMenu
   });
-  const {
-    className: menuClassName,
-    MenuListProps: menuListProps,
-    ...restMenuProps
-  } = MenuProps || {};
+  const { className: popperClassName, ...restPopperProps } = PopperProps || {};
 
   const handleEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -243,7 +245,7 @@ const Autocomplete = <Multiple extends boolean = false>(
               onClick={(event: React.MouseEvent) => {
                 toggleMenu(event);
                 setIsFiltered(false);
-                inputElRef.current?.focus();
+                if (!isOpen) inputElRef.current?.focus();
               }}
             >
               <ArrowDownIcon color="on-surface-variant" size={16} />
@@ -302,6 +304,7 @@ const Autocomplete = <Multiple extends boolean = false>(
           onClick={(event: React.MouseEvent) => {
             initInputValue(event);
             initAutocompleteValue(event);
+            inputElRef.current?.focus();
           }}
           tabIndex={-1}
         >
@@ -316,25 +319,25 @@ const Autocomplete = <Multiple extends boolean = false>(
           tabIndex={-1}
         />
       </InputBase>
-      <Menu
-        className={cn('JinniAutocompleteMenu', menuClassName)}
-        anchorReference="anchorEl"
-        anchorElRef={inputBaseElRef}
-        open={isOpen}
-        onClose={(event: MouseEvent | KeyboardEvent) => closeMenu(event)}
-        disableMenuListFocused
-        MenuListProps={{
-          role: 'listbox',
-          id: menuListId,
-          ref: menuListElRef,
-          disableAlphabetKeyFocus: true,
-          ...menuListProps
-        }}
-        {...restMenuProps}
-      >
-        {children}
-        <ListItem className="no-options">No Options</ListItem>
-      </Menu>
+      {isOpen && (
+        <Popper
+          className={cn('JinniAutocompletePopper', popperClassName)}
+          anchorReference="anchorEl"
+          anchorElRef={inputBaseElRef}
+          {...restPopperProps}
+        >
+          <MenuList
+            ref={menuListElRef}
+            role="listbox"
+            id={menuListId}
+            disableAlphabetKeyFocus
+            {...MenuListProps}
+          >
+            {children}
+            <ListItem className="no-options">No Options</ListItem>
+          </MenuList>
+        </Popper>
+      )}
     </AutocompleteContext>
   );
 };

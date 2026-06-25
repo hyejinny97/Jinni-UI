@@ -29,6 +29,7 @@ type UseBlurProps<Multiple extends boolean = false> = Required<
 > &
   Pick<AutocompleteProps<Multiple>, 'multiple'> & {
     inputElRef: React.RefObject<HTMLInputElement | null>;
+    inputBaseElRef: React.RefObject<HTMLDivElement | null>;
     menuListElRef: React.RefObject<HTMLUListElement | null>;
     autocompleteValue: OptionValueType[];
     valueToLabel: (value: OptionValueType) => string;
@@ -46,6 +47,8 @@ type UseAutocompleteValueLabel = Pick<AutocompleteProps, 'children'>;
 type UseKeyboardAccessibility = {
   inputElRef: React.RefObject<HTMLInputElement | null>;
   menuListElRef: React.RefObject<HTMLUListElement | null>;
+  isOpen: boolean;
+  closeMenu: (event: Event | React.SyntheticEvent) => void;
 };
 
 export const useAutocompleteValue = <Multiple extends boolean = false>({
@@ -211,6 +214,7 @@ export const useMenuOpen = ({
 
 export const useBlur = <Multiple extends boolean = false>({
   inputElRef,
+  inputBaseElRef,
   menuListElRef,
   mode,
   multiple,
@@ -227,10 +231,12 @@ export const useBlur = <Multiple extends boolean = false>({
 
     const handleBlur = (event: FocusEvent) => {
       const menuListEl = menuListElRef.current;
-      if (!menuListEl) return;
+      const inputBaseEl = inputBaseElRef.current;
+      if (!menuListEl || !inputBaseEl) return;
 
       const focusedEl = event.relatedTarget as Node;
-      const isBackgroundFocused = !menuListEl.contains(focusedEl);
+      const isBackgroundFocused =
+        !menuListEl.contains(focusedEl) && !inputBaseEl.contains(focusedEl);
 
       if (isBackgroundFocused && mode === 'strict') {
         closeMenu(event);
@@ -248,13 +254,29 @@ export const useBlur = <Multiple extends boolean = false>({
         }
       }
     };
+    const handleBackgroundClick = (event: MouseEvent) => {
+      const menuListEl = menuListElRef.current;
+      const inputBaseEl = inputBaseElRef.current;
+      if (!menuListEl || !inputBaseEl) return;
+
+      const clickedEl = event.target as Node;
+      const isBackgroundClicked =
+        !menuListEl.contains(clickedEl) && !inputBaseEl.contains(clickedEl);
+
+      if (isBackgroundClicked) {
+        closeMenu(event);
+      }
+    };
 
     inputEl.addEventListener('blur', handleBlur);
+    document.addEventListener('click', handleBackgroundClick);
     return () => {
       inputEl.removeEventListener('blur', handleBlur);
+      document.removeEventListener('click', handleBackgroundClick);
     };
   }, [
     inputElRef,
+    inputBaseElRef,
     menuListElRef,
     mode,
     multiple,
@@ -269,13 +291,15 @@ export const useBlur = <Multiple extends boolean = false>({
 
 export const useKeyboardAccessibility = ({
   inputElRef,
-  menuListElRef
+  menuListElRef,
+  isOpen,
+  closeMenu
 }: UseKeyboardAccessibility) => {
   useEffect(() => {
     const inputEl = inputElRef.current;
-    if (!inputEl) return;
+    if (!inputEl || !isOpen) return;
 
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleArrowDown = (event: KeyboardEvent) => {
       const menuListEl = menuListElRef.current;
       if (!menuListEl) return;
 
@@ -284,12 +308,20 @@ export const useKeyboardAccessibility = ({
         menuListEl.focus();
       }
     };
-
-    inputEl.addEventListener('keydown', handleKeyDown);
-    return () => {
-      inputEl.addEventListener('keydown', handleKeyDown);
+    const handleEscapeAndTap = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === 'Tab') {
+        closeMenu(e);
+        inputEl.focus();
+      }
     };
-  }, [inputElRef, menuListElRef]);
+
+    inputEl.addEventListener('keydown', handleArrowDown);
+    document.addEventListener('keydown', handleEscapeAndTap);
+    return () => {
+      inputEl.addEventListener('keydown', handleArrowDown);
+      document.removeEventListener('keydown', handleEscapeAndTap);
+    };
+  }, [inputElRef, menuListElRef, isOpen, closeMenu]);
 };
 
 export const useAutocompleteValueLabel = ({
