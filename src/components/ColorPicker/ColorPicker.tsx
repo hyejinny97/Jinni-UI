@@ -1,13 +1,13 @@
 'use client';
 
 import './ColorPicker.scss';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import ColorField, { ColorFieldProps } from '../ColorField';
 import ColorBox, { ColorBoxProps } from '../ColorBox';
-import Popover, { PopoverProps, CloseReason } from '@/components/Popover';
+import Popover, { PopoverProps } from '@/components/Popover';
 import { useColorValue } from './ColorPicker.hooks';
 import { ColorValueType, HSBObject } from './ColorPicker.types';
 import { useLabelContext } from '@/components/Label';
@@ -28,7 +28,7 @@ export type ColorPickerProps<T extends AsType = 'div'> = Omit<
   required?: boolean;
   PopoverProps?: Omit<
     PopoverProps,
-    'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
+    'open' | 'onClose' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
   >;
 };
 
@@ -64,7 +64,6 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
   });
   const newStyle = useStyle(style);
   const {
-    onClose: popoverOnClose,
     BoxProps: popoverBoxProps,
     style: popoverStyle,
     ...restPopoverProps
@@ -77,13 +76,9 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
   const closePopover = () => {
     setOpen(false);
   };
-  const handlePopoverClose = (
-    event: MouseEvent | KeyboardEvent,
-    reason: CloseReason
-  ) => {
+  const handlePopoverClose = useCallback(() => {
     closePopover();
-    popoverOnClose?.(event, reason);
-  };
+  }, []);
 
   return (
     <Component
