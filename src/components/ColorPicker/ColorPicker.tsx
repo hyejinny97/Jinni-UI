@@ -105,9 +105,12 @@ const ColorPicker = <T extends AsType = 'div'>(props: ColorPickerProps<T>) => {
       />
       {renderColorField({
         ref: anchorElRef,
+        tabIndex: 0,
         onClick: openPopover,
+        onKeyDown: (e) => e.key === 'Enter' && openPopover(),
         value: colorValue,
-        disabled
+        disabled,
+        focused: open
       })}
       <Popover
         anchorReference="anchorEl"

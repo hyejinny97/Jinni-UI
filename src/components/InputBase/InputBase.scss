@@ -29,8 +29,10 @@
 }
 
 @mixin focus-effect {
+  &:not(.disableFocusEffect):focus,
   &:not(.disableFocusEffect):focus-within,
   &:not(.disableFocusEffect).focused {
+    outline: none;
     &.outlined {
       border-color: var(--focused-color);
       box-shadow: var(--focused-color) 0 0 0 1px;

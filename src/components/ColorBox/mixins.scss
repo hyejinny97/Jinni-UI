@@ -8,7 +8,8 @@
   &:not(.disabled)::after {
     background-color: transparent;
   }
-  &:focus-within {
+  &:focus-visible,
+  &:has(input:focus-visible) {
     outline: 2px solid var(--jinni-color-gray-800);
   }
 }
