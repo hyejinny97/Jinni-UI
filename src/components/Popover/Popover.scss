@@ -10,3 +10,7 @@
     }
   }
 }
+
+.JinniPopoverBackdrop.JinniBackdrop {
+  z-index: var(--jinni-z-index-popper);
+}

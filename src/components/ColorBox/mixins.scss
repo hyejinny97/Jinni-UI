@@ -5,6 +5,13 @@
   border-radius: 50%;
   box-shadow: var(--jinni-box-shadow-5);
   cursor: pointer;
+  &:not(.disabled)::after {
+    background-color: transparent;
+  }
+  &:focus-visible,
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--jinni-color-gray-800);
+  }
 }
 
 @mixin input-label-style {
@@ -43,7 +50,7 @@
       }
     }
 
-    .JinniInputBaseContent {
+    .JinniInputBaseContent input {
       padding-left: 5px;
       padding-right: 0px;
     }

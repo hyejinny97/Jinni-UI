@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { PopoverProps } from './Popover';
+import { findFocusableSelectors } from './Popover.utils';
 
 export const useKeyboardAccessibility = ({
   open,
@@ -7,6 +8,11 @@ export const useKeyboardAccessibility = ({
   anchorElRef
 }: Pick<PopoverProps, 'open' | 'onClose' | 'anchorElRef'>) => {
   const boxElRef = useRef<HTMLDivElement>(null);
+  const focusableElRef = useRef<{
+    focusableEls: HTMLElement[];
+    firstEl?: HTMLElement;
+    lastEl?: HTMLElement;
+  }>({ focusableEls: [] });
 
   useEffect(() => {
     if (!open) return;
@@ -15,22 +21,9 @@ export const useKeyboardAccessibility = ({
     const boxEl = boxElRef.current;
     if (!boxEl) return;
 
-    const focusableSelectors = [
-      'a[href]',
-      'button:not([disabled])',
-      'textarea:not([disabled])',
-      'input:not([disabled])',
-      'select:not([disabled])',
-      '[tabindex]:not([tabindex="-1"])'
-    ];
-    const focusableEls = Array.from(
-      boxEl.querySelectorAll<HTMLElement>(focusableSelectors.join(','))
-    );
-    const firstEl = focusableEls[0];
-    const lastEl = focusableEls[focusableEls.length - 1];
-
+    focusableElRef.current = findFocusableSelectors(boxEl);
     if (!boxEl.contains(document.activeElement)) {
-      (firstEl || boxEl).focus();
+      (focusableElRef.current.firstEl || boxEl).focus();
     }
 
     const handleKeydown = (e: KeyboardEvent) => {
@@ -38,17 +31,18 @@ export const useKeyboardAccessibility = ({
         onClose?.(e, 'escapeKeyDown');
       }
       if (e.key === 'Tab') {
+        const { focusableEls, firstEl, lastEl } = focusableElRef.current;
         if (focusableEls.length === 0) {
           e.preventDefault();
           return;
         }
         if (e.shiftKey) {
-          if (document.activeElement === firstEl) {
+          if (lastEl && document.activeElement === firstEl) {
             e.preventDefault();
             lastEl.focus();
           }
         } else {
-          if (document.activeElement === lastEl) {
+          if (firstEl && document.activeElement === lastEl) {
             e.preventDefault();
             firstEl.focus();
           }
@@ -57,8 +51,17 @@ export const useKeyboardAccessibility = ({
     };
 
     document.addEventListener('keydown', handleKeydown);
+    const observer = new MutationObserver(() => {
+      focusableElRef.current = findFocusableSelectors(boxEl);
+    });
+    observer.observe(boxEl, {
+      attributes: true,
+      childList: true,
+      subtree: true
+    });
     return () => {
       document.removeEventListener('keydown', handleKeydown);
+      observer.disconnect();
       anchorEl?.focus();
     };
   }, [open, onClose, anchorElRef]);
