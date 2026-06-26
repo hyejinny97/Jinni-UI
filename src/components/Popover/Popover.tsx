@@ -77,6 +77,7 @@ const Popover = <T extends AsType = 'div'>(props: PopoverProps<T>) => {
       {open && (
         <>
           <Backdrop
+            className="JinniPopoverBackdrop"
             invisible
             disableScroll={disableScroll}
             onClick={handleBackdropClick}

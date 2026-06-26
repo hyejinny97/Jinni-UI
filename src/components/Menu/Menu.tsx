@@ -84,6 +84,7 @@ const Menu = <T extends AsType = 'div'>(props: MenuProps<T>) => {
       {open && (
         <>
           <Backdrop
+            className="JinniMenuBackdrop"
             invisible
             disableScroll={disableScroll}
             onClick={handleBackdropClick}

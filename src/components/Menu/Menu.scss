@@ -1,3 +1,7 @@
 .JinniMenu {
   transform-origin: var(--transform-origin);
 }
+
+.JinniMenuBackdrop.JinniBackdrop {
+  z-index: var(--jinni-z-index-popper);
+}
