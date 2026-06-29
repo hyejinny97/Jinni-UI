@@ -18,7 +18,8 @@ import {
   TimeMode,
   TimeComponentProps,
   TimeValidationError,
-  KeyTimePartType
+  KeyTimePartType,
+  DisabledTimesType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import {
@@ -35,6 +36,7 @@ export type TimeFieldProps<
     mode?: Mode;
     placeholder?: string;
     format?: string;
+    disabledTimes?: DisabledTimesType;
     onErrorStatus?: (error: boolean, errorReason?: TimeValidationError) => void;
   };
 
@@ -49,8 +51,6 @@ const TimeField = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>({
     onChange,
     locale,
     options = DEFAULT_TIME_OPTIONS,
-    minTime,
-    maxTime,
     disabledTimes,
     timeStep = mode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
@@ -90,8 +90,6 @@ const TimeField = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>({
   });
   const { isValidationError } = useValidation<Mode>({
     time,
-    minTime,
-    maxTime,
     disabledTimes,
     mode: mode as Mode,
     timeStep: timeStep as TimeComponentProps<Mode>['timeStep'],
