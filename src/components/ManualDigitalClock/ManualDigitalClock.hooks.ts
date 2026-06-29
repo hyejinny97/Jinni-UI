@@ -23,7 +23,7 @@ type UseSelectedTimeProps = Pick<
 
 type UseUnitItemsProps = Pick<
   ManualDigitalClockProps,
-  'minTime' | 'maxTime' | 'disabledTimes' | 'skipDisabledTime' | 'disabled'
+  'disabledTimes' | 'skipDisabledTime' | 'disabled'
 > &
   Required<Pick<ManualDigitalClockProps, 'timeStep'>> & {
     dateTimeFormat: Intl.DateTimeFormat;
@@ -157,8 +157,6 @@ export const useTimeFormat = ({
 };
 
 export const useUnitItems = ({
-  minTime,
-  maxTime,
   timeStep,
   disabledTimes,
   skipDisabledTime,
@@ -176,65 +174,65 @@ export const useUnitItems = ({
   const isDisabledHour = useCallback(
     (hourValue: number): boolean => {
       if (disabled) return true;
-      if (minTime) {
-        const minTimeHour = minTime.getHours();
-        if (hourValue < minTimeHour) return true;
-      }
-      if (maxTime) {
-        const maxTimeHour = maxTime.getHours();
-        if (maxTimeHour < hourValue) return true;
+      const time = new Date(1970, 0, 1, hourValue, minute, second);
+      if (disabledTimes) {
+        if (Array.isArray(disabledTimes)) {
+          return false;
+        } else {
+          if (disabledTimes({ time, unit: 'hour' })) {
+            return true;
+          }
+        }
       }
       return false;
     },
-    [disabled, minTime, maxTime]
+    [disabled, disabledTimes, minute, second]
   );
 
   const isDisabledMinute = useCallback(
     (minuteValue: number): boolean => {
       if (disabled) return true;
       if (hour === undefined) return false;
-      const timeInSeconds = dateToSeconds(
-        new Date(1970, 0, 1, hour, minuteValue, second)
-      );
-      if (minTime) {
-        const minTimeInSeconds = dateToSeconds(minTime);
-        if (timeInSeconds < minTimeInSeconds) return true;
-      }
-      if (maxTime) {
-        const maxTimeInSeconds = dateToSeconds(maxTime);
-        if (timeInSeconds > maxTimeInSeconds) return true;
-      }
+      const time = new Date(1970, 0, 1, hour, minuteValue, second);
       if (disabledTimes) {
-        const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
-        if (disabledTimeInSeconds.includes(timeInSeconds)) return true;
+        if (Array.isArray(disabledTimes)) {
+          const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
+          const timeInSeconds = dateToSeconds(time);
+          if (disabledTimeInSeconds.includes(timeInSeconds)) {
+            return true;
+          }
+        } else {
+          if (disabledTimes({ time, unit: 'minute' })) {
+            return true;
+          }
+        }
       }
       return false;
     },
-    [disabled, minTime, maxTime, disabledTimes, hour, second]
+    [disabled, disabledTimes, hour, second]
   );
 
   const isDisabledSecond = useCallback(
     (secondValue: number): boolean => {
       if (disabled) return true;
       if (hour === undefined || minute === undefined) return false;
-      const timeInSeconds = dateToSeconds(
-        new Date(1970, 0, 1, hour, minute, secondValue)
-      );
-      if (minTime) {
-        const minTimeInSeconds = dateToSeconds(minTime);
-        if (timeInSeconds < minTimeInSeconds) return true;
-      }
-      if (maxTime) {
-        const maxTimeInSeconds = dateToSeconds(maxTime);
-        if (timeInSeconds > maxTimeInSeconds) return true;
-      }
+      const time = new Date(1970, 0, 1, hour, minute, secondValue);
       if (disabledTimes) {
-        const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
-        if (disabledTimeInSeconds.includes(timeInSeconds)) return true;
+        if (Array.isArray(disabledTimes)) {
+          const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
+          const timeInSeconds = dateToSeconds(time);
+          if (disabledTimeInSeconds.includes(timeInSeconds)) {
+            return true;
+          }
+        } else {
+          if (disabledTimes({ time, unit: 'second' })) {
+            return true;
+          }
+        }
       }
       return false;
     },
-    [disabled, minTime, maxTime, disabledTimes, hour, minute]
+    [disabled, disabledTimes, hour, minute]
   );
 
   const hourItems = useMemo<UnitItemType[]>(() => {
