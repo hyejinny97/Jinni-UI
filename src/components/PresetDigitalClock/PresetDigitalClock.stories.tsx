@@ -278,7 +278,7 @@ const CASES: CaseType[] = [
   {
     label: 'Disables from 3:30 PM to 5:20 PM.',
     disabledTimes: ({ time }) => {
-      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 0));
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
       const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
       const timeInMinute = dateToMinute(time);
       return startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute;
@@ -559,7 +559,7 @@ const CASES: CaseType[] = [
   {
     label: 'Disables from 3:30 PM to 5:20 PM.',
     disabledTimes: ({ time }) => {
-      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 0));
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
       const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
       const timeInMinute = dateToMinute(time);
       return startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute;
