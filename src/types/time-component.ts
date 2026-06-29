@@ -25,13 +25,23 @@ export type TimeStepManualType = {
   second: number;
 };
 
-export type TimeValidationError =
-  | 'minTime'
-  | 'maxTime'
-  | 'disabledTime'
-  | 'timeStep';
+export type TimeValidationError = 'disabledTime' | 'timeStep';
 
 export type KeyTimePartType = (typeof KEY_TIME_PARTS)[number];
+
+export type DisabledTimesType =
+  | Array<Date>
+  | (({ time }: { time: Date }) => boolean);
+
+export type DisabledTimesTypeWithUnit =
+  | Array<Date>
+  | (({
+      time,
+      unit
+    }: {
+      time: Date;
+      unit: 'hour' | 'minute' | 'second';
+    }) => boolean);
 
 export type TimeComponentProps<Mode extends TimeMode = 'preset'> = {
   defaultValue?: Date;
@@ -39,9 +49,6 @@ export type TimeComponentProps<Mode extends TimeMode = 'preset'> = {
   onChange?: (value: Date | null) => void;
   locale?: string;
   options?: TimeOptions;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
   timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
   readOnly?: boolean;
   disabled?: boolean;
