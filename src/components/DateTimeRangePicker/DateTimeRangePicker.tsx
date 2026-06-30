@@ -38,7 +38,7 @@ import {
   TIME_STEP_PRESET_DEFAULT,
   TIME_STEP_MANUAL_DEFAULT
 } from './DateTimeRangePicker.constants';
-import { fixTypeByMode } from '@/utils/time-component';
+import { fixTimeStepTypeByMode } from '@/utils/time-component';
 
 type Orientation = 'horizontal' | 'vertical';
 
@@ -230,7 +230,7 @@ const DateTimeRangePicker = <
   const digitalClockProps = {
     ...commonProps,
     ...timeProps,
-    ...fixTypeByMode({ mode: timeMode, timeStep }),
+    ...fixTimeStepTypeByMode({ mode: timeMode, timeStep }),
     value: focusedField ? dateTimeRangeValue[focusedField] : null,
     onChange: focusedField ? handleTimeChange(focusedField) : undefined,
     options: filterTimeOptions(options)

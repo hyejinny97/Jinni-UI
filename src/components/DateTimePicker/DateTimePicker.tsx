@@ -25,7 +25,7 @@ import {
   TIME_STEP_PRESET_DEFAULT,
   TIME_STEP_MANUAL_DEFAULT
 } from './DateTimePicker.constants';
-import { fixTypeByMode } from '@/utils/time-component';
+import { fixTimeStepTypeByMode } from '@/utils/time-component';
 import {
   TimeMode,
   DigitalClockProps,
@@ -172,7 +172,7 @@ const DateTimePicker = <
   };
   const digitClockProps = {
     ...commonProps,
-    ...fixTypeByMode({ mode: timeMode, timeStep }),
+    ...fixTimeStepTypeByMode({ mode: timeMode, timeStep }),
     minTime,
     maxTime,
     disabledTimes,

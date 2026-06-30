@@ -19,7 +19,7 @@ import {
   TimeComponentProps,
   TimeValidationError,
   KeyTimePartType,
-  DisabledTimesType
+  DisabledTimesFnType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import {
@@ -36,7 +36,7 @@ export type TimeFieldProps<
     mode?: Mode;
     placeholder?: string;
     format?: string;
-    disabledTimes?: DisabledTimesType;
+    disabledTimes?: Array<Date> | DisabledTimesFnType;
     onErrorStatus?: (error: boolean, errorReason?: TimeValidationError) => void;
   };
 

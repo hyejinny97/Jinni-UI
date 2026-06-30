@@ -7,7 +7,7 @@ import Stack, { StackProps } from '@/components/Stack';
 import Divider from '@/components/Divider';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import {
-  DisabledTimesTypeWithUnit,
+  DisabledTimesWithUnitFnType,
   TimeComponentProps
 } from '@/types/time-component';
 import UnitList from './UnitList';
@@ -23,7 +23,7 @@ export type ManualDigitalClockProps<T extends AsType = 'div'> = Omit<
   'defaultValue' | 'onChange' | 'children'
 > &
   TimeComponentProps<'manual'> & {
-    disabledTimes?: DisabledTimesTypeWithUnit;
+    disabledTimes?: Array<Date> | DisabledTimesWithUnitFnType;
     skipDisabledTime?: boolean;
   };
 

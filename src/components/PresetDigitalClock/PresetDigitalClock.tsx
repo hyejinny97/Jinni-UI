@@ -3,7 +3,10 @@
 import './PresetDigitalClock.scss';
 import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
-import { DisabledTimesType, TimeComponentProps } from '@/types/time-component';
+import {
+  DisabledTimesFnType,
+  TimeComponentProps
+} from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import { TIME_STEP_PRESET_DEFAULT } from './PresetDigitalClock.constants';
 import {
@@ -21,7 +24,7 @@ export type PresetDigitalClockProps<T extends AsType = 'div'> = Omit<
   'defaultValue' | 'onChange' | 'children'
 > &
   TimeComponentProps<'preset'> & {
-    disabledTimes?: DisabledTimesType;
+    disabledTimes?: Array<Date> | DisabledTimesFnType;
     skipDisabledTime?: boolean;
   };
 

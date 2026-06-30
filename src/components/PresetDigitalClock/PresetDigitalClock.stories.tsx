@@ -12,7 +12,7 @@ import Radio from '@/components/Radio';
 import Switch from '@/components/Switch';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { DisabledTimesType } from '@/types/time-component';
+import { DisabledTimesFnType } from '@/types/time-component';
 
 const meta: Meta<typeof PresetDigitalClock> = {
   title: 'components/TimePicker/PresetDigitalClock',
@@ -250,7 +250,7 @@ const dateToMinute = (date: Date) => {
 
 type CaseType = {
   label: string;
-  disabledTimes: DisabledTimesType;
+  disabledTimes: Array<Date> | DisabledTimesFnType;
 };
 
 const CASES: CaseType[] = [
@@ -531,7 +531,7 @@ const dateToMinute = (date: Date) => {
 
 type CaseType = {
   label: string;
-  disabledTimes: DisabledTimesType;
+  disabledTimes: Array<Date> | DisabledTimesFnType;
 };
 
 const CASES: CaseType[] = [

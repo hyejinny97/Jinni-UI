@@ -17,14 +17,17 @@ import {
   TimeMode,
   TimeComponentProps,
   DigitalClockProps,
-  TimeStepManualType
+  TimeStepManualType,
+  DisabledTimesFnType,
+  DisabledTimesWithUnitFnType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import {
   TIME_STEP_PRESET_DEFAULT,
   TIME_STEP_MANUAL_DEFAULT
 } from './TimePicker.constants';
-import { fixTypeByMode } from '@/utils/time-component';
+import { fixDigitalClockPropsByMode } from '@/utils/time-component';
+import { disabledTimesInTimeField } from './TimePicker.utils';
 
 export type TimePickerProps<
   T extends AsType = 'div',
@@ -33,6 +36,9 @@ export type TimePickerProps<
   TimeComponentProps<Mode> & {
     name?: string;
     mode?: Mode;
+    disabledTimes?: Mode extends 'preset'
+      ? Array<Date> | DisabledTimesFnType
+      : Array<Date> | DisabledTimesWithUnitFnType;
     PopoverProps?: Omit<
       PopoverProps,
       'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
@@ -53,8 +59,6 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
     onChange,
     locale,
     options = DEFAULT_TIME_OPTIONS,
-    minTime,
-    maxTime,
     disabledTimes,
     timeStep = (mode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
@@ -105,9 +109,6 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
     onChange: handleChange,
     locale,
     options,
-    minTime,
-    maxTime,
-    disabledTimes,
     readOnly,
     disabled
   };
@@ -115,6 +116,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
     ...commonProps,
     mode,
     timeStep,
+    disabledTimes: disabledTimes && disabledTimesInTimeField(disabledTimes),
     focused: open,
     endAdornment: (
       <ButtonBase
@@ -135,7 +137,7 @@ const TimePicker = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>(
   };
   const digitalClockProps = {
     ...commonProps,
-    ...fixTypeByMode({ mode, timeStep })
+    ...fixDigitalClockPropsByMode({ mode, timeStep, disabledTimes })
   };
 
   return (

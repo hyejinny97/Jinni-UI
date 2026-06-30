@@ -28,7 +28,7 @@ import {
   TimeStepManualType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
-import { fixTypeByMode } from '@/utils/time-component';
+import { fixTimeStepTypeByMode } from '@/utils/time-component';
 
 export type TimeRangePickerProps<
   T extends AsType = 'div',
@@ -164,7 +164,7 @@ const TimeRangePicker = <
   };
   const getDigitalClockProps = (rangeField: RangeFieldType) => ({
     ...commonProps,
-    ...fixTypeByMode({ mode, timeStep }),
+    ...fixTimeStepTypeByMode({ mode, timeStep }),
     value: timeRangeValue[rangeField],
     onChange: handleTimeChange(rangeField),
     minTime: minTime?.[rangeField],

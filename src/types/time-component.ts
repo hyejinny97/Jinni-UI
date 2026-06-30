@@ -29,19 +29,20 @@ export type TimeValidationError = 'disabledTime' | 'timeStep';
 
 export type KeyTimePartType = (typeof KEY_TIME_PARTS)[number];
 
-export type DisabledTimesType =
-  | Array<Date>
-  | (({ time }: { time: Date }) => boolean);
+export type DisabledTimesFnType = ({
+  time
+}: {
+  time: Date;
+  unit?: never;
+}) => boolean;
 
-export type DisabledTimesTypeWithUnit =
-  | Array<Date>
-  | (({
-      time,
-      unit
-    }: {
-      time: Date;
-      unit: 'hour' | 'minute' | 'second';
-    }) => boolean);
+export type DisabledTimesWithUnitFnType = ({
+  time,
+  unit
+}: {
+  time: Date;
+  unit: 'hour' | 'minute' | 'second';
+}) => boolean;
 
 export type TimeComponentProps<Mode extends TimeMode = 'preset'> = {
   defaultValue?: Date;

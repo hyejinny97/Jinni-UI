@@ -3,7 +3,9 @@ import { isNumber } from '@/utils/isNumber';
 import {
   TimeStepManualType,
   TimeComponentProps,
-  TimeMode
+  TimeMode,
+  DisabledTimesFnType,
+  DisabledTimesWithUnitFnType
 } from '@/types/time-component';
 
 export const dateToSeconds = (date: Date) => {
@@ -87,7 +89,7 @@ export const getLocaleDayPeriodValues = ({
   return Array.from(dayPeriods);
 };
 
-export const fixTypeByMode = ({
+export const fixTimeStepTypeByMode = ({
   mode,
   timeStep
 }: {
@@ -103,4 +105,90 @@ export const fixTypeByMode = ({
   throw new Error(
     `timeStep prop의 타입이 올바르지 않습니다.\n- mode: 'preset', timeStep: number\n- mode: 'manual', timeStep: { hour: number; minute: number; second: number; }`
   );
+};
+
+export const isDisabledTimesWithUnitFnType = (
+  fn: DisabledTimesFnType | DisabledTimesWithUnitFnType
+): fn is DisabledTimesWithUnitFnType => {
+  const fnString = fn.toString();
+  const paramsMatch = fnString.match(/\(([^)]*)\)/);
+  if (!paramsMatch) return false;
+
+  const params = paramsMatch[1];
+  return /\bunit\b/.test(params);
+};
+
+export const isDisabledTimesFnType = (
+  fn: DisabledTimesFnType | DisabledTimesWithUnitFnType
+): fn is DisabledTimesFnType => {
+  return !isDisabledTimesWithUnitFnType(fn);
+};
+
+export const fixDigitalClockPropsByMode = ({
+  mode,
+  disabledTimes,
+  timeStep
+}: {
+  mode: TimeMode;
+  disabledTimes:
+    | Array<Date>
+    | DisabledTimesFnType
+    | DisabledTimesWithUnitFnType
+    | undefined;
+  timeStep: number | TimeStepManualType;
+}):
+  | {
+      mode: 'preset';
+      disabledTimes?: Array<Date> | DisabledTimesFnType;
+      timeStep: number;
+    }
+  | {
+      mode: 'manual';
+      disabledTimes?: Array<Date> | DisabledTimesWithUnitFnType;
+      timeStep: TimeStepManualType;
+    } => {
+  switch (mode) {
+    case 'preset': {
+      if (!isNumber(timeStep)) {
+        throw new Error(
+          `mode='preset'인 경우, timeStep prop의 타입은 number입니다.`
+        );
+      }
+      if (
+        disabledTimes !== undefined &&
+        !Array.isArray(disabledTimes) &&
+        !isDisabledTimesFnType(disabledTimes)
+      ) {
+        throw new Error(
+          `mode='preset'인 경우, disabledTimes prop의 타입은 아래와 같습니다.\n- Array<Date> | ({ time }: { time: Date }) => boolean;`
+        );
+      }
+      return {
+        mode: 'preset' as const,
+        disabledTimes,
+        timeStep
+      };
+    }
+    case 'manual': {
+      if (!isTimeStepManualType(timeStep)) {
+        throw new Error(
+          `mode='manual'인 경우, timeStep prop의 타입은 { hour: number; minute: number; second: number; }입니다.`
+        );
+      }
+      if (
+        disabledTimes !== undefined &&
+        !Array.isArray(disabledTimes) &&
+        !isDisabledTimesWithUnitFnType(disabledTimes)
+      ) {
+        throw new Error(
+          `mode='manual'인 경우, disabledTimes prop의 타입은 아래와 같습니다.\n- Array<Date> | ({ time, unit }: { time: Date; unit: 'hour' | 'minute' | 'second'; }) => boolean;`
+        );
+      }
+      return {
+        mode: 'manual' as const,
+        disabledTimes,
+        timeStep
+      };
+    }
+  }
 };
