@@ -25,10 +25,16 @@ import {
   RangeType,
   RangeFieldType,
   DigitalClockProps,
-  TimeStepManualType
+  TimeStepManualType,
+  RangeDisabledTimesFnType,
+  RangeDisabledTimesWithUnitFnType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
-import { fixTimeStepTypeByMode } from '@/utils/time-component';
+import {
+  bindRangeField,
+  fixDigitalClockPropsByMode
+} from '@/utils/time-component';
+import { disabledTimesInTimeRangeField } from './TimeRangePicker.utils';
 
 export type TimeRangePickerProps<
   T extends AsType = 'div',
@@ -36,6 +42,9 @@ export type TimeRangePickerProps<
 > = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
   TimeRangeComponentProps<Mode> & {
     name?: RangeType<string>;
+    disabledTimes?: Mode extends 'preset'
+      ? Array<Date> | RangeDisabledTimesFnType
+      : Array<Date> | RangeDisabledTimesWithUnitFnType;
     PopoverProps?: Omit<
       PopoverProps,
       'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
@@ -59,8 +68,6 @@ const TimeRangePicker = <
     onChange,
     locale,
     options = DEFAULT_TIME_OPTIONS,
-    minTime,
-    maxTime,
     disabledTimes,
     timeStep = (mode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
@@ -134,9 +141,8 @@ const TimeRangePicker = <
     timeStep,
     value: timeRangeValue,
     onChange: handleTimeRangeChange,
-    minTime,
-    maxTime,
-    disabledTimes,
+    disabledTimes:
+      disabledTimes && disabledTimesInTimeRangeField(disabledTimes),
     readOnly,
     disabled,
     focusedField,
@@ -164,12 +170,16 @@ const TimeRangePicker = <
   };
   const getDigitalClockProps = (rangeField: RangeFieldType) => ({
     ...commonProps,
-    ...fixTimeStepTypeByMode({ mode, timeStep }),
+    ...fixDigitalClockPropsByMode({
+      mode,
+      timeStep,
+      disabledTimes:
+        disabledTimes && !Array.isArray(disabledTimes)
+          ? bindRangeField(disabledTimes, rangeField)
+          : disabledTimes
+    }),
     value: timeRangeValue[rangeField],
     onChange: handleTimeChange(rangeField),
-    minTime: minTime?.[rangeField],
-    maxTime: maxTime?.[rangeField],
-    disabledTimes: disabledTimes?.[rangeField],
     readOnly: readOnly?.[rangeField],
     disabled: disabled?.[rangeField]
   });

@@ -5,7 +5,10 @@ import {
   TimeComponentProps,
   TimeMode,
   DisabledTimesFnType,
-  DisabledTimesWithUnitFnType
+  DisabledTimesWithUnitFnType,
+  RangeDisabledTimesFnType,
+  RangeDisabledTimesWithUnitFnType,
+  RangeFieldType
 } from '@/types/time-component';
 
 export const dateToSeconds = (date: Date) => {
@@ -107,21 +110,51 @@ export const fixTimeStepTypeByMode = ({
   );
 };
 
-export const isDisabledTimesWithUnitFnType = (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getParamKeys = (fn: (...args: any[]) => any): string => {
+  const match = fn.toString().match(/^[^(]*\(([^)]*)\)/);
+  return match?.[1] ?? '';
+};
+
+export const isDisabledTimesWithUnitFn = (
   fn: DisabledTimesFnType | DisabledTimesWithUnitFnType
 ): fn is DisabledTimesWithUnitFnType => {
-  const fnString = fn.toString();
-  const paramsMatch = fnString.match(/\(([^)]*)\)/);
-  if (!paramsMatch) return false;
-
-  const params = paramsMatch[1];
+  const params = getParamKeys(fn);
   return /\bunit\b/.test(params);
 };
 
-export const isDisabledTimesFnType = (
+export const isDisabledTimesFn = (
   fn: DisabledTimesFnType | DisabledTimesWithUnitFnType
 ): fn is DisabledTimesFnType => {
-  return !isDisabledTimesWithUnitFnType(fn);
+  const params = getParamKeys(fn);
+  return !/\bunit\b/.test(params);
+};
+
+export const isRangeDisabledTimesWithUnitFn = (
+  fn: RangeDisabledTimesFnType | RangeDisabledTimesWithUnitFnType
+): fn is RangeDisabledTimesWithUnitFnType => {
+  const params = getParamKeys(fn);
+  return /\bunit\b/.test(params);
+};
+
+export const isRangeDisabledTimesFn = (
+  fn: RangeDisabledTimesFnType | RangeDisabledTimesWithUnitFnType
+): fn is RangeDisabledTimesFnType => {
+  const params = getParamKeys(fn);
+  return !/\bunit\b/.test(params);
+};
+
+export const bindRangeField = (
+  fn: RangeDisabledTimesFnType | RangeDisabledTimesWithUnitFnType,
+  rangeField: RangeFieldType
+): DisabledTimesFnType | DisabledTimesWithUnitFnType => {
+  if (isRangeDisabledTimesWithUnitFn(fn)) {
+    const withUnitFn: DisabledTimesWithUnitFnType = ({ time, unit }) =>
+      fn({ time, unit, rangeField });
+    return withUnitFn;
+  }
+  const basicFn: DisabledTimesFnType = ({ time }) => fn({ time, rangeField });
+  return basicFn;
 };
 
 export const fixDigitalClockPropsByMode = ({
@@ -157,7 +190,7 @@ export const fixDigitalClockPropsByMode = ({
       if (
         disabledTimes !== undefined &&
         !Array.isArray(disabledTimes) &&
-        !isDisabledTimesFnType(disabledTimes)
+        !isDisabledTimesFn(disabledTimes)
       ) {
         throw new Error(
           `mode='preset'인 경우, disabledTimes prop의 타입은 아래와 같습니다.\n- Array<Date> | ({ time }: { time: Date }) => boolean;`
@@ -178,7 +211,7 @@ export const fixDigitalClockPropsByMode = ({
       if (
         disabledTimes !== undefined &&
         !Array.isArray(disabledTimes) &&
-        !isDisabledTimesWithUnitFnType(disabledTimes)
+        !isDisabledTimesWithUnitFn(disabledTimes)
       ) {
         throw new Error(
           `mode='manual'인 경우, disabledTimes prop의 타입은 아래와 같습니다.\n- Array<Date> | ({ time, unit }: { time: Date; unit: 'hour' | 'minute' | 'second'; }) => boolean;`
