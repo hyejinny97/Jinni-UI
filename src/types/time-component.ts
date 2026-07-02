@@ -65,6 +65,25 @@ export type TimeRangeValidationError = RangeType<TimeValidationError> & {
   [CHRONOLOGICAL_ORDER]?: boolean;
 };
 
+export type RangeDisabledTimesFnType = ({
+  time,
+  rangeField
+}: {
+  time: Date;
+  unit?: never;
+  rangeField: RangeFieldType;
+}) => boolean;
+
+export type RangeDisabledTimesWithUnitFnType = ({
+  time,
+  unit,
+  rangeField
+}: {
+  time: Date;
+  unit: 'hour' | 'minute' | 'second';
+  rangeField: RangeFieldType;
+}) => boolean;
+
 export type TimeRangeComponentProps<Mode extends TimeMode = 'preset'> = {
   mode?: Mode;
   defaultValue?: RangeType<Date>;
@@ -72,9 +91,6 @@ export type TimeRangeComponentProps<Mode extends TimeMode = 'preset'> = {
   onChange?: (value: RangeType<Date | null>) => void;
   locale?: string;
   options?: TimeOptions;
-  minTime?: RangeType<Date>;
-  maxTime?: RangeType<Date>;
-  disabledTimes?: RangeType<Array<Date>>;
   timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
   readOnly?: RangeType<boolean>;
   disabled?: RangeType<boolean>;

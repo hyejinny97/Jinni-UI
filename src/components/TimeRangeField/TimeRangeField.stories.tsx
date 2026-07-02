@@ -14,7 +14,11 @@ import { AccessTimeIcon } from '@/components/icons/AccessTimeIcon';
 import { FlightLandIcon } from '@/components/icons/FlightLandIcon';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
-import { RangeType, RangeFieldType } from '@/types/time-component';
+import {
+  RangeType,
+  RangeFieldType,
+  RangeDisabledTimesFnType
+} from '@/types/time-component';
 
 const meta: Meta<typeof TimeRangeField> = {
   title: 'components/TimeRangePicker/TimeRangeField',
@@ -42,7 +46,9 @@ const meta: Meta<typeof TimeRangeField> = {
     disabledTimes: {
       description: '비활성화 하는 특정 시간 모음',
       table: {
-        type: { summary: `{ start?: Array<Date>, end?: Array<Date> }` }
+        type: {
+          summary: `Array<Date> | ({ time, rangeField }: { time: Date; rangeField: 'start' | 'end'; }) ⇒ boolean;`
+        }
       }
     },
     endAdornment: {
@@ -69,18 +75,6 @@ const meta: Meta<typeof TimeRangeField> = {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxTime: {
-      description: '선택 가능한 최대 시간',
-      table: {
-        type: { summary: `{ start?: Date, end?: Date }` }
-      }
-    },
-    minTime: {
-      description: '선택 가능한 최소 시간',
-      table: {
-        type: { summary: `{ start?: Date, end?: Date }` }
       }
     },
     mode: {
@@ -382,6 +376,97 @@ const TimeFormatTemplate = () => {
         value={value}
         onChange={handleTimeChange}
         format={format}
+      />
+    </Stack>
+  );
+};
+
+const dateToMinute = (date: Date) => {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return hour * 3600 + minute * 60;
+};
+
+type CaseType = {
+  label: string;
+  disabledTimes: Array<Date> | RangeDisabledTimesFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Disables at 3:00 PM and 3:30 PM.',
+    disabledTimes: [new Date('2025-06-30T15:00'), new Date('2025-06-30T15:30')]
+  },
+  {
+    label: 'Available from 9:00 AM to 6:30 PM.',
+    disabledTimes: ({ time }) => {
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 30));
+      const timeInMinute = dateToMinute(time);
+      return timeInMinute < startTimeInMinute || endTimeInMinute < timeInMinute;
+    }
+  },
+  {
+    label: 'Disables from 3:30 PM to 5:20 PM.',
+    disabledTimes: ({ time }) => {
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
+      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
+      const timeInMinute = dateToMinute(time);
+      return startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute;
+    }
+  },
+  {
+    label: `'Start' is selectable from 9:00 AM, and 'end' up to 6:00 PM.`,
+    disabledTimes: ({ time, rangeField }) => {
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 0));
+      const timeInMinute = dateToMinute(time);
+      if (rangeField === 'start') {
+        return timeInMinute < startTimeInMinute;
+      }
+      if (rangeField === 'end') {
+        return endTimeInMinute < timeInMinute;
+      }
+      return false;
+    }
+  }
+];
+
+const DisabledTimesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeRangeField
+        options={{ hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }}
+        disabledTimes={CASES[caseIdx].disabledTimes}
       />
     </Stack>
   );
@@ -718,126 +803,103 @@ export const TimeFormat: Story = {
   }
 };
 
-export const MinTime: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <TimeRangeField
-        placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-        format="HH:mm"
-        minTime={{ start: new Date('2025-06-30T14:30') }}
-        {...args}
-      />
-      <TimeRangeField
-        placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-        format="HH:mm"
-        minTime={{ start: new Date('2025-06-30T14:30') }}
-        defaultValue={{ start: new Date('2025-06-30T12:00') }}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack spacing={20}>
-  <TimeRangeField
-    placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-    format="HH:mm"
-    minTime={{ start: new Date('2025-06-30T14:30') }}
-  />
-  <TimeRangeField
-    placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-    format="HH:mm"
-    minTime={{ start: new Date('2025-06-30T14:30') }}
-    defaultValue={{ start: new Date('2025-06-30T12:00') }}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const MaxTime: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <TimeRangeField
-        placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-        format="HH:mm"
-        maxTime={{ end: new Date('2025-06-30T17:25') }}
-        {...args}
-      />
-      <TimeRangeField
-        placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-        format="HH:mm"
-        maxTime={{ end: new Date('2025-06-30T17:25') }}
-        defaultValue={{ end: new Date('2025-06-30T18:00') }}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack spacing={20}>
-  <TimeRangeField
-    placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-    format="HH:mm"
-    maxTime={{ end: new Date('2025-06-30T17:25') }}
-  />
-  <TimeRangeField
-    placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-    format="HH:mm"
-    maxTime={{ end: new Date('2025-06-30T17:25') }}
-    defaultValue={{ end: new Date('2025-06-30T18:00') }}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
 export const DisabledTimes: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <TimeRangeField
-        placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-        format="HH:mm"
-        disabledTimes={{
-          start: [new Date('2025-06-30T14:10'), new Date('2025-06-30T12:30')]
-        }}
-        {...args}
-      />
-      <TimeRangeField
-        placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-        format="HH:mm"
-        disabledTimes={{
-          start: [new Date('2025-06-30T14:10'), new Date('2025-06-30T12:30')]
-        }}
-        defaultValue={{ start: new Date('2025-06-30T14:10') }}
-        {...args}
-      />
-    </Stack>
-  ),
+  render: () => <DisabledTimesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<Stack spacing={20}>
-  <TimeRangeField
-    placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-    format="HH:mm"
-    disabledTimes={{
-      start: [new Date('2025-06-30T14:10'), new Date('2025-06-30T12:30')]
-    }}
-  />
-  <TimeRangeField
-    placeholder={{ start: 'HH:mm', end: 'HH:mm' }}
-    format="HH:mm"
-    disabledTimes={{
-      start: [new Date('2025-06-30T14:10'), new Date('2025-06-30T12:30')]
-    }}
-    defaultValue={{ start: new Date('2025-06-30T14:10') }}
-  />
-</Stack>`.trim()
+        code: `
+const dateToMinute = (date: Date) => {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return hour * 3600 + minute * 60;
+};
+
+type CaseType = {
+  label: string;
+  disabledTimes: Array<Date> | RangeDisabledTimesFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Disables at 3:00 PM and 3:30 PM.',
+    disabledTimes: [new Date('2025-06-30T15:00'), new Date('2025-06-30T15:30')]
+  },
+  {
+    label: 'Available from 9:00 AM to 6:30 PM.',
+    disabledTimes: ({ time }) => {
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 30));
+      const timeInMinute = dateToMinute(time);
+      return timeInMinute < startTimeInMinute || endTimeInMinute < timeInMinute;
+    }
+  },
+  {
+    label: 'Disables from 3:30 PM to 5:20 PM.',
+    disabledTimes: ({ time }) => {
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
+      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
+      const timeInMinute = dateToMinute(time);
+      return startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute;
+    }
+  },
+  {
+    label: \`'Start' is selectable from 9:00 AM, and 'end' up to 6:00 PM.\`,
+    disabledTimes: ({ time, rangeField }) => {
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 0));
+      const timeInMinute = dateToMinute(time);
+      if (rangeField === 'start') {
+        return timeInMinute < startTimeInMinute;
+      }
+      if (rangeField === 'end') {
+        return endTimeInMinute < timeInMinute;
+      }
+      return false;
+    }
+  }
+];
+
+const DisabledTimesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <TimeRangeField
+        options={{ hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }}
+        disabledTimes={CASES[caseIdx].disabledTimes}
+      />
+    </Stack>
+  );
+};
+`.trim()
       }
     }
   }
