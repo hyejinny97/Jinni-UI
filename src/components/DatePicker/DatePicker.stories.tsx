@@ -16,6 +16,8 @@ import CalendarHeader from '@/components/CalendarHeader';
 import Year from '@/components/Year';
 import Month from '@/components/Month';
 import Day from '@/components/Day';
+import { DAY } from '@/constants/time';
+import { DisabledDatesWithUnitFnType } from '@/types/date-component';
 
 const meta: Meta<typeof DatePicker> = {
   component: DatePicker,
@@ -41,25 +43,15 @@ const meta: Meta<typeof DatePicker> = {
     disabledDates: {
       description: '비활성화 하는 특정 날짜 모음',
       table: {
-        type: { summary: 'Array<Date>' }
+        type: {
+          summary: `Array<Date> | ({ date, unit }: { date: Date; unit: 'year' | 'month' | 'day'; }) => boolean;`
+        }
       }
     },
     locale: {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxDate: {
-      description: '선택 가능한 최대 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minDate: {
-      description: '선택 가능한 최소 날짜',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     name: {
@@ -262,6 +254,134 @@ const OptionsTemplate = () => {
   );
 };
 
+const dateToMonth = (date: Date) => {
+  return date.getFullYear() * 12 + date.getMonth();
+};
+
+const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
+};
+
+type CaseType = {
+  label: string;
+  disabledDates: Array<Date> | DisabledDatesWithUnitFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Disable today',
+    disabledDates: [new Date()]
+  },
+  {
+    label: 'Available starting this year.',
+    disabledDates: ({ date }) => {
+      const currentYear = new Date().getFullYear();
+      return date.getFullYear() < currentYear;
+    }
+  },
+  {
+    label: 'Available from june to august.',
+    disabledDates: ({ date, unit }) => {
+      if (unit === 'month' || unit === 'day') {
+        const month = date.getMonth();
+        return month < 5 || 7 < month;
+      }
+      return false;
+    }
+  },
+  {
+    label: 'Disable all dates except current month.',
+    disabledDates: ({ date, unit }) => {
+      if (unit === 'year') {
+        const currentYear = new Date().getFullYear();
+        return date.getFullYear() !== currentYear;
+      }
+      if (unit === 'month' || unit === 'day') {
+        return dateToMonth(new Date()) !== dateToMonth(date);
+      }
+      return false;
+    }
+  },
+  {
+    label: 'Disable weekends.',
+    disabledDates: ({ date, unit }) => {
+      if (unit === 'day') {
+        const day = date.getDay();
+        return day === 0 || day === 6;
+      }
+      return false;
+    }
+  },
+  {
+    label: 'Available between 2026.6.1 and 2026.8.15.',
+    disabledDates: ({ date, unit }) => {
+      const start = new Date(2026, 5, 1);
+      const end = new Date(2026, 7, 15);
+      if (unit === 'year') {
+        const startYear = start.getFullYear();
+        const endYear = end.getFullYear();
+        const year = date.getFullYear();
+        return year < startYear || endYear < year;
+      }
+      if (unit === 'month') {
+        const startInMonth = dateToMonth(start);
+        const endInMonth = dateToMonth(end);
+        const month = dateToMonth(date);
+        return month < startInMonth || endInMonth < month;
+      }
+      if (unit === 'day') {
+        const startInDay = dateToDay(start);
+        const endInDay = dateToDay(end);
+        const day = dateToDay(date);
+        return day < startInDay || endInDay < day;
+      }
+      return false;
+    }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <DatePicker disabledDates={CASES[caseIdx].disabledDates} />
+    </Stack>
+  );
+};
+
 export const BasicDatePicker: Story = {
   render: (args) => (
     <Stack direction="row" spacing={20}>
@@ -439,84 +559,138 @@ export const Options: Story = {
   }
 };
 
-export const MinDate: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DatePicker minDate={new Date('2025-06-30')} {...args} />
-      <DatePicker
-        minDate={new Date('2025-06-30')}
-        defaultValue={new Date('2025-03-15')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DatePicker minDate={new Date('2025-06-30')} />
-  <DatePicker
-    minDate={new Date('2025-06-30')}
-    defaultValue={new Date('2025-03-15')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const MaxDate: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DatePicker maxDate={new Date('2025-07-20')} {...args} />
-      <DatePicker
-        maxDate={new Date('2025-07-20')}
-        defaultValue={new Date('2025-08-01')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DatePicker maxDate={new Date('2025-07-20')} />
-  <DatePicker
-    maxDate={new Date('2025-07-20')}
-    defaultValue={new Date('2025-08-01')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
 export const DisabledDates: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DatePicker
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-        {...args}
-      />
-      <DatePicker
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-        defaultValue={new Date('2025-07-10')}
-        {...args}
-      />
-    </Stack>
-  ),
+  render: () => <DisabledDatesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DatePicker
-    disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-  />
-  <DatePicker
-    disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-    defaultValue={new Date('2025-07-10')}
-  />
-</Stack>`.trim()
+        code: `const dateToMonth = (date: Date) => {
+  return date.getFullYear() * 12 + date.getMonth();
+};
+
+const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
+};
+
+type CaseType = {
+  label: string;
+  disabledDates: Array<Date> | DisabledDatesWithUnitFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Disable today',
+    disabledDates: [new Date()]
+  },
+  {
+    label: 'Available starting this year.',
+    disabledDates: ({ date }) => {
+      const currentYear = new Date().getFullYear();
+      return date.getFullYear() < currentYear;
+    }
+  },
+  {
+    label: 'Available from june to august.',
+    disabledDates: ({ date, unit }) => {
+      if (unit === 'month' || unit === 'day') {
+        const month = date.getMonth();
+        return month < 5 || 7 < month;
+      }
+      return false;
+    }
+  },
+  {
+    label: 'Disable all dates except current month.',
+    disabledDates: ({ date, unit }) => {
+      if (unit === 'year') {
+        const currentYear = new Date().getFullYear();
+        return date.getFullYear() !== currentYear;
+      }
+      if (unit === 'month' || unit === 'day') {
+        return dateToMonth(new Date()) !== dateToMonth(date);
+      }
+      return false;
+    }
+  },
+  {
+    label: 'Disable weekends.',
+    disabledDates: ({ date, unit }) => {
+      if (unit === 'day') {
+        const day = date.getDay();
+        return day === 0 || day === 6;
+      }
+      return false;
+    }
+  },
+  {
+    label: 'Available between 2026.6.1 and 2026.8.15.',
+    disabledDates: ({ date, unit }) => {
+      const start = new Date(2026, 5, 1);
+      const end = new Date(2026, 7, 15);
+      if (unit === 'year') {
+        const startYear = start.getFullYear();
+        const endYear = end.getFullYear();
+        const year = date.getFullYear();
+        return year < startYear || endYear < year;
+      }
+      if (unit === 'month') {
+        const startInMonth = dateToMonth(start);
+        const endInMonth = dateToMonth(end);
+        const month = dateToMonth(date);
+        return month < startInMonth || endInMonth < month;
+      }
+      if (unit === 'day') {
+        const startInDay = dateToDay(start);
+        const endInDay = dateToDay(end);
+        const day = dateToDay(date);
+        return day < startInDay || endInDay < day;
+      }
+      return false;
+    }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <DatePicker disabledDates={CASES[caseIdx].disabledDates} />
+    </Stack>
+  );
+};`.trim()
       }
     }
   }
