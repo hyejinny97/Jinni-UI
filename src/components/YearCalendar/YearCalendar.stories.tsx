@@ -9,11 +9,18 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
+import { DisabledDatesFnType } from '@/types/date-component';
 
 const meta: Meta<typeof YearCalendar> = {
   title: 'components/DatePicker/DateCalendar/DateYearCalendar/YearCalendar',
   component: YearCalendar,
   argTypes: {
+    disabledDates: {
+      description: '비활성화 하는 특정 날짜 모음',
+      table: {
+        type: { summary: '({ date }: { date: Date; }) => boolean;' }
+      }
+    },
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
@@ -30,18 +37,6 @@ const meta: Meta<typeof YearCalendar> = {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxDate: {
-      description: '선택 가능한 최대 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minDate: {
-      description: '선택 가능한 최소 날짜',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     onYearChange: {
@@ -135,6 +130,68 @@ const LocaleTemplate = () => {
   );
 };
 
+type CaseType = {
+  label: string;
+  disabledDates: DisabledDatesFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Available from 2000 to 2050.',
+    disabledDates: ({ date }) => {
+      const year = date.getFullYear();
+      return year < 2000 || 2050 < year;
+    }
+  },
+  {
+    label: 'Available starting this year.',
+    disabledDates: ({ date }) => {
+      const currentYear = new Date().getFullYear();
+      return date.getFullYear() < currentYear;
+    }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <YearCalendar
+        displayedDate={new Date()}
+        disabledDates={CASES[caseIdx].disabledDates}
+      />
+    </Stack>
+  );
+};
+
 export const BasicYearCalendar: Story = {
   render: () => <YearCalendar displayedDate={new Date()} />,
   parameters: {
@@ -217,33 +274,72 @@ export const Locale: Story = {
   }
 };
 
-export const MinDate: Story = {
-  render: () => (
-    <YearCalendar displayedDate={new Date()} minDate={new Date(2025, 0, 1)} />
-  ),
+export const DisabledDates: Story = {
+  render: () => <DisabledDatesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<YearCalendar
-  displayedDate={new Date()}
-  minDate={new Date(2025, 0, 1)}
-/>`.trim()
-      }
-    }
-  }
+        code: `type CaseType = {
+  label: string;
+  disabledDates: DisabledDatesFnType;
 };
 
-export const MaxDate: Story = {
-  render: () => (
-    <YearCalendar displayedDate={new Date()} maxDate={new Date(2030, 0, 1)} />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<YearCalendar
-  displayedDate={new Date()}
-  maxDate={new Date(2030, 0, 1)}
-/>`.trim()
+const CASES: CaseType[] = [
+  {
+    label: 'Available from 2000 to 2050.',
+    disabledDates: ({ date }) => {
+      const year = date.getFullYear();
+      return year < 2000 || 2050 < year;
+    }
+  },
+  {
+    label: 'Available starting this year.',
+    disabledDates: ({ date }) => {
+      const currentYear = new Date().getFullYear();
+      return date.getFullYear() < currentYear;
+    }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <YearCalendar
+        displayedDate={new Date()}
+        disabledDates={CASES[caseIdx].disabledDates}
+      />
+    </Stack>
+  );
+};`.trim()
       }
     }
   }
