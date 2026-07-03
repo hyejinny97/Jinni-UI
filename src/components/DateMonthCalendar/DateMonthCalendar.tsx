@@ -4,7 +4,10 @@ import './DateMonthCalendar.scss';
 import cn from 'classnames';
 import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { DateComponentProps } from '@/types/date-component';
+import {
+  DateComponentProps,
+  DisabledDatesFnType
+} from '@/types/date-component';
 import MonthCalendar, {
   MonthCalendarMainProps
 } from '@/components/MonthCalendar';
@@ -20,13 +23,14 @@ export type DateMonthCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'defaultValue' | 'onChange'
 > &
-  Omit<DateComponentProps, 'disabledDates'> &
+  DateComponentProps &
   MonthCalendarMainProps & {
     referenceDate?: Date;
     onYearClick?: () => void;
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
+    disabledDates?: DisabledDatesFnType;
   };
 
 const DateMonthCalendar = <T extends AsType = 'div'>(
@@ -38,8 +42,7 @@ const DateMonthCalendar = <T extends AsType = 'div'>(
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
+    disabledDates,
     readOnly,
     disabled,
     referenceDate,
@@ -100,8 +103,7 @@ const DateMonthCalendar = <T extends AsType = 'div'>(
     selectedDate,
     onMonthChange,
     locale,
-    minDate,
-    maxDate,
+    disabledDates,
     readOnly,
     disabled,
     renderMonth
