@@ -20,10 +20,7 @@ export type MonthCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
   'children' | 'defaultValue' | 'onChange'
 > &
-  Omit<
-    DateComponentProps,
-    'options' | 'disabledDates' | 'defaultValue' | 'value' | 'onChange'
-  > &
+  Omit<DateComponentProps, 'options' | 'defaultValue' | 'value' | 'onChange'> &
   MonthCalendarMainProps & {
     displayedDate: Date;
     selectedDate?: Date | null;
