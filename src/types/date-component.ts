@@ -18,7 +18,22 @@ export type DateOptions =
       day?: DayDigitType;
     };
 
-export type DateValidationError = 'minDate' | 'maxDate' | 'disabledDate';
+export type DateValidationError = 'disabledDate';
+
+export type DisabledDatesFnType = ({
+  date
+}: {
+  date: Date;
+  unit?: never;
+}) => boolean;
+
+export type DisabledDatesWithUnitFnType = ({
+  date,
+  unit
+}: {
+  date: Date;
+  unit: 'year' | 'month' | 'day';
+}) => boolean;
 
 export type DateComponentProps = {
   defaultValue?: Date;
@@ -26,9 +41,6 @@ export type DateComponentProps = {
   onChange?: (value: Date) => void;
   locale?: string;
   options?: DateOptions;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
   readOnly?: boolean;
   disabled?: boolean;
 };
