@@ -4,7 +4,10 @@ import './DateDayCalendar.scss';
 import cn from 'classnames';
 import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { DateComponentProps } from '@/types/date-component';
+import {
+  DateComponentProps,
+  DisabledDatesFnType
+} from '@/types/date-component';
 import DayCalendar, { DayCalendarMainProps } from '@/components/DayCalendar';
 import CalendarHeader, {
   CalendarHeaderProps
@@ -26,6 +29,7 @@ export type DateDayCalendarProps<T extends AsType = 'div'> = Omit<
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
+    disabledDates?: Array<Date> | DisabledDatesFnType;
   };
 
 const DateDayCalendar = <T extends AsType = 'div'>(
@@ -37,8 +41,6 @@ const DateDayCalendar = <T extends AsType = 'div'>(
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
@@ -110,8 +112,6 @@ const DateDayCalendar = <T extends AsType = 'div'>(
     selectedDate,
     onDayChange,
     locale,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
