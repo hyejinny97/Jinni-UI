@@ -17,7 +17,8 @@ import { isKeyDatePart } from './DateField.utils';
 import AutoWidthInput from '@/components/AutoWidthInput';
 import {
   DateComponentProps,
-  DateValidationError
+  DateValidationError,
+  DisabledDatesFnType
 } from '@/types/date-component';
 import { mergeRefs } from '@/utils/mergeRefs';
 
@@ -29,6 +30,7 @@ export type DateFieldProps<T extends AsType = 'div'> = Omit<
     placeholder?: string;
     format?: string;
     onErrorStatus?: (error: boolean, errorReason?: DateValidationError) => void;
+    disabledDates?: Array<Date> | DisabledDatesFnType;
   };
 
 const DateField = <T extends AsType = 'div'>({
@@ -41,8 +43,6 @@ const DateField = <T extends AsType = 'div'>({
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
@@ -81,8 +81,6 @@ const DateField = <T extends AsType = 'div'>({
   });
   const { isValidationError } = useValidation({
     dateValue,
-    minDate,
-    maxDate,
     disabledDates,
     onErrorStatus,
     dateObjectToDate

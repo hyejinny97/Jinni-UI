@@ -25,7 +25,6 @@ import {
   DayDigitType
 } from '@/types/date-component';
 import { isAvailableLocale } from '@/utils/dateTimeFormat';
-import { isNumber } from '@/utils/isNumber';
 import { getLastDay } from '@/utils/date-component';
 import { useIsControlled } from '@/hooks/useIsControlled';
 
@@ -39,10 +38,7 @@ type UseDateValue = Pick<
   dateObjectToDate: ({ year, month, day }: DateObjectType) => Date;
 };
 
-type UseValidation = Pick<
-  DateFieldProps,
-  'minDate' | 'maxDate' | 'disabledDates' | 'onErrorStatus'
-> & {
+type UseValidation = Pick<DateFieldProps, 'disabledDates' | 'onErrorStatus'> & {
   dateValue: DateObjectType;
   dateObjectToDate: ({ year, month, day }: DateObjectType) => Date;
 };
@@ -98,49 +94,27 @@ export const useDateValue = ({
 
 export const useValidation = ({
   dateValue,
-  minDate,
-  maxDate,
   disabledDates,
   onErrorStatus,
   dateObjectToDate
 }: UseValidation) => {
-  const minDateInTimeStamp = useMemo<number | undefined>(
-    () => minDate && dateToTimeStamp(minDate),
-    [minDate]
-  );
-  const maxDateInTimeStamp = useMemo<number | undefined>(
-    () => maxDate && dateToTimeStamp(maxDate),
-    [maxDate]
-  );
-  const disabledDatesInTimeStamp = useMemo<number[] | undefined>(
-    () => disabledDates && disabledDates.map(dateToTimeStamp),
-    [disabledDates]
-  );
-
   const validateDate = useCallback(
     (date: Date | null): DateValidationError | undefined => {
       if (date === null) return;
-      const dateInTimeStamp = dateToTimeStamp(date);
-      if (
-        isNumber(minDateInTimeStamp) &&
-        dateInTimeStamp < minDateInTimeStamp
-      ) {
-        return 'minDate';
-      }
-      if (
-        isNumber(maxDateInTimeStamp) &&
-        dateInTimeStamp > maxDateInTimeStamp
-      ) {
-        return 'maxDate';
-      }
-      if (
-        disabledDatesInTimeStamp &&
-        disabledDatesInTimeStamp.includes(dateInTimeStamp)
-      ) {
+      if (Array.isArray(disabledDates)) {
+        if (
+          disabledDates.some(
+            (disabledDate) =>
+              dateToTimeStamp(disabledDate) === dateToTimeStamp(date)
+          )
+        ) {
+          return 'disabledDate';
+        }
+      } else if (disabledDates?.({ date })) {
         return 'disabledDate';
       }
     },
-    [minDateInTimeStamp, maxDateInTimeStamp, disabledDatesInTimeStamp]
+    [disabledDates]
   );
 
   const validationError = useMemo<DateValidationError | undefined>(
