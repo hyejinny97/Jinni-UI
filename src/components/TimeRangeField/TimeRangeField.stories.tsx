@@ -414,21 +414,6 @@ const CASES: CaseType[] = [
       const timeInMinute = dateToMinute(time);
       return startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute;
     }
-  },
-  {
-    label: `'Start' is selectable from 9:00 AM, and 'end' up to 6:00 PM.`,
-    disabledTimes: ({ time, rangeField }) => {
-      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
-      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 0));
-      const timeInMinute = dateToMinute(time);
-      if (rangeField === 'start') {
-        return timeInMinute < startTimeInMinute;
-      }
-      if (rangeField === 'end') {
-        return endTimeInMinute < timeInMinute;
-      }
-      return false;
-    }
   }
 ];
 
@@ -841,21 +826,6 @@ const CASES: CaseType[] = [
       const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
       const timeInMinute = dateToMinute(time);
       return startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute;
-    }
-  },
-  {
-    label: \`'Start' is selectable from 9:00 AM, and 'end' up to 6:00 PM.\`,
-    disabledTimes: ({ time, rangeField }) => {
-      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
-      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 0));
-      const timeInMinute = dateToMinute(time);
-      if (rangeField === 'start') {
-        return timeInMinute < startTimeInMinute;
-      }
-      if (rangeField === 'end') {
-        return endTimeInMinute < timeInMinute;
-      }
-      return false;
     }
   }
 ];

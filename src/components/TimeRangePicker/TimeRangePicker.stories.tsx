@@ -339,13 +339,23 @@ const dateToMinute = (date: Date) => {
 
 type CaseType = {
   label: string;
+  withValue?: false;
   disabledTimes: {
     preset: Array<Date> | RangeDisabledTimesFnType;
     manual: Array<Date> | RangeDisabledTimesWithUnitFnType;
   };
 };
 
-const CASES: CaseType[] = [
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledTimes: {
+    preset: (value: RangeType<Date | null>) => RangeDisabledTimesFnType;
+    manual: (value: RangeType<Date | null>) => RangeDisabledTimesWithUnitFnType;
+  };
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
   {
     label: 'Disables at 3:00 PM and 3:30 PM.',
     disabledTimes: {
@@ -412,43 +422,48 @@ const CASES: CaseType[] = [
     }
   },
   {
-    label: `'Start' is selectable from 9:00 AM, and 'end' up to 6:00 PM.`,
+    label: `'End' must be after 'start'.`,
+    withValue: true,
     disabledTimes: {
-      preset: ({ time, rangeField }) => {
-        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
-        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 0));
-        const timeInMinute = dateToMinute(time);
-        if (rangeField === 'start') {
-          return timeInMinute < startTimeInMinute;
+      preset:
+        (value: RangeType<Date | null>) =>
+        ({ time, rangeField }) => {
+          if (rangeField === 'end' && value.start) {
+            return dateToMinute(time) < dateToMinute(value.start);
+          }
+          return false;
+        },
+      manual:
+        (value: RangeType<Date | null>) =>
+        ({ time, unit, rangeField }) => {
+          if (rangeField === 'end' && value.start) {
+            if (unit === 'hour') {
+              return time.getHours() < value.start.getHours();
+            }
+            if (unit === 'minute') {
+              const startTimeInMinute = dateToMinute(value.start);
+              const timeInMinute = dateToMinute(time);
+              return timeInMinute < startTimeInMinute;
+            }
+          }
+          return false;
         }
-        if (rangeField === 'end') {
-          return endTimeInMinute < timeInMinute;
-        }
-        return false;
-      },
-      manual: ({ time, unit, rangeField }) => {
-        if (unit === 'hour') {
-          if (rangeField === 'start') return time.getHours() < 9;
-          if (rangeField === 'end') return time.getHours() > 18;
-        }
-        if (unit === 'minute') {
-          const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
-          const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 0));
-          const timeInMinute = dateToMinute(time);
-          if (rangeField === 'start') return timeInMinute < startTimeInMinute;
-          if (rangeField === 'end') return endTimeInMinute < timeInMinute;
-        }
-        return false;
-      }
     }
   }
 ];
 
 const DisabledTimesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
   const [isManualMode, setIsManualMode] = useState(false);
   const [caseIdx, setCaseIdx] = useState<number>(0);
   const mode: TimeMode = isManualMode ? 'manual' : 'preset';
 
+  const handleValueChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
   const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsManualMode(e.target.checked);
   };
@@ -488,7 +503,13 @@ const DisabledTimesTemplate = () => {
       </Stack>
       <TimeRangePicker
         mode={mode}
-        disabledTimes={CASES[caseIdx].disabledTimes[mode]}
+        value={value}
+        onChange={handleValueChange}
+        disabledTimes={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledTimes[mode](value)
+            : CASES[caseIdx].disabledTimes[mode]
+        }
       />
     </Stack>
   );
@@ -806,8 +827,7 @@ export const DisabledTimes: Story = {
   parameters: {
     docs: {
       source: {
-        code: `
-const dateToMinute = (date: Date) => {
+        code: `const dateToMinute = (date: Date) => {
   const hour = date.getHours();
   const minute = date.getMinutes();
   return hour * 3600 + minute * 60;
@@ -815,13 +835,23 @@ const dateToMinute = (date: Date) => {
 
 type CaseType = {
   label: string;
+  withValue?: false;
   disabledTimes: {
     preset: Array<Date> | RangeDisabledTimesFnType;
     manual: Array<Date> | RangeDisabledTimesWithUnitFnType;
   };
 };
 
-const CASES: CaseType[] = [
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledTimes: {
+    preset: (value: RangeType<Date | null>) => RangeDisabledTimesFnType;
+    manual: (value: RangeType<Date | null>) => RangeDisabledTimesWithUnitFnType;
+  };
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
   {
     label: 'Disables at 3:00 PM and 3:30 PM.',
     disabledTimes: {
@@ -888,43 +918,48 @@ const CASES: CaseType[] = [
     }
   },
   {
-    label: \`'Start' is selectable from 9:00 AM, and 'end' up to 6:00 PM.\`,
+    label: \`'End' must be after 'start'.\`,
+    withValue: true,
     disabledTimes: {
-      preset: ({ time, rangeField }) => {
-        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
-        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 0));
-        const timeInMinute = dateToMinute(time);
-        if (rangeField === 'start') {
-          return timeInMinute < startTimeInMinute;
+      preset:
+        (value: RangeType<Date | null>) =>
+        ({ time, rangeField }) => {
+          if (rangeField === 'end' && value.start) {
+            return dateToMinute(time) < dateToMinute(value.start);
+          }
+          return false;
+        },
+      manual:
+        (value: RangeType<Date | null>) =>
+        ({ time, unit, rangeField }) => {
+          if (rangeField === 'end' && value.start) {
+            if (unit === 'hour') {
+              return time.getHours() < value.start.getHours();
+            }
+            if (unit === 'minute') {
+              const startTimeInMinute = dateToMinute(value.start);
+              const timeInMinute = dateToMinute(time);
+              return timeInMinute < startTimeInMinute;
+            }
+          }
+          return false;
         }
-        if (rangeField === 'end') {
-          return endTimeInMinute < timeInMinute;
-        }
-        return false;
-      },
-      manual: ({ time, unit, rangeField }) => {
-        if (unit === 'hour') {
-          if (rangeField === 'start') return time.getHours() < 9;
-          if (rangeField === 'end') return time.getHours() > 18;
-        }
-        if (unit === 'minute') {
-          const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
-          const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 0));
-          const timeInMinute = dateToMinute(time);
-          if (rangeField === 'start') return timeInMinute < startTimeInMinute;
-          if (rangeField === 'end') return endTimeInMinute < timeInMinute;
-        }
-        return false;
-      }
     }
   }
 ];
 
 const DisabledTimesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
   const [isManualMode, setIsManualMode] = useState(false);
   const [caseIdx, setCaseIdx] = useState<number>(0);
   const mode: TimeMode = isManualMode ? 'manual' : 'preset';
 
+  const handleValueChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
   const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsManualMode(e.target.checked);
   };
@@ -964,7 +999,13 @@ const DisabledTimesTemplate = () => {
       </Stack>
       <TimeRangePicker
         mode={mode}
-        disabledTimes={CASES[caseIdx].disabledTimes[mode]}
+        value={value}
+        onChange={handleValueChange}
+        disabledTimes={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledTimes[mode](value)
+            : CASES[caseIdx].disabledTimes[mode]
+        }
       />
     </Stack>
   );
