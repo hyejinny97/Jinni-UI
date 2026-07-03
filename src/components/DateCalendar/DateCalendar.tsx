@@ -2,7 +2,10 @@
 
 import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { DateComponentProps } from '@/types/date-component';
+import {
+  DateComponentProps,
+  DisabledDatesWithUnitFnType
+} from '@/types/date-component';
 import CalendarHeader, {
   CalendarHeaderProps
 } from '@/components/CalendarHeader';
@@ -16,6 +19,11 @@ import DateMonthCalendar, {
 import DateDayCalendar, { DateDayCalendarProps } from '../DateDayCalendar';
 import { useCalendarType, useDateValue } from './DateCalendar.hooks';
 import { CalendarType } from '@/types/date-component';
+import {
+  disabledDatesInDayCalendar,
+  disabledDatesInMonthCalendar,
+  disabledDatesInYearCalendar
+} from './DateCalendar.utils';
 
 export type DateCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -30,6 +38,7 @@ export type DateCalendarProps<T extends AsType = 'div'> = Omit<
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
     onBaseCalendarTypeChange?: () => void;
+    disabledDates?: Array<Date> | DisabledDatesWithUnitFnType;
   };
 
 const DateCalendar = <T extends AsType = 'div'>(
@@ -41,8 +50,6 @@ const DateCalendar = <T extends AsType = 'div'>(
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
@@ -85,8 +92,6 @@ const DateCalendar = <T extends AsType = 'div'>(
     value: selectedDate,
     locale,
     options,
-    minDate,
-    maxDate,
     readOnly,
     disabled,
     referenceDate,
@@ -97,24 +102,26 @@ const DateCalendar = <T extends AsType = 'div'>(
     ...commonProps,
     onChange: handleChange('year'),
     yearsOrder,
-    renderYear
+    renderYear,
+    disabledDates: disabledDatesInYearCalendar(disabledDates)
   };
   const dateMonthCalendarProps: DateMonthCalendarProps = {
     ...commonProps,
     onChange: handleChange('month'),
     renderMonth,
-    onYearClick: changeToYearCalendar
+    onYearClick: changeToYearCalendar,
+    disabledDates: disabledDatesInMonthCalendar(disabledDates)
   };
   const dateDayCalendarProps: DateDayCalendarProps = {
     ...commonProps,
     onChange: handleChange('day'),
-    disabledDates,
     showDaysOutsideCurrentMonth,
     fixedWeekNumber,
     displayWeekNumber,
     renderDay,
     onYearClick: changeToYearCalendar,
-    onMonthClick: changeToMonthCalendar
+    onMonthClick: changeToMonthCalendar,
+    disabledDates: disabledDatesInDayCalendar(disabledDates)
   };
 
   switch (calendarType) {
