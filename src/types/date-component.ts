@@ -1,8 +1,4 @@
-import {
-  CHRONOLOGICAL_ORDER,
-  INCLUDE_DISABLED_DATE,
-  CALENDARS
-} from '@/constants/date-component';
+import { CHRONOLOGICAL_ORDER, CALENDARS } from '@/constants/date-component';
 
 export type YearDigitType = 'numeric' | '2-digit';
 export type MonthDigitType = 'numeric' | '2-digit' | 'long' | 'short';
@@ -53,7 +49,6 @@ export type RangeAdornmentType<T> = RangeType<T> & { dateRangeField?: T };
 
 export type DateRangeValidationError = RangeType<DateValidationError> & {
   [CHRONOLOGICAL_ORDER]?: boolean;
-  [INCLUDE_DISABLED_DATE]?: boolean;
 };
 
 export type RangeDisabledDatesFnType = ({
