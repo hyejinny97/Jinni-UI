@@ -3,7 +3,10 @@
 import cn from 'classnames';
 import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { DateRangeComponentProps } from '@/types/date-component';
+import {
+  DateRangeComponentProps,
+  RangeDisabledDatesFnType
+} from '@/types/date-component';
 import { YearCalendarMainProps } from '@/components/YearCalendar';
 import { MonthCalendarMainProps } from '@/components/MonthCalendar';
 import { DayCalendarMainProps } from '@/components/DayCalendar';
@@ -44,6 +47,7 @@ export type DateRangeCalendarProps<
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
+    disabledDates?: Array<Date> | RangeDisabledDatesFnType;
   };
 
 const DateRangeCalendar = <
@@ -59,8 +63,6 @@ const DateRangeCalendar = <
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
@@ -89,8 +91,6 @@ const DateRangeCalendar = <
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
     readOnly,
     disabled,
     referenceDate,
@@ -99,22 +99,27 @@ const DateRangeCalendar = <
   };
   const dateYearRangeCalendarProps: DateYearRangeCalendarProps = {
     ...commonProps,
-    yearsOrder
+    yearsOrder,
+    disabledDates: Array.isArray(disabledDates) ? undefined : disabledDates
+  };
+  const dateMonthRangeCalendarProps = {
+    ...commonProps,
+    disabledDates: Array.isArray(disabledDates) ? undefined : disabledDates
   };
   const hDateMonthRangeCalendarProps: HDateMonthRangeCalendarProps = {
-    ...commonProps,
+    ...dateMonthRangeCalendarProps,
     monthCalendars: monthCalendars as 1 | 2 | 3 | undefined
   };
   const vDateMonthRangeCalendarProps: VDateMonthRangeCalendarProps = {
-    ...commonProps,
+    ...dateMonthRangeCalendarProps,
     monthCalendars: monthCalendars as number | undefined
   };
   const dateDayRangeCalendarProps = {
     ...commonProps,
-    disabledDates,
     showDaysOutsideCurrentMonth,
     fixedWeekNumber,
-    displayWeekNumber
+    displayWeekNumber,
+    disabledDates
   };
   const hDateDayRangeCalendarProps: HDateDayRangeCalendarProps = {
     ...dateDayRangeCalendarProps,
