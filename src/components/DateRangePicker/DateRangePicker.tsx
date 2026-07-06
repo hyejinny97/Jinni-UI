@@ -18,7 +18,8 @@ import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import {
   DateRangeComponentProps,
   RangeType,
-  RangeFieldType
+  RangeFieldType,
+  RangeDisabledDatesFnType
 } from '@/types/date-component';
 
 export type DateRangePickerProps<T extends AsType = 'div'> = Omit<
@@ -35,6 +36,7 @@ export type DateRangePickerProps<T extends AsType = 'div'> = Omit<
     renderDateRangeCalendar?: (
       dateRangeCalendarProps: DateRangeCalendarProps
     ) => React.ReactNode;
+    disabledDates?: Array<Date> | RangeDisabledDatesFnType;
   };
 
 const DateRangePicker = <T extends AsType = 'div'>(
@@ -46,8 +48,6 @@ const DateRangePicker = <T extends AsType = 'div'>(
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
@@ -104,8 +104,6 @@ const DateRangePicker = <T extends AsType = 'div'>(
     value: dateRangeValue,
     locale,
     options,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled
