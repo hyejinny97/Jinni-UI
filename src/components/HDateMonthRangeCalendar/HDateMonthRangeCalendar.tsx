@@ -4,7 +4,10 @@ import './HDateMonthRangeCalendar.scss';
 import cn from 'classnames';
 import { useState, useMemo } from 'react';
 import { AsType } from '@/types/default-component-props';
-import { DateRangeComponentProps } from '@/types/date-component';
+import {
+  DateRangeComponentProps,
+  RangeDisabledDatesFnType
+} from '@/types/date-component';
 import { MonthCalendarMainProps } from '@/components/MonthCalendar';
 import MonthRangeCalendar from '@/components/MonthRangeCalendar';
 import CalendarHeader, {
@@ -22,13 +25,14 @@ export type HDateMonthRangeCalendarProps<T extends AsType = 'div'> = Omit<
   StackProps<T>,
   'defaultValue' | 'onChange' | 'children'
 > &
-  Omit<DateRangeComponentProps, 'disabledDates'> &
+  DateRangeComponentProps &
   Omit<MonthCalendarMainProps, 'renderMonth'> & {
     monthCalendars?: 1 | 2 | 3;
     referenceDate?: Date;
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
+    disabledDates?: RangeDisabledDatesFnType;
   };
 
 const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
@@ -40,8 +44,7 @@ const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
+    disabledDates,
     readOnly,
     disabled,
     referenceDate,
@@ -84,8 +87,7 @@ const HDateMonthRangeCalendar = <T extends AsType = 'div'>(
       hoveredDate,
       onHoverDate: setHoveredDate,
       locale,
-      minDate,
-      maxDate,
+      disabledDates,
       readOnly,
       disabled
     };
