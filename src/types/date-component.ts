@@ -56,6 +56,15 @@ export type DateRangeValidationError = RangeType<DateValidationError> & {
   [INCLUDE_DISABLED_DATE]?: boolean;
 };
 
+export type RangeDisabledDatesFnType = ({
+  date,
+  rangeField
+}: {
+  date: Date;
+  unit?: never;
+  rangeField: RangeFieldType;
+}) => boolean;
+
 export type DateRangeComponentProps = {
   defaultValue?: RangeType<Date>;
   value?: RangeType<Date | null>;

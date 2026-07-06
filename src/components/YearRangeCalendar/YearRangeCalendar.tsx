@@ -5,7 +5,11 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import YearCalendar, { YearCalendarProps } from '@/components/YearCalendar';
 import { YearProps } from '@/components/Year';
-import { RangeType } from '@/types/date-component';
+import {
+  RangeDisabledDatesFnType,
+  RangeFieldType,
+  RangeType
+} from '@/types/date-component';
 import {
   useSelectedDateValue,
   useHoveredDateValue
@@ -14,7 +18,7 @@ import RangeYear from './RangeYear';
 
 export type YearRangeCalendarProps<T extends AsType = 'div'> = Omit<
   YearCalendarProps<T>,
-  'selectedDate' | 'onYearChange' | 'renderYear'
+  'selectedDate' | 'onYearChange' | 'renderYear' | 'disabledDates'
 > & {
   selectedDate?: RangeType<Date | null>;
   onSelectDate?: (
@@ -23,6 +27,7 @@ export type YearRangeCalendarProps<T extends AsType = 'div'> = Omit<
   ) => void;
   hoveredDate?: Date | null;
   onHoverDate?: (newHoveredDate: Date | null) => void;
+  disabledDates?: RangeDisabledDatesFnType;
 };
 
 const YearRangeCalendar = <T extends AsType = 'div'>(
@@ -34,6 +39,7 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
     onSelectDate,
     hoveredDate,
     onHoverDate,
+    disabledDates,
     className,
     ...rest
   } = props;
@@ -45,6 +51,8 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
     hoveredDate,
     onHoverDate
   });
+  const rangeField: RangeFieldType =
+    selectedDateValue.start && !selectedDateValue.end ? 'end' : 'start';
 
   const renderRangeYear = (yearProps: Omit<YearProps, 'ref'>) => {
     return (
@@ -65,6 +73,7 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
       spacing={0}
       yearsOrder={yearsOrder}
       renderYear={renderRangeYear}
+      disabledDates={({ date }) => disabledDates?.({ date, rangeField })}
       {...(rest as YearCalendarProps<T>)}
     />
   );
