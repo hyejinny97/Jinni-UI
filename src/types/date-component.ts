@@ -71,9 +71,6 @@ export type DateRangeComponentProps = {
   onChange?: (value: RangeType<Date | null>, selectedDate?: Date) => void;
   locale?: string;
   options?: DateOptions;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
   readOnly?: boolean;
   disabled?: boolean;
 };
