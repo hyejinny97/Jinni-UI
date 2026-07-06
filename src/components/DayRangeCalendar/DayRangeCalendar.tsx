@@ -5,7 +5,11 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import DayCalendar, { DayCalendarProps } from '@/components/DayCalendar';
 import { DayProps } from '@/components/Day';
-import { RangeType } from '@/types/date-component';
+import {
+  RangeDisabledDatesFnType,
+  RangeFieldType,
+  RangeType
+} from '@/types/date-component';
 import {
   useSelectedDateValue,
   useHoveredDateValue
@@ -14,7 +18,7 @@ import RangeDay from './RangeDay';
 
 export type DayRangeCalendarProps<T extends AsType = 'div'> = Omit<
   DayCalendarProps<T>,
-  'selectedDate' | 'onDayChange' | 'renderDay'
+  'selectedDate' | 'onDayChange' | 'renderDay' | 'disabledDates'
 > & {
   selectedDate?: RangeType<Date | null>;
   onSelectDate?: (
@@ -23,6 +27,7 @@ export type DayRangeCalendarProps<T extends AsType = 'div'> = Omit<
   ) => void;
   hoveredDate?: Date | null;
   onHoverDate?: (newHoveredDate: Date | null) => void;
+  disabledDates?: Array<Date> | RangeDisabledDatesFnType;
 };
 
 const DayRangeCalendar = <T extends AsType = 'div'>(
@@ -33,6 +38,7 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
     onSelectDate,
     hoveredDate,
     onHoverDate,
+    disabledDates,
     className,
     ...rest
   } = props;
@@ -44,6 +50,8 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
     hoveredDate,
     onHoverDate
   });
+  const rangeField: RangeFieldType =
+    selectedDateValue.start && !selectedDateValue.end ? 'end' : 'start';
 
   const renderRangeDay = (yearProps: Omit<DayProps, 'ref'>) => {
     return (
@@ -61,6 +69,11 @@ const DayRangeCalendar = <T extends AsType = 'div'>(
     <DayCalendar
       className={cn('JinniDayRangeCalendar', className)}
       renderDay={renderRangeDay}
+      disabledDates={
+        !disabledDates || Array.isArray(disabledDates)
+          ? disabledDates
+          : ({ date }) => disabledDates({ date, rangeField })
+      }
       {...(rest as DayCalendarProps<T>)}
     />
   );

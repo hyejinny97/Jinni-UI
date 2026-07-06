@@ -73,7 +73,9 @@ const YearRangeCalendar = <T extends AsType = 'div'>(
       spacing={0}
       yearsOrder={yearsOrder}
       renderYear={renderRangeYear}
-      disabledDates={({ date }) => disabledDates?.({ date, rangeField })}
+      {...(disabledDates && {
+        disabledDates: ({ date }) => disabledDates({ date, rangeField })
+      })}
       {...(rest as YearCalendarProps<T>)}
     />
   );
