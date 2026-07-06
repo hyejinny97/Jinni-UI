@@ -4,7 +4,10 @@ import './VDateDayRangeCalendar.scss';
 import cn from 'classnames';
 import { useState, useRef, useMemo } from 'react';
 import { AsType } from '@/types/default-component-props';
-import { DateRangeComponentProps } from '@/types/date-component';
+import {
+  DateRangeComponentProps,
+  RangeDisabledDatesFnType
+} from '@/types/date-component';
 import { DayCalendarMainProps } from '@/components/DayCalendar';
 import DayRangeCalendar from '@/components/DayRangeCalendar';
 import CalendarHeader, {
@@ -26,6 +29,7 @@ export type VDateDayRangeCalendarProps<T extends AsType = 'div'> = Omit<
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
+    disabledDates?: Array<Date> | RangeDisabledDatesFnType;
   };
 
 const VDateDayRangeCalendar = <T extends AsType = 'div'>(
@@ -37,8 +41,6 @@ const VDateDayRangeCalendar = <T extends AsType = 'div'>(
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
@@ -84,8 +86,6 @@ const VDateDayRangeCalendar = <T extends AsType = 'div'>(
       hoveredDate,
       onHoverDate: setHoveredDate,
       locale,
-      minDate,
-      maxDate,
       disabledDates,
       readOnly,
       disabled,
