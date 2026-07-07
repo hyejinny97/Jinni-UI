@@ -10,7 +10,11 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { DateTimeValidationError } from '@/types/date-time-component';
+import {
+  DateTimeValidationError,
+  DisabledDateTimesFnType
+} from '@/types/date-time-component';
+import { DAY } from '@/constants/time';
 
 const meta: Meta<typeof DateTimeField> = {
   title: 'components/DateTimePicker/DateTimeField',
@@ -28,52 +32,24 @@ const meta: Meta<typeof DateTimeField> = {
         type: { summary: 'Date' }
       }
     },
+    disabledDateTimes: {
+      description: '비활성화하고자 하는 특정 날짜/시간 모음',
+      table: {
+        type: {
+          summary: `Array<Date> | ({ dateTime }: { dateTime: Date; }) ⇒ boolean;`
+        }
+      }
+    },
     disabled: {
       description: 'true이면, 비활성화됨',
       table: {
         type: { summary: 'boolean' }
       }
     },
-    disabledDates: {
-      description: '비활성화 하는 특정 날짜 모음',
-      table: {
-        type: { summary: 'Array<Date>' }
-      }
-    },
-    disabledTimes: {
-      description: '비활성화 하는 특정 시간 모음',
-      table: {
-        type: { summary: 'Array<Date>' }
-      }
-    },
     locale: {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxDate: {
-      description: '선택 가능한 최대 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    maxTime: {
-      description: '선택 가능한 최대 시간',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minDate: {
-      description: '선택 가능한 최소 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minTime: {
-      description: '선택 가능한 최소 시간',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     onChange: {
@@ -88,7 +64,7 @@ const meta: Meta<typeof DateTimeField> = {
       description: 'validation error status가 변경됐을 때 호출되는 함수',
       table: {
         type: {
-          summary: `(error: boolean, errorReason?: {time?: "minTime" | "maxTime" | "disabledTime" | "timeStep"; date?: 'minDate' | 'maxDate' | 'disabledDate'}) => void;`
+          summary: `(error: boolean, errorReason?: Array<'disabledDateTime' | 'timeStep'>) => void;`
         }
       }
     },
@@ -398,30 +374,131 @@ const TimeFormatTemplate = () => {
   );
 };
 
+const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
+};
+
+const timeToMinute = (time: Date) => {
+  const hour = time.getHours();
+  const minute = time.getMinutes();
+  return hour * 3600 + minute * 60;
+};
+
+type CaseType = {
+  label: string;
+  disabledDateTimes: Array<Date> | DisabledDateTimesFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Disable today at 9:00 AM.',
+    disabledDateTimes: [
+      new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        9,
+        0
+      )
+    ]
+  },
+  {
+    label: 'Disable today from 3:00 PM to 6:00 PM.',
+    disabledDateTimes: ({ dateTime }) => {
+      const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+      if (isToday) {
+        const start = new Date();
+        const end = new Date();
+        start.setHours(15, 0, 0, 0);
+        end.setHours(18, 0, 0, 0);
+        const startTime = timeToMinute(start);
+        const endTime = timeToMinute(end);
+        const time = timeToMinute(dateTime);
+        return startTime <= time && time <= endTime;
+      }
+      return false;
+    }
+  },
+  {
+    label: 'Selectable from 9:00 AM to 6:00 PM on weekdays.',
+    disabledDateTimes: ({ dateTime }) => {
+      const isWeekday = dateTime.getDay() !== 0 && dateTime.getDay() !== 6;
+      if (isWeekday) {
+        const start = new Date();
+        const end = new Date();
+        start.setHours(9, 0, 0, 0);
+        end.setHours(18, 0, 0, 0);
+        const startTime = timeToMinute(start);
+        const endTime = timeToMinute(end);
+        const time = timeToMinute(dateTime);
+        return !(startTime <= time && time <= endTime);
+      }
+      return true;
+    }
+  }
+];
+
+const DisabledDateTimesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <DateTimeField
+        options={{ hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }}
+        disabledDateTimes={CASES[caseIdx].disabledDateTimes}
+      />
+    </Stack>
+  );
+};
+
 const DetectValidationErrorStatusTemplate = () => {
   const DATE_TIMES = [
-    { label: '2025/06/15', value: new Date('2025-06-15') },
-    { label: '2025/07/30', value: new Date('2025-07-30') },
-    { label: '2025/07/10', value: new Date('2025-07-10') },
-    { label: '2025/07/15', value: new Date('2025-07-15') },
-    { label: 'T08:00', value: new Date('2025-06-30T08:00') },
-    { label: 'T22:30', value: new Date('2025-06-30T22:30') },
-    { label: 'T15:30', value: new Date('2025-06-30T15:30') },
-    { label: 'T10:20', value: new Date('2025-06-30T10:20') }
+    { label: '2025/06/15T00:00', value: new Date('2025-06-15T00:00') },
+    { label: '2025/06/30T08:00', value: new Date('2025-06-30T08:00') },
+    { label: '2025/06/30T08:20', value: new Date('2025-06-30T08:20') },
+    { label: '2025/06/30T08:40', value: new Date('2025-06-30T08:40') }
   ] as const;
   const [dateTimeIdx, setDateTimeIdx] = useState<number>(-1);
   const [validationError, setValidationError] =
-    useState<DateTimeValidationError>();
+    useState<DateTimeValidationError[]>();
   const [value, setValue] = useState<Date | null>(new Date('2025-06-30T10:00'));
   const year = value?.getFullYear();
   const month = value?.getMonth();
   const day = value?.getDate();
   const hour = value?.getHours();
   const minute = value?.getMinutes();
-  const validationErrorArr = [
-    validationError?.date,
-    validationError?.time
-  ].filter(Boolean);
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -431,7 +508,7 @@ const DetectValidationErrorStatusTemplate = () => {
   };
   const handleErrorStatus = (
     _: boolean,
-    errorReason?: DateTimeValidationError
+    errorReason?: DateTimeValidationError[]
   ) => {
     setValidationError(errorReason);
   };
@@ -454,7 +531,7 @@ const DetectValidationErrorStatusTemplate = () => {
           value={String(dateTimeIdx)}
           onChange={handleRadioChange}
         >
-          <Grid rows={2} columns={4} spacing={5}>
+          <Grid rows={DATE_TIMES.length} columns={1}>
             {DATE_TIMES.map((dateTime, idx) => (
               <Label content={dateTime.label}>
                 <Radio value={String(idx)} />
@@ -474,7 +551,10 @@ const DetectValidationErrorStatusTemplate = () => {
         </Text>
         <Text noMargin>
           Validation Error: '
-          {validationErrorArr.length > 0 ? validationErrorArr.join(', ') : ''}'
+          {validationError && validationError.length > 0
+            ? validationError.join(', ')
+            : ''}
+          '
         </Text>
       </Stack>
       <DateTimeField
@@ -482,16 +562,12 @@ const DetectValidationErrorStatusTemplate = () => {
         value={value}
         onChange={handleDateTimeChange}
         placeholder="Select Date Time"
-        minTime={new Date('2025-06-30T09:00')}
-        maxTime={new Date('2025-06-30T22:00')}
-        disabledTimes={[
-          new Date('2025-06-30T12:30'),
-          new Date('2025-06-30T15:30')
-        ]}
         timeStep={30 * 60}
-        minDate={new Date('2025-06-30')}
-        maxDate={new Date('2025-07-20')}
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
+        disabledDateTimes={[
+          new Date('2025-06-15T00:00'),
+          new Date('2025-06-30T08:00'),
+          new Date('2025-06-30T08:40')
+        ]}
         onErrorStatus={handleErrorStatus}
       />
     </Stack>
@@ -809,272 +885,119 @@ export const TimeFormat: Story = {
   }
 };
 
-export const MinTime: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        minTime={new Date('2025-06-30T14:30')}
-        {...args}
-      />
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        minTime={new Date('2025-06-30T14:30')}
-        defaultValue={new Date('2025-06-30T12:00')}
-        {...args}
-      />
-    </Stack>
-  ),
+export const DisabledDateTimes: Story = {
+  render: () => <DisabledDateTimesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    minTime={new Date('2025-06-30T14:30')}
-  />
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    minTime={new Date('2025-06-30T14:30')}
-    defaultValue={new Date('2025-06-30T12:00')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
+        code: `const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
 };
 
-export const MaxTime: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        maxTime={new Date('2025-06-30T17:25')}
-        {...args}
-      />
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        maxTime={new Date('2025-06-30T17:25')}
-        defaultValue={new Date('2025-06-30T18:00')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    maxTime={new Date('2025-06-30T17:25')}
-  />
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    maxTime={new Date('2025-06-30T17:25')}
-    defaultValue={new Date('2025-06-30T18:00')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
+const timeToMinute = (time: Date) => {
+  const hour = time.getHours();
+  const minute = time.getMinutes();
+  return hour * 3600 + minute * 60;
 };
 
-export const DisabledTimes: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        disabledTimes={[
-          new Date('2025-06-30T14:10'),
-          new Date('2025-06-30T12:30')
-        ]}
-        {...args}
-      />
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        disabledTimes={[
-          new Date('2025-06-30T14:10'),
-          new Date('2025-06-30T12:30')
-        ]}
-        defaultValue={new Date('2025-06-30T14:10')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    disabledTimes={[
-      new Date('2025-06-30T14:10'),
-      new Date('2025-06-30T12:30')
-    ]}
-  />
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    disabledTimes={[
-      new Date('2025-06-30T14:10'),
-      new Date('2025-06-30T12:30')
-    ]}
-    defaultValue={new Date('2025-06-30T14:10')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
+type CaseType = {
+  label: string;
+  disabledDateTimes: Array<Date> | DisabledDateTimesFnType;
 };
 
-export const MinDate: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        minDate={new Date('2025-06-30')}
-        {...args}
-      />
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        minDate={new Date('2025-06-30')}
-        defaultValue={new Date('2025-03-15')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    minDate={new Date('2025-06-30')}
-  />
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    minDate={new Date('2025-06-30')}
-    defaultValue={new Date('2025-03-15')}
-  />
-</Stack>`.trim()
+const CASES: CaseType[] = [
+  {
+    label: 'Disable today at 9:00 AM.',
+    disabledDateTimes: [
+      new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        9,
+        0
+      )
+    ]
+  },
+  {
+    label: 'Disable today from 3:00 PM to 6:00 PM.',
+    disabledDateTimes: ({ dateTime }) => {
+      const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+      if (isToday) {
+        const start = new Date();
+        const end = new Date();
+        start.setHours(15, 0, 0, 0);
+        end.setHours(18, 0, 0, 0);
+        const startTime = timeToMinute(start);
+        const endTime = timeToMinute(end);
+        const time = timeToMinute(dateTime);
+        return startTime <= time && time <= endTime;
       }
+      return false;
+    }
+  },
+  {
+    label: 'Selectable from 9:00 AM to 6:00 PM on weekdays.',
+    disabledDateTimes: ({ dateTime }) => {
+      const isWeekday = dateTime.getDay() !== 0 && dateTime.getDay() !== 6;
+      if (isWeekday) {
+        const start = new Date();
+        const end = new Date();
+        start.setHours(9, 0, 0, 0);
+        end.setHours(18, 0, 0, 0);
+        const startTime = timeToMinute(start);
+        const endTime = timeToMinute(end);
+        const time = timeToMinute(dateTime);
+        return !(startTime <= time && time <= endTime);
+      }
+      return true;
     }
   }
-};
+];
 
-export const MaxDate: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
+const DisabledDateTimesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
       <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        maxDate={new Date('2025-07-20')}
-        {...args}
-      />
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        maxDate={new Date('2025-07-20')}
-        defaultValue={new Date('2025-08-01')}
-        {...args}
+        options={{ hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }}
+        disabledDateTimes={CASES[caseIdx].disabledDateTimes}
       />
     </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-        <Stack direction="row" spacing={20}>
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    maxDate={new Date('2025-07-20')}
-  />
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    maxDate={new Date('2025-07-20')}
-    defaultValue={new Date('2025-08-01')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const DisabledDates: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-        {...args}
-      />
-      <DateTimeField
-        placeholder="YYYY/MM/DD HH:mm"
-        dateFormat="YYYY/MM/DD"
-        timeFormat="HH:mm"
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-        defaultValue={new Date('2025-07-10')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-  />
-  <DateTimeField
-    placeholder="YYYY/MM/DD HH:mm"
-    dateFormat="YYYY/MM/DD"
-    timeFormat="HH:mm"
-    disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-    defaultValue={new Date('2025-07-10')}
-  />
-</Stack>`.trim()
+  );
+};`.trim()
       }
     }
   }
@@ -1181,28 +1104,20 @@ export const DetectValidationErrorStatus: Story = {
       source: {
         code: `const DetectValidationErrorStatusTemplate = () => {
   const DATE_TIMES = [
-    { label: '2025/06/15', value: new Date('2025-06-15') },
-    { label: '2025/07/30', value: new Date('2025-07-30') },
-    { label: '2025/07/10', value: new Date('2025-07-10') },
-    { label: '2025/07/15', value: new Date('2025-07-15') },
-    { label: 'T08:00', value: new Date('2025-06-30T08:00') },
-    { label: 'T22:30', value: new Date('2025-06-30T22:30') },
-    { label: 'T15:30', value: new Date('2025-06-30T15:30') },
-    { label: 'T10:20', value: new Date('2025-06-30T10:20') }
+    { label: '2025/06/15T00:00', value: new Date('2025-06-15T00:00') },
+    { label: '2025/06/30T08:00', value: new Date('2025-06-30T08:00') },
+    { label: '2025/06/30T08:20', value: new Date('2025-06-30T08:20') },
+    { label: '2025/06/30T08:40', value: new Date('2025-06-30T08:40') }
   ] as const;
   const [dateTimeIdx, setDateTimeIdx] = useState<number>(-1);
   const [validationError, setValidationError] =
-    useState<DateTimeValidationError>();
+    useState<DateTimeValidationError[]>();
   const [value, setValue] = useState<Date | null>(new Date('2025-06-30T10:00'));
   const year = value?.getFullYear();
   const month = value?.getMonth();
   const day = value?.getDate();
   const hour = value?.getHours();
   const minute = value?.getMinutes();
-  const validationErrorArr = [
-    validationError?.date,
-    validationError?.time
-  ].filter(Boolean);
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -1212,7 +1127,7 @@ export const DetectValidationErrorStatus: Story = {
   };
   const handleErrorStatus = (
     _: boolean,
-    errorReason?: DateTimeValidationError
+    errorReason?: DateTimeValidationError[]
   ) => {
     setValidationError(errorReason);
   };
@@ -1235,7 +1150,7 @@ export const DetectValidationErrorStatus: Story = {
           value={String(dateTimeIdx)}
           onChange={handleRadioChange}
         >
-          <Grid rows={2} columns={4} spacing={5}>
+          <Grid rows={DATE_TIMES.length} columns={1} spacing={5}>
             {DATE_TIMES.map((dateTime, idx) => (
               <Label content={dateTime.label}>
                 <Radio value={String(idx)} />
@@ -1255,7 +1170,10 @@ export const DetectValidationErrorStatus: Story = {
         </Text>
         <Text noMargin>
           Validation Error: '
-          {validationErrorArr.length > 0 ? validationErrorArr.join(', ') : ''}'
+          {validationError && validationError.length > 0
+            ? validationError.join(', ')
+            : ''}
+          '
         </Text>
       </Stack>
       <DateTimeField
@@ -1263,16 +1181,12 @@ export const DetectValidationErrorStatus: Story = {
         value={value}
         onChange={handleDateTimeChange}
         placeholder="Select Date Time"
-        minTime={new Date('2025-06-30T09:00')}
-        maxTime={new Date('2025-06-30T22:00')}
-        disabledTimes={[
-          new Date('2025-06-30T12:30'),
-          new Date('2025-06-30T15:30')
-        ]}
         timeStep={30 * 60}
-        minDate={new Date('2025-06-30')}
-        maxDate={new Date('2025-07-20')}
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
+        disabledDateTimes={[
+          new Date('2025-06-15T00:00'),
+          new Date('2025-06-30T08:00'),
+          new Date('2025-06-30T08:40')
+        ]}
         onErrorStatus={handleErrorStatus}
       />
     </Stack>
