@@ -20,6 +20,23 @@ export type DisabledDateTimesFnType = ({
   unit?: never;
 }) => boolean;
 
+export type DisabledDateTimesWithUnitFnType<Mode extends TimeMode = 'preset'> =
+  Mode extends 'preset'
+    ? ({
+        dateTime,
+        unit
+      }: {
+        dateTime: Date;
+        unit: 'year' | 'month' | 'day' | 'time';
+      }) => boolean
+    : ({
+        dateTime,
+        unit
+      }: {
+        dateTime: Date;
+        unit: 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second';
+      }) => boolean;
+
 export type DateTimeComponentProps<Mode extends TimeMode = 'preset'> = {
   defaultValue?: Date;
   value?: Date | null;
