@@ -1,10 +1,9 @@
 import {
   TimeOptions,
   TimeStepManualType,
-  TimeMode,
-  TimeValidationError
+  TimeMode
 } from '@/types/time-component';
-import { DateOptions, DateValidationError } from '@/types/date-component';
+import { DateOptions } from '@/types/date-component';
 import {
   CHRONOLOGICAL_ORDER,
   INCLUDE_DISABLED_DATE
@@ -12,10 +11,14 @@ import {
 
 export type DateTimeOptions = TimeOptions & DateOptions;
 
-export type DateTimeValidationError = {
-  date?: DateValidationError;
-  time?: TimeValidationError;
-};
+export type DateTimeValidationError = 'disabledDateTime' | 'timeStep';
+
+export type DisabledDateTimesFnType = ({
+  dateTime
+}: {
+  dateTime: Date;
+  unit?: never;
+}) => boolean;
 
 export type DateTimeComponentProps<Mode extends TimeMode = 'preset'> = {
   defaultValue?: Date;
@@ -25,12 +28,6 @@ export type DateTimeComponentProps<Mode extends TimeMode = 'preset'> = {
   options?: DateTimeOptions;
   timeMode?: Mode;
   timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
   readOnly?: boolean;
   disabled?: boolean;
 };

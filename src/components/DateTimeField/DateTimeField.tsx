@@ -10,7 +10,8 @@ import { useDateTimeValue, useValidation } from './DateTimeField.hooks';
 import { TimeMode } from '@/types/time-component';
 import {
   DateTimeComponentProps,
-  DateTimeValidationError
+  DateTimeValidationError,
+  DisabledDateTimesFnType
 } from '@/types/date-time-component';
 import {
   filterTimeOptions,
@@ -29,8 +30,9 @@ export type DateTimeFieldProps<Mode extends TimeMode = 'preset'> = Omit<
     timeFormat?: string;
     onErrorStatus?: (
       error: boolean,
-      errorReason?: DateTimeValidationError
+      errorReason?: DateTimeValidationError[]
     ) => void;
+    disabledDateTimes?: Array<Date> | DisabledDateTimesFnType;
   };
 
 const DateTimeField = <Mode extends TimeMode = 'preset'>({
@@ -45,12 +47,7 @@ const DateTimeField = <Mode extends TimeMode = 'preset'>({
     options,
     timeMode,
     timeStep,
-    minTime,
-    maxTime,
-    disabledTimes,
-    minDate,
-    maxDate,
-    disabledDates,
+    disabledDateTimes,
     readOnly,
     disabled,
     placeholder,
@@ -66,8 +63,11 @@ const DateTimeField = <Mode extends TimeMode = 'preset'>({
   const inputBaseElRef = useRef<HTMLElement>(null);
   const { dateTimeValue, handleDateChange, handleTimeChange } =
     useDateTimeValue({ defaultValue, value, onChange });
-  const { isValidationError, onDateFieldErrorStatus, onTimeFieldErrorStatus } =
-    useValidation({ onErrorStatus });
+  const { isValidationError, onTimeFieldErrorStatus } = useValidation({
+    dateTimeValue,
+    disabledDateTimes,
+    onErrorStatus
+  });
   const noValue = dateTimeValue === null;
 
   const commonProps = {
@@ -82,11 +82,7 @@ const DateTimeField = <Mode extends TimeMode = 'preset'>({
     ...commonProps,
     onChange: handleDateChange,
     options: filterDateOptions(options),
-    minDate,
-    maxDate,
-    disabledDates,
-    format: dateFormat,
-    onErrorStatus: onDateFieldErrorStatus
+    format: dateFormat
   };
   const timeFieldProps = {
     ...commonProps,
@@ -94,9 +90,6 @@ const DateTimeField = <Mode extends TimeMode = 'preset'>({
     options: filterTimeOptions(options),
     mode: timeMode,
     timeStep,
-    minTime,
-    maxTime,
-    disabledTimes,
     format: timeFormat,
     onErrorStatus: onTimeFieldErrorStatus
   };
