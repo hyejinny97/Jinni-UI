@@ -55,12 +55,7 @@ type UseTimeProps = Pick<
 
 type UseValidationProps<Mode extends TimeMode = 'preset'> = Pick<
   TimeFieldProps<'div', Mode>,
-  | 'mode'
-  | 'minTime'
-  | 'maxTime'
-  | 'disabledTimes'
-  | 'timeStep'
-  | 'onErrorStatus'
+  'mode' | 'disabledTimes' | 'timeStep' | 'onErrorStatus'
 > & {
   time: TimeObjectType;
   timeObjectToDate: TimeObjectToDate;
@@ -120,41 +115,26 @@ export const useTimeValue = ({
 export const useValidation = <Mode extends TimeMode = 'preset'>({
   time,
   mode,
-  minTime,
-  maxTime,
   disabledTimes,
   timeStep,
   onErrorStatus,
   timeObjectToDate
 }: UseValidationProps<Mode>) => {
-  const minTimeInSeconds = useMemo<number | undefined>(
-    () => minTime && dateToSeconds(minTime),
-    [minTime]
-  );
-  const maxTimeInSeconds = useMemo<number | undefined>(
-    () => maxTime && dateToSeconds(maxTime),
-    [maxTime]
-  );
-  const disabledTimeInSeconds = useMemo<number[] | undefined>(
-    () => disabledTimes && disabledTimes.map(dateToSeconds),
-    [disabledTimes]
-  );
-
   const validateTime = useCallback(
     (time: Date | null): TimeValidationError | undefined => {
       if (time === null) return;
       const timeInSeconds = dateToSeconds(time);
-      if (isNumber(minTimeInSeconds) && timeInSeconds < minTimeInSeconds) {
-        return 'minTime';
-      }
-      if (isNumber(maxTimeInSeconds) && timeInSeconds > maxTimeInSeconds) {
-        return 'maxTime';
-      }
-      if (
-        disabledTimeInSeconds &&
-        disabledTimeInSeconds.includes(timeInSeconds)
-      ) {
-        return 'disabledTime';
+      if (disabledTimes) {
+        if (Array.isArray(disabledTimes)) {
+          const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
+          if (disabledTimeInSeconds.includes(timeInSeconds)) {
+            return 'disabledTime';
+          }
+        } else {
+          if (disabledTimes({ time })) {
+            return 'disabledTime';
+          }
+        }
       }
       switch (mode) {
         case 'preset': {
@@ -184,7 +164,7 @@ export const useValidation = <Mode extends TimeMode = 'preset'>({
         }
       }
     },
-    [mode, minTimeInSeconds, maxTimeInSeconds, disabledTimeInSeconds, timeStep]
+    [mode, disabledTimes, timeStep]
   );
 
   const validationError = useMemo<TimeValidationError | undefined>(

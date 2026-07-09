@@ -20,7 +20,8 @@ import {
   TimeRangeComponentProps,
   RangeType,
   RangeAdornmentType,
-  RangeFieldType
+  RangeFieldType,
+  RangeDisabledTimesFnType
 } from '@/types/time-component';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
 import { ColorType } from '@/types/color';
@@ -44,6 +45,7 @@ export type TimeRangeFieldProps<
     endAdornment?: RangeAdornmentType<React.ReactNode>;
     centerIcon?: React.ReactNode;
     focusedField?: RangeFieldType;
+    disabledTimes?: Array<Date> | RangeDisabledTimesFnType;
   };
 
 const TimeRangeField = <
@@ -60,8 +62,6 @@ const TimeRangeField = <
     onChange,
     locale,
     options = DEFAULT_TIME_OPTIONS,
-    minTime,
-    maxTime,
     disabledTimes,
     timeStep = (mode === 'preset'
       ? TIME_STEP_PRESET_DEFAULT
@@ -107,9 +107,10 @@ const TimeRangeField = <
     onChange: handleChange(rangeField),
     locale,
     options,
-    minTime: minTime?.[rangeField],
-    maxTime: maxTime?.[rangeField],
-    disabledTimes: disabledTimes?.[rangeField],
+    disabledTimes:
+      disabledTimes && !Array.isArray(disabledTimes)
+        ? ({ time }: { time: Date }) => disabledTimes({ time, rangeField })
+        : disabledTimes,
     timeStep,
     readOnly: readOnly?.[rangeField],
     disabled: disabled?.[rangeField],

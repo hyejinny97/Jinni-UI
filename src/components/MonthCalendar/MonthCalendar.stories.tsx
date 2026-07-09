@@ -9,6 +9,7 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
+import { DisabledDatesFnType } from '@/types/date-component';
 
 const meta: Meta<typeof MonthCalendar> = {
   title: 'components/DatePicker/DateCalendar/DateMonthCalendar/MonthCalendar',
@@ -18,6 +19,12 @@ const meta: Meta<typeof MonthCalendar> = {
       description: 'true이면, 비활성화됨',
       table: {
         type: { summary: 'boolean' }
+      }
+    },
+    disabledDates: {
+      description: '비활성화 하는 특정 날짜 모음',
+      table: {
+        type: { summary: '({ date }: { date: Date; }) => boolean;' }
       }
     },
     displayedDate: {
@@ -30,18 +37,6 @@ const meta: Meta<typeof MonthCalendar> = {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxDate: {
-      description: '선택 가능한 최대 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minDate: {
-      description: '선택 가능한 최소 날짜',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     onMonthChange: {
@@ -120,6 +115,82 @@ const LocaleTemplate = () => {
         </RadioGroup>
       </Box>
       <MonthCalendar key={locale} displayedDate={new Date()} locale={locale} />
+    </Stack>
+  );
+};
+
+const isSameMonth = ({
+  baseDate,
+  targetDate
+}: {
+  baseDate?: Date;
+  targetDate: Date;
+}): boolean => {
+  if (!baseDate) return false;
+  const baseYear = baseDate.getFullYear();
+  const baseMonth = baseDate.getMonth();
+  const targetYear = targetDate.getFullYear();
+  const targetMonth = targetDate.getMonth();
+  return baseYear === targetYear && baseMonth === targetMonth;
+};
+
+type CaseType = {
+  label: string;
+  disabledDates: DisabledDatesFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Available from june to august.',
+    disabledDates: ({ date }) => {
+      const month = date.getMonth();
+      return month < 5 || 7 < month;
+    }
+  },
+  {
+    label: 'Disable all month except current month.',
+    disabledDates: ({ date }) => {
+      return !isSameMonth({ baseDate: new Date(), targetDate: date });
+    }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <MonthCalendar
+        displayedDate={new Date()}
+        disabledDates={CASES[caseIdx].disabledDates}
+      />
     </Stack>
   );
 };
@@ -207,39 +278,86 @@ export const Locale: Story = {
   }
 };
 
-export const MinDate: Story = {
-  render: () => (
-    <MonthCalendar
-      displayedDate={new Date(2025, 0, 1)}
-      minDate={new Date(2025, 2, 1)}
-    />
-  ),
+export const DisabledDates: Story = {
+  render: () => <DisabledDatesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<MonthCalendar
-  displayedDate={new Date(2025, 0, 1)}
-  minDate={new Date(2025, 2, 1)}
-/>`.trim()
-      }
-    }
-  }
+        code: `const isSameMonth = ({
+  baseDate,
+  targetDate
+}: {
+  baseDate?: Date;
+  targetDate: Date;
+}): boolean => {
+  if (!baseDate) return false;
+  const baseYear = baseDate.getFullYear();
+  const baseMonth = baseDate.getMonth();
+  const targetYear = targetDate.getFullYear();
+  const targetMonth = targetDate.getMonth();
+  return baseYear === targetYear && baseMonth === targetMonth;
 };
 
-export const MaxDate: Story = {
-  render: () => (
-    <MonthCalendar
-      displayedDate={new Date(2025, 0, 1)}
-      maxDate={new Date(2025, 9, 1)}
-    />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<MonthCalendar
-  displayedDate={new Date(2025, 0, 1)}
-  maxDate={new Date(2025, 9, 1)}
-/>`.trim()
+type CaseType = {
+  label: string;
+  disabledDates: DisabledDatesFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Available from june to august.',
+    disabledDates: ({ date }) => {
+      const month = date.getMonth();
+      return month < 5 || 7 < month;
+    }
+  },
+  {
+    label: 'Disable all month except current month.',
+    disabledDates: ({ date }) => {
+      return !isSameMonth({ baseDate: new Date(), targetDate: date });
+    }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <MonthCalendar
+        displayedDate={new Date()}
+        disabledDates={CASES[caseIdx].disabledDates}
+      />
+    </Stack>
+  );
+};`.trim()
       }
     }
   }

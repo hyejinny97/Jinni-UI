@@ -15,10 +15,12 @@ import { TimeMode } from '@/types/time-component';
 import {
   DateTimeRangeComponent,
   RangeAdornmentType,
+  RangeDisabledDateTimesFnType,
   RangeFieldType,
   RangeType
 } from '@/types/date-time-component';
 import { ColorType } from '@/types/color';
+import { disabledDateTimesInDateTimeField } from './DateTimeRangeField.utils';
 
 export type DateTimeRangeFieldProps<
   T extends AsType = 'div',
@@ -35,6 +37,7 @@ export type DateTimeRangeFieldProps<
     endAdornment?: RangeAdornmentType<React.ReactNode>;
     centerIcon?: React.ReactNode;
     focusedField?: RangeFieldType;
+    disabledDateTimes?: Array<Date> | RangeDisabledDateTimesFnType;
   };
 
 const DateTimeRangeField = <
@@ -52,12 +55,7 @@ const DateTimeRangeField = <
     options,
     timeMode,
     timeStep,
-    minTime,
-    maxTime,
-    disabledTimes,
-    minDate,
-    maxDate,
-    disabledDates,
+    disabledDateTimes,
     readOnly,
     disabled,
     placeholder,
@@ -86,7 +84,6 @@ const DateTimeRangeField = <
     useValidation({
       locale,
       options,
-      disabledDates,
       dateTimeRangeValue
     });
   const { indicatorElRef, startFieldElRef, endFieldElRef } = useIndicator({
@@ -100,12 +97,10 @@ const DateTimeRangeField = <
     options,
     timeMode,
     timeStep,
-    minTime,
-    maxTime,
-    disabledTimes,
-    minDate,
-    maxDate,
-    disabledDates,
+    disabledDateTimes: disabledDateTimesInDateTimeField({
+      disabledDateTimes,
+      rangeField
+    }),
     readOnly,
     disabled,
     placeholder: placeholder?.[rangeField],

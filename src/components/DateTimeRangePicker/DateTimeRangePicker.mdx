@@ -45,41 +45,9 @@ import DateTimeRangePicker from '@/components/DateTimeRangePicker';
 
 ### Restrict DateTime
 
-#### 1. Min time
+- `disabledDateTimes`: 비활성화 하는 특정 날짜/시간 모음
 
-- `minTime`: 선택 가능한 최소 시간
-
-<Canvas of={DateTimeRangePickerStories.MinTime} />
-
-#### 2. Max time
-
-- `maxTime`: 선택 가능한 최대 시간
-
-<Canvas of={DateTimeRangePickerStories.MaxTime} />
-
-#### 3. Disabled times
-
-- `disabledTimes`: 비활성화하는 특정 시간 모음
-
-<Canvas of={DateTimeRangePickerStories.DisabledTimes} />
-
-#### 4. Min date
-
-- `minDate`: 선택 가능한 최소 날짜
-
-<Canvas of={DateTimeRangePickerStories.MinDate} />
-
-#### 5. Max date
-
-- `maxDate`: 선택 가능한 최대 날짜
-
-<Canvas of={DateTimeRangePickerStories.MaxDate} />
-
-#### 6. Disabled dates
-
-- `disabledDates`: 비활성화하는 특정 날짜 모음
-
-<Canvas of={DateTimeRangePickerStories.DisabledDates} />
+<Canvas of={DateTimeRangePickerStories.DisabledDateTimes} />
 
 ### Time mode
 
@@ -87,7 +55,7 @@ import DateTimeRangePicker from '@/components/DateTimeRangePicker';
   - `'preset'`: '12:00', '12:30', '01:00' 처럼 미리 정의된 시간 목록에서 하나를 선택하는 방식
   - `'manual'`: 시(hour), 분(minute), 초(second)를 각각 선택하는 방식
 
-<Canvas of={DateTimeRangePickerStories.TimeMode} />
+<Canvas of={DateTimeRangePickerStories.TimeModeStory} />
 
 ### Time steps
 

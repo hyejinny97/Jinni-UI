@@ -28,7 +28,8 @@ import {
 import {
   DateTimeRangeComponent,
   RangeType,
-  RangeFieldType
+  RangeFieldType,
+  RangeDisabledDateTimesWithUnitFnType
 } from '@/types/date-time-component';
 import {
   filterTimeOptions,
@@ -38,7 +39,12 @@ import {
   TIME_STEP_PRESET_DEFAULT,
   TIME_STEP_MANUAL_DEFAULT
 } from './DateTimeRangePicker.constants';
-import { fixTypeByMode } from '@/utils/time-component';
+import { fixDigitalClockPropsByMode } from '@/utils/time-component';
+import {
+  disabledDatesInDateRangeCalendar,
+  disabledDateTimesInDateTimeRangeField,
+  toDisabledTimes
+} from './DateTimeRangePicker.utils';
 
 type Orientation = 'horizontal' | 'vertical';
 
@@ -50,6 +56,9 @@ export type DateTimeRangePickerProps<
 > = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
   DateTimeRangeComponent<Mode> & {
     name?: RangeType<string>;
+    disabledDateTimes?:
+      | Array<Date>
+      | RangeDisabledDateTimesWithUnitFnType<Mode>;
     PopoverProps?: Omit<
       PopoverProps,
       'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
@@ -87,12 +96,7 @@ const DateTimeRangePicker = <
       : TIME_STEP_MANUAL_DEFAULT) as Mode extends 'preset'
       ? number
       : TimeStepManualType,
-    minTime,
-    maxTime,
-    disabledTimes,
-    minDate,
-    maxDate,
-    disabledDates,
+    disabledDateTimes,
     readOnly,
     disabled,
     name,
@@ -163,6 +167,9 @@ const DateTimeRangePicker = <
         handleDateRangeChange({ start: selectedDate, end: null });
         break;
       case 'end':
+        if (newValue.start && newValue.end === null) {
+          setFocusedField('start');
+        }
         handleDateRangeChange(newValue);
     }
   };
@@ -172,20 +179,12 @@ const DateTimeRangePicker = <
     readOnly,
     disabled
   };
-  const dateProps = {
-    minDate,
-    maxDate,
-    disabledDates
-  };
-  const timeProps = {
-    minTime,
-    maxTime,
-    disabledTimes
-  };
   const dateTimeRangeProps = {
     ...commonProps,
-    ...dateProps,
-    ...timeProps,
+    disabledDateTimes: disabledDateTimesInDateTimeRangeField<Mode>({
+      timeMode,
+      disabledDateTimes
+    }),
     value: dateTimeRangeValue,
     onChange: handleDateTimeRangeChange,
     options,
@@ -217,7 +216,12 @@ const DateTimeRangePicker = <
   };
   const dateRangeCalendarProps = {
     ...commonProps,
-    ...dateProps,
+    disabledDates: disabledDatesInDateRangeCalendar<Mode>({
+      timeMode,
+      disabledDateTimes,
+      dateTimeRangeValue,
+      focusedField
+    }),
     className: cn({ disableHoverRangeEffect: focusedField === 'start' }),
     value: dateTimeRangeValue,
     onChange: handleDateRangeCalendarChange,
@@ -229,8 +233,16 @@ const DateTimeRangePicker = <
   };
   const digitalClockProps = {
     ...commonProps,
-    ...timeProps,
-    ...fixTypeByMode({ mode: timeMode, timeStep }),
+    ...fixDigitalClockPropsByMode({
+      mode: timeMode,
+      disabledTimes: toDisabledTimes({
+        timeMode,
+        disabledDateTimes,
+        dateTimeRangeValue,
+        focusedField
+      }),
+      timeStep
+    }),
     value: focusedField ? dateTimeRangeValue[focusedField] : null,
     onChange: focusedField ? handleTimeChange(focusedField) : undefined,
     options: filterTimeOptions(options)

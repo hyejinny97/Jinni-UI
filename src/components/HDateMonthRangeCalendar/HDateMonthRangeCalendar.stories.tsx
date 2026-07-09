@@ -13,7 +13,11 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { RangeType, RangeFieldType } from '@/types/date-component';
+import {
+  RangeType,
+  RangeFieldType,
+  RangeDisabledDatesFnType
+} from '@/types/date-component';
 
 const meta: Meta<typeof HDateMonthRangeCalendar> = {
   title: 'components/DateRangePicker/DateRangeCalendar/HDateMonthRangeCalendar',
@@ -31,22 +35,18 @@ const meta: Meta<typeof HDateMonthRangeCalendar> = {
         type: { summary: 'boolean' }
       }
     },
+    disabledDates: {
+      description: '비활성화 하는 특정 날짜 모음',
+      table: {
+        type: {
+          summary: `({ date, rangeField }: { date: Date; rangeField: 'start' | 'end'; }) => boolean;`
+        }
+      }
+    },
     locale: {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxDate: {
-      description: '선택 가능한 최대 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minDate: {
-      description: '선택 가능한 최소 날짜',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     monthCalendars: {
@@ -260,6 +260,108 @@ const OptionsTemplate = () => {
         </RadioGroup>
       </Box>
       <HDateMonthRangeCalendar key={JSON.stringify(option)} options={option} />
+    </Stack>
+  );
+};
+
+const dateToMonth = (date: Date) => {
+  return date.getFullYear() * 12 + date.getMonth();
+};
+
+type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledDates: RangeDisabledDatesFnType;
+};
+
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledDates: (value: RangeType<Date | null>) => RangeDisabledDatesFnType;
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Available from june to august.',
+    disabledDates: ({ date }) => {
+      const month = date.getMonth();
+      return month < 5 || 7 < month;
+    }
+  },
+  {
+    label: 'Disable all month except current month.',
+    disabledDates: ({ date }) => {
+      return dateToMonth(new Date()) !== dateToMonth(date);
+    }
+  },
+  {
+    label: `'End' can only be selected up to 'start' + 2 months.`,
+    withValue: true,
+    disabledDates:
+      (value: RangeType<Date | null>) =>
+      ({ date, rangeField }) => {
+        if (rangeField === 'end' && value.start) {
+          const start = value.start;
+          const startInMonth = dateToMonth(start);
+          const end = new Date(start);
+          end.setMonth(start.getMonth() + 2);
+          const endInMonth = dateToMonth(end);
+          const dateInMonth = dateToMonth(date);
+          return dateInMonth < startInMonth || endInMonth < dateInMonth;
+        }
+        return false;
+      }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <HDateMonthRangeCalendar
+        value={value}
+        onChange={handleChange}
+        disabledDates={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledDates(value)
+            : CASES[caseIdx].disabledDates
+        }
+      />
     </Stack>
   );
 };
@@ -501,41 +603,112 @@ export const Options: Story = {
   }
 };
 
-export const MinDate: Story = {
-  render: (args) => (
-    <HDateMonthRangeCalendar
-      referenceDate={new Date(2025, 1, 1)}
-      minDate={new Date(2025, 2, 1)}
-      {...args}
-    />
-  ),
+export const DisabledDates: Story = {
+  render: () => <DisabledDatesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<HDateMonthRangeCalendar
-  referenceDate={new Date(2025, 1, 1)}
-  minDate={new Date(2025, 2, 1)}
-/>`.trim()
-      }
-    }
-  }
+        code: `const dateToMonth = (date: Date) => {
+  return date.getFullYear() * 12 + date.getMonth();
 };
 
-export const MaxDate: Story = {
-  render: (args) => (
-    <HDateMonthRangeCalendar
-      referenceDate={new Date(2025, 1, 1)}
-      maxDate={new Date(2025, 9, 1)}
-      {...args}
-    />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<HDateMonthRangeCalendar
-  referenceDate={new Date(2025, 1, 1)}
-  maxDate={new Date(2025, 9, 1)}
-/>`.trim()
+type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledDates: RangeDisabledDatesFnType;
+};
+
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledDates: (value: RangeType<Date | null>) => RangeDisabledDatesFnType;
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Available from june to august.',
+    disabledDates: ({ date }) => {
+      const month = date.getMonth();
+      return month < 5 || 7 < month;
+    }
+  },
+  {
+    label: 'Disable all month except current month.',
+    disabledDates: ({ date }) => {
+      return dateToMonth(new Date()) !== dateToMonth(date);
+    }
+  },
+  {
+    label: \`'End' can only be selected up to 'start' + 2 months.\`,
+    withValue: true,
+    disabledDates:
+      (value: RangeType<Date | null>) =>
+      ({ date, rangeField }) => {
+        if (rangeField === 'end' && value.start) {
+          const start = value.start;
+          const startInMonth = dateToMonth(start);
+          const end = new Date(start);
+          end.setMonth(start.getMonth() + 2);
+          const endInMonth = dateToMonth(end);
+          const dateInMonth = dateToMonth(date);
+          return dateInMonth < startInMonth || endInMonth < dateInMonth;
+        }
+        return false;
+      }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <HDateMonthRangeCalendar
+        value={value}
+        onChange={handleChange}
+        disabledDates={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledDates(value)
+            : CASES[caseIdx].disabledDates
+        }
+      />
+    </Stack>
+  );
+};`.trim()
       }
     }
   }

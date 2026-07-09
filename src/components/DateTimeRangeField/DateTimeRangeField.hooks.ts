@@ -7,10 +7,7 @@ import {
   DateTimeRangeValidationError,
   DateTimeOptions
 } from '@/types/date-time-component';
-import {
-  CHRONOLOGICAL_ORDER,
-  INCLUDE_DISABLED_DATE
-} from '@/constants/date-time-component';
+import { CHRONOLOGICAL_ORDER } from '@/constants/date-time-component';
 import {
   DEFAULT_TIME_OPTIONS,
   KEY_TIME_PARTS
@@ -25,7 +22,7 @@ type UseDateTimeRangeValueProps = Pick<
 
 type UseValidationProps = Pick<
   DateTimeRangeFieldProps,
-  'locale' | 'options' | 'disabledDates'
+  'locale' | 'options'
 > & {
   dateTimeRangeValue: RangeType<Date | null>;
 };
@@ -64,12 +61,11 @@ export const useDateTimeRangeValue = ({
 export const useValidation = ({
   locale,
   options,
-  disabledDates,
   dateTimeRangeValue
 }: UseValidationProps) => {
   const [validationError, setValidationError] =
     useState<DateTimeRangeValidationError>({});
-  const { chronologicalOrder, includeDisabledDate } = validationError;
+  const { chronologicalOrder } = validationError;
 
   const dateTimePartTypes = useMemo(() => {
     const TIME_OPTIONS_TYPE = [...KEY_TIME_PARTS, 'timeStyle'];
@@ -151,33 +147,8 @@ export const useValidation = ({
     }
   }, [dateTimeRangeValue, chronologicalOrder, dateTimeToSeconds]);
 
-  useLayoutEffect(() => {
-    const { start, end } = dateTimeRangeValue;
-    const newIncludeDisabledDateError: boolean = !!(
-      start &&
-      end &&
-      disabledDates &&
-      disabledDates.some(
-        (disabledDate) =>
-          dateTimeToSeconds(start) < dateTimeToSeconds(disabledDate) &&
-          dateTimeToSeconds(disabledDate) < dateTimeToSeconds(end)
-      )
-    );
-    if (includeDisabledDate !== newIncludeDisabledDateError) {
-      setValidationError((prev) => ({
-        ...prev,
-        [INCLUDE_DISABLED_DATE]: newIncludeDisabledDateError
-      }));
-    }
-  }, [
-    disabledDates,
-    dateTimeRangeValue,
-    includeDisabledDate,
-    dateTimeToSeconds
-  ]);
-
   const onStartFieldErrorStatus = useCallback(
-    (error: boolean, errorReason?: DateTimeValidationError) => {
+    (error: boolean, errorReason?: DateTimeValidationError[]) => {
       setValidationError((prev) => ({
         ...prev,
         start: error ? errorReason : undefined
@@ -187,7 +158,7 @@ export const useValidation = ({
   );
 
   const onEndFieldErrorStatus = useCallback(
-    (error: boolean, errorReason?: DateTimeValidationError) => {
+    (error: boolean, errorReason?: DateTimeValidationError[]) => {
       setValidationError((prev) => ({
         ...prev,
         end: error ? errorReason : undefined
@@ -199,11 +170,8 @@ export const useValidation = ({
   return {
     isValidationError: !!(
       validationError[CHRONOLOGICAL_ORDER] ||
-      validationError[INCLUDE_DISABLED_DATE] ||
-      validationError.start?.date ||
-      validationError.start?.time ||
-      validationError.end?.date ||
-      validationError.end?.time
+      validationError.start ||
+      validationError.end
     ),
     onStartFieldErrorStatus,
     onEndFieldErrorStatus

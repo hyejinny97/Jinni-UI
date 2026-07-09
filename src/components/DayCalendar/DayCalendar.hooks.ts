@@ -1,12 +1,10 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { DayCalendarProps } from './DayCalendar';
 import {
   getLocaleWeekDays,
   getLocaleDays,
   getWeekNumber,
-  isSameDay,
-  isHigherDay,
-  isLowerDay
+  isSameDay
 } from './DayCalendar.utils';
 import {
   WeekDaysType,
@@ -23,9 +21,6 @@ type UseWeekDayItemsProps = Pick<
 type UseDayItemsProps = Pick<
   DayCalendarProps,
   | 'locale'
-  | 'minDate'
-  | 'maxDate'
-  | 'disabledDates'
   | 'readOnly'
   | 'disabled'
   | 'displayWeekNumber'
@@ -34,6 +29,7 @@ type UseDayItemsProps = Pick<
   | 'selectedDate'
   | 'displayedDate'
   | 'onDayChange'
+  | 'disabledDates'
 >;
 
 export const useWeekDayItems = ({
@@ -58,9 +54,6 @@ export const useWeekDayItems = ({
 
 export const useDayItems = ({
   locale,
-  minDate,
-  maxDate,
-  disabledDates,
   readOnly,
   disabled,
   displayWeekNumber,
@@ -68,7 +61,8 @@ export const useDayItems = ({
   showDaysOutsideCurrentMonth,
   selectedDate,
   displayedDate,
-  onDayChange
+  onDayChange,
+  disabledDates
 }: UseDayItemsProps) => {
   const year = displayedDate.getFullYear();
   const month = displayedDate.getMonth();
@@ -145,6 +139,19 @@ export const useDayItems = ({
     weeks
   ]);
 
+  const isDisabled = useCallback(
+    (date: Date): boolean | undefined => {
+      if (disabled) return true;
+      if (Array.isArray(disabledDates)) {
+        return disabledDates.some((disabledDate) =>
+          isSameDay({ baseDate: disabledDate, targetDate: date })
+        );
+      }
+      return disabledDates?.({ date });
+    },
+    [disabled, disabledDates]
+  );
+
   const dayItems = useMemo(() => {
     const todayDate = new Date();
     return days.map((day) => {
@@ -165,30 +172,14 @@ export const useDayItems = ({
               isSameDay({ baseDate: selectedDate, targetDate: value }),
             marked: isSameDay({ baseDate: todayDate, targetDate: value }),
             readOnly,
-            disabled:
-              disabled ||
-              isLowerDay({ baseDate: minDate, targetDate: value }) ||
-              isHigherDay({ baseDate: maxDate, targetDate: value }) ||
-              (disabledDates &&
-                disabledDates.some((disabledDate) =>
-                  isSameDay({ baseDate: value, targetDate: disabledDate })
-                )),
+            disabled: isDisabled(value),
             disableRipple: type === 'outside-day',
             onClick: () => onDayChange?.(value)
           };
         }
       }
     });
-  }, [
-    days,
-    minDate,
-    maxDate,
-    disabledDates,
-    readOnly,
-    disabled,
-    selectedDate,
-    onDayChange
-  ]);
+  }, [days, readOnly, selectedDate, onDayChange, isDisabled]);
 
   return { dayItems };
 };

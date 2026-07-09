@@ -1,14 +1,21 @@
-import { useState, useCallback, useLayoutEffect } from 'react';
+import { useState, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
 import { DateTimeFieldProps } from './DateTimeField';
 import { TimeValidationError } from '@/types/time-component';
-import { DateValidationError } from '@/types/date-component';
 import { DateTimeValidationError } from '@/types/date-time-component';
 import { useIsControlled } from '@/hooks/useIsControlled';
+import { isSameArrayElements } from './DateTimeField.utils';
 
 type UseDateTimeValueProps = Pick<
   DateTimeFieldProps,
   'defaultValue' | 'value' | 'onChange'
 >;
+
+type UseValidationProps = Pick<
+  DateTimeFieldProps,
+  'onErrorStatus' | 'disabledDateTimes'
+> & {
+  dateTimeValue: Date | null;
+};
 
 const INIT_DATE_TIME = new Date();
 INIT_DATE_TIME.setHours(0, 0, 0, 0);
@@ -55,31 +62,60 @@ export const useDateTimeValue = ({
 };
 
 export const useValidation = ({
+  dateTimeValue,
+  disabledDateTimes,
   onErrorStatus
-}: Pick<DateTimeFieldProps, 'onErrorStatus'>) => {
-  const [validationError, setValidationError] =
-    useState<DateTimeValidationError>({});
-  const isValidationError = !!(validationError.date || validationError.time);
-
-  const onDateFieldErrorStatus = useCallback(
-    (error: boolean, errorReason?: DateValidationError) => {
-      setValidationError((prev) => ({
-        ...prev,
-        date: error ? errorReason : undefined
-      }));
-    },
-    []
+}: UseValidationProps) => {
+  const prevValidationErrorRef = useRef<DateTimeValidationError[] | undefined>(
+    undefined
   );
+  const [timeStepError, setTimeStepError] = useState<boolean>(false);
 
   const onTimeFieldErrorStatus = useCallback(
     (error: boolean, errorReason?: TimeValidationError) => {
-      setValidationError((prev) => ({
-        ...prev,
-        time: error ? errorReason : undefined
-      }));
+      setTimeStepError(error && errorReason === 'timeStep');
     },
     []
   );
+
+  const isDisabled = useCallback(
+    (dateTime: Date | null): boolean => {
+      if (dateTime === null || !disabledDateTimes) return false;
+      if (Array.isArray(disabledDateTimes)) {
+        return disabledDateTimes.some(
+          (disabledDateTime) =>
+            disabledDateTime.getTime() === dateTime.getTime()
+        );
+      }
+      return disabledDateTimes({ dateTime });
+    },
+    [disabledDateTimes]
+  );
+
+  const validationError: DateTimeValidationError[] | undefined = useMemo(() => {
+    const resultSet: Set<DateTimeValidationError> = new Set();
+    if (timeStepError) resultSet.add('timeStep');
+    else resultSet.delete('timeStep');
+    if (isDisabled(dateTimeValue)) resultSet.add('disabledDateTime');
+    else resultSet.delete('disabledDateTime');
+
+    const result: DateTimeValidationError[] | undefined =
+      resultSet.size === 0 ? undefined : Array.from(resultSet);
+    const prevValidationError = prevValidationErrorRef.current;
+    const noDiff =
+      (!result && !prevValidationError) ||
+      (Array.isArray(result) &&
+        Array.isArray(prevValidationError) &&
+        isSameArrayElements(result, prevValidationError));
+
+    if (noDiff) {
+      return prevValidationError;
+    } else {
+      prevValidationErrorRef.current = result;
+      return result;
+    }
+  }, [timeStepError, dateTimeValue, isDisabled]);
+  const isValidationError = !!validationError && validationError.length > 0;
 
   useLayoutEffect(() => {
     onErrorStatus?.(isValidationError, validationError);
@@ -87,7 +123,6 @@ export const useValidation = ({
 
   return {
     isValidationError,
-    onDateFieldErrorStatus,
     onTimeFieldErrorStatus
   };
 };

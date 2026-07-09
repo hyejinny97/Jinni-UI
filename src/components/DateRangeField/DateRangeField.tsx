@@ -15,7 +15,8 @@ import {
   DateRangeComponentProps,
   RangeType,
   RangeAdornmentType,
-  RangeFieldType
+  RangeFieldType,
+  RangeDisabledDatesFnType
 } from '@/types/date-component';
 import { ColorType } from '@/types/color';
 
@@ -35,6 +36,7 @@ export type DateRangeFieldProps<T extends AsType = 'div'> = Omit<
     endAdornment?: RangeAdornmentType<React.ReactNode>;
     centerIcon?: React.ReactNode;
     focusedField?: RangeFieldType;
+    disabledDates?: Array<Date> | RangeDisabledDatesFnType;
   };
 
 const DateRangeField = <T extends AsType = 'div'>({
@@ -47,8 +49,6 @@ const DateRangeField = <T extends AsType = 'div'>({
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
@@ -77,7 +77,6 @@ const DateRangeField = <T extends AsType = 'div'>({
     useValidation({
       locale,
       options,
-      disabledDates,
       dateRangeValue
     });
   const { indicatorElRef, startFieldElRef, endFieldElRef } = useIndicator({
@@ -91,9 +90,10 @@ const DateRangeField = <T extends AsType = 'div'>({
     onChange: handleChange(rangeField),
     locale,
     options,
-    minDate,
-    maxDate,
-    disabledDates,
+    disabledDates:
+      !disabledDates || Array.isArray(disabledDates)
+        ? disabledDates
+        : ({ date }) => disabledDates({ date, rangeField }),
     readOnly,
     disabled,
     placeholder: placeholder?.[rangeField],

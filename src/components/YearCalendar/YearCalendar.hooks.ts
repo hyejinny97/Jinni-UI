@@ -1,22 +1,17 @@
 import { useMemo, useRef, useLayoutEffect } from 'react';
 import { YearCalendarProps } from './YearCalendar';
-import {
-  getTwoCenturyLocaleYears,
-  isLowerYear,
-  isHigherYear
-} from './YearCalendar.utils';
+import { getTwoCenturyLocaleYears } from './YearCalendar.utils';
 
 type UseYearItemsProps = Pick<
   YearCalendarProps,
   | 'locale'
-  | 'minDate'
-  | 'maxDate'
   | 'readOnly'
   | 'disabled'
   | 'yearsOrder'
   | 'selectedDate'
   | 'displayedDate'
   | 'onYearChange'
+  | 'disabledDates'
 >;
 
 type UseScrollProps = {
@@ -25,14 +20,13 @@ type UseScrollProps = {
 
 export const useYearItems = ({
   locale,
-  minDate,
-  maxDate,
   readOnly,
   disabled,
   yearsOrder,
   selectedDate,
   displayedDate,
-  onYearChange
+  onYearChange,
+  disabledDates
 }: UseYearItemsProps) => {
   const localeYears = useMemo(
     () => getTwoCenturyLocaleYears(displayedDate, locale),
@@ -50,21 +44,17 @@ export const useYearItems = ({
         !!selectedDate && selectedDate.getFullYear() === value.getFullYear(),
       marked: todayDate.getFullYear() === value.getFullYear(),
       readOnly,
-      disabled:
-        disabled ||
-        isLowerYear({ baseDate: minDate, targetDate: value }) ||
-        isHigherYear({ baseDate: maxDate, targetDate: value }),
+      disabled: disabled || disabledDates?.({ date: value }),
       onClick: () => onYearChange?.(value)
     }));
   }, [
     localeYears,
-    minDate,
-    maxDate,
     readOnly,
     disabled,
     yearsOrder,
     selectedDate,
-    onYearChange
+    onYearChange,
+    disabledDates
   ]);
 
   return { yearItems };

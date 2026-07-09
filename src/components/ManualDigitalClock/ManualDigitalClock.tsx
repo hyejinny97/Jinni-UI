@@ -6,7 +6,10 @@ import { AsType } from '@/types/default-component-props';
 import Stack, { StackProps } from '@/components/Stack';
 import Divider from '@/components/Divider';
 import { DEFAULT_TIME_OPTIONS } from '@/constants/time-component';
-import { TimeComponentProps } from '@/types/time-component';
+import {
+  DisabledTimesWithUnitFnType,
+  TimeComponentProps
+} from '@/types/time-component';
 import UnitList from './UnitList';
 import { TIME_STEP_MANUAL_DEFAULT } from './ManualDigitalClock.constants';
 import {
@@ -20,6 +23,7 @@ export type ManualDigitalClockProps<T extends AsType = 'div'> = Omit<
   'defaultValue' | 'onChange' | 'children'
 > &
   TimeComponentProps<'manual'> & {
+    disabledTimes?: Array<Date> | DisabledTimesWithUnitFnType;
     skipDisabledTime?: boolean;
   };
 
@@ -32,8 +36,6 @@ const ManualDigitalClock = <T extends AsType = 'div'>(
     onChange,
     locale,
     options = DEFAULT_TIME_OPTIONS,
-    minTime,
-    maxTime,
     disabledTimes,
     timeStep = TIME_STEP_MANUAL_DEFAULT,
     readOnly,
@@ -71,8 +73,6 @@ const ManualDigitalClock = <T extends AsType = 'div'>(
     onSecondClick,
     onDayPeriodClick
   } = useUnitItems({
-    minTime,
-    maxTime,
     timeStep,
     disabledTimes,
     skipDisabledTime,

@@ -7,7 +7,10 @@ import { AsType } from '@/types/default-component-props';
 import Stack, { StackProps } from '@/components/Stack';
 import Grid from '@/components/Grid';
 import Day, { DayProps } from '../Day';
-import { DateComponentProps } from '@/types/date-component';
+import {
+  DateComponentProps,
+  DisabledDatesFnType
+} from '@/types/date-component';
 import { useWeekDayItems, useDayItems } from './DayCalendar.hooks';
 import useJinni from '@/hooks/useJinni';
 
@@ -27,6 +30,7 @@ export type DayCalendarProps<T extends AsType = 'div'> = Omit<
     displayedDate: Date;
     selectedDate?: Date | null;
     onDayChange?: (newDate: Date) => void;
+    disabledDates?: Array<Date> | DisabledDatesFnType;
   };
 
 const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
@@ -35,8 +39,6 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
     selectedDate,
     onDayChange,
     locale,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
@@ -52,9 +54,6 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
   const { weekDayItems } = useWeekDayItems({ locale, displayWeekNumber });
   const { dayItems } = useDayItems({
     locale,
-    minDate,
-    maxDate,
-    disabledDates,
     readOnly,
     disabled,
     displayWeekNumber,
@@ -62,7 +61,8 @@ const DayCalendar = <T extends AsType = 'div'>(props: DayCalendarProps<T>) => {
     showDaysOutsideCurrentMonth,
     displayedDate,
     selectedDate,
-    onDayChange
+    onDayChange,
+    disabledDates
   });
   const gridColumns = displayWeekNumber ? 8 : 7;
 

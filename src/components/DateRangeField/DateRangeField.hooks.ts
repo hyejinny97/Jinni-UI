@@ -6,10 +6,7 @@ import {
   DateRangeValidationError,
   DateValidationError
 } from '@/types/date-component';
-import {
-  CHRONOLOGICAL_ORDER,
-  INCLUDE_DISABLED_DATE
-} from '@/constants/date-component';
+import { CHRONOLOGICAL_ORDER } from '@/constants/date-component';
 import { SECOND } from '@/constants/time';
 import { useIsControlled } from '@/hooks/useIsControlled';
 
@@ -18,10 +15,7 @@ type UseDateRangeValueProps = Pick<
   'defaultValue' | 'value' | 'onChange'
 >;
 
-type UseValidationProps = Pick<
-  DateRangeFieldProps,
-  'locale' | 'options' | 'disabledDates'
-> & {
+type UseValidationProps = Pick<DateRangeFieldProps, 'locale' | 'options'> & {
   dateRangeValue: RangeType<Date | null>;
 };
 
@@ -60,12 +54,11 @@ export const useDateRangeValue = ({
 export const useValidation = ({
   locale,
   options,
-  disabledDates,
   dateRangeValue
 }: UseValidationProps) => {
   const [validationError, setValidationError] =
     useState<DateRangeValidationError>({});
-  const { chronologicalOrder, includeDisabledDate } = validationError;
+  const { chronologicalOrder } = validationError;
 
   const datePartTypes = useMemo(() => {
     const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
@@ -109,26 +102,6 @@ export const useValidation = ({
     }
   }, [dateRangeValue, chronologicalOrder, dateToSeconds]);
 
-  useLayoutEffect(() => {
-    const { start, end } = dateRangeValue;
-    const newIncludeDisabledDateError: boolean = !!(
-      start &&
-      end &&
-      disabledDates &&
-      disabledDates.some(
-        (disabledDate) =>
-          dateToSeconds(start) < dateToSeconds(disabledDate) &&
-          dateToSeconds(disabledDate) < dateToSeconds(end)
-      )
-    );
-    if (includeDisabledDate !== newIncludeDisabledDateError) {
-      setValidationError((prev) => ({
-        ...prev,
-        [INCLUDE_DISABLED_DATE]: newIncludeDisabledDateError
-      }));
-    }
-  }, [disabledDates, dateRangeValue, includeDisabledDate, dateToSeconds]);
-
   const onStartFieldErrorStatus = useCallback(
     (error: boolean, errorReason?: DateValidationError) => {
       setValidationError((prev) => ({
@@ -152,7 +125,6 @@ export const useValidation = ({
   return {
     isValidationError: !!(
       validationError[CHRONOLOGICAL_ORDER] ||
-      validationError[INCLUDE_DISABLED_DATE] ||
       validationError.start ||
       validationError.end
     ),

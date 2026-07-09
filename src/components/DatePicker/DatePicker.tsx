@@ -11,7 +11,11 @@ import Popover, { PopoverProps } from '@/components/Popover';
 import { useDateValue } from './DatePicker.hooks';
 import ButtonBase from '@/components/ButtonBase';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
-import { DateComponentProps } from '@/types/date-component';
+import {
+  DateComponentProps,
+  DisabledDatesWithUnitFnType
+} from '@/types/date-component';
+import { disabledDatesInDateField } from './DatePicker.utils';
 
 export type DatePickerProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
@@ -27,6 +31,7 @@ export type DatePickerProps<T extends AsType = 'div'> = Omit<
     renderDateCalendar?: (
       dateCalendarProps: DateCalendarProps
     ) => React.ReactNode;
+    disabledDates?: Array<Date> | DisabledDatesWithUnitFnType;
   };
 
 const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
@@ -37,8 +42,6 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
     disabledDates,
     readOnly,
     disabled,
@@ -78,9 +81,6 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
     onChange: onSelectDate,
     locale,
     options,
-    minDate,
-    maxDate,
-    disabledDates,
     readOnly,
     disabled
   };
@@ -102,10 +102,12 @@ const DatePicker = <T extends AsType = 'div'>(props: DatePickerProps<T>) => {
         <DateRangeIcon size={20} color="on-surface-variant" />
       </ButtonBase>
     ),
+    disabledDates: disabledDatesInDateField(disabledDates),
     ...DateFieldProps
   };
   const dateCalendarProps = {
     ...commonProps,
+    disabledDates,
     onBaseCalendarTypeChange: closePopover
   };
 

@@ -1,8 +1,4 @@
-import {
-  CHRONOLOGICAL_ORDER,
-  INCLUDE_DISABLED_DATE,
-  CALENDARS
-} from '@/constants/date-component';
+import { CHRONOLOGICAL_ORDER, CALENDARS } from '@/constants/date-component';
 
 export type YearDigitType = 'numeric' | '2-digit';
 export type MonthDigitType = 'numeric' | '2-digit' | 'long' | 'short';
@@ -18,7 +14,22 @@ export type DateOptions =
       day?: DayDigitType;
     };
 
-export type DateValidationError = 'minDate' | 'maxDate' | 'disabledDate';
+export type DateValidationError = 'disabledDate';
+
+export type DisabledDatesFnType = ({
+  date
+}: {
+  date: Date;
+  unit?: never;
+}) => boolean;
+
+export type DisabledDatesWithUnitFnType = ({
+  date,
+  unit
+}: {
+  date: Date;
+  unit: 'year' | 'month' | 'day';
+}) => boolean;
 
 export type DateComponentProps = {
   defaultValue?: Date;
@@ -26,9 +37,6 @@ export type DateComponentProps = {
   onChange?: (value: Date) => void;
   locale?: string;
   options?: DateOptions;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
   readOnly?: boolean;
   disabled?: boolean;
 };
@@ -41,8 +49,16 @@ export type RangeAdornmentType<T> = RangeType<T> & { dateRangeField?: T };
 
 export type DateRangeValidationError = RangeType<DateValidationError> & {
   [CHRONOLOGICAL_ORDER]?: boolean;
-  [INCLUDE_DISABLED_DATE]?: boolean;
 };
+
+export type RangeDisabledDatesFnType = ({
+  date,
+  rangeField
+}: {
+  date: Date;
+  unit?: never;
+  rangeField: RangeFieldType;
+}) => boolean;
 
 export type DateRangeComponentProps = {
   defaultValue?: RangeType<Date>;
@@ -50,9 +66,6 @@ export type DateRangeComponentProps = {
   onChange?: (value: RangeType<Date | null>, selectedDate?: Date) => void;
   locale?: string;
   options?: DateOptions;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
   readOnly?: boolean;
   disabled?: boolean;
 };

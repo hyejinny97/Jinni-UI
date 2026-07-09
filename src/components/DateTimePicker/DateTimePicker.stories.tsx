@@ -18,6 +18,9 @@ import Switch from '@/components/Switch';
 import Chip from '@/components/Chip';
 import Button from '@/components/Button';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
+import { DisabledDateTimesWithUnitFnType } from '@/types/date-time-component';
+import { TimeMode } from '@/types/time-component';
+import { DAY } from '@/constants/time';
 
 const meta: Meta<typeof DateTimePicker> = {
   component: DateTimePicker,
@@ -40,46 +43,21 @@ const meta: Meta<typeof DateTimePicker> = {
         type: { summary: 'boolean' }
       }
     },
-    disabledDates: {
-      description: '비활성화 하는 특정 날짜 모음',
+    disabledDateTimes: {
+      description: '비활성화 하는 특정 날짜/시간 모음',
       table: {
-        type: { summary: 'Array<Date>' }
-      }
-    },
-    disabledTimes: {
-      description: '비활성화 하는 특정 시간 모음',
-      table: {
-        type: { summary: 'Array<Date>' }
+        type: {
+          summary: `mode='preset' ?
+Array<Date> | ({ dateTime, unit }: { dateTime: Date; unit: 'year' | 'month' | 'day' | 'time'; }) ⇒ boolean 
+: 
+Array<Date> | ({ dateTime, unit }: { dateTime: Date; unit: 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'; }) ⇒ boolean `
+        }
       }
     },
     locale: {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxDate: {
-      description: '선택 가능한 최대 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    maxTime: {
-      description: '선택 가능한 최대 시간',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minDate: {
-      description: '선택 가능한 최소 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minTime: {
-      description: '선택 가능한 최소 시간',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     onChange: {
@@ -357,6 +335,159 @@ const TimeModeTemplate = () => {
   );
 };
 
+const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
+};
+
+const toMinute = (hour: number, minute: number = 0) => {
+  return hour * 3600 + minute * 60;
+};
+
+const getTodayWithHour = (hour: number): Date => {
+  const date = new Date();
+  date.setHours(hour, 0, 0, 0);
+  return date;
+};
+
+type CaseType = {
+  label: string;
+  disabledDateTimes: {
+    preset: Array<Date> | DisabledDateTimesWithUnitFnType<'preset'>;
+    manual: Array<Date> | DisabledDateTimesWithUnitFnType<'manual'>;
+  };
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Disable today at 9:00 AM.',
+    disabledDateTimes: {
+      preset: [getTodayWithHour(9)],
+      manual: [getTodayWithHour(9)]
+    }
+  },
+  {
+    label: 'Disable today from 3:00 PM to 6:00 PM.',
+    disabledDateTimes: {
+      preset: ({ dateTime, unit }) => {
+        if (unit === 'time') {
+          const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+          if (isToday) {
+            const startTime = toMinute(15);
+            const endTime = toMinute(18);
+            const time = toMinute(dateTime.getHours(), dateTime.getMinutes());
+            return startTime <= time && time <= endTime;
+          }
+        }
+        return false;
+      },
+      manual: ({ dateTime, unit }) => {
+        if (unit === 'hour' || unit === 'minute') {
+          const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+          const hour = dateTime.getHours();
+          return isToday && 15 <= hour && hour < 18;
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: 'Selectable from 9:00 AM to 6:00 PM on weekdays.',
+    disabledDateTimes: {
+      preset: ({ dateTime, unit }) => {
+        if (unit === 'day') {
+          const isWeekend = dateTime.getDay() === 0 || dateTime.getDay() === 6;
+          return isWeekend;
+        }
+        if (unit === 'time') {
+          const isWeekday = dateTime.getDay() !== 0 && dateTime.getDay() !== 6;
+          if (isWeekday) {
+            const startTime = toMinute(9);
+            const endTime = toMinute(18);
+            const time = toMinute(dateTime.getHours(), dateTime.getMinutes());
+            return !(startTime <= time && time <= endTime);
+          }
+          return true;
+        }
+        return false;
+      },
+      manual: ({ dateTime, unit }) => {
+        if (unit === 'day') {
+          const isWeekend = dateTime.getDay() === 0 || dateTime.getDay() === 6;
+          return isWeekend;
+        }
+        if (unit === 'hour') {
+          const isWeekend = dateTime.getDay() === 0 || dateTime.getDay() === 6;
+          const hour = dateTime.getHours();
+          return isWeekend || hour < 9 || 18 < hour;
+        }
+        if (unit === 'minute') {
+          const isWeekend = dateTime.getDay() === 0 || dateTime.getDay() === 6;
+          const startTime = toMinute(9);
+          const endTime = toMinute(18);
+          const time = toMinute(dateTime.getHours(), dateTime.getMinutes());
+          return isWeekend || !(startTime <= time && time <= endTime);
+        }
+        return false;
+      }
+    }
+  }
+];
+
+const DisabledDateTimesTemplate = () => {
+  const [isManualMode, setIsManualMode] = useState(false);
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+  const mode: TimeMode = isManualMode ? 'manual' : 'preset';
+
+  const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsManualMode(e.target.checked);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack spacing={5} style={{ alignItems: 'end' }}>
+        <Label content={`'manual' mode`}>
+          <Switch checked={isManualMode} onChange={handleModeChange} />
+        </Label>
+        <Box
+          as="fieldset"
+          round="sm"
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
+        >
+          <Chip as="legend" variant="filled" color="surface-container-highest">
+            Cases
+          </Chip>
+          <RadioGroup
+            name="case"
+            value={String(caseIdx)}
+            onChange={handleCaseChange}
+          >
+            <Grid columns={1}>
+              {CASES.map(({ label }, idx) => (
+                <Label content={label}>
+                  <Radio value={String(idx)} />
+                </Label>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Box>
+      </Stack>
+      <DateTimePicker
+        timeMode={mode}
+        disabledDateTimes={CASES[caseIdx].disabledDateTimes[mode]}
+      />
+    </Stack>
+  );
+};
+
 export const BasicDateTimePicker: Story = {
   render: (args) => (
     <Stack spacing={20}>
@@ -560,185 +691,169 @@ export const Options: Story = {
   }
 };
 
-export const MinTime: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimePicker minTime={new Date('2025-06-30T14:30')} {...args} />
-      <DateTimePicker
-        minTime={new Date('2025-06-30T14:30')}
-        defaultValue={new Date('2025-06-30T12:00')}
-        {...args}
-      />
-    </Stack>
-  ),
+export const DisabledDateTimes: Story = {
+  render: () => <DisabledDateTimesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimePicker minTime={new Date('2025-06-30T14:30')} />
-  <DateTimePicker
-    minTime={new Date('2025-06-30T14:30')}
-    defaultValue={new Date('2025-06-30T12:00')}
-  />
-</Stack>`.trim()
+        code: `const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
+};
+
+const toMinute = (hour: number, minute: number = 0) => {
+  return hour * 3600 + minute * 60;
+};
+
+const getTodayWithHour = (hour: number): Date => {
+  const date = new Date();
+  date.setHours(hour, 0, 0, 0);
+  return date;
+};
+
+type CaseType = {
+  label: string;
+  disabledDateTimes: {
+    preset: Array<Date> | DisabledDateTimesWithUnitFnType<'preset'>;
+    manual: Array<Date> | DisabledDateTimesWithUnitFnType<'manual'>;
+  };
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Disable today at 9:00 AM.',
+    disabledDateTimes: {
+      preset: [getTodayWithHour(9)],
+      manual: [getTodayWithHour(9)]
+    }
+  },
+  {
+    label: 'Disable today from 3:00 PM to 6:00 PM.',
+    disabledDateTimes: {
+      preset: ({ dateTime, unit }) => {
+        if (unit === 'time') {
+          const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+          if (isToday) {
+            const startTime = toMinute(15);
+            const endTime = toMinute(18);
+            const time = toMinute(dateTime.getHours(), dateTime.getMinutes());
+            return startTime <= time && time <= endTime;
+          }
+        }
+        return false;
+      },
+      manual: ({ dateTime, unit }) => {
+        if (unit === 'hour' || unit === 'minute') {
+          const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+          const hour = dateTime.getHours();
+          return isToday && 15 <= hour && hour < 18;
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: 'Selectable from 9:00 AM to 6:00 PM on weekdays.',
+    disabledDateTimes: {
+      preset: ({ dateTime, unit }) => {
+        if (unit === 'day') {
+          const isWeekend = dateTime.getDay() === 0 || dateTime.getDay() === 6;
+          return isWeekend;
+        }
+        if (unit === 'time') {
+          const isWeekday = dateTime.getDay() !== 0 && dateTime.getDay() !== 6;
+          if (isWeekday) {
+            const startTime = toMinute(9);
+            const endTime = toMinute(18);
+            const time = toMinute(dateTime.getHours(), dateTime.getMinutes());
+            return !(startTime <= time && time <= endTime);
+          }
+          return true;
+        }
+        return false;
+      },
+      manual: ({ dateTime, unit }) => {
+        if (unit === 'day') {
+          const isWeekend = dateTime.getDay() === 0 || dateTime.getDay() === 6;
+          return isWeekend;
+        }
+        if (unit === 'hour') {
+          const isWeekend = dateTime.getDay() === 0 || dateTime.getDay() === 6;
+          const hour = dateTime.getHours();
+          return isWeekend || hour < 9 || 18 < hour;
+        }
+        if (unit === 'minute') {
+          const isWeekend = dateTime.getDay() === 0 || dateTime.getDay() === 6;
+          const startTime = toMinute(9);
+          const endTime = toMinute(18);
+          const time = toMinute(dateTime.getHours(), dateTime.getMinutes());
+          return isWeekend || !(startTime <= time && time <= endTime);
+        }
+        return false;
+      }
+    }
+  }
+];
+
+const DisabledDateTimesTemplate = () => {
+  const [isManualMode, setIsManualMode] = useState(false);
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+  const mode: TimeMode = isManualMode ? 'manual' : 'preset';
+
+  const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsManualMode(e.target.checked);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack spacing={5} style={{ alignItems: 'end' }}>
+        <Label content={\`'manual' mode\`}>
+          <Switch checked={isManualMode} onChange={handleModeChange} />
+        </Label>
+        <Box
+          as="fieldset"
+          round="sm"
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
+        >
+          <Chip as="legend" variant="filled" color="surface-container-highest">
+            Cases
+          </Chip>
+          <RadioGroup
+            name="case"
+            value={String(caseIdx)}
+            onChange={handleCaseChange}
+          >
+            <Grid columns={1}>
+              {CASES.map(({ label }, idx) => (
+                <Label content={label}>
+                  <Radio value={String(idx)} />
+                </Label>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Box>
+      </Stack>
+      <DateTimePicker
+        timeMode={mode}
+        disabledDateTimes={CASES[caseIdx].disabledDateTimes[mode]}
+      />
+    </Stack>
+  );
+};`.trim()
       }
     }
   }
 };
 
-export const MaxTime: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimePicker maxTime={new Date('2025-06-30T17:25')} {...args} />
-      <DateTimePicker
-        maxTime={new Date('2025-06-30T17:25')}
-        defaultValue={new Date('2025-06-30T18:00')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimePicker maxTime={new Date('2025-06-30T17:25')} />
-  <DateTimePicker
-    maxTime={new Date('2025-06-30T17:25')}
-    defaultValue={new Date('2025-06-30T18:00')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const DisabledTimes: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimePicker
-        disabledTimes={[
-          new Date('2025-06-30T14:10'),
-          new Date('2025-06-30T12:30')
-        ]}
-        {...args}
-      />
-      <DateTimePicker
-        disabledTimes={[
-          new Date('2025-06-30T14:10'),
-          new Date('2025-06-30T12:30')
-        ]}
-        defaultValue={new Date('2025-06-30T14:10')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimePicker
-    disabledTimes={[
-      new Date('2025-06-30T14:10'),
-      new Date('2025-06-30T12:30')
-    ]}
-  />
-  <DateTimePicker
-    disabledTimes={[
-      new Date('2025-06-30T14:10'),
-      new Date('2025-06-30T12:30')
-    ]}
-    defaultValue={new Date('2025-06-30T14:10')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const MinDate: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimePicker minDate={new Date('2025-06-30')} {...args} />
-      <DateTimePicker
-        minDate={new Date('2025-06-30')}
-        defaultValue={new Date('2025-03-15')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimePicker minDate={new Date('2025-06-30')} />
-  <DateTimePicker
-    minDate={new Date('2025-06-30')}
-    defaultValue={new Date('2025-03-15')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const MaxDate: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimePicker maxDate={new Date('2025-07-20')} {...args} />
-      <DateTimePicker
-        maxDate={new Date('2025-07-20')}
-        defaultValue={new Date('2025-08-01')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimePicker maxDate={new Date('2025-07-20')} />
-  <DateTimePicker
-    maxDate={new Date('2025-07-20')}
-    defaultValue={new Date('2025-08-01')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const DisabledDates: Story = {
-  render: (args) => (
-    <Stack direction="row" spacing={20}>
-      <DateTimePicker
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-        {...args}
-      />
-      <DateTimePicker
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-        defaultValue={new Date('2025-07-10')}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack direction="row" spacing={20}>
-  <DateTimePicker
-    disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-  />
-  <DateTimePicker
-    disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-    defaultValue={new Date('2025-07-10')}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const TimeMode: Story = {
+export const TimeModeStory: Story = {
   render: () => <TimeModeTemplate />,
   parameters: {
     docs: {
@@ -939,10 +1054,6 @@ export const CustomDigitalClock: Story = {
   render: () => (
     <DateTimePicker
       timeMode="manual"
-      disabledTimes={[
-        new Date(2025, 7, 4, 15, 30),
-        new Date(2025, 7, 4, 16, 30)
-      ]}
       renderDigitalClock={(digitalClockProps) => {
         return (
           <Stack
@@ -973,10 +1084,6 @@ export const CustomDigitalClock: Story = {
       source: {
         code: `<DateTimePicker
   timeMode="manual"
-  disabledTimes={[
-    new Date(2025, 7, 4, 15, 30),
-    new Date(2025, 7, 4, 16, 30)
-  ]}
   renderDigitalClock={(digitalClockProps) => {
     return (
       <Stack style={{ height: '353px', backgroundColor: 'surface-container' }}>

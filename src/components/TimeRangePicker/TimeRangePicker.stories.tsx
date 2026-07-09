@@ -2,7 +2,13 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import TimeRangePicker, { TimeRangePickerProps } from './TimeRangePicker';
 import TimePicker from '@/components/TimePicker';
-import { RangeType, RangeFieldType } from '@/types/time-component';
+import {
+  RangeType,
+  RangeFieldType,
+  RangeDisabledTimesFnType,
+  RangeDisabledTimesWithUnitFnType,
+  TimeMode
+} from '@/types/time-component';
 import ManualDigitalClock from '@/components/ManualDigitalClock';
 import Box from '@/components/Box';
 import Stack from '@/components/Stack';
@@ -13,6 +19,7 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
+import Switch from '@/components/Switch';
 import { FlightLandIcon } from '@/components/icons/FlightLandIcon';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
@@ -35,25 +42,18 @@ const meta: Meta<typeof TimeRangePicker> = {
     disabledTimes: {
       description: '비활성화 하는 특정 시간 모음',
       table: {
-        type: { summary: `{ start?: Array<Date>, end?: Array<Date> }` }
+        type: {
+          summary: `mode='preset' ? 
+Array<Date> | ({ time, rangeField }: { time: Date; rangeField: 'start' | 'end'; }) ⇒ boolean 
+:
+Array<Date> | ({ time, unit, rangeField }: { time: Date; unit: 'hour' | 'minute' | 'second'; rangeField: 'start' | 'end'; }) ⇒ boolean `
+        }
       }
     },
     locale: {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxTime: {
-      description: '선택 가능한 최대 시간',
-      table: {
-        type: { summary: '{ start?: Date, end?: Date }' }
-      }
-    },
-    minTime: {
-      description: '선택 가능한 최소 시간',
-      table: {
-        type: { summary: `{ start?: Date, end?: Date }` }
       }
     },
     mode: {
@@ -326,6 +326,190 @@ const OptionsTemplate = () => {
         value={value}
         onChange={handleTimeChange}
         options={option}
+      />
+    </Stack>
+  );
+};
+
+const dateToMinute = (date: Date) => {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return hour * 3600 + minute * 60;
+};
+
+type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledTimes: {
+    preset: Array<Date> | RangeDisabledTimesFnType;
+    manual: Array<Date> | RangeDisabledTimesWithUnitFnType;
+  };
+};
+
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledTimes: {
+    preset: (value: RangeType<Date | null>) => RangeDisabledTimesFnType;
+    manual: (value: RangeType<Date | null>) => RangeDisabledTimesWithUnitFnType;
+  };
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Disables at 3:00 PM and 3:30 PM.',
+    disabledTimes: {
+      preset: [new Date('2025-06-30T15:00'), new Date('2025-06-30T15:30')],
+      manual: [new Date('2025-06-30T15:00'), new Date('2025-06-30T15:30')]
+    }
+  },
+  {
+    label: 'Available from 9:00 AM to 6:30 PM.',
+    disabledTimes: {
+      preset: ({ time }) => {
+        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 30));
+        const timeInMinute = dateToMinute(time);
+        return (
+          timeInMinute < startTimeInMinute || endTimeInMinute < timeInMinute
+        );
+      },
+      manual: ({ time, unit }) => {
+        if (unit === 'hour') {
+          return time.getHours() < 9 || time.getHours() > 18;
+        }
+        if (unit === 'minute') {
+          const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+          const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 30));
+          const timeInMinute = dateToMinute(time);
+          return (
+            timeInMinute < startTimeInMinute || endTimeInMinute < timeInMinute
+          );
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: 'Disables from 3:30 PM to 5:20 PM.',
+    disabledTimes: {
+      preset: ({ time }) => {
+        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
+        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
+        const timeInMinute = dateToMinute(time);
+        return (
+          startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute
+        );
+      },
+      manual: ({ time, unit }) => {
+        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
+        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
+        if (unit === 'hour') {
+          const hour = time.getHours();
+          return (
+            startTimeInMinute <= dateToMinute(new Date(1970, 0, 1, hour, 0)) &&
+            dateToMinute(new Date(1970, 0, 1, hour, 59)) <= endTimeInMinute
+          );
+        }
+        if (unit === 'minute') {
+          const timeInMinute = dateToMinute(time);
+          return (
+            startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute
+          );
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: `'End' must be after 'start'.`,
+    withValue: true,
+    disabledTimes: {
+      preset:
+        (value: RangeType<Date | null>) =>
+        ({ time, rangeField }) => {
+          if (rangeField === 'end' && value.start) {
+            return dateToMinute(time) < dateToMinute(value.start);
+          }
+          return false;
+        },
+      manual:
+        (value: RangeType<Date | null>) =>
+        ({ time, unit, rangeField }) => {
+          if (rangeField === 'end' && value.start) {
+            if (unit === 'hour') {
+              return time.getHours() < value.start.getHours();
+            }
+            if (unit === 'minute') {
+              const startTimeInMinute = dateToMinute(value.start);
+              const timeInMinute = dateToMinute(time);
+              return timeInMinute < startTimeInMinute;
+            }
+          }
+          return false;
+        }
+    }
+  }
+];
+
+const DisabledTimesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [isManualMode, setIsManualMode] = useState(false);
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+  const mode: TimeMode = isManualMode ? 'manual' : 'preset';
+
+  const handleValueChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsManualMode(e.target.checked);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack spacing={5} style={{ alignItems: 'end' }}>
+        <Label content={`'manual' mode`}>
+          <Switch checked={isManualMode} onChange={handleModeChange} />
+        </Label>
+        <Box
+          as="fieldset"
+          round="sm"
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
+        >
+          <Chip as="legend" variant="filled" color="surface-container-highest">
+            Cases
+          </Chip>
+          <RadioGroup
+            name="case"
+            value={String(caseIdx)}
+            onChange={handleCaseChange}
+          >
+            <Grid columns={1}>
+              {CASES.map(({ label }, idx) => (
+                <Label content={label}>
+                  <Radio value={String(idx)} />
+                </Label>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Box>
+      </Stack>
+      <TimeRangePicker
+        mode={mode}
+        value={value}
+        onChange={handleValueChange}
+        disabledTimes={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledTimes[mode](value)
+            : CASES[caseIdx].disabledTimes[mode]
+        }
       />
     </Stack>
   );
@@ -638,98 +822,194 @@ export const Options: Story = {
   }
 };
 
-export const MinTime: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <TimeRangePicker
-        minTime={{ start: new Date('2025-06-30T14:30') }}
-        {...args}
-      />
-      <TimeRangePicker
-        minTime={{ start: new Date('2025-06-30T14:30') }}
-        defaultValue={{ start: new Date('2025-06-30T12:00') }}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack spacing={20}>
-  <TimeRangePicker minTime={{ start: new Date('2025-06-30T14:30') }} />
-  <TimeRangePicker
-    minTime={{ start: new Date('2025-06-30T14:30') }}
-    defaultValue={{ start: new Date('2025-06-30T12:00') }}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const MaxTime: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <TimeRangePicker
-        maxTime={{ end: new Date('2025-06-30T17:25') }}
-        {...args}
-      />
-      <TimeRangePicker
-        maxTime={{ end: new Date('2025-06-30T17:25') }}
-        defaultValue={{ end: new Date('2025-06-30T18:00') }}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack spacing={20}>
-  <TimeRangePicker maxTime={{ end: new Date('2025-06-30T17:25') }} />
-  <TimeRangePicker
-    maxTime={{ end: new Date('2025-06-30T17:25') }}
-    defaultValue={{ end: new Date('2025-06-30T18:00') }}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
 export const DisabledTimes: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <TimeRangePicker
-        disabledTimes={{
-          start: [new Date('2025-06-30T14:30'), new Date('2025-06-30T12:30')]
-        }}
-        {...args}
-      />
-      <TimeRangePicker
-        disabledTimes={{
-          start: [new Date('2025-06-30T14:30'), new Date('2025-06-30T12:30')]
-        }}
-        defaultValue={{ start: new Date('2025-06-30T14:30') }}
-        {...args}
-      />
-    </Stack>
-  ),
+  render: () => <DisabledTimesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<Stack spacing={20}>
-  <TimeRangePicker
-    disabledTimes={{
-      start: [new Date('2025-06-30T14:30'), new Date('2025-06-30T12:30')]
-    }}
-  />
-  <TimeRangePicker
-    disabledTimes={{
-      start: [new Date('2025-06-30T14:30'), new Date('2025-06-30T12:30')]
-    }}
-    defaultValue={{ start: new Date('2025-06-30T14:30') }}
-  />
-</Stack>`.trim()
+        code: `const dateToMinute = (date: Date) => {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return hour * 3600 + minute * 60;
+};
+
+type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledTimes: {
+    preset: Array<Date> | RangeDisabledTimesFnType;
+    manual: Array<Date> | RangeDisabledTimesWithUnitFnType;
+  };
+};
+
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledTimes: {
+    preset: (value: RangeType<Date | null>) => RangeDisabledTimesFnType;
+    manual: (value: RangeType<Date | null>) => RangeDisabledTimesWithUnitFnType;
+  };
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Disables at 3:00 PM and 3:30 PM.',
+    disabledTimes: {
+      preset: [new Date('2025-06-30T15:00'), new Date('2025-06-30T15:30')],
+      manual: [new Date('2025-06-30T15:00'), new Date('2025-06-30T15:30')]
+    }
+  },
+  {
+    label: 'Available from 9:00 AM to 6:30 PM.',
+    disabledTimes: {
+      preset: ({ time }) => {
+        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 30));
+        const timeInMinute = dateToMinute(time);
+        return (
+          timeInMinute < startTimeInMinute || endTimeInMinute < timeInMinute
+        );
+      },
+      manual: ({ time, unit }) => {
+        if (unit === 'hour') {
+          return time.getHours() < 9 || time.getHours() > 18;
+        }
+        if (unit === 'minute') {
+          const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+          const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 30));
+          const timeInMinute = dateToMinute(time);
+          return (
+            timeInMinute < startTimeInMinute || endTimeInMinute < timeInMinute
+          );
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: 'Disables from 3:30 PM to 5:20 PM.',
+    disabledTimes: {
+      preset: ({ time }) => {
+        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
+        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
+        const timeInMinute = dateToMinute(time);
+        return (
+          startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute
+        );
+      },
+      manual: ({ time, unit }) => {
+        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
+        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
+        if (unit === 'hour') {
+          const hour = time.getHours();
+          return (
+            startTimeInMinute <= dateToMinute(new Date(1970, 0, 1, hour, 0)) &&
+            dateToMinute(new Date(1970, 0, 1, hour, 59)) <= endTimeInMinute
+          );
+        }
+        if (unit === 'minute') {
+          const timeInMinute = dateToMinute(time);
+          return (
+            startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute
+          );
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: \`'End' must be after 'start'.\`,
+    withValue: true,
+    disabledTimes: {
+      preset:
+        (value: RangeType<Date | null>) =>
+        ({ time, rangeField }) => {
+          if (rangeField === 'end' && value.start) {
+            return dateToMinute(time) < dateToMinute(value.start);
+          }
+          return false;
+        },
+      manual:
+        (value: RangeType<Date | null>) =>
+        ({ time, unit, rangeField }) => {
+          if (rangeField === 'end' && value.start) {
+            if (unit === 'hour') {
+              return time.getHours() < value.start.getHours();
+            }
+            if (unit === 'minute') {
+              const startTimeInMinute = dateToMinute(value.start);
+              const timeInMinute = dateToMinute(time);
+              return timeInMinute < startTimeInMinute;
+            }
+          }
+          return false;
+        }
+    }
+  }
+];
+
+const DisabledTimesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [isManualMode, setIsManualMode] = useState(false);
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+  const mode: TimeMode = isManualMode ? 'manual' : 'preset';
+
+  const handleValueChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsManualMode(e.target.checked);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack spacing={5} style={{ alignItems: 'end' }}>
+        <Label content={\`'manual' mode\`}>
+          <Switch checked={isManualMode} onChange={handleModeChange} />
+        </Label>
+        <Box
+          as="fieldset"
+          round="sm"
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
+        >
+          <Chip as="legend" variant="filled" color="surface-container-highest">
+            Cases
+          </Chip>
+          <RadioGroup
+            name="case"
+            value={String(caseIdx)}
+            onChange={handleCaseChange}
+          >
+            <Grid columns={1}>
+              {CASES.map(({ label }, idx) => (
+                <Label content={label}>
+                  <Radio value={String(idx)} />
+                </Label>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Box>
+      </Stack>
+      <TimeRangePicker
+        mode={mode}
+        value={value}
+        onChange={handleValueChange}
+        disabledTimes={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledTimes[mode](value)
+            : CASES[caseIdx].disabledTimes[mode]
+        }
+      />
+    </Stack>
+  );
+};`.trim()
       }
     }
   }
@@ -931,10 +1211,7 @@ export const CustomDigitalClock: Story = {
   render: () => (
     <TimeRangePicker
       mode="manual"
-      minTime={{
-        start: new Date(1970, 0, 1, 5, 30),
-        end: new Date(1970, 0, 1, 5, 30)
-      }}
+      disabledTimes={[new Date(1970, 0, 1, 5, 0), new Date(1970, 0, 1, 5, 30)]}
       renderDigitalClock={(digitalClockProps) => {
         return (
           <>
@@ -956,10 +1233,7 @@ export const CustomDigitalClock: Story = {
       source: {
         code: `<TimeRangePicker
   mode="manual"
-  minTime={{
-    start: new Date(1970, 0, 1, 5, 30),
-    end: new Date(1970, 0, 1, 5, 30)
-  }}
+  disabledTimes={[new Date(1970, 0, 1, 5, 0), new Date(1970, 0, 1, 5, 30)]}
   renderDigitalClock={(digitalClockProps) => {
     return (
       <>

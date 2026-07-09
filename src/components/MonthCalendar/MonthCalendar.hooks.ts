@@ -1,33 +1,26 @@
 import { useMemo } from 'react';
 import { MonthCalendarProps } from './MonthCalendar';
-import {
-  getLocaleMonths,
-  isLowerMonth,
-  isHigherMonth,
-  isSameMonth
-} from './MonthCalendar.utils';
+import { getLocaleMonths, isSameMonth } from './MonthCalendar.utils';
 
 type UseMonthItemsProps = Pick<
   MonthCalendarProps,
   | 'locale'
-  | 'minDate'
-  | 'maxDate'
   | 'readOnly'
   | 'disabled'
   | 'selectedDate'
   | 'displayedDate'
   | 'onMonthChange'
+  | 'disabledDates'
 >;
 
 export const useMonthItems = ({
   locale,
-  minDate,
-  maxDate,
   readOnly,
   disabled,
   selectedDate,
   displayedDate,
-  onMonthChange
+  onMonthChange,
+  disabledDates
 }: UseMonthItemsProps) => {
   const localeMonths = useMemo(() => getLocaleMonths(locale), [locale]);
 
@@ -53,28 +46,18 @@ export const useMonthItems = ({
           targetDate: valueReflectingYear
         }),
         readOnly,
-        disabled:
-          disabled ||
-          isLowerMonth({
-            baseDate: minDate,
-            targetDate: valueReflectingYear
-          }) ||
-          isHigherMonth({
-            baseDate: maxDate,
-            targetDate: valueReflectingYear
-          }),
+        disabled: disabled || disabledDates?.({ date: valueReflectingYearDay }),
         onClick: () => onMonthChange?.(valueReflectingYearDay)
       };
     });
   }, [
     localeMonths,
     displayedDate,
-    minDate,
-    maxDate,
     readOnly,
     disabled,
     selectedDate,
-    onMonthChange
+    onMonthChange,
+    disabledDates
   ]);
 
   return { monthItems };

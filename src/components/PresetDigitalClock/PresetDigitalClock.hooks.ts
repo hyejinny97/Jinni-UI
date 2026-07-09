@@ -22,8 +22,6 @@ type UseTimeItemsProps = Pick<
   | 'locale'
   | 'options'
   | 'timeStep'
-  | 'minTime'
-  | 'maxTime'
   | 'disabledTimes'
   | 'disabled'
   | 'skipDisabledTime'
@@ -67,8 +65,6 @@ export const useTimeItems = ({
   locale,
   options,
   timeStep,
-  minTime,
-  maxTime,
   disabledTimes,
   disabled,
   skipDisabledTime,
@@ -85,22 +81,22 @@ export const useTimeItems = ({
   const isDisabled = useCallback(
     (time: Date): boolean => {
       if (disabled) return true;
-      const timeInSeconds = dateToSeconds(time);
-      if (minTime) {
-        const minTimeInSeconds = dateToSeconds(minTime);
-        if (timeInSeconds < minTimeInSeconds) return true;
-      }
-      if (maxTime) {
-        const maxTimeInSeconds = dateToSeconds(maxTime);
-        if (timeInSeconds > maxTimeInSeconds) return true;
-      }
       if (disabledTimes) {
-        const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
-        if (disabledTimeInSeconds.includes(timeInSeconds)) return true;
+        if (Array.isArray(disabledTimes)) {
+          const disabledTimeInSeconds = disabledTimes.map(dateToSeconds);
+          const timeInSeconds = dateToSeconds(time);
+          if (disabledTimeInSeconds.includes(timeInSeconds)) {
+            return true;
+          }
+        } else {
+          if (disabledTimes({ time })) {
+            return true;
+          }
+        }
       }
       return false;
     },
-    [minTime, maxTime, disabledTimes, disabled]
+    [disabledTimes, disabled]
   );
 
   const timeItems = useMemo<TimeItemType[]>(() => {

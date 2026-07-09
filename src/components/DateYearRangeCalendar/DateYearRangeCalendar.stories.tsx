@@ -13,7 +13,11 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { RangeType, RangeFieldType } from '@/types/date-component';
+import {
+  RangeType,
+  RangeFieldType,
+  RangeDisabledDatesFnType
+} from '@/types/date-component';
 
 const meta: Meta<typeof DateYearRangeCalendar> = {
   title: 'components/DateRangePicker/DateRangeCalendar/DateYearRangeCalendar',
@@ -31,22 +35,18 @@ const meta: Meta<typeof DateYearRangeCalendar> = {
         type: { summary: 'boolean' }
       }
     },
+    disabledDates: {
+      description: '비활성화 하는 특정 날짜 모음',
+      table: {
+        type: {
+          summary: `({ date, rangeField }: { date: Date; rangeField: 'start' | 'end'; }) => boolean;`
+        }
+      }
+    },
     locale: {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxDate: {
-      description: '선택 가능한 최대 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minDate: {
-      description: '선택 가능한 최소 날짜',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     onChange: {
@@ -298,6 +298,101 @@ const OptionsTemplate = () => {
   );
 };
 
+type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledDates: RangeDisabledDatesFnType;
+};
+
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledDates: (value: RangeType<Date | null>) => RangeDisabledDatesFnType;
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Available from 2000 to 2050.',
+    disabledDates: ({ date }) => {
+      const year = date.getFullYear();
+      return year < 2000 || 2050 < year;
+    }
+  },
+  {
+    label: 'Available starting this year.',
+    disabledDates: ({ date }) => {
+      const currentYear = new Date().getFullYear();
+      return date.getFullYear() < currentYear;
+    }
+  },
+  {
+    label: `'End' can only be selected up to 'start' + 10 years.`,
+    withValue: true,
+    disabledDates:
+      (value: RangeType<Date | null>) =>
+      ({ date, rangeField }) => {
+        if (rangeField === 'end' && value.start) {
+          const start = value.start.getFullYear();
+          const year = date.getFullYear();
+          return year < start || start + 10 <= year;
+        }
+        return false;
+      }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <DateYearRangeCalendar
+        value={value}
+        onChange={handleChange}
+        disabledDates={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledDates(value)
+            : CASES[caseIdx].disabledDates
+        }
+      />
+    </Stack>
+  );
+};
+
 export const BasicDateYearRangeCalendar: Story = {
   render: (args) => (
     <Stack direction="row" spacing={20}>
@@ -519,27 +614,105 @@ export const Options: Story = {
   }
 };
 
-export const MinDate: Story = {
-  render: (args) => (
-    <DateYearRangeCalendar minDate={new Date(2025, 0, 1)} {...args} />
-  ),
+export const DisabledDates: Story = {
+  render: () => <DisabledDatesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<DateYearRangeCalendar minDate={new Date(2025, 0, 1)} />`.trim()
-      }
-    }
-  }
+        code: `type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledDates: RangeDisabledDatesFnType;
 };
 
-export const MaxDate: Story = {
-  render: (args) => (
-    <DateYearRangeCalendar maxDate={new Date(2030, 0, 1)} {...args} />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<DateYearRangeCalendar maxDate={new Date(2030, 0, 1)} />`.trim()
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledDates: (value: RangeType<Date | null>) => RangeDisabledDatesFnType;
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Available from 2000 to 2050.',
+    disabledDates: ({ date }) => {
+      const year = date.getFullYear();
+      return year < 2000 || 2050 < year;
+    }
+  },
+  {
+    label: 'Available starting this year.',
+    disabledDates: ({ date }) => {
+      const currentYear = new Date().getFullYear();
+      return date.getFullYear() < currentYear;
+    }
+  },
+  {
+    label: \`'End' can only be selected up to 'start' + 10 years.\`,
+    withValue: true,
+    disabledDates:
+      (value: RangeType<Date | null>) =>
+      ({ date, rangeField }) => {
+        if (rangeField === 'end' && value.start) {
+          const start = value.start.getFullYear();
+          const year = date.getFullYear();
+          return year < start || start + 10 <= year;
+        }
+        return false;
+      }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <DateYearRangeCalendar
+        value={value}
+        onChange={handleChange}
+        disabledDates={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledDates(value)
+            : CASES[caseIdx].disabledDates
+        }
+      />
+    </Stack>
+  );
+};`.trim()
       }
     }
   }

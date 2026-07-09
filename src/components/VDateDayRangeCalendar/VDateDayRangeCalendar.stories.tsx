@@ -13,7 +13,12 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { RangeType, RangeFieldType } from '@/types/date-component';
+import {
+  RangeType,
+  RangeFieldType,
+  RangeDisabledDatesFnType
+} from '@/types/date-component';
+import { DAY } from '@/constants/time';
 
 const meta: Meta<typeof VDateDayRangeCalendar> = {
   title: 'components/DateRangePicker/DateRangeCalendar/VDateDayRangeCalendar',
@@ -41,7 +46,9 @@ const meta: Meta<typeof VDateDayRangeCalendar> = {
     disabledDates: {
       description: '비활성화 하는 특정 날짜 모음',
       table: {
-        type: { summary: 'Array<Date>' }
+        type: {
+          summary: `Array<Date> | ({ date, rangeField }: { date: Date; rangeField: 'start' | 'end'; }) => boolean;`
+        }
       }
     },
     displayWeekNumber: {
@@ -60,18 +67,6 @@ const meta: Meta<typeof VDateDayRangeCalendar> = {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxDate: {
-      description: '선택 가능한 최대 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minDate: {
-      description: '선택 가능한 최소 날짜',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     onChange: {
@@ -290,6 +285,132 @@ const OptionsTemplate = () => {
         </RadioGroup>
       </Box>
       <VDateDayRangeCalendar key={JSON.stringify(option)} options={option} />
+    </Stack>
+  );
+};
+
+const dateToMonth = (date: Date) => {
+  return date.getFullYear() * 12 + date.getMonth();
+};
+
+const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
+};
+
+type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledDates: Array<Date> | RangeDisabledDatesFnType;
+};
+
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledDates: (
+    value: RangeType<Date | null>
+  ) => Array<Date> | RangeDisabledDatesFnType;
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Disable today',
+    disabledDates: [new Date()]
+  },
+  {
+    label: 'Disable all dates except current month.',
+    disabledDates: ({ date }) => {
+      return dateToMonth(new Date()) !== dateToMonth(date);
+    }
+  },
+  {
+    label: 'Disable weekends.',
+    disabledDates: ({ date }) => {
+      const day = date.getDay();
+      return day === 0 || day === 6;
+    }
+  },
+  {
+    label: 'Available between 2026.6.1 and 2026.8.15.',
+    disabledDates: ({ date }) => {
+      const startInDay = dateToDay(new Date(2026, 5, 1));
+      const endInDay = dateToDay(new Date(2026, 7, 15));
+      const dateInDay = dateToDay(date);
+      return dateInDay < startInDay || endInDay < dateInDay;
+    }
+  },
+  {
+    label: `'End' can only be selected up to 'start' + 7 days.`,
+    withValue: true,
+    disabledDates:
+      (value: RangeType<Date | null>) =>
+      ({ date, rangeField }) => {
+        if (rangeField === 'end' && value.start) {
+          const start = value.start;
+          const startInDay = dateToDay(start);
+          const end = new Date(start);
+          end.setDate(start.getDate() + 7);
+          const endInDay = dateToDay(end);
+          const dateInDay = dateToDay(date);
+          return dateInDay < startInDay || endInDay <= dateInDay;
+        }
+        return false;
+      }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <VDateDayRangeCalendar
+        value={value}
+        onChange={handleChange}
+        disabledDates={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledDates(value)
+            : CASES[caseIdx].disabledDates
+        }
+      />
     </Stack>
   );
 };
@@ -532,61 +653,136 @@ export const Options: Story = {
   }
 };
 
-export const MinDate: Story = {
-  render: (args) => (
-    <VDateDayRangeCalendar
-      referenceDate={new Date(2025, 1, 1)}
-      minDate={new Date(2025, 1, 10)}
-      {...args}
-    />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<VDateDayRangeCalendar
-  referenceDate={new Date(2025, 1, 1)}
-  minDate={new Date(2025, 1, 10)}
-/>`.trim()
-      }
-    }
-  }
-};
-
-export const MaxDate: Story = {
-  render: (args) => (
-    <VDateDayRangeCalendar
-      referenceDate={new Date(2025, 1, 1)}
-      maxDate={new Date(2025, 1, 20)}
-      {...args}
-    />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<VDateDayRangeCalendar
-  referenceDate={new Date(2025, 1, 1)}
-  maxDate={new Date(2025, 1, 20)}
-/>`.trim()
-      }
-    }
-  }
-};
-
 export const DisabledDates: Story = {
-  render: (args) => (
-    <VDateDayRangeCalendar
-      referenceDate={new Date(2025, 1, 1)}
-      disabledDates={[new Date(2025, 1, 15), new Date(2025, 1, 28)]}
-      {...args}
-    />
-  ),
+  render: () => <DisabledDatesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<VDateDayRangeCalendar
-  referenceDate={new Date(2025, 1, 1)}
-  disabledDates={[new Date(2025, 1, 15), new Date(2025, 1, 28)]}
-/>`.trim()
+        code: `const dateToMonth = (date: Date) => {
+  return date.getFullYear() * 12 + date.getMonth();
+};
+
+const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
+};
+
+type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledDates: Array<Date> | RangeDisabledDatesFnType;
+};
+
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledDates: (
+    value: RangeType<Date | null>
+  ) => Array<Date> | RangeDisabledDatesFnType;
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Disable today',
+    disabledDates: [new Date()]
+  },
+  {
+    label: 'Disable all dates except current month.',
+    disabledDates: ({ date }) => {
+      return dateToMonth(new Date()) !== dateToMonth(date);
+    }
+  },
+  {
+    label: 'Disable weekends.',
+    disabledDates: ({ date }) => {
+      const day = date.getDay();
+      return day === 0 || day === 6;
+    }
+  },
+  {
+    label: 'Available between 2026.6.1 and 2026.8.15.',
+    disabledDates: ({ date }) => {
+      const startInDay = dateToDay(new Date(2026, 5, 1));
+      const endInDay = dateToDay(new Date(2026, 7, 15));
+      const dateInDay = dateToDay(date);
+      return dateInDay < startInDay || endInDay < dateInDay;
+    }
+  },
+  {
+    label: \`'End' can only be selected up to 'start' + 7 days.\`,
+    withValue: true,
+    disabledDates:
+      (value: RangeType<Date | null>) =>
+      ({ date, rangeField }) => {
+        if (rangeField === 'end' && value.start) {
+          const start = value.start;
+          const startInDay = dateToDay(start);
+          const end = new Date(start);
+          end.setDate(start.getDate() + 7);
+          const endInDay = dateToDay(end);
+          const dateInDay = dateToDay(date);
+          return dateInDay < startInDay || endInDay <= dateInDay;
+        }
+        return false;
+      }
+  }
+];
+
+const DisabledDatesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+
+  const handleChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Box
+        as="fieldset"
+        round="sm"
+        style={{ backgroundColor: 'surface-container', border: 'none' }}
+      >
+        <Chip as="legend" variant="filled" color="surface-container-highest">
+          Cases
+        </Chip>
+        <RadioGroup
+          name="case"
+          value={String(caseIdx)}
+          onChange={handleCaseChange}
+        >
+          <Grid columns={1}>
+            {CASES.map(({ label }, idx) => (
+              <Label content={label}>
+                <Radio value={String(idx)} />
+              </Label>
+            ))}
+          </Grid>
+        </RadioGroup>
+      </Box>
+      <HDateDayRangeCalendar
+        value={value}
+        onChange={handleChange}
+        disabledDates={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledDates(value)
+            : CASES[caseIdx].disabledDates
+        }
+      />
+    </Stack>
+  );
+};`.trim()
       }
     }
   }

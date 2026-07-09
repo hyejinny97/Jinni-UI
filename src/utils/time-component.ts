@@ -3,7 +3,12 @@ import { isNumber } from '@/utils/isNumber';
 import {
   TimeStepManualType,
   TimeComponentProps,
-  TimeMode
+  TimeMode,
+  DisabledTimesFnType,
+  DisabledTimesWithUnitFnType,
+  RangeDisabledTimesFnType,
+  RangeDisabledTimesWithUnitFnType,
+  RangeFieldType
 } from '@/types/time-component';
 
 export const dateToSeconds = (date: Date) => {
@@ -87,7 +92,7 @@ export const getLocaleDayPeriodValues = ({
   return Array.from(dayPeriods);
 };
 
-export const fixTypeByMode = ({
+export const fixTimeStepTypeByMode = ({
   mode,
   timeStep
 }: {
@@ -103,4 +108,120 @@ export const fixTypeByMode = ({
   throw new Error(
     `timeStep prop의 타입이 올바르지 않습니다.\n- mode: 'preset', timeStep: number\n- mode: 'manual', timeStep: { hour: number; minute: number; second: number; }`
   );
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getParamKeys = (fn: (...args: any[]) => any): string => {
+  const match = fn.toString().match(/^[^(]*\(([^)]*)\)/);
+  return match?.[1] ?? '';
+};
+
+export const isDisabledTimesWithUnitFn = (
+  fn: DisabledTimesFnType | DisabledTimesWithUnitFnType
+): fn is DisabledTimesWithUnitFnType => {
+  const params = getParamKeys(fn);
+  return /\bunit\b/.test(params);
+};
+
+export const isDisabledTimesFn = (
+  fn: DisabledTimesFnType | DisabledTimesWithUnitFnType
+): fn is DisabledTimesFnType => {
+  const params = getParamKeys(fn);
+  return !/\bunit\b/.test(params);
+};
+
+export const isRangeDisabledTimesWithUnitFn = (
+  fn: RangeDisabledTimesFnType | RangeDisabledTimesWithUnitFnType
+): fn is RangeDisabledTimesWithUnitFnType => {
+  const params = getParamKeys(fn);
+  return /\bunit\b/.test(params);
+};
+
+export const isRangeDisabledTimesFn = (
+  fn: RangeDisabledTimesFnType | RangeDisabledTimesWithUnitFnType
+): fn is RangeDisabledTimesFnType => {
+  const params = getParamKeys(fn);
+  return !/\bunit\b/.test(params);
+};
+
+export const bindRangeField = (
+  fn: RangeDisabledTimesFnType | RangeDisabledTimesWithUnitFnType,
+  rangeField: RangeFieldType
+): DisabledTimesFnType | DisabledTimesWithUnitFnType => {
+  if (isRangeDisabledTimesWithUnitFn(fn)) {
+    const withUnitFn: DisabledTimesWithUnitFnType = ({ time, unit }) =>
+      fn({ time, unit, rangeField });
+    return withUnitFn;
+  }
+  const basicFn: DisabledTimesFnType = ({ time }) => fn({ time, rangeField });
+  return basicFn;
+};
+
+export const fixDigitalClockPropsByMode = ({
+  mode,
+  disabledTimes,
+  timeStep
+}: {
+  mode: TimeMode;
+  disabledTimes:
+    | Array<Date>
+    | DisabledTimesFnType
+    | DisabledTimesWithUnitFnType
+    | undefined;
+  timeStep: number | TimeStepManualType;
+}):
+  | {
+      mode: 'preset';
+      disabledTimes?: Array<Date> | DisabledTimesFnType;
+      timeStep: number;
+    }
+  | {
+      mode: 'manual';
+      disabledTimes?: Array<Date> | DisabledTimesWithUnitFnType;
+      timeStep: TimeStepManualType;
+    } => {
+  switch (mode) {
+    case 'preset': {
+      if (!isNumber(timeStep)) {
+        throw new Error(
+          `mode='preset'인 경우, timeStep prop의 타입은 number입니다.`
+        );
+      }
+      if (
+        disabledTimes !== undefined &&
+        !Array.isArray(disabledTimes) &&
+        !isDisabledTimesFn(disabledTimes)
+      ) {
+        throw new Error(
+          `mode='preset'인 경우, disabledTimes prop의 타입은 아래와 같습니다.\n- Array<Date> | ({ time }: { time: Date }) => boolean;`
+        );
+      }
+      return {
+        mode: 'preset' as const,
+        disabledTimes,
+        timeStep
+      };
+    }
+    case 'manual': {
+      if (!isTimeStepManualType(timeStep)) {
+        throw new Error(
+          `mode='manual'인 경우, timeStep prop의 타입은 { hour: number; minute: number; second: number; }입니다.`
+        );
+      }
+      if (
+        disabledTimes !== undefined &&
+        !Array.isArray(disabledTimes) &&
+        !isDisabledTimesWithUnitFn(disabledTimes)
+      ) {
+        throw new Error(
+          `mode='manual'인 경우, disabledTimes prop의 타입은 아래와 같습니다.\n- Array<Date> | ({ time, unit }: { time: Date; unit: 'hour' | 'minute' | 'second'; }) => boolean;`
+        );
+      }
+      return {
+        mode: 'manual' as const,
+        disabledTimes,
+        timeStep
+      };
+    }
+  }
 };

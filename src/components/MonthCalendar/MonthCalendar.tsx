@@ -6,7 +6,10 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import Grid, { GridProps } from '@/components/Grid';
 import Month, { MonthProps } from '../Month';
-import { DateComponentProps } from '@/types/date-component';
+import {
+  DateComponentProps,
+  DisabledDatesFnType
+} from '@/types/date-component';
 import { useMonthItems } from './MonthCalendar.hooks';
 
 export type MonthCalendarMainProps = {
@@ -17,14 +20,12 @@ export type MonthCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
   'children' | 'defaultValue' | 'onChange'
 > &
-  Omit<
-    DateComponentProps,
-    'options' | 'disabledDates' | 'defaultValue' | 'value' | 'onChange'
-  > &
+  Omit<DateComponentProps, 'options' | 'defaultValue' | 'value' | 'onChange'> &
   MonthCalendarMainProps & {
     displayedDate: Date;
     selectedDate?: Date | null;
     onMonthChange?: (newDate: Date) => void;
+    disabledDates?: DisabledDatesFnType;
   };
 
 const MonthCalendar = <T extends AsType = 'div'>(
@@ -34,9 +35,8 @@ const MonthCalendar = <T extends AsType = 'div'>(
     displayedDate,
     selectedDate,
     onMonthChange,
+    disabledDates,
     locale,
-    minDate,
-    maxDate,
     readOnly,
     disabled,
     renderMonth = (monthProps: Omit<MonthProps, 'ref'>) => (
@@ -47,13 +47,12 @@ const MonthCalendar = <T extends AsType = 'div'>(
   } = props;
   const { monthItems } = useMonthItems({
     locale,
-    minDate,
-    maxDate,
     readOnly,
     disabled,
     selectedDate,
     displayedDate,
-    onMonthChange
+    onMonthChange,
+    disabledDates
   });
 
   return (

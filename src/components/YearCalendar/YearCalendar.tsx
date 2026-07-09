@@ -6,7 +6,10 @@ import cn from 'classnames';
 import { AsType } from '@/types/default-component-props';
 import Grid, { GridProps } from '@/components/Grid';
 import Year, { YearProps } from '../Year';
-import { DateComponentProps } from '@/types/date-component';
+import {
+  DateComponentProps,
+  DisabledDatesFnType
+} from '@/types/date-component';
 import { useYearItems, useScroll } from './YearCalendar.hooks';
 
 export type YearCalendarMainProps = {
@@ -18,14 +21,12 @@ export type YearCalendarProps<T extends AsType = 'div'> = Omit<
   GridProps<T>,
   'children' | 'defaultValue' | 'onChange'
 > &
-  Omit<
-    DateComponentProps,
-    'options' | 'disabledDates' | 'defaultValue' | 'value' | 'onChange'
-  > &
+  Omit<DateComponentProps, 'options' | 'defaultValue' | 'value' | 'onChange'> &
   YearCalendarMainProps & {
     displayedDate: Date;
     selectedDate?: Date | null;
     onYearChange?: (newDate: Date) => void;
+    disabledDates?: DisabledDatesFnType;
   };
 
 const YearCalendar = <T extends AsType = 'div'>(
@@ -36,8 +37,7 @@ const YearCalendar = <T extends AsType = 'div'>(
     selectedDate,
     onYearChange,
     locale,
-    minDate,
-    maxDate,
+    disabledDates,
     readOnly,
     disabled,
     yearsOrder = 'asc',
@@ -47,14 +47,13 @@ const YearCalendar = <T extends AsType = 'div'>(
   } = props;
   const { yearItems } = useYearItems({
     locale,
-    minDate,
-    maxDate,
     readOnly,
     disabled,
     yearsOrder,
     selectedDate,
     displayedDate,
-    onYearChange
+    onYearChange,
+    disabledDates
   });
   const { yearCalendarElRef } = useScroll({ displayedDate });
 

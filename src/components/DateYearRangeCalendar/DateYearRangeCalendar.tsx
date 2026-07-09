@@ -4,7 +4,10 @@ import './DateYearRangeCalendar.scss';
 import cn from 'classnames';
 import { useMemo } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { DateRangeComponentProps } from '@/types/date-component';
+import {
+  DateRangeComponentProps,
+  RangeDisabledDatesFnType
+} from '@/types/date-component';
 import { YearCalendarMainProps } from '@/components/YearCalendar';
 import YearRangeCalendar from '@/components/YearRangeCalendar';
 import CalendarHeader, {
@@ -18,12 +21,13 @@ export type DateYearRangeCalendarProps<T extends AsType = 'div'> = Omit<
   DefaultComponentProps<T>,
   'defaultValue' | 'onChange'
 > &
-  Omit<DateRangeComponentProps, 'disabledDates'> &
+  DateRangeComponentProps &
   Omit<YearCalendarMainProps, 'renderYear'> & {
     referenceDate?: Date;
     renderCalendarHeader?: (
       calendarHeaderProps: CalendarHeaderProps
     ) => React.ReactNode;
+    disabledDates?: RangeDisabledDatesFnType;
   };
 
 const DateYearRangeCalendar = <T extends AsType = 'div'>(
@@ -35,8 +39,7 @@ const DateYearRangeCalendar = <T extends AsType = 'div'>(
     onChange,
     locale,
     options,
-    minDate,
-    maxDate,
+    disabledDates,
     readOnly,
     disabled,
     yearsOrder,
@@ -82,8 +85,7 @@ const DateYearRangeCalendar = <T extends AsType = 'div'>(
     selectedDate,
     onSelectDate,
     locale,
-    minDate,
-    maxDate,
+    disabledDates,
     readOnly,
     disabled,
     yearsOrder

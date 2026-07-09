@@ -16,7 +16,10 @@ import Button from '@/components/Button';
 import { DateRangeIcon } from '@/components/icons/DateRangeIcon';
 import Stack from '@/components/Stack';
 import Divider from '@/components/Divider';
-import { DateTimeComponentProps } from '@/types/date-time-component';
+import {
+  DateTimeComponentProps,
+  DisabledDateTimesWithUnitFnType
+} from '@/types/date-time-component';
 import {
   filterTimeOptions,
   filterDateOptions
@@ -25,12 +28,17 @@ import {
   TIME_STEP_PRESET_DEFAULT,
   TIME_STEP_MANUAL_DEFAULT
 } from './DateTimePicker.constants';
-import { fixTypeByMode } from '@/utils/time-component';
+import { fixDigitalClockPropsByMode } from '@/utils/time-component';
 import {
   TimeMode,
   DigitalClockProps,
   TimeStepManualType
 } from '@/types/time-component';
+import {
+  disabledDatesInDateCalendar,
+  disabledDateTimesInDateTimeField,
+  toDisabledTimes
+} from './DateTimePicker.utils';
 
 export type DateTimePickerProps<
   T extends AsType = 'div',
@@ -38,6 +46,7 @@ export type DateTimePickerProps<
 > = Omit<DefaultComponentProps<T>, 'defaultValue' | 'onChange'> &
   DateTimeComponentProps<Mode> & {
     name?: string;
+    disabledDateTimes?: Array<Date> | DisabledDateTimesWithUnitFnType<Mode>;
     PopoverProps?: Omit<
       PopoverProps,
       'open' | 'anchorReference' | 'anchorElRef' | 'anchorPosition'
@@ -69,12 +78,7 @@ const DateTimePicker = <
       : TIME_STEP_MANUAL_DEFAULT) as Mode extends 'preset'
       ? number
       : TimeStepManualType,
-    minTime,
-    maxTime,
-    disabledTimes,
-    minDate,
-    maxDate,
-    disabledDates,
+    disabledDateTimes,
     readOnly,
     disabled,
     name,
@@ -128,22 +132,14 @@ const DateTimePicker = <
     readOnly,
     disabled
   };
-  const dateProps = {
-    minDate,
-    maxDate,
-    disabledDates
-  };
-  const timeProps = {
-    timeMode,
-    timeStep,
-    minTime,
-    maxTime,
-    disabledTimes
-  };
   const dateTimeFieldProps = {
     ...commonProps,
-    ...dateProps,
-    ...timeProps,
+    timeMode,
+    timeStep,
+    disabledDateTimes: disabledDateTimesInDateTimeField<Mode>({
+      timeMode,
+      disabledDateTimes
+    }),
     onChange: handleDateTimeChange,
     options,
     focused: open,
@@ -166,16 +162,25 @@ const DateTimePicker = <
   };
   const dateCalendarProps = {
     ...commonProps,
-    ...dateProps,
+    disabledDates: disabledDatesInDateCalendar<Mode>({
+      timeMode,
+      disabledDateTimes,
+      dateTimeValue
+    }),
     onChange: handleDateChange,
     options: filterDateOptions(options)
   };
   const digitClockProps = {
     ...commonProps,
-    ...fixTypeByMode({ mode: timeMode, timeStep }),
-    minTime,
-    maxTime,
-    disabledTimes,
+    ...fixDigitalClockPropsByMode({
+      mode: timeMode,
+      disabledTimes: toDisabledTimes({
+        timeMode,
+        disabledDateTimes,
+        dateTimeValue
+      }),
+      timeStep
+    }),
     onChange: handleTimeChange,
     options: filterTimeOptions(options)
   };

@@ -12,6 +12,7 @@ import Radio from '@/components/Radio';
 import Switch from '@/components/Switch';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
+import { DisabledTimesWithUnitFnType } from '@/types/time-component';
 
 const meta: Meta<typeof ManualDigitalClock> = {
   title: 'components/TimePicker/ManualDigitalClock',
@@ -32,25 +33,15 @@ const meta: Meta<typeof ManualDigitalClock> = {
     disabledTimes: {
       description: '비활성화 하는 특정 시간 모음',
       table: {
-        type: { summary: 'Array<Date>' }
+        type: {
+          summary: `Array<Date> | ({ time, unit }: { time: Date; unit: 'hour' | 'minute' | 'second';}) ⇒ boolean`
+        }
       }
     },
     locale: {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxTime: {
-      description: '선택 가능한 최대 시간',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minTime: {
-      description: '선택 가능한 최소 시간',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     onChange: {
@@ -261,32 +252,116 @@ const OptionsTemplate = () => {
   );
 };
 
-const SkipDisabledTimeTemplate = () => {
+const dateToMinute = (date: Date) => {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return hour * 3600 + minute * 60;
+};
+
+type CaseType = {
+  label: string;
+  disabledTimes: Array<Date> | DisabledTimesWithUnitFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Disables at 3:00 PM and 3:30 PM.',
+    disabledTimes: [new Date('2025-06-30T15:00'), new Date('2025-06-30T15:30')]
+  },
+  {
+    label: 'Disables the hours between 12 PM and 3 PM.',
+    disabledTimes: ({ time, unit }) =>
+      unit === 'hour' && time.getHours() >= 12 && time.getHours() < 15
+  },
+  {
+    label: 'Disables the last half of each hour.',
+    disabledTimes: ({ time, unit }) =>
+      unit === 'minute' && time.getMinutes() >= 30
+  },
+  {
+    label: 'Available from 9:00 AM to 6:30 PM.',
+    disabledTimes: ({ time, unit }) => {
+      if (unit === 'hour') {
+        return time.getHours() < 9 || time.getHours() > 18;
+      }
+      if (unit === 'minute') {
+        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 30));
+        const timeInMinute = dateToMinute(time);
+        return (
+          timeInMinute < startTimeInMinute || endTimeInMinute < timeInMinute
+        );
+      }
+      return false;
+    }
+  },
+  {
+    label: 'Disables from 3:30 PM to 5:20 PM.',
+    disabledTimes: ({ time, unit }) => {
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
+      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
+      if (unit === 'hour') {
+        const hour = time.getHours();
+        return (
+          startTimeInMinute <= dateToMinute(new Date(1970, 0, 1, hour, 0)) &&
+          dateToMinute(new Date(1970, 0, 1, hour, 59)) <= endTimeInMinute
+        );
+      }
+      if (unit === 'minute') {
+        const timeInMinute = dateToMinute(time);
+        return (
+          startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute
+        );
+      }
+      return false;
+    }
+  }
+];
+
+const DisabledTimesTemplate = () => {
   const [checked, setChecked] = useState(false);
+  const [caseIdx, setCaseIdx] = useState<number>(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
   };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
 
   return (
     <Stack spacing={20} style={{ alignItems: 'center' }}>
-      <Label content="Skip Disabled Time">
-        <Switch checked={checked} onChange={handleChange} />
-      </Label>
+      <Stack spacing={5} style={{ alignItems: 'end' }}>
+        <Label content="Skip Disabled Time">
+          <Switch checked={checked} onChange={handleChange} />
+        </Label>
+        <Box
+          as="fieldset"
+          round="sm"
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
+        >
+          <Chip as="legend" variant="filled" color="surface-container-highest">
+            Cases
+          </Chip>
+          <RadioGroup
+            name="case"
+            value={String(caseIdx)}
+            onChange={handleCaseChange}
+          >
+            <Grid columns={1}>
+              {CASES.map(({ label }, idx) => (
+                <Label content={label}>
+                  <Radio value={String(idx)} />
+                </Label>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Box>
+      </Stack>
       <ManualDigitalClock
-        minTime={new Date('2025-06-30T14:30')}
-        maxTime={new Date('2025-06-30T17:25')}
-        disabledTimes={[
-          new Date('2025-06-30T14:40'),
-          new Date('2025-06-30T14:50')
-        ]}
+        disabledTimes={CASES[caseIdx].disabledTimes}
         skipDisabledTime={checked}
-        options={{
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hourCycle: 'h23'
-        }}
       />
     </Stack>
   );
@@ -482,87 +557,122 @@ export const Options: Story = {
   }
 };
 
-export const MinTime: Story = {
-  render: (args) => (
-    <ManualDigitalClock minTime={new Date('2025-06-30T14:30')} {...args} />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<ManualDigitalClock minTime={new Date('2025-06-30T14:30')} />`.trim()
-      }
-    }
-  }
-};
-
-export const MaxTime: Story = {
-  render: (args) => (
-    <ManualDigitalClock maxTime={new Date('2025-06-30T17:25')} {...args} />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<ManualDigitalClock maxTime={new Date('2025-06-30T17:25')} />`.trim()
-      }
-    }
-  }
-};
-
 export const DisabledTimes: Story = {
-  render: (args) => (
-    <ManualDigitalClock
-      disabledTimes={[
-        new Date('2025-06-30T14:10'),
-        new Date('2025-06-30T12:30')
-      ]}
-      {...args}
-    />
-  ),
+  render: () => <DisabledTimesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<ManualDigitalClock
-  disabledTimes={[
-    new Date('2025-06-30T14:10'),
-    new Date('2025-06-30T12:30')
-  ]}
-/>`.trim()
-      }
-    }
-  }
+        code: `
+const dateToMinute = (date: Date) => {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return hour * 3600 + minute * 60;
 };
 
-export const SkipDisabledTime: Story = {
-  render: () => <SkipDisabledTimeTemplate />,
-  parameters: {
-    docs: {
-      source: {
-        code: `const SkipDisabledTimeTemplate = () => {
+type CaseType = {
+  label: string;
+  disabledTimes: Array<Date> | DisabledTimesWithUnitFnType;
+};
+
+const CASES: CaseType[] = [
+  {
+    label: 'Disables at 3:00 PM and 3:30 PM.',
+    disabledTimes: [new Date('2025-06-30T15:00'), new Date('2025-06-30T15:30')]
+  },
+  {
+    label: 'Disables the hours between 12 PM and 3 PM.',
+    disabledTimes: ({ time, unit }) =>
+      unit === 'hour' && time.getHours() >= 12 && time.getHours() < 15
+  },
+  {
+    label: 'Disables the last half of each hour.',
+    disabledTimes: ({ time, unit }) =>
+      unit === 'minute' && time.getMinutes() >= 30
+  },
+  {
+    label: 'Available from 9:00 AM to 6:30 PM.',
+    disabledTimes: ({ time, unit }) => {
+      if (unit === 'hour') {
+        return time.getHours() < 9 || time.getHours() > 18;
+      }
+      if (unit === 'minute') {
+        const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 9, 0));
+        const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 18, 30));
+        const timeInMinute = dateToMinute(time);
+        return (
+          timeInMinute < startTimeInMinute || endTimeInMinute < timeInMinute
+        );
+      }
+      return false;
+    }
+  },
+  {
+    label: 'Disables from 3:30 PM to 5:20 PM.',
+    disabledTimes: ({ time, unit }) => {
+      const startTimeInMinute = dateToMinute(new Date(1970, 0, 1, 15, 30));
+      const endTimeInMinute = dateToMinute(new Date(1970, 0, 1, 17, 20));
+      if (unit === 'hour') {
+        const hour = time.getHours();
+        return (
+          startTimeInMinute <= dateToMinute(new Date(1970, 0, 1, hour, 0)) &&
+          dateToMinute(new Date(1970, 0, 1, hour, 59)) <= endTimeInMinute
+        );
+      }
+      if (unit === 'minute') {
+        const timeInMinute = dateToMinute(time);
+        return (
+          startTimeInMinute < timeInMinute && timeInMinute < endTimeInMinute
+        );
+      }
+      return false;
+    }
+  }
+];
+
+const DisabledTimesTemplate = () => {
   const [checked, setChecked] = useState(false);
+  const [caseIdx, setCaseIdx] = useState<number>(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
   };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
 
   return (
     <Stack spacing={20} style={{ alignItems: 'center' }}>
-      <Label content="Skip Disabled Time">
-        <Switch checked={checked} onChange={handleChange} />
-      </Label>
+      <Stack spacing={5} style={{ alignItems: 'end' }}>
+        <Label content="Skip Disabled Time">
+          <Switch checked={checked} onChange={handleChange} />
+        </Label>
+        <Box
+          as="fieldset"
+          round="sm"
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
+        >
+          <Chip as="legend" variant="filled" color="surface-container-highest">
+            Cases
+          </Chip>
+          <RadioGroup
+            name="case"
+            value={String(caseIdx)}
+            onChange={handleCaseChange}
+          >
+            <Grid columns={1}>
+              {CASES.map(({ label }, idx) => (
+                <Label content={label}>
+                  <Radio value={String(idx)} />
+                </Label>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Box>
+      </Stack>
       <ManualDigitalClock
-        minTime={new Date('2025-06-30T14:30')}
-        maxTime={new Date('2025-06-30T17:25')}
-        disabledTimes={[
-          new Date('2025-06-30T14:40'),
-          new Date('2025-06-30T14:50')
-        ]}
+        disabledTimes={CASES[caseIdx].disabledTimes}
         skipDisabledTime={checked}
-        options={{
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hourCycle: 'h23'
-        }}
       />
     </Stack>
   );

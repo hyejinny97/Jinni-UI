@@ -1,21 +1,38 @@
 import {
   TimeOptions,
   TimeStepManualType,
-  TimeMode,
-  TimeValidationError
+  TimeMode
 } from '@/types/time-component';
-import { DateOptions, DateValidationError } from '@/types/date-component';
-import {
-  CHRONOLOGICAL_ORDER,
-  INCLUDE_DISABLED_DATE
-} from '@/constants/date-time-component';
+import { DateOptions } from '@/types/date-component';
+import { CHRONOLOGICAL_ORDER } from '@/constants/date-time-component';
 
 export type DateTimeOptions = TimeOptions & DateOptions;
 
-export type DateTimeValidationError = {
-  date?: DateValidationError;
-  time?: TimeValidationError;
-};
+export type DateTimeValidationError = 'disabledDateTime' | 'timeStep';
+
+export type DisabledDateTimesFnType = ({
+  dateTime
+}: {
+  dateTime: Date;
+  unit?: never;
+}) => boolean;
+
+export type DisabledDateTimesWithUnitFnType<Mode extends TimeMode = 'preset'> =
+  Mode extends 'preset'
+    ? ({
+        dateTime,
+        unit
+      }: {
+        dateTime: Date;
+        unit: 'year' | 'month' | 'day' | 'time';
+      }) => boolean
+    : ({
+        dateTime,
+        unit
+      }: {
+        dateTime: Date;
+        unit: 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second';
+      }) => boolean;
 
 export type DateTimeComponentProps<Mode extends TimeMode = 'preset'> = {
   defaultValue?: Date;
@@ -25,12 +42,6 @@ export type DateTimeComponentProps<Mode extends TimeMode = 'preset'> = {
   options?: DateTimeOptions;
   timeMode?: Mode;
   timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
   readOnly?: boolean;
   disabled?: boolean;
 };
@@ -41,11 +52,40 @@ export type RangeType<T> = Partial<Record<RangeFieldType, T>>;
 
 export type RangeAdornmentType<T> = RangeType<T> & { dateTimeRangeField?: T };
 
-export type DateTimeRangeValidationError =
-  RangeType<DateTimeValidationError> & {
-    [CHRONOLOGICAL_ORDER]?: boolean;
-    [INCLUDE_DISABLED_DATE]?: boolean;
-  };
+export type DateTimeRangeValidationError = RangeType<
+  DateTimeValidationError[]
+> & {
+  [CHRONOLOGICAL_ORDER]?: boolean;
+};
+
+export type RangeDisabledDateTimesFnType = ({
+  dateTime,
+  rangeField
+}: {
+  dateTime: Date;
+  unit?: never;
+  rangeField: RangeFieldType;
+}) => boolean;
+
+export type RangeDisabledDateTimesWithUnitFnType<
+  Mode extends TimeMode = 'preset'
+> = Mode extends 'preset'
+  ? ({
+      dateTime,
+      rangeField
+    }: {
+      dateTime: Date;
+      unit: 'date' | 'time';
+      rangeField: RangeFieldType;
+    }) => boolean
+  : ({
+      dateTime,
+      rangeField
+    }: {
+      dateTime: Date;
+      unit: 'date' | 'hour' | 'minute' | 'second';
+      rangeField: RangeFieldType;
+    }) => boolean;
 
 export type DateTimeRangeComponent<Mode extends TimeMode = 'preset'> = {
   defaultValue?: RangeType<Date>;
@@ -55,12 +95,6 @@ export type DateTimeRangeComponent<Mode extends TimeMode = 'preset'> = {
   options?: DateTimeOptions;
   timeMode?: Mode;
   timeStep?: Mode extends 'preset' ? number : TimeStepManualType;
-  minTime?: Date;
-  maxTime?: Date;
-  disabledTimes?: Array<Date>;
-  minDate?: Date;
-  maxDate?: Date;
-  disabledDates?: Array<Date>;
   readOnly?: boolean;
   disabled?: boolean;
 };
