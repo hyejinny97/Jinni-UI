@@ -37,3 +37,36 @@ export const filterDateOptions = (options?: DateTimeOptions) => {
   });
   return filteredDateOptions;
 };
+
+export const setTime = ({
+  base,
+  target
+}: {
+  base: Date;
+  target: Date | null | undefined;
+}) => {
+  const newBase = new Date(base);
+  if (!target) {
+    newBase.setHours(0, 0, 0, 0);
+  } else {
+    newBase.setHours(target.getHours());
+    newBase.setMinutes(target.getMinutes());
+    newBase.setSeconds(target.getSeconds());
+  }
+  return newBase;
+};
+
+export const setDate = ({
+  base,
+  target
+}: {
+  base: Date;
+  target: Date | null | undefined;
+}) => {
+  if (!target) return base;
+  const newBase = new Date(base);
+  newBase.setFullYear(target.getFullYear());
+  newBase.setMonth(target.getMonth());
+  newBase.setDate(target.getDate());
+  return newBase;
+};

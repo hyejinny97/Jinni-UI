@@ -67,6 +67,26 @@ export type RangeDisabledDateTimesFnType = ({
   rangeField: RangeFieldType;
 }) => boolean;
 
+export type RangeDisabledDateTimesWithUnitFnType<
+  Mode extends TimeMode = 'preset'
+> = Mode extends 'preset'
+  ? ({
+      dateTime,
+      rangeField
+    }: {
+      dateTime: Date;
+      unit: 'date' | 'time';
+      rangeField: RangeFieldType;
+    }) => boolean
+  : ({
+      dateTime,
+      rangeField
+    }: {
+      dateTime: Date;
+      unit: 'date' | 'hour' | 'minute' | 'second';
+      rangeField: RangeFieldType;
+    }) => boolean;
+
 export type DateTimeRangeComponent<Mode extends TimeMode = 'preset'> = {
   defaultValue?: RangeType<Date>;
   value?: RangeType<Date | null>;

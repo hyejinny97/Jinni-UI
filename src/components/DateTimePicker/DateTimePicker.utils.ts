@@ -7,27 +7,7 @@ import { DateTimePickerProps } from './DateTimePicker';
 import { DateTimeFieldProps } from '@/components/DateTimeField';
 import { DisabledDateTimesWithUnitFnType } from '@/types/date-time-component';
 import { DisabledDatesWithUnitFnType } from '@/types/date-component';
-
-const setTime = ({ base, target }: { base: Date; target: Date | null }) => {
-  const newBase = new Date(base);
-  if (target === null) {
-    newBase.setHours(0, 0, 0, 0);
-  } else {
-    newBase.setHours(target.getHours());
-    newBase.setMinutes(target.getMinutes());
-    newBase.setSeconds(target.getSeconds());
-  }
-  return newBase;
-};
-
-const setDate = ({ base, target }: { base: Date; target: Date | null }) => {
-  if (target === null) return base;
-  const newBase = new Date(base);
-  newBase.setFullYear(target.getFullYear());
-  newBase.setMonth(target.getMonth());
-  newBase.setDate(target.getDate());
-  return newBase;
-};
+import { setDate, setTime } from '@/utils/date-time-component';
 
 export const disabledDateTimesInDateTimeField = <
   Mode extends TimeMode = 'manual'
