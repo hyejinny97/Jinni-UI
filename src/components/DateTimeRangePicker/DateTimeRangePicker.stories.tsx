@@ -14,13 +14,18 @@ import RadioGroup from '@/components/RadioGroup';
 import Radio from '@/components/Radio';
 import Label from '@/components/Label';
 import Chip from '@/components/Chip';
-import { RangeType, RangeFieldType } from '@/types/date-time-component';
+import {
+  RangeType,
+  RangeFieldType,
+  RangeDisabledDateTimesWithUnitFnType
+} from '@/types/date-time-component';
 import { FlightLandIcon } from '@/components/icons/FlightLandIcon';
 import { FlightTakeOffIcon } from '@/components/icons/FlightTakeOffIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
-import { MINUTE } from '@/constants/time';
+import { DAY, MINUTE } from '@/constants/time';
 import Switch from '@/components/Switch';
 import Button from '@/components/Button';
+import { TimeMode } from '@/types/time-component';
 
 const meta: Meta<typeof DateTimeRangePicker> = {
   component: DateTimeRangePicker,
@@ -43,46 +48,21 @@ const meta: Meta<typeof DateTimeRangePicker> = {
         type: { summary: 'boolean' }
       }
     },
-    disabledDates: {
-      description: '비활성화 하는 특정 날짜 모음',
+    disabledDateTimes: {
+      description: '비활성화 하는 특정 날짜/시간 모음',
       table: {
-        type: { summary: 'Array<Date>' }
-      }
-    },
-    disabledTimes: {
-      description: '비활성화 하는 특정 시간 모음',
-      table: {
-        type: { summary: 'Array<Date>' }
+        type: {
+          summary: `mode='preset' ?
+Array<Date> | ({ dateTime, unit, rangeField }: { dateTime: Date; unit: 'date' | 'time'; rangeField: 'start' | 'end'; }) ⇒ boolean;
+: 
+Array<Date> | ({ dateTime, unit, rangeField }: { dateTime: Date; unit: 'date' | 'hour' | 'minute' | 'second'; rangeField: 'start' | 'end'; }) ⇒ boolean;`
+        }
       }
     },
     locale: {
       description: 'BCP47 언어 태그를 포함하는 문자열',
       table: {
         type: { summary: 'string' }
-      }
-    },
-    maxDate: {
-      description: '선택 가능한 최대 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    maxTime: {
-      description: '선택 가능한 최대 시간',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minDate: {
-      description: '선택 가능한 최소 날짜',
-      table: {
-        type: { summary: 'Date' }
-      }
-    },
-    minTime: {
-      description: '선택 가능한 최소 시간',
-      table: {
-        type: { summary: 'Date' }
       }
     },
     onChange: {
@@ -410,6 +390,204 @@ const TimeModeTemplate = () => {
   );
 };
 
+const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
+};
+
+const toMinute = (hour: number, minute: number = 0) => {
+  return hour * 3600 + minute * 60;
+};
+
+const getTodayWithHour = (hour: number): Date => {
+  const date = new Date();
+  date.setHours(hour, 0, 0, 0);
+  return date;
+};
+
+type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledDateTimes: {
+    preset: Array<Date> | RangeDisabledDateTimesWithUnitFnType<'preset'>;
+    manual: Array<Date> | RangeDisabledDateTimesWithUnitFnType<'manual'>;
+  };
+};
+
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledDateTimes: {
+    preset: (
+      value: RangeType<Date | null>
+    ) => RangeDisabledDateTimesWithUnitFnType<'preset'>;
+    manual: (
+      value: RangeType<Date | null>
+    ) => RangeDisabledDateTimesWithUnitFnType<'manual'>;
+  };
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Disable today at 9:00 AM.',
+    disabledDateTimes: {
+      preset: [getTodayWithHour(9)],
+      manual: [getTodayWithHour(9)]
+    }
+  },
+  {
+    label: 'Disable today from 3:00 PM to 6:00 PM.',
+    disabledDateTimes: {
+      preset: ({ dateTime, unit }) => {
+        if (unit === 'time') {
+          const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+          if (isToday) {
+            const startTime = toMinute(15);
+            const endTime = toMinute(18);
+            const time = toMinute(dateTime.getHours(), dateTime.getMinutes());
+            return startTime <= time && time <= endTime;
+          }
+        }
+        return false;
+      },
+      manual: ({ dateTime, unit }) => {
+        if (unit === 'hour' || unit === 'minute') {
+          const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+          const hour = dateTime.getHours();
+          return isToday && 15 <= hour && hour < 18;
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: 'Selectable from 9:00 AM on 2026.6.1 to 3:00 PM on 2026.6.15.',
+    disabledDateTimes: {
+      preset: ({ dateTime, unit }) => {
+        const start = new Date(2026, 5, 1, 9, 0);
+        const end = new Date(2026, 5, 15, 15, 0);
+        if (unit === 'date') {
+          const day = dateToDay(dateTime);
+          return day < dateToDay(start) || dateToDay(end) < day;
+        }
+        if (unit === 'time') {
+          const time = dateTime.getTime();
+          return time < start.getTime() || end.getTime() < time;
+        }
+        return false;
+      },
+      manual: ({ dateTime, unit }) => {
+        const start = new Date(2026, 5, 1, 9, 0);
+        const end = new Date(2026, 5, 15, 15, 0);
+        if (unit === 'date') {
+          const day = dateToDay(dateTime);
+          return day < dateToDay(start) || dateToDay(end) < day;
+        }
+        if (unit === 'hour' || unit === 'minute') {
+          const time = dateTime.getTime();
+          return time < start.getTime() || end.getTime() < time;
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: `'End' can only be selected up to 'start' + 7 days.`,
+    withValue: true,
+    disabledDateTimes: {
+      preset:
+        (value) =>
+        ({ dateTime, unit, rangeField }) => {
+          if (unit === 'date' && rangeField === 'end' && value.start) {
+            const start = dateToDay(value.start);
+            const end = start + 7;
+            const time = dateToDay(dateTime);
+            return time < start || end < time;
+          }
+          return false;
+        },
+      manual:
+        (value) =>
+        ({ dateTime, unit, rangeField }) => {
+          if (unit === 'date' && rangeField === 'end' && value.start) {
+            const start = dateToDay(value.start);
+            const end = start + 7;
+            const time = dateToDay(dateTime);
+            return time < start || end < time;
+          }
+          return false;
+        }
+    }
+  }
+];
+
+const DisabledDateTimesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+  const [isManualMode, setIsManualMode] = useState(false);
+  const mode: TimeMode = isManualMode ? 'manual' : 'preset';
+
+  const handleChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+  const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsManualMode(e.target.checked);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack spacing={5} style={{ alignItems: 'end' }}>
+        <Label content={`'manual' mode`}>
+          <Switch checked={isManualMode} onChange={handleModeChange} />
+        </Label>
+        <Box
+          as="fieldset"
+          round="sm"
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
+        >
+          <Chip as="legend" variant="filled" color="surface-container-highest">
+            Cases
+          </Chip>
+          <RadioGroup
+            name="case"
+            value={String(caseIdx)}
+            onChange={handleCaseChange}
+          >
+            <Grid columns={1}>
+              {CASES.map(({ label }, idx) => (
+                <Label content={label}>
+                  <Radio value={String(idx)} />
+                </Label>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Box>
+      </Stack>
+      <DateTimeRangePicker
+        value={value}
+        onChange={handleChange}
+        timeMode={mode}
+        disabledDateTimes={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledDateTimes[mode](value)
+            : CASES[caseIdx].disabledDateTimes[mode]
+        }
+      />
+    </Stack>
+  );
+};
+
 const MultiDateTimePickerTemplate = () => {
   const [startDateTime, setStartDateTime] = useState<Date | null>(null);
   const [endDateTime, setEndDateTime] = useState<Date | null>(null);
@@ -699,185 +877,215 @@ export const Options: Story = {
   }
 };
 
-export const MinTime: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <DateTimeRangePicker minTime={new Date('2025-06-30T14:30')} {...args} />
-      <DateTimeRangePicker
-        minTime={new Date('2025-06-30T14:30')}
-        defaultValue={{ start: new Date('2025-06-30T12:00') }}
-        {...args}
-      />
-    </Stack>
-  ),
+export const DisabledDateTimes: Story = {
+  render: () => <DisabledDateTimesTemplate />,
   parameters: {
     docs: {
       source: {
-        code: `<Stack spacing={20}>
-  <DateTimeRangePicker minTime={new Date('2025-06-30T14:30')} />
-  <DateTimeRangePicker
-    minTime={new Date('2025-06-30T14:30')}
-    defaultValue={{ start: new Date('2025-06-30T12:00') }}
-  />
-</Stack>`.trim()
+        code: `const dateToDay = (date: Date) => {
+  const dateInLocalMidnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  return Math.trunc(dateInLocalMidnight.getTime() / DAY);
+};
+
+const toMinute = (hour: number, minute: number = 0) => {
+  return hour * 3600 + minute * 60;
+};
+
+const getTodayWithHour = (hour: number): Date => {
+  const date = new Date();
+  date.setHours(hour, 0, 0, 0);
+  return date;
+};
+
+type CaseType = {
+  label: string;
+  withValue?: false;
+  disabledDateTimes: {
+    preset: Array<Date> | RangeDisabledDateTimesWithUnitFnType<'preset'>;
+    manual: Array<Date> | RangeDisabledDateTimesWithUnitFnType<'manual'>;
+  };
+};
+
+type CaseWithValueType = {
+  label: string;
+  withValue: true;
+  disabledDateTimes: {
+    preset: (
+      value: RangeType<Date | null>
+    ) => RangeDisabledDateTimesWithUnitFnType<'preset'>;
+    manual: (
+      value: RangeType<Date | null>
+    ) => RangeDisabledDateTimesWithUnitFnType<'manual'>;
+  };
+};
+
+const CASES: Array<CaseType | CaseWithValueType> = [
+  {
+    label: 'Disable today at 9:00 AM.',
+    disabledDateTimes: {
+      preset: [getTodayWithHour(9)],
+      manual: [getTodayWithHour(9)]
+    }
+  },
+  {
+    label: 'Disable today from 3:00 PM to 6:00 PM.',
+    disabledDateTimes: {
+      preset: ({ dateTime, unit }) => {
+        if (unit === 'time') {
+          const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+          if (isToday) {
+            const startTime = toMinute(15);
+            const endTime = toMinute(18);
+            const time = toMinute(dateTime.getHours(), dateTime.getMinutes());
+            return startTime <= time && time <= endTime;
+          }
+        }
+        return false;
+      },
+      manual: ({ dateTime, unit }) => {
+        if (unit === 'hour' || unit === 'minute') {
+          const isToday = dateToDay(new Date()) === dateToDay(dateTime);
+          const hour = dateTime.getHours();
+          return isToday && 15 <= hour && hour < 18;
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: 'Selectable from 9:00 AM on 2026.6.1 to 3:00 PM on 2026.6.15.',
+    disabledDateTimes: {
+      preset: ({ dateTime, unit }) => {
+        const start = new Date(2026, 5, 1, 9, 0);
+        const end = new Date(2026, 5, 15, 15, 0);
+        if (unit === 'date') {
+          const day = dateToDay(dateTime);
+          return day < dateToDay(start) || dateToDay(end) < day;
+        }
+        if (unit === 'time') {
+          const time = dateTime.getTime();
+          return time < start.getTime() || end.getTime() < time;
+        }
+        return false;
+      },
+      manual: ({ dateTime, unit }) => {
+        const start = new Date(2026, 5, 1, 9, 0);
+        const end = new Date(2026, 5, 15, 15, 0);
+        if (unit === 'date') {
+          const day = dateToDay(dateTime);
+          return day < dateToDay(start) || dateToDay(end) < day;
+        }
+        if (unit === 'hour' || unit === 'minute') {
+          const time = dateTime.getTime();
+          return time < start.getTime() || end.getTime() < time;
+        }
+        return false;
+      }
+    }
+  },
+  {
+    label: \`'End' can only be selected up to 'start' + 7 days.\`,
+    withValue: true,
+    disabledDateTimes: {
+      preset:
+        (value) =>
+        ({ dateTime, unit, rangeField }) => {
+          if (unit === 'date' && rangeField === 'end' && value.start) {
+            const start = dateToDay(value.start);
+            const end = start + 7;
+            const time = dateToDay(dateTime);
+            return time < start || end < time;
+          }
+          return false;
+        },
+      manual:
+        (value) =>
+        ({ dateTime, unit, rangeField }) => {
+          if (unit === 'date' && rangeField === 'end' && value.start) {
+            const start = dateToDay(value.start);
+            const end = start + 7;
+            const time = dateToDay(dateTime);
+            return time < start || end < time;
+          }
+          return false;
+        }
+    }
+  }
+];
+
+const DisabledDateTimesTemplate = () => {
+  const [value, setValue] = useState<RangeType<Date | null>>({
+    start: null,
+    end: null
+  });
+  const [caseIdx, setCaseIdx] = useState<number>(0);
+  const [isManualMode, setIsManualMode] = useState(false);
+  const mode: TimeMode = isManualMode ? 'manual' : 'preset';
+
+  const handleChange = (newValue: RangeType<Date | null>) => {
+    setValue(newValue);
+  };
+  const handleCaseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCaseIdx(Number(value));
+  };
+  const handleModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsManualMode(e.target.checked);
+  };
+
+  return (
+    <Stack spacing={20} style={{ alignItems: 'center' }}>
+      <Stack spacing={5} style={{ alignItems: 'end' }}>
+        <Label content={\`'manual' mode\`}>
+          <Switch checked={isManualMode} onChange={handleModeChange} />
+        </Label>
+        <Box
+          as="fieldset"
+          round="sm"
+          style={{ backgroundColor: 'surface-container', border: 'none' }}
+        >
+          <Chip as="legend" variant="filled" color="surface-container-highest">
+            Cases
+          </Chip>
+          <RadioGroup
+            name="case"
+            value={String(caseIdx)}
+            onChange={handleCaseChange}
+          >
+            <Grid columns={1}>
+              {CASES.map(({ label }, idx) => (
+                <Label content={label}>
+                  <Radio value={String(idx)} />
+                </Label>
+              ))}
+            </Grid>
+          </RadioGroup>
+        </Box>
+      </Stack>
+      <DateTimeRangePicker
+        value={value}
+        onChange={handleChange}
+        timeMode={mode}
+        disabledDateTimes={
+          CASES[caseIdx].withValue
+            ? CASES[caseIdx].disabledDateTimes[mode](value)
+            : CASES[caseIdx].disabledDateTimes[mode]
+        }
+      />
+    </Stack>
+  );
+};
+`.trim()
       }
     }
   }
 };
 
-export const MaxTime: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <DateTimeRangePicker maxTime={new Date('2025-06-30T17:25')} {...args} />
-      <DateTimeRangePicker
-        maxTime={new Date('2025-06-30T17:25')}
-        defaultValue={{ end: new Date('2025-06-30T18:00') }}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack spacing={20}>
-  <DateTimeRangePicker maxTime={new Date('2025-06-30T17:25')} />
-  <DateTimeRangePicker
-    maxTime={new Date('2025-06-30T17:25')}
-    defaultValue={{ end: new Date('2025-06-30T18:00') }}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const DisabledTimes: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <DateTimeRangePicker
-        disabledTimes={[
-          new Date('2025-06-30T14:10'),
-          new Date('2025-06-30T12:30')
-        ]}
-        {...args}
-      />
-      <DateTimeRangePicker
-        disabledTimes={[
-          new Date('2025-06-30T14:10'),
-          new Date('2025-06-30T12:30')
-        ]}
-        defaultValue={{ start: new Date('2025-06-30T14:10') }}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack spacing={20}>
-  <DateTimeRangePicker
-    disabledTimes={[
-      new Date('2025-06-30T14:10'),
-      new Date('2025-06-30T12:30')
-    ]}
-  />
-  <DateTimeRangePicker
-    disabledTimes={[
-      new Date('2025-06-30T14:10'),
-      new Date('2025-06-30T12:30')
-    ]}
-    defaultValue={{ start: new Date('2025-06-30T14:10') }}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const MinDate: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <DateTimeRangePicker minDate={new Date('2025-06-30')} {...args} />
-      <DateTimeRangePicker
-        minDate={new Date('2025-06-30')}
-        defaultValue={{ start: new Date('2025-03-15') }}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack spacing={20}>
-  <DateTimeRangePicker minDate={new Date('2025-06-30')} />
-  <DateTimeRangePicker
-    minDate={new Date('2025-06-30')}
-    defaultValue={{ start: new Date('2025-03-15') }}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const MaxDate: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <DateTimeRangePicker maxDate={new Date('2025-07-20')} {...args} />
-      <DateTimeRangePicker
-        maxDate={new Date('2025-07-20')}
-        defaultValue={{ end: new Date('2025-08-01') }}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack spacing={20}>
-  <DateTimeRangePicker maxDate={new Date('2025-07-20')} />
-  <DateTimeRangePicker
-    maxDate={new Date('2025-07-20')}
-    defaultValue={{ end: new Date('2025-08-01') }}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const DisabledDates: Story = {
-  render: (args) => (
-    <Stack spacing={20}>
-      <DateTimeRangePicker
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-        {...args}
-      />
-      <DateTimeRangePicker
-        disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-        defaultValue={{ start: new Date('2025-07-10') }}
-        {...args}
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stack spacing={20}>
-  <DateTimeRangePicker
-    disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-  />
-  <DateTimeRangePicker
-    disabledDates={[new Date('2025-07-10'), new Date('2025-07-15')]}
-    defaultValue={{ start: new Date('2025-07-10') }}
-  />
-</Stack>`.trim()
-      }
-    }
-  }
-};
-
-export const TimeMode: Story = {
+export const TimeModeStory: Story = {
   render: () => <TimeModeTemplate />,
   parameters: {
     docs: {
@@ -1101,10 +1309,6 @@ export const CustomDigitalClock: Story = {
   render: () => (
     <DateTimeRangePicker
       timeMode="manual"
-      disabledTimes={[
-        new Date(2025, 7, 4, 15, 30),
-        new Date(2025, 7, 4, 16, 30)
-      ]}
       renderDigitalClock={(digitalClockProps) => {
         return (
           <Stack
@@ -1132,10 +1336,6 @@ export const CustomDigitalClock: Story = {
       source: {
         code: `<DateTimeRangePicker
   timeMode="manual"
-  disabledTimes={[
-    new Date(2025, 7, 4, 15, 30),
-    new Date(2025, 7, 4, 16, 30)
-  ]}
   renderDigitalClock={(digitalClockProps) => {
     return (
       <Stack style={{ height: '357px', backgroundColor: 'surface-container' }}>
