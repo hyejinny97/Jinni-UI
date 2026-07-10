@@ -52,6 +52,15 @@ const meta: Meta<typeof DateField> = {
         type: { summary: 'string' }
       }
     },
+    onArrowRightFromLastPart: {
+      description:
+        '마지막 date part가 포커스된 상태에서 ArrowRight 방향키가 눌렸을 때 호출되는 함수',
+      table: {
+        type: {
+          summary: `() => void;`
+        }
+      }
+    },
     onChange: {
       description: 'value가 변경됐을 때 호출되는 함수',
       table: {

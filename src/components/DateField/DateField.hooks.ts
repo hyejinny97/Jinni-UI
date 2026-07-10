@@ -56,7 +56,7 @@ type UseInputProps = {
   dateObjectToDate: ({ year, month, day }: DateObjectType) => Date;
 };
 
-type UseFocusProps = {
+type UseFocusProps = Pick<DateFieldProps, 'onArrowRightFromLastPart'> & {
   datePartsElRef: React.RefObject<HTMLElement[]>;
 };
 
@@ -283,7 +283,10 @@ export const useDateFormat = ({
   };
 };
 
-export const useFocus = ({ datePartsElRef }: UseFocusProps) => {
+export const useFocus = ({
+  datePartsElRef,
+  onArrowRightFromLastPart
+}: UseFocusProps) => {
   const focusPrevDatePart = useCallback(
     (currentDatePartEl: HTMLElement): boolean => {
       const currentIndex = datePartsElRef.current.indexOf(currentDatePartEl);
@@ -307,9 +310,10 @@ export const useFocus = ({ datePartsElRef }: UseFocusProps) => {
         nextDatePartEl.focus();
         return true;
       }
+      onArrowRightFromLastPart?.();
       return false;
     },
-    [datePartsElRef]
+    [datePartsElRef, onArrowRightFromLastPart]
   );
 
   const focusNextDatePartOrBlur = (currentDatePartEl: HTMLElement) => {

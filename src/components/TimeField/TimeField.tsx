@@ -38,6 +38,7 @@ export type TimeFieldProps<
     format?: string;
     disabledTimes?: Array<Date> | DisabledTimesFnType;
     onErrorStatus?: (error: boolean, errorReason?: TimeValidationError) => void;
+    onArrowLeftFromFirstPart?: () => void;
   };
 
 const TimeField = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>({
@@ -60,6 +61,7 @@ const TimeField = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>({
     placeholder,
     format,
     onErrorStatus,
+    onArrowLeftFromFirstPart,
     color,
     focusedColor,
     className,
@@ -96,7 +98,10 @@ const TimeField = <T extends AsType = 'div', Mode extends TimeMode = 'preset'>({
     onErrorStatus,
     timeObjectToDate
   });
-  const { focusNextTimePartOrBlur } = useFocus({ timePartsElRef });
+  const { focusNextTimePartOrBlur } = useFocus({
+    timePartsElRef,
+    onArrowLeftFromFirstPart
+  });
   const { handleInputChange } = useInput({
     localeHourValues,
     localeSecondValues,

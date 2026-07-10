@@ -31,6 +31,7 @@ export type DateFieldProps<T extends AsType = 'div'> = Omit<
     format?: string;
     onErrorStatus?: (error: boolean, errorReason?: DateValidationError) => void;
     disabledDates?: Array<Date> | DisabledDatesFnType;
+    onArrowRightFromLastPart?: () => void;
   };
 
 const DateField = <T extends AsType = 'div'>({
@@ -49,6 +50,7 @@ const DateField = <T extends AsType = 'div'>({
     placeholder,
     format,
     onErrorStatus,
+    onArrowRightFromLastPart,
     color,
     focusedColor,
     onClick,
@@ -85,7 +87,10 @@ const DateField = <T extends AsType = 'div'>({
     onErrorStatus,
     dateObjectToDate
   });
-  const { focusNextDatePartOrBlur } = useFocus({ datePartsElRef });
+  const { focusNextDatePartOrBlur } = useFocus({
+    datePartsElRef,
+    onArrowRightFromLastPart
+  });
   const { handleInputChange } = useInput({
     dateValue,
     yearDigit,
