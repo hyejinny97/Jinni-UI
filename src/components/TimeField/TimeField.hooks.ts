@@ -61,7 +61,7 @@ type UseValidationProps<Mode extends TimeMode = 'preset'> = Pick<
   timeObjectToDate: TimeObjectToDate;
 };
 
-type UseFocusProps = {
+type UseFocusProps = Pick<TimeFieldProps, 'onArrowLeftFromFirstPart'> & {
   timePartsElRef: React.RefObject<HTMLElement[]>;
 };
 
@@ -344,7 +344,10 @@ export const useTimeFormat = ({
   };
 };
 
-export const useFocus = ({ timePartsElRef }: UseFocusProps) => {
+export const useFocus = ({
+  timePartsElRef,
+  onArrowLeftFromFirstPart
+}: UseFocusProps) => {
   const focusPrevTimePart = useCallback(
     (currentTimePartEl: HTMLElement): boolean => {
       const currentIndex = timePartsElRef.current.indexOf(currentTimePartEl);
@@ -354,9 +357,10 @@ export const useFocus = ({ timePartsElRef }: UseFocusProps) => {
         prevTimePartEl.focus();
         return true;
       }
+      onArrowLeftFromFirstPart?.();
       return false;
     },
-    [timePartsElRef]
+    [timePartsElRef, onArrowLeftFromFirstPart]
   );
 
   const focusNextTimePart = useCallback(

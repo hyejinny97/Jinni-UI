@@ -1,4 +1,11 @@
-import { useState, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
+import {
+  useState,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useEffect
+} from 'react';
 import { DateTimeFieldProps } from './DateTimeField';
 import { TimeValidationError } from '@/types/time-component';
 import { DateTimeValidationError } from '@/types/date-time-component';
@@ -124,5 +131,54 @@ export const useValidation = ({
   return {
     isValidationError,
     onTimeFieldErrorStatus
+  };
+};
+
+export const useFocus = () => {
+  const dateFieldElRef = useRef<HTMLDivElement>(null);
+  const timeFieldElRef = useRef<HTMLDivElement>(null);
+
+  const focusFirstPartInTimeField = useCallback(() => {
+    const timeFieldEl = timeFieldElRef.current;
+    if (!timeFieldEl) return;
+
+    const timeInputParts = timeFieldEl.querySelectorAll<HTMLElement>(
+      '.JinniAutoWidthInput.JinniTimeFieldTimePart'
+    );
+    const firstPart = timeInputParts[0];
+    if (firstPart) {
+      firstPart.focus();
+    }
+  }, []);
+
+  const focusLastPartInDateField = useCallback(() => {
+    const dateFieldEl = dateFieldElRef.current;
+    if (!dateFieldEl) return;
+
+    const dateInputParts = dateFieldEl.querySelectorAll<HTMLElement>(
+      '.JinniAutoWidthInput.JinniDateFieldDatePart'
+    );
+    const lastPart = dateInputParts[dateInputParts.length - 1];
+    if (lastPart) {
+      lastPart.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    const timeFieldEl = timeFieldElRef.current;
+    if (!timeFieldEl) return;
+    const timeInputParts = timeFieldEl.querySelectorAll<HTMLElement>(
+      '.JinniAutoWidthInput.JinniTimeFieldTimePart'
+    );
+    timeInputParts.forEach((timeInput) => {
+      timeInput.tabIndex = -1;
+    });
+  }, []);
+
+  return {
+    dateFieldElRef,
+    timeFieldElRef,
+    focusFirstPartInTimeField,
+    focusLastPartInDateField
   };
 };

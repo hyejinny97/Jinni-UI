@@ -56,6 +56,15 @@ const meta: Meta<typeof TimeField> = {
         defaultValue: { summary: `'preset'` }
       }
     },
+    onArrowLeftFromFirstPart: {
+      description:
+        '첫 번째 time part가 포커스된 상태에서 ArrowLeft 방향키가 눌렸을 때 호출되는 함수',
+      table: {
+        type: {
+          summary: `() => void;`
+        }
+      }
+    },
     onChange: {
       description: 'value가 변경됐을 때 호출되는 함수',
       table: {

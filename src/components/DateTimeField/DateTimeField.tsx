@@ -6,7 +6,11 @@ import cn from 'classnames';
 import InputBase, { InputBaseProps } from '@/components/InputBase';
 import DateField from '@/components/DateField';
 import TimeField from '@/components/TimeField';
-import { useDateTimeValue, useValidation } from './DateTimeField.hooks';
+import {
+  useDateTimeValue,
+  useFocus,
+  useValidation
+} from './DateTimeField.hooks';
 import { TimeMode } from '@/types/time-component';
 import {
   DateTimeComponentProps,
@@ -68,6 +72,12 @@ const DateTimeField = <Mode extends TimeMode = 'preset'>({
     disabledDateTimes,
     onErrorStatus
   });
+  const {
+    dateFieldElRef,
+    timeFieldElRef,
+    focusFirstPartInTimeField,
+    focusLastPartInDateField
+  } = useFocus();
   const noValue = dateTimeValue === null;
 
   const commonProps = {
@@ -80,18 +90,22 @@ const DateTimeField = <Mode extends TimeMode = 'preset'>({
   };
   const dateFieldProps = {
     ...commonProps,
+    ref: dateFieldElRef,
     onChange: handleDateChange,
     options: filterDateOptions(options),
-    format: dateFormat
+    format: dateFormat,
+    onArrowRightFromLastPart: focusFirstPartInTimeField
   };
   const timeFieldProps = {
     ...commonProps,
+    ref: timeFieldElRef,
     onChange: handleTimeChange,
     options: filterTimeOptions(options),
     mode: timeMode,
     timeStep,
     format: timeFormat,
-    onErrorStatus: onTimeFieldErrorStatus
+    onErrorStatus: onTimeFieldErrorStatus,
+    onArrowLeftFromFirstPart: focusLastPartInDateField
   };
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
