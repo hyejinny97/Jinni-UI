@@ -40,12 +40,13 @@ const AutoWidthInput = ({ ref, ...props }: AutoWidthInputProps) => {
       />
       <span
         ref={hiddenElRef}
+        className={className}
         style={{
           position: 'absolute',
           visibility: 'hidden',
-          height: 0,
-          overflow: 'hidden',
-          font: 'inherit'
+          pointerEvents: 'none',
+          font: 'inherit',
+          whiteSpace: 'nowrap'
         }}
       >
         {value || ' '}
