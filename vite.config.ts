@@ -45,6 +45,7 @@ export default defineConfig({
         index: path.resolve(__dirname, 'src/index.ts'),
         'hooks/index': path.resolve(__dirname, 'src/hooks/index.ts'),
         'utils/index': path.resolve(__dirname, 'src/utils/index.ts'),
+        'constants/index': path.resolve(__dirname, 'src/constants/index.ts'),
         ...componentEntries
       },
       formats: ['es']
