@@ -28,6 +28,7 @@ const declarationFiles = parsedConfig.fileNames.filter((file) =>
 const entries = [
   path.join(root, 'src', 'index.ts'),
   path.join(root, 'src', 'types', 'index.ts'),
+  path.join(root, 'src', 'hooks', 'index.ts'),
   ...declarationFiles,
   ...getComponents().map((component) => component.entryPath)
 ];

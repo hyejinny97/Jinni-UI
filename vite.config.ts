@@ -43,6 +43,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: path.resolve(__dirname, 'src/index.ts'),
+        'hooks/index': path.resolve(__dirname, 'src/hooks/index.ts'),
         ...componentEntries
       },
       formats: ['es']
