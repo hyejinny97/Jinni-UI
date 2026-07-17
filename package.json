@@ -21,6 +21,10 @@
     "./hooks": {
       "import": "./dist/hooks/index.js",
       "types": "./dist/hooks/index.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils/index.js",
+      "types": "./dist/utils/index.d.ts"
     }
   },
   "files": [
