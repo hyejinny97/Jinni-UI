@@ -1,7 +1,7 @@
 {
-  "name": "jinni-ui",
-  "version": "0.1.0",
-  "description": "React UI Library",
+  "name": "@jinni-labs/ui",
+  "version": "0.0.0",
+  "description": "Web React UI Component Library",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -120,5 +120,8 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
