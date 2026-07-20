@@ -57,7 +57,8 @@ export default defineConfig({
         'motion',
         'motion/react',
         'react/jsx-runtime',
-        'react/jsx-dev-runtime'
+        'react/jsx-dev-runtime',
+        'classnames'
       ],
       output: {
         entryFileNames: '[name].js',
