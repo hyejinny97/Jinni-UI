@@ -6,7 +6,7 @@ It maintains a consistent design through a built-in design system while allowing
 ## Documentation
 
 - [Storybook](https://master--6734450e7712786aaf46381e.chromatic.com)
-- [Github Repo](https://github.com/hyejinny97/Jinni-UI)
+- [Github Repo](https://github.com/jinni-labs/Jinni-UI)
 
 ## Installation
 
