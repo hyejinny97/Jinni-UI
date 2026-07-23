@@ -1,0 +1,70 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Get Started/Usage" />
+
+# Usage
+
+<br />
+
+## Required
+
+Jinni Design System을 사용하기 위해선, 반드시 프로젝트의 root 컴포넌트를 `JinniProvider`로 감싸야 합니다.<br />
+Jinni UI의 모든 컴포넌트들은 Jinni Design System을 사용하기 때문에,<br />
+root 컴포넌트를 `JinniProvider`로 감싸지 않으면 에러가 발생하고 동작하지 않으니 이 점 유의해주세요.
+
+```tsx
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import JinniProvider, {
+  createDesignSystem
+} from '@jinni-labs/ui/JinniProvider';
+
+const designSystem = createDesignSystem();
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <JinniProvider designSystem={designSystem}>
+      <App />
+    </JinniProvider>
+  </StrictMode>
+);
+```
+
+## Import Component
+
+### 방법 1) `@jinni-labs/ui/[컴포넌트명]`로 default import (✨권장✨)
+
+```tsx
+import Button from '@jinni-labs/ui/Button';
+
+const App = () => {
+  return <Button>Simple</Button>;
+};
+
+export default App;
+```
+
+- 장점
+  - 각 파일 단위로 import 하므로 불필요한 파일을 다운로드 하지 않음
+  - `import Button from '@jinni-labs/ui/Button'` 시, 0.1MB 리소스가 다운로드 되고 로드 되는 데 약 0.6초 걸림
+- 단점
+  - 각 컴포넌트에 대한 import 코드 줄을 작성해야 함
+
+### 방법 2) `@jinni-labs/ui`에서 named import
+
+```tsx
+import { Button } from '@jinni-labs/ui';
+
+const App = () => {
+  return <Button>Simple</Button>;
+};
+
+export default App;
+```
+
+- 장점
+  - `from '@jinni-labs/ui'` 한 줄로 모든 컴포넌트를 쉽게 import 가능
+- 단점
+  - 사용자 브라우저에서 사용하지도 않는 파일까지 import 됨 → 성능 저하로 이어짐
+  - `import { Button } from '@jinni-labs/ui'` 시, 4.3MB 리소스가 다운로드 되고 로드 되는 데 4초 이상 걸림

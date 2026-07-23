@@ -70,7 +70,6 @@ jobs:
           gh release create "$VERSION" --generate-notes
 
       - name: Publish to Chromatic
-        if: steps.check.outputs.changed == 'true'
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
