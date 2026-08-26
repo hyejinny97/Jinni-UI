@@ -39,10 +39,15 @@
     }
 
     .JinniAccordionDetails {
+      display: none;
       padding: 0 8px 16px;
+      box-sizing: border-box;
       font-size: 14px;
       font-weight: var(--jinni-font-weight-regular);
       color: var(--jinni-color-on-surface);
+      &.open {
+        display: block;
+      }
     }
   }
 }

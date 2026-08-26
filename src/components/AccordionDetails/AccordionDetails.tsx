@@ -1,7 +1,6 @@
 'use client';
 
 import cn from 'classnames';
-import { Fragment } from 'react';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useAccordionItem } from '../AccordionItem';
@@ -9,22 +8,12 @@ import { useAccordionItem } from '../AccordionItem';
 export type AccordionDetailsProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
     children: React.ReactNode;
-    WrapperComponent?: React.ComponentType<{ children: React.ReactNode }>;
-    TransitionComponent?: React.ComponentType<{ children: React.ReactNode }>;
   };
 
 const AccordionDetails = <T extends AsType = 'div'>(
   props: AccordionDetailsProps<T>
 ) => {
-  const {
-    children,
-    className,
-    style,
-    as: Component = 'div',
-    WrapperComponent = Fragment,
-    TransitionComponent = Fragment,
-    ...rest
-  } = props;
+  const { children, className, style, as: Component = 'div', ...rest } = props;
   const accordionItemContext = useAccordionItem();
   const newStyle = useStyle(style);
 
@@ -32,19 +21,17 @@ const AccordionDetails = <T extends AsType = 'div'>(
   const { disabled, isExpanded } = accordionItemContext;
 
   return (
-    <WrapperComponent>
-      {isExpanded && !disabled && (
-        <TransitionComponent>
-          <Component
-            className={cn('JinniAccordionDetails', className)}
-            style={newStyle}
-            {...rest}
-          >
-            {children}
-          </Component>
-        </TransitionComponent>
+    <Component
+      className={cn(
+        'JinniAccordionDetails',
+        { open: isExpanded && !disabled },
+        className
       )}
-    </WrapperComponent>
+      style={newStyle}
+      {...rest}
+    >
+      {children}
+    </Component>
   );
 };
 

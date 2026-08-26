@@ -35,15 +35,16 @@ describe('<Accordion />', () => {
     const accordionSummary = screen.getByRole('button', {
       name: 'Accordion Summary'
     });
+    const accordionDetails = screen.getByText('Accordion Details');
     const defaultExpandIcon = screen.getByTestId('arrow down icon');
     expect(accordionSummary).toBeInTheDocument();
     expect(defaultExpandIcon).toBeInTheDocument();
 
     fireEvent.click(accordionSummary);
-    expect(screen.getByText('Accordion Details')).toBeInTheDocument();
+    expect(accordionDetails).toHaveClass('open');
 
     fireEvent.click(accordionSummary);
-    expect(screen.queryByText('Accordion Details')).not.toBeInTheDocument();
+    expect(accordionDetails).not.toHaveClass('open');
   });
 
   it('renders as expanded by default', () => {
@@ -82,12 +83,13 @@ describe('<Accordion />', () => {
     const accordionSummary = screen.getByRole('button', {
       name: 'Accordion Summary'
     });
+    const accordionDetails = screen.getByText('Accordion Details');
 
     fireEvent.click(accordionSummary);
-    expect(screen.getByText('Accordion Details')).toBeInTheDocument();
+    expect(accordionDetails).toHaveClass('open');
 
     fireEvent.click(accordionSummary);
-    expect(screen.queryByText('Accordion Details')).not.toBeInTheDocument();
+    expect(accordionDetails).not.toHaveClass('open');
   });
 
   it('does not expand when disabled', () => {
@@ -103,9 +105,10 @@ describe('<Accordion />', () => {
     const accordionSummary = screen.getByRole('button', {
       name: 'Accordion Summary'
     });
+    const accordionDetails = screen.getByText('Accordion Details');
 
     fireEvent.click(accordionSummary);
-    expect(screen.queryByText('Accordion Details')).not.toBeInTheDocument();
+    expect(accordionDetails).not.toHaveClass('open');
   });
 
   it('renders accordion with custom expand icon', () => {
