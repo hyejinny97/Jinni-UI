@@ -5,14 +5,7 @@ import AccordionItem from '@/components/AccordionItem';
 import AccordionSummary from '@/components/AccordionSummary';
 import AccordionDetails from '@/components/AccordionDetails';
 import { ArrowCircleDownIcon } from '@/components/icons/ArrowCircleDownIcon';
-import RadioGroup from '@/components/RadioGroup';
-import Radio from '@/components/Radio';
-import Label from '@/components/Label';
-import Chip from '@/components/Chip';
-import Grid from '@/components/Grid';
-import Stack from '@/components/Stack';
-import Box from '@/components/Box';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 
 const meta: Meta<typeof Accordion> = {
   component: Accordion,
@@ -62,89 +55,70 @@ const ControlledAccordionTemplate = () => {
   );
 };
 
-const Collapse = ({ children }: { children: React.ReactNode }) => (
-  <motion.div
-    initial={{ height: 0 }}
-    animate={{ height: 'auto' }}
-    exit={{ height: 0 }}
-    style={{ overflow: 'hidden' }}
-  >
-    {children}
-  </motion.div>
-);
+const UnmountOnCollapseTemplate = () => {
+  const [expandedItem, setExpandedItem] = useState<number | null>(null);
 
-const Fade = ({ children }: { children: React.ReactNode }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-  >
-    {children}
-  </motion.div>
-);
-
-const TransitionTemplate = () => {
-  const TRANSITIONS = ['collapse', 'fade'] as const;
-  const [transition, setTransition] = useState<(typeof TRANSITIONS)[number]>(
-    TRANSITIONS[0]
-  );
-
-  const handleTransitionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setTransition(event.target.value as (typeof TRANSITIONS)[number]);
-  };
-
-  let TransitionComponent: React.ComponentType<{ children: React.ReactNode }>;
-  switch (transition) {
-    case 'collapse':
-      TransitionComponent = Collapse;
-      break;
-    case 'fade':
-      TransitionComponent = Fade;
-      break;
-  }
+  const handleChange =
+    (itemIdx: number) => (_: React.SyntheticEvent, expanded: boolean) => {
+      setExpandedItem(expanded ? itemIdx : null);
+    };
 
   return (
-    <Stack spacing={30} style={{ alignItems: 'center' }}>
-      <Box
-        as="fieldset"
-        round="sm"
-        style={{ backgroundColor: 'surface-container', border: 'none' }}
-      >
-        <Chip as="legend" variant="filled" color="surface-container-highest">
-          Transition
-        </Chip>
-        <RadioGroup
-          name="transition"
-          value={transition}
-          onChange={handleTransitionChange}
-        >
-          <Grid columns={2} spacing={5}>
-            {TRANSITIONS.map((transition) => (
-              <Label content={transition}>
-                <Radio value={transition} />
-              </Label>
-            ))}
-          </Grid>
-        </RadioGroup>
-      </Box>
-      <Accordion style={{ width: '500px' }}>
-        {ITEMS.map(({ summary, details }) => {
-          return (
-            <AccordionItem key={summary}>
-              <AccordionSummary>{summary}</AccordionSummary>
-              <AccordionDetails
-                WrapperComponent={AnimatePresence}
-                TransitionComponent={TransitionComponent}
-              >
-                {details}
-              </AccordionDetails>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
-    </Stack>
+    <Accordion style={{ width: '500px' }}>
+      {ITEMS.map(({ summary, details }, idx) => {
+        const expanded = expandedItem === idx;
+        return (
+          <AccordionItem
+            key={summary}
+            expanded={expanded}
+            onChange={handleChange(idx)}
+          >
+            <AccordionSummary>{summary}</AccordionSummary>
+            {expanded && <AccordionDetails>{details}</AccordionDetails>}
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
+  );
+};
+
+const TransitionTemplate = () => {
+  const [expandedItem, setExpandedItem] = useState<number | null>(null);
+
+  const handleChange =
+    (itemIdx: number) => (_: React.SyntheticEvent, expanded: boolean) => {
+      setExpandedItem(expanded ? itemIdx : null);
+    };
+
+  return (
+    <Accordion style={{ width: '500px' }}>
+      {ITEMS.map(({ summary, details }, idx) => {
+        const expanded = expandedItem === idx;
+        return (
+          <AccordionItem
+            key={summary}
+            expanded={expanded}
+            onChange={handleChange(idx)}
+          >
+            <AccordionSummary>{summary}</AccordionSummary>
+            <AccordionDetails
+              as={motion.div}
+              animate={{
+                height: expanded ? 'auto' : '0px',
+                opacity: expanded ? 1 : 0
+              }}
+              style={{
+                overflow: 'hidden',
+                display: 'block',
+                paddingBottom: expanded ? '16px' : 0
+              }}
+            >
+              {details}
+            </AccordionDetails>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
   );
 };
 
@@ -281,97 +255,87 @@ export const CustomizeAccordion: Story = {
   )
 };
 
+export const UnmountOnCollapse: Story = {
+  render: () => <UnmountOnCollapseTemplate />,
+  parameters: {
+    docs: {
+      source: {
+        code: `const UnmountOnCollapseTemplate = () => {
+  const [expandedItem, setExpandedItem] = useState<number | null>(null);
+
+  const handleChange =
+    (itemIdx: number) => (_: React.SyntheticEvent, expanded: boolean) => {
+      setExpandedItem(expanded ? itemIdx : null);
+    };
+
+  return (
+    <Accordion style={{ width: '500px' }}>
+      {ITEMS.map(({ summary, details }, idx) => {
+        const expanded = expandedItem === idx;
+        return (
+          <AccordionItem
+            key={summary}
+            expanded={expanded}
+            onChange={handleChange(idx)}
+          >
+            <AccordionSummary>{summary}</AccordionSummary>
+            {expanded && <AccordionDetails>{details}</AccordionDetails>}
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
+  );
+};`
+      }
+    }
+  }
+};
+
 export const Transition: Story = {
   render: () => <TransitionTemplate />,
   parameters: {
     docs: {
       source: {
         code: `
-import { motion, AnimatePresence } from 'motion/react';
-
-const Collapse = ({ children }: { children: React.ReactNode }) => (
-  <motion.div
-    initial={{ height: 0 }}
-    animate={{ height: 'auto' }}
-    exit={{ height: 0 }}
-    style={{ overflow: 'hidden' }}
-  >
-    {children}
-  </motion.div>
-);
-
-const Fade = ({ children }: { children: React.ReactNode }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-  >
-    {children}
-  </motion.div>
-);
+import { motion } from 'motion/react';
 
 const TransitionTemplate = () => {
-  const TRANSITIONS = ['collapse', 'fade'] as const;
-  const [transition, setTransition] = useState<(typeof TRANSITIONS)[number]>(
-    TRANSITIONS[0]
-  );
+  const [expandedItem, setExpandedItem] = useState<number | null>(null);
 
-  const handleTransitionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setTransition(event.target.value as (typeof TRANSITIONS)[number]);
-  };
-
-  let TransitionComponent: React.ComponentType<{ children: React.ReactNode }>;
-  switch (transition) {
-    case 'collapse':
-      TransitionComponent = Collapse;
-      break;
-    case 'fade':
-      TransitionComponent = Fade;
-      break;
-  }
+  const handleChange =
+    (itemIdx: number) => (_: React.SyntheticEvent, expanded: boolean) => {
+      setExpandedItem(expanded ? itemIdx : null);
+    };
 
   return (
-    <Stack spacing={30} style={{ alignItems: 'center' }}>
-      <Box
-        as="fieldset"
-        round="sm"
-        style={{ backgroundColor: 'surface-container', border: 'none' }}
-      >
-        <Chip as="legend" variant="filled" color="surface-container-highest">
-          Transition
-        </Chip>
-        <RadioGroup
-          name="transition"
-          value={transition}
-          onChange={handleTransitionChange}
-        >
-          <Grid columns={2} spacing={5}>
-            {TRANSITIONS.map((transition) => (
-              <Label content={transition}>
-                <Radio value={transition} />
-              </Label>
-            ))}
-          </Grid>
-        </RadioGroup>
-      </Box>
-      <Accordion style={{ width: '500px' }}>
-        {ITEMS.map(({ summary, details }) => {
-          return (
-            <AccordionItem key={summary}>
-              <AccordionSummary>{summary}</AccordionSummary>
-              <AccordionDetails
-                WrapperComponent={AnimatePresence}
-                TransitionComponent={TransitionComponent}
-              >
-                {details}
-              </AccordionDetails>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
-    </Stack>
+    <Accordion style={{ width: '500px' }}>
+      {ITEMS.map(({ summary, details }, idx) => {
+        const expanded = expandedItem === idx;
+        return (
+          <AccordionItem
+            key={summary}
+            expanded={expanded}
+            onChange={handleChange(idx)}
+          >
+            <AccordionSummary>{summary}</AccordionSummary>
+            <AccordionDetails
+              as={motion.div}
+              animate={{
+                height: expanded ? 'auto' : '0px',
+                opacity: expanded ? 1 : 0
+              }}
+              style={{
+                overflow: 'hidden',
+                display: 'block',
+                paddingBottom: expanded ? '16px' : 0
+              }}
+            >
+              {details}
+            </AccordionDetails>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
   );
 };
 `.trim()
