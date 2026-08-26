@@ -159,9 +159,7 @@ export const usePointerEvent = ({
         const { width: sliderWidth, left: sliderLeft } =
           sliderEl.getBoundingClientRect();
         const offsetLeft = pressedX - sliderLeft;
-        return offsetLeft > 0
-          ? (offsetLeft * (max - min)) / sliderWidth + min
-          : 0;
+        return (offsetLeft * (max - min)) / sliderWidth + min;
       }
       case 'vertical': {
         const pressedY = pressedYRef.current;
@@ -169,9 +167,7 @@ export const usePointerEvent = ({
         const { height: sliderHeight, bottom: sliderBottom } =
           sliderEl.getBoundingClientRect();
         const offsetBottom = sliderBottom - pressedY;
-        return offsetBottom > 0
-          ? (offsetBottom * (max - min)) / sliderHeight + min
-          : 0;
+        return (offsetBottom * (max - min)) / sliderHeight + min;
       }
     }
   }, [max, min, sliderElRef, orientation]);
@@ -205,6 +201,7 @@ export const usePointerEvent = ({
 
   useEffect(() => {
     const sliderEl = sliderElRef.current;
+    const thumbsEl = thumbsElRef.current;
     if (!sliderEl) return;
 
     const handleStart = (event: PointerEvent) => {
@@ -254,16 +251,23 @@ export const usePointerEvent = ({
     sliderEl.addEventListener('pointerdown', handleStart);
     document.addEventListener('pointermove', handleMove);
     document.addEventListener('pointerup', handleEnd);
+    thumbsEl.forEach((thumbEl) => {
+      thumbEl.addEventListener('pointerdown', handleStart);
+    });
     return () => {
       sliderEl.removeEventListener('pointerdown', handleStart);
       document.removeEventListener('pointermove', handleMove);
       document.removeEventListener('pointerup', handleEnd);
+      thumbsEl.forEach((thumbEl) => {
+        thumbEl.removeEventListener('pointerdown', handleStart);
+      });
     };
   }, [
     moveThumb,
     handleChangeEnd,
     calculateCurrentValue,
     sliderElRef,
+    thumbsElRef,
     disabled,
     sliderValue,
     orientation

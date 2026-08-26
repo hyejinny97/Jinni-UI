@@ -193,7 +193,6 @@ $mark-diameter: (
     background-color: var(--color);
     box-shadow: var(--jinni-box-shadow-3);
     outline: none;
-    cursor: inherit;
     @include thumb-size;
     &.horizontal {
       left: 0;
@@ -212,7 +211,6 @@ $mark-diameter: (
       width: 100%;
       height: 100%;
       opacity: 0;
-      cursor: inherit;
     }
 
     &:not(.disabled)::after {
@@ -226,6 +224,7 @@ $mark-diameter: (
       border-radius: 1000px;
       background-color: var(--color);
       opacity: 0.1;
+      cursor: pointer;
     }
     &:hover::after,
     &:focus-within::after,
