@@ -3,7 +3,8 @@ import { SliderProps } from './Slider';
 import {
   findClosestValueIdx,
   preprocessValue,
-  isSwapped
+  isSwapped,
+  getDecimalLength
 } from './Slider.utils';
 import { isNumber } from '@/utils/isNumber';
 import { getTrackStyle, getPositionStyle, isMarkOnTrack } from './Slider.utils';
@@ -29,12 +30,14 @@ export const useSliderValue = ({
   min,
   stepValueArray,
   disableSwap,
-  disabled
+  disabled,
+  toRealValue
 }: Pick<SliderProps, 'onChange' | 'onChangeEnd' | 'defaultValue' | 'value'> & {
   min: number;
   stepValueArray: Array<number>;
   disableSwap: boolean;
   disabled: boolean;
+  toRealValue: (value: number) => number;
 }) => {
   const preprocessedValue = useMemo(
     () => preprocessValue(value, stepValueArray),
@@ -67,9 +70,10 @@ export const useSliderValue = ({
       newSliderValue[activeThumbIdx] = newThumbValue;
       if (!isControlled) setUncontrolledValue(newSliderValue);
       if (onChange) {
+        const outputValue = newSliderValue.map(toRealValue);
         onChange(
           event,
-          newSliderValue.length === 1 ? newSliderValue[0] : newSliderValue,
+          outputValue.length === 1 ? outputValue[0] : outputValue,
           activeThumbIdx
         );
       }
@@ -80,7 +84,8 @@ export const useSliderValue = ({
       preprocessedValue,
       disableSwap,
       disabled,
-      isControlled
+      isControlled,
+      toRealValue
     ]
   );
 
@@ -91,13 +96,21 @@ export const useSliderValue = ({
         ? preprocessedValue
         : uncontrolledValue;
       if (onChangeEnd) {
+        const outputValue = newSliderValue.map(toRealValue);
         onChangeEnd(
           event,
-          newSliderValue.length === 1 ? newSliderValue[0] : newSliderValue
+          outputValue.length === 1 ? outputValue[0] : outputValue
         );
       }
     },
-    [onChangeEnd, preprocessedValue, uncontrolledValue, disabled, isControlled]
+    [
+      onChangeEnd,
+      preprocessedValue,
+      uncontrolledValue,
+      disabled,
+      isControlled,
+      toRealValue
+    ]
   );
 
   return {
@@ -146,9 +159,7 @@ export const usePointerEvent = ({
         const { width: sliderWidth, left: sliderLeft } =
           sliderEl.getBoundingClientRect();
         const offsetLeft = pressedX - sliderLeft;
-        return offsetLeft > 0
-          ? (offsetLeft * (max - min)) / sliderWidth + min
-          : 0;
+        return (offsetLeft * (max - min)) / sliderWidth + min;
       }
       case 'vertical': {
         const pressedY = pressedYRef.current;
@@ -156,9 +167,7 @@ export const usePointerEvent = ({
         const { height: sliderHeight, bottom: sliderBottom } =
           sliderEl.getBoundingClientRect();
         const offsetBottom = sliderBottom - pressedY;
-        return offsetBottom > 0
-          ? (offsetBottom * (max - min)) / sliderHeight + min
-          : 0;
+        return (offsetBottom * (max - min)) / sliderHeight + min;
       }
     }
   }, [max, min, sliderElRef, orientation]);
@@ -192,6 +201,7 @@ export const usePointerEvent = ({
 
   useEffect(() => {
     const sliderEl = sliderElRef.current;
+    const thumbsEl = thumbsElRef.current;
     if (!sliderEl) return;
 
     const handleStart = (event: PointerEvent) => {
@@ -241,16 +251,23 @@ export const usePointerEvent = ({
     sliderEl.addEventListener('pointerdown', handleStart);
     document.addEventListener('pointermove', handleMove);
     document.addEventListener('pointerup', handleEnd);
+    thumbsEl.forEach((thumbEl) => {
+      thumbEl.addEventListener('pointerdown', handleStart);
+    });
     return () => {
       sliderEl.removeEventListener('pointerdown', handleStart);
       document.removeEventListener('pointermove', handleMove);
       document.removeEventListener('pointerup', handleEnd);
+      thumbsEl.forEach((thumbEl) => {
+        thumbEl.removeEventListener('pointerdown', handleStart);
+      });
     };
   }, [
     moveThumb,
     handleChangeEnd,
     calculateCurrentValue,
     sliderElRef,
+    thumbsElRef,
     disabled,
     sliderValue,
     orientation
@@ -361,5 +378,59 @@ export const useUtils = ({
       }),
     getPositionStyle: (value: number) =>
       getPositionStyle({ value, min, max, orientation })
+  };
+};
+
+export const usePrecision = ({
+  defaultValue,
+  value,
+  step,
+  min,
+  max,
+  marks
+}: Pick<SliderProps, 'defaultValue' | 'value'> &
+  Required<Pick<SliderProps, 'step' | 'min' | 'max' | 'marks'>>): {
+  normalizedDefaultValue: SliderProps['defaultValue'];
+  normalizedValue: SliderProps['value'];
+  normalizedStep: Exclude<SliderProps['step'], undefined>;
+  normalizedMin: Exclude<SliderProps['min'], undefined>;
+  normalizedMax: Exclude<SliderProps['max'], undefined>;
+  normalizedMarks: Exclude<SliderProps['marks'], undefined>;
+  toRealValue: (value: number) => number;
+} => {
+  const isFloatStep = !(step === null || Number.isInteger(step));
+  const stepFactor = isFloatStep ? Math.pow(10, getDecimalLength(step)) : 1;
+
+  const toInteger = (num: number) => num * stepFactor;
+
+  const toRealValue = useCallback(
+    (value: number) => value / stepFactor,
+    [stepFactor]
+  );
+
+  let normalizedDefaultValue: SliderProps['defaultValue'] = defaultValue;
+  if (Array.isArray(defaultValue)) {
+    normalizedDefaultValue = defaultValue.map(toInteger);
+  } else if (isNumber(defaultValue)) {
+    normalizedDefaultValue = toInteger(defaultValue);
+  }
+
+  let normalizedValue: SliderProps['value'] = value;
+  if (Array.isArray(value)) {
+    normalizedValue = value.map(toInteger);
+  } else if (isNumber(value)) {
+    normalizedValue = toInteger(value);
+  }
+
+  return {
+    normalizedDefaultValue,
+    normalizedValue,
+    normalizedStep: step === null ? step : toInteger(step),
+    normalizedMin: toInteger(min),
+    normalizedMax: toInteger(max),
+    normalizedMarks: Array.isArray(marks)
+      ? marks.map((el) => ({ ...el, value: toInteger(el.value) }))
+      : marks,
+    toRealValue
   };
 };

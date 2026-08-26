@@ -10,7 +10,8 @@ import {
   useSliderValue,
   usePointerEvent,
   useKeyEvent,
-  useUtils
+  useUtils,
+  usePrecision
 } from './Slider.hooks';
 import {
   generateStepValueArray,
@@ -84,29 +85,48 @@ const Slider = (props: SliderProps) => {
   } = props;
   const sliderElRef = useRef<HTMLDivElement>(null);
   const thumbsElRef = useRef<Array<HTMLInputElement>>([]);
+  const {
+    normalizedDefaultValue,
+    normalizedValue,
+    normalizedStep,
+    normalizedMin,
+    normalizedMax,
+    normalizedMarks,
+    toRealValue
+  } = usePrecision({ defaultValue, value, step, min, max, marks });
   const stepValueArray = useMemo(
-    () => generateStepValueArray({ min, max, step, marks }),
-    [min, max, step, marks]
+    () =>
+      generateStepValueArray({
+        min: normalizedMin,
+        max: normalizedMax,
+        step: normalizedStep,
+        marks: normalizedMarks
+      }),
+    [normalizedMin, normalizedMax, normalizedStep, normalizedMarks]
   );
-  const marksValueArray = generateMarksValueArray({ marks, stepValueArray });
-  const marksLabelArray = generateMarksLabelArray({ marks });
+  const marksValueArray = generateMarksValueArray({
+    marks: normalizedMarks,
+    stepValueArray
+  });
+  const marksLabelArray = generateMarksLabelArray({ marks: normalizedMarks });
   const { sliderValue, handleChange, handleChangeEnd } = useSliderValue({
-    defaultValue,
-    value,
+    defaultValue: normalizedDefaultValue,
+    value: normalizedValue,
     onChange,
     onChangeEnd,
-    min,
+    min: normalizedMin,
     stepValueArray,
     disableSwap,
-    disabled
+    disabled,
+    toRealValue
   });
   usePointerEvent({
     sliderElRef,
     thumbsElRef,
     sliderValue,
     stepValueArray,
-    min,
-    max,
+    min: normalizedMin,
+    max: normalizedMax,
     disabled,
     orientation,
     handleChange,
@@ -121,8 +141,8 @@ const Slider = (props: SliderProps) => {
   });
   const { trackStyle, isMarkOnTrack, getPositionStyle } = useUtils({
     sliderValue,
-    min,
-    max,
+    min: normalizedMin,
+    max: normalizedMax,
     orientation,
     track
   });
@@ -174,7 +194,7 @@ const Slider = (props: SliderProps) => {
       {sliderValue.map((value, idx) => (
         <Tooltip
           key={`${value}/${idx}`}
-          content={tooltipLabelFormat(scale(value), idx)}
+          content={tooltipLabelFormat(scale(toRealValue(value)), idx)}
           placement={orientation === 'horizontal' ? 'top' : 'left'}
           arrow
           {...TooltipProps}
@@ -190,16 +210,16 @@ const Slider = (props: SliderProps) => {
               }}
               className="JinniSliderInput"
               type="range"
-              value={value}
+              value={toRealValue(value)}
               onChange={() => {}}
               min={min}
               max={max}
               step={step === null ? undefined : step}
               disabled={disabled}
-              aria-valuenow={scale(value)}
+              aria-valuenow={scale(toRealValue(value))}
               aria-valuemin={scale(min)}
               aria-valuemax={scale(max)}
-              aria-valuetext={getAriaValueText(scale(value), idx)}
+              aria-valuetext={getAriaValueText(scale(toRealValue(value)), idx)}
               {...rest}
             />
           </span>
