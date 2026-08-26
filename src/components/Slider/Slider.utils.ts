@@ -226,3 +226,9 @@ export const isMarkOnTrack = ({
     return trackBottomNum <= markBottomNum && markBottomNum <= trackTopNum;
   }
 };
+
+export const getDecimalLength = (num: number) => {
+  if (Number.isInteger(num)) return 0;
+  const decimalPart = num.toString().split('.')[1];
+  return decimalPart ? decimalPart.length : 0;
+};
