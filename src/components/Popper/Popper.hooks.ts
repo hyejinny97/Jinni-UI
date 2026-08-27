@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useLayoutEffect, RefObject } from 'react';
 import { getAnchorCoordinate, getPopperCoordinate } from './Popper.utils';
 import { PopperProps } from './Popper';
 
@@ -8,9 +8,19 @@ type UsePopperPositionProps = Pick<
 > &
   Required<
     Pick<PopperProps, 'anchorReference' | 'popperOrigin' | 'positionType'>
-  >;
+  > & {
+    popperRef: RefObject<HTMLElement | null>;
+  };
+
+type UseAnchorWidthProps = Pick<
+  PopperProps,
+  'anchorReference' | 'anchorElRef'
+> & {
+  popperRef: RefObject<HTMLElement | null>;
+};
 
 export const usePopperPosition = ({
+  popperRef,
   anchorReference,
   anchorElRef,
   anchorOrigin,
@@ -18,8 +28,6 @@ export const usePopperPosition = ({
   popperOrigin,
   positionType
 }: UsePopperPositionProps) => {
-  const popperRef = useRef<HTMLElement>(null);
-
   useLayoutEffect(() => {
     const setPopperPosition = () => {
       const popperEl = popperRef.current;
@@ -75,6 +83,7 @@ export const usePopperPosition = ({
       mutationObserver.disconnect();
     };
   }, [
+    popperRef,
     anchorElRef,
     anchorOrigin,
     anchorPosition,
@@ -82,6 +91,25 @@ export const usePopperPosition = ({
     popperOrigin,
     positionType
   ]);
+};
 
-  return { popperRef };
+export const useAnchorWidth = ({
+  anchorReference,
+  anchorElRef,
+  popperRef
+}: UseAnchorWidthProps) => {
+  useLayoutEffect(() => {
+    const anchorEl = anchorElRef?.current;
+    const popperEl = popperRef.current;
+    if (anchorReference !== 'anchorEl' || !anchorEl || !popperEl) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      popperEl.style.setProperty('--anchor-width', `${anchorEl.offsetWidth}px`);
+    });
+    resizeObserver.observe(anchorEl);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [anchorReference, anchorElRef, popperRef]);
 };
