@@ -12,7 +12,7 @@ import { ColorType } from '@/types/color';
 import { validatePositiveInteger } from '@/utils/isNumber';
 import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
 
-type TreeItemProps<T extends AsType = 'li'> = Omit<
+export type TreeItemProps<T extends AsType = 'li'> = Omit<
   DefaultComponentProps<T>,
   'children' | 'id'
 > & {

@@ -12,7 +12,7 @@ import {
   useOverlay
 } from './JinniProvider.hooks';
 
-interface JinniProviderProps {
+export interface JinniProviderProps {
   children: React.ReactNode;
   designSystem: DesignSystemType;
   useSystemColorScheme?: boolean;

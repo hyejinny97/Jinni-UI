@@ -12,7 +12,7 @@ type AnchorOriginType = {
   horizontal?: 'left' | 'right';
 };
 
-type BadgeProps<T extends AsType = 'span'> = Omit<
+export type BadgeProps<T extends AsType = 'span'> = Omit<
   DefaultComponentProps<T>,
   'content'
 > & {

@@ -331,6 +331,7 @@ export const RenderingValuesInChip: Story = {
             ))}
           </Stack>
         )}
+        style={{ maxWidth: '300px' }}
         {...args}
       >
         {OPTIONS.map(({ value, label }) => (
@@ -360,6 +361,7 @@ export const RenderingValuesInChip: Story = {
       ))}
     </Stack>
   )}
+  style={{ maxWidth: '300px' }}
 >
   {OPTIONS.map(({ value, label }) => (
     <Option key={value} value={value}>

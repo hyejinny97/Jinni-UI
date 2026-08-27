@@ -7,7 +7,10 @@ import Button, { ButtonProps } from '@/components/Button';
 import { ValueType, useTabsContext } from '../Tabs';
 import { useTabListContext } from '../TabList';
 
-type TabProps<T extends AsType = 'button'> = Omit<ButtonProps<T>, 'value'> & {
+export type TabProps<T extends AsType = 'button'> = Omit<
+  ButtonProps<T>,
+  'value'
+> & {
   value: ValueType;
 };
 

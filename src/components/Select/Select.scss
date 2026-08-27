@@ -2,7 +2,6 @@
 
 .JinniSelect.JinniInputBase {
   min-width: 120px;
-  max-width: 300px;
   &:not(.disabled):hover {
     cursor: pointer;
   }
@@ -37,9 +36,8 @@
 
 .JinniSelectMenu {
   margin-top: 1px;
-  min-width: 120px;
 
   .JinniMenuList {
-    width: 100%;
+    width: var(--anchor-width, auto);
   }
 }

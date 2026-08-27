@@ -8,7 +8,7 @@ import Dot from '@/components/Dot';
 import { NavigationPaginationPositionType, useCarousel } from '../Carousel';
 import { useInfiniteCarousel } from '@/components/InfiniteCarousel';
 
-type CarouselDotsProps<T extends AsType = 'div'> = Omit<
+export type CarouselDotsProps<T extends AsType = 'div'> = Omit<
   DotsProps<T>,
   'defaultValue' | 'value' | 'onChange'
 > & {

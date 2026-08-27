@@ -6,9 +6,10 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useList } from '../List';
 
-type ListItemProps<T extends AsType = 'li'> = DefaultComponentProps<T> & {
-  children: React.ReactNode;
-};
+export type ListItemProps<T extends AsType = 'li'> =
+  DefaultComponentProps<T> & {
+    children: React.ReactNode;
+  };
 
 const ListItem = <T extends AsType = 'li'>(props: ListItemProps<T>) => {
   const { children, className, style, as: Component = 'li', ...rest } = props;

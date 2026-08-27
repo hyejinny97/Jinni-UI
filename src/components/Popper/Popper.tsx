@@ -2,21 +2,22 @@
 
 import './Popper.scss';
 import cn from 'classnames';
+import { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { OriginType, PositionType } from './Popper.types';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
-import { usePopperPosition } from './Popper.hooks';
+import { useAnchorWidth, usePopperPosition } from './Popper.hooks';
 import useStyle from '@/hooks/useStyle';
 import { mergeRefs } from '@/utils/mergeRefs';
 
-type AnchorElProps = {
+export type AnchorElProps = {
   anchorReference?: 'anchorEl';
   anchorElRef: React.RefObject<HTMLElement | null>;
   anchorOrigin?: OriginType;
   anchorPosition?: never;
 };
 
-type AnchorPositionProps = {
+export type AnchorPositionProps = {
   anchorReference: 'anchorPosition';
   anchorPosition: PositionType;
   anchorElRef?: never;
@@ -58,13 +59,20 @@ const Popper = <T extends AsType = 'div'>({
     ...rest
   } = props;
   const Component = (as ?? 'div') as React.ElementType;
-  const { popperRef } = usePopperPosition({
+  const popperRef = useRef<HTMLElement>(null);
+  usePopperPosition({
+    popperRef,
     anchorReference,
     anchorElRef,
     anchorOrigin,
     anchorPosition,
     popperOrigin,
     positionType
+  });
+  useAnchorWidth({
+    popperRef,
+    anchorReference,
+    anchorElRef
   });
   const newStyle = useStyle({ '--position': positionType, ...style });
 

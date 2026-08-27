@@ -24,7 +24,7 @@ export type SomeButtonProps = Pick<
   | 'disabled'
 >;
 
-type ButtonGroupProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
+export type ButtonGroupProps<T extends AsType = 'div'> = DefaultComponentProps<T> &
   SomeButtonProps & {
     children: React.ReactNode;
     orientation?: 'horizontal' | 'vertical';

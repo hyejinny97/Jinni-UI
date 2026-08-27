@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
-type CardFooterProps<T extends AsType = 'div'> = DefaultComponentProps<T>;
+export type CardFooterProps<T extends AsType = 'div'> = DefaultComponentProps<T>;
 
 const CardFooter = <T extends AsType = 'div'>(props: CardFooterProps<T>) => {
   const { children, className, style, as: Component = 'div', ...rest } = props;

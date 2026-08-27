@@ -3,7 +3,8 @@
 import { ColorType } from '@/types/color';
 import useColor from '@/hooks/useColor';
 
-interface ArrowRightAltIconProps extends React.HTMLAttributes<SVGElement> {
+export interface ArrowRightAltIconProps
+  extends React.HTMLAttributes<SVGElement> {
   size?: number;
   color?: ColorType;
 }

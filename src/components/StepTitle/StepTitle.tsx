@@ -6,9 +6,10 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useStep } from '../Step';
 
-type StepTitleProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
-  children: React.ReactNode;
-};
+export type StepTitleProps<T extends AsType = 'div'> =
+  DefaultComponentProps<T> & {
+    children: React.ReactNode;
+  };
 
 const StepTitle = <T extends AsType = 'div'>(props: StepTitleProps<T>) => {
   const { children, className, style, as: Component = 'div', ...rest } = props;

@@ -3,7 +3,7 @@
 import { ColorType } from '@/types/color';
 import useColor from '@/hooks/useColor';
 
-interface BoxIconProps extends React.HTMLAttributes<SVGElement> {
+export interface BoxIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
   color?: ColorType;
 }

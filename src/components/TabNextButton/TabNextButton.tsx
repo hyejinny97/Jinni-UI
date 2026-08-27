@@ -8,7 +8,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { useTabsContext } from '../Tabs';
 
-type TabNextButtonProps<T extends AsType = 'button'> = ButtonProps<T>;
+export type TabNextButtonProps<T extends AsType = 'button'> = ButtonProps<T>;
 
 const TabNextButton = <T extends AsType = 'button'>(
   props: TabNextButtonProps<T>

@@ -6,7 +6,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { validatePositiveInteger } from '@/utils/isNumber';
 
-type LinkProps<T extends AsType = 'a'> = DefaultComponentProps<T> & {
+export type LinkProps<T extends AsType = 'a'> = DefaultComponentProps<T> & {
   children: React.ReactNode;
   href: string;
   lineClamp?: number;

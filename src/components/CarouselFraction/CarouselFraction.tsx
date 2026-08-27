@@ -8,7 +8,7 @@ import { NavigationPaginationPositionType, useCarousel } from '../Carousel';
 import { WithOptional } from '@/types/withOptional';
 import { useInfiniteCarousel } from '@/components/InfiniteCarousel';
 
-type CarouselFractionProps<T extends AsType = 'span'> = WithOptional<
+export type CarouselFractionProps<T extends AsType = 'span'> = WithOptional<
   FractionProps<T>,
   'count' | 'value'
 > & {

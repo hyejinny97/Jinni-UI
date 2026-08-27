@@ -3,7 +3,7 @@
 import { ColorType } from '@/types/color';
 import useColor from '@/hooks/useColor';
 
-interface ColorLensIconProps extends React.HTMLAttributes<SVGElement> {
+export interface ColorLensIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
   color?: ColorType;
 }

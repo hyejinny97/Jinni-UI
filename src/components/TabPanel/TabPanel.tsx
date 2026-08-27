@@ -6,7 +6,10 @@ import { AsType } from '@/types/default-component-props';
 import Box, { BoxProps } from '@/components/Box';
 import { ValueType, useTabsContext } from '../Tabs';
 
-type TabPanelProps<T extends AsType = 'div'> = Omit<BoxProps<T>, 'value'> & {
+export type TabPanelProps<T extends AsType = 'div'> = Omit<
+  BoxProps<T>,
+  'value'
+> & {
   value: ValueType;
 };
 

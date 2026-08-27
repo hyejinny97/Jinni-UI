@@ -8,7 +8,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon';
 import { NavigationPaginationPositionType, useCarousel } from '../Carousel';
 
-type CarouselNextButtonProps<T extends AsType = 'button'> = Omit<
+export type CarouselNextButtonProps<T extends AsType = 'button'> = Omit<
   ButtonBaseProps<T>,
   'href'
 > & {

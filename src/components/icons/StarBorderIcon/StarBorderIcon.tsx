@@ -3,7 +3,7 @@
 import { ColorType } from '@/types/color';
 import useColor from '@/hooks/useColor';
 
-interface StarBorderIconProps extends React.HTMLAttributes<SVGElement> {
+export interface StarBorderIconProps extends React.HTMLAttributes<SVGElement> {
   size?: number;
   color?: ColorType;
 }
