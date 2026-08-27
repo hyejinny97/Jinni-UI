@@ -6,10 +6,11 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import useJinni from '@/hooks/useJinni';
 
-type TableRowProps<T extends AsType = 'tr'> = DefaultComponentProps<T> & {
-  hover?: boolean;
-  selected?: boolean;
-};
+export type TableRowProps<T extends AsType = 'tr'> =
+  DefaultComponentProps<T> & {
+    hover?: boolean;
+    selected?: boolean;
+  };
 
 const TableRow = <T extends AsType = 'tr'>(props: TableRowProps<T>) => {
   const {

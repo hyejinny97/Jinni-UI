@@ -9,7 +9,7 @@ import LinearProgress, {
 import { useCarousel } from '../Carousel';
 import { useInfiniteCarousel } from '@/components/InfiniteCarousel';
 
-type CarouselProgressProps<T extends AsType = 'div'> =
+export type CarouselProgressProps<T extends AsType = 'div'> =
   LinearProgressProps<T> & {
     position?: 'top' | 'bottom' | 'left' | 'right';
   };

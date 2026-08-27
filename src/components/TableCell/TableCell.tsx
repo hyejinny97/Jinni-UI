@@ -9,7 +9,7 @@ import { useTable } from '../Table';
 
 type TableCellElement = 'td' | 'th';
 
-type TableCellProps<T extends AsType = TableCellElement> =
+export type TableCellProps<T extends AsType = TableCellElement> =
   DefaultComponentProps<T> & {
     align?: 'left' | 'center' | 'right';
   };

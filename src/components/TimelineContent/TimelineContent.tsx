@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
-type TimelineContentProps<T extends AsType = 'div'> =
+export type TimelineContentProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {};
 
 const TimelineContent = <T extends AsType = 'div'>(

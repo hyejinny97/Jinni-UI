@@ -3,7 +3,8 @@
 import { ColorType } from '@/types/color';
 import useColor from '@/hooks/useColor';
 
-interface ShoppingCartIconProps extends React.HTMLAttributes<SVGElement> {
+export interface ShoppingCartIconProps
+  extends React.HTMLAttributes<SVGElement> {
   size?: number;
   color?: ColorType;
 }

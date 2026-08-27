@@ -4,7 +4,8 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
-type TableBodyProps<T extends AsType = 'tbody'> = DefaultComponentProps<T> & {};
+export type TableBodyProps<T extends AsType = 'tbody'> =
+  DefaultComponentProps<T> & {};
 
 const TableBody = <T extends AsType = 'tbody'>(props: TableBodyProps<T>) => {
   const {

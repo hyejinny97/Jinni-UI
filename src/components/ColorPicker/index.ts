@@ -14,3 +14,4 @@ export {
   hexToHsbObj
 } from './ColorPicker.utils';
 export type { RGBObject, HSBObject, ColorValueType } from './ColorPicker.types';
+export type { ColorPickerProps } from './ColorPicker';

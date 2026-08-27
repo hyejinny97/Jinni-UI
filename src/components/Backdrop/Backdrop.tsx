@@ -9,7 +9,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import { useWindowScroll } from './Backdrop.hooks';
 import { mergeRefs } from '@/utils/mergeRefs';
 
-type BackdropProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
+export type BackdropProps<T extends AsType = 'div'> = DefaultComponentProps<T> & {
   children?: React.ReactNode;
   invisible?: boolean;
   disableScroll?: boolean;

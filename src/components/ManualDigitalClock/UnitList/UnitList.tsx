@@ -9,7 +9,7 @@ import MenuItem from '@/components/MenuItem';
 import { UnitItemType } from '../ManualDigitalClock.types';
 import useJinni from '@/hooks/useJinni';
 
-type UnitListProps = {
+export type UnitListProps = {
   items: UnitItemType[];
   onClick: (itemId: number) => void;
 };

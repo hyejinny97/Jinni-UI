@@ -11,7 +11,7 @@ import useColor from '@/hooks/useColor';
 
 export type VariantType = 'filled' | 'subtle-filled' | 'outlined' | 'text';
 
-type ChipProps<T extends AsType = 'span'> = DefaultComponentProps<T> & {
+export type ChipProps<T extends AsType = 'span'> = DefaultComponentProps<T> & {
   children: React.ReactNode;
   variant?: VariantType;
   shape?: 'pill' | 'rounded';

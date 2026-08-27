@@ -13,7 +13,7 @@ import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { isObject } from '@/utils/isObject';
 
-type TablePaginationProps<T extends AsType = 'div'> =
+export type TablePaginationProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
     count: number;
     page: number;

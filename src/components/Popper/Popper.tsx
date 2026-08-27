@@ -10,14 +10,14 @@ import { useAnchorWidth, usePopperPosition } from './Popper.hooks';
 import useStyle from '@/hooks/useStyle';
 import { mergeRefs } from '@/utils/mergeRefs';
 
-type AnchorElProps = {
+export type AnchorElProps = {
   anchorReference?: 'anchorEl';
   anchorElRef: React.RefObject<HTMLElement | null>;
   anchorOrigin?: OriginType;
   anchorPosition?: never;
 };
 
-type AnchorPositionProps = {
+export type AnchorPositionProps = {
   anchorReference: 'anchorPosition';
   anchorPosition: PositionType;
   anchorElRef?: never;

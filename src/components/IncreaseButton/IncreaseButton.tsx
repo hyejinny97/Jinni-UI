@@ -7,7 +7,7 @@ import { ArrowUpIcon } from '@/components/icons/ArrowUpIcon';
 import { useNumberInput } from '../NumberInput';
 import { useButtonPress } from './IncreaseButton.hooks';
 
-type IncreaseButtonProps = Omit<ButtonBaseProps<'button'>, 'type' | 'href'>;
+export type IncreaseButtonProps = Omit<ButtonBaseProps<'button'>, 'type' | 'href'>;
 
 const IncreaseButton = (props: IncreaseButtonProps) => {
   const { size, disableIncrease: isDisabled } = useNumberInput();
