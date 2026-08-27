@@ -39,7 +39,7 @@
 }
 
 .JinniAutocomplete.JinniInputBase {
-  width: 300px;
+  min-width: 300px;
   @include show-clear-button;
   @include animate-arrow-button;
   @include clear-button-style-by-size;
@@ -110,10 +110,9 @@
 
 .JinniAutocompletePopper {
   margin-top: 1px;
-  width: 300px;
 
   .JinniMenuList {
-    width: 100%;
+    width: var(--anchor-width, auto);
     max-height: 300px;
     overflow-y: auto;
 
