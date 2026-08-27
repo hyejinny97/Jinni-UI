@@ -6,7 +6,7 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useTimeline } from '../Timeline';
 
-type TimelineSeparatorProps<T extends AsType = 'div'> =
+export type TimelineSeparatorProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {};
 
 const TimelineSeparator = <T extends AsType = 'div'>(

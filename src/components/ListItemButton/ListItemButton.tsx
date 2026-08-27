@@ -6,9 +6,10 @@ import { AsType } from '@/types/default-component-props';
 import ButtonBase, { ButtonBaseProps } from '@/components/ButtonBase';
 import { useList } from '../List';
 
-type ListItemButtonProps<T extends AsType = 'button'> = ButtonBaseProps<T> & {
-  selected?: boolean;
-};
+export type ListItemButtonProps<T extends AsType = 'button'> =
+  ButtonBaseProps<T> & {
+    selected?: boolean;
+  };
 
 const ListItemButton = <T extends AsType = 'button'>(
   props: ListItemButtonProps<T>

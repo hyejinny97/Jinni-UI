@@ -7,7 +7,7 @@ import useStyle from '@/hooks/useStyle';
 import { useStep } from '../Step';
 import useJinni from '@/hooks/useJinni';
 
-type StepDescriptionProps<T extends AsType = 'div'> =
+export type StepDescriptionProps<T extends AsType = 'div'> =
   DefaultComponentProps<T> & {
     children: React.ReactNode;
   };

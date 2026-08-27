@@ -5,7 +5,7 @@ import Mosaic, { MosaicProps } from '@/components/Mosaic';
 import { useToCssColor } from './ColorBlock.hooks';
 import { ColorValueType } from '../ColorPicker';
 
-type ColorBlockProps = Omit<MosaicProps, 'color' | 'children'> & {
+export type ColorBlockProps = Omit<MosaicProps, 'color' | 'children'> & {
   color: ColorValueType;
 };
 

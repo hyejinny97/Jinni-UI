@@ -13,7 +13,7 @@ import { isNumber } from '@/utils/isNumber';
 import useJinni from '@/hooks/useJinni';
 import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
 
-type RangeMonthProps = Omit<MonthProps, 'ref'> & {
+export type RangeMonthProps = Omit<MonthProps, 'ref'> & {
   selectedDateValue: RangeType<Date | null>;
   handleSelect: (dateSelected: Date) => void;
   hoveredDateValue: Date | null;

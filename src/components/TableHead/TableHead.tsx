@@ -7,7 +7,8 @@ import useStyle from '@/hooks/useStyle';
 import { TableHeadContext } from './TableHead.contexts';
 import { useTable } from '../Table';
 
-type TableHeadProps<T extends AsType = 'thead'> = DefaultComponentProps<T> & {};
+export type TableHeadProps<T extends AsType = 'thead'> =
+  DefaultComponentProps<T> & {};
 
 const TableHead = <T extends AsType = 'thead'>(props: TableHeadProps<T>) => {
   const {

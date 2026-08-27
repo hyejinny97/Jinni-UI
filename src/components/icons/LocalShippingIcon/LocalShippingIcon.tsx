@@ -3,7 +3,8 @@
 import { ColorType } from '@/types/color';
 import useColor from '@/hooks/useColor';
 
-interface LocalShippingIconProps extends React.HTMLAttributes<SVGElement> {
+export interface LocalShippingIconProps
+  extends React.HTMLAttributes<SVGElement> {
   size?: number;
   color?: ColorType;
 }

@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 
-type TableFooterProps<T extends AsType = 'tfoot'> =
+export type TableFooterProps<T extends AsType = 'tfoot'> =
   DefaultComponentProps<T> & {};
 
 const TableFooter = <T extends AsType = 'tfoot'>(

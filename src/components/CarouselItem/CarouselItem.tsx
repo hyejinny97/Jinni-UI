@@ -9,7 +9,7 @@ import { useCarousel } from '../Carousel';
 import { useCarouselContent } from '../CarouselContent';
 import { mergeRefs } from '@/utils/mergeRefs';
 
-type CarouselItemProps<T extends AsType = 'li'> = Omit<
+export type CarouselItemProps<T extends AsType = 'li'> = Omit<
   DefaultComponentProps<T>,
   'children'
 > & {

@@ -6,7 +6,8 @@ import { AsType, DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { useTimeline } from '../Timeline';
 
-type TimelineItemProps<T extends AsType = 'li'> = DefaultComponentProps<T> & {};
+export type TimelineItemProps<T extends AsType = 'li'> =
+  DefaultComponentProps<T> & {};
 
 const TimelineItem = <T extends AsType = 'li'>(props: TimelineItemProps<T>) => {
   const { children, className, style, as: Component = 'li', ...rest } = props;

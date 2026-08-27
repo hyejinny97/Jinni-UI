@@ -12,7 +12,7 @@ import { dateToDay } from '@/utils/date-component';
 import useJinni from '@/hooks/useJinni';
 import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
 
-type RangeDayProps = Omit<DayProps, 'ref'> & {
+export type RangeDayProps = Omit<DayProps, 'ref'> & {
   selectedDateValue: RangeType<Date | null>;
   handleSelect: (dateSelected: Date) => void;
   hoveredDateValue: Date | null;

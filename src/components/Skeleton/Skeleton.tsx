@@ -8,12 +8,13 @@ import useJinni from '@/hooks/useJinni';
 import { isNumber } from '@/utils/isNumber';
 import { prefersReducedMotion } from '@/utils/accessibility';
 
-type SkeletonProps<T extends AsType = 'span'> = DefaultComponentProps<T> & {
-  width?: number | string;
-  height?: number | string;
-  variant?: 'rectangular' | 'rounded' | 'circular';
-  animation?: 'pulse' | 'wave' | 'none';
-};
+export type SkeletonProps<T extends AsType = 'span'> =
+  DefaultComponentProps<T> & {
+    width?: number | string;
+    height?: number | string;
+    variant?: 'rectangular' | 'rounded' | 'circular';
+    animation?: 'pulse' | 'wave' | 'none';
+  };
 
 const Skeleton = <T extends AsType = 'span'>(props: SkeletonProps<T>) => {
   const {

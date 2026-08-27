@@ -12,7 +12,7 @@ import useColor from '@/hooks/useColor';
 import useJinni from '@/hooks/useJinni';
 import { getCloserToWhiteOrBlack } from '@/utils/colorLuminance';
 
-type RangeYearProps = Omit<YearProps, 'ref'> &
+export type RangeYearProps = Omit<YearProps, 'ref'> &
   Pick<YearCalendarProps, 'yearsOrder'> & {
     selectedDateValue: RangeType<Date | null>;
     handleSelect: (dateSelected: Date) => void;

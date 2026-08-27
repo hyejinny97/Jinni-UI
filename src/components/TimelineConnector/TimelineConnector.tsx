@@ -7,7 +7,7 @@ import useStyle from '@/hooks/useStyle';
 import { ColorType } from '@/types/color';
 import { useTimeline } from '../Timeline';
 
-type TimelineConnectorProps<T extends AsType = 'span'> =
+export type TimelineConnectorProps<T extends AsType = 'span'> =
   DefaultComponentProps<T> & {
     variant?: 'solid' | 'dotted' | 'dashed';
     color?: ColorType;

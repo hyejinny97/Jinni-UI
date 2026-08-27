@@ -6,7 +6,7 @@ import { DefaultComponentProps } from '@/types/default-component-props';
 import useStyle from '@/hooks/useStyle';
 import { mergeRefs } from '@/utils/mergeRefs';
 
-type AutoWidthInputProps = DefaultComponentProps<'input'> & {
+export type AutoWidthInputProps = DefaultComponentProps<'input'> & {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
