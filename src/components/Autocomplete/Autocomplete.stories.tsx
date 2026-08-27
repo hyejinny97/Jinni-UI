@@ -877,7 +877,7 @@ const BasicMultipleTemplate = () => {
           ))}
         </Stack>
       </RadioGroup>
-      <Autocomplete mode={mode} multiple>
+      <Autocomplete mode={mode} multiple style={{ maxWidth: '300px' }}>
         {OPTIONS.map(({ value, label }) => (
           <AutocompleteOption key={value} value={value} label={label}>
             {label}
@@ -958,6 +958,7 @@ const FixedOptionsTemplate = () => {
             })}
           </>
         )}
+        style={{ maxWidth: '300px' }}
       >
         {OPTIONS.map(({ value, label }) => (
           <AutocompleteOption key={value} value={value} label={label}>
@@ -1012,6 +1013,7 @@ const LimitTagsTemplate = () => {
           </>
         );
       }}
+      style={{ maxWidth: '300px' }}
     >
       {OPTIONS.map(({ value, label }) => (
         <AutocompleteOption key={value} value={value} label={label}>
@@ -1035,7 +1037,12 @@ const OptionWithCheckboxTemplate = () => {
   };
 
   return (
-    <Autocomplete multiple value={autocompleteValues} onChange={handleChange}>
+    <Autocomplete
+      multiple
+      value={autocompleteValues}
+      onChange={handleChange}
+      style={{ maxWidth: '300px' }}
+    >
       {OPTIONS.map(({ value, label }) => (
         <AutocompleteOption key={value} value={value} label={label}>
           <Checkbox checked={autocompleteValues.includes(value)} />
@@ -1062,7 +1069,7 @@ const AutocompleteWithFormTemplate = () => {
         required
         style={{ alignItems: 'start' }}
       >
-        <Autocomplete multiple name="option">
+        <Autocomplete multiple name="option" style={{ maxWidth: '300px' }}>
           {OPTIONS.map(({ value, label }) => (
             <AutocompleteOption key={value} value={value} label={label}>
               {label}
@@ -1395,6 +1402,7 @@ export const RenderingValuesInChip: Story = {
           ))}
         </>
       )}
+      style={{ maxWidth: '300px' }}
       {...args}
     >
       {OPTIONS.map(({ value, label }) => (
@@ -1435,6 +1443,7 @@ export const RenderingValuesInChip: Story = {
       ))}
     </>
   )}
+  style={{ maxWidth: '300px' }}
 >
   {OPTIONS.map(({ value, label }) => (
     <AutocompleteOption key={value} value={value} label={label}>
@@ -1617,7 +1626,7 @@ export const BasicMultiple: Story = {
           ))}
         </Stack>
       </RadioGroup>
-      <Autocomplete mode={mode} multiple>
+      <Autocomplete mode={mode} multiple style={{ maxWidth: '300px' }}>
         {OPTIONS.map(({ value, label }) => (
           <AutocompleteOption key={value} value={value} label={label}>
             {label}
@@ -1707,6 +1716,7 @@ export const FixedOptions: Story = {
             })}
           </>
         )}
+        style={{ maxWidth: '300px' }}
       >
         {OPTIONS.map(({ value, label }) => (
           <AutocompleteOption key={value} value={value} label={label}>
@@ -1770,6 +1780,7 @@ export const LimitTags: Story = {
           </>
         );
       }}
+      style={{ maxWidth: '300px' }}
     >
       {OPTIONS.map(({ value, label }) => (
         <AutocompleteOption key={value} value={value} label={label}>
@@ -1839,7 +1850,12 @@ export const OptionWithCheckbox: Story = {
   };
 
   return (
-    <Autocomplete multiple value={autocompleteValues} onChange={handleChange}>
+    <Autocomplete
+      multiple
+      value={autocompleteValues}
+      onChange={handleChange}
+      style={{ maxWidth: '300px' }}
+    >
       {OPTIONS.map(({ value, label }) => (
         <AutocompleteOption key={value} value={value} label={label}>
           <Checkbox checked={autocompleteValues.includes(value)} />
@@ -1875,7 +1891,7 @@ export const AutocompleteWithForm: Story = {
         required
         style={{ alignItems: 'start' }}
       >
-        <Autocomplete multiple name="option">
+        <Autocomplete multiple name="option" style={{ maxWidth: '300px' }}>
           {OPTIONS.map(({ value, label }) => (
             <AutocompleteOption key={value} value={value} label={label}>
               {label}
