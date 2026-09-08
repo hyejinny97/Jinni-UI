@@ -3,11 +3,16 @@ import { NumberInputProps } from './NumberInput';
 import NumberInputContext from './NumberInput.contexts';
 import { isNumber } from '@/utils/isNumber';
 import { useIsControlled } from '@/hooks/useIsControlled';
+import { findMaxDecimalPow } from './NumberInput.utils';
 
 type UseNumberInputValueProps = Required<
   Pick<NumberInputProps, 'defaultValue' | 'min' | 'max' | 'step' | 'parser'>
 > &
-  Pick<NumberInputProps, 'value' | 'onChange'>;
+  Pick<NumberInputProps, 'value' | 'onChange'> & {
+    toInteger: (value: number) => number;
+    toRealValue: (value: number) => number;
+    adjustFactor: (...values: unknown[]) => void;
+  };
 
 type UseClampOnBlurProps = Required<Pick<NumberInputProps, 'min' | 'max'>> &
   Pick<NumberInputProps, 'disableClampOnBlur'> & {
@@ -30,7 +35,10 @@ export const useNumberInputValue = ({
   min,
   max,
   step,
-  parser
+  parser,
+  toRealValue,
+  toInteger,
+  adjustFactor
 }: UseNumberInputValueProps) => {
   const isControlled = useIsControlled(value);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
@@ -48,9 +56,13 @@ export const useNumberInputValue = ({
   const changeInputValue = useCallback(
     (event: React.SyntheticEvent | Event, newValue: number | '') => {
       if (!isControlled) setUncontrolledValue(newValue);
-      if (onChange) onChange(event, newValue);
+      if (onChange)
+        onChange(
+          event,
+          typeof newValue === 'number' ? toRealValue(newValue) : newValue
+        );
     },
-    [isControlled, onChange]
+    [isControlled, onChange, toRealValue]
   );
 
   const increase = useCallback(
@@ -76,8 +88,12 @@ export const useNumberInputValue = ({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     const parsedValue = parser(newValue);
+    adjustFactor(parsedValue);
     if (parsedValue === '' || isNumber(parsedValue)) {
-      changeInputValue(event, parsedValue === '' ? '' : Number(parsedValue));
+      changeInputValue(
+        event,
+        parsedValue === '' ? '' : toInteger(Number(parsedValue))
+      );
     }
   };
 
@@ -163,4 +179,49 @@ export const useNumberInput = () => {
   const value = useContext(NumberInputContext);
   if (!value) throw new Error('NumberInputContext value is null');
   return value;
+};
+
+export const usePrecision = ({
+  defaultValue,
+  value,
+  step,
+  min,
+  max
+}: Pick<NumberInputProps, 'value'> &
+  Required<
+    Pick<NumberInputProps, 'defaultValue' | 'step' | 'min' | 'max'>
+  >) => {
+  const factorRef = useRef<number>(
+    findMaxDecimalPow(defaultValue, value, step, min, max)
+  );
+
+  const adjustFactor = (...values: unknown[]) => {
+    factorRef.current = findMaxDecimalPow(
+      ...values,
+      defaultValue,
+      value,
+      step,
+      min,
+      max
+    );
+  };
+
+  const toInteger = (value: number) => value * factorRef.current;
+
+  const toRealValue = useCallback(
+    (value: number) => value / factorRef.current,
+    []
+  );
+
+  return {
+    normalizedDefaultValue:
+      typeof defaultValue === 'number' ? toInteger(defaultValue) : defaultValue,
+    normalizedValue: typeof value === 'number' ? toInteger(value) : value,
+    normalizedStep: toInteger(step),
+    normalizedMin: min === Number.MIN_SAFE_INTEGER ? min : toInteger(min),
+    normalizedMax: max === Number.MAX_SAFE_INTEGER ? max : toInteger(max),
+    toRealValue,
+    toInteger,
+    adjustFactor
+  };
 };
