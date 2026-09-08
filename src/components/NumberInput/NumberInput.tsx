@@ -9,8 +9,7 @@ import { useLabelContext } from '@/components/Label';
 import {
   useNumberInputValue,
   useClampOnBlur,
-  useKeyboardAccessibility,
-  usePrecision
+  useKeyboardAccessibility
 } from './NumberInput.hooks';
 import IncreaseButton from '../IncreaseButton';
 import DecreaseButton from '../DecreaseButton';
@@ -70,32 +69,19 @@ const NumberInput = ({ ref, ...props }: NumberInputProps) => {
     style,
     ...rest
   } = props;
-  const {
-    normalizedDefaultValue,
-    normalizedValue,
-    normalizedStep,
-    normalizedMin,
-    normalizedMax,
-    toRealValue,
-    toInteger,
-    adjustFactor
-  } = usePrecision({ defaultValue, value, step, min, max });
   const { inputValue, handleChange, changeInputValue, increase, decrease } =
     useNumberInputValue({
-      defaultValue: normalizedDefaultValue,
-      value: normalizedValue,
+      defaultValue,
+      value,
       onChange,
-      min: normalizedMin,
-      max: normalizedMax,
-      step: normalizedStep,
-      parser,
-      toRealValue,
-      toInteger,
-      adjustFactor
+      min,
+      max,
+      step,
+      parser
     });
   const { inputBaseElRef } = useClampOnBlur({
-    min: normalizedMin,
-    max: normalizedMax,
+    min,
+    max,
     inputValue,
     changeInputValue,
     disableClampOnBlur
@@ -109,9 +95,8 @@ const NumberInput = ({ ref, ...props }: NumberInputProps) => {
         increase,
         decrease,
         disableIncrease:
-          disabled || (isNumber(inputValue) && normalizedMax <= inputValue),
-        disableDecrease:
-          disabled || (isNumber(inputValue) && inputValue <= normalizedMin)
+          disabled || (isNumber(inputValue) && max <= inputValue),
+        disableDecrease: disabled || (isNumber(inputValue) && inputValue <= min)
       }}
     >
       <InputBase
@@ -136,11 +121,7 @@ const NumberInput = ({ ref, ...props }: NumberInputProps) => {
           type="text"
           inputMode="numeric"
           aria-roledescription="number input"
-          value={formatter(
-            typeof inputValue === 'number'
-              ? toRealValue(inputValue)
-              : inputValue
-          )}
+          value={formatter(inputValue)}
           onChange={handleChange}
           disabled={disabled}
           required={required}
