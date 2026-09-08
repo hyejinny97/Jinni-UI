@@ -60,6 +60,11 @@ const Popper = <T extends AsType = 'div'>({
   } = props;
   const Component = (as ?? 'div') as React.ElementType;
   const popperRef = useRef<HTMLElement>(null);
+  useAnchorWidth({
+    popperRef,
+    anchorReference,
+    anchorElRef
+  });
   usePopperPosition({
     popperRef,
     anchorReference,
@@ -68,11 +73,6 @@ const Popper = <T extends AsType = 'div'>({
     anchorPosition,
     popperOrigin,
     positionType
-  });
-  useAnchorWidth({
-    popperRef,
-    anchorReference,
-    anchorElRef
   });
   const newStyle = useStyle({ '--position': positionType, ...style });
 
